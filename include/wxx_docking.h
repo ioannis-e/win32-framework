@@ -3583,9 +3583,6 @@ namespace Win32xx
                 VERIFY(::SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, isEnabled, 0, 0));
                 return 0;
             }
-        case SC_CLOSE:
-            // The close button is pressed on an undocked docker.
-            m_isClosing = TRUE;
             break;
         }
         return FinalWindowProc(msg, wparam, lparam);
