@@ -1,3 +1,11 @@
+Version 9.5.1
+=============
+
+Changes in detail
+-----------------
+Added CDockContainer::UndockContainerGroup
+
+
 Version 9.5
 ===========
 This version adds a CustomPrintDlg sample. This sample provides an

@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -179,7 +179,7 @@ namespace Win32xx
         CDockContainer();
         virtual ~CDockContainer();
 
-        virtual void AddContainer(CDockContainer* pContainer, BOOL insert = FALSE, BOOL selecPage = TRUE);
+        virtual void AddContainer(CDockContainer* pContainer, BOOL insert = FALSE, BOOL selectPage = TRUE);
         virtual void AddToolBarButton(UINT id, BOOL isEnabled = TRUE);
         virtual void CreateToolBar();
         virtual void DrawTabs(CDC& dc);
@@ -532,6 +532,7 @@ namespace Win32xx
         virtual void SaveContainerRegistrySettings(CRegKey& dockKey, CDockContainer* pContainer, UINT& container);
         virtual void Undock(CPoint pt, BOOL showUndocked = TRUE);
         virtual void UndockContainer(CDockContainer* pContainer, CPoint pt, BOOL showUndocked);
+        virtual void UndockContainerGroup();
         virtual BOOL VerifyDockers();
 
         // Accessors and mutators
@@ -1051,7 +1052,7 @@ namespace Win32xx
                     DrawCloseButton(dc);
                 }
             }
-            else if (m_pDocker->IsUndockable())
+            else if (m_pDocker->IsUndockable() && !(m_pDocker->GetDockStyle() & DS_NO_UNDOCK))
             {
                 // Discard phantom mouse move messages
                 if ((m_oldPoint.x == GET_X_LPARAM(lparam)) && (m_oldPoint.y == GET_Y_LPARAM(lparam)))
@@ -1062,37 +1063,7 @@ namespace Win32xx
                     return 0;
 
                 if (IsLeftButtonDown() && (wparam == HTCAPTION) && (m_isCaptionPressed))
-                {
-                    CDockContainer* pContainer = m_pDocker->GetContainer();
-                    assert(pContainer);
-                    if (pContainer)
-                    {
-                        CDockContainer* pParent = pContainer->GetContainerParent();
-                        CDockContainer* pActive = pContainer->GetActiveContainer();
-                        if (pActive)
-                        {
-                            assert(pParent->GetAllContainers().size() > 0);
-                            size_t lastTab = pParent->GetAllContainers().size() - 1;
-                            CDockContainer* pContainerLast = pContainer->GetContainerFromIndex(lastTab);
-                            m_pDocker->GetDockAncestor()->UndockContainer(pContainerLast, GetCursorPos(), FALSE);
-
-                            while (pParent->GetAllContainers().size() > 0)
-                            {
-                                lastTab = pParent->GetAllContainers().size() - 1;
-                                CDockContainer* pContainerNext = pContainer->GetContainerFromIndex(lastTab);
-
-                                CDocker* pDocker = pContainerNext->GetDocker();
-                                pDocker->Hide();
-                                pContainerLast->GetDocker()->DockInContainer(pDocker, pDocker->GetDockStyle());
-                            }
-
-                            pContainerLast->SetActiveContainer(pActive);
-                            pContainerLast->GetDocker()->ShowWindow(SW_SHOW);
-                            pContainerLast->RedrawWindow();
-                            m_pDocker->GetDockAncestor()->RecalcDockLayout();
-                        }
-                    }
-                }
+                    m_pDocker->GetDockAncestor()->UndockContainerGroup();
 
                 // Update the close button
                 if ((m_pDocker != NULL) && !(m_pDocker->GetDockStyle() & DS_NO_CLOSE))
@@ -4484,6 +4455,41 @@ namespace Win32xx
         pDocker->BringWindowToTop();
     }
 
+    // Undocks a CDockContainer group.
+    // Called when the user undocks a container group from a CDdockFrame.
+    inline void CDocker::UndockContainerGroup()
+    {
+        CDockContainer* pContainer = GetContainer();
+        assert(pContainer);
+        if (pContainer)
+        {
+            CDockContainer* pParent = pContainer->GetContainerParent();
+            CDockContainer* pActive = pContainer->GetActiveContainer();
+            if (pActive)
+            {
+                assert(pParent->GetAllContainers().size() > 0);
+                size_t lastTab = pParent->GetAllContainers().size() - 1;
+                CDockContainer* pContainerLast = pContainer->GetContainerFromIndex(lastTab);
+                GetDockAncestor()->UndockContainer(pContainerLast, GetCursorPos(), FALSE);
+
+                while (pParent->GetAllContainers().size() > 0)
+                {
+                    lastTab = pParent->GetAllContainers().size() - 1;
+                    CDockContainer* pContainerNext = pContainer->GetContainerFromIndex(lastTab);
+
+                    CDocker* pDocker = pContainerNext->GetDocker();
+                    pDocker->Hide();
+                    pContainerLast->GetDocker()->DockInContainer(pDocker, pDocker->GetDockStyle());
+                }
+
+                pContainerLast->SetActiveContainer(pActive);
+                pContainerLast->GetDocker()->ShowWindow(SW_SHOW);
+                pContainerLast->RedrawWindow();
+                GetDockAncestor()->RecalcDockLayout();
+            }
+        }
+    }
+
     // A diagnostic routine that verifies the integrity of the docking layout.
     inline BOOL CDocker::VerifyDockers()
     {
@@ -4597,7 +4603,7 @@ namespace Win32xx
 
     // Adds a container to the group. Set Insert to TRUE to insert the container
     // as the first tab, or FALSE to add it as the last tab.
-    inline void CDockContainer::AddContainer(CDockContainer* pContainer, BOOL insert /* = FALSE */, BOOL selecPage)
+    inline void CDockContainer::AddContainer(CDockContainer* pContainer, BOOL insert /* = FALSE */, BOOL selectPage)
     {
         assert(pContainer);
         assert(this == m_pContainerParent); // Must be performed by parent container
@@ -4628,7 +4634,7 @@ namespace Win32xx
             tie.pszText = const_cast<LPTSTR>(m_allInfo[newPageIndex].tabText.c_str());
             InsertItem(newPage, &tie);
 
-            if (selecPage)
+            if (selectPage)
                 SelectPage(newPage);
 
             SetTabSize();

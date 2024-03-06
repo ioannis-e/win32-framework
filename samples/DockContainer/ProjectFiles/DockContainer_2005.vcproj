@@ -249,6 +249,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\MainContainer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Mainfrm.h"
 				>
 			</File>

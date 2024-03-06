@@ -310,6 +310,11 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton( IDM_HELP_ABOUT );
 }
 
+// Overrides base class function to supress container group undocking.
+void CMainFrame::UndockContainerGroup()
+{
+}
+
 // Process the frame's window messages.
 LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
