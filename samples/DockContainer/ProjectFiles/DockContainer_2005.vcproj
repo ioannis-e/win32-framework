@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\MainContainer.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Mainfrm.cpp"
 				>
 			</File>

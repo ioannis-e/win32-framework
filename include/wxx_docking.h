@@ -3583,6 +3583,7 @@ namespace Win32xx
                 VERIFY(::SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, isEnabled, 0, 0));
                 return 0;
             }
+        default:
             break;
         }
         return FinalWindowProc(msg, wparam, lparam);
