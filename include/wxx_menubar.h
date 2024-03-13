@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -869,7 +869,10 @@ namespace Win32xx
 
     inline LRESULT CMenuBar::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        if (SC_KEYMENU == wparam)
+        // The "wparam & 0xFFF0" below is a requirement mentioned in the
+        // description of WM_SYSCOMMAND in the Windows API documentation.
+
+        if (SC_KEYMENU == (wparam & 0xFFF0))
         {
             if (lparam == 0)
             {

@@ -3563,7 +3563,10 @@ namespace Win32xx
     // Called in response to a system command (docker window is moved or closed).
     inline LRESULT CDocker::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        switch(wparam&0xFFF0)
+        // The "wparam & 0xFFF0" below is a requirement mentioned in the
+        // description of WM_SYSCOMMAND in the Windows API documentation.
+
+        switch(wparam & 0xFFF0)
         {
         case SC_MOVE:
             // An undocked docker is being moved.

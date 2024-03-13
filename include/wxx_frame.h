@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -2537,13 +2537,16 @@ namespace Win32xx
     template <class T>
     inline LRESULT CFrameT<T>::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        if ((SC_KEYMENU == wparam) && (VK_SPACE != lparam) && GetMenuBar().IsWindow())
+        // The "wparam & 0xFFF0" below is a requirement mentioned in the
+        // description of WM_SYSCOMMAND in the Windows API documentation.
+
+        if ((SC_KEYMENU == (wparam & 0xFFF0)) && (VK_SPACE != lparam) && GetMenuBar().IsWindow())
         {
             GetMenuBar().SysCommand(msg, wparam, lparam);
             return 0;
         }
 
-        if (SC_MINIMIZE == wparam)
+        if (SC_MINIMIZE == (wparam & 0xFFF0))
             m_oldFocus = ::GetFocus();
 
         // Pass remaining system commands on for default processing.
