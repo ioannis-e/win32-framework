@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -111,7 +111,7 @@ namespace Win32xx
 
         // method members
         const CFile&    GetFile();
-        UINT    GetObjectSchema();
+        UINT    GetObjectSchema() const;
         bool    IsLoading() const;
         bool    IsStoring() const;
         void    Read(void* buffer, UINT size);
@@ -280,7 +280,7 @@ namespace Win32xx
     // the format of the archived data for special handling when there
     // are several versions of the serialized data to be accommodated
     // by the application.
-    inline UINT CArchive::GetObjectSchema()
+    inline UINT CArchive::GetObjectSchema() const
     {
         return m_schema;
     }

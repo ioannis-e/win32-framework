@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -255,7 +255,7 @@ namespace Win32xx
 #if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
         time_tm* ptm0 = ::gmtime(&t0); // atm0 = UTC time of atm
 #else
-        time_tm tm0;
+        time_tm tm0 = { 0 };
         time_tm* ptm0 = &tm0;
         ::gmtime_s(ptm0, &t0);         // atm0 = UTC time of atm
 #endif
@@ -337,7 +337,7 @@ namespace Win32xx
         time_tm* ptm1 = ::gmtime(&t1st);
         assert(ptm1);
 #else
-        time_tm tm1;
+        time_tm tm1 = { 0 };
         time_tm* ptm1 = &tm1;
         gmtime_s(ptm1, &t1st);
 #endif
@@ -399,12 +399,12 @@ namespace Win32xx
         // get the local time of the UTC time corresponding to this
         time_t Jan1 = UTCtime(&atm1st);
         time_t sec_per_day = 86400;
-        time_t tDoy = Jan1 + (doy - 1) * sec_per_day;
+        time_t tDoy = Jan1 + doy * sec_per_day - sec_per_day;
 #if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
         time_tm* ptm = ::gmtime(&tDoy);
         assert(ptm);
 #else
-        time_tm tm;
+        time_tm tm = { 0 };
         time_tm* ptm = &tm;
         ::gmtime_s(ptm, &tDoy);
 #endif
@@ -739,7 +739,7 @@ namespace Win32xx
 #if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
         time_tm* ptm = ::localtime(&m_time);
 #else
-        time_tm tm;
+        time_tm tm = { 0 };
         time_tm* ptm = &tm;
         ::localtime_s(ptm, &m_time);
 #endif

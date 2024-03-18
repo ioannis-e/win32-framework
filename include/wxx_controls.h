@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1266,7 +1266,7 @@ namespace Win32xx
     inline BOOL CDateTime::SetRange(const SYSTEMTIME& minRange, const SYSTEMTIME& maxRange) const
     {
         assert(IsWindow());
-        SYSTEMTIME ranges[2];
+        SYSTEMTIME ranges[2] = { 0 };
         ranges[0] = minRange;
         ranges[1] = maxRange;
         DWORD flags = GDTR_MIN | GDTR_MAX;
@@ -1553,7 +1553,7 @@ namespace Win32xx
         if (GetComCtlVersion() > 470)
         {
             // Call InitCommonControlsEx
-            INITCOMMONCONTROLSEX initStruct;
+            INITCOMMONCONTROLSEX initStruct = { 0 };
             initStruct.dwSize = sizeof(initStruct);
             initStruct.dwICC = ICC_INTERNET_CLASSES;
             InitCommonControlsEx(&initStruct);
@@ -1859,7 +1859,7 @@ namespace Win32xx
     // Refer to MonthCal_SetRange in the Windows API documentation for more information.
     inline BOOL CMonthCalendar::SetRange(const SYSTEMTIME& minRange, const SYSTEMTIME& maxRange) const
     {
-        SYSTEMTIME minMax[2];
+        SYSTEMTIME minMax[2] = { 0 };
         DWORD limit = GDTR_MIN | GDTR_MAX;
 
         minMax[0] = minRange;
@@ -1872,7 +1872,7 @@ namespace Win32xx
     // Refer to MonthCal_SetSelRange in the Windows API documentation for more information.
     inline BOOL CMonthCalendar::SetSelRange(const SYSTEMTIME& minRange, const SYSTEMTIME& maxRange) const
     {
-        SYSTEMTIME minMax[2];
+        SYSTEMTIME minMax[2] = { 0 };
         minMax[0] = minRange;
         minMax[1] = maxRange;
 

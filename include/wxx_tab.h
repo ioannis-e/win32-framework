@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -898,7 +898,7 @@ namespace Win32xx
     inline BOOL CTab::NotifyTabClosing(int page)
     {
         UINT controlID = GetDlgCtrlID();
-        TABNMHDR TabNMHDR;
+        TABNMHDR TabNMHDR = { 0 };
         TabNMHDR.hdr.code = UWN_TABCLOSE;
         TabNMHDR.hdr.hwndFrom = *this;
         TabNMHDR.hdr.idFrom = controlID;
@@ -1907,7 +1907,7 @@ namespace Win32xx
     // Creates the TabbedMDI window.
     inline HWND CTabbedMDI::Create(HWND parent /* = 0*/)
     {
-        CLIENTCREATESTRUCT clientcreate ;
+        CLIENTCREATESTRUCT clientcreate = { 0 };
         clientcreate.hWindowMenu  = *this;
         clientcreate.idFirstChild = IDW_FIRSTCHILD ;
         DWORD style = WS_CHILD | WS_VISIBLE | MDIS_ALLCHILDSTYLES | WS_CLIPCHILDREN;

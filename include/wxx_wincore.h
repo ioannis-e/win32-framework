@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -806,7 +806,7 @@ namespace Win32xx
     }
 
     // A function used internally to call OnMessageReflect. Don't call or override this function.
-    inline LRESULT CWnd::MessageReflect(UINT msg, WPARAM wparam, LPARAM lparam)
+    inline LRESULT CWnd::MessageReflect(UINT msg, WPARAM wparam, LPARAM lparam) const
     {
         HWND wnd = 0;
         switch (msg)

@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -390,7 +390,7 @@ namespace Win32xx
             if (pfnInitEx)
             {
                 // Load the full set of common controls.
-                INITCOMMONCONTROLSEX InitStruct;
+                INITCOMMONCONTROLSEX InitStruct = { 0 };
                 InitStruct.dwSize = sizeof(InitStruct);
                 InitStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_DATE_CLASSES;
 

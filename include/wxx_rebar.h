@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -78,7 +78,7 @@ namespace Win32xx
         CRect GetBandRect(int band) const;
         UINT GetBarHeight() const;
         BOOL GetBarInfo(REBARINFO& rebarInfo) const;
-        HWND GetMenuBar() {return m_menuBar;}
+        HWND GetMenuBar()  const {return m_menuBar;}
         UINT GetRowCount() const;
         int  GetRowHeight(int row) const;
         UINT GetSizeofRBBI() const;

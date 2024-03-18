@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -159,15 +159,15 @@ namespace Win32xx
         LPITEMIDLIST GetFolderPidl() const   { return m_fullPidl; }
         int  GetImageIndex() const           { return m_imageIndex; }
         UINT GetFlags() const                { return m_flags; }
-        void EnableOK(BOOL enable = TRUE);
-        void SetExpanded(LPCWSTR path);
-        void SetExpanded(LPITEMIDLIST pItemIDList);
+        void EnableOK(BOOL enable = TRUE) const;
+        void SetExpanded(LPCWSTR path) const;
+        void SetExpanded(LPITEMIDLIST pItemIDList) const;
         void SetFlags(UINT flags) { m_flags = flags; }
-        void SetOKText(LPCWSTR text);
+        void SetOKText(LPCWSTR text) const;
         void SetRoot(LPITEMIDLIST pItemIDList);
-        void SetSelection(LPITEMIDLIST pItemIDList);
-        void SetSelection(LPCTSTR path);
-        void SetStatusText(LPCTSTR text);
+        void SetSelection(LPITEMIDLIST pItemIDList) const;
+        void SetSelection(LPCTSTR path) const;
+        void SetStatusText(LPCTSTR text) const;
         void SetTitle(LPCTSTR title);
 
     protected:
@@ -288,7 +288,7 @@ namespace Win32xx
     }
 
     // Enables or disables the OK button.
-    inline void CFolderDialog::EnableOK(BOOL enable /*TRUE*/)
+    inline void CFolderDialog::EnableOK(BOOL enable /*TRUE*/) const
     {
         SendMessage(BFFM_ENABLEOK, static_cast<WPARAM>(enable), 0);
     }
@@ -346,7 +346,7 @@ namespace Win32xx
 
     // Specifies the path of a folder to expand in the Browse dialog box.
     // Refer to BFFM_SETEXPANDED in the Windows API documentation for more information.
-    inline void CFolderDialog::SetExpanded(LPCWSTR path)
+    inline void CFolderDialog::SetExpanded(LPCWSTR path) const
     {
         WPARAM wparam = static_cast<WPARAM>(TRUE);
         LPARAM lparam = reinterpret_cast<LPARAM>(path);
@@ -355,7 +355,7 @@ namespace Win32xx
 
     // Specifies the path of a folder to expand in the Browse dialog box.
     // Refer to BFFM_SETEXPANDED in the Windows API documentation for more information.
-    inline void CFolderDialog::SetExpanded(LPITEMIDLIST pItemIDList)
+    inline void CFolderDialog::SetExpanded(LPITEMIDLIST pItemIDList) const
     {
         WPARAM wparam = static_cast<WPARAM>(FALSE);
         LPARAM lparam = reinterpret_cast<LPARAM>(pItemIDList);
@@ -364,7 +364,7 @@ namespace Win32xx
 
     // Sets the text of the OK button.
     // Refer to BFFM_SETOKTEXT in the Windows API documentation for more information.
-    inline void CFolderDialog::SetOKText(LPCWSTR text)
+    inline void CFolderDialog::SetOKText(LPCWSTR text) const
     {
         SendMessage(BFFM_SETOKTEXT, 0, reinterpret_cast<LPARAM>(text));
     }
@@ -377,14 +377,14 @@ namespace Win32xx
 
     // Specifies the path of a folder to select.
     // Refer to BFFM_SETSELECTION in the Windows API documentation for more information.
-    inline void CFolderDialog::SetSelection(LPITEMIDLIST pItemIDList)
+    inline void CFolderDialog::SetSelection(LPITEMIDLIST pItemIDList) const
     {
         SendMessage(BFFM_SETSELECTION, FALSE, reinterpret_cast<LPARAM>(pItemIDList));
     }
 
     // Specifies the path of a folder to select.
     // Refer to BFFM_SETSELECTION in the Windows API documentation for more information.
-    inline void CFolderDialog::SetSelection(LPCTSTR path)
+    inline void CFolderDialog::SetSelection(LPCTSTR path) const
     {
         SendMessage(BFFM_SETSELECTION, TRUE, reinterpret_cast<LPARAM>(path));
     }
@@ -392,7 +392,7 @@ namespace Win32xx
     // Sets the status text.
     // This is incompatible with the BIF_USENEWUI or BIF_NEWDIALOGSTYLE flags.
     // Refer to BFFM_SETSTATUSTEXT in the Windows API documentation for more information.
-    inline void CFolderDialog::SetStatusText(LPCTSTR text)
+    inline void CFolderDialog::SetStatusText(LPCTSTR text) const
     {
         SendMessage(BFFM_SETSTATUSTEXT, 0, reinterpret_cast<LPARAM>(text));
     }

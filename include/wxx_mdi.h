@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -821,7 +821,7 @@ namespace Win32xx
     {
         assert(parent != 0);
 
-        CLIENTCREATESTRUCT clientcreate;
+        CLIENTCREATESTRUCT clientcreate = { 0 };
         clientcreate.hWindowMenu  = 0;
         clientcreate.idFirstChild = IDW_FIRSTCHILD;
         DWORD style = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | MDIS_ALLCHILDSTYLES;

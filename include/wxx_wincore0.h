@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -402,7 +402,7 @@ namespace Win32xx
 
         void    AddToMap();
         void    Cleanup();
-        LRESULT MessageReflect(UINT msg, WPARAM wparam, LPARAM lparam);
+        LRESULT MessageReflect(UINT msg, WPARAM wparam, LPARAM lparam) const;
         BOOL    RegisterClass(WNDCLASS& wc);
         BOOL    RemoveFromMap();
         void    Subclass(HWND wnd);

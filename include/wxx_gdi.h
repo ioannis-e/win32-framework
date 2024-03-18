@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -207,7 +207,7 @@ namespace Win32xx
 
     private:
         void    AddToMap();
-        BOOL    RemoveFromMap();
+        BOOL    RemoveFromMap() const;
 
         CGDI_Data* m_pData;
     };
@@ -237,7 +237,7 @@ namespace Win32xx
         void CreateBitmapIndirect(const BITMAP& bitmap);
         CSize GetBitmapDimensionEx() const;
         int  GetDIBits(HDC dc, UINT startScan, UINT scanLines,  LPVOID pBits, LPBITMAPINFO pBMI, UINT colorUse) const;
-        void GrayScaleBitmap();
+        void GrayScaleBitmap() const;
         BOOL LoadBitmap(LPCTSTR resourceName);
         BOOL LoadBitmap(UINT id);
         BOOL LoadImage(LPCTSTR resourceName, UINT flags = 0);
@@ -247,7 +247,7 @@ namespace Win32xx
         BOOL LoadOEMBitmap(UINT bitmapID);
         int  SetDIBits(HDC dc, UINT startScan, UINT scanLines, LPCVOID pBits, const LPBITMAPINFO pBMI, UINT colorUse) const;
         CSize SetBitmapDimensionEx(int width, int height) const;
-        void TintBitmap (int red, int green, int blue);
+        void TintBitmap (int red, int green, int blue) const;
 
         // Accessors
         BITMAP GetBitmapData() const;
@@ -767,7 +767,7 @@ namespace Win32xx
     private:
         void AddToMap();
         void Initialize();
-        BOOL RemoveFromMap();
+        BOOL RemoveFromMap() const;
 
         CDC_Data* m_pData;      // pointer to the class's data members
     };
@@ -886,7 +886,7 @@ namespace Win32xx
     public:
         CBitmapInfoPtr(HBITMAP bitmap)
         {
-            BITMAP data;
+            BITMAP data = { 0 };
             VERIFY(::GetObject(bitmap, sizeof(data), &data));
 
             // Convert the color format to a count of bits.
@@ -1113,7 +1113,7 @@ namespace Win32xx
         }
     }
 
-    inline BOOL CGDIObject::RemoveFromMap()
+    inline BOOL CGDIObject::RemoveFromMap() const
     {
         BOOL success = FALSE;
 
@@ -1432,7 +1432,7 @@ namespace Win32xx
     }
 
     // Convert a bitmap image to gray scale.
-    inline void CBitmap::GrayScaleBitmap()
+    inline void CBitmap::GrayScaleBitmap() const
     {
         // Requires 8 bits per pixel
         BITMAP data = GetBitmapData();
@@ -1491,7 +1491,7 @@ namespace Win32xx
     // correction values specified. The correction values can range from -255 to +255.
     // This function gains its speed by accessing the bitmap color information
     // directly, rather than using GetPixel/SetPixel.
-    inline void CBitmap::TintBitmap (int cRed, int cGreen, int cBlue)
+    inline void CBitmap::TintBitmap (int cRed, int cGreen, int cBlue) const
     {
         // Create our LPBITMAPINFO object
         CBitmapInfoPtr pbmi(*this);
@@ -2549,7 +2549,7 @@ namespace Win32xx
 
             if (pGradientFill)
             {
-                TRIVERTEX vertex[2];
+                TRIVERTEX vertex[2] = { 0 };
                 vertex[0].x = rc.left;
                 vertex[0].y = rc.top;
                 vertex[0].Red   = COLOR16(GetRValue(color1) << 8);
@@ -2566,7 +2566,7 @@ namespace Win32xx
 
                 // Create a GRADIENT_RECT structure that
                 // references the TRIVERTEX vertices.
-                GRADIENT_RECT rect;
+                GRADIENT_RECT rect = { 0 };
                 rect.UpperLeft = 0;
                 rect.LowerRight = 1;
 
@@ -2601,7 +2601,7 @@ namespace Win32xx
         }
     }
 
-    inline BOOL CDC::RemoveFromMap()
+    inline BOOL CDC::RemoveFromMap() const
     {
         BOOL success = FALSE;
 

@@ -154,7 +154,7 @@ namespace Win32xx
             void SetContainer(CDockContainer* pContainer) { m_pContainer = pContainer; }
             void SetToolBar(CToolBar& toolBar) { m_pToolBar = &toolBar; }
             void SetView(CWnd& wndView);
-            void RecalcLayout();
+            void RecalcLayout() const;
 
         protected:
             virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam);
@@ -210,16 +210,16 @@ namespace Win32xx
         CViewPage& GetViewPage() const { return *m_pViewPage; }
         void SetActiveContainer(CDockContainer* pContainer);
         void SetDocker(CDocker* pDocker)      { m_pDocker = pDocker; }
-        void SetDockCaption(LPCTSTR caption) { m_caption = caption; }
+        void SetDockCaption(LPCTSTR caption)  { m_caption = caption; }
         void SetHideSingleTab(BOOL hideSingle);
         void SetTabIcon(HICON tabIcon)        { m_tabIcon = tabIcon; }
         void SetTabIcon(UINT iconID);
         void SetTabSize();
 
-        void SetTabText(LPCTSTR text)        { m_tabText = text; }
-        void SetToolBar(CToolBar& toolBar)    { GetViewPage().SetToolBar(toolBar); }
+        void SetTabText(LPCTSTR text)         { m_tabText = text; }
+        void SetToolBar(CToolBar& toolBar) const   { GetViewPage().SetToolBar(toolBar); }
         void SetToolBarImages(COLORREF mask, UINT normalID, UINT hotID, UINT disabledID);
-        void SetView(CWnd& wnd);
+        void SetView(CWnd& wnd) const;
 
     protected:
         virtual void OnAttach();
@@ -440,7 +440,7 @@ namespace Win32xx
             virtual ~CTargetCentre();
 
             BOOL CheckTarget(LPDRAGPOS pDragPos);
-            BOOL IsOverContainer() { return m_isOverContainer; }
+            BOOL IsOverContainer() const { return m_isOverContainer; }
 
         protected:
             virtual int OnCreate(CREATESTRUCT& cs);
@@ -564,11 +564,11 @@ namespace Win32xx
         BOOL IsRelated(HWND wnd) const;
         BOOL IsUndocked() const;
         BOOL IsUndockable() const;
-        void SetBarColor(COLORREF color) {GetDockBar().SetColor(color);}
-        void SetBarWidth(int width) {GetDockBar().SetWidth(width);}
+        void SetBarColor(COLORREF color) const {GetDockBar().SetColor(color);}
+        void SetBarWidth(int width) const {GetDockBar().SetWidth(width);}
         void SetCaption(LPCTSTR caption);
         void SetCaptionColors(COLORREF foregnd1, COLORREF backgnd1, COLORREF foreGnd2,
-                              COLORREF backGnd2, COLORREF penColor = RGB(160, 150, 140));
+                              COLORREF backGnd2, COLORREF penColor = RGB(160, 150, 140)) const;
         void SetCaptionHeight(int height);
         void SetDefaultCaptionHeight();
         void SetDockBar(CDockBar& dockBar) { m_pDockBar = &dockBar; }
@@ -619,11 +619,11 @@ namespace Win32xx
         CDocker& operator=(const CDocker&);    // Disable assignment operator
         std::vector <DockPtr> & GetAllChildren() const {return GetDockAncestor()->m_allDockChildren;}
         virtual CDocker* GetDockUnderDragPoint(POINT pt);
-        void CheckAllTargets(LPDRAGPOS pDragPos);
-        void CloseAllTargets();
+        void CheckAllTargets(LPDRAGPOS pDragPos) const;
+        void CloseAllTargets() const;
         void DockOuter(CDocker* pDocker, DWORD dockStyle);
-        void DrawAllCaptions();
-        void ConvertToChild(HWND parent);
+        void DrawAllCaptions() const;
+        void ConvertToChild(HWND parent) const;
         void ConvertToPopup(const RECT& rc, BOOL showUndocked);
         int  GetMonitorDpi(HWND wnd);
         void MoveDockChildren(CDocker* pDockTarget);
@@ -996,13 +996,13 @@ namespace Win32xx
     {
         CRect rcClose;
 
-        int gap = DpiScaleInt(1);
+        int gap = DpiScaleInt(2);
         CRect rc = GetWindowRect();
         int cx = GetSystemMetrics(SM_CXSMICON) * GetWindowDpi(*this) / GetWindowDpi(HWND_DESKTOP);
         int cy = GetSystemMetrics(SM_CYSMICON) * GetWindowDpi(*this) / GetWindowDpi(HWND_DESKTOP);
 
-        rcClose.top = 2 + rc.top + m_pDocker->m_ncHeight / 2 - cy / 2;
-        rcClose.bottom = 2 + rc.top + m_pDocker->m_ncHeight / 2 + cy / 2;
+        rcClose.top = gap + rc.top + (m_pDocker->m_ncHeight - cy) / 2;
+        rcClose.bottom = rc.top + cy;
         rcClose.right = rc.right - gap;
         rcClose.left = rcClose.right - cx;
 
@@ -1329,7 +1329,7 @@ namespace Win32xx
     inline void CDocker::CDockClient::SendNotify(UINT messageID)
     {
         // Fill the DragPos structure with data
-        DRAGPOS DragPos;
+        DRAGPOS DragPos = { 0 };
         DragPos.hdr.code = messageID;
         DragPos.hdr.hwndFrom = GetHwnd();
         DragPos.pos = GetCursorPos();
@@ -2201,7 +2201,7 @@ namespace Win32xx
     }
 
     // Calls CheckTarget for each possible target zone.
-    inline void CDocker::CheckAllTargets(LPDRAGPOS pDragPos)
+    inline void CDocker::CheckAllTargets(LPDRAGPOS pDragPos) const
     {
         if (!GetDockAncestor()->m_targetCentre.CheckTarget(pDragPos))
         {
@@ -2263,7 +2263,7 @@ namespace Win32xx
     }
 
     // Close all dock target windows.
-    inline void CDocker::CloseAllTargets()
+    inline void CDocker::CloseAllTargets() const
     {
         GetDockAncestor()->m_targetCentre.Destroy();
         GetDockAncestor()->m_targetLeft.Destroy();
@@ -2272,7 +2272,7 @@ namespace Win32xx
         GetDockAncestor()->m_targetBottom.Destroy();
     }
 
-    inline void CDocker::ConvertToChild(HWND parent)
+    inline void CDocker::ConvertToChild(HWND parent) const
     {
         DWORD style = WS_CHILD | WS_VISIBLE;
         SetStyle(style);
@@ -2483,7 +2483,7 @@ namespace Win32xx
     }
 
     // Draws all the captions.
-    inline void CDocker::DrawAllCaptions()
+    inline void CDocker::DrawAllCaptions() const
     {
         std::vector<CDocker*>::const_iterator iter;
         for (iter = GetAllDockers().begin(); iter != GetAllDockers().end(); ++iter)
@@ -4059,7 +4059,7 @@ namespace Win32xx
     // Sends a docking notification to the docker below the cursor.
     inline void CDocker::SendNotify(UINT messageID)
     {
-        DRAGPOS dragPos;
+        DRAGPOS dragPos = { 0 };
         dragPos.hdr.code = messageID;
         dragPos.hdr.hwndFrom = GetHwnd();
         dragPos.pos = GetCursorPos();
@@ -4116,7 +4116,7 @@ namespace Win32xx
     // foregnd2 specifies the foreground color(not focused).
     // backgnd2 specifies the background color(not focused).
     // penColor specifies the pen color used for drawing the outline.
-    inline void CDocker::SetCaptionColors(COLORREF foregnd1, COLORREF backgnd1, COLORREF foreGnd2, COLORREF backGnd2, COLORREF penColor /*= RGB(160, 150, 140)*/)
+    inline void CDocker::SetCaptionColors(COLORREF foregnd1, COLORREF backgnd1, COLORREF foreGnd2, COLORREF backGnd2, COLORREF penColor /*= RGB(160, 150, 140)*/) const
     {
         GetDockClient().SetCaptionColors(foregnd1, backgnd1, foreGnd2, backGnd2, penColor);
     }
@@ -5376,7 +5376,7 @@ namespace Win32xx
 
     // Sets or changes the container's view window.
     // The view window can be any resizeable child window.
-    inline void CDockContainer::SetView(CWnd& wnd)
+    inline void CDockContainer::SetView(CWnd& wnd) const
     {
         GetViewPage().SetView(wnd);
     }
@@ -5529,7 +5529,7 @@ namespace Win32xx
     }
 
     // Called when the window is resized. Repositions the toolbar and view window.
-    inline void CDockContainer::CViewPage::RecalcLayout()
+    inline void CDockContainer::CViewPage::RecalcLayout() const
     {
         CRect rc = GetClientRect();
         if (GetToolBar().IsWindow() && GetToolBar().IsWindowVisible())

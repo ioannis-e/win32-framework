@@ -1,5 +1,5 @@
-// Win32++   Version 9.5
-// Release Date: 9th February 2024
+// Win32++   Version 9.5.1
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -109,11 +109,11 @@ namespace Win32xx
 
         // Wrappers for Windows API functions
         UINT  GetDefID() const;
-        void GotoDlgCtrl(HWND control);
+        void GotoDlgCtrl(HWND control) const;
         BOOL MapDialogRect(RECT& rc) const;
         void NextDlgCtrl() const;
         void PrevDlgCtrl() const;
-        void SetDefID(UINT id);
+        void SetDefID(UINT id) const;
 
     protected:
         // Virtual functions you might wish to override
@@ -628,7 +628,7 @@ namespace Win32xx
 
     // Sets the keyboard focus to the specified control.
     // Refer to WM_NEXTDLGCTL in the Windows API documentation for more information.
-    inline void CDialog::GotoDlgCtrl(HWND control)
+    inline void CDialog::GotoDlgCtrl(HWND control) const
     {
         assert(IsWindow());
         assert(::IsWindow(control));
@@ -663,7 +663,7 @@ namespace Win32xx
 
     // Changes the identifier of the default push button for a dialog box.
     // Refer to DM_SETDEFID in the Windows API documentation for more information.
-    inline void CDialog::SetDefID(UINT id)
+    inline void CDialog::SetDefID(UINT id) const
     {
         assert(IsWindow());
         SendMessage(DM_SETDEFID, static_cast<WPARAM>(id), 0);
