@@ -243,11 +243,8 @@ namespace Win32xx
         m_messageID = rhs.m_messageID;
         m_error = rhs.m_error;
 
-        if (rhs.m_text)
-            StrCopy(m_text, rhs.m_text, WXX_MAX_STRING_SIZE);
-
-        if (rhs.m_errorString)
-            StrCopy(m_errorString, rhs.m_errorString, WXX_MAX_STRING_SIZE);
+        StrCopy(m_text, rhs.m_text, WXX_MAX_STRING_SIZE);
+        StrCopy(m_errorString, rhs.m_errorString, WXX_MAX_STRING_SIZE);
     }
 
     // CException assignment operator.
@@ -259,11 +256,8 @@ namespace Win32xx
         m_messageID = rhs.m_messageID;
         m_error = rhs.m_error;
 
-        if (rhs.m_text)
-            StrCopy(m_text, rhs.m_text, WXX_MAX_STRING_SIZE);
-
-        if (rhs.m_errorString)
-            StrCopy(m_errorString, rhs.m_errorString, WXX_MAX_STRING_SIZE);
+        StrCopy(m_text, rhs.m_text, WXX_MAX_STRING_SIZE);
+        StrCopy(m_errorString, rhs.m_errorString, WXX_MAX_STRING_SIZE);
 
         return *this;
     }
@@ -357,9 +351,7 @@ namespace Win32xx
         : CException(rhs)
     {
         ZeroMemory(m_filePath, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
-
-        if (rhs.m_filePath)
-            StrCopy(m_filePath, rhs.m_filePath, WXX_MAX_STRING_SIZE);
+        StrCopy(m_filePath, rhs.m_filePath, WXX_MAX_STRING_SIZE);
     }
 
     // CFileException assignment operator.
@@ -367,9 +359,7 @@ namespace Win32xx
     {
         CException::operator =(rhs);
         ZeroMemory(m_filePath, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
-
-        if (rhs.m_filePath)
-            StrCopy(m_filePath, rhs.m_filePath, WXX_MAX_STRING_SIZE);
+        StrCopy(m_filePath, rhs.m_filePath, WXX_MAX_STRING_SIZE);
 
         return *this;
     }
