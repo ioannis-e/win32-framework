@@ -58,23 +58,25 @@ void CMainFrame::HideSingleContainerTab(bool hideSingle)
 // Loads the default arrangement of dockers.
 void CMainFrame::LoadDefaultDockers()
 {
-    // Note: The  DockIDs are used for saving/restoring the dockers state in the registry
+    // Note: The  DockIDs are used for saving/restoring the dockers state in the registry.
 
     DWORD style = DS_CLIENTEDGE; // The style added to each docker
 
-    // Add the right most dockers
+    // Add the right most dockers.
     CDocker* pDockRight = AddDockedChild(new CDockClasses, DS_DOCKED_RIGHT | style, DpiScaleInt(200), ID_DOCK_CLASSES1);
     pDockRight->AddDockedChild(new CDockFiles, DS_DOCKED_CONTAINER | style, DpiScaleInt(200), ID_DOCK_FILES1);
     pDockRight->AddDockedChild(new CDockClasses, DS_DOCKED_CONTAINER | style, DpiScaleInt(200), ID_DOCK_CLASSES2);
     pDockRight->AddDockedChild(new CDockFiles, DS_DOCKED_CONTAINER | style, DpiScaleInt(200), ID_DOCK_FILES2);
 
-    // Add the bottom dockers
+    // Add the bottom dockers.
     CDocker* pDockBottom = AddDockedChild(new CDockOutput, DS_DOCKED_BOTTOM | style, DpiScaleInt(100), ID_DOCK_OUTPUT1);
     pDockBottom->AddDockedChild(new CDockOutput, DS_DOCKED_CONTAINER | style, DpiScaleInt(100), ID_DOCK_OUTPUT2);
 
-    // Add the frame's dockers
+    // Add the frame's dockers.
     AddDockedChild(new CDockText, DS_DOCKED_CONTAINER | style, DpiScaleInt(100), ID_DOCK_TEXT1);
     AddDockedChild(new CDockText, DS_DOCKED_CONTAINER | style, DpiScaleInt(100), ID_DOCK_TEXT2);
+
+    SetDockStyle(style);
 }
 
 // Adds a new docker. The id specifies its type.
@@ -212,8 +214,6 @@ BOOL CMainFrame::OnHideSingleTab()
 // Called after the frame's window is created.
 void CMainFrame::OnInitialUpdate()
 {
-    SetDockStyle(DS_CLIENTEDGE);
-
     // Load dock settings
     if (!LoadDockRegistrySettings(GetRegistryKeyName()))
         LoadDefaultDockers();

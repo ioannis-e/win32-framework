@@ -2835,96 +2835,97 @@ namespace Win32xx
             const CString dockKeyName = _T("Software\\") + CString(registryKeyName) + dockSettings;
             CRegKey settingsKey;
 
-            if (ERROR_SUCCESS == settingsKey.Open(HKEY_CURRENT_USER, dockKeyName, KEY_READ))
+            try
             {
-                try
+                if (ERROR_SUCCESS != settingsKey.Open(HKEY_CURRENT_USER, dockKeyName, KEY_READ))
+                    throw CUserException();
+
+                UINT container = 0;
+                CString dockContainerName;
+                dockContainerName.Format(_T("DockContainer%u"), container);
+                CRegKey containerKey;
+
+                while (ERROR_SUCCESS == containerKey.Open(settingsKey, dockContainerName, KEY_READ))
                 {
-                    UINT container = 0;
-                    CString dockContainerName;
-                    dockContainerName.Format(_T("DockContainer%u"), container);
-                    CRegKey containerKey;
-
-                    while (ERROR_SUCCESS == containerKey.Open(settingsKey, dockContainerName, KEY_READ))
+                    // Load tab order
+                    isLoaded = TRUE;
+                    UINT tabNumber = 0;
+                    DWORD tabID;
+                    std::vector<UINT> tabOrder;
+                    CString tabKeyName;
+                    tabKeyName.Format(_T("Tab%u"), tabNumber);
+                    while (ERROR_SUCCESS == containerKey.QueryDWORDValue(tabKeyName, tabID))
                     {
-                        // Load tab order
-                        isLoaded = TRUE;
-                        UINT tabNumber = 0;
-                        DWORD tabID;
-                        std::vector<UINT> tabOrder;
-                        CString tabKeyName;
-                        tabKeyName.Format(_T("Tab%u"), tabNumber);
-                        while (ERROR_SUCCESS == containerKey.QueryDWORDValue(tabKeyName, tabID))
-                        {
-                            tabOrder.push_back(tabID);
-                            tabKeyName.Format(_T("Tab%u"), ++tabNumber);
-                        }
+                        tabOrder.push_back(tabID);
+                        tabKeyName.Format(_T("Tab%u"), ++tabNumber);
+                    }
 
-                        // Set tab order.
-                        DWORD parentID;
-                        if (ERROR_SUCCESS == containerKey.QueryDWORDValue(_T("Parent Container"), parentID))
-                        {
-                            CDocker* pDocker = GetDockFromID(static_cast<int>(parentID));
-                            if (!pDocker)
-                                pDocker = this;
+                    // Set tab order.
+                    DWORD parentID;
+                    if (ERROR_SUCCESS == containerKey.QueryDWORDValue(_T("Parent Container"), parentID))
+                    {
+                        CDocker* pDocker = GetDockFromID(static_cast<int>(parentID));
+                        if (!pDocker)
+                            pDocker = this;
 
-                            CDockContainer* pParentContainer = pDocker->GetContainer();
-                            if (!pParentContainer)
+                        CDockContainer* pParentContainer = pDocker->GetContainer();
+                        if (!pParentContainer)
+                            throw CUserException();
+
+                        for (UINT tab = 0; tab < tabOrder.size(); ++tab)
+                        {
+                            CDocker* pOldDocker = GetDockFromView(pParentContainer->GetContainerFromIndex(tab));
+                            if (!pOldDocker)
                                 throw CUserException();
 
-                            for (UINT tab = 0; tab < tabOrder.size(); ++tab)
-                            {
-                                CDocker* pOldDocker = GetDockFromView(pParentContainer->GetContainerFromIndex(tab));
-                                if (!pOldDocker)
-                                    throw CUserException();
+                            UINT oldID = static_cast<UINT>(pOldDocker->GetDockID());
 
-                                UINT oldID = static_cast<UINT>(pOldDocker->GetDockID());
+                            std::vector<UINT>::iterator it = std::find(tabOrder.begin(), tabOrder.end(), oldID);
+                            UINT oldTab = static_cast<UINT>(it - tabOrder.begin());
 
-                                std::vector<UINT>::iterator it = std::find(tabOrder.begin(), tabOrder.end(), oldID);
-                                UINT oldTab = static_cast<UINT>(it - tabOrder.begin());
+                            if (tab >= pParentContainer->GetAllContainers().size())
+                                throw CUserException();
 
-                                if (tab >= pParentContainer->GetAllContainers().size())
-                                    throw CUserException();
+                            if (oldTab >= pParentContainer->GetAllContainers().size())
+                                throw CUserException();
 
-                                if (oldTab >= pParentContainer->GetAllContainers().size())
-                                    throw CUserException();
-
-                                if (tab != oldTab)
-                                    pParentContainer->SwapTabs(static_cast<int>(tab), static_cast<int>(oldTab));
-                            }
+                            if (tab != oldTab)
+                                pParentContainer->SwapTabs(static_cast<int>(tab), static_cast<int>(oldTab));
                         }
-
-                        // Set the active container.
-                        DWORD activeContainer;
-                        if (ERROR_SUCCESS == containerKey.QueryDWORDValue(_T("Active Container"), activeContainer))
-                        {
-                            CDocker* pDocker = GetDockFromID(static_cast<int>(activeContainer));
-                            if (pDocker)
-                            {
-                                CDockContainer* pContainer = pDocker->GetContainer();
-                                if (!pContainer)
-                                    throw CUserException();
-
-                                int page = pContainer->GetContainerIndex(pContainer);
-                                if (page >= 0)
-                                    pContainer->SelectPage(page);
-                            }
-                        }
-
-                        dockContainerName.Format(_T("DockContainer%u"), ++container);
                     }
+
+                    // Set the active container.
+                    DWORD activeContainer;
+                    if (ERROR_SUCCESS == containerKey.QueryDWORDValue(_T("Active Container"), activeContainer))
+                    {
+                        CDocker* pDocker = GetDockFromID(static_cast<int>(activeContainer));
+                        if (pDocker)
+                        {
+                            CDockContainer* pContainer = pDocker->GetContainer();
+                            if (!pContainer)
+                                throw CUserException();
+
+                            int page = pContainer->GetContainerIndex(pContainer);
+                            if (page >= 0)
+                                pContainer->SelectPage(page);
+                        }
+                    }
+
+                    dockContainerName.Format(_T("DockContainer%u"), ++container);
                 }
 
-                catch (const CUserException&)
-                {
-                    TRACE("*** Failed to load dock containers from registry. ***\n");
-                    CloseAllDockers();
+            }
 
-                    // Delete the bad key from the registry.
-                    const CString appKeyName = _T("Software\\") + CString(registryKeyName);
-                    CRegKey appKey;
-                    if (ERROR_SUCCESS == appKey.Open(HKEY_CURRENT_USER, appKeyName, KEY_READ))
-                        appKey.RecurseDeleteKey(dockSettings);
-                }
+            catch (const CUserException&)
+            {
+                TRACE("*** Failed to load dock containers from registry. ***\n");
+                CloseAllDockers();
+
+                // Delete the bad key from the registry.
+                const CString appKeyName = _T("Software\\") + CString(registryKeyName);
+                CRegKey appKey;
+                if (ERROR_SUCCESS == appKey.Open(HKEY_CURRENT_USER, appKeyName, KEY_READ))
+                    appKey.RecurseDeleteKey(dockSettings);
             }
         }
 
@@ -2943,8 +2944,12 @@ namespace Win32xx
             const CString dockSettings = _T("\\Dock Settings");
             const CString dockKeyName = _T("Software\\") + CString(registryKeyName) + dockSettings;
             CRegKey settingsKey;
-            if (ERROR_SUCCESS == settingsKey.Open(HKEY_CURRENT_USER, dockKeyName, KEY_READ))
+
+            try
             {
+                if (ERROR_SUCCESS != settingsKey.Open(HKEY_CURRENT_USER, dockKeyName, KEY_READ))
+                    throw CUserException();
+
                 DWORD bufferSize = sizeof(DockInfo);
                 DockInfo di;
                 int i = 0;
@@ -2959,17 +2964,21 @@ namespace Win32xx
                     dockChildName.Format(_T("DockChild%d"), i);
                 }
 
-                settingsKey.Close();
-                if (dockList.size() > 0) isLoaded = TRUE;
-            }
+                if (dockList.size() > 0)
+                    isLoaded = TRUE;
 
-            try
-            {
+                // Add the dock ancestor's style.
+                DWORD style;
+                if (ERROR_SUCCESS != settingsKey.QueryDWORDValue(_T("DockAncestor"), style))
+                    throw CUserException();
+
+                SetDockStyle(style);
+
                 // Add dockers without parents first.
                 std::vector<DockInfo>::iterator iter;
                 for (iter = dockList.begin(); iter != dockList.end() ; ++iter)
                 {
-                    DockInfo di = (*iter);
+                    di = (*iter);
                     if ((di.dockParentID == 0) || (di.isInAncestor))
                     {
                         CDocker* pDocker = NewDockerFromID(di.dockID);
@@ -2999,7 +3008,7 @@ namespace Win32xx
                     bool found = false;
                     for (iter = dockList.begin(); iter != dockList.end(); ++iter)
                     {
-                        DockInfo di = *iter;
+                        di = *iter;
                         CDocker* pDockParent = GetDockFromID(di.dockParentID);
 
                         if (pDockParent != NULL)
@@ -4037,6 +4046,11 @@ namespace Win32xx
                         SaveContainerRegistrySettings(dockKey, pContainer, container);
                     }
                 }
+
+                // Add the dock ancestor's style to the registry.
+                DWORD style = GetDockStyle();
+                if (ERROR_SUCCESS != dockKey.SetDWORDValue(_T("DockAncestor"), style))
+                    throw CUserException();
             }
 
             catch (const CUserException&)

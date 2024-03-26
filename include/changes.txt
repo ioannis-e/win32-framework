@@ -1,6 +1,12 @@
 Version 9.5.1
 =============
 
+New Features and Enhancements
+-----------------------------
+* Updated CDocker and CDockContainer.
+* Updated the Docker, DockContainer and DockTabbedMDI samples.
+
+
 Changes in detail
 -----------------
 Added CDockContainer::UndockContainerGroup

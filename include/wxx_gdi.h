@@ -2571,12 +2571,9 @@ namespace Win32xx
                 rect.LowerRight = 1;
 
                 // Draw a gradient filled rectangle.
-                ULONG mode;
-                if (isVertical)
-                    mode = GRADIENT_FILL_RECT_V;
-                else
-                    mode = GRADIENT_FILL_RECT_H;
-
+                const ULONG GradientFillRectH = 0x00000000;
+                const ULONG GradientFillRectV = 0x00000001;
+                ULONG mode = isVertical ? GradientFillRectV : GradientFillRectH;
                 pGradientFill(*this, vertex, 2, &rect, 1, mode);
             }
         }

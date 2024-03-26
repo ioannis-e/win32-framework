@@ -78,6 +78,8 @@ void CMainFrame::LoadDefaultDockers()
     pDockBottom->AddDockedChild(new CDockOutput, DS_DOCKED_CONTAINER | style, DpiScaleInt(100), ID_DOCK_OUTPUT1);
     pDockBottom->AddDockedChild(new CDockText, DS_DOCKED_CONTAINER | style, DpiScaleInt(100), ID_DOCK_TEXT2);
     pDockBottom->AddDockedChild(new CDockOutput, DS_DOCKED_CONTAINER | style, DpiScaleInt(100), ID_DOCK_OUTPUT2);
+
+    SetDockStyle(style);
 }
 
 // Loads the default arrangement of MDIs.
@@ -346,8 +348,6 @@ BOOL CMainFrame::OnHideSingleTab()
 // Called after the frame window is created.
 void CMainFrame::OnInitialUpdate()
 {
-    SetDockStyle(DS_CLIENTEDGE);
-
     // Load dock settings
     if (!LoadDockRegistrySettings(GetRegistryKeyName()))
         LoadDefaultDockers();

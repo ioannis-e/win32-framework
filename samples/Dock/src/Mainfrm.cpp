@@ -14,12 +14,7 @@
 // Constructor.
 CMainFrame::CMainFrame()
 {
-    m_use3DBorder = true;
-    m_disableUndocking = false;
-    m_disableResize = false;
-    m_disableDockLR = false;
-    m_disableDockClose = false;
-    m_disableDockCaption = false;
+    SetDockStylesToDefault();
 }
 
 // Destructor.
@@ -113,6 +108,7 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
     {
     case IDM_FILE_EXIT:         return OnFileExit();
     case IDM_DOCK_DEFAULT:      return OnDockDefault();
+    case IDM_STYLES_DEFAULT:    return OnStylesDefault();
     case IDM_DOCK_CLOSEALL:     return OnDockCloseAll();
     case IDM_3DBORDER:          return On3DBorder();
     case IDM_NO_UNDOCK:         return OnNoUndocking();
@@ -190,12 +186,24 @@ LRESULT CMainFrame::OnGetMinMaxInfo(UINT msg, WPARAM wparam, LPARAM lparam)
 // Called after the window is created.
 void CMainFrame::OnInitialUpdate()
 {
-    // Load dock settings.
+    // Attempt to load  dock settings from the registry.
     if (!LoadDockRegistrySettings(GetRegistryKeyName()))
+    {
+        // Load the default dock arrangement if loading from the registry fails.
         LoadDefaultDockers();
+    }
+    else
+    {
+        // Set menu options from the frame's current dock style.
+        DWORD style = GetDockStyle();
 
-    // Adjust dockstyles as per menu selections.
-    SetDockStyles();
+        m_use3DBorder         = style & DS_CLIENTEDGE;
+        m_disableUndocking    = style & DS_NO_UNDOCK;
+        m_disableResize       = style & DS_NO_RESIZE;
+        m_disableDockLR       = style & DS_NO_DOCKCHILD_LEFT;
+        m_disableDockClose    = style & DS_NO_CLOSE;
+        m_disableDockCaption  = style & DS_NO_CAPTION;
+    }
 
     // PreCreate initially set the window as invisible, so show it now.
     ShowWindow(GetInitValues().showCmd);
@@ -271,6 +279,12 @@ BOOL CMainFrame::OnNoUndocking()
     return TRUE;
 }
 
+BOOL CMainFrame::OnStylesDefault()
+{
+    SetDockStylesToDefault();
+    return TRUE;
+}
+
 // Specify the CREATESTRUCT parameters before the window is created.
 void CMainFrame::PreCreate(CREATESTRUCT& cs)
 {
@@ -312,6 +326,18 @@ void CMainFrame::SetDockStyles()
 
         (*iter)->SetDockStyle(style);
     }
+}
+
+void CMainFrame::SetDockStylesToDefault()
+{
+    m_use3DBorder = true;
+    m_disableUndocking = false;
+    m_disableResize = false;
+    m_disableDockLR = false;
+    m_disableDockClose = false;
+    m_disableDockCaption = false;
+
+    SetDockStyles();
 }
 
 // Specify the icons used in popup menus.

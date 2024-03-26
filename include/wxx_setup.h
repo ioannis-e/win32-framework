@@ -157,7 +157,7 @@ using namespace Win32xx;
 #define MIN(a,b)        (((a) < (b)) ? (a) : (b))
 
 // Version macro
-#define _WIN32XX_VER 0x0950     // Win32++ version 9.5.0
+#define _WIN32XX_VER 0x0951     // Win32++ version 9.5.1
 
 // Define the TRACE Macro.
 // In debug mode, TRACE send text to the debug/output pane, or an external debugger
@@ -295,8 +295,10 @@ namespace Win32xx
     inline int GetWinVersion()
     {
 
-// if (MSC < VS2008) or (Borland < version 6)
-#if ((defined (_MSC_VER) && (_MSC_VER < 1500)) || defined(__BORLANDC__) && (__BORLANDC__ < 0x600))
+// if (MSC < VS2008) or (Borland < version 6) or (GNU < version 6.0.0).
+#if ((defined (_MSC_VER) && (_MSC_VER < 1500)) || \
+        (defined(__BORLANDC__) && (__BORLANDC__ < 0x600)) || \
+        (defined(__GNUC__) && (__GNUC__ < 6)))
 
         // Use the legacy GetVersionEx function.
         OSVERSIONINFO osvi;
