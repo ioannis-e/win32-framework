@@ -10,7 +10,7 @@
 //
 
 // Constructor for CMainFrame.
-CMainFrame::CMainFrame() : m_sdiView(IDD_DIALOG1)
+CMainFrame::CMainFrame() : m_formView(IDD_DIALOG1)
 {
 }
 
@@ -23,7 +23,7 @@ CMainFrame::~CMainFrame()
 HWND CMainFrame::Create(HWND parent)
 {
     //Set m_SdiView as the view window of the frame
-    SetView(m_sdiView);
+    SetView(m_formView);
 
     // Set the registry key name, and load the initial window position
     // Use a registry key name like "CompanyName\\Application"
@@ -48,9 +48,9 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
 
     switch(id)
     {
-    case ID_CHECK_A:         return m_sdiView.OnCheckA();
-    case ID_CHECK_B:         return m_sdiView.OnCheckB();
-    case ID_CHECK_C:         return m_sdiView.OnCheckC();
+    case ID_CHECK_A:         return m_formView.OnCheckA();
+    case ID_CHECK_B:         return m_formView.OnCheckB();
+    case ID_CHECK_C:         return m_formView.OnCheckC();
     case IDM_FILE_EXIT:      return OnFileExit();
     case IDW_VIEW_STATUSBAR: return OnViewStatusBar();
     case IDW_VIEW_TOOLBAR:   return OnViewToolBar();
@@ -58,7 +58,7 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
 
     case ID_RADIO_A:
     case ID_RADIO_B:        // intentionally blank
-    case ID_RADIO_C:        return m_sdiView.OnRangeOfIDs(ID_RADIO_A, ID_RADIO_C, id);
+    case ID_RADIO_C:        return m_formView.OnRangeOfIDs(ID_RADIO_A, ID_RADIO_C, id);
 
     case IDM_EDIT_COPY:
     {

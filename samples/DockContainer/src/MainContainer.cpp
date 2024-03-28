@@ -16,13 +16,12 @@ void CMainContainer::AddContainer(CDockContainer* pContainer, BOOL insert, BOOL 
     // Call the base class function first.
     CDockContainer::AddContainer(pContainer, insert, selectPage);
 
-    // Update the dock style for multiple tabs.
-    int tabCount = GetItemCount();
+    // Use different dock styles when we have a single tab vs multiple tabs.
     DWORD dockStyle = GetDocker()->GetDockStyle();
-    if (tabCount > 1)
-        dockStyle = dockStyle & ~DS_NO_CLOSE;
+    if (GetItemCount() > 1)
+        dockStyle = dockStyle & ~(DS_NO_CLOSE | DS_NO_UNDOCK);
     else
-        dockStyle = dockStyle | DS_NO_CLOSE;
+        dockStyle = dockStyle | DS_NO_CLOSE | DS_NO_UNDOCK;
 
     GetDocker()->SetDockStyle(dockStyle);
 }
@@ -32,13 +31,12 @@ void CMainContainer::RemoveContainer(CDockContainer* pContainer, BOOL updatePare
     // Call the base class function first.
     CDockContainer::RemoveContainer(pContainer, updateParent);
 
-    // Update the dock style for multiple tabs.
-    int tabCount = GetItemCount();
+    // Use different dock styles when we have a single tab vs multiple tabs.
     DWORD dockStyle = GetDocker()->GetDockStyle();
-    if (tabCount > 1)
-        dockStyle = dockStyle & ~DS_NO_CLOSE;
+    if (GetItemCount() > 1)
+        dockStyle = dockStyle & ~(DS_NO_CLOSE | DS_NO_UNDOCK);
     else
-        dockStyle = dockStyle | DS_NO_CLOSE;
+        dockStyle = dockStyle | DS_NO_CLOSE | DS_NO_UNDOCK;
 
     GetDocker()->SetDockStyle(dockStyle);
 }
