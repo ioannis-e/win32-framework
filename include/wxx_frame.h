@@ -1362,8 +1362,6 @@ namespace Win32xx
 
             // Draw to ReBar background to the memory DC.
             memDC.SolidFill(rt.clrBkgnd2, rebarRect);
-            CRect rcBkGnd = rebarRect;
-            rcBkGnd.right = 600;
             memDC.GradientFill(rt.clrBkgnd1, rt.clrBkgnd2, rebarRect, FALSE);
 
             if (rt.clrBand1 || rt.clrBand2)
