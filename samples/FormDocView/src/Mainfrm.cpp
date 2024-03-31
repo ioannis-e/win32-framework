@@ -136,30 +136,31 @@ void CMainFrame::OnMenuUpdate(UINT id)
 void CMainFrame::OnUpdateCheckA(UINT id)
 {
     bool isCheckA = (GetDoc().GetCheckA() != 0);
-    GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (isCheckA ? MF_CHECKED : MF_UNCHECKED));
+    UINT check = isCheckA ? MF_CHECKED : MF_UNCHECKED;
+    GetFrameMenu().CheckMenuItem(id, check);
 }
 
 // Updates the Check B menu item.
 void CMainFrame::OnUpdateCheckB(UINT id)
 {
     bool isCheckB = (GetDoc().GetCheckB() != 0);
-    GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (isCheckB ? MF_CHECKED : MF_UNCHECKED));
+    UINT check = MF_BYCOMMAND | (isCheckB ? MF_CHECKED : MF_UNCHECKED);
+    GetFrameMenu().CheckMenuItem(id, check);
 }
 
 // Updates the Check C menu item.
 void CMainFrame::OnUpdateCheckC(UINT id)
 {
     bool isCheckC = (GetDoc().GetCheckC() != 0);
-    GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (isCheckC ? MF_CHECKED : MF_UNCHECKED));
+    UINT check = MF_BYCOMMAND | (isCheckC ? MF_CHECKED : MF_UNCHECKED);
+    GetFrameMenu().CheckMenuItem(id, check);
 }
 
 // Updates the radio button menu selection.
 void CMainFrame::OnUpdateRangeOfIDs(UINT idFirst, UINT idLast, UINT id)
 {
-    int fileItem = GetFrameMenu().FindMenuItem(_T("&Select"));
-    CMenu radioMenu = GetFrameMenu().GetSubMenu(fileItem);
     if (GetDoc().GetRadio() == id)
-        radioMenu.CheckMenuRadioItem(idFirst, idLast, id, MF_BYCOMMAND);
+        GetFrameMenu().CheckMenuRadioItem(idFirst, idLast, id, MF_BYCOMMAND);
 }
 
 // Save the settings in the registry.
