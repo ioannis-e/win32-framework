@@ -1192,7 +1192,7 @@ namespace Win32xx
         CDC drawDC(pDrawItem->hDC);
 
         // Draw the checkmark's background rectangle first.
-        if (IsUsingThemes())
+        if (IsUsingThemes() && !IsUsingVistaMenu())
         {
             drawDC.CreatePen(PS_SOLID, 1, mbt.clrOutline);
             if (IsUsingThemes())

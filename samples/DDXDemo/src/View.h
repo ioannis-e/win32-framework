@@ -68,7 +68,7 @@ CView : public CDialog                                                      /*
         BOOL    AddToolTip(UINT id, const CString & s);
         void    AssignToolTips();
         INT_PTR DialogProc(UINT, WPARAM, LPARAM);
-        void    DoDataExchange(CDataExchange& DX);
+        void    DoDataExchange(CDataExchange& dx);
         void    GetDocumentValues();
         void    OnBitmap();
         void    OnButton();
