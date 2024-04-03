@@ -271,7 +271,7 @@ void CMainFrame::SetContainerTabsAtTop(bool isAtTop)
     std::vector<CDocker*>::const_iterator iter;
 
     // Set the Tab position for each container
-    for (iter = GetAllDockers().begin(); iter < GetAllDockers().end(); ++iter)
+    for (iter = GetAllDockers().begin(); iter != GetAllDockers().end(); ++iter)
     {
         CDockContainer* pContainer = (*iter)->GetContainer();
         if (pContainer && pContainer->IsWindow())

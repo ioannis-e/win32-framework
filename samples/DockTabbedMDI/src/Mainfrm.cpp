@@ -49,7 +49,7 @@ void CMainFrame::HideSingleContainerTab(bool hideSingle)
     std::vector<DockPtr>::const_iterator iter;
 
     // Set the Tab position for each container
-    for (iter = GetAllDockChildren().begin(); iter < GetAllDockChildren().end(); ++iter)
+    for (iter = GetAllDockChildren().begin(); iter != GetAllDockChildren().end(); ++iter)
     {
         CDockContainer* pContainer = (*iter)->GetContainer();
         if (pContainer && pContainer->IsWindow())
@@ -459,7 +459,7 @@ void CMainFrame::SetContainerTabsAtTop(bool atTop)
     std::vector<DockPtr>::const_iterator iter;
 
     // Set the Tab position for each container
-    for (iter = GetAllDockChildren().begin(); iter < GetAllDockChildren().end(); ++iter)
+    for (iter = GetAllDockChildren().begin(); iter != GetAllDockChildren().end(); ++iter)
     {
         CDockContainer* pContainer = (*iter)->GetContainer();
         if (pContainer && pContainer->IsWindow())

@@ -3293,7 +3293,7 @@ namespace Win32xx
         }
 
         std::vector<CDocker*>& Dockers = GetDockAncestor()->m_allDockers;
-        for (std::vector<CDocker*>::iterator it = Dockers.begin(); it < Dockers.end(); ++it)
+        for (std::vector<CDocker*>::iterator it = Dockers.begin(); it != Dockers.end(); ++it)
         {
             if ((*it) == pDocker)
             {
@@ -4260,7 +4260,7 @@ namespace Win32xx
         // Add other dock children.
         int index = 0;
         itSort = vSorted.begin();
-        while (itSort < vSorted.end())
+        while (itSort != vSorted.end())
         {
             vSorted.insert(vSorted.end(), (*itSort)->GetDockChildren().begin(), (*itSort)->GetDockChildren().end());
             itSort = vSorted.begin() + (++index);
