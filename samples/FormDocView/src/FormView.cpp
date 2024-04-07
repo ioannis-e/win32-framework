@@ -27,10 +27,10 @@ INT_PTR CFormView::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         m_resizer.HandleMessage(msg, wparam, lparam);
 
-        switch (msg)
-        {
-        case WM_SIZE:  return OnSize(msg, wparam, lparam);
-        }
+    //    switch (msg)
+    //    {
+    //
+    //    }
 
         // Pass unhandled messages on to parent DialogProc.
         return DialogProcDefault(msg, wparam, lparam);
@@ -44,14 +44,6 @@ INT_PTR CFormView::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
 
         return 0;
     }
-}
-
-void CFormView::DpiScaleImage()
-{
-    m_patternImage.LoadBitmap(IDB_BITMAP1);
-    m_patternImage = DpiScaleUpBitmap(m_patternImage);
-    LPARAM lparam = reinterpret_cast<LPARAM>(m_patternImage.GetHandle());
-    m_picture.SendMessage(STM_SETIMAGE, IMAGE_BITMAP, lparam);
 }
 
 // Returns a reference to CDoc.
@@ -237,12 +229,3 @@ BOOL CFormView::OnRangeOfIDs(UINT idFirst, UINT idLast, UINT idClicked)
     return TRUE;
 }
 
-INT_PTR CFormView::OnSize(UINT msg, WPARAM wparam, LPARAM lparam)
-{
-    // Perform default processing first.
-    FinalWindowProc(msg, wparam, lparam);
-
-    // Set the image size.
-    DpiScaleImage();
-    return 0;
-}

@@ -175,17 +175,21 @@ namespace Win32xx
         enum Alignment { topleft, topright, bottomleft, bottomright, center, leftcenter, rightcenter, topcenter, bottomcenter };
 
         CResizer() : m_parent(0), m_xScrollPos(0), m_yScrollPos(0),
-                     m_currentDpi(USER_DEFAULT_SCREEN_DPI), m_initDpi(USER_DEFAULT_SCREEN_DPI)
+                     m_currentDpi(USER_DEFAULT_SCREEN_DPI),
+                     m_initDpi(USER_DEFAULT_SCREEN_DPI),
+                     m_isDpiChanging(false)
                      {}
         virtual ~CResizer() {}
 
         virtual void AddChild(HWND wnd, Alignment corner, DWORD style);
         virtual void HandleMessage(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual void Initialize(HWND parent, const RECT& minRect, const RECT& maxRect = CRect(0,0,0,0));
+        virtual void Initialize(HWND parent, const RECT& minRect,
+                                const RECT& maxRect = CRect(0,0,0,0));
+        virtual void OnAfterDpiChange();
+        virtual void OnBeforeDpiChange();
         virtual void OnHScroll(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual void OnVScroll(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual void RecalcLayout();
-        virtual void RescaleValues();
         CRect GetMinRect() const { return m_minRect; }
         CRect GetMaxRect() const { return m_maxRect; }
         void  SetMinRect(const RECT& minRect) { m_minRect = minRect; }
@@ -219,6 +223,8 @@ namespace Win32xx
         int m_yScrollPos;
         int m_currentDpi;
         int m_initDpi;
+
+        bool m_isDpiChanging;
     };
 
 }
@@ -851,8 +857,19 @@ namespace Win32xx
         switch (msg)
         {
         case WM_DPICHANGED:
+            OnAfterDpiChange();
+            break;
+
+        case WM_DPICHANGED_AFTERPARENT:
+            OnAfterDpiChange();
+            break;
+
         case WM_DPICHANGED_BEFOREPARENT:
-            RescaleValues();
+            OnBeforeDpiChange();
+            break;
+
+        case WM_GETDPISCALEDSIZE:
+            OnBeforeDpiChange();
             break;
 
         case WM_SIZE:
@@ -895,13 +912,38 @@ namespace Win32xx
         ::EnumChildWindows(parent, EnumWindowsProc, reinterpret_cast<LPARAM>(this));
 
         int dpi = GetWindowDpi(m_parent);
-        double scale = (double)dpi / double(m_currentDpi);
+        double scale = static_cast<double>(dpi) / static_cast<double>(m_currentDpi);
 
         ScaleRect(m_minRect, scale);
         ScaleRect(m_maxRect, scale);
 
         m_currentDpi = dpi;
         m_initDpi = dpi;
+        RecalcLayout();
+    }
+
+    inline void CResizer::OnBeforeDpiChange()
+    {
+        m_isDpiChanging = true;
+    }
+
+    // Rescales the layout to changes in the parent window's dpi.
+    inline void CResizer::OnAfterDpiChange()
+    {
+        int dpi = GetWindowDpi(m_parent);
+        double scale = static_cast<double>(dpi) / 
+                       static_cast<double>(m_currentDpi);
+
+        // Reset the scrolling position.
+        m_xScrollPos = static_cast<int>(m_xScrollPos * scale);
+        m_yScrollPos = static_cast<int>(m_yScrollPos * scale);
+
+        ScaleRect(m_initRect, scale);
+        ScaleRect(m_minRect, scale);
+        ScaleRect(m_maxRect, scale);
+
+        m_currentDpi = dpi;
+        m_isDpiChanging = false;
         RecalcLayout();
     }
 
@@ -1034,6 +1076,10 @@ namespace Win32xx
         assert (m_initRect.Width() > 0 && m_initRect.Height() > 0);
         assert (::IsWindow(m_parent));
 
+        // Skip recalculating the layout if the DPI is changing.
+        if (m_isDpiChanging)
+            return;
+
         CRect currentRect;
         VERIFY(::GetClientRect(m_parent, &currentRect));
 
@@ -1066,7 +1112,7 @@ namespace Win32xx
         }
 
         int dpi = GetWindowDpi(m_parent);
-        double scale = (double)dpi / double(m_initDpi);
+        double scale = static_cast<double>(dpi) / static_cast<double>(m_initDpi);
 
         // Declare an iterator to step through the vector
         std::vector<ResizeData>::iterator iter;
@@ -1155,25 +1201,6 @@ namespace Win32xx
 
         // Reposition all the child windows simultaneously.
         VERIFY(::EndDeferWindowPos(hdwp));
-    }
-
-    // Rescales the layout to changes in the parent window's dpi.
-    inline void CResizer::RescaleValues()
-    {
-        int dpi = GetWindowDpi(m_parent);
-        double scale = (double)dpi / double(m_currentDpi);
-
-        // Reset the scrolling position.
-        SetScrollPos(m_parent, 0, 0, TRUE);
-        m_xScrollPos = 0;
-        m_yScrollPos = 0;
-
-        ScaleRect(m_initRect, scale);
-        ScaleRect(m_minRect, scale);
-        ScaleRect(m_maxRect, scale);
-
-        RecalcLayout();
-        m_currentDpi = dpi;
     }
 
     inline void CResizer::ScaleRect(CRect& rc, double scale)

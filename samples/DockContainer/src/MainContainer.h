@@ -5,6 +5,10 @@
 #ifndef _MAIN_CONTAINER_H_
 #define _MAIN_CONTAINER_H_
 
+/////////////////////////////////////////////////////////////
+// CMainContainer manages the dock frame's dock container.
+// It ensures the dock frame's dock container has at least
+// one tab that can't be undocked or closed.
 class CMainContainer : public CDockContainer
 {
 public:

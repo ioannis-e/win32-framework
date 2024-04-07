@@ -3,6 +3,7 @@ Version 9.5.1
 
 New Features and Enhancements
 -----------------------------
+* Updated CResizer.
 * Updated CDocker and CDockContainer.
 * Updated the Docker, DockContainer and DockTabbedMDI samples.
 
@@ -10,6 +11,8 @@ New Features and Enhancements
 Changes in detail
 -----------------
 Added CDockContainer::UndockContainerGroup
+Added CResizer::OnAfterDpiChange
+Added CResizer::OnBeforeDpiChange
 
 
 Version 9.5
