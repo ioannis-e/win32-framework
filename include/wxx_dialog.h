@@ -924,6 +924,7 @@ namespace Win32xx
 
     inline void CResizer::OnBeforeDpiChange()
     {
+        // Set the flag to disable recalculating the layout.
         m_isDpiChanging = true;
     }
 
@@ -934,14 +935,16 @@ namespace Win32xx
         double scale = static_cast<double>(dpi) / 
                        static_cast<double>(m_currentDpi);
 
-        // Reset the scrolling position.
+        // Adjust the scrolling position.
         m_xScrollPos = static_cast<int>(m_xScrollPos * scale);
         m_yScrollPos = static_cast<int>(m_yScrollPos * scale);
 
+        // Adjust the rectangles.
         ScaleRect(m_initRect, scale);
         ScaleRect(m_minRect, scale);
         ScaleRect(m_maxRect, scale);
 
+        // Reposition the child windows.
         m_currentDpi = dpi;
         m_isDpiChanging = false;
         RecalcLayout();
@@ -999,7 +1002,7 @@ namespace Win32xx
         m_xScrollPos = xNewPos;
         VERIFY(::ScrollWindow(m_parent, -xDelta, 0, NULL, NULL));
 
-        // Reset the scroll bar.
+        // Update the scroll bar.
         SCROLLINFO si;
         ZeroMemory(&si, sizeof(si));
         si.cbSize = sizeof(si);
@@ -1060,7 +1063,7 @@ namespace Win32xx
         m_yScrollPos = yNewPos;
         VERIFY(::ScrollWindow(m_parent, 0, -yDelta, NULL, NULL));
 
-        // Reset the scroll bar.
+        // Update the scroll bar.
         SCROLLINFO si;
         ZeroMemory(&si, sizeof(si));
         si.cbSize = sizeof(si);

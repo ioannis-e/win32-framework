@@ -17,10 +17,12 @@ public:
     virtual ~CStaticImage() {}
 
 protected:
-    LRESULT OnPaint(UINT msg, WPARAM wparam, LPARAM lparam);
+    virtual void OnAttach();
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
     void DpiScaleImage();
+    LRESULT OnAfterDpiChange(UINT msg, WPARAM wparam, LPARAM lparam);
 
     CBitmap   m_patternImage;
 };

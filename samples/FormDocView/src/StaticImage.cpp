@@ -13,8 +13,23 @@ void CStaticImage::DpiScaleImage()
     SendMessage(STM_SETIMAGE, IMAGE_BITMAP, lparam);
 }
 
-LRESULT CStaticImage::OnPaint(UINT msg, WPARAM wparam, LPARAM lparam)
+void CStaticImage::OnAttach()
+{
+    DpiScaleImage();
+}
+
+LRESULT CStaticImage::OnAfterDpiChange(UINT msg, WPARAM wparam, LPARAM lparam)
 {
     DpiScaleImage();
     return FinalWindowProc(msg, wparam, lparam);
+}
+
+LRESULT CStaticImage::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    switch (msg)
+    {
+    case WM_DPICHANGED_AFTERPARENT:  return OnAfterDpiChange(msg, wparam, lparam);
+    }
+
+    return WndProcDefault(msg, wparam, lparam);
 }

@@ -13,6 +13,7 @@ Changes in detail
 Added CDockContainer::UndockContainerGroup
 Added CResizer::OnAfterDpiChange
 Added CResizer::OnBeforeDpiChange
+Removed CTabbedMDI::OnDpiChangedBeforeParent
 
 
 Version 9.5
