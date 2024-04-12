@@ -131,7 +131,6 @@ void CMainFrame::LoadListViewRegistrySettings()
 
     if (!appName.IsEmpty())
     {
-        CHeader header;
         CString listViewKeyName = _T("\\ListView Settings");
         try
         {
@@ -154,16 +153,14 @@ void CMainFrame::LoadListViewRegistrySettings()
             if (ERROR_SUCCESS != key.QueryDWORDValue(_T("Column3"), columns[3]))
                 throw CUserException();
 
-            header.Attach(GetListView().GetHeader());
             for (int i = 0; i < 4; i++)
             {
                 HDITEM headerItem;
                 ZeroMemory(&headerItem, sizeof(headerItem));
                 headerItem.mask = HDI_WIDTH;
                 headerItem.cxy = columns[i];
-                header.SetItem(i, headerItem);
+                GetListView().GetListHeader().SetItem(i, headerItem);
             }
-            header.Detach();
         }
 
         catch (const  CUserException&)
@@ -316,7 +313,6 @@ BOOL CMainFrame::SaveRegistrySettings()
 
             if (!appName.IsEmpty())
             {
-                CHeader header;
                 CString listViewKeyName = _T("\\ListView Settings");
                 try
                 {
@@ -328,17 +324,15 @@ BOOL CMainFrame::SaveRegistrySettings()
                     if (ERROR_SUCCESS != key.Open(HKEY_CURRENT_USER, keyName))
                         throw CUserException(_T("RegCreateKeyEx failed"));
 
-                    header.Attach(GetListView().GetHeader());
                     DWORD columns[4];
                     for (int i = 0; i < 4; i++)
                     {
                         HDITEM headerItem;
                         ZeroMemory(&headerItem, sizeof(headerItem));
                         headerItem.mask = HDI_WIDTH;
-                        header.GetItem(i, headerItem);
+                        GetListView().GetListHeader().GetItem(i, headerItem);
                         columns[i] = headerItem.cxy;
                     }
-                    header.Detach();
 
                     if (ERROR_SUCCESS != key.SetDWORDValue(_T("Column0"), columns[0]))
                         throw CUserException();
