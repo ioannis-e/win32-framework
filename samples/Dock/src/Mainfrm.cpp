@@ -197,12 +197,12 @@ void CMainFrame::OnInitialUpdate()
         // Set menu options from the frame's current dock style.
         DWORD style = GetDockStyle();
 
-        m_use3DBorder         = style & DS_CLIENTEDGE;
-        m_disableUndocking    = style & DS_NO_UNDOCK;
-        m_disableResize       = style & DS_NO_RESIZE;
-        m_disableDockLR       = style & DS_NO_DOCKCHILD_LEFT;
-        m_disableDockClose    = style & DS_NO_CLOSE;
-        m_disableDockCaption  = style & DS_NO_CAPTION;
+        m_use3DBorder         = (style & DS_CLIENTEDGE) != 0;
+        m_disableUndocking    = (style & DS_NO_UNDOCK) != 0;
+        m_disableResize       = (style & DS_NO_RESIZE) != 0;
+        m_disableDockLR       = (style & DS_NO_DOCKCHILD_LEFT) != 0;
+        m_disableDockClose    = (style & DS_NO_CLOSE) != 0;
+        m_disableDockCaption  = (style & DS_NO_CAPTION) != 0;
     }
 
     // PreCreate initially set the window as invisible, so show it now.
