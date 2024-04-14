@@ -932,7 +932,7 @@ namespace Win32xx
     inline void CResizer::OnAfterDpiChange()
     {
         int dpi = GetWindowDpi(m_parent);
-        double scale = static_cast<double>(dpi) / 
+        double scale = static_cast<double>(dpi) /
                        static_cast<double>(m_currentDpi);
 
         // Adjust the scrolling position.

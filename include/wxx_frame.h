@@ -79,7 +79,7 @@
 
 
 #include "wxx_dialog.h"
-//#include "wxx_docking.h"
+#include "wxx_docking.h"
 #include "wxx_menubar.h"
 #include "wxx_menumetrics.h"
 #include "wxx_rebar.h"
@@ -1689,6 +1689,13 @@ namespace Win32xx
         }
 
         return CString(themeName);
+    }
+
+    // Returns a reference to the view window.
+    template <>
+    inline CWnd& CFrameT<CDocker>::GetView() const
+    {
+        return CDocker::GetView();
     }
 
     // Returns a reference to the view window.
@@ -3394,6 +3401,12 @@ namespace Win32xx
             GetToolBar().GetParent().RedrawWindow(RDW_INVALIDATE|RDW_ALLCHILDREN);
     }
 
+    // Sets or changes the frame's view window.
+    template <>
+    inline void CFrameT<CDocker>::SetView(CWnd& wndView)
+    {
+        CDocker::SetView(wndView);
+    }
 
     // Sets or changes the frame's view window.
     template <class T>

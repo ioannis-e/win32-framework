@@ -41,6 +41,8 @@
 #include <wxx_cstring.h>        // Add CString, CStringA, CStringW
 #include <wxx_ddx.h>            // Add CDataExchange
 #include <wxx_dialog.h>         // Add CDialog, CResizer
+#include <wxx_dockframe.h>      // Add CDockFrame, CMDIDockFrame
+#include <wxx_docking.h>        // Add CDocker, CDockContainer
 #include <wxx_exception.h>      // Add CException, CFileException, CNotSupportedException, CResourceException, CUserException, CWinException
 #include <wxx_file.h>           // Add CFile
 #include <wxx_filefind.h>       // Add CFileFind
@@ -92,12 +94,6 @@
     #include <wxx_ribbon.h>         // Add CRibbon, CRibbonFrame
   #endif
 #endif
-
-// Windows 2000 or higher
-  #if WINVER >= 0x0500
-    #include <wxx_docking.h>        // Add CDocker, CDockContainer
-    #include <wxx_dockframe.h>      // Add CDockFrame, CMDIDockFrame
-  #endif
 
 // Windows Vista or higher with Microsoft VS2008 or higher, or Clang or GNU compiler. Requires Unicode.
 #if (WINVER >= 0x0600) && ((defined (_MSC_VER) && (_MSC_VER >= 1500)) || defined(__clang_major__) || defined(__GNUC__))

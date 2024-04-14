@@ -437,9 +437,6 @@ namespace Win32xx
     // Draws the close button
     inline void CTab::DrawCloseButton(CDC& dc)
     {
-        // The close button isn't displayed on Win95
-        if (GetWinVersion() == 1400)  return;
-
         if (!m_isShowingButtons) return;
         if (!GetActiveView()) return;
         if (!(GetStyle() & TCS_FIXEDWIDTH)) return;
@@ -508,9 +505,6 @@ namespace Win32xx
     // Draws the list button.
     inline void CTab::DrawListButton(CDC& dc)
     {
-        // The list button isn't displayed on Win95.
-        if (GetWinVersion() == 1400)  return;
-
         if (!m_isShowingButtons) return;
         if (!GetActiveView()) return;
         if (!(GetStyle() & TCS_FIXEDWIDTH)) return;

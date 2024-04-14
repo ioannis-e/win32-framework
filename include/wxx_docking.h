@@ -47,9 +47,6 @@
 // Docking Toolbars in Plain C by Jeff Glatt
 // http://www.codeproject.com/Articles/10224/Docking-Toolbars-in-Plain-C
 
-// Note:
-// Docking requires Windows 2000 or above.
-
 
 ///////////////////////////////////////////////////////
 // wxx_docking.h
@@ -69,13 +66,21 @@
 
 // Required for Dev-C++
 #ifndef TME_NONCLIENT
-  #define TME_NONCLIENT 0x00000010
+  #define TME_NONCLIENT   0x00000010
 #endif
 #ifndef TME_LEAVE
-  #define TME_LEAVE 0x000000002
+  #define TME_LEAVE       0x000000002
 #endif
 #ifndef WM_NCMOUSELEAVE
   #define WM_NCMOUSELEAVE 0x000002A2
+#endif
+
+// Required for VS6
+#ifndef LWA_ALPHA
+  #define LWA_ALPHA       0x00000002
+#endif
+#ifndef WS_EX_LAYERED
+  #define WS_EX_LAYERED   0x00080000
 #endif
 
 
@@ -390,7 +395,7 @@ namespace Win32xx
         };
 
         // This nested class is used to indicate where a window could dock by
-        // displaying a blue tinted window.
+        // displaying a blue partially transparent window.
         class CDockHint : public CWnd
         {
         public:
@@ -1578,7 +1583,7 @@ namespace Win32xx
         if (!IsWindow())
             Create();
 
-        // Adjust hint shape for container in container docking.
+        // Adjust hint shape for container in container docking using a region.
         if ((dockSide & DS_DOCKED_CONTAINER) && rcHint.Height() > 50)
         {
             CDockContainer* pDragged = pDockDrag->GetContainer();
@@ -1604,22 +1609,43 @@ namespace Win32xx
             }
         }
 
+        // Position the hint window.
         VERIFY(pDockTarget->ClientToScreen(rcHint));
         VERIFY(SetWindowPos(HWND_TOP, rcHint, SWP_SHOWWINDOW));
-        VERIFY(::SetLayeredWindowAttributes(*this, 0, 80, LWA_ALPHA));
+
+        // Specify the hint window's transparency.
+        HMODULE user32 = ::GetModuleHandle(_T("user32.dll"));
+
+        if (user32 != NULL)
+        {
+            // Declare a typedef for the InItCommonControlsEx function.
+            typedef BOOL WINAPI SETLAYEREDWINDOWATTRIBUTES(HWND, COLORREF, BYTE, DWORD);
+
+            SETLAYEREDWINDOWATTRIBUTES* pSetLayeredWindowAttributes = reinterpret_cast<SETLAYEREDWINDOWATTRIBUTES*>(
+                reinterpret_cast<void*>(::GetProcAddress(user32, "SetLayeredWindowAttributes")));
+
+            if (pSetLayeredWindowAttributes != NULL)
+            {
+                VERIFY(pSetLayeredWindowAttributes(*this, 0, 92, LWA_ALPHA));
+            }
+        }
     }
 
     inline void CDocker::CDockHint::PreCreate(CREATESTRUCT& cs)
     {
+        // WS_POPUP creates a window without a caption.
         cs.style = WS_POPUP;
 
-        // WS_EX_TOOLWINDOW prevents the window being displayed on the taskbar
+        // WS_EX_TOOLWINDOW prevents the window from being displayed on the taskbar.
+        // WS_EX_LAYERED makes the window layered for transparency.
         cs.dwExStyle = WS_EX_LAYERED | WS_EX_TOOLWINDOW;
     }
 
     inline void CDocker::CDockHint::PreRegisterClass(WNDCLASS& wc)
     {
         wc.lpszClassName = _T("Win32++ DockHint");
+
+        // Assign the hint window's color.
         wc.hbrBackground = m_brush;
     }
 
@@ -3025,7 +3051,6 @@ namespace Win32xx
     // Used in LoadRegistrySettings. Creates a new Docker from the specified ID.
     inline CDocker* CDocker::NewDockerFromID(int /*id*/)
     {
-
         // Override this function to create the Docker objects as shown below.
 
         CDocker* pDocker = NULL;

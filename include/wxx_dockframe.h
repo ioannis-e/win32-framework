@@ -125,24 +125,6 @@ namespace Win32xx
 
 namespace Win32xx
 {
-    /////////////////////////////////////////
-    // Definitions for the CFrameT class
-    //
-
-    // Returns a reference to the view window.
-    template <>
-    inline CWnd& CFrameT<CDocker>::GetView() const
-    {
-        return CDocker::GetView();
-    }
-
-    // Sets or changes the frame's view window.
-    template <>
-    inline void CFrameT<CDocker>::SetView(CWnd& wndView)
-    {
-        CDocker::SetView(wndView);
-    }
-
 
     /////////////////////////////////////////
     // Definitions for the CDockFrame class
