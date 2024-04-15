@@ -206,7 +206,7 @@ namespace Win32xx
                 MEMORY_BASIC_INFORMATION mbi;
                 ZeroMemory(&mbi, sizeof(mbi));
                 static int address = 0;
-                VirtualQuery(&address, &mbi, sizeof(mbi));
+                ::VirtualQuery(&address, &mbi, sizeof(mbi));
                 assert(mbi.AllocationBase);
                 m_instance = (HINSTANCE)mbi.AllocationBase;
 
@@ -240,7 +240,7 @@ namespace Win32xx
             }
         }
 
-        // Do remaining tidy up
+        // Do remaining tidy up.
         m_allTLSData.clear();
         if (m_tlsData != TLS_OUT_OF_INDEXES)
         {

@@ -3519,8 +3519,8 @@ namespace Win32xx
     template <class T>
     inline LRESULT CALLBACK CFrameT<T>::StaticKeyboardProc(int code, WPARAM wparam, LPARAM lparam)
     {
-        HWND hFrame = GetApp()->GetMainWnd();
-        CFrameT<T>* pFrame = static_cast< CFrameT<T>* >(CWnd::GetCWndPtr(hFrame));
+        HWND frame = GetApp()->GetMainWnd();
+        CFrameT<T>* pFrame = static_cast< CFrameT<T>* >(CWnd::GetCWndPtr(frame));
         assert(pFrame);
 
         if (pFrame)
