@@ -561,7 +561,7 @@ namespace Win32xx
 #ifdef TTM_SETTITLE
         BOOL SetTitle(UINT icon, LPCTSTR title) const;
 #endif
-#ifdef TTM_SETWINDOWTHEME
+#if (WINVER >= 0x0501) && defined(TTM_SETWINDOWTHEME)
         void SetTTWindowTheme(LPCWSTR theme) const;
 #endif
 
@@ -2824,7 +2824,7 @@ namespace Win32xx
     }
 
 #endif
-#ifdef TTM_SETWINDOWTHEME
+#if (WINVER >= 0x0501) && defined(TTM_SETWINDOWTHEME)
 
     // Sets the visual style of a ToolTip control.
     // Refer to TTM_SETWINDOWTHEME in the Windows API documentation for more information.

@@ -295,10 +295,10 @@ namespace Win32xx
     inline int GetWinVersion()
     {
 
-// if (MSC < VS2008) or (Borland < version 6) or (GNU < version 6.0.0).
+// if (MSC < VS2008) or (Borland < version 6) or (GNU < version 10.0.0).
 #if ((defined (_MSC_VER) && (_MSC_VER < 1500)) || \
         (defined(__BORLANDC__) && (__BORLANDC__ < 0x600)) || \
-        (defined(__GNUC__) && (__GNUC__ < 6)))
+        (defined(__GNUC__) && (__GNUC__ < 10)))
 
         // Use the legacy GetVersionEx function.
         OSVERSIONINFO osvi;
