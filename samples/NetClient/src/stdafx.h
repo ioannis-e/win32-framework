@@ -98,11 +98,11 @@
   #endif
 
 
-  // Windows Vista or higher with Microsoft VS2008 or higher,
-  // MinGW version 8 or higher or Clang compiler. Requires Unicode.
-  #if (WINVER >= 0x0600) && ((defined (_MSC_VER) && (_MSC_VER >= 1500)) || \
-      (defined(__GNUC__) && (__GNUC__ >= 8)) || defined(__clang_major__))
-    #include <wxx_taskdialog.h>     // Add CTaskDialog
+  // Win2000 or higher with Microsoft VS2008 or higher,
+  // MinGW version 11 or higher or Clang compiler
+  #if (WINVER >= 0x0500) && ((defined (_MSC_VER) && (_MSC_VER >= 1500)) || \
+      (defined(__GNUC__) && (__GNUC__ >= 11)) || defined(__clang_major__))
+    #include <wxx_printdialogex.h>  // Add CPrintDialogEx
   #endif
 
 #endif  // define WIN32_LEAN_AND_MEAN

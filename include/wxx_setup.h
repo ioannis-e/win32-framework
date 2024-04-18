@@ -295,18 +295,11 @@ namespace Win32xx
     inline int GetWinVersion()
     {
 
-// if (MSC < VS2008) or (Borland < version 6) or (GNU < version 10.0.0).
-#if ((defined (_MSC_VER) && (_MSC_VER < 1500)) || \
-        (defined(__BORLANDC__) && (__BORLANDC__ < 0x600)) || \
-        (defined(__GNUC__) && (__GNUC__ < 10)))
-
-        // Use the legacy GetVersionEx function.
-        OSVERSIONINFO osvi;
-        ZeroMemory(&osvi, sizeof(osvi));
-        osvi.dwOSVersionInfoSize = sizeof(osvi);
-        GetVersionEx(&osvi);
-
-#else
+        // if (MSC >= VS2008) or (Borland >= version 6) or (GNU >= 11).
+        // TDM_GCC 10.3 32bit doesn't support RtlGetVersion.
+#if ((defined (_MSC_VER) && (_MSC_VER >= 1500)) || \
+        (defined(__BORLANDC__) && (__BORLANDC__ >= 0x600)) || \
+        (defined(__GNUC__) && (__GNUC__ >= 11)))
 
         // Use the modern RtlGetVersion function.
         typedef NTSTATUS WINAPI RTLGETVERSION(PRTL_OSVERSIONINFOW);
@@ -325,6 +318,14 @@ namespace Win32xx
                 pfn(&osvi);
             }
         }
+
+#else
+
+        // Use the legacy GetVersionEx function.
+        OSVERSIONINFO osvi;
+        ZeroMemory(&osvi, sizeof(osvi));
+        osvi.dwOSVersionInfoSize = sizeof(osvi);
+        GetVersionEx(&osvi);
 
 #endif
 

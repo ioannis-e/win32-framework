@@ -85,9 +85,9 @@
   #include <wxx_printdialogs.h>   // Add CPageSetupDialog, CPrintDialog
 
   // Win2000 or higher with Microsoft VS2008 or higher,
-  // MinGW version 8 or higher or Clang compiler
+  // MinGW version 11 or higher or Clang compiler
   #if (WINVER >= 0x0500) && ((defined (_MSC_VER) && (_MSC_VER >= 1500)) || \
-      (defined(__GNUC__) && (__GNUC__ >= 8)) || defined(__clang_major__))
+      (defined(__GNUC__) && (__GNUC__ >= 11)) || defined(__clang_major__))
     #include <wxx_printdialogex.h>  // Add CPrintDialogEx
   #endif
 
