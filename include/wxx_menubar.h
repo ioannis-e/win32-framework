@@ -796,7 +796,8 @@ namespace Win32xx
         VERIFY(ClientToScreen(rc));
 
         // Position popup above toolbar if it won't fit below.
-        TPMPARAMS tpm = { 0 };
+        TPMPARAMS tpm;
+        ZeroMemory(&tpm, sizeof(tpm));
         tpm.cbSize = sizeof(tpm);
         tpm.rcExclude = rc;
 

@@ -886,7 +886,8 @@ namespace Win32xx
     public:
         CBitmapInfoPtr(HBITMAP bitmap)
         {
-            BITMAP data = { 0 };
+            BITMAP data;
+            ZeroMemory(&data, sizeof(data));
             VERIFY(::GetObject(bitmap, sizeof(data), &data));
 
             // Convert the color format to a count of bits.
@@ -2549,7 +2550,8 @@ namespace Win32xx
 
             if (pGradientFill)
             {
-                TRIVERTEX vertex[2] = { 0 };
+                TRIVERTEX vertex[2];
+                ZeroMemory(&vertex, sizeof(vertex));
                 vertex[0].x = rc.left;
                 vertex[0].y = rc.top;
                 vertex[0].Red   = COLOR16(GetRValue(color1) << 8);
@@ -2566,7 +2568,8 @@ namespace Win32xx
 
                 // Create a GRADIENT_RECT structure that
                 // references the TRIVERTEX vertices.
-                GRADIENT_RECT rect = { 0 };
+                GRADIENT_RECT rect;
+                ZeroMemory(&rect, sizeof(rect));
                 rect.UpperLeft = 0;
                 rect.LowerRight = 1;
 

@@ -821,7 +821,8 @@ namespace Win32xx
     {
         assert(parent != 0);
 
-        CLIENTCREATESTRUCT clientcreate = { 0 };
+        CLIENTCREATESTRUCT clientcreate;
+        ZeroMemory(&clientcreate, sizeof(clientcreate));
         clientcreate.hWindowMenu  = 0;
         clientcreate.idFirstChild = IDW_FIRSTCHILD;
         DWORD style = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | MDIS_ALLCHILDSTYLES;

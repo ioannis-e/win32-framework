@@ -181,6 +181,18 @@ using namespace Win32xx;
   #endif
 #endif
 
+// A macro to support noexcept for new compilers and throw for old compilers.
+// VS2015 and higher, Borland >= version 6), (GNU >= 11), or Clang.
+#if ((defined (_MSC_VER) && (_MSC_VER >= 1900)) || \
+        (defined(__BORLANDC__) && (__BORLANDC__ >= 0x600)) || \
+        (defined(__GNUC__) && (__GNUC__ >= 11)) || \
+        (defined(__clang_major__)))
+
+#define WXX_NOEXCEPT noexcept
+#else
+#define WXX_NOEXCEPT throw()
+#endif
+
 // tString is a TCHAR std::string
 typedef std::basic_string<TCHAR> tString;
 typedef std::basic_stringstream<TCHAR> tStringStream;
@@ -295,11 +307,12 @@ namespace Win32xx
     inline int GetWinVersion()
     {
 
-        // if (MSC >= VS2008) or (Borland >= version 6) or (GNU >= 11).
+        // if (MSC >= VS2008) or (Borland >= version 6) or (GNU >= 11) or Clang.
         // TDM_GCC 10.3 32bit doesn't support RtlGetVersion.
 #if ((defined (_MSC_VER) && (_MSC_VER >= 1500)) || \
         (defined(__BORLANDC__) && (__BORLANDC__ >= 0x600)) || \
-        (defined(__GNUC__) && (__GNUC__ >= 11)))
+        (defined(__GNUC__) && (__GNUC__ >= 11)) || \
+        (defined(__clang_major__)))
 
         // Use the modern RtlGetVersion function.
         typedef NTSTATUS WINAPI RTLGETVERSION(PRTL_OSVERSIONINFOW);
@@ -393,18 +406,19 @@ namespace Win32xx
             if (pfnInitEx)
             {
                 // Load the full set of common controls.
-                INITCOMMONCONTROLSEX InitStruct = { 0 };
-                InitStruct.dwSize = sizeof(InitStruct);
-                InitStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_DATE_CLASSES;
+                INITCOMMONCONTROLSEX initStruct;
+                ZeroMemory(&initStruct, sizeof(initStruct));
+                initStruct.dwSize = sizeof(initStruct);
+                initStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_DATE_CLASSES;
 
 
 #if (_WIN32_IE >= 0x0401)
                 if (GetComCtlVersion() > 470)
-                    InitStruct.dwICC |= ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS | ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
+                    initStruct.dwICC |= ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS | ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
 #endif
 
                 // Call InitCommonControlsEx.
-                if (!(pfnInitEx(&InitStruct)))
+                if (!(pfnInitEx(&initStruct)))
                     InitCommonControls();
             }
             else

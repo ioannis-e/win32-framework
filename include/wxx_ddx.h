@@ -292,7 +292,8 @@ namespace Win32xx
         }
 
         // Set the given DateTime range
-        SYSTEMTIME sta[2] = { 0 };
+        SYSTEMTIME sta[2];
+        ZeroMemory(&sta, sizeof(sta));
         sta[0] = min;
         sta[1] = max;
 
@@ -394,7 +395,8 @@ namespace Win32xx
             }
         }
 
-        SYSTEMTIME minMax[2] = { 0 };
+        SYSTEMTIME minMax[2];
+        ZeroMemory(&minMax, sizeof(minMax));
         DWORD limit = GDTR_MIN | GDTR_MAX;
         memcpy(&minMax[0], &min, sizeof(SYSTEMTIME));
         memcpy(&minMax[1], &max, sizeof(SYSTEMTIME));

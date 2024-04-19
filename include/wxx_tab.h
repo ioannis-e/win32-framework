@@ -891,13 +891,14 @@ namespace Win32xx
     inline BOOL CTab::NotifyTabClosing(int page)
     {
         UINT controlID = GetDlgCtrlID();
-        TABNMHDR TabNMHDR = { 0 };
-        TabNMHDR.hdr.code = UWN_TABCLOSE;
-        TabNMHDR.hdr.hwndFrom = *this;
-        TabNMHDR.hdr.idFrom = controlID;
-        TabNMHDR.page = page;
+        TABNMHDR tabNMHDR;
+        ZeroMemory(&tabNMHDR, sizeof(tabNMHDR));
+        tabNMHDR.hdr.code = UWN_TABCLOSE;
+        tabNMHDR.hdr.hwndFrom = *this;
+        tabNMHDR.hdr.idFrom = controlID;
+        tabNMHDR.page = page;
         WPARAM wparam = static_cast<WPARAM>(controlID);
-        LPARAM lparam = reinterpret_cast<LPARAM>(&TabNMHDR);
+        LPARAM lparam = reinterpret_cast<LPARAM>(&tabNMHDR);
 
         // The default return value is zero.
         return static_cast<BOOL>(GetParent().SendMessage(WM_NOTIFY, wparam, lparam));
@@ -1900,7 +1901,8 @@ namespace Win32xx
     // Creates the TabbedMDI window.
     inline HWND CTabbedMDI::Create(HWND parent /* = 0*/)
     {
-        CLIENTCREATESTRUCT clientcreate = { 0 };
+        CLIENTCREATESTRUCT clientcreate;
+        ZeroMemory(&clientcreate, sizeof(clientcreate));
         clientcreate.hWindowMenu  = *this;
         clientcreate.idFirstChild = IDW_FIRSTCHILD ;
         DWORD style = WS_CHILD | WS_VISIBLE | MDIS_ALLCHILDSTYLES | WS_CLIPCHILDREN;

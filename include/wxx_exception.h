@@ -73,14 +73,6 @@
 //  }
 
 
-// A macro to support both old and new compilers.
-#if defined(__clang_major__) || (defined (_MSC_VER) && (_MSC_VER >= 1900)) // Clang or VS2015 and higher
-  #define WXX_NOEXCEPT noexcept
-#else
-  #define WXX_NOEXCEPT throw()
-#endif
-
-
 namespace Win32xx
 {
     ////////////////////////////////////////

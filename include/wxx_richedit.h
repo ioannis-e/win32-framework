@@ -566,7 +566,8 @@ namespace Win32xx
     inline void CRichEdit::GetSel(long& startChar, long& endChar) const
     {
         assert(IsWindow());
-        CHARRANGE range = { 0 };
+        CHARRANGE range;
+        ZeroMemory(&range, sizeof(range));
 
         LPARAM lparam = reinterpret_cast<LPARAM>(&range);
         SendMessage(EM_EXGETSEL, 0, lparam);
@@ -615,7 +616,8 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        CHARRANGE cr = { 0 };
+        CHARRANGE cr;
+        ZeroMemory(&cr, sizeof(cr));
         LPARAM lparam = reinterpret_cast<LPARAM>(&cr);
         SendMessage(EM_EXGETSEL, 0, lparam);
         return GetTextRange(cr.cpMin, cr.cpMax);
@@ -634,7 +636,8 @@ namespace Win32xx
     inline long CRichEdit::GetTextLengthEx(DWORD flags, UINT codePage /* = -1 */) const
     {
         assert(IsWindow());
-        GETTEXTLENGTHEX gtle = { 0 };
+        GETTEXTLENGTHEX gtle;
+        ZeroMemory(&gtle, sizeof(gtle));
         gtle.flags = flags;
         gtle.codepage = codePage;
 
@@ -655,13 +658,15 @@ namespace Win32xx
     inline CString CRichEdit::GetTextRange(int first, int last) const
     {
         assert(IsWindow());
-        CHARRANGE range = { 0 };
+        CHARRANGE range;
+        ZeroMemory(&range, sizeof(range));
         range.cpMin = first;
         range.cpMax = last;
         int lastChar = (last == -1)? GetTextLength() : last;
 
         CString rangeString;
-        TEXTRANGE tr = { 0 };
+        TEXTRANGE tr;
+        ZeroMemory(&tr, sizeof(tr));
         tr.chrg = range;
         tr.lpstrText = rangeString.GetBuffer(lastChar - first + 1);
         LPARAM lparam = reinterpret_cast<LPARAM>(&tr);
@@ -757,7 +762,8 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        REPASTESPECIAL rps = { 0 };
+        REPASTESPECIAL rps;
+        ZeroMemory(&rps, sizeof(rps));
         rps.dwAspect = aspect;
         rps.dwParam = reinterpret_cast<DWORD_PTR>(mf);
         WPARAM wparam = static_cast<WPARAM>(clipFormat);
@@ -932,7 +938,8 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        CHARRANGE cr = { 0 };
+        CHARRANGE cr;
+        ZeroMemory(&cr, sizeof(cr));
         cr.cpMin = startChar;
         cr.cpMax = endChar;
         LPARAM lparam = reinterpret_cast<LPARAM>(&cr);

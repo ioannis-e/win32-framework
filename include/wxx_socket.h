@@ -324,7 +324,8 @@ namespace Win32xx
         }
         else
         {
-            sockaddr_in clientService = { 0 };
+            sockaddr_in clientService;
+            ZeroMemory(&clientService, sizeof(clientService));
             clientService.sin_family = AF_INET;
 
 #ifdef _MSC_VER
@@ -399,7 +400,8 @@ namespace Win32xx
         }
         else
         {
-            sockaddr_in clientService = { 0 };
+            sockaddr_in clientService;
+            ZeroMemory(&clientService, sizeof(clientService));
             clientService.sin_family = AF_INET;
 
 #ifdef _MSC_VER
@@ -760,7 +762,8 @@ namespace Win32xx
         }
         else
         {
-            sockaddr_in clientService = { 0 };
+            sockaddr_in clientService;
+            ZeroMemory(&clientService, sizeof(clientService));
             clientService.sin_family = AF_INET;
 
 #ifdef _MSC_VER

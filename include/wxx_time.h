@@ -255,7 +255,8 @@ namespace Win32xx
 #if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
         time_tm* ptm0 = ::gmtime(&t0); // atm0 = UTC time of atm
 #else
-        time_tm tm0 = { 0 };
+        time_tm tm0;
+        ZeroMemory(&tm0, sizeof(tm0));
         time_tm* ptm0 = &tm0;
         ::gmtime_s(ptm0, &t0);         // atm0 = UTC time of atm
 #endif
@@ -337,7 +338,8 @@ namespace Win32xx
         time_tm* ptm1 = ::gmtime(&t1st);
         assert(ptm1);
 #else
-        time_tm tm1 = { 0 };
+        time_tm tm1;
+        ZeroMemory(&tm1, sizeof(tm1));
         time_tm* ptm1 = &tm1;
         gmtime_s(ptm1, &t1st);
 #endif
@@ -404,7 +406,8 @@ namespace Win32xx
         time_tm* ptm = ::gmtime(&tDoy);
         assert(ptm);
 #else
-        time_tm tm = { 0 };
+        time_tm tm;
+        ZeroMemory(&tm, sizeof(tm));
         time_tm* ptm = &tm;
         ::gmtime_s(ptm, &tDoy);
 #endif
@@ -739,7 +742,8 @@ namespace Win32xx
 #if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
         time_tm* ptm = ::localtime(&m_time);
 #else
-        time_tm tm = { 0 };
+        time_tm tm;
+        ZeroMemory(&tm, sizeof(tm));
         time_tm* ptm = &tm;
         ::localtime_s(ptm, &m_time);
 #endif

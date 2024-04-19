@@ -1324,7 +1324,8 @@ namespace Win32xx
     inline void CDocker::CDockClient::SendNotify(UINT messageID)
     {
         // Fill the DRAGPOS structure with data
-        DRAGPOS dragPos = { 0 };
+        DRAGPOS dragPos;
+        ZeroMemory(&dragPos, sizeof(dragPos));
         dragPos.hdr.code = messageID;
         dragPos.hdr.hwndFrom = GetHwnd();
         dragPos.pos = GetCursorPos();
@@ -4015,7 +4016,8 @@ namespace Win32xx
     // Sends a docking notification to the docker below the cursor.
     inline void CDocker::SendNotify(UINT messageID)
     {
-        DRAGPOS dragPos = { 0 };
+        DRAGPOS dragPos;
+        ZeroMemory(&dragPos, sizeof(dragPos));
         dragPos.hdr.code = messageID;
         dragPos.hdr.hwndFrom = GetHwnd();
         dragPos.pos = GetCursorPos();
