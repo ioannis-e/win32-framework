@@ -270,6 +270,7 @@ copy FrameEx\ProjectFiles\Release\FrameEx.exe                 "..\output\VS2013\
 copy INIFrame\ProjectFiles\Release\INIFrame.exe               "..\output\VS2013\Release"    >>"..\output\VS2013.log"
 copy GDIPlus\ProjectFiles\Release\GDIPlus.exe                 "..\output\VS2013\Release"    >>"..\output\VS2013.log"
 copy ListView\ProjectFiles\Release\ListView.exe               "..\output\VS2013\Release"    >>"..\output\VS2013.log"
+copy MDIDockFrame\ProjectFiles\Release\MDIDockFrame.exe       "..\output\VS2013\Release"    >>"..\output\VS2013.log"
 copy MDIFrame\ProjectFiles\Release\MDIFrame.exe               "..\output\VS2013\Release"    >>"..\output\VS2013.log"
 copy MDIFrameDemo\ProjectFiles\Release\MDIDemo.exe            "..\output\VS2013\Release"    >>"..\output\VS2013.log"
 copy MDIFrameSplitter\ProjectFiles\Release\MDIFrameSplitter.exe "..\output\VS2013\Release"  >>"..\output\VS2013.log"

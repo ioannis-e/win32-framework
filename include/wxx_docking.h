@@ -1,9 +1,10 @@
 // Win32++   Version 9.5.1
-// Release Date: TBA
+// Release Date: 24th April 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
 //      url: https://sourceforge.net/projects/win32-framework
+//           https://github.com/DavidNash2024/Win32xx
 //
 //
 // Copyright (c) 2005-2024  David Nash
@@ -1578,8 +1579,8 @@ namespace Win32xx
         else
             return;
 
-        // Create the dock hint window if required.
-        if (!IsWindow())
+        // Create the dock hint window if required and Win2000 or higher.
+        if (!IsWindow() && (GetWinVersion() >= 2500))
             Create();
 
         // Adjust hint shape for container in container docking using a region.
