@@ -484,7 +484,8 @@ namespace Win32xx
         CEvent& stopRequestEvent = pSocket->m_stopRequest;
         SOCKET& clientSocket = pSocket->m_socket;
 
-        WSAEVENT allEvents[2] = { 0 };
+        WSAEVENT allEvents[2];
+        ZeroMemory(&allEvents, sizeof(allEvents));
         allEvents[0] = ::WSACreateEvent();
         allEvents[1] = reinterpret_cast<WSAEVENT>(stopRequestEvent.GetHandle());  // cast supports Borland v5.5
         long events = FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE;
