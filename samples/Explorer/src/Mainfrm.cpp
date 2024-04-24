@@ -13,6 +13,8 @@
 // Constructor.
 CMainFrame::CMainFrame()  : m_pLeftPane(0), m_showHidden(FALSE)
 {
+    // Set m_MainView as the view window of the frame.
+    SetView(m_rightPane);
 }
 
 // Destructor.
@@ -23,17 +25,14 @@ CMainFrame::~CMainFrame()
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {
-    // Set m_MainView as the view window of the frame
-    SetView(m_rightPane);
-
-    // Set the registry key name, and load the initial window position
-    // Use a registry key name like "CompanyName\\Application"
+    // Set the registry key name, and load the initial window position.
+    // Use a registry key name like "CompanyName\\Application".
     LoadRegistrySettings(_T("Win32++\\Explorer Sample"));
 
     return CFrame::Create(parent);
 }
 
-// Creates the popup menu for the "View Menu" toolbar button
+// Creates the popup menu for the "View Menu" toolbar button.
 void CMainFrame::DoPopupMenu()
 {
     // Position the popup menu
@@ -49,7 +48,7 @@ void CMainFrame::DoPopupMenu()
     CMenu topMenu(IDM_VIEWMENU);
     CMenu popupMenu = topMenu.GetSubMenu(0);
 
-    // Put a radio check in the currently checked item
+    // Put a radio check in the currently checked item.
     MENUITEMINFO mii;
     ZeroMemory(&mii, GetSizeofMenuItemInfo());
     for (int i = 3 ; i < 7 ; i++)
@@ -64,7 +63,7 @@ void CMainFrame::DoPopupMenu()
             topMenu.CheckMenuRadioItem(IDM_VIEW_SMALLICON, IDM_VIEW_REPORT, mii.wID, MF_BYCOMMAND);
     }
 
-    // Start the popup menu
+    // Start the popup menu.
     popupMenu.TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, rc.left, rc.bottom, *this, &tpm);
 }
 

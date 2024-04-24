@@ -22,6 +22,8 @@
 CMainFrame::CMainFrame() : m_isContainerTabsAtTop(FALSE), m_isHideSingleTab(TRUE),
                             m_isMDITabsAtTop(TRUE), m_pActiveDocker(NULL)
 {
+    // Set m_MyTabbedMDI as the view window of the frame.
+    SetView(m_myTabbedMDI);
 }
 
 // Destructor for CMainFrame.
@@ -32,11 +34,8 @@ CMainFrame::~CMainFrame()
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {
-    //Set m_MyTabbedMDI as the view window of the frame
-    SetView(m_myTabbedMDI);
-
-    // Set the registry key name, and load the initial window position
-    // Use a registry key name like "CompanyName\\Application"
+    // Set the registry key name, and load the initial window position.
+    // Use a registry key name like "CompanyName\\Application".
     LoadRegistrySettings(_T("Win32++\\TabbedMDI Docking"));
 
     return CDockFrame::Create(parent);
@@ -48,7 +47,7 @@ void CMainFrame::HideSingleContainerTab(bool hideSingle)
     m_isHideSingleTab = hideSingle;
     std::vector<DockPtr>::const_iterator iter;
 
-    // Set the Tab position for each container
+    // Set the Tab position for each container.
     for (iter = GetAllDockChildren().begin(); iter != GetAllDockChildren().end(); ++iter)
     {
         CDockContainer* pContainer = (*iter)->GetContainer();
@@ -63,7 +62,7 @@ void CMainFrame::HideSingleContainerTab(bool hideSingle)
 // Loads the default arrangement of dockers.
 void CMainFrame::LoadDefaultDockers()
 {
-    // Note: The  DockIDs are used for saving/restoring the dockers state in the registry
+    // Note: The  DockIDs are used for saving/restoring the dockers state in the registry.
 
     DWORD style = DS_CLIENTEDGE; // The style added to each docker
 

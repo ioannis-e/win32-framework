@@ -37,6 +37,8 @@ CMainFrame()                                                                /*
 *-----------------------------------------------------------------------------*/
     : m_view(IDD_MAIN_DIALOG)
 {
+      // Set m_view as the view window of the frame.
+    SetView(m_view);
 }
 
 /*============================================================================*/
@@ -52,8 +54,6 @@ Create(HWND parent)                                                          /*
     Note: the <key name> used here refers to the registerKeyName above.
 * ---------------------------------------------------------------------------- - */
 {
-      // Set m_view as the view window of the frame.
-    SetView(m_view);
     LoadRegistrySettings(registryKeyName);
 
     return CFrame::Create(parent);

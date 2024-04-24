@@ -897,7 +897,6 @@ namespace Win32xx
     //   SetView(m_view);
     inline CMDIChild::CMDIChild() : m_pView(NULL), m_childAccel(0)
     {
-
     }
 
     inline CMDIChild::~CMDIChild()
