@@ -201,7 +201,7 @@ namespace Win32xx
     {
         m_pData = new CMenu_Data;
         HMENU menu = ::LoadMenu(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(id));
-        if (menu != 0)
+        if (menu != NULL)
         {
             Assign(menu);
         }
@@ -210,7 +210,7 @@ namespace Win32xx
     inline CMenu::CMenu(HMENU menu)
     {
         m_pData = new CMenu_Data;
-        if (menu != 0)
+        if (menu != NULL)
             Attach(menu);
     }
 
@@ -267,7 +267,7 @@ namespace Win32xx
 
         if (InterlockedDecrement(&m_pData->count) == 0)
         {
-            if (m_pData->menu != 0)
+            if (m_pData->menu != NULL)
             {
                 if (m_pData->isManagedMenu)
                 {
@@ -280,7 +280,7 @@ namespace Win32xx
             }
 
             delete m_pData;
-            m_pData = 0;
+            m_pData = NULL;
         }
     }
 
@@ -288,22 +288,20 @@ namespace Win32xx
     {
         assert(m_pData);
         BOOL success = FALSE;
-        CWinApp* pApp = CWinApp::SetnGetThis();
 
-        if (pApp != NULL)          // Is the CWinApp object still valid?
+        if (CWinApp::SetnGetThis() != NULL)    // Is the CWinApp object still valid?
         {
-            // Allocate an iterator for our HMENU map
-            std::map<HMENU, CMenu_Data*, CompareHMENU>::iterator m;
+            CThreadLock mapLock(GetApp()->m_wndLock);
 
-            CThreadLock mapLock(pApp->m_wndLock);
-            m = pApp->m_mapCMenuData.find(m_pData->menu);
-            if (m != pApp->m_mapCMenuData.end())
+            // Erase the CMenu data pointer in the map.
+            std::map<HMENU, CMenu_Data*, CompareHMENU>::iterator m;
+            m = GetApp()->m_mapCMenuData.find(m_pData->menu);
+            if (m != GetApp()->m_mapCMenuData.end())
             {
-                // Erase the Menu pointer entry from the map
-                pApp->m_mapCMenuData.erase(m);
+                // Erase the CMenu data pointer from the map.
+                GetApp()->m_mapCMenuData.erase(m);
                 success = TRUE;
             }
-
         }
 
         return success;
@@ -340,19 +338,19 @@ namespace Win32xx
     // Attaches an existing menu to this CMenu.
     inline void CMenu::Attach(HMENU menu)
     {
-        assert(m_pData);
         CThreadLock mapLock(GetApp()->m_wndLock);
+        assert(m_pData);
 
         if (menu != m_pData->menu)
         {
             // Release any existing menu
-            if (m_pData->menu != 0)
+            if (m_pData->menu != NULL)
             {
                 Release();
                 m_pData = new CMenu_Data;
             }
 
-            if (menu!= 0)
+            if (menu != NULL)
             {
                 // Add the menu to this CMenu
                 CMenu_Data* pCMenuData = GetApp()->GetCMenuData(menu);
@@ -399,7 +397,7 @@ namespace Win32xx
         assert(m_pData);
 
         HMENU menu = ::CreateMenu();
-        if (menu == 0)
+        if (menu == NULL)
             throw CResourceException(GetApp()->MsgMenu());
 
         Assign(menu);
@@ -412,7 +410,7 @@ namespace Win32xx
         assert(m_pData);
 
         HMENU menu = ::CreatePopupMenu();
-        if (menu == 0)
+        if (menu == NULL)
             throw CResourceException(GetApp()->MsgMenu());
 
         Assign(menu);
@@ -432,17 +430,16 @@ namespace Win32xx
     // Refer to DestroyMenu in the Windows API documentation for more information.
     inline void CMenu::DestroyMenu()
     {
+        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
         assert(IsMenu(m_pData->menu));
 
-        CThreadLock mapLock(GetApp()->m_gdiLock);
-
-        if (m_pData && m_pData->menu != 0)
+        if (m_pData && m_pData->menu != NULL)
         {
             RemoveFromMap();
 
             ::DestroyMenu(m_pData->menu);
-            m_pData->menu = 0;
+            m_pData->menu = NULL;
             m_pData->isManagedMenu = false;
         }
     }
@@ -459,7 +456,7 @@ namespace Win32xx
 
         HMENU menu = m_pData->menu;
         RemoveFromMap();
-        m_pData->menu = 0;
+        m_pData->menu = NULL;
         m_pData->isManagedMenu = false;
 
         if (m_pData->count > 0)
@@ -711,16 +708,16 @@ namespace Win32xx
     inline BOOL CMenu::LoadMenu(LPCTSTR resourceName)
     {
         assert(m_pData);
-        assert(m_pData->menu == 0);
+        assert(m_pData->menu == NULL);
         assert(resourceName);
 
         HMENU menu = ::LoadMenu(GetApp()->GetResourceHandle(), resourceName);
-        if (menu != 0)
+        if (menu != NULL)
         {
             Assign(menu);
         }
 
-        return m_pData->menu != 0;
+        return m_pData->menu != NULL;
     }
 
     // Loads the menu from the specified windows resource.
@@ -728,15 +725,15 @@ namespace Win32xx
     inline BOOL CMenu::LoadMenu(UINT resourceID)
     {
         assert(m_pData);
-        assert(m_pData->menu == 0);
+        assert(m_pData->menu == NULL);
 
         HMENU menu = ::LoadMenu(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(resourceID));
-        if (menu != 0)
+        if (menu != NULL)
         {
             Assign(menu);
         }
 
-        return m_pData->menu != 0;
+        return m_pData->menu != NULL;
     }
 
     // Loads the specified menu template and assigns it to this CMenu.
@@ -747,7 +744,7 @@ namespace Win32xx
         assert(pMenuTemplate);
 
         HMENU menu = ::LoadMenuIndirect(pMenuTemplate);
-        if (menu != 0)
+        if (menu != NULL)
         {
             Assign(menu);
         }
@@ -828,7 +825,7 @@ namespace Win32xx
 
     // Displays a shortcut menu at the specified location and tracks the selection of items on the menu.
     // Refer to TrackPopupMenu in the Windows API documentation for more information.
-    inline BOOL CMenu::TrackPopupMenu(UINT flags, int x, int y, HWND wnd, LPCRECT pRect /*= 0*/) const
+    inline BOOL CMenu::TrackPopupMenu(UINT flags, int x, int y, HWND wnd, LPCRECT pRect /*= NULL*/) const
     {
         assert(m_pData);
         assert(IsMenu(m_pData->menu));

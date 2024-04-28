@@ -245,7 +245,7 @@ namespace Win32xx
         int buffSize = static_cast<int>(::GetFullPathName(searchName, 0, 0, 0));
         if (buffSize > 0)
         {
-            ::GetFullPathName(searchName, static_cast<DWORD>(buffSize), filePath.GetBuffer(buffSize), 0);
+            ::GetFullPathName(searchName, static_cast<DWORD>(buffSize), filePath.GetBuffer(buffSize), NULL);
             filePath.ReleaseBuffer();
         }
 

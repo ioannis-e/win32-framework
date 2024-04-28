@@ -109,7 +109,7 @@ namespace Win32xx
         virtual void OnPrint() {}    // Print button pressed.
 
         // Operations
-        INT_PTR DoModal(HWND owner /* = 0 */);
+        INT_PTR DoModal(HWND owner /* = NULL */);
         int GetCopies() const;
         CDevMode GetCurrentDevMode();
         CStringW GetCurrentPortName() const;
@@ -195,7 +195,7 @@ namespace Win32xx
     // An exception is thrown if the dialog isn't created.
     // An exception is thrown if there is no default printer.
     // Returns PD_RESULT_PRINT, PD_RESULT_APPLY, or PD_RESULT_CANCEL.
-    inline INT_PTR CPrintDialogEx::DoModal(HWND owner /* = 0 */)
+    inline INT_PTR CPrintDialogEx::DoModal(HWND owner /* = NULL */)
     {
         assert(!IsWindow());    // Only one window per CWnd instance allowed
 
@@ -283,7 +283,7 @@ namespace Win32xx
             return devMode;
         }
 
-        return CDevMode(0);
+        return CDevMode(NULL);
     }
 
     // Returns the port name for the currently selected printer, while
@@ -291,10 +291,10 @@ namespace Win32xx
     inline CStringW CPrintDialogEx::GetCurrentPortName() const
     {
         CStringW str;
-        if (m_pServices != 0)
+        if (m_pServices != NULL)
         {
             UINT size = 0;
-            m_pServices->GetCurrentPortName(0, &size);
+            m_pServices->GetCurrentPortName(NULL, &size);
             int bufferSize = static_cast<int>(size);
             m_pServices->GetCurrentPortName(str.GetBuffer(bufferSize), &size);
             str.ReleaseBuffer();
@@ -308,10 +308,10 @@ namespace Win32xx
     inline CStringW CPrintDialogEx::GetCurrentPrinterName() const
     {
         CStringW str;
-        if (m_pServices != 0)
+        if (m_pServices != NULL)
         {
             UINT size = 0;
-            m_pServices->GetCurrentPrinterName(0, &size);
+            m_pServices->GetCurrentPrinterName(NULL, &size);
             int bufferSize = static_cast<int>(size);
             m_pServices->GetCurrentPrinterName(str.GetBuffer(bufferSize), &size);
             str.ReleaseBuffer();
@@ -335,11 +335,11 @@ namespace Win32xx
     // Retrieves the name of the default or currently selected printer device.
     inline CString CPrintDialogEx::GetDeviceName() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
         CString str;
-        if (GetApp()->GetHDevNames().Get() != 0)
+        if (GetApp()->GetHDevNames().Get() != NULL)
             str = GetDevNames().GetDeviceName();
 
         return str;
@@ -353,10 +353,10 @@ namespace Win32xx
     //  Then use pDevMode as if it were a LPDEVMODE
     inline CDevMode CPrintDialogEx::GetDevMode() const
     {
-        if (GetApp()->GetHDevMode().Get() == 0)
+        if (GetApp()->GetHDevMode().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if (GetApp()->GetHDevMode().Get() == 0)
+        if (GetApp()->GetHDevMode().Get() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return CDevMode(GetApp()->GetHDevMode());
@@ -370,10 +370,10 @@ namespace Win32xx
     //  Then use pDevNames as if it were a LPDEVNAMES
     inline CDevNames CPrintDialogEx::GetDevNames() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return CDevNames(GetApp()->GetHDevNames());
@@ -382,11 +382,11 @@ namespace Win32xx
     // Retrieves the name of the default or currently selected printer driver.
     inline CString CPrintDialogEx::GetDriverName() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
         CString str;
-        if (GetApp()->GetHDevNames().Get() != 0)
+        if (GetApp()->GetHDevNames().Get() != NULL)
             str = GetDevNames().GetDriverName();
 
         return str;
@@ -395,11 +395,11 @@ namespace Win32xx
     // Retrieves the name of the default or currently selected printer port.
     inline CString CPrintDialogEx::GetPortName() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
         CString str;
-        if (GetApp()->GetHDevNames().Get() != 0)
+        if (GetApp()->GetHDevNames().Get() != NULL)
             str = GetDevNames().GetPortName();
 
         return str;
@@ -410,16 +410,16 @@ namespace Win32xx
     inline CDC CPrintDialogEx::GetPrinterDC() const
     {
         CDC dc;
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if ((GetApp()->GetHDevNames().Get() != 0) && (GetApp()->GetHDevMode().Get() != 0))
+        if ((GetApp()->GetHDevNames().Get() != NULL) && (GetApp()->GetHDevMode().Get() != 0))
         {
             dc.CreateDC(GetDriverName(), GetDeviceName(),
                 GetPortName(), GetDevMode());
         }
 
-        if (dc.GetHDC() == 0)
+        if (dc.GetHDC() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return dc;
@@ -440,7 +440,7 @@ namespace Win32xx
     inline DECLSPEC_NOTHROW HRESULT CPrintDialogEx::HandleMessage(HWND wnd, UINT msg, WPARAM wparam,
                                                       LPARAM lparam, LRESULT* pResult)
     {
-        if (GetHwnd() == 0)
+        if (GetHwnd() == NULL)
             Attach(wnd);
 
         *pResult = DialogProc(msg, wparam, lparam);

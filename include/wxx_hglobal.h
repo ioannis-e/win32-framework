@@ -49,9 +49,9 @@ namespace Win32xx
     class CHGlobal
     {
     public:
-        CHGlobal() : m_global(0) {}
+        CHGlobal() : m_global(NULL) {}
         CHGlobal(HGLOBAL handle) : m_global(handle) {}
-        CHGlobal(size_t size) : m_global(0) { Alloc(size); }
+        CHGlobal(size_t size) : m_global(NULL) { Alloc(size); }
         ~CHGlobal()                     { Free(); }
 
         void Alloc(size_t size);
@@ -84,17 +84,17 @@ namespace Win32xx
     {
         Free();
         m_global = ::GlobalAlloc(GHND, size);
-        if (m_global == 0)
+        if (m_global == NULL)
             throw std::bad_alloc();
     }
 
     // Manually frees the global memory assigned to this object
     inline void CHGlobal::Free()
     {
-        if (m_global != 0)
-            VERIFY(::GlobalFree(m_global) == 0);  // Fails if the memory was already freed.
+        if (m_global != NULL)
+            VERIFY(::GlobalFree(m_global) == NULL);  // Fails if the memory was already freed.
 
-        m_global = 0;
+        m_global = NULL;
     }
 
     // Reassign is used when global memory has been reassigned, as

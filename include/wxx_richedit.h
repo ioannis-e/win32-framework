@@ -126,7 +126,7 @@ namespace Win32xx
         int     LineLength(int charIndex = -1) const;
         void    LineScroll(int lines) const;
         void    Paste() const;
-        void    PasteSpecial(UINT clipFormat, DWORD aspect = 0, HMETAFILE mf = 0) const;
+        void    PasteSpecial(UINT clipFormat, DWORD aspect = 0, HMETAFILE mf = NULL) const;
         CPoint  PosFromChar(UINT fromChar) const;
         BOOL    Redo() const;
         void    ReplaceSel(LPCTSTR newText, BOOL canUndo = FALSE) const;
@@ -198,7 +198,7 @@ namespace Win32xx
         // Load RichEdit version 1.0
         m_rich1 = ::LoadLibrary(system + _T("\\riched32.dll"));
 
-        if (m_rich1 == 0)
+        if (m_rich1 == NULL)
             throw CNotSupportedException(GetApp()->MsgRichEditDll());
 
         // Load RichEdit version 2.0 or 3.0 (for Win98 and above)
@@ -237,7 +237,7 @@ namespace Win32xx
 
         // For RichEdit version 4.1 (available on XP and above)
 #if defined MSFTEDIT_CLASS && defined UNICODE
-        if (m_rich4_1 != 0)
+        if (m_rich4_1 != NULL)
             wc.lpszClassName = MSFTEDIT_CLASS;
 #endif
 
@@ -759,7 +759,7 @@ namespace Win32xx
 
     // Inserts the contents of the Clipboard in the specified data format.
     // Refer to EM_PASTESPECIAL in the Windows API documentation for more information.
-    inline void CRichEdit::PasteSpecial(UINT clipFormat, DWORD aspect /* = 0 */, HMETAFILE mf /* = 0 */) const
+    inline void CRichEdit::PasteSpecial(UINT clipFormat, DWORD aspect /* = NULL */, HMETAFILE mf /* = 0 */) const
     {
         assert(IsWindow());
 

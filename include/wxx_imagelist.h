@@ -245,8 +245,8 @@ namespace Win32xx
     // Attaches an existing ImageList to this CImageList.
     inline void CImageList::Attach(HIMAGELIST images)
     {
-        assert(m_pData);
         CThreadLock mapLock(GetApp()->m_wndLock);
+        assert(m_pData);
 
         if (images != m_pData->images)
         {
@@ -257,7 +257,7 @@ namespace Win32xx
                 m_pData = new CIml_Data;
             }
 
-            if (images != 0)
+            if (images != NULL)
             {
                 // Add the image list to this CImageList
                 CIml_Data* pCImlData = GetApp()->GetCImlData(images);
@@ -321,12 +321,12 @@ namespace Win32xx
 
         HIMAGELIST images = ImageList_Create(cx, cy, flags, initial, grow);
 
-        if (images == 0)
+        if (images == NULL)
             throw CResourceException(GetApp()->MsgImageList());
 
         Assign(images);
 
-        return (images != 0) ? TRUE : FALSE;
+        return (images != NULL) ? TRUE : FALSE;
     }
 
     // Creates a new image list.
@@ -355,12 +355,12 @@ namespace Win32xx
         assert(m_pData);
 
         HIMAGELIST images = ImageList_LoadBitmap(GetApp()->GetResourceHandle(), resourceName, cx, grow, mask);
-        if (images == 0)
+        if (images == NULL)
             throw CResourceException(GetApp()->MsgImageList());
 
         Assign(images);
 
-        return (images != 0) ? TRUE : FALSE;
+        return (images != NULL) ? TRUE : FALSE;
     }
 
     // Creates a duplicate ImageList
@@ -370,12 +370,12 @@ namespace Win32xx
         assert(m_pData);
 
         HIMAGELIST copyImages = ImageList_Duplicate(images);
-        if (copyImages == 0)
+        if (copyImages == NULL)
             throw CResourceException(GetApp()->MsgImageList());
 
         Assign(copyImages);
 
-        return (copyImages != 0) ? TRUE : FALSE;
+        return (copyImages != NULL) ? TRUE : FALSE;
     }
 
     // Creates a transparent version of an item image within the header control.
@@ -385,7 +385,7 @@ namespace Win32xx
         assert(::IsWindow(header));
         HIMAGELIST images = Header_CreateDragImage(header, index);
 
-        if (images == 0)
+        if (images == NULL)
             throw CResourceException(GetApp()->MsgGdiImageList());
 
         Assign(images);
@@ -398,7 +398,7 @@ namespace Win32xx
         assert(::IsWindow(listView));
         HIMAGELIST images = ListView_CreateDragImage(listView, item, &pt);
 
-        if (images == 0)
+        if (images == NULL)
             throw CResourceException(GetApp()->MsgGdiImageList());
 
         Assign(images);
@@ -412,7 +412,7 @@ namespace Win32xx
         assert(::IsWindow(treeView));
         HIMAGELIST images = TreeView_CreateDragImage(treeView, item);
 
-        if (images == 0)
+        if (images == NULL)
             throw CResourceException(GetApp()->MsgGdiImageList());
 
         Assign(images);
@@ -421,16 +421,15 @@ namespace Win32xx
     // Destroys an image list.
     inline void CImageList::DeleteImageList()
     {
+        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
-        CThreadLock mapLock(GetApp()->m_gdiLock);
-
-        if (m_pData && m_pData->images != 0)
+        if (m_pData && m_pData->images != NULL)
         {
             RemoveFromMap();
 
             ImageList_Destroy(m_pData->images);
-            m_pData->images = 0;
+            m_pData->images = NULL;
             m_pData->isManagedHiml = false;
         }
     }
@@ -445,7 +444,7 @@ namespace Win32xx
 
         HIMAGELIST images = m_pData->images;
         RemoveFromMap();
-        m_pData->images = 0;
+        m_pData->images = NULL;
         m_pData->isManagedHiml = false;
 
         if (m_pData->count > 0)
@@ -630,18 +629,17 @@ namespace Win32xx
     {
         BOOL success = FALSE;
 
-        CWinApp* pApp = CWinApp::SetnGetThis();
-        if (pApp != NULL)          // Is the CWinApp object still valid?
+        if (CWinApp::SetnGetThis() != NULL)          // Is the CWinApp object still valid?
         {
-            // Allocate an iterator for our CImageList data
-            std::map<HIMAGELIST, CIml_Data*, CompareHIMAGELIST>::iterator m;
+            CThreadLock mapLock(GetApp()->m_wndLock);
 
-            CThreadLock mapLock(pApp->m_wndLock);
-            m = pApp->m_mapCImlData.find(m_pData->images);
-            if (m != pApp->m_mapCImlData.end())
+            // Find the CImageList data entry in the map.
+            std::map<HIMAGELIST, CIml_Data*, CompareHIMAGELIST>::iterator m;
+            m = GetApp()->m_mapCImlData.find(m_pData->images);
+            if (m != GetApp()->m_mapCImlData.end())
             {
                 // Erase the CImageList data entry from the map
-                pApp->m_mapCImlData.erase(m);
+                GetApp()->m_mapCImlData.erase(m);
                 success = TRUE;
             }
         }
@@ -720,7 +718,7 @@ namespace Win32xx
             }
 
             delete m_pData;
-            m_pData = 0;
+            m_pData = NULL;
         }
     }
 
@@ -741,17 +739,17 @@ namespace Win32xx
             // Process each image in the ImageList
             for (int i = 0 ; i < count; ++i)
             {
-                CClientDC DesktopDC(0);
-                CMemDC memDC(0);
-                memDC.CreateCompatibleBitmap(DesktopDC, cx, cx);
+                CClientDC desktopDC(HWND_DESKTOP);
+                CMemDC memDC(desktopDC);
+                memDC.CreateCompatibleBitmap(desktopDC, cx, cx);
                 CRect rc;
                 rc.SetRect(0, 0, cx, cx);
 
                 // Set the mask color to gray for the new ImageList
                 COLORREF mask = RGB(200, 200, 200);
-                if (GetDeviceCaps(DesktopDC, BITSPIXEL) < 24)
+                if (GetDeviceCaps(desktopDC, BITSPIXEL) < 24)
                 {
-                    HPALETTE hPal = static_cast<HPALETTE>(GetCurrentObject(DesktopDC, OBJ_PAL));
+                    HPALETTE hPal = static_cast<HPALETTE>(GetCurrentObject(desktopDC, OBJ_PAL));
                     UINT index = GetNearestPaletteIndex(hPal, mask);
                     if (index != CLR_INVALID)
                         mask = PALETTEINDEX(index);
@@ -768,7 +766,7 @@ namespace Win32xx
             }
         }
 
-        return (m_pData->images != 0) ? TRUE : FALSE;
+        return (m_pData->images != NULL) ? TRUE : FALSE;
     }
 
 }   // namespace Win32xx

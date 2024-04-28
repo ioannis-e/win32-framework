@@ -99,9 +99,9 @@ namespace Win32xx
 
         // Virtual functions
         virtual void AttachItem(UINT id, CWnd& wnd);
-        virtual HWND Create(HWND parent = 0) { return DoModeless(parent); }
-        virtual INT_PTR DoModal(HWND parent = 0);
-        virtual HWND DoModeless(HWND parent = 0);
+        virtual HWND Create(HWND parent = NULL) { return DoModeless(parent); }
+        virtual INT_PTR DoModal(HWND parent = NULL);
+        virtual HWND DoModeless(HWND parent = NULL);
 
         // Mutators that assign the dialog resource
         void SetDialogFromID(UINT resourceID);
@@ -175,7 +175,7 @@ namespace Win32xx
 
         enum Alignment { topleft, topright, bottomleft, bottomright, center, leftcenter, rightcenter, topcenter, bottomcenter };
 
-        CResizer() : m_parent(0), m_xScrollPos(0), m_yScrollPos(0),
+        CResizer() : m_parent(NULL), m_xScrollPos(0), m_yScrollPos(0),
                      m_currentDpi(USER_DEFAULT_SCREEN_DPI),
                      m_initDpi(USER_DEFAULT_SCREEN_DPI),
                      m_isDpiChanging(false)
@@ -185,7 +185,7 @@ namespace Win32xx
         virtual void AddChild(HWND wnd, Alignment corner, DWORD style);
         virtual void HandleMessage(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual void Initialize(HWND parent, const RECT& minRect,
-                                const RECT& maxRect = CRect(0,0,0,0));
+                                const RECT& maxRect = CRect(0, 0, 0, 0));
         virtual void OnAfterDpiChange();
         virtual void OnBeforeDpiChange();
         virtual void OnHScroll(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -268,7 +268,7 @@ namespace Win32xx
 
     inline CDialog::~CDialog()
     {
-        if (GetHwnd() != 0)
+        if (GetHwnd() != NULL)
         {
             if (IsModal())
                 ::EndDialog(GetHwnd(), 0);
@@ -453,19 +453,19 @@ namespace Win32xx
     // Creates a modal dialog. A modal dialog box must be closed by the user
     // before the application continues.
     // Refer to DialogBox and DialogBoxIndirect in the Windows API documentation for more information.
-    inline INT_PTR CDialog::DoModal(HWND parent /* = 0 */)
+    inline INT_PTR CDialog::DoModal(HWND parent /* = NULL */)
     {
         assert(!IsWindow());        // Only one window per CWnd instance allowed
         assert(m_pDlgTemplate || m_resourceName);  // Dialog layout must be defined.
 
         INT_PTR result = 0;
         m_isModal=TRUE;
-        m_wnd = 0;
+        m_wnd = NULL;
 
         // Retrieve this thread's TLS data
         TLSData* pTLSData = GetApp()->GetTlsData();
 
-        if (pTLSData->msgHook == 0)
+        if (pTLSData->msgHook == NULL)
         {
             pTLSData->msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, 0, ::GetCurrentThreadId());
         }
@@ -492,7 +492,7 @@ namespace Win32xx
         if (pTLSData->dlgHooks == 0)
         {
             ::UnhookWindowsHookEx(pTLSData->msgHook);
-            pTLSData->msgHook = 0;
+            pTLSData->msgHook = NULL;
         }
 
         // Throw an exception if the dialog creation fails
@@ -506,12 +506,12 @@ namespace Win32xx
 
     // Creates a modeless dialog.
     // Refer to CreateDialog and CreateDialogIndirect in the Windows API documentation for more information.
-    inline HWND CDialog::DoModeless(HWND parent /* = 0 */)
+    inline HWND CDialog::DoModeless(HWND parent /* = NULL*/)
     {
         assert(m_pDlgTemplate || m_resourceName);  // Dialog layout must be defined.
 
         m_isModal=FALSE;
-        m_wnd = 0;
+        m_wnd = NULL;
 
         // Retrieve this thread's TLS data
         TLSData* pTLSData = GetApp()->GetTlsData();
@@ -537,7 +537,7 @@ namespace Win32xx
         pTLSData->pWnd = NULL;
 
         // Display information on dialog creation failure
-        if (wnd == 0)
+        if (wnd == NULL)
         {
             throw CWinException(GetApp()->MsgWndDialog());
         }
@@ -604,7 +604,7 @@ namespace Win32xx
             if (!IsModal())
             {
                 TLSData* pTLSData = GetApp()->GetTlsData();
-                if (pTLSData->msgHook == 0)
+                if (pTLSData->msgHook == NULL)
                 {
                     if (IsDialogMessage(msg))
                         return TRUE;
@@ -757,7 +757,7 @@ namespace Win32xx
             if (pMsg && ((pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) ||
                 (pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST)))
             {
-                for (HWND wnd = pMsg->hwnd; wnd != 0; wnd = ::GetParent(wnd))
+                for (HWND wnd = pMsg->hwnd; wnd != NULL; wnd = ::GetParent(wnd))
                 {
                     // Only CDialogs respond to this message
                     CDialog* pDialog = reinterpret_cast<CDialog*>(::SendMessage(wnd, UWM_GETCDIALOG, 0, 0));
@@ -817,7 +817,7 @@ namespace Win32xx
         rd.isFixedHeight = !(style & RD_STRETCH_HEIGHT);
         CRect childRect;
         VERIFY(::GetWindowRect(wnd, &childRect));
-        ::MapWindowPoints(0, m_parent, (LPPOINT)&childRect, 2);
+        ::MapWindowPoints(HWND_DESKTOP, m_parent, (LPPOINT)&childRect, 2);
         rd.childRect = childRect;
         rd.wnd = wnd;
 
@@ -1200,7 +1200,7 @@ namespace Win32xx
             //       they are specified in the resource script (resource.rc).
 
             // Store the window's new position. Repositioning happens later.
-            hdwp = ::DeferWindowPos(hdwp, (*iter).wnd, 0, rc.left, rc.top, rc.Width(), rc.Height(), SWP_NOZORDER|SWP_NOCOPYBITS);
+            hdwp = ::DeferWindowPos(hdwp, (*iter).wnd, HWND_TOP, rc.left, rc.top, rc.Width(), rc.Height(), SWP_NOZORDER|SWP_NOCOPYBITS);
         }
 
         // Reposition all the child windows simultaneously.

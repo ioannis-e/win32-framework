@@ -115,7 +115,7 @@ namespace Win32xx
         {
             HMODULE module = ::GetModuleHandle(_T("uxtheme.dll"));
 
-            if (module != 0)
+            if (module != NULL)
             {
                 // Declare pointers to IsCompositionActive function
                 FARPROC pIsCompositionActive = ::GetProcAddress(module, "IsCompositionActive");
@@ -142,7 +142,7 @@ namespace Win32xx
         if (GetWinVersion() >= 2501)
         {
             HMODULE theme = ::GetModuleHandle(_T("uxtheme.dll"));
-            if (theme != 0)
+            if (theme != NULL)
             {
                 // Declare pointers to functions
                 FARPROC pIsAppThemed   = ::GetProcAddress(theme, "IsAppThemed");

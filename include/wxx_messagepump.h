@@ -112,7 +112,7 @@ namespace Win32xx
             else
             {
                 // Search the chain of parents for pretranslated messages.
-                for (HWND wnd = msg.hwnd; wnd != 0; wnd = ::GetParent(wnd))
+                for (HWND wnd = msg.hwnd; wnd != NULL; wnd = ::GetParent(wnd))
                 {
                     CWnd* pWnd = GetApp()->GetCWndFromMap(wnd);
                     if (pWnd)

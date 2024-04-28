@@ -235,7 +235,7 @@ namespace Win32xx
             throw CNotSupportedException(GetApp()->MsgSocWSAStartup());
 
         m_ws2_32 = ::GetModuleHandle(_T("ws2_32.dll"));
-        if (m_ws2_32 == 0)
+        if (m_ws2_32 == NULL)
             throw CNotSupportedException(GetApp()->MsgSocWS2Dll());
 
         m_pfnGetAddrInfo = reinterpret_cast<GETADDRINFO*>(

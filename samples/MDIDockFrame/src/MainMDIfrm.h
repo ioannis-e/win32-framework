@@ -15,7 +15,7 @@ class CMainMDIFrame : public CMDIDockFrame
 public:
     CMainMDIFrame();
     virtual ~CMainMDIFrame();
-    virtual HWND Create(HWND parent = 0);
+    virtual HWND Create(HWND parent = NULL);
 
 protected:
     // Virtual functions that override base class functions

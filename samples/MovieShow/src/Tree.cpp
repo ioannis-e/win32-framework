@@ -35,7 +35,7 @@ bool CViewTree::IsBoxSetUnique(LPCTSTR text, HTREEITEM item)
     {
         if (childItem != item)
         {
-            if (0 == lstrcmp(GetItemText(childItem), text))
+            if (lstrcmp(GetItemText(childItem), text) == 0)
             {
                 isUnique = false;
                 break;
@@ -91,7 +91,7 @@ BOOL CViewTree::OnEndLabelEdit(LPARAM lparam)
 
     // Use the new text unless the user cancelled the edit
     LPTSTR text = pTVDispInfo->item.pszText;
-    if ((text != 0) && (lstrlen(text) != 0))
+    if ((text != nullptr) && (lstrlen(text) != 0))
         m_itemText.GetWindowText(GetEditControl());
 
     // Ensure the boxset name is unique. Append (2) etc. if required.
@@ -263,7 +263,7 @@ LRESULT CViewTree::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        ::MessageBox(0, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+        ::MessageBox(nullptr, e.GetText(), AtoT(e.what()), MB_ICONERROR);
 
         return 0;
     }

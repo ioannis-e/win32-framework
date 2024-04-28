@@ -108,7 +108,7 @@ namespace Win32xx
                                         PD_HIDEPRINTTOFILE | PD_NOSELECTION );
         virtual ~CPrintDialog();
 
-        virtual INT_PTR DoModal(HWND owner = 0);
+        virtual INT_PTR DoModal(HWND owner = NULL);
         int     GetCopies() const;
         BOOL    GetDefaults();
         CDevMode GetDevMode() const;
@@ -156,7 +156,7 @@ namespace Win32xx
         CPageSetupDialog( DWORD flags = PSD_MARGINS );
         virtual ~CPageSetupDialog() {}
 
-        virtual INT_PTR DoModal(HWND owner = 0);
+        virtual INT_PTR DoModal(HWND owner = NULL);
         CDevMode GetDevMode() const;
         CDevNames GetDevNames() const;
         void    GetMargins(RECT& margin, RECT& minMargin) const;
@@ -219,16 +219,16 @@ namespace Win32xx
     inline CDC CPrintDialog::GetPrinterDC() const
     {
         CDC dc;
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if ((GetApp()->GetHDevNames().Get() != 0) && (GetApp()->GetHDevMode().Get() != 0))
+        if ((GetApp()->GetHDevNames().Get() != NULL) && (GetApp()->GetHDevMode().Get() != NULL))
         {
             dc.CreateDC(GetDriverName(), GetDeviceName(),
                 GetPortName(), GetDevMode());
         }
 
-        if (dc.GetHDC() == 0)
+        if (dc.GetHDC() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return dc;
@@ -287,7 +287,7 @@ namespace Win32xx
     // Display the print dialog, and allow the user to select various options.
     // An exception is thrown if the dialog isn't created.
     // An exception is thrown if there is no default printer.
-    inline INT_PTR CPrintDialog::DoModal( HWND owner /* = 0 */)
+    inline INT_PTR CPrintDialog::DoModal( HWND owner /* = NULL */)
     {
         assert(!IsWindow());    // Only one window per CWnd instance allowed
 
@@ -329,8 +329,8 @@ namespace Win32xx
             ok = IDCANCEL;
         }
 
-        m_pd.hDevMode = 0;
-        m_pd.hDevNames = 0;
+        m_pd.hDevMode = NULL;
+        m_pd.hDevNames = NULL;
 
         // Prepare the CWnd for reuse.
         Cleanup();
@@ -363,11 +363,11 @@ namespace Win32xx
     inline CString CPrintDialog::GetDeviceName() const
     {
 
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
         CString str;
-        if (GetApp()->GetHDevNames().Get() != 0)
+        if (GetApp()->GetHDevNames().Get() != NULL)
             str = GetDevNames().GetDeviceName();
 
         return str;
@@ -382,10 +382,10 @@ namespace Win32xx
     inline CDevMode CPrintDialog::GetDevMode() const
     {
 
-        if (GetApp()->GetHDevMode().Get() == 0)
+        if (GetApp()->GetHDevMode().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if (GetApp()->GetHDevMode().Get() == 0)
+        if (GetApp()->GetHDevMode().Get() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return CDevMode(GetApp()->GetHDevMode());
@@ -399,10 +399,10 @@ namespace Win32xx
     //  Then use pDevNames as if it were a LPDEVNAMES
     inline CDevNames CPrintDialog::GetDevNames() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return CDevNames(GetApp()->GetHDevNames());
@@ -411,11 +411,11 @@ namespace Win32xx
     // Retrieves the name of the default or currently selected printer driver.
     inline CString CPrintDialog::GetDriverName() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
         CString str;
-        if (GetApp()->GetHDevNames().Get() != 0)
+        if (GetApp()->GetHDevNames().Get() != NULL)
             str = GetDevNames().GetDriverName();
 
         return str;
@@ -430,11 +430,11 @@ namespace Win32xx
     // Retrieves the name of the default or currently selected printer port.
     inline CString CPrintDialog::GetPortName() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
         CString str;
-        if (GetApp()->GetHDevNames().Get() != 0)
+        if (GetApp()->GetHDevNames().Get() != NULL)
             str = GetDevNames().GetPortName();
 
         return str;
@@ -488,7 +488,7 @@ namespace Win32xx
     inline void CPrintDialog::SetParameters(const PRINTDLG& pd)
     {
         m_pd.lStructSize    = sizeof(m_pd);
-        m_pd.hwndOwner      = 0;            // Set this in DoModal
+        m_pd.hwndOwner      = NULL;            // Set this in DoModal
         m_pd.Flags          = pd.Flags;
         m_pd.nFromPage      = pd.nFromPage;
         m_pd.nToPage        = pd.nToPage;
@@ -582,7 +582,7 @@ namespace Win32xx
     // Display the Page Setup dialog, and allow the user to select various options.
     // An exception is thrown if the dialog isn't created.
     // An exception is thrown if there is no default printer.
-    inline INT_PTR CPageSetupDialog::DoModal(HWND owner /* = 0 */)
+    inline INT_PTR CPageSetupDialog::DoModal(HWND owner /* = NULL */)
     {
         assert(!IsWindow());    // Only one window per CWnd instance allowed
 
@@ -621,8 +621,8 @@ namespace Win32xx
             ok = IDCANCEL;
         }
 
-        m_psd.hDevMode = 0;
-        m_psd.hDevNames = 0;
+        m_psd.hDevMode = NULL;
+        m_psd.hDevNames = NULL;
 
         // Prepare the CWnd for reuse.
         Cleanup();
@@ -638,10 +638,10 @@ namespace Win32xx
     //  Then use pDevMode as if it were a LPDEVMODE
     inline CDevMode CPageSetupDialog::GetDevMode() const
     {
-        if (GetApp()->GetHDevMode().Get() == 0)
+        if (GetApp()->GetHDevMode().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if (GetApp()->GetHDevMode().Get() == 0)
+        if (GetApp()->GetHDevMode().Get() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return CDevMode(GetApp()->GetHDevMode());
@@ -655,10 +655,10 @@ namespace Win32xx
     //  Then use pDevNames as if it were a LPDEVNAMES
     inline CDevNames CPageSetupDialog::GetDevNames() const
     {
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             GetApp()->UpdateDefaultPrinter();
 
-        if (GetApp()->GetHDevNames().Get() == 0)
+        if (GetApp()->GetHDevNames().Get() == NULL)
             throw CResourceException(GetApp()->MsgPrintFound());
 
         return CDevNames(GetApp()->GetHDevNames());
@@ -681,7 +681,7 @@ namespace Win32xx
     // in the Page Setup dialog box to be customized.
     inline INT_PTR CALLBACK CPageSetupDialog::PaintHookProc(HWND wnd, UINT message, WPARAM wparam, LPARAM lparam)
     {
-        if (wnd == 0)
+        if (wnd == NULL)
             return 0;
 
         // The parent of paint sample window is the Page Setup dialog.
@@ -733,7 +733,7 @@ namespace Win32xx
     inline void CPageSetupDialog::SetParameters(const PAGESETUPDLG& psd)
     {
         m_psd.lStructSize       = sizeof(m_psd);
-        m_psd.hwndOwner         = 0;            // Set this in DoModal
+        m_psd.hwndOwner         = NULL;            // Set this in DoModal
         m_psd.Flags             = psd.Flags;
         m_psd.ptPaperSize       = psd.ptPaperSize;
         m_psd.rtMinMargin       = psd.rtMinMargin;

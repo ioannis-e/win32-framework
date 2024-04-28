@@ -200,7 +200,7 @@ namespace Win32xx
         virtual BOOL Attach(HWND wnd);
         virtual BOOL AttachDlgItem(UINT id, HWND parent);
         virtual void CenterWindow() const;
-        virtual HWND Create(HWND parent = 0);
+        virtual HWND Create(HWND parent = NULL);
         virtual HWND CreateEx(DWORD exStyle, LPCTSTR className, LPCTSTR windowName,
                               DWORD style, int x, int y, int width, int height, HWND parent,
                               HMENU idOrMenu, LPVOID lparam = NULL);
@@ -319,8 +319,8 @@ namespace Win32xx
         int     ReleaseDC(HDC dc) const;
         BOOL    ScreenToClient(POINT& point) const;
         BOOL    ScreenToClient(RECT& rect) const;
-        BOOL    ScrollWindow(int xAmount, int yAmount, const RECT& scrollRect, LPCRECT pClipRect = 0) const;
-        BOOL    ScrollWindow(int xAmount, int yAmount, LPCRECT pClipRect = 0) const;
+        BOOL    ScrollWindow(int xAmount, int yAmount, const RECT& scrollRect, LPCRECT pClipRect = NULL) const;
+        BOOL    ScrollWindow(int xAmount, int yAmount, LPCRECT pClipRect = NULL) const;
         int     ScrollWindowEx(int dx, int dy, LPCRECT pScrollRect, LPCRECT pClipRect, HRGN updateRgn, LPRECT updateRect, UINT flags) const;
         LRESULT SendDlgItemMessage(UINT dlgItemID, UINT msg, WPARAM wparam, LPARAM lparam) const;
         LRESULT SendMessage(UINT msg, WPARAM wparam = 0, LPARAM lparam = 0) const;

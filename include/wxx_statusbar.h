@@ -110,7 +110,7 @@ namespace Win32xx
         PreCreate(cs);
 
         // Create the status bar window.
-        HWND wnd = CreateEx(cs.dwExStyle, STATUSCLASSNAME, 0, static_cast<DWORD>(cs.style),
+        HWND wnd = CreateEx(cs.dwExStyle, STATUSCLASSNAME, NULL, static_cast<DWORD>(cs.style),
             cs.x, cs.y, cs.cx, cs.cy, parent, 0, cs.lpCreateParams);
 
         return wnd;

@@ -125,7 +125,7 @@ namespace Win32xx
     ///////////////////////////////////
     // Definitions for the CReBar class
     //
-    inline CReBar::CReBar() : m_isDragging(FALSE), m_menuBar(0), m_oldParam(0)
+    inline CReBar::CReBar() : m_isDragging(FALSE), m_menuBar(NULL), m_oldParam(0)
     {
     }
 
@@ -148,7 +148,7 @@ namespace Win32xx
         assert(IsWindow());
 
         int result = -1;
-        if (wnd == 0) return result;
+        if (wnd == NULL) return result;
 
         for (int band = 0; band < GetBandCount(); ++band)
         {

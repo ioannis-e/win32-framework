@@ -258,7 +258,7 @@ namespace Win32xx
     // losing visual quality.
     inline CBitmap ScaleUpBitmap(CBitmap bitmap, int scale)
     {
-        assert(bitmap.GetHandle() != 0);
+        assert(bitmap.GetHandle() != NULL);
         assert(scale != 0);
 
         // Get the size of the bitmap.
@@ -287,7 +287,7 @@ namespace Win32xx
     // Definitions for the CWnd class
     //
 
-    inline CWnd::CWnd() : m_wnd(0), m_prevWindowProc(NULL)
+    inline CWnd::CWnd() : m_wnd(NULL), m_prevWindowProc(NULL)
     {
         // Note: m_wnd is set in CWnd::CreateEx(...)
     }
@@ -301,8 +301,7 @@ namespace Win32xx
 
     inline CWnd::~CWnd()
     {
-        CWinApp* pApp = CWinApp::SetnGetThis();
-        if (pApp != NULL)          // Is the CWinApp object still valid?
+        if (CWinApp::SetnGetThis() != NULL) // Is the CWinApp object still valid?
         {
             if (GetCWndPtr(*this) == this)  // Is window managed by Win32++?
             {
@@ -317,14 +316,15 @@ namespace Win32xx
     // Store the window handle and CWnd pointer in the HWND map.
     inline void CWnd::AddToMap()
     {
+        CThreadLock mapLock(GetApp()->m_wndLock);
+
         // This HWND is should not be in the map yet
-        assert (GetApp()->GetCWndFromMap(*this) == 0);
+        assert (GetApp()->GetCWndFromMap(*this) == NULL);
 
         // Remove any old map entry for this CWnd (required when the CWnd is reused).
         RemoveFromMap();
 
         // Add the (HWND, CWnd*) pair to the map
-        CThreadLock mapLock(GetApp()->m_wndLock);
         GetApp()->m_mapHWND.insert(std::make_pair(GetHwnd(), this));
     }
 
@@ -384,7 +384,7 @@ namespace Win32xx
         VERIFY(::SystemParametersInfo(SPI_GETWORKAREA, 0, &desktopRect, 0));
 
         // Get the parent window dimensions (parent could be the desktop).
-        if (GetParent().GetHwnd() != 0)
+        if (GetParent().GetHwnd() != NULL)
             parentRect = GetParent().GetWindowRect();
         else
             parentRect = desktopRect;
@@ -419,7 +419,7 @@ namespace Win32xx
                 if (pfnGetMonitorInfo(hActiveMonitor, &mi))
                 {
                     desktopRect = mi.rcWork;
-                    if (GetParent().GetHwnd() == 0)
+                    if (GetParent().GetHwnd() == NULL)
                         parentRect = mi.rcWork;
                 }
             }
@@ -443,8 +443,8 @@ namespace Win32xx
     inline void CWnd::Cleanup()
     {
         RemoveFromMap();
-        m_wnd = 0;
-        m_prevWindowProc = 0;
+        m_wnd = NULL;
+        m_prevWindowProc = NULL;
     }
 
     // Creates the window with default parameters. The PreRegisterClass and PreCreate
@@ -452,7 +452,7 @@ namespace Win32xx
     // to register a new window class for the window, otherwise a default window class is used.
     // Override PreCreate to specify the CREATESTRUCT parameters, otherwise default parameters
     // are used. A failure to create a window throws an exception.
-    inline HWND CWnd::Create(HWND parent /* = 0 */)
+    inline HWND CWnd::Create(HWND parent /* = NULL */)
     {
         WNDCLASS wc;
         ZeroMemory(&wc, sizeof(wc));
@@ -475,7 +475,7 @@ namespace Win32xx
         cs.style = WS_VISIBLE | ((parent)? WS_CHILD : dwOverlappedStyle );
 
         // Set a reasonable default window position
-        if (parent == 0)
+        if (parent == NULL)
         {
             cs.x  = CW_USEDEFAULT;
             cs.cx = CW_USEDEFAULT;
@@ -535,7 +535,7 @@ namespace Win32xx
 
         // Ensure a window class is registered.
         CString classString;
-        if (className == 0 || className[0] == _T('\0'))
+        if (className == NULL || className[0] == _T('\0'))
             classString = _T("Win32++ Window");
         else
             classString = className;
@@ -544,7 +544,7 @@ namespace Win32xx
         ZeroMemory(&wc, sizeof(wc));
         wc.lpszClassName = classString;
         wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
-        wc.hCursor       = ::LoadCursor(0, IDC_ARROW);
+        wc.hCursor       = ::LoadCursor(NULL, IDC_ARROW);
 
         // Register the window class (if not already registered).
         if (RegisterClass(wc) == 0)
@@ -558,7 +558,7 @@ namespace Win32xx
 
         // Store the CWnd pointer in thread local storage.
         pTLSData->pWnd = this;
-        m_wnd = 0;
+        m_wnd = NULL;
 
         // Create window
         HWND wnd = ::CreateWindowEx(exStyle, classString, windowName, style, x, y, width, height,
@@ -567,7 +567,7 @@ namespace Win32xx
         // Tidy up
         pTLSData->pWnd = NULL;
 
-        if (wnd == 0)
+        if (wnd == NULL)
         {
             // Throw an exception when window creation fails.
             throw CWinException(GetApp()->MsgWndCreate());
@@ -619,8 +619,8 @@ namespace Win32xx
 
         HWND wnd = GetHwnd();
         RemoveFromMap();
-        m_wnd = 0;
-        m_prevWindowProc = 0;
+        m_wnd = NULL;
+        m_prevWindowProc = NULL;
 
         return wnd;
     }
@@ -741,7 +741,7 @@ namespace Win32xx
         GETANCESTOR* pfnGetAncestor = NULL;
         HMODULE user32 = ::GetModuleHandle(_T("user32.dll"));
 
-        if (user32 != 0)
+        if (user32 != NULL)
         {
             // Declare a pointer to the GetAncestor function.
             pfnGetAncestor = reinterpret_cast<GETANCESTOR*>(
@@ -809,7 +809,7 @@ namespace Win32xx
     // A function used internally to call OnMessageReflect. Don't call or override this function.
     inline LRESULT CWnd::MessageReflect(UINT msg, WPARAM wparam, LPARAM lparam) const
     {
-        HWND wnd = 0;
+        HWND wnd = NULL;
         switch (msg)
         {
         case WM_COMMAND:
@@ -1066,9 +1066,9 @@ namespace Win32xx
         // ADDITIONAL NOTES:
         // 1) The lpszClassName must be set for this function to take effect.
         // 2) No other defaults are set, so the following settings might prove useful
-        //     wc.hCursor = ::LoadCursor(0, IDC_ARROW);
+        //     wc.hCursor = ::LoadCursor(NULL, IDC_ARROW);
         //     wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
-        //     wc.icon = ::LoadIcon(0, IDI_APPLICATION);
+        //     wc.icon = ::LoadIcon(NULL, IDI_APPLICATION);
         // 3) The styles that can be set here are WNDCLASS styles. These are a different
         //     set of styles to those set by CREATESTRUCT (used in PreCreate).
         // 4) To set a small icon for the window, use SetIconSmall.
@@ -1118,19 +1118,17 @@ namespace Win32xx
     {
         BOOL success = FALSE;
 
-        // Allocate an iterator for our HWND map
-        std::map<HWND, CWnd*, CompareHWND>::iterator m;
-
-        CWinApp* pApp = CWinApp::SetnGetThis();
-        if (pApp != NULL)          // Is the CWinApp object still valid?
+        if (CWinApp::SetnGetThis() != NULL)          // Is the CWinApp object still valid?
         {
+            CThreadLock mapLock(GetApp()->m_wndLock);
+
             // Erase the CWnd pointer entry from the map.
-            CThreadLock mapLock(pApp->m_wndLock);
-            for (m = pApp->m_mapHWND.begin(); m != pApp->m_mapHWND.end(); ++m)
+            std::map<HWND, CWnd*, CompareHWND>::iterator m;
+            for (m = GetApp()->m_mapHWND.begin(); m != GetApp()->m_mapHWND.end(); ++m)
             {
                 if (this == m->second)
                 {
-                    pApp->m_mapHWND.erase(m);
+                    GetApp()->m_mapHWND.erase(m);
                     success = TRUE;
                     break;
                 }
@@ -1151,7 +1149,7 @@ namespace Win32xx
 
         HICON icon = reinterpret_cast<HICON>(GetApp()->LoadImage(iconID, IMAGE_ICON, cxIcon, cyIcon, LR_SHARED));
 
-        if (icon != 0)
+        if (icon != NULL)
             SendMessage (WM_SETICON, WPARAM (ICON_BIG), LPARAM (icon));
         else
             TRACE("**WARNING** SetIconLarge Failed\n");
@@ -1170,7 +1168,7 @@ namespace Win32xx
 
         HICON icon = reinterpret_cast<HICON>(GetApp()->LoadImage(iconID, IMAGE_ICON, cxIcon, cyIcon, LR_SHARED));
 
-        if (icon != 0)
+        if (icon != NULL)
             SendMessage (WM_SETICON, WPARAM (ICON_SMALL), LPARAM (icon));
         else
             TRACE("**WARNING** SetIconSmall Failed\n");
@@ -1183,7 +1181,7 @@ namespace Win32xx
     inline LRESULT CALLBACK CWnd::StaticWindowProc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
     {
         CWnd* w = GetApp()->GetCWndFromMap(wnd);
-        if (w == 0)
+        if (w == NULL)
         {
             // The CWnd pointer wasn't found in the map, so add it now.
 
@@ -1204,8 +1202,8 @@ namespace Win32xx
             }
         }
 
-        assert(w != 0);
-        if (w == 0)
+        assert(w != NULL);
+        if (w == NULL)
         {
             // Got a message for a window that's not in the map.
             return 0;
@@ -1237,11 +1235,11 @@ namespace Win32xx
     //  been validated.
     inline BOOL CWnd::UpdateData(CDataExchange& dx, BOOL retrieveAndValidate)
     {
-        // must not update data before the window is created
-        assert(IsWindow());
-
         // A critical section ensures threads update the data separately.
         CThreadLock lock(GetApp()->m_appLock);
+
+        // Must not update data before the window is created.
+        assert(IsWindow());
 
         dx.Init(*this, retrieveAndValidate);
 
@@ -1249,7 +1247,7 @@ namespace Win32xx
         try
         {
             DoDataExchange(dx);
-            if (dx.GetLastControl() != 0 && dx.GetLastEditControl() != 0)
+            if (dx.GetLastControl() != 0 && dx.GetLastEditControl() != NULL)
             {
                 // select all characters in the edit control
                 ::SetFocus(dx.GetLastEditControl());
@@ -1475,7 +1473,7 @@ namespace Win32xx
     inline BOOL CWnd::ClientToScreen(RECT& rect) const
     {
         assert(IsWindow());
-        return static_cast<BOOL>(::MapWindowPoints(*this, 0, (LPPOINT)&rect, 2));
+        return static_cast<BOOL>(::MapWindowPoints(*this, HWND_DESKTOP, (LPPOINT)&rect, 2));
     }
 
     // The Close function issues a close requests to the window. The OnClose function is called
@@ -2177,7 +2175,7 @@ namespace Win32xx
     inline BOOL CWnd::RedrawWindow(const RECT& updateRect, UINT flags) const
     {
         assert(IsWindow());
-        return ::RedrawWindow(*this, &updateRect, 0, flags);
+        return ::RedrawWindow(*this, &updateRect, NULL, flags);
     }
 
     // The RedrawWindow function updates the specified region in a window's client area.
@@ -2185,7 +2183,7 @@ namespace Win32xx
     inline BOOL CWnd::RedrawWindow(HRGN rgn, UINT flags) const
     {
         assert(IsWindow());
-        return ::RedrawWindow(*this, 0, rgn, flags);
+        return ::RedrawWindow(*this, NULL, rgn, flags);
     }
 
     // The RedrawWindow function updates the entire window's client area.
@@ -2193,7 +2191,7 @@ namespace Win32xx
     inline BOOL CWnd::RedrawWindow(UINT flags) const
     {
         assert(IsWindow());
-        return ::RedrawWindow(*this, 0, 0, flags);
+        return ::RedrawWindow(*this, NULL, NULL, flags);
     }
 
     // The ReleaseDC function releases a device context (DC), freeing it for use
@@ -2220,7 +2218,7 @@ namespace Win32xx
     inline BOOL CWnd::ScreenToClient(RECT& rect) const
     {
         assert(IsWindow());
-        return static_cast<BOOL>(::MapWindowPoints(0, *this, (LPPOINT)&rect, 2));
+        return static_cast<BOOL>(::MapWindowPoints(HWND_DESKTOP, *this, (LPPOINT)&rect, 2));
     }
 
     // The ScrollWindow function scrolls the contents of the window's client area.
@@ -2527,7 +2525,7 @@ namespace Win32xx
     {
         assert(IsWindow());
         int iResult = ::SetWindowRgn(*this, rgn, redraw);
-        if (rgn != 0)
+        if (rgn != NULL)
         {
             CRgn region(rgn);
             if (iResult != 0)
@@ -2554,7 +2552,7 @@ namespace Win32xx
     {
         HRESULT result = E_NOTIMPL;
         HMODULE theme = ::GetModuleHandle(_T("uxtheme.dll"));
-        if (theme != 0)
+        if (theme != NULL)
         {
             typedef HRESULT WINAPI SETWINDOWTHEME(HWND, LPCWSTR, LPCWSTR);
             SETWINDOWTHEME* pfn = reinterpret_cast<SETWINDOWTHEME*>(

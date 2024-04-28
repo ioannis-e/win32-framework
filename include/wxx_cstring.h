@@ -134,8 +134,8 @@ namespace Win32xx
         virtual ~CStringT();
         CStringT(const CStringT& str);
         CStringT(const T * text);
-        CStringT(T ch, int repeat = 1);
         CStringT(const T * text, int length);
+        CStringT(T ch, int repeat = 1);
 
         CStringT& operator=(const CStringT& str);
         CStringT& operator=(T ch);
@@ -168,7 +168,7 @@ namespace Win32xx
         int      CompareNoCase(const T* text) const;
         int      Delete(int index, int count = 1);
         int      Find(T ch, int index = 0 ) const;
-        int      Find(const T* text, int start = 0) const;
+        int      Find(const T* text, int index = 0) const;
         int      FindOneOf(const T* text) const;
         void     Format(UINT id, ...);
         void     Format(const T* format,...);
@@ -250,6 +250,8 @@ namespace Win32xx
     public:
         CString() {}
         CString(const CString& str)            : CStringT<TCHAR>(str) {}
+        CString(const CStringT<CHAR>& str);
+        CString(const CStringT<WCHAR>& str);
         CString(LPCSTR text)                   : CStringT<TCHAR>(AtoT(text)) {}
         CString(LPCWSTR text)                  : CStringT<TCHAR>(WtoT(text))    {}
         CString(LPCSTR text, int length)       : CStringT<TCHAR>(AtoT(text, CP_ACP, length), length) {}
@@ -258,7 +260,8 @@ namespace Win32xx
         CString(WCHAR ch, int repeat = 1);
 
         CString& operator=(const CString& str);
-        CString& operator=(const CStringT<TCHAR>& str);
+        CString& operator=(const CStringT<CHAR>& str);
+        CString& operator=(const CStringT<WCHAR>& str);
         CString& operator=(CHAR ch);
         CString& operator=(WCHAR ch);
         CString& operator=(LPCSTR text);
@@ -268,15 +271,6 @@ namespace Win32xx
         CString& operator+=(LPCWSTR text);
         CString& operator+=(CHAR ch);
         CString& operator+=(WCHAR ch);
-
-        // Some compilers require these to be declared here.
-        CString Left(int count) const;
-        CString Mid(int first, int count) const;
-        CString Mid(int first) const;
-        CString Right(int count) const;
-        CString SpanExcluding(LPCTSTR text) const;
-        CString SpanIncluding(LPCTSTR text) const;
-        CString Tokenize(LPCTSTR tokens, int& start) const;
     };
 
 } // namespace Win32xx
@@ -319,20 +313,19 @@ namespace Win32xx
         m_str.assign(text);
     }
 
+    // Constructor. Assigns from a const T* possibly containing null characters.
+    template <class T>
+    inline CStringT<T>::CStringT(const T* text, int length)
+    {
+        memcpy(GetBuffer(length), text, length * sizeof(T));
+        ReleaseBuffer(length);
+    }
+
     // Constructor. Assigns from 1 or more T characters.
     template <class T>
     inline CStringT<T>::CStringT(T ch, int repeat)
     {
         m_str.assign(static_cast<size_t>(repeat), ch);
-    }
-
-    // Constructor. Assigns from a const T* possibly containing null characters.
-    // Ensure the size of the text buffer holds length or more characters
-    template <class T>
-    inline CStringT<T>::CStringT(const T* text, int length)
-    {
-        memcpy(GetBuffer(length), text, length*sizeof(T));
-        ReleaseBuffer(length);
     }
 
     // Assign from a const CStringT<T>.
@@ -593,7 +586,7 @@ namespace Win32xx
         m_str.erase();
     }
 
-    // Finds a character in the string.
+    // Finds a character in the string, starting from the specified index.
     template <class T>
     inline int CStringT<T>::Find(T ch, int index /* = 0 */) const
     {
@@ -603,7 +596,7 @@ namespace Win32xx
         return static_cast<int>(s);
     }
 
-    // Finds a substring within the string.
+    // Finds a substring within the string, starting from the specified index.
     template <class T>
     inline int CStringT<T>::Find(const T* text, int index /* = 0 */) const
     {
@@ -1520,6 +1513,8 @@ namespace Win32xx
     /////////////////////////////////////////////
     // Definition of the CString class
     //
+
+    // Construct CString from CHAR characters.
     inline CString::CString(CHAR ch, int repeat)
     {
         for (int i = 0; i < repeat; ++i)
@@ -1528,6 +1523,7 @@ namespace Win32xx
         }
     }
 
+    // Construct CString from WChar characters.
     inline CString::CString(WCHAR ch, int repeat)
     {
         for (int i = 0; i < repeat; ++i)
@@ -1536,18 +1532,40 @@ namespace Win32xx
         }
     }
 
+    // Construct CString from CStringA.
+    inline CString::CString(const CStringT<CHAR>& str)
+    {
+        m_str.assign(AtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+    }
+
+    // Construct CString from CStringW.
+    inline CString::CString(const CStringT<WCHAR>& str)
+    {
+        m_str.assign(WtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+    }
+
+    // CString copy constructor.
     inline CString& CString::operator=(const CString& str)
     {
         m_str.assign(str.GetString());
         return *this;
     }
 
-    inline CString& CString::operator=(const CStringT<TCHAR>& str)
+    // Assign CString from CStringA.
+    inline CString& CString::operator=(const CStringT<CHAR>& str)
     {
-        m_str.assign(str.GetString());
+        m_str.assign(AtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
         return *this;
     }
 
+    // Assign CString from CStringW.
+    inline CString& CString::operator=(const CStringT<WCHAR>& str)
+    {
+        m_str.assign(WtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+        return *this;
+    }
+
+    // Assign CString from a CHAR character.
     inline CString& CString::operator=(CHAR ch)
     {
         AtoT tch(&ch, CP_ACP, 1);
@@ -1555,6 +1573,7 @@ namespace Win32xx
         return *this;
     }
 
+    // Assign CString from a WCHAR character.
     inline CString& CString::operator=(WCHAR ch)
     {
         WtoT tch(&ch, CP_ACP, 1);
@@ -1562,36 +1581,42 @@ namespace Win32xx
         return *this;
     }
 
+    // Assign CString from a CHAR array.
     inline CString& CString::operator=(LPCSTR text)
     {
         m_str.assign(AtoT(text));
         return *this;
     }
 
+    // Assign CString from a WCHAR array.
     inline CString& CString::operator=(LPCWSTR text)
     {
         m_str.assign(WtoT(text));
         return *this;
     }
 
+    // Append and assign from a CString.
     inline CString& CString::operator+=(const CString& str)
     {
         m_str.append(str.m_str);
         return *this;
     }
 
+    // Append and assign from a CHAR array.
     inline CString& CString::operator+=(LPCSTR text)
     {
         m_str.append(AtoT(text));
         return *this;
     }
 
+    // Append and assign from a WCHAR array.
     inline CString& CString::operator+=(LPCWSTR text)
     {
         m_str.append(WtoT(text));
         return *this;
     }
 
+    // Append and assign from a CHAR character.
     inline CString& CString::operator+=(CHAR ch)
     {
         AtoT tch(&ch, CP_ACP, 1);
@@ -1599,6 +1624,7 @@ namespace Win32xx
         return *this;
     }
 
+    // Append and assign from a WCHAR character.
     inline CString& CString::operator+=(WCHAR ch)
     {
         WtoT tch(&ch, CP_ACP, 1);
@@ -1606,58 +1632,12 @@ namespace Win32xx
         return *this;
     }
 
-    inline CString CString::Left(int count) const
-    {
-        CString str;
-        str = CStringT<TCHAR>::Left(count);
-        return str;
-    }
-
-    inline CString CString::Mid(int first, int count) const
-    {
-        CString str;
-        str = CStringT<TCHAR>::Mid(first, count);
-        return str;
-    }
-
-    inline CString CString::Mid(int first) const
-    {
-        CString str;
-        str = CStringT<TCHAR>::Mid(first);
-        return str;
-    }
-
-    inline CString CString::Right(int count) const
-    {
-        CString str;
-        str = CStringT<TCHAR>::Right(count);
-        return str;
-    }
-
-    inline CString CString::SpanExcluding(LPCTSTR text) const
-    {
-        CString str;
-        str = CStringT<TCHAR>::SpanExcluding(text);
-        return str;
-    }
-
-    inline CString CString::SpanIncluding(LPCTSTR text) const
-    {
-        CString str;
-        str = CStringT<TCHAR>::SpanIncluding(text);
-        return str;
-    }
-
-    inline CString CString::Tokenize(LPCTSTR tokens, int& start) const
-    {
-        CString str;
-        str = CStringT<TCHAR>::Tokenize(tokens, start);
-        return str;
-    }
 
     //////////////////////////////////////////////
     // CString global operator functions
     //
+
+    // Add a CString to a CString.
     inline CString operator+(const CString& string1, const CString& string2)
     {
         CString str(string1);
@@ -1665,6 +1645,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a CHAR array to a CString.
     inline CString operator+(const CString& string1, const CHAR* text)
     {
         CString str(string1);
@@ -1672,6 +1653,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a WCHAR array to a CString.
     inline CString operator+(const CString& string1, const WCHAR* text)
     {
         CString str(string1);
@@ -1679,6 +1661,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a CHAR character to a CString.
     inline CString operator+(const CString& string1, CHAR ch)
     {
         CString str(string1);
@@ -1687,6 +1670,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a WCHAR character to a CString.
     inline CString operator+(const CString& string1, WCHAR ch)
     {
         CString str(string1);
@@ -1695,6 +1679,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a CString to a CHAR array.
     inline CString operator+(const CHAR* text, const CString& string1)
     {
         CString str(text);
@@ -1702,6 +1687,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a CString to a WCHAR array.
     inline CString operator+(const WCHAR* text, const CString& string1)
     {
         CString str(text);
@@ -1709,6 +1695,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a CString to a CHAR character.
     inline CString operator+(CHAR ch, const CString& string1)
     {
         CString str(ch);
@@ -1716,6 +1703,7 @@ namespace Win32xx
         return str;
     }
 
+    // Add a CString to a WCHAR character.
     inline CString operator+(WCHAR ch, const CString& string1)
     {
         CString str(ch);
@@ -1730,6 +1718,7 @@ namespace Win32xx
         return str;
     }
 
+    // Appends the templated value to the string.
     template <class V>
     inline CString& operator << (CString& str, V value)
     {

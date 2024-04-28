@@ -28,7 +28,7 @@ CFontExDialog : public CFontDialog                                          /*
 *-----------------------------------------------------------------------------*/
 {
     public:
-        CFontExDialog(DWORD flags = 0, HDC printer = 0)
+        CFontExDialog(DWORD flags = 0, HDC printer = NULL)
             : CFontDialog(flags | CF_ENABLEHOOK, printer)
                 { SetBoxTitle(_T("Font...")); }
         virtual ~CFontExDialog(){}

@@ -212,11 +212,11 @@ namespace Win32xx
     inline CDataExchange::CDataExchange()
     {
         m_id = 0;
-        m_lastControl = 0;
-        m_lastEditControl = 0;
+        m_lastControl = NULL;
+        m_lastEditControl = NULL;
         m_isEditLastControl = FALSE;
         m_retrieveAndValidate = FALSE;
-        m_parent = 0;
+        m_parent = NULL;
     }
 
 
@@ -245,7 +245,7 @@ namespace Win32xx
 
             throw CUserException(message);
         }
-        else if (m_lastControl != 0 && m_isEditLastControl)
+        else if (m_lastControl != NULL && m_isEditLastControl)
         {
             // limit the control max-chars automatically
             WPARAM wparam = static_cast<WPARAM>(count);
@@ -823,7 +823,7 @@ namespace Win32xx
         // traverse all buttons in the group: we've already established
         // there's a group, so set up for the radio buttons in the group
         firstInGroup = FALSE;
-        for (int button = 0; control != 0 && !firstInGroup; )
+        for (int button = 0; control != NULL && !firstInGroup; )
         {
             if (isRadioButton) // this control in the group is a radio button
             {
@@ -1156,7 +1156,7 @@ namespace Win32xx
             TRACE(_T("Warning: CDataExchange::Fail() called while "));
             TRACE(_T("writing to a control.\n"));
         }
-        else if (m_lastControl != 0)
+        else if (m_lastControl != NULL)
         {
             if (m_isEditLastControl) // if the offender is an edit control
             {
@@ -1181,7 +1181,7 @@ namespace Win32xx
         // record the default action and parent window
         m_retrieveAndValidate = retrieveAndValidate;
         m_parent       = dlgWnd;
-        m_lastControl  = 0;
+        m_lastControl  = NULL;
     }
 
     // Find the handle to the control whose numeric identifier is id and

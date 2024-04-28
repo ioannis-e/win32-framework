@@ -78,7 +78,7 @@ GetDocOpenFileName(const CString &title) const                              /*
     // Bring up the dialog, and  open the file
     CString str;
     DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-    CFileDialog FileDlg(TRUE, 0, 0, dwFlags, m_fileDlgFilter);
+    CFileDialog FileDlg(TRUE, NULL, NULL, dwFlags, m_fileDlgFilter);
     FileDlg.SetTitle(title);
     if (FileDlg.DoModal() == IDOK)
         str = FileDlg.GetPathName();

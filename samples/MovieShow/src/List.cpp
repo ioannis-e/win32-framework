@@ -211,7 +211,7 @@ LRESULT CViewList::OnCustomDraw(LPNMCUSTOMDRAW pCustomDraw)
 // Called when the listview window is destroyed.
 void CViewList::OnDestroy()
 {
-    SetImageList(0, LVSIL_SMALL);
+    SetImageList(nullptr, LVSIL_SMALL);
 }
 
 // Called in response to a WM_DPICHANGED_BEFOREPARENT message that is sent to child
@@ -402,7 +402,7 @@ void CViewList::SetDPIImages()
 // Sets the up and down sort arrows in the listview's header.
 BOOL CViewList::SetHeaderSortImage(int  columnIndex, int showArrow)
 {
-    HWND    hHeader = 0;
+    HWND    hHeader = nullptr;
     HDITEM  hdrItem;
     ZeroMemory(&hdrItem, sizeof(hdrItem));
 

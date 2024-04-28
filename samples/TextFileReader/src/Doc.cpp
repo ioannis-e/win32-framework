@@ -202,7 +202,7 @@ OpenDoc(LPCTSTR filename)                                                   /*
             {
                 msg.Format(_T("Document file\n'%s'\nis already open."),
                     m_openPath.c_str());
-                ::MessageBox(0, msg, _T("Information"), MB_OK |
+                ::MessageBox(NULL, msg, _T("Information"), MB_OK |
                     MB_ICONINFORMATION | MB_TASKMODAL);
                   // not deemed a failure, as the file is open, as specified
                 return TRUE;
@@ -253,7 +253,7 @@ OpenDoc(LPCTSTR filename)                                                   /*
         CString msg;
         msg.Format(_T("File could not be opened and read:\n\n%s"),
             e.GetText());
-        ::MessageBox(0, msg, _T("Error"), MB_OK | MB_ICONEXCLAMATION |
+        ::MessageBox(NULL, msg, _T("Error"), MB_OK | MB_ICONEXCLAMATION |
             MB_TASKMODAL);
         ok = m_isOpen = FALSE;
         m_openPath.Empty();

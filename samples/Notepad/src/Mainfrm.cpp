@@ -18,7 +18,7 @@
 // Constructor.
 CMainFrame::CMainFrame() : m_preview(m_richView),
                            m_encoding(ANSI), m_isToolbarShown(true),
-                           m_isWrapped(false), m_isRTF(false), m_oldFocus(0)
+                           m_isWrapped(false), m_isRTF(false), m_oldFocus(NULL)
 
 {
     SetView(m_richView);
@@ -100,7 +100,7 @@ void CMainFrame::DetermineEncoding(CFile& file)
         catch (const CFileException& e)
         {
             CString str = CString("Failed to read from ") + e.GetFileName();
-            ::MessageBox(0, str, AtoT(e.what()), MB_ICONWARNING);
+            ::MessageBox(NULL, str, AtoT(e.what()), MB_ICONWARNING);
         }
     }
 
@@ -134,7 +134,7 @@ DWORD CALLBACK CMainFrame::MyStreamInCallback(DWORD cookie, LPBYTE pBuffer, LONG
     *bytesRead = 0;
     DWORD bytesToRead = static_cast<DWORD>(cb);
     if (!::ReadFile(file, pBuffer, bytesToRead, bytesRead, NULL))
-        ::MessageBox(0, _T("ReadFile Failed"), _T(""), MB_OK);
+        ::MessageBox(NULL, _T("ReadFile Failed"), _T(""), MB_OK);
 
     return 0;
 }
@@ -249,7 +249,7 @@ LRESULT CMainFrame::OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam)
 // Called in response to the EN_DROPFILES notification.
 void CMainFrame::OnDropFiles(HDROP dropInfo)
 {
-    UINT length = ::DragQueryFile(dropInfo, 0, 0, 0);
+    UINT length = ::DragQueryFile(dropInfo, 0, NULL, 0);
     int bufferLength = static_cast<int>(length);
     if (length > 0)
     {
@@ -440,7 +440,7 @@ BOOL CMainFrame::OnFilePreview()
         // An exception occurred. Display the relevant information.
         MessageBox(e.GetText(), _T("Print Preview Failed"), MB_ICONWARNING);
         SetView(m_richView);
-        ShowMenu(GetFrameMenu() != 0);
+        ShowMenu(GetFrameMenu() != NULL);
         ShowToolBar(m_isToolbarShown);
     }
 
@@ -720,7 +720,7 @@ BOOL CMainFrame::OnOptionsFont()
 // Turn word wrap on or off.
 BOOL CMainFrame::OnOptionsWrap()
 {
-    m_richView.SetTargetDevice(0, m_isWrapped);
+    m_richView.SetTargetDevice(NULL, m_isWrapped);
     m_isWrapped = !m_isWrapped;
     return TRUE;
 }
@@ -732,7 +732,7 @@ LRESULT CMainFrame::OnPreviewClose()
     SetView(m_richView);
 
     // Show the menu and toolbar
-    ShowMenu(GetFrameMenu() != 0);
+    ShowMenu(GetFrameMenu() != NULL);
     ShowToolBar(m_isToolbarShown);
     UpdateSettings();
 
@@ -857,7 +857,7 @@ BOOL CMainFrame::ReadFile(LPCTSTR fileName)
         str += e.GetFilePath();
         str += "\n";
         str += e.GetText();
-        ::MessageBox(0, str, AtoT(e.what()), MB_ICONWARNING);
+        ::MessageBox(NULL, str, AtoT(e.what()), MB_ICONWARNING);
         return FALSE;
     }
 
@@ -869,7 +869,7 @@ void CMainFrame::SaveModifiedText()
 {
     // Check for unsaved text
     if (m_richView.GetModify())
-        if (::MessageBox(0, _T("Save changes to this document"), _T("Notepad"), MB_YESNO | MB_ICONWARNING) == IDYES)
+        if (::MessageBox(NULL, _T("Save changes to this document"), _T("Notepad"), MB_YESNO | MB_ICONWARNING) == IDYES)
             OnFileSave();
 }
 
@@ -1040,7 +1040,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        ::MessageBox(0, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+        ::MessageBox(NULL, e.GetText(), AtoT(e.what()), MB_ICONERROR);
 
         return 0;
     }
@@ -1098,7 +1098,7 @@ BOOL CMainFrame::WriteFile(LPCTSTR szFileName)
     {
         CString str = _T("Failed to write:  ");
         str += szFileName;
-        ::MessageBox(0, str, _T("Warning"), MB_ICONWARNING);
+        ::MessageBox(NULL, str, _T("Warning"), MB_ICONWARNING);
         return FALSE;
     }
 

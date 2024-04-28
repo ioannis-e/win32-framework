@@ -59,7 +59,7 @@ namespace Win32xx
         int tabImage;       // index of this tab's image
         int tabID;          // identifier for this tab (used by TabbedMDI)
         CWnd* pView;        // pointer to the view window
-        TabPageInfo() : tabIcon(0), tabImage(0), tabID(0), pView(0) {}    // constructor
+        TabPageInfo() : tabIcon(NULL), tabImage(0), tabID(0), pView(NULL) {}    // constructor
     };
 
     struct TABNMHDR
@@ -395,7 +395,7 @@ namespace Win32xx
         tpi.tabIcon = icon;
         tpi.tabID = tabID;
         tpi.tabText = tabText;
-        if (icon != 0)
+        if (icon != NULL)
             tpi.tabImage = GetImages().Add(icon);
         else
             tpi.tabImage = -1;
@@ -2072,7 +2072,7 @@ namespace Win32xx
     {
         LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
         assert(pHeader);
-        if (pHeader != 0)
+        if (pHeader != NULL)
         {
 
             switch(pHeader->code)
@@ -2111,7 +2111,7 @@ namespace Win32xx
 
             }   // switch(pnmhdr->code)
 
-        }   // if (pHeader == 0)
+        }   // if (pHeader == NULL)
 
         return 0;
     }

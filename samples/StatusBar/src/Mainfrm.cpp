@@ -252,11 +252,11 @@ void CMainFrame::SetStatusParts()
         CRect partRect = GetStatusBar().GetPartRect(1);
         const int border = 2;
         partRect.OffsetRect(border, 0);
-        m_hyperlink.SetWindowPos(0, partRect, SWP_SHOWWINDOW);
+        m_hyperlink.SetWindowPos(HWND_TOP, partRect, SWP_SHOWWINDOW);
 
         // Reposition the progress bar over part 2.
         partRect = GetStatusBar().GetPartRect(2);
-        m_progressBar.SetWindowPos(0, partRect, SWP_SHOWWINDOW);
+        m_progressBar.SetWindowPos(HWND_TOP, partRect, SWP_SHOWWINDOW);
 
         // Add the icon to part 3.
         iconSide = iconSide - (iconSide % 8);
@@ -314,7 +314,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception.
-        ::MessageBox(0, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+        ::MessageBox(NULL, e.GetText(), AtoT(e.what()), MB_ICONERROR);
         return 0;
     }
 }

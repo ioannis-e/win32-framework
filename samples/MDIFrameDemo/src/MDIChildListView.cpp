@@ -92,7 +92,7 @@ void CViewList::InsertItems()
 CMDIChildList::CMDIChildList()
 {
     m_menu.LoadMenu(_T("MdiMenuList"));
-    SetHandles(m_menu, 0);
+    SetHandles(m_menu, NULL);
     SetView(m_listView);
 }
 

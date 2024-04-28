@@ -190,7 +190,7 @@ namespace Win32xx
         m_thread = reinterpret_cast<HANDLE>(::_beginthreadex(pSecurityAttributes, stack_size, m_pfnThreadProc,
             m_pThreadParams, initflag, &m_threadID));
 
-        if (m_thread == 0)
+        if (m_thread == NULL)
             throw CWinException(GetApp()->MsgAppThread());
 
         return m_thread;
@@ -268,7 +268,7 @@ namespace Win32xx
 
     inline CWinThread::~CWinThread()
     {
-        if (GetThread() != 0)
+        if (GetThread() != NULL)
         {
             // Post a WM_QUIT to safely end the thread.
             PostThreadMessage(WM_QUIT, 0, 0);

@@ -54,7 +54,7 @@
 //  catch(const CException &e) // catch all exceptions inherited from CException
 //  {
 //      // display the exception in a message box
-//      ::MessageBox(0, LoadString(e.GetMessageID()), AtoT(e.what()), MB_ICONERROR);
+//      ::MessageBox(NULL, LoadString(e.GetMessageID()), AtoT(e.what()), MB_ICONERROR);
 //  }
 
 //
@@ -70,7 +70,7 @@
 //  catch(const CException &e) // catch all exceptions inherited from CException
 //  {
 //      // display the exception in a message box
-//      ::MessageBox(0, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+//      ::MessageBox(NULL, e.GetText(), AtoT(e.what()), MB_ICONERROR);
 //  }
 
 

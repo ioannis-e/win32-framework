@@ -52,8 +52,8 @@
 //      CFolderDialog fd;
 //
 //      // Set the root folder to list the computer's drives (or C:).
-//      ITEMIDLIST* pidlRoot = 0;
-//      SHGetSpecialFolderLocation(0, CSIDL_DRIVES, &pidlRoot);
+//      ITEMIDLIST* pidlRoot = NULL;
+//      SHGetSpecialFolderLocation(NULL, CSIDL_DRIVES, &pidlRoot);
 //      fd.SetRoot(pidlRoot);
 //
 //      // Set the title for the dialog.
@@ -153,7 +153,7 @@ namespace Win32xx
         CFolderDialog();
         virtual ~CFolderDialog();
 
-        virtual INT_PTR DoModal(HWND parent = 0);
+        virtual INT_PTR DoModal(HWND parent = NULL);
 
         CString GetDisplayName() const       { return m_displayName; }
         CString GetFolderPath() const;
@@ -229,7 +229,7 @@ namespace Win32xx
         CFolderDialog* pThis = reinterpret_cast<CFolderDialog*>(param2);
         int result = 0;
 
-        if (pThis->GetHwnd() == 0)
+        if (pThis->GetHwnd() == NULL)
         {
             pThis->m_wnd = wnd;
             pThis->AddToMap();

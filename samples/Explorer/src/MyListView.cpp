@@ -295,7 +295,7 @@ void CMyListView::DoDisplay()
 
     if(m_csfCurFolder.GetIShellFolder())
     {
-        HCURSOR  hCur = ::LoadCursor(0, IDC_WAIT);
+        HCURSOR  hCur = ::LoadCursor(NULL, IDC_WAIT);
         hCur = ::SetCursor(hCur);
 
         // Turn redrawing off in the ListView.
@@ -342,16 +342,16 @@ void CMyListView::DoItemMenu(LPINT pItems, UINT items, CPoint& point)
 
             if(SUCCEEDED(result))
             {
-                CMenu Popup;
-                Popup.CreatePopupMenu();
-                if(Popup.GetHandle())
+                CMenu popup;
+                popup.CreatePopupMenu();
+                if(popup.GetHandle())
                 {
-                    result = ccm.QueryContextMenu(Popup, 0, 1, 0x7fff, CMF_NORMAL | CMF_EXPLORE);
+                    result = ccm.QueryContextMenu(popup, 0, 1, 0x7fff, CMF_NORMAL | CMF_EXPLORE);
                     if(SUCCEEDED(result))
                     {
                         ccm.GetContextMenu2(m_ccm2);
                         UINT  idCmd;
-                        idCmd = Popup.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_RIGHTBUTTON,
+                        idCmd = popup.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_RIGHTBUTTON,
                                     point.x, point.y, *this, NULL);
 
                         if(idCmd)
@@ -850,7 +850,7 @@ LRESULT CMyListView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        ::MessageBox(0, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+        ::MessageBox(NULL, e.GetText(), AtoT(e.what()), MB_ICONERROR);
 
         return 0;
     }

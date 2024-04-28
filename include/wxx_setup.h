@@ -255,7 +255,7 @@ namespace Win32xx
     {
         // Retrieve the Common Controls DLL handle.
         HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == 0)
+        if (comCtl == NULL)
             return 0;
 
         DWORD comCtlVer = 400;
@@ -393,7 +393,7 @@ namespace Win32xx
     {
         // Retrieve the Common Controls DLL handle.
         HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == 0)
+        if (comCtl == NULL)
             comCtl = ::GetModuleHandle(_T("commctrl.dll"));
 
         if (comCtl)

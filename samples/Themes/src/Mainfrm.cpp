@@ -52,7 +52,7 @@ LRESULT CMainFrame::AddCombo()
         // Create and position the ComboBoxEx window.
         DWORD style = WS_VISIBLE | WS_CHILD | CBS_DROPDOWN | WS_CLIPCHILDREN;
         m_comboBoxEx.CreateEx(0, WC_COMBOBOXEX, 0, style, rc, tb, 0, 0);
-        m_comboBoxEx.SetWindowPos(0, rc, SWP_NOACTIVATE);
+        m_comboBoxEx.SetWindowPos(HWND_TOP, rc, SWP_NOACTIVATE);
         m_comboBoxEx.AddItems();
         m_comboBoxEx.SetCurSel(m_selectedItem);
     }
@@ -893,7 +893,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        ::MessageBox(0, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+        ::MessageBox(NULL, e.GetText(), AtoT(e.what()), MB_ICONERROR);
 
         return 0;
     }

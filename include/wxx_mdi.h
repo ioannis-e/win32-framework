@@ -93,7 +93,7 @@ namespace Win32xx
         virtual ~CMDIChild();
 
         // These are the functions you might wish to override
-        virtual HWND Create(HWND parent = 0);
+        virtual HWND Create(HWND parent = NULL);
         virtual void RecalcLayout();
 
         // These functions aren't virtual, and shouldn't be overridden
@@ -162,7 +162,7 @@ namespace Win32xx
 
         // Override these functions as required.
         virtual CMDIChild* AddMDIChild(CMDIChild* pMDIChild);
-        virtual HWND Create(HWND parent = 0);
+        virtual HWND Create(HWND parent = NULL);
         virtual void RemoveMDIChild(CMDIChild* pChild);
         virtual BOOL RemoveAllMDIChildren();
 
@@ -250,7 +250,7 @@ namespace Win32xx
 
     // Create the MDI frame.
     template <class T>
-    inline HWND CMDIFrameT<T>::Create(HWND parent /* = 0 */)
+    inline HWND CMDIFrameT<T>::Create(HWND parent /* = NULL */)
     {
         // The view for a CMDIFrame is the MDIClient.
         T::SetView(GetMDIClient());
@@ -820,11 +820,11 @@ namespace Win32xx
     template<class T>
     inline HWND CMDIClient<T>::Create(HWND parent)
     {
-        assert(parent != 0);
+        assert(parent != NULL);
 
         CLIENTCREATESTRUCT clientcreate;
         ZeroMemory(&clientcreate, sizeof(clientcreate));
-        clientcreate.hWindowMenu  = 0;
+        clientcreate.hWindowMenu  = NULL;
         clientcreate.idFirstChild = IDW_FIRSTCHILD;
         DWORD style = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | MDIS_ALLCHILDSTYLES;
 
@@ -908,7 +908,7 @@ namespace Win32xx
 
     // Create the MDI child window and then maximize if required.
     // This technique avoids unnecessary flicker when creating maximized MDI children.
-    inline HWND CMDIChild::Create(HWND parent /*= 0*/)
+    inline HWND CMDIChild::Create(HWND parent /*= NULL*/)
     {
         CREATESTRUCT cs;
         WNDCLASS wc;
@@ -1102,7 +1102,7 @@ namespace Win32xx
             // Assign the view window
             m_pView = &view;
 
-            if (GetHwnd() != 0)
+            if (GetHwnd() != NULL)
             {
                 if (!GetView().IsWindow())
                     GetView().Create(*this);

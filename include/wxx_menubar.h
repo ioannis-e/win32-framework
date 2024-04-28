@@ -154,15 +154,15 @@ namespace Win32xx
     inline CMenuBar::CMenuBar()
     {
         m_isExitAfter  = FALSE;
-        m_topMenu      = 0;
+        m_topMenu      = NULL;
         m_hotItem      = -1;
         m_isSelPopup   = FALSE;
-        m_selMenu      = 0;
+        m_selMenu      = NULL;
         m_isMenuActive = FALSE;
         m_isKeyMode    = FALSE;
         m_isAltMode    = FALSE;
-        m_prevFocus    = 0;
-        m_popupMenu    = 0;
+        m_prevFocus    = NULL;
+        m_popupMenu    = NULL;
     }
 
     inline CMenuBar::~CMenuBar()

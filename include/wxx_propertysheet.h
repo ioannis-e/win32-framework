@@ -122,13 +122,13 @@ namespace Win32xx
     class CPropertySheet : public CWnd
     {
     public:
-        CPropertySheet(UINT captionID, HWND parent = 0);
-        CPropertySheet(LPCTSTR caption = NULL, HWND parent = 0);
+        CPropertySheet(UINT captionID, HWND parent = NULL);
+        CPropertySheet(LPCTSTR caption = NULL, HWND parent = NULL);
         virtual ~CPropertySheet() {}
 
         // Operations
         virtual CPropertyPage* AddPage(CPropertyPage* pPage);
-        virtual HWND Create(HWND parent = 0);
+        virtual HWND Create(HWND parent = NULL);
         virtual INT_PTR CreatePropertySheet(LPCPROPSHEETHEADER pPSH);
         virtual void DestroyButton(int button);
         virtual void Destroy();
@@ -178,7 +178,7 @@ namespace Win32xx
     // Definitions for the CPropertyPage class
     //
 
-    inline CPropertyPage::CPropertyPage(UINT templateID, LPCTSTR title /* = 0*/)
+    inline CPropertyPage::CPropertyPage(UINT templateID, LPCTSTR title /* = NULL*/)
     {
         ZeroMemory(&m_psp, sizeof(m_psp));
         SetTitle(title);
@@ -498,8 +498,8 @@ namespace Win32xx
             }
         }
 
-        assert(pPage != 0);
-        if (pPage == 0)
+        assert(pPage != NULL);
+        if (pPage == NULL)
         {
             // Got a message for a window that's not in the map.
             return 0;
@@ -513,7 +513,7 @@ namespace Win32xx
     // Definitions for the CPropertySheet class
     //
 
-    inline CPropertySheet::CPropertySheet(UINT captionID, HWND parent /* = 0*/)
+    inline CPropertySheet::CPropertySheet(UINT captionID, HWND parent /* = NULL*/)
     {
         ZeroMemory(&m_psh, sizeof(m_psh));
         SetTitle(LoadString(captionID));
@@ -530,7 +530,7 @@ namespace Win32xx
             reinterpret_cast<void*>(CPropertySheet::Callback));
     }
 
-    inline CPropertySheet::CPropertySheet(LPCTSTR caption /*= NULL*/, HWND parent /* = 0*/)
+    inline CPropertySheet::CPropertySheet(LPCTSTR caption /*= NULL*/, HWND parent /* = NULL*/)
     {
         ZeroMemory(&m_psh, sizeof (m_psh));
         SetTitle(caption);
@@ -588,7 +588,7 @@ namespace Win32xx
         switch(msg)
         {
         // Called before the property sheet is created.
-        // wnd = 0, and lparam points to dialog resource.
+        // wnd = NULL, and lparam points to dialog resource.
         case PSCB_PRECREATE:
             {
                 LPDLGTEMPLATE  lpTemplate = (LPDLGTEMPLATE)lparam;
@@ -624,7 +624,7 @@ namespace Win32xx
 
     // Creates a modeless Property Sheet.
     // Refer to PropertySheet in the Windows API documentation for more information.
-    inline HWND CPropertySheet::Create(HWND parent /*= 0*/)
+    inline HWND CPropertySheet::Create(HWND parent /*= NULL*/)
     {
         assert(!IsWindow());        // Only one window per CWnd instance allowed.
 
@@ -641,7 +641,7 @@ namespace Win32xx
         m_psh.dwFlags &= ~PSH_WIZARD;
         m_psh.dwFlags |= PSH_MODELESS;
         HWND wnd = reinterpret_cast<HWND>(CreatePropertySheet(&m_psh));
-        if (wnd == 0)
+        if (wnd == NULL)
             throw CWinException(GetApp()->MsgWndPropertSheet());
 
         return wnd;
@@ -655,7 +655,7 @@ namespace Win32xx
         assert(!IsWindow());
 
         INT_PTR ipResult = 0;
-        m_wnd = 0;
+        m_wnd = NULL;
 
         // Retrieve this thread's TLS data
         TLSData* pTLSData = GetApp()->GetTlsData();
@@ -681,7 +681,7 @@ namespace Win32xx
         assert(IsWindow());
 
         HWND button = ::GetDlgItem(*this, buttonID);
-        if (button != 0)
+        if (button != NULL)
         {
             // Hide and disable the button.
             ::ShowWindow(button, SW_HIDE);
@@ -724,7 +724,7 @@ namespace Win32xx
         assert(IsWindow());
 
         CPropertyPage* pPage = NULL;
-        if (GetHwnd() != 0)
+        if (GetHwnd() != NULL)
         {
             HWND hPage = reinterpret_cast<HWND>(SendMessage(PSM_GETCURRENTPAGEHWND, 0, 0));
             pPage = static_cast<CPropertyPage*>(GetCWndPtr(hPage));
@@ -809,7 +809,7 @@ namespace Win32xx
 
         int page = GetPageIndex(pPage);
         WPARAM wparam = static_cast<WPARAM>(page);
-        if (GetHwnd() != 0)
+        if (GetHwnd() != NULL)
             SendMessage(*this, PSM_REMOVEPAGE, wparam, 0);
 
         m_allPages.erase(m_allPages.begin() + page, m_allPages.begin() + page+1);

@@ -416,8 +416,8 @@ namespace Win32xx
         T::OnCreate(cs);
         if (GetRibbonFramework())
         {
-            T::SetMenu(0);              // Disable the window menu
-            T::SetFrameMenu(reinterpret_cast<HMENU>(0));
+            T::SetMenu(NULL);              // Disable the window menu
+            T::SetFrameMenu(reinterpret_cast<HMENU>(NULL));
         }
 
         return 0;

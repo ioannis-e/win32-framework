@@ -111,7 +111,7 @@ namespace Win32xx
         CColorDialog(COLORREF initColor = 0, DWORD flags = 0);
         virtual ~CColorDialog(){}
 
-        virtual INT_PTR DoModal(HWND owner = 0);
+        virtual INT_PTR DoModal(HWND owner = NULL);
         COLORREF  GetColor() const               { return m_cc.rgbResult; }
         COLORREF* GetCustomColors()              { return m_customColors; }
         const CHOOSECOLOR& GetParameters() const { return m_cc; }
@@ -151,7 +151,7 @@ namespace Win32xx
         virtual ~CFileDialog()  {}
 
         // Operations
-        virtual INT_PTR DoModal(HWND owner = 0);
+        virtual INT_PTR DoModal(HWND owner = NULL);
 
         // methods valid after successful DoModal()
         CString GetFileName() const;
@@ -208,12 +208,12 @@ namespace Win32xx
         CFindReplaceDialog(BOOL isFindDialogOnly = TRUE);
         virtual ~CFindReplaceDialog() {}
 
-        virtual HWND Create(HWND parent = 0);
+        virtual HWND Create(HWND parent = NULL);
         virtual BOOL Create(BOOL isFindDialogOnly,
                         LPCTSTR findWhat,
                         LPCTSTR replaceWith = NULL,
                         DWORD   flags = FR_DOWN,
-                        HWND    parent = 0);
+                        HWND    parent = NULL);
 
         // Operations:
         BOOL    FindNext() const;           // TRUE = find next
@@ -255,13 +255,13 @@ namespace Win32xx
     class CFontDialog : public CCommonDialog
     {
     public:
-        CFontDialog(const LOGFONT& initial, DWORD flags = 0, HDC printer = 0);
-        CFontDialog(const CHARFORMAT& charformat, DWORD flags = 0, HDC printer = 0);
-        CFontDialog(DWORD flags = 0, HDC printer = 0);
+        CFontDialog(const LOGFONT& initial, DWORD flags = 0, HDC printer = NULL);
+        CFontDialog(const CHARFORMAT& charformat, DWORD flags = 0, HDC printer = NULL);
+        CFontDialog(DWORD flags = 0, HDC printer = NULL);
 
         virtual ~CFontDialog()  {}
 
-        virtual INT_PTR DoModal(HWND owner = 0);
+        virtual INT_PTR DoModal(HWND owner = NULL);
         CHARFORMAT  GetCharFormat() const;
         COLORREF    GetColor() const            { return m_cf.rgbColors;}
         CString GetFaceName() const             { return m_logFont.lfFaceName;}
@@ -427,7 +427,7 @@ namespace Win32xx
 
     // Display the ChooseColor common dialog box and select the current color.
     // An exception is thrown if the dialog box isn't created.
-    inline INT_PTR CColorDialog::DoModal(HWND owner /* = 0 */)
+    inline INT_PTR CColorDialog::DoModal(HWND owner /* = NULL */)
     {
         assert(!IsWindow());    // Only one window per CWnd instance allowed
 
@@ -442,7 +442,7 @@ namespace Win32xx
         // invoke the control and save the result on success
         BOOL isValid = ::ChooseColor(&m_cc);
 
-        m_wnd = 0;
+        m_wnd = NULL;
 
         if (!isValid)
         {
@@ -480,7 +480,7 @@ namespace Win32xx
     inline void CColorDialog::SetParameters(const CHOOSECOLOR& cc)
     {
         m_cc.lStructSize    = sizeof(m_cc);
-        m_cc.hwndOwner      = 0;            // Set this in DoModal
+        m_cc.hwndOwner      = NULL;            // Set this in DoModal
         m_cc.hInstance      = cc.hInstance;
         m_cc.rgbResult      = cc.rgbResult;
         m_cc.lpCustColors   = m_customColors;
@@ -625,7 +625,7 @@ namespace Win32xx
     // to hold the file names can be quite large. An exception is thrown if the
     // buffer size specified by m_OFN.nMaxFile turns out to be too small.
     // Use SetParamaters to set a larger size if required.
-    inline INT_PTR CFileDialog::DoModal(HWND owner /* = 0 */)
+    inline INT_PTR CFileDialog::DoModal(HWND owner /* = NULL */)
     {
         assert(!IsWindow());    // Only one window per CWnd instance allowed
 
@@ -641,7 +641,7 @@ namespace Win32xx
         int ok = (m_isOpenFileDialog ? ::GetOpenFileName(&m_ofn) : ::GetSaveFileName(&m_ofn));
         m_fileName.ReleaseBuffer(maxFileSize);
         m_ofn.lpstrFile = const_cast<LPTSTR>(m_fileName.c_str());
-        m_wnd = 0;
+        m_wnd = NULL;
 
         // the result of the file choice box is processed here:
         if (!ok)
@@ -1012,7 +1012,7 @@ namespace Win32xx
         SetTitle(ofn.lpstrFileTitle);
 
         m_ofn.lStructSize       = StructSize;
-        m_ofn.hwndOwner         = 0;            // Set this in DoModal
+        m_ofn.hwndOwner         = NULL;            // Set this in DoModal
         m_ofn.hInstance         = GetApp()->GetInstanceHandle();
         m_ofn.lpstrCustomFilter = ofn.lpstrCustomFilter;
         m_ofn.nMaxCustFilter    = MAX(MAX_PATH, ofn.nMaxCustFilter);
@@ -1065,7 +1065,7 @@ namespace Win32xx
     }
 
     // Create and display either a Find or FindReplace dialog box.
-    inline HWND CFindReplaceDialog::Create(HWND parent /* = 0*/)
+    inline HWND CFindReplaceDialog::Create(HWND parent /* = NULL*/)
     {
         Create(m_isFindDialogOnly, m_fr.lpstrFindWhat, m_fr.lpstrReplaceWith, m_fr.Flags, parent);
         return *this;
@@ -1077,7 +1077,7 @@ namespace Win32xx
     // Set parent to the handle of the dialog box's parent or owner window.
     // An exception is thrown if the window isn't created.
     inline BOOL CFindReplaceDialog::Create(BOOL isFindDialogOnly, LPCTSTR findWhat,
-            LPCTSTR replaceWith, DWORD flags, HWND parent /* = 0*/)
+            LPCTSTR replaceWith, DWORD flags, HWND parent /* = NULL*/)
     {
         assert(!IsWindow());    // Only one window per CWnd instance allowed
 
@@ -1107,7 +1107,7 @@ namespace Win32xx
         else
             wnd = ::ReplaceText(&m_fr);
 
-        if (wnd == 0)
+        if (wnd == NULL)
         {
             // Throw an exception when window creation fails
             throw CWinException(GetApp()->MsgWndDialog());
@@ -1263,7 +1263,7 @@ namespace Win32xx
             m_replaceWith.Empty();
 
         m_fr.lStructSize        = sizeof(m_fr);
-        m_fr.hwndOwner          = 0;        // Set this in Create
+        m_fr.hwndOwner          = NULL;        // Set this in Create
         m_fr.hInstance          = GetApp()->GetInstanceHandle();
         m_fr.Flags              = fr.Flags;
         m_fr.lpstrFindWhat      = const_cast<LPTSTR>(m_findWhat.c_str());
@@ -1289,7 +1289,7 @@ namespace Win32xx
     // Refer to the description of the CHOOSEFONT structure in the Windows API
     // documentation for more information on these parameters.
     inline CFontDialog::CFontDialog(const LOGFONT& initial, DWORD flags /* = 0 */,
-        HDC printer /* = 0 */)
+        HDC printer /* = NULL */)
     {
           // clear out logfont, style name, and choose font structure
         ZeroMemory(&m_logFont, sizeof(m_logFont));
@@ -1322,7 +1322,7 @@ namespace Win32xx
     // Refer to the description of the CHOOSEFONT structure in the Windows API
     // documentation for more information on these parameters.
     inline CFontDialog::CFontDialog(const CHARFORMAT& charformat, DWORD flags /* = 0 */,
-        HDC printer /* =  0 */)
+        HDC printer /* = NULL */)
     {
         // clear out logfont, style name, and choose font structure
         ZeroMemory(&m_logFont, sizeof(m_logFont));
@@ -1351,7 +1351,7 @@ namespace Win32xx
     }
 
     // Construct a default CFontDialog object.
-    inline CFontDialog::CFontDialog(DWORD flags /* = 0 */, HDC printer /* =  0 */)
+    inline CFontDialog::CFontDialog(DWORD flags /* = 0 */, HDC printer /* =  NULL */)
     {
         // clear out logfont, style name, and choose font structure
         ZeroMemory(&m_logFont, sizeof(m_logFont));
@@ -1419,7 +1419,7 @@ namespace Win32xx
     }
 
     // Display the FontDialog. hOwner specifies dialog's owner window.
-    inline INT_PTR CFontDialog::DoModal(HWND owner /* = 0 */)
+    inline INT_PTR CFontDialog::DoModal(HWND owner /* = NULL */)
     {
         assert(!IsWindow());    // Only one window per CWnd instance allowed
 
@@ -1437,7 +1437,7 @@ namespace Win32xx
 
         m_styleName.ReleaseBuffer();
         m_cf.lpszStyle = const_cast<LPTSTR>(m_styleName.c_str());
-        m_wnd = 0;
+        m_wnd = NULL;
 
         // process the result of the font choice box:
         if (!ok)
@@ -1604,7 +1604,7 @@ namespace Win32xx
             m_styleName.Empty();
 
         m_cf.lStructSize    = sizeof(m_cf);
-        m_cf.hwndOwner      = 0;        // Set this in DoModal
+        m_cf.hwndOwner      = NULL;        // Set this in DoModal
         m_cf.hDC            = cf.hDC;
         m_cf.lpLogFont      = &m_logFont;
         m_cf.iPointSize     = cf.iPointSize;

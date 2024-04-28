@@ -60,7 +60,7 @@ void CViewClasses::OnAttach()
 // Called when the window is destroyed.
 void CViewClasses::OnDestroy()
 {
-    SetImageList(0, LVSIL_SMALL);
+    SetImageList(NULL, LVSIL_SMALL);
 }
 
 // Respond to a mouse click on the window.
@@ -121,7 +121,7 @@ LRESULT CViewClasses::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        ::MessageBox(0, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+        ::MessageBox(NULL, e.GetText(), AtoT(e.what()), MB_ICONERROR);
 
         return 0;
     }
