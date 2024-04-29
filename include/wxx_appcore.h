@@ -834,7 +834,7 @@ namespace Win32xx
 
     // Loads the string from a Windows resource.
     template <>
-    inline bool CStringT<CHAR>::LoadString(UINT id)
+    inline bool CStringA::LoadString(UINT id)
     {
         assert(GetApp());
 
@@ -864,7 +864,7 @@ namespace Win32xx
     // Loads the string from a Windows resource.
     // Refer to LoadString in the Windows API documentation for more information.
     template <>
-    inline bool CStringT<WCHAR>::LoadString(UINT id)
+    inline bool CStringW::LoadString(UINT id)
     {
         assert(GetApp());
 
