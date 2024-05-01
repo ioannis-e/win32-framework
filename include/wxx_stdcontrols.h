@@ -270,8 +270,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    ////////////////////////////////////////
-    // Definitions for the CButton class
+    /////////////////////////////////////
+    // Definitions for the CButton class.
     //
 
     // Returns the handle to the bitmap associated with the button.

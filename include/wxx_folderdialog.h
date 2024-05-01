@@ -115,7 +115,7 @@
 #endif // _MSC_VER
 
 
-// Support older compilers
+// Support older compilers.
 #ifndef BIF_NONEWFOLDERBUTTON
 
   #define BIF_NONEWFOLDERBUTTON 0x0200

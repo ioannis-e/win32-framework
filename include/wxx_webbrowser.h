@@ -227,12 +227,12 @@ namespace Win32xx
         LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
 
     private:
-        CWebBrowser(const CWebBrowser&);              // Disable copy construction
-        CWebBrowser& operator=(const CWebBrowser&);   // Disable assignment operator
+        CWebBrowser(const CWebBrowser&);              // Disable copy construction.
+        CWebBrowser& operator=(const CWebBrowser&);   // Disable assignment operator.
 
         UINT    GetPidlLength(LPITEMIDLIST pidl) const;
-        CAXHost  m_axHost;              // The ActiveX host
-        IWebBrowser2* m_pIWebBrowser2;  // Interface to the ActiveX web browser control
+        CAXHost  m_axHost;              // The ActiveX host.
+        IWebBrowser2* m_pIWebBrowser2;  // Interface to the ActiveX web browser control.
     };
 
 }
@@ -242,8 +242,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    /////////////////////////////////////////
-    // Definitions for the CAXHost class
+    /////////////////////////////////////
+    // Definitions for the CAXHost class.
     //
 
     inline CAXHost::CAXHost() : m_hwnd(NULL), m_pUnk(NULL)
@@ -748,8 +748,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CWebBrowser class
+    /////////////////////////////////////////
+    // Definitions for the CWebBrowser class.
     //
 
     inline CWebBrowser::CWebBrowser() : m_pIWebBrowser2(0)
@@ -1148,7 +1148,8 @@ namespace Win32xx
         return hr;
     }
 
-    // Navigates the browser to a location specified by a pointer to an item identifier list (PIDL) for an entity in the Microsoft Windows Shell namespace.
+    // Navigates the browser to a location specified by a pointer to an item
+    // identifier list (PIDL) for an entity in the Microsoft Windows Shell namespace.
     inline HRESULT CWebBrowser::Navigate2(LPITEMIDLIST pIDL, DWORD flags /*= 0*/, LPCTSTR targetFrameName /*= NULL*/) const
     {
         UINT cb = GetPidlLength(pIDL);

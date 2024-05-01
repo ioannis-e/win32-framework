@@ -109,7 +109,7 @@ namespace Win32xx
     ///////////////////////////////////////////////////////////
     // This exception is used by CArchive and CFile to indicate
     // a problem creating or accessing a file.
-    // Note: Each function guarantees not to throw an exception
+    // Note: Each function guarantees not to throw an exception.
     class CFileException : public CException
     {
     public:
@@ -131,7 +131,7 @@ namespace Win32xx
     //////////////////////////////////////////////////////////////
     // This exception is used by the Win32++ framework to indicate
     // errors that prevent Win32++ from running.
-    // Note: Each function guarantees not to throw an exception
+    // Note: Each function guarantees not to throw an exception.
     class CNotSupportedException : public CException
     {
     public:

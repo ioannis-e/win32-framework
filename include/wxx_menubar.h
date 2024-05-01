@@ -90,7 +90,7 @@ namespace Win32xx
         virtual void    PreRegisterClass(WNDCLASS& wc);
         virtual BOOL    PreTranslateMessage(MSG& msg);
 
-        // Not intended to be overridden
+        // Not intended to be overridden.
         LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
 
     private:
@@ -175,7 +175,7 @@ namespace Win32xx
         SendMessage(WM_CANCELMODE, 0, 0);
     }
 
-    // Handle key pressed with Alt held down
+    // Handle key pressed with Alt held down.
     inline void CMenuBar::DoAltKey(WORD keyCode)
     {
         TCHAR key = static_cast<TCHAR>(keyCode);
@@ -216,7 +216,7 @@ namespace Win32xx
                 VERIFY(::SetRect(&m_mdiRect[2 - i], left, top, right, bottom));
             }
 
-            // Hide the MDI button if it won't fit
+            // Hide the MDI button if it won't fit.
             for (int k = 0 ; k <= 2 ; ++k)
             {
 
@@ -237,7 +237,7 @@ namespace Win32xx
     {
         if (!IsRectEmpty(&m_mdiRect[button]))
         {
-            // Use the Marlett font to draw special characters
+            // Use the Marlett font to draw special characters.
             CFont marlett;
             marlett.CreatePointFont(100, _T("Marlett"));
             drawDC.SetBkMode(TRANSPARENT);
@@ -445,20 +445,20 @@ namespace Win32xx
             GetAncestor().PostMessage(WM_SYSCOMMAND, SC_KEYMENU, VK_SPACE);
             break;
 
-        // Handle VK_DOWN, and VK_UP together
+        // Handle VK_DOWN, and VK_UP together.
         case VK_DOWN:
         case VK_UP:
-            // Always use PostMessage for USER_POPUPMENU (not SendMessage)
+            // Always use PostMessage for USER_POPUPMENU (not SendMessage).
             PostMessage(UWM_POPUPMENU, 0, 0);
             break;
         case VK_RETURN:
             m_isAltMode = FALSE;
-            // Always use PostMessage for USER_POPUPMENU (not SendMessage)
+            // Always use PostMessage for USER_POPUPMENU (not SendMessage).
             PostMessage(UWM_POPUPMENU, 0, 0);
             break;
 
         case VK_LEFT:
-            // Move left to next topmenu item
+            // Move left to the next topmenu item.
             if (m_hotItem > first)
                 StoreHotItem(m_hotItem -1);
             else
@@ -467,7 +467,7 @@ namespace Win32xx
             break;
 
         case VK_RIGHT:
-            // Move right to next topmenu item
+            // Move right to the next topmenu item.
             if (m_hotItem < GetButtonCount() -1)
                 StoreHotItem(m_hotItem +1);
             else
@@ -476,7 +476,7 @@ namespace Win32xx
             break;
 
         default:
-            // Handle Accelerator keys with Alt toggled down
+            // Handle Accelerator keys with Alt toggled down.
             if (m_isKeyMode)
             {
                 int item = MapAccelerator(keycode);
@@ -533,7 +533,7 @@ namespace Win32xx
                     DrawMDIButton(MenuBarDC, MDI_CLOSE,   (mdiButton == 2) ? 2U : 0U);
                 }
 
-                // Bring up the MDI Child window's system menu when the icon is pressed
+                // Bring up the MDI Child window's system menu when the icon is pressed.
                 if (HitTest() == 0)
                 {
                     m_hotItem = 0;
@@ -559,7 +559,7 @@ namespace Win32xx
                 CPoint pt = GetCursorPos();
                 VERIFY(ScreenToClient(pt));
 
-                // Process the MDI button action when the left mouse button is up
+                // Process the MDI button action when the left mouse button is up.
                 if (m_mdiRect[0].PtInRect(pt))
                 {
                      pMDIChild->ShowWindow(SW_MINIMIZE);
@@ -590,7 +590,7 @@ namespace Win32xx
         return TRUE; // handled
     }
 
-    // When a popup menu is active, StaticMsgHook directs all menu messages here
+    // StaticMsgHook directs all menu messages here when a popup menu is active.
     inline BOOL CMenuBar::OnMenuInput(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         int first = (IsMDIChildMaxed() ? 1 : 0);
@@ -603,7 +603,7 @@ namespace Win32xx
                 switch (wparam)
                 {
                 case VK_ESCAPE:
-                    // Use default processing if inside a Sub Menu
+                    // Use default processing if inside a Sub Menu.
                     if ((m_selMenu) &&(m_selMenu != m_popupMenu))
                         return FALSE;
 
@@ -617,17 +617,17 @@ namespace Win32xx
 
                 case VK_LEFT:
                 {
-                    // Use default processing if inside a Sub Menu
+                    // Use default processing if inside a Sub Menu.
                     if ((m_selMenu) && (m_selMenu != m_popupMenu))
                         return FALSE;
 
                     Press(m_hotItem, FALSE);
 
-                    // Move left to next topmenu item
+                    // Move left to the next topmenu item.
                     m_hotItem = (m_hotItem > first) ? m_hotItem -1 : GetButtonCount() -1;
                     Cancel();
 
-                    // Always use PostMessage for USER_POPUPMENU (not SendMessage)
+                    // Always use PostMessage for USER_POPUPMENU (not SendMessage).
                     PostMessage(UWM_POPUPMENU, 0, 0);
                     PostMessage(WM_KEYDOWN, VK_DOWN, 0);
                     break;
@@ -635,17 +635,17 @@ namespace Win32xx
 
                 case VK_RIGHT:
                 {
-                    // Use default processing to open Sub Menu
+                    // Use default processing to open Sub Menu.
                     if (m_isSelPopup)
                         return FALSE;
 
                     Press(m_hotItem, FALSE);
 
-                    // Move right to next topmenu item
+                    // Move right to the next topmenu item.
                     m_hotItem = (m_hotItem < GetButtonCount() -1) ? m_hotItem +1 : first;
                     Cancel();
 
-                    // Always use PostMessage for USER_POPUPMENU (not SendMessage)
+                    // Always use PostMessage for USER_POPUPMENU (not SendMessage).
                     PostMessage(UWM_POPUPMENU, 0, 0);
                     PostMessage(WM_KEYDOWN, VK_DOWN, 0);
                     break;
@@ -698,11 +698,11 @@ namespace Win32xx
 
         case WM_MENUSELECT:
             {
-                // store info about selected item
+                // Store info about selected item.
                 m_selMenu = reinterpret_cast<HMENU>(lparam);
                 m_isSelPopup = ((HIWORD(wparam) & MF_POPUP)) ? TRUE : FALSE;
 
-                // Reflect message back to the frame window
+                // Reflect message back to the frame window.
                 GetAncestor().SendMessage(WM_MENUSELECT, wparam, lparam);
             }
             return TRUE;
@@ -713,7 +713,7 @@ namespace Win32xx
                 pt.x = GET_X_LPARAM(lparam);
                 pt.y = GET_Y_LPARAM(lparam);
 
-                // Skip if mouse hasn't moved
+                // Skip if mouse hasn't moved.
                 if ((pt.x == m_oldMousePos.x) && (pt.y == m_oldMousePos.y))
                     return FALSE;
 
@@ -721,7 +721,7 @@ namespace Win32xx
                 m_oldMousePos.y = pt.y;
                 VERIFY(ScreenToClient(pt));
 
-                // Reflect messages back to the MenuBar for hot tracking
+                // Reflect messages back to the MenuBar for hot tracking.
                 SendMessage(WM_MOUSEMOVE, 0, MAKELPARAM(pt.x, pt.y));
             }
             break;
@@ -802,7 +802,7 @@ namespace Win32xx
         tpm.cbSize = sizeof(tpm);
         tpm.rcExclude = rc;
 
-        // Set the hot button
+        // Set the hot button.
         SetHotItem(m_hotItem);
         Press(m_hotItem, TRUE);
 
@@ -878,7 +878,7 @@ namespace Win32xx
         {
             if (lparam == 0)
             {
-                // Alt/F10 key toggled
+                // Alt/F10 key toggled.
                 GrabFocus();
                 m_isKeyMode = TRUE;
                 m_isAltMode = TRUE;
@@ -886,7 +886,7 @@ namespace Win32xx
                 StoreHotItem(maxedOffset);
             }
             else
-                // Handle key pressed with Alt held down
+                // Handle key pressed with Alt held down.
                 DoAltKey(static_cast<WORD>(lparam));
         }
 
@@ -945,7 +945,7 @@ namespace Win32xx
                     m_hotItem = button;
                     Cancel();
 
-                    //Always use PostMessage for USER_POPUPMENU (not SendMessage).
+                    // Always use PostMessage for USER_POPUPMENU (not SendMessage).
                     PostMessage(UWM_POPUPMENU, 0, 0);
                 }
                 m_hotItem = button;
@@ -1217,7 +1217,7 @@ namespace Win32xx
         case WM_UNINITMENUPOPUP:    return GetAncestor().SendMessage(msg, wparam, lparam);
         case WM_MENURBUTTONUP:      return GetAncestor().SendMessage(msg, wparam, lparam);
 
-        // Messages defined by Win32++
+        // Messages defined by Win32++.
         case UWM_POPUPMENU:         return OnPopupMenu();
         case UWM_GETCMENUBAR:       return reinterpret_cast<LRESULT>(this);
 

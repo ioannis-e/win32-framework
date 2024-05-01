@@ -229,7 +229,7 @@ void CViewTree::SetDPIImages()
     CImageList smallImages;
     smallImages.Create(scale * 16, scale * 15, ILC_COLOR32 | ILC_MASK, 1, 0);
     smallImages.Add(bmImage, RGB(255, 0, 0));
-    SetImageList(smallImages, LVSIL_NORMAL);
+    SetImageList(smallImages, TVSIL_NORMAL);
 
     // Reset the item indentation.
     int imageWidth = smallImages.GetIconSize().cx;

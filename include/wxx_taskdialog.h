@@ -202,7 +202,7 @@ namespace Win32xx
     }
 
     // Adds a range of radio buttons to the Task Dialog.
-    // Assumes the resource ID of the button and it's string match
+    // Assumes the resource ID of the button and it's string match.
     inline void CTaskDialog::AddRadioButtonGroup(int firstRadioButtonID, int lastRadioButtonID)
     {
         assert (GetHwnd() == NULL);
@@ -417,7 +417,7 @@ namespace Win32xx
     // Called when the user selects a button or command link.
     inline BOOL CTaskDialog::OnTDButtonClicked(int)
     {
-        // return TRUE to prevent the task dialog from closing
+        // Return TRUE to prevent the task dialog from closing.
         return FALSE;
     }
 
@@ -707,21 +707,21 @@ namespace Win32xx
         CTaskDialog* t = static_cast<CTaskDialog*>(GetCWndPtr(wnd));
         if (t == NULL)
         {
-            // The CTaskDialog pointer wasn't found in the map, so add it now
+            // The CTaskDialog pointer wasn't found in the map, so add it now.
 
-            // Retrieve the pointer to the TLS Data
+            // Retrieve the pointer to the TLS Data.
             TLSData* pTLSData = GetApp()->GetTlsData();
             assert(pTLSData);
             if (pTLSData)
             {
-                // Retrieve pointer to CTaskDialog object from Thread Local Storage TLS
+                // Retrieve pointer to CTaskDialog object from Thread Local Storage TLS.
                 t = static_cast<CTaskDialog*>(pTLSData->pWnd);
                 assert(t);
                 pTLSData->pWnd = NULL;
 
                 if (t != NULL)
                 {
-                    // Store the CTaskDialog pointer in the HWND map
+                    // Store the CTaskDialog pointer in the HWND map.
                     t->m_wnd = wnd;
                     t->AddToMap();
                 }

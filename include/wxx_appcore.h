@@ -470,11 +470,11 @@ namespace Win32xx
 
         VERIFY(::RegisterClass(&defaultWC));
 
-        // Retrieve the class information
+        // Retrieve the class information.
         ZeroMemory(&defaultWC, sizeof(defaultWC));
         VERIFY(::GetClassInfo(GetInstanceHandle(), className, &defaultWC));
 
-        // Save the callback address of CWnd::StaticWindowProc
+        // Save the callback address of CWnd::StaticWindowProc.
         assert(defaultWC.lpfnWndProc);  // Assert fails when running UNICODE build on ANSI OS.
         m_callback = defaultWC.lpfnWndProc;
         VERIFY(::UnregisterClass(className, GetInstanceHandle()));
@@ -576,7 +576,7 @@ namespace Win32xx
         }
         else
         {
-            // Global memory has already been allocated
+            // Global memory has already been allocated.
             if (CDevNames(m_devNames).IsDefaultPrinter())
             {
                 // Get current default printer
@@ -760,7 +760,7 @@ namespace Win32xx
     inline CString CWinApp::MsgPrintFound() const
     { return _T("No printer available."); }
 
-    // DDX anomaly prompting messages
+    // DDX anomaly prompting messages.
     inline CString CWinApp::MsgDDX_Byte() const
     { return _T("Please enter an integer between 0 and 255."); }
 

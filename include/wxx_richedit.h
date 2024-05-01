@@ -53,7 +53,7 @@ namespace Win32xx
 {
 
 #ifdef __GNUC__
-   //   UndoName info (required by some GNU compilers)
+   //   UndoName info (required by some GNU compilers).
     typedef enum _undonameid
     {
         UID_UNKNOWN     = 0,
@@ -186,7 +186,7 @@ namespace Win32xx
 
     inline CRichEdit::CRichEdit()
     {
-        // Windows 95   Includes only Rich Edit 1.0
+        // Windows 95   Includes only Rich Edit 1.0.
         // Windows 98   Includes Rich Edit 1.0 and 2.0.
         // Windows 2000 Includes Rich Edit 3.0 with a Rich Edit 1.0 emulator.
         // Windows XP   Includes Rich Edit 4.1, and Rich Edit 3.0 with a Rich Edit 1.0 emulator.
@@ -210,7 +210,7 @@ namespace Win32xx
 
     inline CRichEdit::~CRichEdit()
     {
-        // Destroy the window before freeing the DLL
+        // Destroy the window before freeing the DLL.
         Destroy();
 
         ::FreeLibrary(m_rich1);
@@ -232,10 +232,10 @@ namespace Win32xx
     {
         // Use the latest version of RichEdit available.
 
-        // For RichEdit version 1.0, 2.0 and 3.0
+        // For RichEdit version 1.0, 2.0 and 3.0.
         wc.lpszClassName = RICHEDIT_CLASS;
 
-        // For RichEdit version 4.1 (available on XP and above)
+        // For RichEdit version 4.1 (available on XP and above).
 #if defined MSFTEDIT_CLASS && defined UNICODE
         if (m_rich4_1 != NULL)
             wc.lpszClassName = MSFTEDIT_CLASS;
@@ -243,7 +243,7 @@ namespace Win32xx
 
     }
 
-    // Adds text to the end of the document
+    // Adds text to the end of the document.
     inline void CRichEdit::AppendText(LPCTSTR text) const
     {
         LRESULT position = SendMessage(WM_GETTEXTLENGTH, 0, 0);
@@ -759,7 +759,7 @@ namespace Win32xx
 
     // Inserts the contents of the Clipboard in the specified data format.
     // Refer to EM_PASTESPECIAL in the Windows API documentation for more information.
-    inline void CRichEdit::PasteSpecial(UINT clipFormat, DWORD aspect /* = NULL */, HMETAFILE mf /* = 0 */) const
+    inline void CRichEdit::PasteSpecial(UINT clipFormat, DWORD aspect /* = NULL */, HMETAFILE mf /* = NULL */) const
     {
         assert(IsWindow());
 

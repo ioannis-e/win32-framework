@@ -79,7 +79,7 @@ namespace Win32xx
     // Definitions for the CHGlobal class
     //
 
-    // Allocates a new global memory buffer for this object
+    // Allocates a new global memory buffer for this object.
     inline void CHGlobal::Alloc(size_t size)
     {
         Free();
@@ -88,7 +88,7 @@ namespace Win32xx
             throw std::bad_alloc();
     }
 
-    // Manually frees the global memory assigned to this object
+    // Manually frees the global memory assigned to this object.
     inline void CHGlobal::Free()
     {
         if (m_global != NULL)

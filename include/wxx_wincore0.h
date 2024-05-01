@@ -165,8 +165,8 @@
 namespace Win32xx
 {
 
-    ////////////////////////////////
-    // Registered messages defined by Win32++
+    //////////////////////////////////////////
+    // Registered messages defined by Win32++.
     const UINT UWM_WINDOWCREATED = ::RegisterWindowMessage(_T("UWM_WINDOWCREATED"));    // Posted when a window is created or attached.
 
     ////////////////////////////////////////////////////////////////
@@ -371,7 +371,7 @@ namespace Win32xx
         operator HWND() const { return GetHwnd(); }
 
     protected:
-        // Override these functions as required
+        // Override these functions as required.
         virtual LRESULT FinalWindowProc(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual void    OnAttach();
         virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam);
@@ -391,13 +391,13 @@ namespace Win32xx
         virtual BOOL    PreTranslateMessage(MSG& msg);
         virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
-        // Not intended to be overridden
+        // Not intended to be overridden.
         virtual LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
 
     private:
-        CWnd(const CWnd&);              // Disable copy construction
-        CWnd& operator=(const CWnd&);   // Disable assignment operator
-        CWnd(HWND wnd);                 // Private constructor used internally
+        CWnd(const CWnd&);              // Disable copy construction.
+        CWnd& operator=(const CWnd&);   // Disable assignment operator.
+        CWnd(HWND wnd);                 // Private constructor used internally.
 
         static LRESULT CALLBACK StaticWindowProc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
@@ -408,7 +408,7 @@ namespace Win32xx
         BOOL    RemoveFromMap();
         void    Subclass(HWND wnd);
 
-        HWND m_wnd;                    // handle to this object's window
+        HWND m_wnd;                    // Handle to this object's window.
         WNDPROC m_prevWindowProc;
     }; // class CWnd
 

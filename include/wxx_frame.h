@@ -424,7 +424,7 @@ namespace Win32xx
         CClientDC desktopDC(*this);
         CMemDC memDC(desktopDC);
 
-        // m_menuImages should already have this image
+        // m_menuImages should already have this image.
         assert(m_menuImages.GetHandle() != NULL);
 
         int cxImage = m_menuImages.GetIconSize().cx;
@@ -434,7 +434,7 @@ namespace Win32xx
         CRect rc;
         rc.SetRect(0, 0, cxImage, cyImage);
 
-        // Set the mask color to gray for the new ImageList
+        // Set the mask color to gray for the new ImageList.
         if (GetDeviceCaps(desktopDC, BITSPIXEL) < 24)
         {
             HPALETTE hPal = desktopDC.GetCurrentPalette();
@@ -444,7 +444,7 @@ namespace Win32xx
 
         memDC.SolidFill(mask, rc);
 
-        // Draw the icon on the memory DC
+        // Draw the icon on the memory DC.
         memDC.DrawIconEx(0, 0, icon, cxImage, cyImage, 0, 0, DI_NORMAL);
 
         // Detach the bitmap so we can use it.
@@ -493,7 +493,7 @@ namespace Win32xx
         {
             m_menuItemIDs.push_back(menuItemID);
 
-            // Set the mask color to gray for the new ImageList
+            // Set the mask color to gray for the new ImageList.
             COLORREF mask = RGB(192, 192, 192);
             CClientDC desktopDC(*this);
             if (GetDeviceCaps(desktopDC, BITSPIXEL) < 24)
@@ -550,7 +550,7 @@ namespace Win32xx
             bitmap = ScaleUpBitmap(bitmap, scale);
             int newSize = MAX(bitmap.GetSize().cy, 16);
 
-            // Create the ImageList
+            // Create the ImageList.
             m_menuImages.Create(newSize, newSize, ILC_COLOR32 | ILC_MASK, images, 0);
 
             // Add the resource IDs to the m_menuIcons vector.
@@ -694,7 +694,7 @@ namespace Win32xx
         m_toolBarData.clear();
 
         if (GetReBar().IsWindow())
-            AddToolBarBand(GetToolBar(), RBBS_BREAK|RBBS_GRIPPERALWAYS, IDW_TOOLBAR);   // Create the toolbar inside rebar
+            AddToolBarBand(GetToolBar(), RBBS_BREAK|RBBS_GRIPPERALWAYS, IDW_TOOLBAR);   // Create the toolbar inside rebar.
         else
             GetToolBar().Create(*this); // Create the toolbar without a rebar.
 
@@ -803,10 +803,10 @@ namespace Win32xx
 
                     drawDC.DrawText(str, str.GetLength(), rc, format);
 
-                    return CDRF_SKIPDEFAULT;  // No further drawing
+                    return CDRF_SKIPDEFAULT;  // No further drawing.
                 }
             }
-            return CDRF_DODEFAULT;   // Do default drawing
+            return CDRF_DODEFAULT;   // Do default drawing.
 
         }
 
@@ -1259,18 +1259,18 @@ namespace Win32xx
         if (m_menuImages.GetHandle() == 0)
             return;
 
-        // Get icon size
+        // Get icon size.
         CSize iconSize = m_menuImages.GetIconSize();
         int xIcon = iconSize.cx;
         int yIcon = iconSize.cy;
 
-        // get the drawing rectangle
+        // get the drawing rectangle.
         CRect itemRect = pDrawItem->rcItem;
         CRect gutter = GetMenuMetrics().GetGutterRect(pDrawItem->rcItem);
         int left = (gutter.Width() - xIcon) / 2;
         int top = itemRect.top + (itemRect.Height() - yIcon) / 2;
 
-        // get the icon's location in the imagelist
+        // get the icon's location in the imagelist.
         int image = -1;
         for (size_t i = 0 ; i < m_menuItemIDs.size(); ++i)
         {
@@ -1278,7 +1278,7 @@ namespace Win32xx
                image = static_cast<int>(i);
         }
 
-        // draw the image
+        // Daw the image.
         if (image >= 0 )
         {
             bool isDisabled = (pDrawItem->itemState & (ODS_GRAYED | ODS_DISABLED)) != 0;
@@ -1306,7 +1306,7 @@ namespace Win32xx
         // Calculate the text rect size.
         CRect textRect = GetMenuMetrics().GetTextRect(pDrawItem->rcItem);
 
-        // find the position of tab character.
+        // Find the position of tab character.
         int tab = itemText.Find(_T('\t'));
 
         // Draw the item text.
@@ -1443,7 +1443,7 @@ namespace Win32xx
                                 maskDC.BitBlt(left, top, cx, cy, maskDC, left, top, PATINVERT);
                             }
 
-                            // Copy Source DC to Memory DC using the RoundRect mask
+                            // Copy Source DC to Memory DC using the RoundRect mask.
                             memDC.BitBlt(left, top, cx, cy, sourceDC, left, top, SRCINVERT);
                             memDC.BitBlt(left, top, cx, cy, maskDC,   left, top, SRCAND);
                             memDC.BitBlt(left, top, cx, cy, sourceDC, left, top, SRCINVERT);
@@ -1887,7 +1887,7 @@ namespace Win32xx
         dc.CreateFontIndirect(lf);
         CSize size = GetMenuMetrics().GetItemSize(pMID, dc);
 
-        if (~pMID->mii.fType & MFT_SEPARATOR)  // if the type is not a separator
+        if (~pMID->mii.fType & MFT_SEPARATOR)  // if the type is not a separator.
         {
             // Account for icon height.
             int iconGap = T::DpiScaleInt(6);
@@ -1977,7 +1977,7 @@ namespace Win32xx
             GetMenuBar().SetWindowTheme(L" ", L" ");
         }
 
-        // Setup the menu if IDW_MAIN menu resource is defined
+        // Setup the menu if IDW_MAIN menu resource is defined.
         CMenu menu(IDW_MAIN);
         if (::IsMenu(menu))
         {
@@ -1986,7 +1986,7 @@ namespace Win32xx
                 UpdateMRUMenu();
         }
         else
-            ShowMenu(FALSE);  // No menu if IDW_MAIN menu resource isn't defined
+            ShowMenu(FALSE);  // No menu if IDW_MAIN menu resource isn't defined.
 
         // Configure the menu metrics and fonts.
         ResetMenuMetrics();
@@ -2669,7 +2669,7 @@ namespace Win32xx
             SetStatusIndicators();
         }
 
-        // Resize the rebar or toolbar
+        // Resize the rebar or toolbar.
         if (GetReBar().IsWindow())
         {
             GetReBar().SendMessage(WM_SIZE, 0, 0);
@@ -2973,7 +2973,7 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::SetMRULimit(UINT mruLimit)
     {
-        // Remove any excess MRU entries
+        // Remove any excess MRU entries.
         if (mruLimit < m_mruEntries.size())
         {
             m_mruEntries.erase(m_mruEntries.begin() + static_cast<int>(mruLimit), m_mruEntries.end());
@@ -3051,7 +3051,7 @@ namespace Win32xx
             CRect clientRect = T::GetClientRect();
             int width = MAX(300, clientRect.right);
 
-            // Create 4 panes
+            // Create 4 panes.
             GetStatusBar().SetPartWidth(0, width - (capSize.cx + numSize.cx + scrlSize.cx + cxGripper));
             GetStatusBar().SetPartWidth(1, capSize.cx);
             GetStatusBar().SetPartWidth(2, numSize.cx);
@@ -3077,7 +3077,7 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::SetTheme()
     {
-        // Avoid themes if using less than 16 bit colors
+        // Avoid themes if using less than 16 bit colors.
         CClientDC DesktopDC(*this);
         if (DesktopDC.GetDeviceCaps(BITSPIXEL) < 16)
             UseThemes(FALSE);

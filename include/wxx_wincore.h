@@ -143,12 +143,12 @@ namespace Win32xx
 
             if (pSHGetFolderPath)
             {
-                // Call the SHGetFolderPath function to retrieve the AppData folder
+                // Call the SHGetFolderPath function to retrieve the AppData folder.
                 pSHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, 0, appData.GetBuffer(MAX_PATH));
                 appData.ReleaseBuffer();
             }
 
-            // If we can't get the AppData folder, get the MyDocuments folder instead
+            // If we can't get the AppData folder, get the MyDocuments folder instead.
             if (appData.IsEmpty())
             {
                 typedef HRESULT WINAPI GETSPECIALPATH(HWND, LPTSTR, int, BOOL);
@@ -192,14 +192,14 @@ namespace Win32xx
 
             if (isQuoted)
             {
-                // Find the terminating token (quote followed by space)
+                // Find the terminating token (quote followed by space).
                 endPos = commandLine.Find(_T("\" "), index);
                 if (endPos == -1) endPos = commandLine.GetLength() - 1;
 
                 // Store the argument in the CStringT vector without the quotes.
                 CString s;
                 if (endPos - index < 2)
-                    s = _T("\"\"");     // "" for a single quote or double quote argument
+                    s = _T("\"\"");     // "" For a single quote or double quote argument.
                 else
                     s = commandLine.Mid(index + 1, endPos - index - 1);
 
@@ -218,7 +218,7 @@ namespace Win32xx
                 index = endPos + 1;
             }
 
-            // skip excess space characters
+            // Skip excess space characters.
             while (index < commandLine.GetLength() && commandLine[index] == _T(' '))
                 index++;
         }
@@ -283,13 +283,13 @@ namespace Win32xx
         return newImageDC.DetachBitmap();
     }
 
-    ////////////////////////////////////////
-    // Definitions for the CWnd class
+    //////////////////////////////////
+    // Definitions for the CWnd class.
     //
 
     inline CWnd::CWnd() : m_wnd(NULL), m_prevWindowProc(NULL)
     {
-        // Note: m_wnd is set in CWnd::CreateEx(...)
+        // Note: m_wnd is set in CWnd::CreateEx(...).
     }
 
     inline CWnd::CWnd(HWND wnd) : m_prevWindowProc(NULL)
@@ -318,7 +318,7 @@ namespace Win32xx
     {
         CThreadLock mapLock(GetApp()->m_wndLock);
 
-        // This HWND is should not be in the map yet
+        // This HWND is should not be in the map yet.
         assert (GetApp()->GetCWndFromMap(*this) == NULL);
 
         // Remove any old map entry for this CWnd (required when the CWnd is reused).
@@ -474,7 +474,7 @@ namespace Win32xx
         LONG dwOverlappedStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
         cs.style = WS_VISIBLE | ((parent)? WS_CHILD : dwOverlappedStyle );
 
-        // Set a reasonable default window position
+        // Set a reasonable default window position.
         if (parent == NULL)
         {
             cs.x  = CW_USEDEFAULT;
@@ -873,7 +873,7 @@ namespace Win32xx
     inline BOOL CWnd::OnCommand(WPARAM, LPARAM)
     {
 
-        // Override this to handle WM_COMMAND messages, for example
+        // Override this to handle WM_COMMAND messages, for example:
 
         //  UINT id = LOWORD(wparam);
         //  switch (id)
@@ -883,7 +883,7 @@ namespace Win32xx
         //      TRUE;   // return TRUE for handled commands
         //  }
 
-        // return FALSE for unhandled commands
+        // Return FALSE for unhandled commands.
         return FALSE;
     }
 
@@ -960,10 +960,10 @@ namespace Win32xx
 
         // switch (msg)
         // {
-        //      Handle your reflected messages here
+        //      Handle your reflected messages here.
         // }
 
-        // return 0 for unhandled messages
+        // Return 0 for unhandled messages.
         return 0;
     }
 
@@ -986,7 +986,7 @@ namespace Win32xx
         //      For many notifications, the return value doesn't matter, but for some it does.
         // }
 
-        // return 0 for unhandled notifications
+        // Return 0 for unhandled notifications.
         // The framework will call SetWindowLongPtr(DWLP_MSGRESULT, result) for dialogs.
         return 0;
     }
@@ -1034,7 +1034,7 @@ namespace Win32xx
                 OnDraw(dc);
             }
 
-            // No more drawing required
+            // No more drawing required.
             return 0;
         }
 
@@ -1102,7 +1102,7 @@ namespace Win32xx
 
         if (!done)
         {
-            // Set defaults
+            // Set defaults.
             wc.hInstance    = GetApp()->GetInstanceHandle();
             wc.lpfnWndProc  = CWnd::StaticWindowProc;
 
@@ -1338,7 +1338,7 @@ namespace Win32xx
                     if (::GetParent(from) == m_wnd)
                         result = pWndFrom->OnNotifyReflect(wparam, lparam);
 
-                // Handle user notifications
+                // Handle user notifications.
                 if (result == 0) result = OnNotify(wparam, lparam);
                 if (result != 0) return result;
                 break;

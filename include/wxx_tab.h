@@ -38,7 +38,7 @@
 
 ///////////////////////////////////////////////////////
 // wxx_tab.h
-//  Declaration of the CTab and CMDITab classes
+//  Declaration of the CTab and CMDITab classes.
 
 #ifndef _WIN32XX_TAB_H_
 #define _WIN32XX_TAB_H_
@@ -93,8 +93,8 @@ namespace Win32xx
             virtual void OnCancel() { EndDialog(-2); }
 
         private:
-            CSelectDialog(const CSelectDialog&);               // Disable copy construction
-            CSelectDialog& operator=(const CSelectDialog&);    // Disable assignment operator
+            CSelectDialog(const CSelectDialog&);               // Disable copy construction.
+            CSelectDialog& operator=(const CSelectDialog&);    // Disable assignment operator.
 
             std::vector<CString> m_items;
             UINT IDC_LIST;
@@ -219,13 +219,13 @@ namespace Win32xx
 
         std::vector<TabPageInfo> m_allTabPageInfo;
         std::vector<WndPtr> m_tabViews;
-        CFont m_tabFont;                // Font used for tab text with owner draw
-        CImageList m_images;            // Image-list for the tab control
-        LPCDLGTEMPLATE m_pDlgTemplate;  // Dialog template for the list dialog
+        CFont m_tabFont;                // Font used for tab text with owner draw.
+        CImageList m_images;            // Image-list for the tab control.
+        LPCDLGTEMPLATE m_pDlgTemplate;  // Dialog template for the list dialog.
         CWnd* m_pActiveView;
         CPoint m_oldMousePos;
         CMenu m_listMenu;
-        BOOL m_isShowingButtons;        // Show or hide the close and list button
+        BOOL m_isShowingButtons;        // Show or hide the close and list button.
         BOOL m_isTracking;
         BOOL m_isClosePressed;
         BOOL m_isListPressed;
@@ -295,8 +295,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    /////////////////////////////////////////////////////////////
-    // Definitions for the CSelectDialog class nested within CTab
+    //////////////////////////////////////////////////////////////
+    // Definitions for the CSelectDialog class nested within CTab.
     //
     inline CTab::CSelectDialog::CSelectDialog(LPCDLGTEMPLATE pDlgTemplate) :
                     CDialog(pDlgTemplate), IDC_LIST(122)
@@ -329,8 +329,8 @@ namespace Win32xx
     }
 
 
-    //////////////////////////////////////////////////////////
-    // Definitions for the CTab class
+    //////////////////////////////////
+    // Definitions for the CTab class.
     //
 
     inline CTab::CTab() : m_pActiveView(NULL), m_isShowingButtons(FALSE), m_isTracking(FALSE),
@@ -453,7 +453,7 @@ namespace Win32xx
         // Draw the outer highlight for the close button.
         if (!IsRectEmpty(&rcClose))
         {
-            // Use the Marlett font to draw special characters
+            // Use the Marlett font to draw special characters.
             CFont marlett;
             marlett.CreatePointFont(100, _T("Marlett"));
             dc.SetBkMode(TRANSPARENT);
@@ -522,7 +522,7 @@ namespace Win32xx
         // Draw the outer highlight for the list button.
         if (!IsRectEmpty(&rcList))
         {
-            // Use the Marlett font to draw special characters
+            // Use the Marlett font to draw special characters.
             CFont marlett;
             marlett.CreatePointFont(100, _T("Marlett"));
             dc.SetBkMode(TRANSPARENT);
@@ -1606,7 +1606,7 @@ namespace Win32xx
         return CWnd::WndProcDefault(msg, wparam, lparam);
     }
 
-    // Wrappers for Win32 Macros
+    // Wrappers for Win32 Macros.
 
     // Calculates a tab control's display area given a window rectangle, or calculates
     //  the window rectangle that would correspond to a specified display area.
@@ -1839,7 +1839,7 @@ namespace Win32xx
     }
 
     ////////////////////////////////////////
-    // Definitions for the CTabbedMDI class
+    // Definitions for the CTabbedMDI class.
 
     inline CTabbedMDI::CTabbedMDI()
     {
@@ -1855,12 +1855,12 @@ namespace Win32xx
     // the CWnd object when the window is destroyed.
     inline CWnd* CTabbedMDI::AddMDIChild(CWnd* pView, LPCTSTR tabText, int mdiChildID)
     {
-        assert(pView); // Cannot add Null CWnd*
+        assert(pView); // Cannot add null CWnd*.
         assert(lstrlen(tabText) < WXX_MAX_STRING_SIZE);
 
         GetTab().AddTabPage(pView, tabText, 0U, mdiChildID);
 
-        // Fake a WM_MOUSEACTIVATE to propagate focus change to dockers
+        // Fake a WM_MOUSEACTIVATE to propagate focus change to dockers.
         if (IsWindow())
         {
             WPARAM wparam = reinterpret_cast<WPARAM>(GetAncestor().GetHwnd());
@@ -1908,7 +1908,7 @@ namespace Win32xx
         clientcreate.idFirstChild = IDW_FIRSTCHILD ;
         DWORD style = WS_CHILD | WS_VISIBLE | MDIS_ALLCHILDSTYLES | WS_CLIPCHILDREN;
 
-        // Create the MDICLIENT view window
+        // Create the MDICLIENT view window.
         if (!CreateEx(0, _T("MDICLIENT"), _T(""),
             style, 0, 0, 0, 0, parent, NULL, (PSTR) &clientcreate))
                 throw CWinException(GetApp()->MsgWndCreate());
@@ -1983,7 +1983,7 @@ namespace Win32xx
                 CString TabText;
                 tabKeyName.Format(_T("ID%d"), i);
 
-                // Fill the DockList vector from the registry
+                // Fill the DockList vector from the registry.
                 while (ERROR_SUCCESS == mdiChildKey.QueryDWORDValue(tabKeyName, dwTabID))
                 {
                     tabKeyName.Format(_T("Text%d"), i);

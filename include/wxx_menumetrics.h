@@ -345,7 +345,7 @@ namespace Win32xx
         return CRect(x, y, x + m_sizeCheck.cx, y + m_sizeCheck.cy);
     }
 
-    // Retrieve the size of the menu item
+    // Retrieve the size of the menu item.
     inline CSize CMenuMetrics::GetItemSize(MenuItemData* pmd, CClientDC& dc) const
     {
         CSize size;
@@ -520,8 +520,8 @@ namespace Win32xx
 
         if (m_theme != NULL)
         {
-            int borderSize = 0;    // Border space between item text and accelerator
-            int bgBorderSize = 0;  // Border space between item text and gutter
+            int borderSize = 0;    // Border space between item text and accelerator.
+            int bgBorderSize = 0;  // Border space between item text and gutter.
             GetThemePartSize(NULL, MENU_POPUPCHECK, 0, NULL, TS_TRUE, &m_sizeCheck);
             GetThemePartSize(NULL, MENU_POPUPSEPARATOR, 0, NULL, TS_TRUE, &m_sizeSeparator);
             GetThemeInt(MENU_POPUPITEM, 0, TMT_BORDERSIZE, &borderSize);

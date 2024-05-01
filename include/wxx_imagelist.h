@@ -189,7 +189,7 @@ namespace Win32xx
         Release();
     }
 
-    // Store the HIMAGELIST and CImageList pointer in the HIMAGELIST map
+    // Store the HIMAGELIST and CImageList pointer in the HIMAGELIST map.
     inline void CImageList::AddToMap() const
     {
         assert(m_pData->images);
@@ -250,7 +250,7 @@ namespace Win32xx
 
         if (images != m_pData->images)
         {
-            // Release any existing ImageList
+            // Release any existing ImageList.
             if (m_pData->images)
             {
                 Release();
@@ -259,7 +259,7 @@ namespace Win32xx
 
             if (images != NULL)
             {
-                // Add the image list to this CImageList
+                // Add the image list to this CImageList.
                 CIml_Data* pCImlData = GetApp()->GetCImlData(images);
                 if (pCImlData)
                 {
@@ -733,10 +733,10 @@ namespace Win32xx
             int cx, cy;
             ImageList_GetIconSize(normalImages, &cx, &cy);
 
-            // Create the disabled ImageList
+            // Create the disabled ImageList.
             Create(cx, cy, ILC_COLOR24 | ILC_MASK, count, 0);
 
-            // Process each image in the ImageList
+            // Process each image in the ImageList.
             for (int i = 0 ; i < count; ++i)
             {
                 CClientDC desktopDC(HWND_DESKTOP);
@@ -756,7 +756,7 @@ namespace Win32xx
                 }
                 memDC.SolidFill(mask, rc);
 
-                // Draw the image on the memory DC
+                // Draw the image on the memory DC.
                 ImageList_Draw(normalImages, i, memDC, 0, 0, ILD_NORMAL);
 
                 // Convert the bitmap to grayscale and add it to the imagelist.

@@ -120,12 +120,6 @@ void CViewList::OnAttach()
     SetDPIColumnWidths();
 }
 
-// Called when the window is destroyed.
-void CViewList::OnDestroy()
-{
-    SetImageList(NULL, LVSIL_SMALL);
-}
-
 // Called in response to a WM_DPICHANGED_BEFOREPARENT message which is sent to child
 // windows after a DPI change. A WM_DPICHANGED_BEFOREPARENT is only received when the
 // application is DPI_AWARENESS_PER_MONITOR_AWARE.
@@ -251,12 +245,6 @@ void CViewTree::OnAttach()
     Expand(htiCTreeViewApp, TVE_EXPAND);
 }
 
-// Called when the window is destroyed.
-void CViewTree::OnDestroy()
-{
-    SetImageList(NULL, LVSIL_SMALL);
-}
-
 // Called in response to a WM_DPICHANGED_BEFOREPARENT message which is sent to child
 // windows after a DPI change. A WM_DPICHANGED_BEFOREPARENT is only received when the
 // application is DPI_AWARENESS_PER_MONITOR_AWARE.
@@ -284,7 +272,7 @@ void CViewTree::SetDPIImages()
     CImageList normalImages;
     normalImages.Create(scale * 16, scale * 15, ILC_COLOR32 | ILC_MASK, 1, 0);
     normalImages.Add(bmImage, RGB(255, 0, 0));
-    SetImageList(normalImages, LVSIL_NORMAL);
+    SetImageList(normalImages, TVSIL_NORMAL);
 
     // Reset the item indentation.
     int imageWidth = normalImages.GetIconSize().cx;

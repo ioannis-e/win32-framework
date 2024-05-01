@@ -76,7 +76,7 @@ namespace Win32xx
         operator HMETAFILE() { return m_pData->metaFile; }
 
     private:
-        struct CMetaFile_Data   // A structure that contains the data members for CMetaFile
+        struct CMetaFile_Data   // A structure that contains the data members for CMetaFile.
         {
             // Constructor
             CMetaFile_Data() : metaFile(NULL) {}

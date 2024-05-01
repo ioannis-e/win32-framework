@@ -414,10 +414,10 @@ namespace Win32xx
         CPalette palette;
         CPen    pen;
         CRgn    rgn;
-        HDC     dc;             // The HDC belonging to this CDC
-        long    count;          // Reference count
-        bool    isManagedHDC;   // Delete/Release the HDC on destruction
-        HWND    wnd;            // The HWND of a Window or Client window DC
+        HDC     dc;             // The HDC belonging to this CDC.
+        long    count;          // Reference count.
+        bool    isManagedHDC;   // Delete/Release the HDC on destruction.
+        HWND    wnd;            // The HWND of a Window or Client window DC.
         int     savedDCState;   // The save state of the HDC.
         bool    isPaintDC;
         PAINTSTRUCT ps;
@@ -435,12 +435,12 @@ namespace Win32xx
     class CDC
     {
     public:
-        CDC();                                  // Constructs a new CDC without assigning a HDC
-        CDC(HDC dc);                            // Constructs a new CDC and assigns a HDC
-        CDC(const CDC& rhs);                    // Constructs a new copy of the CDC
+        CDC();                                  // Constructs a new CDC without assigning a HDC.
+        CDC(HDC dc);                            // Constructs a new CDC and assigns a HDC.
+        CDC(const CDC& rhs);                    // Constructs a new copy of the CDC.
         virtual ~CDC();
-        operator HDC() const { return GetHDC(); }   // Converts a CDC to a HDC
-        CDC& operator=(const CDC& rhs);         // Assigns a CDC to an existing CDC
+        operator HDC() const { return GetHDC(); }   // Converts a CDC to a HDC.
+        CDC& operator=(const CDC& rhs);         // Assigns a CDC to an existing CDC.
         CDC& operator=(HDC dc);
 
         void Attach(HDC dc);
@@ -937,7 +937,7 @@ namespace Win32xx
     // Definitions for the CGDIObject class
     //
 
-    // Constructs the CGDIObject
+    // Constructs the CGDIObject.
     inline CGDIObject::CGDIObject()
     {
         m_pData = new CGDI_Data;
@@ -952,7 +952,7 @@ namespace Win32xx
         InterlockedIncrement(&m_pData->count);
     }
 
-    // Deconstructs the CGDIObject
+    // Deconstructs the CGDIObject.
     inline CGDIObject::~CGDIObject()
     {
         Release();
@@ -979,7 +979,7 @@ namespace Win32xx
         return *this;
     }
 
-    // Store the HDC and CDC pointer in the HDC map
+    // Store the HDC and CDC pointer in the HDC map.
     inline void CGDIObject::AddToMap()
     {
         assert(m_pData->hGDIObject);
@@ -1291,10 +1291,10 @@ namespace Win32xx
 
             for (int column = 0; column < bmiHeader.biWidth; ++column)
             {
-                // Calculate index
+                // Calculate the index.
                 index = size_t(yOffset) + size_t(xOffset);
 
-                // skip for colors matching the mask
+                // Skip for colors matching the mask.
                 if ((bits[index + 0] != GetRValue(mask)) ||
                     (bits[index + 1] != GetGValue(mask)) ||
                     (bits[index + 2] != GetBValue(mask)))
@@ -1305,11 +1305,11 @@ namespace Win32xx
                     bits[index + 2] = byGray;
                 }
 
-                // Increment the horizontal offset
+                // Increment the horizontal offset.
                 xOffset += bmiHeader.biBitCount >> 3;
             }
 
-            // Increment vertical offset
+            // Increment vertical offset.
             yOffset += widthBytes;
         }
 
@@ -1435,17 +1435,17 @@ namespace Win32xx
     // Convert a bitmap image to gray scale.
     inline void CBitmap::GrayScaleBitmap() const
     {
-        // Requires 8 bits per pixel
+        // Requires 8 bits per pixel.
         BITMAP data = GetBitmapData();
         if (data.bmBitsPixel < 8)
             return;
 
-        // Create our LPBITMAPINFO object
+        // Create our LPBITMAPINFO object.
         CBitmapInfoPtr pbmi(*this);
         BITMAPINFOHEADER& bmiHeader = pbmi->bmiHeader;
         bmiHeader.biBitCount = 24;
 
-        // Create the reference DC for GetDIBits to use
+        // Create the reference DC for GetDIBits to use.
         CMemDC memDC(0);
 
         // Use GetDIBits to create a DIB from our DDB, and extract the color data
@@ -1476,15 +1476,15 @@ namespace Win32xx
                 pByteArray[index +1] = byGray;
                 pByteArray[index +2] = byGray;
 
-                // Increment the horizontal offset
+                // Increment the horizontal offset.
                 xOffset += bmiHeader.biBitCount >> 3;
             }
 
-            // Increment vertical offset
+            // Increment vertical offset.
             yOffset += heightBytes;
         }
 
-        // Save the modified color back into our source DDB
+        // Save the modified color back into our source DDB.
         VERIFY(SetDIBits(memDC, 0, scanLines, pByteArray, pbmi, DIB_RGB_COLORS));
     }
 
@@ -1494,12 +1494,12 @@ namespace Win32xx
     // directly, rather than using GetPixel/SetPixel.
     inline void CBitmap::TintBitmap (int cRed, int cGreen, int cBlue) const
     {
-        // Create our LPBITMAPINFO object
+        // Create our LPBITMAPINFO object.
         CBitmapInfoPtr pbmi(*this);
         BITMAPINFOHEADER& bmiHeader = pbmi->bmiHeader;
         bmiHeader.biBitCount = 24;
 
-        // Create the reference DC for GetDIBits to use
+        // Create the reference DC for GetDIBits to use.
         CMemDC memDC(NULL);
 
         // Use GetDIBits to create a DIB from our DDB, and extract the color data
@@ -1511,7 +1511,7 @@ namespace Win32xx
         VERIFY(GetDIBits(memDC, 0, scanLines, pByteArray, pbmi, DIB_RGB_COLORS));
         UINT widthBytes = bmiHeader.biSizeImage/bmiHeader.biHeight;
 
-        // Ensure sane color correction values
+        // Ensure sane color correction values.
         cBlue  = MIN(cBlue, 255);
         cBlue  = MAX(cBlue, -255);
         cRed   = MIN(cRed, 255);
@@ -1519,7 +1519,7 @@ namespace Win32xx
         cGreen = MIN(cGreen, 255);
         cGreen = MAX(cGreen, -255);
 
-        // Pre-calculate the RGB modification values
+        // Pre-calculate the RGB modification values.
         int b1 = 256 - cBlue;
         int g1 = 256 - cGreen;
         int r1 = 256 - cRed;
@@ -1528,7 +1528,7 @@ namespace Win32xx
         int g2 = 256 + cGreen;
         int r2 = 256 + cRed;
 
-        // Modify the color
+        // Modify the color.
         int yOffset = 0;
         int xOffset;
         size_t index;
@@ -1538,10 +1538,10 @@ namespace Win32xx
 
             for (int Column=0; Column < bmiHeader.biWidth; ++Column)
             {
-                // Calculate index
+                // Calculate the index.
                 index = size_t(yOffset) + size_t(xOffset);
 
-                // Adjust the color values
+                // Adjust the color values.
                 if (cBlue > 0)
                     pByteArray[index]   = static_cast<BYTE>(cBlue + (((pByteArray[index] *b1)) >>8));
                 else if (cBlue < 0)
@@ -1557,15 +1557,15 @@ namespace Win32xx
                 else if (cRed < 0)
                     pByteArray[index+2] = static_cast<BYTE>((pByteArray[index+2] *r2) >>8);
 
-                // Increment the horizontal offset
+                // Increment the horizontal offset.
                 xOffset += bmiHeader.biBitCount >> 3;
             }
 
-            // Increment vertical offset
+            // Increment vertical offset.
             yOffset += widthBytes;
         }
 
-        // Save the modified color back into our source DDB
+        // Save the modified color back into our source DDB.
         VERIFY(SetDIBits(memDC, 0, scanLines, pByteArray, pbmi, DIB_RGB_COLORS));
     }
 
@@ -2315,7 +2315,7 @@ namespace Win32xx
 
     inline CDC::CDC()
     {
-        // Allocate memory for our data members
+        // Allocate memory for our data members.
         m_pData = new CDC_Data;
     }
 
@@ -2375,7 +2375,7 @@ namespace Win32xx
         return m_pData->dc;
     }
 
-    // Store the HDC and CDC pointer in the HDC map
+    // Store the HDC and CDC pointer in the HDC map.
     inline void CDC::AddToMap()
     {
         assert(m_pData->dc != NULL);
@@ -2403,7 +2403,7 @@ namespace Win32xx
             {
                 Release();
 
-                // Assign values to our data members
+                // Assign values to our data members.
                 m_pData = new CDC_Data;
             }
 
@@ -2454,7 +2454,7 @@ namespace Win32xx
             }
         }
 
-        // Assign values to our data members
+        // Assign values to our data members.
         m_pData = new CDC_Data;
 
         return dc;
@@ -2830,7 +2830,7 @@ namespace Win32xx
         {
             RemoveFromMap();
 
-            // Return the DC back to its initial state
+            // Return the DC back to its initial state.
             ::RestoreDC(m_pData->dc, m_pData->savedDCState);
 
             if (m_pData->isManagedHDC)
@@ -3157,7 +3157,7 @@ namespace Win32xx
                     DWORD clipPrecision,      // clipping precision
                     DWORD quality,            // output quality
                     DWORD pitchAndFamily,     // pitch and family
-                    LPCTSTR faceName         // typeface name
+                    LPCTSTR faceName          // typeface name
                     )
 
     {
@@ -3328,9 +3328,9 @@ namespace Win32xx
     inline HGDIOBJ CDC::SelectStockObject(int index) const
     {
         assert(m_pData->dc != NULL);
-        HGDIOBJ hStockObject = ::GetStockObject(index);
+        HGDIOBJ stockObject = ::GetStockObject(index);
 
-        HGDIOBJ oldObject = ::SelectObject(m_pData->dc, hStockObject);
+        HGDIOBJ oldObject = ::SelectObject(m_pData->dc, stockObject);
         if (oldObject == NULL)
             throw CResourceException(GetApp()->MsgGdiSelObject());
 

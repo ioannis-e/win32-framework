@@ -48,7 +48,7 @@
 
 ////////////////////////////////////////////////////////
 //
-//  Declaration of the CTime class
+//  Declaration of the CTime class.
 //
 ////////////////////////////////////////////////////////
 
@@ -97,14 +97,14 @@ namespace Win32xx
 {
 
 
-    // define the time_tm type.
+    // Define the time_tm type.
     typedef struct tm time_tm;
 
-    // define the timespane_t type.
+    // Define the timespane_t type.
     // This can be int or __int64 depending on the compiler
     typedef time_t timespan_t;
 
-    // forward declaration
+    // Forward declaration.
     class CTimeSpan;
 
     // Declaration of a global time conversion function.
@@ -178,7 +178,7 @@ namespace Win32xx
 
     private:
 
-        // private data members
+        // Private data members
         time_t      m_time;
     };
 
@@ -188,7 +188,7 @@ namespace Win32xx
     // between two CTime values, measured in seconds of time.
     class CTimeSpan
     {
-        friend class CTime;     // CTime can access private members
+        friend class CTime;     // CTime can access private members.
 
     public:
         // Constructors
@@ -235,7 +235,7 @@ namespace Win32xx
 
     private:
 
-        // private data members
+        // Private data members
         timespan_t m_timespan;
     };
 
@@ -300,7 +300,7 @@ namespace Win32xx
         m_time = t;
     }
 
-    // Constructs a CTime object from the time_tm atm, or assert if atm is invalid
+    // Constructs a CTime object from the time_tm atm, or assert if atm is invalid.
     inline CTime::CTime(time_tm& atm)
     {
         // compute the object time_t
@@ -315,8 +315,8 @@ namespace Win32xx
     inline CTime::CTime(UINT yr, UINT mo, UINT wkday, UINT nthwk, UINT hr,
         UINT min, UINT sec, int isDST /* = -1 */)
     {
-        // validate parameters w.r.t. ranges
-        assert(yr >= 1969); // Last few hours of 1969 might be a valid local time
+        // Validate parameters w.r.t. ranges.
+        assert(yr >= 1969); // Last few hours of 1969 might be a valid local time.
         assert(wkday <= 6);
         assert(1 <= mo && mo <= 12);
 
@@ -330,10 +330,10 @@ namespace Win32xx
         time_tm atm = { static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hr),
                        1, static_cast<int>(mo - 1), static_cast<int>(yr - 1900), 0, 0, isDST};
 
-        // get the (valid) local time of the UTC time corresponding to this
+        // Get the (valid) local time of the UTC time corresponding to this.
         time_t t1st = UTCtime(&atm);
 
-        // recover the day of the week
+        // Recover the day of the week.
 
 #if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
         time_tm* ptm1 = ::gmtime(&t1st);
@@ -345,10 +345,10 @@ namespace Win32xx
         gmtime_s(ptm1, &t1st);
 #endif
 
-        // Compute number of days until the nthwk occurrence of wkday
+        // Compute number of days until the nthwk occurrence of wkday.
         time_t nthwkday = (7 + time_t(wkday) - ptm1->tm_wday) % 7 + time_t(nthwk - 1) * 7;
 
-        // add this to the first of the month
+        // Add this to the first of the month.
         time_t sec_per_day = 86400;
         time_t tnthwkdy = t1st + nthwkday * sec_per_day;
 #if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )
@@ -376,14 +376,14 @@ namespace Win32xx
         // validate parameters w.r.t. ranges
         assert(1 <= day && day   <= 31);
         assert(1 <= month && month <= 12);
-        assert(year >= 1969);  // Last few hours of 1969 might be a valid local time
+        assert(year >= 1969);  // Last few hours of 1969 might be a valid local time.
 
         // fill out a time_tm with the calendar date
         time_tm atm = {static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hour),
             static_cast<int>(day), static_cast<int>(month - 1), static_cast<int>(year - 1900),
             0, 0, isDST};
 
-        // compute the object time_t
+        // Compute the object time_t.
         m_time = ::mktime(&atm);
         assert(m_time != -1);
     }
@@ -392,14 +392,14 @@ namespace Win32xx
     // January 1 in the specified year.
     inline CTime::CTime(UINT yr, UINT doy, UINT hr, UINT min, UINT sec, int isDST /* = -1 */)
     {
-        // validate parameters w.r.t. ranges
-        assert(yr >= 1969);  // Last few hours of 1969 might be a valid local time
+        // Validate parameters w.r.t. ranges/
+        assert(yr >= 1969);  // Last few hours of 1969 might be a valid local time/
 
-        // fill out a time_tm with the calendar date for Jan 1, yr, hr:min:sec
+        // Fill out a time_tm with the calendar date for Jan 1, yr, hr:min:sec/
         time_tm atm1st = {static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hr),
             1, 0, static_cast<int>(yr - 1900), 0, 0, isDST};
 
-        // get the local time of the UTC time corresponding to this
+        // Get the local time of the UTC time corresponding to this.
         time_t Jan1 = UTCtime(&atm1st);
         time_t sec_per_day = 86400;
         time_t tDoy = Jan1 + doy * sec_per_day - sec_per_day;
@@ -413,7 +413,7 @@ namespace Win32xx
         ::gmtime_s(ptm, &tDoy);
 #endif
 
-        // compute the object time_t
+        // Compute the object time_t.
         ptm->tm_isdst = isDST;
         m_time = ::mktime(ptm);
         assert(m_time != -1);
@@ -441,15 +441,15 @@ namespace Win32xx
     // Constructs a CTime object from a (UTC) FILETIME structure ft.
     inline CTime::CTime(const FILETIME& ft, int isDST /* = -1 */)
     {
-        // start by converting ft (a UTC time) to local time
+        // Convert ft (a UTC time) to local time.
         FILETIME localTime;
         VERIFY( ::FileTimeToLocalFileTime(&ft, &localTime) );
 
-        //  convert localTime to a SYSTEMTIME structure
+        // Convert localTime to a SYSTEMTIME structure.
         SYSTEMTIME st;
         VERIFY( ::FileTimeToSystemTime(&localTime, &st) );
 
-        // then convert the system time to a CTime
+        // Convert the system time to a CTime.
         CTime t(st, isDST);  // asserts if invalid
         m_time = t.m_time;
     }
@@ -652,7 +652,7 @@ namespace Win32xx
         return *this;
     }
 
-    // Returns the time span between *this time and  time t
+    // Returns the time span between *this time and  time t.
     inline const CTimeSpan CTime::operator-(const CTime& t) const
     {
         timespan_t d = static_cast<timespan_t>(m_time - t.m_time);
@@ -851,7 +851,7 @@ namespace Win32xx
 
     ///////////////////////////////////////////////////////////////
     //
-    //  CTimeSpan class implementation
+    //  CTimeSpan class implementation.
     //
     ///////////////////////////////////////////////////////////////
 
@@ -940,7 +940,7 @@ namespace Win32xx
     // Assigns the CTimeSpan ts to *this time span.
     inline CTimeSpan& CTimeSpan::operator=(const CTimeSpan& ts)
     {
-        // Self assignment is safe
+        // Self assignment is safe.
         m_timespan = ts.m_timespan;
         return *this;
     }
@@ -948,7 +948,7 @@ namespace Win32xx
     // Assigns the timespan_t t value to *this time span.
     inline CTimeSpan& CTimeSpan::operator=(const timespan_t& t)
     {
-        // Self assignment is safe
+        // Self assignment is safe.
         m_timespan = t;
         return *this;
     }
@@ -1078,7 +1078,7 @@ namespace Win32xx
 
 
     //
-    // Global functions within the Win32xx namespace
+    // Global functions within the Win32xx namespace.
     //
 
 
@@ -1094,7 +1094,7 @@ namespace Win32xx
             throw CFileException(str, GetApp()->MsgArReadFail());
         }
 
-        // load CTimeSpan as x64
+        // Load CTimeSpan as x64.
         ULONGLONG tsx64 = 0;
         ar.Read(&tsx64, size);
         timespan_t tst = static_cast<timespan_t>(tsx64);
@@ -1110,7 +1110,7 @@ namespace Win32xx
         UINT size = sizeof(tsx64);
         ar.Write(&size, sizeof(size));
 
-        // store CTimeSpan as x64
+        // Store CTimeSpan as x64.
         tsx64 = static_cast<ULONGLONG>(ts);
         ar.Write(&tsx64, size);
         return ar;

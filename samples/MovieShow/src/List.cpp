@@ -208,12 +208,6 @@ LRESULT CViewList::OnCustomDraw(LPNMCUSTOMDRAW pCustomDraw)
     return CDRF_DODEFAULT;
 }
 
-// Called when the listview window is destroyed.
-void CViewList::OnDestroy()
-{
-    SetImageList(nullptr, LVSIL_SMALL);
-}
-
 // Called in response to a WM_DPICHANGED_BEFOREPARENT message that is sent to child
 // windows after a DPI change. A WM_DPICHANGED_BEFOREPARENT is only received when the
 // application is DPI_AWARENESS_PER_MONITOR_AWARE.

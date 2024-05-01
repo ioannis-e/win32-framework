@@ -186,7 +186,7 @@ namespace Win32xx
         //                      //  a value recommended by the Windows API documentation
         //  }
 
-        // Always pass unhandled messages on to DialogProcDefault
+        // Always pass unhandled messages on to DialogProcDefault.
         return DialogProcDefault(msg, wparam, lparam);
     }
 
@@ -197,12 +197,12 @@ namespace Win32xx
     // Returns PD_RESULT_PRINT, PD_RESULT_APPLY, or PD_RESULT_CANCEL.
     inline INT_PTR CPrintDialogEx::DoModal(HWND owner /* = NULL */)
     {
-        assert(!IsWindow());    // Only one window per CWnd instance allowed
+        assert(!IsWindow());    // Only one window per CWnd instance allowed.
 
-        // Update the default printer
+        // Update the default printer.
         GetApp()->UpdateDefaultPrinter();
 
-        // Assign values to the PRINTDLGEX structure
+        // Assign values to the PRINTDLGEX structure.
         m_pdex.hDevMode = GetApp()->GetHDevMode();
         m_pdex.hDevNames = GetApp()->GetHDevNames();
         if (::IsWindow(owner))
@@ -213,7 +213,7 @@ namespace Win32xx
         m_pdex.lpCallback = (IPrintDialogCallback*)this;
         m_pdex.dwResultAction = 0;
 
-        // Create the dialog
+        // Create the dialog.
         if (S_OK != PrintDlgEx(&m_pdex))
         {
             int error = static_cast<int>(CommDlgExtendedError());
@@ -328,7 +328,6 @@ namespace Win32xx
         GetApp()->ResetPrinterMemory();
         GetApp()->UpdateDefaultPrinter();
 
-        // Return TRUE if default printer exists
         return (GetApp()->GetHDevNames().Get()) ? TRUE : FALSE;
     }
 
@@ -444,7 +443,7 @@ namespace Win32xx
             Attach(wnd);
 
         *pResult = DialogProc(msg, wparam, lparam);
-        return S_FALSE;  // Perform its default message handling
+        return S_FALSE;  // Perform its default message handling.
     }
 
     // Returns TRUE if collate checked.
@@ -509,7 +508,7 @@ namespace Win32xx
         GetApp()->UpdatePrinterMemory(hDevMode, hDevNames);
     }
 
-    // Set the parameters of the PRINTDLGEX structure to sensible values
+    // Set the parameters of the PRINTDLGEX structure to sensible values.
     inline void CPrintDialogEx::SetParameters(const PRINTDLGEX& pdex)
     {
         m_pdex.lStructSize      = sizeof(m_pdex);            // size of structure in bytes

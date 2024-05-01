@@ -182,7 +182,7 @@ namespace Win32xx
     // The size of the MENUIEMINFO struct varies according to the window version.
     inline UINT GetSizeofMenuItemInfo()
     {
-        // For Win95 and NT, cbSize needs to be 44
+        // For Win95 and NT, cbSize needs to be 44.
         if ((GetWinVersion() == 1400) || (GetWinVersion() == 2400))
             return CCSIZEOF_STRUCT(MENUITEMINFO, cch);
 
@@ -248,7 +248,7 @@ namespace Win32xx
         Release();
     }
 
-    // Store the HMENU and CMenu pointer in the HMENU map
+    // Store the HMENU and CMenu pointer in the HMENU map.
     inline void CMenu::AddToMap() const
     {
         assert(m_pData);
@@ -343,7 +343,7 @@ namespace Win32xx
 
         if (menu != m_pData->menu)
         {
-            // Release any existing menu
+            // Release any existing menu.
             if (m_pData->menu != NULL)
             {
                 Release();
@@ -352,7 +352,7 @@ namespace Win32xx
 
             if (menu != NULL)
             {
-                // Add the menu to this CMenu
+                // Add the menu to this CMenu.
                 CMenu_Data* pCMenuData = GetApp()->GetCMenuData(menu);
                 if (pCMenuData)
                 {
@@ -472,7 +472,7 @@ namespace Win32xx
         return menu;
     }
 
-    // Returns the HMENU assigned to this CMenu
+    // Returns the HMENU assigned to this CMenu.
     inline HMENU CMenu::GetHandle() const
     {
         CThreadLock mapLock(GetApp()->m_gdiLock);
@@ -538,7 +538,7 @@ namespace Win32xx
     }
 
 
-// minimum OS required : Win2000
+// Minimum OS required is Win2000.
 #if (WINVER >= 0x0500)
 
     // Retrieves the menu information.
@@ -574,7 +574,7 @@ namespace Win32xx
         return ::GetMenuItemCount(m_pData->menu);
     }
 
-    // Retrieves the data assigned to the specfied menu item.
+    // Retrieves the data assigned to the specified menu item.
     // Refer to the description of the dwItemData member of MENUITEMINFO
     // in the Windows API documentation for more information.
     inline ULONG_PTR CMenu::GetMenuItemData(UINT idOrPos, BOOL byPosition /* = FALSE*/) const
@@ -695,7 +695,7 @@ namespace Win32xx
         assert(m_pData);
         assert(IsMenu(m_pData->menu));
 
-        // Ensure the correct flags are set
+        // Ensure the correct flags are set.
         flags &= ~MF_BITMAP;
         flags &= ~MF_OWNERDRAW;
         flags |= MF_POPUP;

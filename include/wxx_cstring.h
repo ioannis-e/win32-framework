@@ -483,7 +483,8 @@ namespace Win32xx
         m_str.append(str);
     }
 
-    // Assigns the specified number of characters from text to the CStringT.
+    // Assigns the specified number of characters from the text array to this string.
+    // The text array can contain null characters.
     template <class T>
     inline void CStringT<T>::Assign(const T* text, int count)
     {

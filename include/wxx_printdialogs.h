@@ -128,10 +128,10 @@ namespace Win32xx
         void    SetParameters(const PRINTDLG& pd);
 
     protected:
-        // Override these functions as required
+        // Override these functions as required.
         virtual INT_PTR DialogProc(UINT, WPARAM, LPARAM);
 
-        // Not intended to be overridden
+        // Not intended to be overridden.
         INT_PTR DialogProcDefault(UINT, WPARAM, LPARAM);
 
     private:
@@ -165,12 +165,12 @@ namespace Win32xx
         void    SetParameters(const PAGESETUPDLG& psd);
 
     protected:
-        // Override these functions as required
+        // Override these functions as required.
         virtual INT_PTR DialogProc(UINT, WPARAM, LPARAM);
         virtual UINT    OnDrawPage(HDC, UINT, const RECT&);
         virtual UINT    OnPreDrawPage(WORD paper, WORD flags, const PAGESETUPDLG& psd);
 
-        // Not intended to be overridden
+        // Not intended to be overridden.
         INT_PTR DialogProcDefault(UINT, WPARAM, LPARAM);
         static INT_PTR CALLBACK PaintHookProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -201,9 +201,9 @@ namespace Win32xx
 
         m_pd.Flags = flags;
         m_pd.Flags &= ~PD_RETURNIC;
-        m_pd.Flags &= ~PD_RETURNDC;   // use GetPrinterDC to retrieve the dc.
+        m_pd.Flags &= ~PD_RETURNDC;   // Use GetPrinterDC to retrieve the dc.
 
-        // Enable the hook proc for the help button
+        // Enable the hook proc for the help button.
         if (m_pd.Flags & PD_SHOWHELP)
             m_pd.Flags |= PD_ENABLEPRINTHOOK;
 
@@ -253,7 +253,7 @@ namespace Win32xx
         //              // by the Windows API documentation
         //  }
 
-        // Always pass unhandled messages on to DialogProcDefault
+        // Always pass unhandled messages on to DialogProcDefault.
         return DialogProcDefault(msg, wparam, lparam);
     }
 
@@ -396,7 +396,7 @@ namespace Win32xx
     // unlocks the memory when it goes out of scope.
     // Usage:
     //  CDevNames pDevNames = GetDevNames();
-    //  Then use pDevNames as if it were a LPDEVNAMES
+    //  Then use pDevNames as if it were a LPDEVNAMES.
     inline CDevNames CPrintDialog::GetDevNames() const
     {
         if (GetApp()->GetHDevNames().Get() == NULL)
@@ -488,7 +488,7 @@ namespace Win32xx
     inline void CPrintDialog::SetParameters(const PRINTDLG& pd)
     {
         m_pd.lStructSize    = sizeof(m_pd);
-        m_pd.hwndOwner      = NULL;            // Set this in DoModal
+        m_pd.hwndOwner      = NULL;            // Set this in DoModal.
         m_pd.Flags          = pd.Flags;
         m_pd.nFromPage      = pd.nFromPage;
         m_pd.nToPage        = pd.nToPage;
@@ -504,12 +504,12 @@ namespace Win32xx
         m_pd.lpPrintTemplateName = pd.lpPrintTemplateName;
         m_pd.lpSetupTemplateName = pd.lpSetupTemplateName;
         m_pd.Flags &= ~PD_RETURNIC;
-        m_pd.Flags &= ~PD_RETURNDC;   // use GetPrinterDC to retrieve the dc.
+        m_pd.Flags &= ~PD_RETURNDC;   // Use GetPrinterDC to retrieve the dc.
     }
 
 
-    /////////////////////////////////////////////
-    // Definitions for the CPageSetupDialog class
+    //////////////////////////////////////////////
+    // Definitions for the CPageSetupDialog class.
     //
 
 
@@ -547,7 +547,7 @@ namespace Win32xx
         //              // by the Windows API documentation
         //  }
 
-        // Always pass unhandled messages on to DialogProcDefault
+        // Always pass unhandled messages on to DialogProcDefault.
         return DialogProcDefault(msg, wparam, lparam);
     }
 
@@ -559,7 +559,7 @@ namespace Win32xx
         switch (msg)
         {
         case WM_INITDIALOG:
-            {   // handle the initialization message
+            {   // Handle the initialization message.
                 return OnInitDialog();
             }
 
@@ -584,9 +584,9 @@ namespace Win32xx
     // An exception is thrown if there is no default printer.
     inline INT_PTR CPageSetupDialog::DoModal(HWND owner /* = NULL */)
     {
-        assert(!IsWindow());    // Only one window per CWnd instance allowed
+        assert(!IsWindow());    // Only one window per CWnd instance allowed.
 
-        // Update the default printer
+        // Update the default printer.
         GetApp()->UpdateDefaultPrinter();
 
         // Assign values to the PAGESETUPDLG structure
@@ -594,10 +594,10 @@ namespace Win32xx
         m_psd.hDevNames = GetApp()->GetHDevNames();
         m_psd.hwndOwner = owner;
 
-        // Retrieve this thread's TLS data
+        // Retrieve this thread's TLS data.
         TLSData* pTLSData = GetApp()->GetTlsData();
 
-        // Create the modal dialog
+        // Create the modal dialog.
         pTLSData->pWnd = this;
         BOOL ok = ::PageSetupDlg(&m_psd);
 

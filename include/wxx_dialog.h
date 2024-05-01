@@ -161,8 +161,8 @@ namespace Win32xx
     //
 
     // Resize Dialog Styles
-    const int RD_STRETCH_WIDTH  = 0x0001;  // The item has a variable width
-    const int RD_STRETCH_HEIGHT = 0x0002;  // The item has a variable height
+    const int RD_STRETCH_WIDTH  = 0x0001;  // The item has a variable width.
+    const int RD_STRETCH_HEIGHT = 0x0002;  // The item has a variable height.
 
 
     ////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ namespace Win32xx
         }
     }
 
-    // Attaches a dialog item to a CWnd
+    // Attaches a dialog item to a CWnd.
     inline void CDialog::AttachItem(UINT id, CWnd& wnd)
     {
         wnd.AttachDlgItem(id, *this);
@@ -312,7 +312,7 @@ namespace Win32xx
         //                      //  a value recommended by the Windows API documentation
         //  }
 
-        // Always pass unhandled messages on to DialogProcDefault
+        // Always pass unhandled messages on to DialogProcDefault.
         return DialogProcDefault(msg, wparam, lparam);
     }
 
@@ -325,7 +325,7 @@ namespace Win32xx
         {
         case WM_INITDIALOG:
             {
-                // Center the dialog
+                // Center the dialog.
                 CenterWindow();
             }
             return OnInitDialog();
@@ -349,18 +349,18 @@ namespace Win32xx
                     }
                 }
 
-                // Reflect this message if it's from a control
+                // Reflect this message if it's from a control.
                 CWnd* pWnd = GetCWndPtr(reinterpret_cast<HWND>(lparam));
                 if (pWnd != NULL)
                     result = pWnd->OnCommand(wparam, lparam);
 
-                // Handle user commands
+                // Handle user commands.
                 if (!result)
                     result =  OnCommand(wparam, lparam);
 
                 if (result) return 0;
             }
-            break;  // Some commands require default processing
+            break;  // Some commands require default processing.
 
 
         case WM_DESTROY:
@@ -381,10 +381,10 @@ namespace Win32xx
                         if (::GetParent(from) == m_wnd)
                             result = pFrom->OnNotifyReflect(wparam, lparam);
 
-                    // Handle user notifications
+                    // Handle user notifications.
                     if (!result) result = OnNotify(wparam, lparam);
 
-                    // Set the return code for notifications
+                    // Set the return code for notifications.
                     if (IsWindow())
                         SetWindowLongPtr(DWLP_MSGRESULT, static_cast<LONG_PTR>(result));
                 }
@@ -399,7 +399,7 @@ namespace Win32xx
                     OnDraw(dc);
                 }
                 else
-                // RedrawWindow can require repainting without an update rect
+                // RedrawWindow can require repainting without an update rect.
                 {
                     CClientDC dc(*this);
                     OnDraw(dc);
@@ -414,7 +414,7 @@ namespace Win32xx
                 return OnEraseBkgnd(dc);
             }
 
-        // A set of messages to be reflected back to the control that generated them
+        // A set of messages to be reflected back to the control that generated them.
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:
         case WM_CTLCOLORDLG:
@@ -432,12 +432,12 @@ namespace Win32xx
         case WM_PARENTNOTIFY:
             return MessageReflect(msg, wparam, lparam);
 
-        case UWM_GETCDIALOG:    // Returns a pointer to this CDialog object
+        case UWM_GETCDIALOG:    // Returns a pointer to this CDialog object.
         case UWM_GETCWND:
         {
             assert(this == GetCWndPtr(m_wnd));
 
-            // Set the return code
+            // Set the return code.
             if (IsWindow())
                 SetWindowLongPtr(DWLP_MSGRESULT, reinterpret_cast<LONG_PTR>(this));
 
@@ -462,7 +462,7 @@ namespace Win32xx
         m_isModal=TRUE;
         m_wnd = NULL;
 
-        // Retrieve this thread's TLS data
+        // Retrieve this thread's TLS data.
         TLSData* pTLSData = GetApp()->GetTlsData();
 
         if (pTLSData->msgHook == NULL)
@@ -474,7 +474,7 @@ namespace Win32xx
         HINSTANCE instance = GetApp()->GetInstanceHandle();
         pTLSData->pWnd = this;
 
-        // Create a modal dialog
+        // Create a modal dialog.
         if (m_pDlgTemplate != NULL)
             result = ::DialogBoxIndirect(instance, m_pDlgTemplate, parent, (DLGPROC)CDialog::StaticDialogProc);
         else
@@ -484,7 +484,7 @@ namespace Win32xx
             result = ::DialogBox(instance, m_resourceName, parent, (DLGPROC)CDialog::StaticDialogProc);
         }
 
-        // Tidy up
+        // Tidy up.
         pTLSData->pWnd = NULL;
         Cleanup();
 
@@ -495,7 +495,7 @@ namespace Win32xx
             pTLSData->msgHook = NULL;
         }
 
-        // Throw an exception if the dialog creation fails
+        // Throw an exception if the dialog creation fails.
         if (result == -1)
         {
             throw CWinException(GetApp()->MsgWndDialog());
@@ -513,16 +513,16 @@ namespace Win32xx
         m_isModal=FALSE;
         m_wnd = NULL;
 
-        // Retrieve this thread's TLS data
+        // Retrieve this thread's TLS data.
         TLSData* pTLSData = GetApp()->GetTlsData();
 
-        // Store the CWnd pointer in Thread Local Storage
+        // Store the CWnd pointer in Thread Local Storage.
         pTLSData->pWnd = this;
 
         HINSTANCE instance = GetApp()->GetInstanceHandle();
         HWND wnd;
 
-        // Create the modeless dialog
+        // Create the modeless dialog.
         if (m_pDlgTemplate != NULL)
             wnd = ::CreateDialogIndirect(instance, m_pDlgTemplate, parent, (DLGPROC)CDialog::StaticDialogProc);
         else
@@ -533,10 +533,10 @@ namespace Win32xx
             wnd = ::CreateDialog(instance, m_resourceName, parent, (DLGPROC)CDialog::StaticDialogProc);
         }
 
-        // Tidy up
+        // Tidy up.
         pTLSData->pWnd = NULL;
 
-        // Display information on dialog creation failure
+        // Display information on dialog creation failure.
         if (wnd == NULL)
         {
             throw CWinException(GetApp()->MsgWndDialog());
@@ -597,10 +597,10 @@ namespace Win32xx
     // being passed to the DialogProc.
     inline BOOL CDialog::PreTranslateMessage(MSG& msg)
     {
-        // allow the dialog to translate keyboard input
+        // Allow the dialog to translate keyboard input.
         if ((msg.message >= WM_KEYFIRST) && (msg.message <= WM_KEYLAST))
         {
-            // Process dialog keystrokes for modeless dialogs
+            // Process dialog keystrokes for modeless dialogs.
             if (!IsModal())
             {
                 TLSData* pTLSData = GetApp()->GetTlsData();
@@ -697,16 +697,16 @@ namespace Win32xx
     // This callback function passes messages to DialogProc
     inline INT_PTR CALLBACK CDialog::StaticDialogProc(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        // Find the CWnd pointer mapped to this HWND
+        // Find the CWnd pointer mapped to this HWND.
         CDialog* pDialog = static_cast<CDialog*>(GetCWndPtr(wnd));
         if (pDialog == NULL)
         {
-            // The HWND wasn't in the map, so add it now
+            // The HWND wasn't in the map, so add it now.
             TLSData* pTLSData = GetApp()->GetTlsData();
             if (pTLSData)
             {
 
-                // Retrieve pointer to CWnd object from Thread Local Storage TLS
+                // Retrieve pointer to CWnd object from Thread Local Storage TLS.
                 pDialog = static_cast<CDialog*>(pTLSData->pWnd);
                 if (pDialog)
                 {
@@ -737,8 +737,8 @@ namespace Win32xx
         ZeroMemory(&msg, sizeof(msg));
         LONG count = 0;
 
-        // While idle, perform idle processing until OnIdle returns FALSE
-        // Exclude some messages to avoid calling OnIdle excessively
+        // While idle, perform idle processing until OnIdle returns FALSE.
+        // Exclude some messages to avoid calling OnIdle excessively.
         while (!::PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE) &&
                             (msg.message != WM_TIMER) &&
                             (msg.message != WM_MOUSEMOVE) &&
@@ -759,12 +759,12 @@ namespace Win32xx
             {
                 for (HWND wnd = pMsg->hwnd; wnd != NULL; wnd = ::GetParent(wnd))
                 {
-                    // Only CDialogs respond to this message
+                    // Only CDialogs respond to this message.
                     CDialog* pDialog = reinterpret_cast<CDialog*>(::SendMessage(wnd, UWM_GETCDIALOG, 0, 0));
                     if (pDialog != NULL)
                     {
                         if (pDialog->PreTranslateMessage(*pMsg))
-                            return 1; // Eat the message
+                            return 1; // Eat the message.
 
                         break;  // Pass the message on
                     }
@@ -826,13 +826,13 @@ namespace Win32xx
         {
             if ( iter->wnd == wnd)
             {
-                // Replace the value
+                // Replace the value.
                 *iter = rd;
                 break;
             }
         }
 
-        // Add the value
+        // Add the value.
         if (iter == m_resizeData.end())
             m_resizeData.push_back(rd);
     }
@@ -1118,7 +1118,7 @@ namespace Win32xx
         int dpi = GetWindowDpi(m_parent);
         double scale = static_cast<double>(dpi) / static_cast<double>(m_initDpi);
 
-        // Declare an iterator to step through the vector
+        // Declare an iterator to step through the vector.
         std::vector<ResizeData>::iterator iter;
 
         // Allocates memory for a multiple-window- position structure.
@@ -1134,58 +1134,58 @@ namespace Win32xx
             CRect childRect = (*iter).childRect;
             ScaleRect(childRect, scale);
 
-            // Calculate the new size and position of the child window
+            // Calculate the new size and position of the child window.
             switch( (*iter).corner )
             {
-            case topleft:      // Positions top left
+            case topleft:      // Positions top left.
                 width  = (*iter).isFixedWidth? childRect.Width()  : childRect.Width()  - m_initRect.Width() + currentRect.Width();
                 height = (*iter).isFixedHeight? childRect.Height() : childRect.Height() - m_initRect.Height() + currentRect.Height();
                 left   = childRect.left;
                 top    = childRect.top;
                 break;
-            case topright:     // Positions top right
+            case topright:     // Positions top right.
                 width  = (*iter).isFixedWidth? childRect.Width()  : childRect.Width()  - m_initRect.Width() + currentRect.Width();
                 height = (*iter).isFixedHeight? childRect.Height() : childRect.Height() - m_initRect.Height() + currentRect.Height();
                 left   = childRect.right - width - m_initRect.Width() + currentRect.Width();
                 top    = childRect.top;
                 break;
-            case bottomleft:   // Positions bottom left
+            case bottomleft:   // Positions bottom left.
                 width  = (*iter).isFixedWidth? childRect.Width()  : childRect.Width()  - m_initRect.Width() + currentRect.Width();
                 height = (*iter).isFixedHeight? childRect.Height() : childRect.Height() - m_initRect.Height() + currentRect.Height();
                 left   = childRect.left;
                 top    = childRect.bottom - height - m_initRect.Height() + currentRect.Height();
                 break;
-            case bottomright:  // Positions bottom right
+            case bottomright:  // Positions bottom right.
                 width  = (*iter).isFixedWidth? childRect.Width()  : childRect.Width()  - m_initRect.Width() + currentRect.Width();
                 height = (*iter).isFixedHeight? childRect.Height() : childRect.Height() - m_initRect.Height() + currentRect.Height();
                 left   = childRect.right   - width - m_initRect.Width() + currentRect.Width();
                 top    = childRect.bottom  - height - m_initRect.Height() + currentRect.Height();
                 break;
-            case center:       // Positions proportionally
+            case center:       // Positions proportionally.
                 width  = (*iter).isFixedWidth ? childRect.Width() : (childRect.Width() * currentRect.Width()) / m_initRect.Width();
                 height = (*iter).isFixedHeight ? childRect.Height() : (childRect.Height() * currentRect.Height()) / m_initRect.Height();
                 left   = (childRect.left * currentRect.Width()) / m_initRect.Width();
                 top    = (childRect.top * currentRect.Height()) / m_initRect.Height();
                 break;
-            case leftcenter:   // Positions proportionally along the left side
+            case leftcenter:   // Positions proportionally along the left side.
                 width  = (*iter).isFixedWidth ? childRect.Width() : childRect.Width() - m_initRect.Width() + currentRect.Width();
                 height = (*iter).isFixedHeight ? childRect.Height() : (childRect.Height() * currentRect.Height()) / m_initRect.Height();
                 left   = childRect.left;
                 top    = (childRect.top * currentRect.Height()) / m_initRect.Height();
                 break;
-            case rightcenter:  // Positions proportionally along the right side
+            case rightcenter:  // Positions proportionally along the right side.
                 width  = (*iter).isFixedWidth ? childRect.Width() : childRect.Width() - m_initRect.Width() + currentRect.Width();
                 height = (*iter).isFixedHeight ? childRect.Height() : (childRect.Height() * currentRect.Height()) / m_initRect.Height();
                 left   = childRect.right - width - m_initRect.Width() + currentRect.Width();
                 top    = (childRect.top * currentRect.Height()) / m_initRect.Height();
                 break;
-            case topcenter:    // Positions proportionally along the top side
+            case topcenter:    // Positions proportionally along the top side.
                 width  = (*iter).isFixedWidth ? childRect.Width() : (childRect.Width() * currentRect.Width()) /  m_initRect.Width();
                 height = (*iter).isFixedHeight ? childRect.Height() : childRect.Height() - m_initRect.Height() + currentRect.Height();
                 left   = (childRect.left * currentRect.Width()) / m_initRect.Width();
                 top    = childRect.top;
                 break;
-            case bottomcenter: // Positions proportionally along the bottom side
+            case bottomcenter: // Positions proportionally along the bottom side.
                 width  = (*iter).isFixedWidth ? childRect.Width() : (childRect.Width() * currentRect.Width()) / m_initRect.Width();
                 height = (*iter).isFixedHeight ? childRect.Height() : childRect.Height() - m_initRect.Height() + currentRect.Height();
                 left   = (childRect.left * currentRect.Width()) / m_initRect.Width();

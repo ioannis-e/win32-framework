@@ -60,12 +60,6 @@ void CViewFiles::OnAttach()
     SetDPIColumnWidths();
 }
 
-// Called when the window is destroyed.
-void CViewFiles::OnDestroy()
-{
-    SetImageList(NULL, LVSIL_SMALL);
-}
-
 // Respond to a mouse click on the window
 LRESULT CViewFiles::OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam)
 {

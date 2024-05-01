@@ -54,11 +54,6 @@ void CViewFiles::OnAttach()
     InsertItems();
 }
 
-void CViewFiles::OnDestroy()
-{
-    SetImageList(NULL, LVSIL_SMALL);
-}
-
 LRESULT CViewFiles::OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam)
 // Respond to a mouse click on the window
 {

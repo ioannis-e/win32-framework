@@ -57,12 +57,6 @@ void CViewClasses::OnAttach()
     Expand(htiCTreeViewApp, TVE_EXPAND);
 }
 
-// Called when the window is destroyed.
-void CViewClasses::OnDestroy()
-{
-    SetImageList(NULL, LVSIL_SMALL);
-}
-
 // Respond to a mouse click on the window.
 LRESULT CViewClasses::OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -96,7 +90,7 @@ void CViewClasses::SetDPIImages()
     CImageList normalImages;
     normalImages.Create(scale * 16, scale * 15, ILC_COLOR32 | ILC_MASK, 1, 0);
     normalImages.Add(bmImage, RGB(255, 0, 0));
-    SetImageList(normalImages, LVSIL_NORMAL);
+    SetImageList(normalImages, TVSIL_NORMAL);
 
     // Reset the item indentation.
     int imageWidth = normalImages.GetIconSize().cx;

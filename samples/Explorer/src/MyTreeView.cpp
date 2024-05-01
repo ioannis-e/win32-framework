@@ -295,7 +295,7 @@ void CMyTreeView::OnAttach()
     HIMAGELIST hSmall = reinterpret_cast<HIMAGELIST>(::SHGetFileInfo(_T("C:\\"), 0,
         &sfi, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_SMALLICON));
 
-    SetImageList(hSmall, LVSIL_NORMAL);
+    SetImageList(hSmall, TVSIL_NORMAL);
 }
 
 // Called when the window is destroyed.

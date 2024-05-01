@@ -70,13 +70,13 @@ namespace Win32xx
         operator HANDLE () const { return GetThread(); }
 
     private:
-        CThreadT(const CThreadT&);              // Disable copy construction
-        CThreadT& operator=(const CThreadT&);   // Disable assignment operator
+        CThreadT(const CThreadT&);              // Disable copy construction.
+        CThreadT& operator=(const CThreadT&);   // Disable assignment operator.
 
-        THREADPROC* m_pfnThreadProc;    // Thread callback function
-        LPVOID m_pThreadParams;         // Thread parameter
-        HANDLE m_thread;                // Handle of this thread
-        UINT m_threadID;                // ID of this thread
+        THREADPROC* m_pfnThreadProc;    // Thread callback function.
+        LPVOID m_pThreadParams;         // Thread parameter.
+        HANDLE m_thread;                // Handle of this thread.
+        UINT m_threadID;                // ID of this thread.
     };
 
     typedef CThreadT<CObject> WorkThread;
@@ -95,14 +95,14 @@ namespace Win32xx
         virtual ~CWorkThread() {}
 
     private:
-        CWorkThread(const CWorkThread&);            // Disable copy construction
-        CWorkThread& operator=(const CWorkThread&); // Disable assignment operator
+        CWorkThread(const CWorkThread&);            // Disable copy construction.
+        CWorkThread& operator=(const CWorkThread&); // Disable assignment operator.
     };
 
 
 #if defined (_MSC_VER)
 #pragma warning ( push )
-#pragma warning ( disable : 4355 )            // 'this' used in base member initializer list
+#pragma warning ( disable : 4355 )            // 'this' used in base member initializer list.
 #endif // (_MSC_VER)
 
     /////////////////////////////////////////////////////////////
@@ -172,15 +172,15 @@ namespace Win32xx
 
     // Creates a new thread
     // Valid argument values:
-    // initflag                 Either CREATE_SUSPENDED or 0
-    // stack_size               Either the stack size or 0
-    // pSecurityAttributes      Either a pointer to SECURITY_ATTRIBUTES or 0
+    // initflag                 Either CREATE_SUSPENDED or 0.
+    // stack_size               Either the stack size or 0.
+    // pSecurityAttributes      Either a pointer to SECURITY_ATTRIBUTES or 0.
     // Refer to CreateThread in the Windows API documentation for more information.
     template <class T>
     inline HANDLE CThreadT<T>::CreateThread(unsigned initflag /* = 0*/, unsigned stack_size /* = 0*/,
         LPSECURITY_ATTRIBUTES pSecurityAttributes /* = NULL*/)
     {
-        // Reusing the CWinThread
+        // Reusing the CWinThread.
         if (m_thread)
         {
             assert(!IsRunning());
