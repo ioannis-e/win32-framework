@@ -759,7 +759,7 @@ namespace Win32xx
         SendMessage(TB_BUTTONSTRUCTSIZE, wparam, 0);
 
         // Allows buttons to have a separate drop-down arrow.
-        // Note: TBN_DROPDOWN notification is sent by a ToolBar control 
+        // Note: TBN_DROPDOWN notification is sent by a ToolBar control,
         // when the user clicks a drop-down button.
         SendMessage(TB_SETEXTENDEDSTYLE, 0, TBSTYLE_EX_DRAWDDARROWS);
     }

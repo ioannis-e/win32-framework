@@ -956,8 +956,8 @@ namespace Win32xx
     // Set the file choice dialog file name filter string to pFilter.
     // The string is a pair of strings delimited by NULL or '|'
     // The string must be either double terminated, or use '|' instead of '\0'
-    // For Example: _T("Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0\0")
-    //          or: _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||")
+    // For Example:  CString filter(_T("Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*||"));
+    //          or:  CString filter(_T("Program Files (*.cpp; *.h)\0*.cpp; *.h\0All Files (*.*)\0*.*\0\0"), 59);
     inline void CFileDialog::SetFilter(LPCTSTR filter)
     {
         // Clear any existing filter.
@@ -988,6 +988,7 @@ namespace Win32xx
                     }
                     ++i;
                 }
+                Trace(m_filter);
             }
         }
     }
