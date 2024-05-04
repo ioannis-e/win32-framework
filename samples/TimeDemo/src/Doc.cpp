@@ -24,7 +24,7 @@
 #include "App.h"
 
   // local formats for displaying CTime values as strings
-static const CString longDateFmt = TEXT("%d-%b-%Y [%j] (%a) %H:%M:%S %z");
+static const CString longDateFmt = TEXT("%d-%b-%Y [%j] (%a) %H:%M:%S %Z");
 static const CString shortDateFmt = TEXT("%d-%b-%Y");
 static const CString simpleHMSFmt = TEXT("%I:%M:%S %p");
 

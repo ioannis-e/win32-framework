@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -956,8 +956,9 @@ namespace Win32xx
     // Set the file choice dialog file name filter string to pFilter.
     // The string is a pair of strings delimited by NULL or '|'
     // The string must be either double terminated, or use '|' instead of '\0'
-    // For Example:  CString filter(_T("Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*||"));
-    //          or:  CString filter(_T("Program Files (*.cpp; *.h)\0*.cpp; *.h\0All Files (*.*)\0*.*\0\0"), 59);
+    // For Example:  CString filter("Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*|");
+    //          or:  CString filter("Program Files (*.cpp; *.h)\0*.cpp; *.h\0All Files (*.*)\0*.*\0", 58);
+    //          or:  LPCTSTR filter = _T("Program Files (*.cpp; *.h)\0*.cpp; *.h\0All Files (*.*)\0*.*\0");
     inline void CFileDialog::SetFilter(LPCTSTR filter)
     {
         // Clear any existing filter.

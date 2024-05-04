@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -146,11 +146,11 @@ namespace Win32xx
 
         public:
         CStringT();
-        virtual ~CStringT();
         CStringT(const CStringT& str);
         CStringT(const T * text);
         CStringT(const T * text, int length);
         CStringT(T ch, int repeat = 1);
+        virtual ~CStringT();
 
         CStringT& operator=(const CStringT& str);
         CStringT& operator=(T ch);
@@ -262,11 +262,11 @@ namespace Win32xx
         friend CString operator+(const WCHAR* text, const CString& string1);
         friend CString operator+(CHAR ch, const CString& string1);
         friend CString operator+(WCHAR ch, const CString& string1);
-        friend CString operator+(const CStringA& string1, const CStringW string2);
-        friend CString operator+(const CStringW& string1, const CStringA string2);
+        friend CString operator+(const CStringA& string1, const CStringW& string2);
+        friend CString operator+(const CStringW& string1, const CStringA& string2);
 
         // These global functions don't need to be friends.
-        //  CString& operator<<(CString& str, const CString& str2);
+        //  CString& operator<<(CString& string1, const CString& string2);
         //  CString& operator<<(CString& str, V value);
         //  CString& operator<<(CString& str, LPCSTR text);
         //  CString& operator<<(CString& str, LPCWSTR text);
@@ -284,6 +284,7 @@ namespace Win32xx
         CString(LPCWSTR text, int length)      : CStringT<TCHAR>(WtoT(text, CP_ACP, length), length) {}
         CString(CHAR ch, int repeat = 1);
         CString(WCHAR ch, int repeat = 1);
+        virtual ~CString() {}
 
         CString& operator=(const CString& str);
         CString& operator=(const CStringA& str);
@@ -1346,7 +1347,7 @@ namespace Win32xx
     // Global ToCString functions
     //
 
-    // Convert template value to CStringA.
+    // Convert the specified value to CStringA. Used by operator<<.
     template <class V>
     inline CStringA ToCStringA(const V& value)
     {
@@ -1355,13 +1356,13 @@ namespace Win32xx
         return CStringA(streamA.str().c_str());
     }
 
-    // // Convert CStringA to CStringA to supports operator<<.
-    inline CStringA ToCStringA(const CStringA& string)
+    // Convert CStringA to CStringA. Used by operator<<.
+    inline CStringA ToCStringA(const CStringA& str)
     {
-        return CStringA(string);
+        return CStringA(str);
     }
 
-    // Convert template value to CStringW.
+    // Convert the specified value to CStringW. Used by operator<<.
     template <class V>
     inline CStringW ToCStringW(const V& value)
     {
@@ -1370,37 +1371,37 @@ namespace Win32xx
         return CStringW(streamW.str().c_str());
     }
 
-    // // Convert CStringW to CStringW to support operator<<.
-    inline CStringW ToCStringW(const CStringW& string)
+    // Convert CStringW to CStringW. Used by operator<<.
+    inline CStringW ToCStringW(const CStringW& str)
     {
-        return CStringW(string);
+        return CStringW(str);
     }
 
-    // Convert CStringA to CString.
-    inline CString ToCString(const CStringA& string)
-    {
-        return CString(string);
-    }
-
-    // Convert CStringW to CString.
-    inline CString ToCString(const CStringW& string)
-    {
-        return CString(string);
-    }
-
-    // Convert CString to CString to support operator<<.
-    inline CString ToCString(const CString& string)
-    {
-        return string;
-    }
-
-    // Convert specified value to CString.
+    // Convert the specified value to CString. Used by operator<<.
     template <class V>
     inline CString ToCString(const V& value)
     {
         tStringStream streamT;
         streamT << value;
         return CString(streamT.str().c_str());
+    }
+
+    // Convert CStringA to CString. Used by operator<<.
+    inline CString ToCString(const CStringA& str)
+    {
+        return CString(str);
+    }
+
+    // Convert CStringW to CString. Used by operator<<.
+    inline CString ToCString(const CStringW& str)
+    {
+        return CString(str);
+    }
+
+    // Convert CString to CString. Used by operator<<.
+    inline CString ToCString(const CString& str)
+    {
+        return str;
     }
 
 
@@ -1552,14 +1553,6 @@ namespace Win32xx
         return str;
     }
 
-    // Appends a CStringA to the string.
-    template <>  // Explicit specialization. 
-    inline CStringA& operator<<(CStringA& str, CStringA& value)
-    {
-        str += value;
-        return str;
-    }
-
     // Appends the specified character to the string.
     inline CStringA& operator<<(CStringA& str, CHAR ch)
     {
@@ -1573,14 +1566,6 @@ namespace Win32xx
     {
         str += ToCStringW(value);
         return str;
-    }
-
-    // Appends the specified value to the string.
-    template <>  // Explicit specialization.
-    inline CStringW& operator<<(CStringW& str, CStringW value)
-    {
-       str += value;
-       return str;
     }
 
     // Appends the specified character to the string.
@@ -1838,7 +1823,7 @@ namespace Win32xx
     }
 
     // Add a CStringW to a CStringA.
-    inline CString operator+(const CStringA& string1, const CStringW string2)
+    inline CString operator+(const CStringA& string1, const CStringW& string2)
     {
         CString str(string1);
         str.m_str.append(WtoT(string2.c_str(), CP_ACP, string2.GetLength()), string2.GetLength());
@@ -1846,7 +1831,7 @@ namespace Win32xx
     }
 
     // Add a CStringA to a CStringW.
-    inline CString operator+(const CStringW& string1, const CStringA string2)
+    inline CString operator+(const CStringW& string1, const CStringA& string2)
     {
         CString str(string1);
         str.m_str.append(AtoT(string2.c_str(), CP_ACP, string2.GetLength()), string2.GetLength());
@@ -1854,10 +1839,10 @@ namespace Win32xx
     }
 
     // Appends the specified string to the string.
-    inline CString& operator<<(CString& str, const CString& str2)
+    inline CString& operator<<(CString& string1, const CString& string2)
     {
-        str += str2;
-        return str;
+        string1 += string2;
+        return string1;
     }
 
     // Appends the specified value to the string.

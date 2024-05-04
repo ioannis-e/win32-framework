@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1087,7 +1087,7 @@ namespace Win32xx
     // class prior to window creation.
     inline BOOL CWnd::RegisterClass(WNDCLASS& wc)
     {
-        assert( ('\0' != wc.lpszClassName[0] && ( lstrlen(wc.lpszClassName) <=  WXX_MAX_STRING_SIZE) ) );
+        assert( (_T('\0') != wc.lpszClassName[0] && ( lstrlen(wc.lpszClassName) <=  WXX_MAX_STRING_SIZE) ) );
 
         // Check to see if this classname is already registered.
         WNDCLASS wcTest;

@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -92,36 +92,25 @@
 //  Library article on DosDateTimeToFileTime().
 
 
-
 namespace Win32xx
 {
-
-
     // Define the time_tm type.
     typedef struct tm time_tm;
 
     // Define the timespane_t type.
-    // This can be int or __int64 depending on the compiler
+    // This can be int or __int64 depending on the compiler.
     typedef time_t timespan_t;
 
     // Forward declaration.
     class CTimeSpan;
-
-    // Declaration of a global time conversion function.
-    time_t UTCtime(time_tm *atm);
 
 
     ////////////////////////////////////////////////////////
     // The CTime class represents an absolute time and date.
     class CTime
     {
-        // global friends.  These functions can access private members
-        friend  CArchive& operator<<(CArchive&, CTime&);
-        friend  CArchive& operator>>(CArchive&, CTime&);
-
     public:
-
-        // Constructors
+        // Constructors.
         CTime();
         CTime(const CTime& t);
         CTime(time_t t);
@@ -133,7 +122,13 @@ namespace Win32xx
         CTime(const SYSTEMTIME& st, int isDST = -1);
         CTime(const FILETIME& ft,  int isDST = -1);
 
-        // Method members
+        // CString conversion.
+        CString     Format(LPCTSTR format) const;
+        CString     Format(UINT formatID) const;
+        CString     FormatGmt(LPCTSTR format) const;
+        CString     FormatGmt(UINT formatID) const;
+
+        // Method members.
         bool      GetAsFileTime(FILETIME& ft) const;
         bool      GetAsSystemTime(SYSTEMTIME& st) const;
         int       GetDay(bool local = true) const;
@@ -148,11 +143,11 @@ namespace Win32xx
         int       GetYear(bool local = true) const;
         time_t    GetTime() const;
 
-        // Assignment operators
+        // Assignment operators.
         CTime&  operator=(const CTime& timeSrc);
         CTime&  operator=(const time_t& t);
 
-        // Computational operators
+        // Computational operators.
         CTime&  operator+=(const CTimeSpan& ts);
         CTime&  operator-=(const CTimeSpan& ts);
         const CTimeSpan operator-(const CTime& t) const;
@@ -167,18 +162,11 @@ namespace Win32xx
 
         operator time_t() const { return m_time; }
 
-        // CString conversion
-        CString     Format(LPCTSTR format) const;
-        CString     Format(UINT formatID) const;
-        CString     FormatGmt(LPCTSTR format) const;
-        CString     FormatGmt(UINT formatID) const;
-
         // Static methods
         static  CTime   GetCurrentTime();
 
     private:
-
-        // Private data members
+        // Private data members.
         time_t      m_time;
     };
 
@@ -188,16 +176,21 @@ namespace Win32xx
     // between two CTime values, measured in seconds of time.
     class CTimeSpan
     {
-        friend class CTime;     // CTime can access private members.
+        // Global friends.
+        friend class CTime;
 
     public:
-        // Constructors
+        // Constructors.
         CTimeSpan();
         CTimeSpan(timespan_t t);
         CTimeSpan(long days, int hours, int mins, int secs);
         CTimeSpan(const CTimeSpan& ts);
 
-        // Methods to extract items
+        // CString conversion.
+        CString     Format(LPCTSTR format) const;
+        CString     Format(UINT formatID) const;
+
+        // Methods to extract items.
         LONGLONG    GetDays() const;
         LONGLONG    GetTotalHours() const;
         int         GetHours() const;
@@ -206,11 +199,11 @@ namespace Win32xx
         LONGLONG    GetTotalSeconds() const;
         int         GetSeconds() const;
 
-        // assignment operators
+        // Assignment operators.
         CTimeSpan& operator=(const CTimeSpan& ts);
         CTimeSpan& operator=(const timespan_t& t);
 
-        // computational operators
+        // Computational operators.
         const CTimeSpan operator-() const;
         const CTimeSpan operator-(CTimeSpan& ts) const;
         const CTimeSpan operator+(CTimeSpan& ts) const;
@@ -225,17 +218,8 @@ namespace Win32xx
 
         operator timespan_t() const { return m_timespan; }
 
-        // CString conversion
-        CString     Format(LPCTSTR format) const;
-        CString     Format(UINT formatID) const;
-
-        // Global friends
-        friend  CArchive& operator<<(CArchive&, CTimeSpan&);
-        friend  CArchive& operator>>(CArchive&, CTimeSpan&);
-
     private:
-
-        // Private data members
+        // Private data members.
         timespan_t m_timespan;
     };
 
@@ -246,34 +230,149 @@ namespace Win32xx
 namespace Win32xx
 {
 
+    /////////////////////////////////////////////////
+    // Global functions within the Win32xx namespace.
+    //
+
+    // Calls either ::gmtime or ::gmtime_s, depending on the compiler.
+    inline time_tm* GMTime(time_tm& tm, const time_t& timet)
+    {
+        time_tm* ptm = &tm;
+
+// If Visual Studio >= 2005 or GNU > 11 or clang compiler.
+#if ((defined (_MSC_VER) &&  ( _MSC_VER >= 1400 )) || \
+    (defined(__GNUC__) && (__GNUC__ >= 11)) || \
+    defined(__clang_major__))
+
+        if (::gmtime_s(&tm, &timet) != 0)
+            ptm = NULL;
+#else
+        time_tm* ptmTemp = ::gmtime(&timet);
+        if (ptmTemp != NULL)
+            *ptm = *ptmTemp;
+        else
+            ptm = NULL;
+#endif
+
+        return ptm;
+    }
+
+    // Calls either ::localtime or ::localtime_s depending on the compiler.
+    inline time_tm* LocalTime(time_tm& tm, const time_t& timet)
+    {
+        time_tm* ptm = &tm;
+
+// If Visual Studio >= 2005 or GNU > 11 or clang compiler.
+#if ((defined (_MSC_VER) &&  ( _MSC_VER >= 1400 )) || \
+    (defined(__GNUC__) && (__GNUC__ >= 11)) || \
+    defined(__clang_major__))
+
+        if (::localtime_s(&tm, &timet) != 0)
+            ptm = NULL;
+#else
+        time_tm* ptmTemp = ::localtime(&timet);
+        if (ptmTemp != NULL)
+            *ptm = *ptmTemp;
+        else
+            ptm = NULL;
+#endif
+
+        return ptm;
+    }
+
     // Returns the time_t t corresponding to the date given in atm as a UTC time.
     inline time_t UTCtime(time_tm* atm)
     {
-        // compute the local time from atm
-        assert(atm != NULL);           // atm must exist
-        time_t t0 = ::mktime(atm);     // atm = *localtime(t0)
+        // Compute the local time from atm.
+        assert(atm != NULL);
+        time_t t0 = ::mktime(atm);
         assert(t0 != -1);
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
-        time_tm* ptm0 = ::gmtime(&t0); // atm0 = UTC time of atm
-#else
         time_tm tm0;
-        ZeroMemory(&tm0, sizeof(tm0));
-        time_tm* ptm0 = &tm0;
-        ::gmtime_s(ptm0, &t0);         // atm0 = UTC time of atm
-#endif
-        time_t t1 = ::mktime(ptm0);    // atm0 = localtime(t1)
+        time_tm* ptm0 = GMTime(tm0, t0);
+
+        time_t t1 = ::mktime(ptm0);
         assert(t1 != -1);
-        timespan_t zt = static_cast<timespan_t>(t0 - t1);  // time zone bias
+        timespan_t zt = static_cast<timespan_t>(t0 - t1);
         t0 += zt;
 
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
-        assert(::gmtime(&t0));
-#else
-        assert(::gmtime_s(ptm0, &t0) == 0);
-#endif
-
+        assert(GMTime(tm0, t0));
         return t0;
     }
+
+
+
+    // Writes the time t into the archive file.
+    // Throw an exception on failure.
+    inline CArchive& operator<<(CArchive& ar, CTime& t)
+    {
+        ULONGLONG tx64 = 0;
+        UINT size = sizeof(tx64);
+
+        // Store CTime as x64.
+        time_t tt = t;
+        tx64 = static_cast<ULONGLONG>(tt);
+        ar.Write(&tx64, size);
+        return ar;
+    }
+
+    // Reads a CTime from the archive and stores it in t.
+    // Throws an exception on failure.
+    inline CArchive& operator>>(CArchive& ar, CTime& t)
+    {
+        UINT size;
+        ar.Read(&size, sizeof(size));
+        if (size != sizeof(ULONGLONG))
+        {
+            CString str = ar.GetFile().GetFilePath();
+            throw CFileException(str, GetApp()->MsgArReadFail());
+        }
+
+        // Load CTime as x64.
+        ULONGLONG tx64 = 0;
+        ar.Read(&tx64, size);
+        time_t tt = static_cast<time_t>(tx64);
+        t = CTime(tt);
+        return ar;
+    }
+
+    // Writes the time span object ts into the archive file. 
+    // Throws an exception if an error occurs.
+    inline CArchive& operator<<(CArchive& ar, CTimeSpan& ts)
+    {
+        ULONGLONG tsx64 = 0;
+        UINT size = sizeof(tsx64);
+        ar.Write(&size, sizeof(size));
+
+        // Store CTimeSpan as x64.
+        tsx64 = static_cast<ULONGLONG>(ts);
+        ar.Write(&tsx64, size);
+        return ar;
+    }
+
+    // Reads a CTimeSpan object from the archive and store it in ts.
+    // Throws an exception if an error occurs.
+    inline CArchive& operator>>(CArchive& ar, CTimeSpan& ts)
+    {
+        UINT size;
+        ar.Read(&size, sizeof(size));
+        if (size != sizeof(ULONGLONG))
+        {
+            CString str = ar.GetFile().GetFilePath();
+            throw CFileException(str, GetApp()->MsgArReadFail());
+        }
+
+        // Load CTimeSpan as x64.
+        ULONGLONG tsx64 = 0;
+        ar.Read(&tsx64, size);
+        timespan_t tst = static_cast<timespan_t>(tsx64);
+        ts = CTimeSpan(tst);
+        return ar;
+    }
+
+
+    ///////////////////////////////////
+    // Definitions for the CTime class.
+    //
 
     // Constructs an CTime object initialized to the Jan 1, 1970 00:00:00 epoch.
     inline CTime::CTime()
@@ -290,23 +389,18 @@ namespace Win32xx
     // Constructs a CTime object from the time_t value t, or assert if t is invalid.
     inline CTime::CTime(time_t t)
     {
-
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
-        assert(::gmtime(&t));
-#else
         time_tm tm;
-        ::gmtime_s(&tm, &t);
-#endif
+        VERIFY(GMTime(tm, t));
         m_time = t;
     }
 
     // Constructs a CTime object from the time_tm atm, or assert if atm is invalid.
     inline CTime::CTime(time_tm& atm)
     {
-        // compute the object time_t
+        // Compute the object time_t.
         m_time = ::mktime(&atm);
 
-        // check for acceptable range
+        // Check for acceptable range.
         assert(m_time != -1);
     }
 
@@ -334,16 +428,8 @@ namespace Win32xx
         time_t t1st = UTCtime(&atm);
 
         // Recover the day of the week.
-
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
-        time_tm* ptm1 = ::gmtime(&t1st);
-        assert(ptm1);
-#else
         time_tm tm1;
-        ZeroMemory(&tm1, sizeof(tm1));
-        time_tm* ptm1 = &tm1;
-        gmtime_s(ptm1, &t1st);
-#endif
+        time_tm* ptm1 = GMTime(tm1, t1st);
 
         // Compute number of days until the nthwk occurrence of wkday.
         time_t nthwkday = (7 + time_t(wkday) - ptm1->tm_wday) % 7 + time_t(nthwk - 1) * 7;
@@ -351,14 +437,10 @@ namespace Win32xx
         // Add this to the first of the month.
         time_t sec_per_day = 86400;
         time_t tnthwkdy = t1st + nthwkday * sec_per_day;
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )
-        ptm1 = ::gmtime(&tnthwkdy);
-        assert(ptm1);
-#else
-        VERIFY( ::gmtime_s(ptm1, &tnthwkdy) == 0);
-#endif
 
-        // compute the object time_t
+        VERIFY(GMTime(tm1, tnthwkdy));
+
+        // Compute the object time_t.
         ptm1->tm_isdst = isDST;
         m_time = ::mktime(ptm1);
         assert(m_time != -1);
@@ -373,12 +455,12 @@ namespace Win32xx
     inline CTime::CTime(UINT year, UINT month, UINT day, UINT hour, UINT min,
         UINT sec, int isDST /* = -1 */)
     {
-        // validate parameters w.r.t. ranges
+        // Validate parameters w.r.t. ranges.
         assert(1 <= day && day   <= 31);
         assert(1 <= month && month <= 12);
         assert(year >= 1969);  // Last few hours of 1969 might be a valid local time.
 
-        // fill out a time_tm with the calendar date
+        // Fill out a time_tm with the calendar date.
         time_tm atm = {static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hour),
             static_cast<int>(day), static_cast<int>(month - 1), static_cast<int>(year - 1900),
             0, 0, isDST};
@@ -388,14 +470,14 @@ namespace Win32xx
         assert(m_time != -1);
     }
 
-    // Constructs a CTime using the day-of-year doy, where doy = 1 is
-    // January 1 in the specified year.
+    // Constructs a CTime using the day-of-year doy, 
+    // where doy = 1 is January 1 in the specified year.
     inline CTime::CTime(UINT yr, UINT doy, UINT hr, UINT min, UINT sec, int isDST /* = -1 */)
     {
-        // Validate parameters w.r.t. ranges/
-        assert(yr >= 1969);  // Last few hours of 1969 might be a valid local time/
+        // Validate parameters w.r.t. ranges.
+        assert(yr >= 1969);  // Last few hours of 1969 might be a valid local time.
 
-        // Fill out a time_tm with the calendar date for Jan 1, yr, hr:min:sec/
+        // Fill out a time_tm with the calendar date for Jan 1, yr, hr:min:sec.
         time_tm atm1st = {static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hr),
             1, 0, static_cast<int>(yr - 1900), 0, 0, isDST};
 
@@ -403,15 +485,8 @@ namespace Win32xx
         time_t Jan1 = UTCtime(&atm1st);
         time_t sec_per_day = 86400;
         time_t tDoy = Jan1 + doy * sec_per_day - sec_per_day;
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
-        time_tm* ptm = ::gmtime(&tDoy);
+        time_tm* ptm = GMTime(atm1st, tDoy);
         assert(ptm);
-#else
-        time_tm tm;
-        ZeroMemory(&tm, sizeof(tm));
-        time_tm* ptm = &tm;
-        ::gmtime_s(ptm, &tDoy);
-#endif
 
         // Compute the object time_t.
         ptm->tm_isdst = isDST;
@@ -450,12 +525,83 @@ namespace Win32xx
         VERIFY( ::FileTimeToSystemTime(&localTime, &st) );
 
         // Convert the system time to a CTime.
-        CTime t(st, isDST);  // asserts if invalid
+        CTime t(st, isDST);  // Asserts if invalid.
         m_time = t.m_time;
     }
 
-    // Converts *this CTime object into a FILETIME structure and stores it
-    // in ft. Returns true if successful.
+    // Returns a CString that contains formatted time. The format parameter
+    // is a formatting string similar to the printf formatting string.
+    // The valid format directives are
+    //   %D - number of days
+    //   %H - hour (0-23)
+    //   %M - minute (0-59)
+    //   %S - seconds (0-59)
+    inline CString CTime::Format(LPCTSTR format) const
+    {
+        time_tm tm;
+        time_tm* ptm = GetLocalTm(&tm);
+        CString formatString;
+
+        assert(ptm != NULL);
+        if (ptm != NULL)
+        {
+            const size_t  bufferSize = 128;
+            VERIFY((::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize, format, &tm)) != 0);
+            formatString.ReleaseBuffer();
+        }
+
+        return formatString;
+    }
+
+    // Returns a CString that contains formatted time. The FormatID parameter
+    // specifies a resource containing the formatting string which is similar
+    // to the printf formatting string.  The valid format directives are
+    //   %D - number of days
+    //   %H - hour (0-23)
+    //   %M - minute (0-59)
+    //   %S - seconds (0-59)
+    inline CString CTime::Format(UINT formatID) const
+    {
+        CString strFormat;
+        strFormat.LoadString(formatID);
+        return Format(strFormat);
+    }
+
+    // Returns a CString that contains formatted time as a UTC time. The format
+    // parameter is a formatting string similar to the printf formatting string.
+    inline CString CTime::FormatGmt(LPCTSTR format) const
+    {
+        CString fmt0 = format;
+        fmt0.Replace(_T("%Z"), _T("Coordinated Universal Time"));
+        fmt0.Replace(_T("%z"), _T("UTC"));
+
+        time_tm tm;
+        time_tm* ptm = GetGmtTm(&tm);
+        CString formatString;
+
+        assert(ptm != NULL);
+        if (ptm != NULL)
+        {
+            const size_t  bufferSize = 128;
+            VERIFY(::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize, fmt0.c_str(), ptm) != 0);
+            formatString.ReleaseBuffer();
+        }
+
+        return formatString;
+    }
+
+    // Returns a CString that contains formatted time as a UTC time. The FormatID
+    // parameter specifies a resource containing the formatting string which is
+    // similar to the printf formatting string.
+    inline CString CTime::FormatGmt(UINT formatID) const
+    {
+        CString strFormat;
+        strFormat.LoadString(formatID);
+        return FormatGmt(strFormat);
+    }
+
+    // Converts *this CTime object into a FILETIME structure and stores it in ft.
+    // Returns true if successful.
     inline bool CTime::GetAsFileTime(FILETIME& ft) const
     {
         bool rval = false;
@@ -501,61 +647,28 @@ namespace Win32xx
     }
 
     // Returns a pointer to a time_tm that contains a decomposition of *this
-    // CTime object expressed in UTC. If ptm is non NULL, this decomposition
-    // is also copied into ptm.
+    // CTime object expressed in UTC. Returns NULL on failure.
     inline time_tm* CTime::GetGmtTm(time_tm* ptm) const
     {
-        // Null argument not supported
+        // NULL argument not supported.
         assert (ptm != NULL);
         if (ptm)
-        {
+            return GMTime(*ptm, m_time);
 
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )
-        time_tm* ptmTemp = ::gmtime(&m_time);
-        if (ptmTemp == NULL)
-            return NULL;    // the m_time was not initialized!
-
-        *ptm = *ptmTemp;
-#else
-        time_tm tmTemp;
-        errno_t result = ::gmtime_s(&tmTemp, &m_time);
-        if (result != 0)
-            return NULL;
-
-        *ptm = tmTemp;
-#endif
-
-        }
-        return ptm;
+        return NULL;
     }
 
     // Return a pointer to a time_tm that contains a decomposition of *this
-    // CTime object expressed in the local time base. If ptm is non NULL, this
-    // decomposition is also copied into ptm.
+    // CTime object expressed in the local time base. Returns NULL on failure.
     inline time_tm* CTime::GetLocalTm(time_tm* ptm) const
     {
-        // Null argument not supported.
+        // NULL argument not supported.
         assert(ptm != NULL);
+
         if (ptm)
-        {
+            return LocalTime(*ptm, m_time);
 
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
-            time_tm* ptmTemp = ::localtime(&m_time);
-            if (ptmTemp == NULL)
-                return NULL;    // the m_time was not initialized!
-
-            *ptm = *ptmTemp;
-#else
-            time_tm tmTemp;
-            errno_t result = ::localtime_s(&tmTemp, &m_time);
-            if (result != 0)
-                return NULL;    // the m_time was not initialized!
-
-            *ptm = tmTemp;
-#endif
-        }
-
-        return ptm;
+        return  NULL;
     }
 
     // Return *this time as a time_t value.
@@ -635,10 +748,10 @@ namespace Win32xx
         return ptmbuffer->tm_yday + 1;
     }
 
-    // Assigns the CTime t value to *this
+    // Assigns the CTime t value to *this.
     inline CTime& CTime::operator=(const CTime& t)
     {
-        // Self assignment is safe
+        // Self assignment is safe.
         m_time = t.m_time;
         return *this;
     }
@@ -647,7 +760,7 @@ namespace Win32xx
     inline CTime& CTime::operator=(const time_t& t)
     {
         assert(t >= 0);
-        // Self assignment is safe
+        // Self assignment is safe.
         m_time = t;
         return *this;
     }
@@ -664,7 +777,7 @@ namespace Win32xx
     inline const CTime CTime::operator-(const CTimeSpan& ts) const
     {
         time_t d = m_time - ts.m_timespan;
-        CTime t(d);  // asserts if d is invalid
+        CTime t(d);  // Asserts if d is invalid.
         return t;
     }
 
@@ -672,7 +785,7 @@ namespace Win32xx
     inline const CTime CTime::operator+(const CTimeSpan& ts) const
     {
         time_t s = m_time + ts.m_timespan;
-        CTime t(s); // asserts if s is invalid
+        CTime t(s); // Asserts if s is invalid.
         return t;
     }
 
@@ -728,133 +841,16 @@ namespace Win32xx
         return m_time >= time.m_time;
     }
 
-    // Returns a CString that contains formatted time. The format parameter
-    // is a formatting string similar to the printf formatting string.
-    // The valid format directives are
-    //   %D - number of days
-    //   %H - hour (0-23)
-    //   %M - minute (0-59)
-    //   %S - seconds (0-59)
-    inline CString CTime::Format(LPCTSTR format) const
-    {
-        const size_t  maxTimeBufferSize = 128;
-        TCHAR szBuffer[maxTimeBufferSize];
-
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )  // not VS or VS < 2005
-        time_tm* ptm = ::localtime(&m_time);
-#else
-        time_tm tm;
-        ZeroMemory(&tm, sizeof(tm));
-        time_tm* ptm = &tm;
-        ::localtime_s(ptm, &m_time);
-#endif
-
-        if (ptm == NULL || !::_tcsftime(szBuffer, maxTimeBufferSize, format, ptm))
-            szBuffer[0] = '\0';
-        return CString(szBuffer);
-    }
-
-    // Returns a CString that contains formatted time. The FormatID parameter
-    // specifies a resource containing the formatting string which is similar
-    // to the printf formatting string.  The valid format directives are
-    //   %D - number of days
-    //   %H - hour (0-23)
-    //   %M - minute (0-59)
-    //   %S - seconds (0-59)
-    inline CString CTime::Format(UINT formatID) const
-    {
-        CString strFormat;
-        strFormat.LoadString(formatID);
-        return Format(strFormat);
-    }
-
-    // Returns a CString that contains formatted time as a UTC time. The format
-    // parameter is a formatting string similar to the printf formatting string.
-    inline CString CTime::FormatGmt(LPCTSTR format) const
-    {
-        const size_t  maxTimeBufferSize = 128;
-        TCHAR szBuffer[maxTimeBufferSize];
-        CString fmt0 = format;
-        while (fmt0.Replace(_T("%Z"), _T("Coordinated Universal Time")))
-            ;
-        while (fmt0.Replace(_T("%z"), _T("UTC")))
-            ;
-
-        time_tm tmTemp;
-        time_tm* ptmTemp = GetGmtTm(&tmTemp);
-        if (ptmTemp == NULL || !::_tcsftime(szBuffer, maxTimeBufferSize, fmt0.c_str(), ptmTemp))
-            szBuffer[0] = '\0';
-        return CString(szBuffer);
-    }
-
-
-    // Returns a CString that contains formatted time as a UTC time. The FormatID
-    // parameter specifies a resource containing the formatting string which is
-    // similar to the printf formatting string.
-    inline CString CTime::FormatGmt(UINT formatID) const
-    {
-        CString strFormat;
-        strFormat.LoadString(formatID);
-        return FormatGmt(strFormat);
-    }
-
-    //
-    //  Static and  Friend Functions
-    //
-
-
-    // Returns a CTime holding the current system time.
+    // Static function. Returns a CTime holding the current system time.
     inline CTime CTime::GetCurrentTime()
     {
         return CTime(::time(NULL));
     }
 
 
+    ///////////////////////////////////////
+    // Definitions for the CTimeSpan class.
     //
-    // Global functions within the Win32xx namespace
-    //
-
-    // Reads a CTime from the archive and stores it in t.
-    // Throws an exception on failure.
-    inline CArchive& operator>>(CArchive& ar, CTime& t)
-    {
-        UINT size;
-        ar.Read(&size, sizeof(size));
-        if (size != sizeof(ULONGLONG))
-        {
-            CString str = ar.GetFile().GetFilePath();
-            throw CFileException(str, GetApp()->MsgArReadFail());
-        }
-
-        // load CTime as x64
-        ULONGLONG tx64 = 0;
-        ar.Read(&tx64, size);
-        time_t tt = static_cast<time_t>(tx64);
-        t = CTime(tt);
-        return ar;
-    }
-
-    // Writes the time t into the archive file.
-    // Throw an exception on failure.
-    inline CArchive& operator<<(CArchive& ar, CTime& t)
-    {
-        ULONGLONG tx64 = 0;
-        UINT size = sizeof(tx64);
-
-        // store CTime as x64
-        time_t tt = t;
-        tx64 = static_cast<ULONGLONG>(tt);
-        ar.Write(&tx64, size);
-        return ar;
-    }
-
-
-    ///////////////////////////////////////////////////////////////
-    //
-    //  CTimeSpan class implementation.
-    //
-    ///////////////////////////////////////////////////////////////
-
 
     inline CTimeSpan::CTimeSpan()
     {
@@ -883,6 +879,54 @@ namespace Win32xx
     inline CTimeSpan::CTimeSpan(const CTimeSpan& ts)
     {
         m_timespan = ts.m_timespan;
+    }
+
+    // Returns a rendering of *this CTimeSpan object in CString form using the
+    // format as the template. The valid format directives are
+    //   %D - number of days
+    //   %H - hour (0-23)
+    //   %M - minute (0-59)
+    //   %S - seconds (0-59)
+    inline CString CTimeSpan::Format(LPCTSTR format) const
+    {
+        CString fmt0 = format;
+        CString insert;
+
+        while (fmt0.Find(_T("%D")) != -1)  // number of days
+        {
+            insert.Format(_T("%ld"), GetDays());
+            fmt0.Replace(_T("%D"), insert);
+        }
+        while (fmt0.Find(_T("%H")) != -1)  // hours (00 - 23)
+        {
+            insert.Format(_T("%02d"), GetHours());
+            fmt0.Replace(_T("%H"), insert);
+        }
+        while (fmt0.Find(_T("%M")) != -1)  // minutes (00 - 59)
+        {
+            insert.Format(_T("%02d"), GetMinutes());
+            fmt0.Replace(_T("%M"), insert);
+        }
+        while (fmt0.Find(_T("%S")) != -1)  // seconds (00 - 59)
+        {
+            insert.Format(_T("%02d"), GetSeconds());
+            fmt0.Replace(_T("%S"), insert);
+        }
+        return fmt0;
+    }
+
+    // Returns a rendering of *this CTimeSpan object in CString form using the
+    // string resource having the formatID identifier as the template. The
+    // valid format directives are
+    //   %D - number of days
+    //   %H - hour (0-23)
+    //   %M - minute (0-59)
+    //   %S - seconds (0-59)
+    inline CString CTimeSpan::Format(UINT formatID) const
+    {
+        CString strFormat;
+        VERIFY(strFormat.LoadString(formatID));
+        return Format(strFormat);
     }
 
     // Returns the number of complete days in this CTimeSpan.
@@ -996,7 +1040,7 @@ namespace Win32xx
         return m_timespan == ts.m_timespan;
     }
 
-    // Returns true if the time span ts does not equal *this one.=
+    // Returns true if the time span ts does not equal *this one.
     inline bool CTimeSpan::operator!=(const CTimeSpan& ts) const
     {
         return m_timespan != ts.m_timespan;
@@ -1028,96 +1072,8 @@ namespace Win32xx
         return m_timespan >= ts.m_timespan;
     }
 
-    // Returns a rendering of *this CTimeSpan object in CString form using the
-    // format as the template. The valid format directives are
-    //   %D - number of days
-    //   %H - hour (0-23)
-    //   %M - minute (0-59)
-    //   %S - seconds (0-59)
-    inline CString CTimeSpan::Format(LPCTSTR format) const
-    {
-        CString fmt0 = format;
-        CString insert;
-
-        while (fmt0.Find(_T("%D")) != -1)  // number of days
-        {
-            insert.Format(_T("%ld"), GetDays());
-            fmt0.Replace(_T("%D"), insert);
-        }
-        while (fmt0.Find(_T("%H")) != -1)  // hours (00 - 23)
-        {
-            insert.Format(_T("%02d"), GetHours());
-            fmt0.Replace(_T("%H"), insert);
-        }
-        while (fmt0.Find(_T("%M")) != -1)  // minutes (00 - 59)
-        {
-            insert.Format(_T("%02d"), GetMinutes());
-            fmt0.Replace(_T("%M"), insert);
-        }
-        while (fmt0.Find(_T("%S")) != -1)  // seconds (00 - 59)
-        {
-            insert.Format(_T("%02d"), GetSeconds());
-            fmt0.Replace(_T("%S"), insert);
-        }
-        return fmt0;
-    }
-
-    // Returns a rendering of *this CTimeSpan object in CString form using the
-    // string resource having the formatID identifier as the template. The
-    // valid format directives are
-    //   %D - number of days
-    //   %H - hour (0-23)
-    //   %M - minute (0-59)
-    //   %S - seconds (0-59)
-    inline CString CTimeSpan::Format(UINT formatID) const
-    {
-        CString strFormat;
-        VERIFY( strFormat.LoadString(formatID) );
-        return Format(strFormat);
-    }
-
-
-    //
-    // Global functions within the Win32xx namespace.
-    //
-
-
-    // Reads a CTimeSpan object from the archive and  store it in t. Throw an
-    // exception if unable to do so correctly.
-    inline CArchive& operator>>(CArchive& ar, CTimeSpan& ts)
-    {
-        UINT size;
-        ar.Read(&size, sizeof(size));
-        if (size != sizeof(ULONGLONG))
-        {
-            CString str = ar.GetFile().GetFilePath();
-            throw CFileException(str, GetApp()->MsgArReadFail());
-        }
-
-        // Load CTimeSpan as x64.
-        ULONGLONG tsx64 = 0;
-        ar.Read(&tsx64, size);
-        timespan_t tst = static_cast<timespan_t>(tsx64);
-        ts = CTimeSpan(tst);
-        return ar;
-    }
-
-    // Writes the time span object s into the archive file. Throw an exception
-    // if an error occurs.
-    inline CArchive& operator<<(CArchive &ar, CTimeSpan& ts)
-    {
-        ULONGLONG tsx64 = 0;
-        UINT size = sizeof(tsx64);
-        ar.Write(&size, sizeof(size));
-
-        // Store CTimeSpan as x64.
-        tsx64 = static_cast<ULONGLONG>(ts);
-        ar.Write(&tsx64, size);
-        return ar;
-    }
 
 } // namespace Win32XX
 
 
 #endif // _WIN32XX_CTIME_H_
-
