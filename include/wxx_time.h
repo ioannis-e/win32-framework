@@ -73,7 +73,8 @@
 
 //  On systems where time_t is defined as a 32-bit integer, there is an
 //  upper date limit of January 18, 19:14:07, 2038. On 64-bit systems,
-//  there is no such upper date limit.
+//  there is no such upper date limit. This issue can affect code compiled
+//  with Visual Studio 6 and Visual Studio 2003.
 
 //  Windows also has other time types that also interface with the CTime
 //  type. These are FILETIME, SYSTEMTIME, and MS-DOS date and time, each
@@ -115,9 +116,9 @@ namespace Win32xx
         CTime(const CTime& t);
         CTime(time_t t);
         CTime(time_tm& t);
-        CTime(UINT yr, UINT mo, UINT wkday, UINT nthwk, UINT hr, UINT min, UINT sec, int isDST = -1);
-        CTime(UINT year, UINT month, UINT day, UINT hour, UINT min, UINT sec, int isDST = -1);
-        CTime(UINT yr, UINT doy, UINT hr, UINT min, UINT sec, int isDST = -1);
+        CTime(int yr, int mo, int wkday, int nthwk, int hr, int min, int sec, int isDST);
+        CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
+        CTime(int yr, int doy, int hr, int min, int sec);
         CTime(WORD dosDate, WORD dosTime, int isDST = -1);
         CTime(const SYSTEMTIME& st, int isDST = -1);
         CTime(const FILETIME& ft,  int isDST = -1);
@@ -235,6 +236,8 @@ namespace Win32xx
     //
 
     // Calls either ::gmtime or ::gmtime_s, depending on the compiler.
+    // The value of tm is updated and its pointer is returned if successful.
+    // Returns NULL on failure.
     inline time_tm* GMTime(time_tm& tm, const time_t& timet)
     {
         time_tm* ptm = &tm;
@@ -249,15 +252,18 @@ namespace Win32xx
 #else
         time_tm* ptmTemp = ::gmtime(&timet);
         if (ptmTemp != NULL)
-            *ptm = *ptmTemp;
+            *ptm = *ptmTemp;  // Update the value of tm.
         else
             ptm = NULL;
 #endif
 
+        // Note: ptm points to tm (which isn't a local variable) or NULL. 
         return ptm;
     }
 
     // Calls either ::localtime or ::localtime_s depending on the compiler.
+    // The value of tm is updated and its pointer is returned if successful.
+    // Returns NULL on failure.
     inline time_tm* LocalTime(time_tm& tm, const time_t& timet)
     {
         time_tm* ptm = &tm;
@@ -272,11 +278,12 @@ namespace Win32xx
 #else
         time_tm* ptmTemp = ::localtime(&timet);
         if (ptmTemp != NULL)
-            *ptm = *ptmTemp;
+            *ptm = *ptmTemp;  // Update the value of tm.
         else
             ptm = NULL;
 #endif
 
+        // Note: ptm points to tm (which isn't a local variable) or NULL.
         return ptm;
     }
 
@@ -298,8 +305,6 @@ namespace Win32xx
         assert(GMTime(tm0, t0));
         return t0;
     }
-
-
 
     // Writes the time t into the archive file.
     // Throw an exception on failure.
@@ -335,7 +340,7 @@ namespace Win32xx
         return ar;
     }
 
-    // Writes the time span object ts into the archive file. 
+    // Writes the time span object ts into the archive file.
     // Throws an exception if an error occurs.
     inline CArchive& operator<<(CArchive& ar, CTimeSpan& ts)
     {
@@ -406,8 +411,8 @@ namespace Win32xx
 
     // Constructs a CTime of the nthwk occurrence of the given wkday (0..6)
     // in the mo month of yr year, at hr:min:sec of that day, local time.
-    inline CTime::CTime(UINT yr, UINT mo, UINT wkday, UINT nthwk, UINT hr,
-        UINT min, UINT sec, int isDST /* = -1 */)
+    inline CTime::CTime(int yr, int mo, int wkday, int nthwk, int hr,
+                        int min, int sec, int isDST)
     {
         // Validate parameters w.r.t. ranges.
         assert(yr >= 1969); // Last few hours of 1969 might be a valid local time.
@@ -421,8 +426,7 @@ namespace Win32xx
         // the first-of-month epoch in the given year to yield the desired
         // date.  To start, compute the first of the month in the given year
         // at the given hour, minute, and  second.
-        time_tm atm = { static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hr),
-                       1, static_cast<int>(mo - 1), static_cast<int>(yr - 1900), 0, 0, isDST};
+        time_tm atm = {sec, min, hr, 1, mo - 1, yr - 1900, 0, 0, isDST};
 
         // Get the (valid) local time of the UTC time corresponding to this.
         time_t t1st = UTCtime(&atm);
@@ -441,7 +445,6 @@ namespace Win32xx
         VERIFY(GMTime(tm1, tnthwkdy));
 
         // Compute the object time_t.
-        ptm1->tm_isdst = isDST;
         m_time = ::mktime(ptm1);
         assert(m_time != -1);
     }
@@ -452,8 +455,8 @@ namespace Win32xx
     //   month      1-12
     //   day        1-31
     //   hour, min, sec no constraint
-    inline CTime::CTime(UINT year, UINT month, UINT day, UINT hour, UINT min,
-        UINT sec, int isDST /* = -1 */)
+    inline CTime::CTime(int year, int month, int day, int hour, int min,
+                        int sec, int isDST /* = -1*/)
     {
         // Validate parameters w.r.t. ranges.
         assert(1 <= day && day   <= 31);
@@ -461,25 +464,23 @@ namespace Win32xx
         assert(year >= 1969);  // Last few hours of 1969 might be a valid local time.
 
         // Fill out a time_tm with the calendar date.
-        time_tm atm = {static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hour),
-            static_cast<int>(day), static_cast<int>(month - 1), static_cast<int>(year - 1900),
-            0, 0, isDST};
+        time_tm atm = {sec, min, hour, day, month - 1, year - 1900, 0, 0, isDST};
 
         // Compute the object time_t.
         m_time = ::mktime(&atm);
         assert(m_time != -1);
     }
 
-    // Constructs a CTime using the day-of-year doy, 
+    // Constructs a CTime using the day-of-year doy,
     // where doy = 1 is January 1 in the specified year.
-    inline CTime::CTime(UINT yr, UINT doy, UINT hr, UINT min, UINT sec, int isDST /* = -1 */)
+    inline CTime::CTime(int yr, int doy, int hr, int min, int sec)
     {
         // Validate parameters w.r.t. ranges.
         assert(yr >= 1969);  // Last few hours of 1969 might be a valid local time.
 
         // Fill out a time_tm with the calendar date for Jan 1, yr, hr:min:sec.
-        time_tm atm1st = {static_cast<int>(sec), static_cast<int>(min), static_cast<int>(hr),
-            1, 0, static_cast<int>(yr - 1900), 0, 0, isDST};
+        int isDST = -1;
+        time_tm atm1st = {sec, min, hr, 1, 0, yr - 1900, 0, 0, isDST};
 
         // Get the local time of the UTC time corresponding to this.
         time_t Jan1 = UTCtime(&atm1st);
@@ -489,7 +490,6 @@ namespace Win32xx
         assert(ptm);
 
         // Compute the object time_t.
-        ptm->tm_isdst = isDST;
         m_time = ::mktime(ptm);
         assert(m_time != -1);
     }
@@ -506,9 +506,8 @@ namespace Win32xx
     // Constructs a CTime object from a SYSTEMTIME structure st.
     inline CTime::CTime(const SYSTEMTIME& st, int isDST /* = -1 */)
     {
-        CTime t(static_cast<UINT>(st.wYear), static_cast<UINT>(st.wMonth),
-            static_cast<UINT>(st.wDay), static_cast<UINT>(st.wHour),
-            static_cast<UINT>(st.wMinute), static_cast<UINT>(st.wSecond), isDST); // asserts if invalid
+        CTime t(st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute,
+                st.wSecond, isDST);   // Asserts if invalid.
 
         m_time = t.m_time;
     }

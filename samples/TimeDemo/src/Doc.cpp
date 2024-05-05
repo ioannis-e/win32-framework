@@ -267,20 +267,20 @@ NewDocument()                                                               /*
     PushContent(_T("   5. CTime t3 = GetCurrentTime()                ")
         + t3.Format(longDateFmt));
 
-    CTime t4(2014, 3, 8, 2, 37, 40);
-    PushContent(_T("   6. CTime t4(2014, 3, 8, 2, 37, 40);           ")
+    CTime t4(2014, 3, 9, 3, 37, 40);
+    PushContent(_T("   6. CTime t4(2014, 3, 9, 3, 37, 40);           ")
         + t4.Format(longDateFmt));
 
-    CTime t5(2014, 2, 9, 2, 37, 40);
-    PushContent(_T("   7. CTime t5(2014, 2, 9, 2, 37, 40);           ")
+    CTime t5(2014, 3, 9, 3, 37, 40);
+    PushContent(_T("   7. CTime t5(2014, 3, 9, 3, 37, 40);           ")
         + t5.Format(longDateFmt));
 
     CTime t6(2014, 3, 9, 3, 37, 40);
     PushContent(_T("   8. CTime t6(2014, 3, 9, 3, 37, 40);           ")
         + t6.Format(longDateFmt));
 
-    CTime t7(2014, 67, 3, 37, 40);
-    PushContent(_T("   9. CTime t7(2014, 67, 3, 37, 40);             ")
+    CTime t7(2014, 68, 3, 37, 40);
+    PushContent(_T("   9. CTime t7(2014, 68, 3, 37, 40);             ")
         + t7.Format(longDateFmt));
 
     CTime t8(2014, 68, 3, 37, 40);
@@ -293,15 +293,15 @@ NewDocument()                                                               /*
         + t9.Format(longDateFmt));
 
     CTime t10(GetTimeFromStr(_T("09-Mar-2014 3:37:40")));  // a LPCTSTR conversion
-    PushContent(_T("  12. CTime t10(\"09-Mar-2014 2:37:40\")  LPCTSTR  ")
+    PushContent(_T("  12. CTime t10(\"09-Mar-2014 3:37:40\")  LPCTSTR  ")
         + t10.Format(longDateFmt));
 
-    CTime t11(2014, 3, 6, 2, 3, 37, 40);
-    PushContent(_T("  13. CTime t11(2014, 3, 6, 2, 3, 37, 40);       ")
+    CTime t11(2014, 3, 0, 2, 3, 37, 40, -1);
+    PushContent(_T("  13. CTime t11(2014, 3, 0, 2, 3, 37, 40, -1);   ")
         + t11.Format(longDateFmt));
 
-    CTime t12(2014, 3, 6, 3, 3, 37, 40);
-    PushContent(_T("  14. CTime t12(2014, 3, 6, 3, 3, 37, 40);       ")
+    CTime t12(2014, 3, 0, 2, 3, 37, 40, -1);
+    PushContent(_T("  14. CTime t12(2014, 3, 0, 2, 3, 37, 40, -1);   ")
         + t12.Format(longDateFmt));
 
     SYSTEMTIME st;
@@ -312,13 +312,13 @@ NewDocument()                                                               /*
 
     FILETIME ft;
     t12.GetAsFileTime(ft);
-    CTime t14(ft);
+    CTime t14(ft, 0);
     PushContent(_T("  16. GetAsFileTime(t12);                        ")
         + t14.Format(longDateFmt));
 
     WORD fatdate, fattime;
     ::FileTimeToDosDateTime(&ft, &fatdate, &fattime);
-    CTime t15(fatdate, fattime);
+    CTime t15(fatdate, fattime, 0);
     PushContent(_T("  17. t15(fatdate, fattime)                      ")
         + t15.Format(longDateFmt));
 

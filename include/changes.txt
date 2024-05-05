@@ -6,8 +6,10 @@ Changes:
     now support CStringA and CStringW arguments in addition to the arguments
     supported previously.
  * Updated ToCString.
-     ToCString now supports CStringA and CStringW arguments in addition to the
-     arguments supported previously.
+    ToCString now supports CStringA and CStringW arguments in addition to the
+    arguments supported previously.
+ * Updated CTime.
+    Some CTime constructors have been updated.
 
 Changes in detail
 -----------------
@@ -32,6 +34,10 @@ Added:  CString ToCString(const CString& string)
 
 Added:  time_tm* ::GMTime(time_tm& tm, const time_t& timet)
 Added:  time_tm* ::LocalTime(time_tm& tm, const time_t& timet)
+
+Modified: CTime(int yr, int mo, int wkday, int nthwk, int hr, int min, int sec, int isDST);
+Modified: CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
+Modified: CTime(int yr, int doy, int hr, int min, int sec);
 
 Removed: CString::Left                    redundant
 Removed: CString::Mid                     redundant
