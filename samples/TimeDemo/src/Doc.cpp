@@ -1,4 +1,4 @@
-/* (02-Aug-2014) [Tab/Indent: 8/8][Line/Box: 80/74]                  (Doc.cpp) *
+/* (06-May-2024) [Tab/Indent: 8/8][Line/Box: 80/74]                  (Doc.cpp) *
 ********************************************************************************
 |                                                                              |
 |               Authors: Robert C. Tausworthe, David Nash, 2020                |
@@ -267,41 +267,41 @@ NewDocument()                                                               /*
     PushContent(_T("   5. CTime t3 = GetCurrentTime()                ")
         + t3.Format(longDateFmt));
 
-    CTime t4(2014, 3, 9, 3, 37, 40);
-    PushContent(_T("   6. CTime t4(2014, 3, 9, 3, 37, 40);           ")
+    CTime t4(2024, 3, 9, 3, 37, 40);
+    PushContent(_T("   6. CTime t4(2024, 3, 9, 3, 37, 40);           ")
         + t4.Format(longDateFmt));
 
-    CTime t5(2014, 3, 9, 3, 37, 40);
-    PushContent(_T("   7. CTime t5(2014, 3, 9, 3, 37, 40);           ")
+    CTime t5(2024, 3, 9, 3, 37, 40);
+    PushContent(_T("   7. CTime t5(2024, 3, 9, 3, 37, 40);           ")
         + t5.Format(longDateFmt));
 
-    CTime t6(2014, 3, 9, 3, 37, 40);
-    PushContent(_T("   8. CTime t6(2014, 3, 9, 3, 37, 40);           ")
+    CTime t6(2024, 3, 9, 3, 37, 40);
+    PushContent(_T("   8. CTime t6(2024, 3, 9, 3, 37, 40);           ")
         + t6.Format(longDateFmt));
 
-    CTime t7(2014, 68, 3, 37, 40);
-    PushContent(_T("   9. CTime t7(2014, 68, 3, 37, 40);             ")
+    CTime t7(2024, 69, 3, 37, 40);
+    PushContent(_T("   9. CTime t7(2024, 69, 3, 37, 40);             ")
         + t7.Format(longDateFmt));
 
-    CTime t8(2014, 68, 3, 37, 40);
-    PushContent(_T("  10. CTime t8(2014, 68, 3, 37, 40);             ")
+    CTime t8(2024, 69, 3, 37, 40);
+    PushContent(_T("  10. CTime t8(2024, 69, 3, 37, 40);             ")
         + t8.Format(longDateFmt));
 
-    CString s9(_T("09-Mar-2014 3:37:40"));
+    CString s9(_T("09-Mar-2024 3:37:40"));
     CTime t9(GetTimeFromStr(s9));  // a CString conversion
-    PushContent(_T("  11. CTime t9(\"09-Mar-2014 3:37:40\")   CString  ")
+    PushContent(_T("  11. CTime t9(\"09-Mar-2024 3:37:40\")   CString  ")
         + t9.Format(longDateFmt));
 
-    CTime t10(GetTimeFromStr(_T("09-Mar-2014 3:37:40")));  // a LPCTSTR conversion
-    PushContent(_T("  12. CTime t10(\"09-Mar-2014 3:37:40\")  LPCTSTR  ")
+    CTime t10(GetTimeFromStr(_T("09-Mar-2024 3:37:40")));  // a LPCTSTR conversion
+    PushContent(_T("  12. CTime t10(\"09-Mar-2024 3:37:40\")  LPCTSTR  ")
         + t10.Format(longDateFmt));
 
-    CTime t11(2014, 3, 0, 2, 3, 37, 40, -1);
-    PushContent(_T("  13. CTime t11(2014, 3, 0, 2, 3, 37, 40, -1);   ")
+    CTime t11(2024, 3, 6, 2, 3, 37, 40, -1);
+    PushContent(_T("  13. CTime t11(2024, 3, 6, 2, 3, 37, 40, -1);   ")
         + t11.Format(longDateFmt));
 
-    CTime t12(2014, 3, 0, 2, 3, 37, 40, -1);
-    PushContent(_T("  14. CTime t12(2014, 3, 0, 2, 3, 37, 40, -1);   ")
+    CTime t12(2024, 3, 6, 2, 3, 37, 40, -1);
+    PushContent(_T("  14. CTime t12(2024, 3, 6, 2, 3, 37, 40, -1);   ")
         + t12.Format(longDateFmt));
 
     SYSTEMTIME st;

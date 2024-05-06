@@ -32,12 +32,15 @@ Added:  CString ToCString(const CStringA& string)
 Added:  CString ToCString(const CStringW& string)
 Added:  CString ToCString(const CString& string)
 
-Added:  time_tm* ::GMTime(time_tm& tm, const time_t& timet)
-Added:  time_tm* ::LocalTime(time_tm& tm, const time_t& timet)
+Added:  tm* ::GMTime(tm& atm, const time_t& t)
+Added:  tm* ::LocalTime(tm& atm, const time_t& t)
 
 Modified: CTime(int yr, int mo, int wkday, int nthwk, int hr, int min, int sec, int isDST);
 Modified: CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
 Modified: CTime(int yr, int doy, int hr, int min, int sec);
+
+Removed: time_tm typedef
+Removed: timespan_t typedef
 
 Removed: CString::Left                    redundant
 Removed: CString::Mid                     redundant
@@ -45,7 +48,7 @@ Removed: CString::right                   redundant
 Removed: CString::SpanExcluding           redundant
 Removed: CString::SpanIncluding           redundant
 Removed: CString::Tokenize                redundant
-          
+
 
 Version 9.5.1
 =============

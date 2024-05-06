@@ -72,9 +72,9 @@
 //  negative values are not allowed.
 
 //  On systems where time_t is defined as a 32-bit integer, there is an
-//  upper date limit of January 18, 19:14:07, 2038. On 64-bit systems,
-//  there is no such upper date limit. This issue can affect code compiled
-//  with Visual Studio 6 and Visual Studio 2003.
+//  upper date limit of January 18, 19:14:07, 2038. This issue can affect
+//  code compiled with Visual Studio 6 and Visual Studio 2003.
+//  Visual Studio 2005 and later defines time_t as a 64 bit integer.
 
 //  Windows also has other time types that also interface with the CTime
 //  type. These are FILETIME, SYSTEMTIME, and MS-DOS date and time, each
@@ -95,13 +95,6 @@
 
 namespace Win32xx
 {
-    // Define the time_tm type.
-    typedef struct tm time_tm;
-
-    // Define the timespane_t type.
-    // This can be int or __int64 depending on the compiler.
-    typedef time_t timespan_t;
-
     // Forward declaration.
     class CTimeSpan;
 
@@ -115,7 +108,7 @@ namespace Win32xx
         CTime();
         CTime(const CTime& t);
         CTime(time_t t);
-        CTime(time_tm& t);
+        CTime(tm& atm);
         CTime(int yr, int mo, int wkday, int nthwk, int hr, int min, int sec, int isDST);
         CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
         CTime(int yr, int doy, int hr, int min, int sec);
@@ -124,38 +117,38 @@ namespace Win32xx
         CTime(const FILETIME& ft,  int isDST = -1);
 
         // CString conversion.
-        CString     Format(LPCTSTR format) const;
-        CString     Format(UINT formatID) const;
-        CString     FormatGmt(LPCTSTR format) const;
-        CString     FormatGmt(UINT formatID) const;
+        CString Format(LPCTSTR format) const;
+        CString Format(UINT formatID) const;
+        CString FormatGmt(LPCTSTR format) const;
+        CString FormatGmt(UINT formatID) const;
 
         // Method members.
-        bool      GetAsFileTime(FILETIME& ft) const;
-        bool      GetAsSystemTime(SYSTEMTIME& st) const;
-        int       GetDay(bool local = true) const;
-        int       GetDayOfWeek(bool local = true) const;
-        int       GetDayOfYear(bool local = true) const;
-        time_tm*  GetGmtTm(time_tm* ptm) const;
-        int       GetHour(bool local = true) const;
-        time_tm*  GetLocalTm(time_tm* ptm) const;
-        int       GetMinute(bool local = true) const;
-        int       GetMonth(bool local = true) const;
-        int       GetSecond(bool local = true) const;
-        int       GetYear(bool local = true) const;
-        time_t    GetTime() const;
+        bool    GetAsFileTime(FILETIME& ft) const;
+        bool    GetAsSystemTime(SYSTEMTIME& st) const;
+        int     GetDay(bool local = true) const;
+        int     GetDayOfWeek(bool local = true) const;
+        int     GetDayOfYear(bool local = true) const;
+        tm*     GetGmtTm(tm* ptm) const;
+        int     GetHour(bool local = true) const;
+        tm*     GetLocalTm(tm* ptm) const;
+        int     GetMinute(bool local = true) const;
+        int     GetMonth(bool local = true) const;
+        int     GetSecond(bool local = true) const;
+        int     GetYear(bool local = true) const;
+        time_t  GetTime() const;
 
         // Assignment operators.
-        CTime&  operator=(const CTime& timeSrc);
+        CTime&  operator=(const CTime& time);
         CTime&  operator=(const time_t& t);
 
         // Computational operators.
         CTime&  operator+=(const CTimeSpan& ts);
         CTime&  operator-=(const CTimeSpan& ts);
-        const CTimeSpan operator-(const CTime& t) const;
+        const CTimeSpan operator-(const CTime& time) const;
         const CTime operator-(const CTimeSpan& ts) const;
         const CTime operator+(const CTimeSpan& ts) const;
-        bool        operator==(const CTime& t) const;
-        bool        operator!=(const CTime& t) const;
+        bool        operator==(const CTime& time) const;
+        bool        operator!=(const CTime& time) const;
         bool        operator<(const CTime& time) const;
         bool        operator>(const CTime& time) const;
         bool        operator<=(const CTime& time) const;
@@ -183,7 +176,7 @@ namespace Win32xx
     public:
         // Constructors.
         CTimeSpan();
-        CTimeSpan(timespan_t t);
+        CTimeSpan(time_t ts);
         CTimeSpan(long days, int hours, int mins, int secs);
         CTimeSpan(const CTimeSpan& ts);
 
@@ -202,7 +195,7 @@ namespace Win32xx
 
         // Assignment operators.
         CTimeSpan& operator=(const CTimeSpan& ts);
-        CTimeSpan& operator=(const timespan_t& t);
+        CTimeSpan& operator=(const time_t& t);
 
         // Computational operators.
         const CTimeSpan operator-() const;
@@ -217,11 +210,11 @@ namespace Win32xx
         bool       operator<=(const CTimeSpan& ts) const;
         bool       operator>=(const CTimeSpan& ts) const;
 
-        operator timespan_t() const { return m_timespan; }
+        operator time_t() const { return m_timespan; }
 
     private:
         // Private data members.
-        timespan_t m_timespan;
+        time_t m_timespan;
     };
 
 }
@@ -236,70 +229,70 @@ namespace Win32xx
     //
 
     // Calls either ::gmtime or ::gmtime_s, depending on the compiler.
-    // The value of tm is updated and its pointer is returned if successful.
+    // The value of atm is updated and its pointer is returned if successful.
     // Returns NULL on failure.
-    inline time_tm* GMTime(time_tm& tm, const time_t& timet)
+    inline tm* GMTime(tm& atm, const time_t& t)
     {
-        time_tm* ptm = &tm;
+        tm* ptm = &atm;
 
 // If Visual Studio >= 2005 or GNU > 11 or clang compiler.
 #if ((defined (_MSC_VER) &&  ( _MSC_VER >= 1400 )) || \
     (defined(__GNUC__) && (__GNUC__ >= 11)) || \
     defined(__clang_major__))
 
-        if (::gmtime_s(&tm, &timet) != 0)
+        if (::gmtime_s(&atm, &t) != 0)
             ptm = NULL;
 #else
-        time_tm* ptmTemp = ::gmtime(&timet);
+        tm* ptmTemp = ::gmtime(&t);
         if (ptmTemp != NULL)
-            *ptm = *ptmTemp;  // Update the value of tm.
+            *ptm = *ptmTemp;  // Update the value of atm.
         else
             ptm = NULL;
 #endif
 
-        // Note: ptm points to tm (which isn't a local variable) or NULL. 
+        // Note: ptm points to atm (not a local variable) or NULL.
         return ptm;
     }
 
     // Calls either ::localtime or ::localtime_s depending on the compiler.
-    // The value of tm is updated and its pointer is returned if successful.
+    // The value of atm is updated and its pointer is returned if successful.
     // Returns NULL on failure.
-    inline time_tm* LocalTime(time_tm& tm, const time_t& timet)
+    inline tm* LocalTime(tm& atm, const time_t& t)
     {
-        time_tm* ptm = &tm;
+        tm* ptm = &atm;
 
 // If Visual Studio >= 2005 or GNU > 11 or clang compiler.
 #if ((defined (_MSC_VER) &&  ( _MSC_VER >= 1400 )) || \
     (defined(__GNUC__) && (__GNUC__ >= 11)) || \
     defined(__clang_major__))
 
-        if (::localtime_s(&tm, &timet) != 0)
+        if (::localtime_s(&atm, &t) != 0)
             ptm = NULL;
 #else
-        time_tm* ptmTemp = ::localtime(&timet);
+        tm* ptmTemp = ::localtime(&t);
         if (ptmTemp != NULL)
-            *ptm = *ptmTemp;  // Update the value of tm.
+            *ptm = *ptmTemp;  // Update the value of atm.
         else
             ptm = NULL;
 #endif
 
-        // Note: ptm points to tm (which isn't a local variable) or NULL.
+        // Note: ptm points to atm (not a local variable) or NULL.
         return ptm;
     }
 
     // Returns the time_t t corresponding to the date given in atm as a UTC time.
-    inline time_t UTCtime(time_tm* atm)
+    inline time_t UTCtime(tm* atm)
     {
         // Compute the local time from atm.
         assert(atm != NULL);
         time_t t0 = ::mktime(atm);
         assert(t0 != -1);
-        time_tm tm0;
-        time_tm* ptm0 = GMTime(tm0, t0);
+        tm tm0;
+        tm* ptm0 = GMTime(tm0, t0);
 
         time_t t1 = ::mktime(ptm0);
         assert(t1 != -1);
-        timespan_t zt = static_cast<timespan_t>(t0 - t1);
+        time_t zt = t0 - t1;
         t0 += zt;
 
         assert(GMTime(tm0, t0));
@@ -310,13 +303,7 @@ namespace Win32xx
     // Throw an exception on failure.
     inline CArchive& operator<<(CArchive& ar, CTime& t)
     {
-        ULONGLONG tx64 = 0;
-        UINT size = sizeof(tx64);
-
-        // Store CTime as x64.
-        time_t tt = t;
-        tx64 = static_cast<ULONGLONG>(tt);
-        ar.Write(&tx64, size);
+        ar.Write(&t, sizeof(t));
         return ar;
     }
 
@@ -324,19 +311,7 @@ namespace Win32xx
     // Throws an exception on failure.
     inline CArchive& operator>>(CArchive& ar, CTime& t)
     {
-        UINT size;
-        ar.Read(&size, sizeof(size));
-        if (size != sizeof(ULONGLONG))
-        {
-            CString str = ar.GetFile().GetFilePath();
-            throw CFileException(str, GetApp()->MsgArReadFail());
-        }
-
-        // Load CTime as x64.
-        ULONGLONG tx64 = 0;
-        ar.Read(&tx64, size);
-        time_t tt = static_cast<time_t>(tx64);
-        t = CTime(tt);
+        ar.Read(&t, sizeof(t));
         return ar;
     }
 
@@ -344,13 +319,7 @@ namespace Win32xx
     // Throws an exception if an error occurs.
     inline CArchive& operator<<(CArchive& ar, CTimeSpan& ts)
     {
-        ULONGLONG tsx64 = 0;
-        UINT size = sizeof(tsx64);
-        ar.Write(&size, sizeof(size));
-
-        // Store CTimeSpan as x64.
-        tsx64 = static_cast<ULONGLONG>(ts);
-        ar.Write(&tsx64, size);
+        ar.Write(&ts, sizeof(ts));
         return ar;
     }
 
@@ -358,19 +327,7 @@ namespace Win32xx
     // Throws an exception if an error occurs.
     inline CArchive& operator>>(CArchive& ar, CTimeSpan& ts)
     {
-        UINT size;
-        ar.Read(&size, sizeof(size));
-        if (size != sizeof(ULONGLONG))
-        {
-            CString str = ar.GetFile().GetFilePath();
-            throw CFileException(str, GetApp()->MsgArReadFail());
-        }
-
-        // Load CTimeSpan as x64.
-        ULONGLONG tsx64 = 0;
-        ar.Read(&tsx64, size);
-        timespan_t tst = static_cast<timespan_t>(tsx64);
-        ts = CTimeSpan(tst);
+        ar.Read(&ts, sizeof(ts));
         return ar;
     }
 
@@ -394,13 +351,13 @@ namespace Win32xx
     // Constructs a CTime object from the time_t value t, or assert if t is invalid.
     inline CTime::CTime(time_t t)
     {
-        time_tm tm;
-        VERIFY(GMTime(tm, t));
+        tm atm;
+        VERIFY(GMTime(atm, t));
         m_time = t;
     }
 
     // Constructs a CTime object from the time_tm atm, or assert if atm is invalid.
-    inline CTime::CTime(time_tm& atm)
+    inline CTime::CTime(tm& atm)
     {
         // Compute the object time_t.
         m_time = ::mktime(&atm);
@@ -426,14 +383,15 @@ namespace Win32xx
         // the first-of-month epoch in the given year to yield the desired
         // date.  To start, compute the first of the month in the given year
         // at the given hour, minute, and  second.
-        time_tm atm = {sec, min, hr, 1, mo - 1, yr - 1900, 0, 0, isDST};
+        tm atm = {sec, min, hr, 1, mo - 1, yr - 1900, 0, 0, isDST};
 
         // Get the (valid) local time of the UTC time corresponding to this.
         time_t t1st = UTCtime(&atm);
 
         // Recover the day of the week.
-        time_tm tm1;
-        time_tm* ptm1 = GMTime(tm1, t1st);
+        tm tm1;
+        tm* ptm1 = GMTime(tm1, t1st);
+        assert(ptm1);
 
         // Compute number of days until the nthwk occurrence of wkday.
         time_t nthwkday = (7 + time_t(wkday) - ptm1->tm_wday) % 7 + time_t(nthwk - 1) * 7;
@@ -441,7 +399,6 @@ namespace Win32xx
         // Add this to the first of the month.
         time_t sec_per_day = 86400;
         time_t tnthwkdy = t1st + nthwkday * sec_per_day;
-
         VERIFY(GMTime(tm1, tnthwkdy));
 
         // Compute the object time_t.
@@ -464,7 +421,7 @@ namespace Win32xx
         assert(year >= 1969);  // Last few hours of 1969 might be a valid local time.
 
         // Fill out a time_tm with the calendar date.
-        time_tm atm = {sec, min, hour, day, month - 1, year - 1900, 0, 0, isDST};
+        tm atm = {sec, min, hour, day, month - 1, year - 1900, 0, 0, isDST};
 
         // Compute the object time_t.
         m_time = ::mktime(&atm);
@@ -480,13 +437,13 @@ namespace Win32xx
 
         // Fill out a time_tm with the calendar date for Jan 1, yr, hr:min:sec.
         int isDST = -1;
-        time_tm atm1st = {sec, min, hr, 1, 0, yr - 1900, 0, 0, isDST};
+        tm atm1st = {sec, min, hr, 1, 0, yr - 1900, 0, 0, isDST};
 
         // Get the local time of the UTC time corresponding to this.
         time_t Jan1 = UTCtime(&atm1st);
         time_t sec_per_day = 86400;
         time_t tDoy = Jan1 + doy * sec_per_day - sec_per_day;
-        time_tm* ptm = GMTime(atm1st, tDoy);
+        tm* ptm = GMTime(atm1st, tDoy);
         assert(ptm);
 
         // Compute the object time_t.
@@ -537,15 +494,15 @@ namespace Win32xx
     //   %S - seconds (0-59)
     inline CString CTime::Format(LPCTSTR format) const
     {
-        time_tm tm;
-        time_tm* ptm = GetLocalTm(&tm);
+        tm atm;
+        tm* ptm = GetLocalTm(&atm);
         CString formatString;
 
         assert(ptm != NULL);
         if (ptm != NULL)
         {
             const size_t  bufferSize = 128;
-            VERIFY((::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize, format, &tm)) != 0);
+            VERIFY((::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize, format, &atm)) != 0);
             formatString.ReleaseBuffer();
         }
 
@@ -574,8 +531,8 @@ namespace Win32xx
         fmt0.Replace(_T("%Z"), _T("Coordinated Universal Time"));
         fmt0.Replace(_T("%z"), _T("UTC"));
 
-        time_tm tm;
-        time_tm* ptm = GetGmtTm(&tm);
+        tm atm;
+        tm* ptm = GetGmtTm(&atm);
         CString formatString;
 
         assert(ptm != NULL);
@@ -604,8 +561,8 @@ namespace Win32xx
     inline bool CTime::GetAsFileTime(FILETIME& ft) const
     {
         bool rval = false;
-        time_tm tm;
-        time_tm* ptm = GetGmtTm(&tm);
+        tm atm;
+        tm* ptm = GetGmtTm(&atm);
         assert(ptm != NULL);
 
         if (ptm)
@@ -625,8 +582,8 @@ namespace Win32xx
     inline bool CTime::GetAsSystemTime(SYSTEMTIME& st) const
     {
         bool rval = false;
-        time_tm tm;
-        time_tm* ptm = GetLocalTm(&tm);
+        tm atm;
+        tm* ptm = GetLocalTm(&atm);
         assert(ptm != NULL);
 
         if (ptm)
@@ -647,27 +604,24 @@ namespace Win32xx
 
     // Returns a pointer to a time_tm that contains a decomposition of *this
     // CTime object expressed in UTC. Returns NULL on failure.
-    inline time_tm* CTime::GetGmtTm(time_tm* ptm) const
+    inline tm* CTime::GetGmtTm(tm* ptm) const
     {
-        // NULL argument not supported.
-        assert (ptm != NULL);
+        assert (ptm != NULL);    // NULL argument not supported.
         if (ptm)
-            return GMTime(*ptm, m_time);
+            ptm = GMTime(*ptm, m_time);
 
-        return NULL;
+        return ptm;
     }
 
     // Return a pointer to a time_tm that contains a decomposition of *this
     // CTime object expressed in the local time base. Returns NULL on failure.
-    inline time_tm* CTime::GetLocalTm(time_tm* ptm) const
+    inline tm* CTime::GetLocalTm(tm* ptm) const
     {
-        // NULL argument not supported.
-        assert(ptm != NULL);
-
+        assert(ptm != NULL);    // NULL argument not supported.
         if (ptm)
-            return LocalTime(*ptm, m_time);
+            ptm = LocalTime(*ptm, m_time);
 
-        return  NULL;
+        return  ptm;
     }
 
     // Return *this time as a time_t value.
@@ -679,72 +633,72 @@ namespace Win32xx
     // Returns the year of *this time object, local (true) or UTC (false).
     inline int  CTime::GetYear(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return 1900 + ptmbuffer->tm_year;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return 1900 + ptm->tm_year;
     }
 
     // Returns the month of *this time object (1 through 12), local (true) or
     // UTC (false).
     inline int  CTime::GetMonth(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return ptmbuffer->tm_mon + 1;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return ptm->tm_mon + 1;
     }
 
     // Returns the day of *this object (1 through 31), local (true) or
     // UTC (false).
     inline int  CTime::GetDay(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return ptmbuffer->tm_mday ;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return ptm->tm_mday ;
     }
 
     // Returns the hour of *this object (0 through 23), local (true) or
     // UTC (false).
     inline int  CTime::GetHour(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return ptmbuffer->tm_hour;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return ptm->tm_hour;
     }
 
     // Returns the minute of *this object (0 through 59), local (true) or
     // UTC (false).
     inline int  CTime::GetMinute(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return ptmbuffer->tm_min;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return ptm->tm_min;
     }
 
     // Returns the second of *this object (0 through 61), local (true) or
     // UTC (false).
     inline int  CTime::GetSecond(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return ptmbuffer->tm_sec;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return ptm->tm_sec;
     }
 
     // Returns the day of the week of *this object (0-6, Sunday = 0), local
     // (true) or UTC (false).
     inline int  CTime::GetDayOfWeek(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return ptmbuffer->tm_wday;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return ptm->tm_wday;
     }
 
     // Returns the day of the year of *this object (1-366), local (true)  or
     // UTC (false).
     inline int  CTime::GetDayOfYear(bool local /* = true */) const
     {
-        time_tm tm;
-        time_tm* ptmbuffer = (local ? GetLocalTm(&tm) : GetGmtTm(&tm));
-        return ptmbuffer->tm_yday + 1;
+        tm atm;
+        tm* ptm = (local ? GetLocalTm(&atm) : GetGmtTm(&atm));
+        return ptm->tm_yday + 1;
     }
 
     // Assigns the CTime t value to *this.
@@ -758,41 +712,39 @@ namespace Win32xx
     // Assigns the time_t value to *this time.
     inline CTime& CTime::operator=(const time_t& t)
     {
-        assert(t >= 0);
         // Self assignment is safe.
+        tm atm;
         m_time = t;
+        VERIFY(GMTime(atm, m_time));  // Verify m_time is valid.
+        // Self assignment is safe.
+
         return *this;
     }
 
     // Returns the time span between *this time and  time t.
-    inline const CTimeSpan CTime::operator-(const CTime& t) const
+    inline const CTimeSpan CTime::operator-(const CTime& time) const
     {
-        timespan_t d = static_cast<timespan_t>(m_time - t.m_time);
-        CTimeSpan t0(d);
-        return  t0;
+        return CTimeSpan(m_time - time.m_time);
     }
 
     // Returns the CTime that is the time span ts before *this time.
     inline const CTime CTime::operator-(const CTimeSpan& ts) const
     {
-        time_t d = m_time - ts.m_timespan;
-        CTime t(d);  // Asserts if d is invalid.
-        return t;
+        return CTime(m_time - ts.m_timespan);
     }
 
     // Returns the CTime that is the time span ts after *this time.
     inline const CTime CTime::operator+(const CTimeSpan& ts) const
     {
-        time_t s = m_time + ts.m_timespan;
-        CTime t(s); // Asserts if s is invalid.
-        return t;
+        return CTime(m_time + ts.m_timespan);
     }
 
     // Increments *this time by the time span ts and  return this CTime.
     inline CTime& CTime::operator+=(const CTimeSpan& ts)
     {
         m_time += ts.m_timespan;
-        assert(m_time >= 0); // Invalid addition to time object.
+        tm atm;
+        VERIFY(GMTime(atm, m_time));  // Verify m_time is valid.
         return *this;
     }
 
@@ -800,7 +752,8 @@ namespace Win32xx
     inline CTime& CTime::operator-=(const CTimeSpan& ts)
     {
         m_time -= ts.m_timespan;
-        assert(m_time >= 0); // Invalid subtraction from time object.
+        tm atm;
+        VERIFY(GMTime(atm, m_time));  // Verify m_time is valid.
         return *this;
     }
 
@@ -856,9 +809,9 @@ namespace Win32xx
         m_timespan = 0;
     }
 
-    inline CTimeSpan::CTimeSpan(timespan_t t)
+    inline CTimeSpan::CTimeSpan(time_t ts)
     {
-        m_timespan = t;
+        m_timespan = ts;
     }
 
     // Contructs a CTimeSpan. Valid parameter ranges:
@@ -989,40 +942,39 @@ namespace Win32xx
     }
 
     // Assigns the timespan_t t value to *this time span.
-    inline CTimeSpan& CTimeSpan::operator=(const timespan_t& t)
+    inline CTimeSpan& CTimeSpan::operator=(const time_t& t)
     {
         // Self assignment is safe.
+        tm atm;
         m_timespan = t;
+        VERIFY(GMTime(atm, m_timespan));  // Verify m_timespan is valid.
         return *this;
     }
 
     // Returns the negated value of *this time span.
     inline const CTimeSpan CTimeSpan::operator-() const
     {
-        CTimeSpan t0(-m_timespan);
-        return  t0;
+        return CTimeSpan(-m_timespan);
     }
 
     // Returns the result of subtracting the time span ts from *this time span.
     inline const CTimeSpan CTimeSpan::operator-(CTimeSpan& ts) const
     {
-        timespan_t d = m_timespan - ts.m_timespan;
-        CTimeSpan tsp(d);
-        return tsp;
+        return CTimeSpan(m_timespan - ts.m_timespan);
     }
 
     // Returns the result of adding the time span ts to *this time span.
     inline const CTimeSpan CTimeSpan::operator+(CTimeSpan& ts) const
     {
-        timespan_t s = m_timespan + ts.m_timespan;
-        CTimeSpan tsp(s);
-        return tsp;
+        return CTimeSpan(m_timespan + ts.m_timespan);
     }
 
     // Increases *this time span by the ts time span and  return the result.
     inline CTimeSpan& CTimeSpan::operator+=(CTimeSpan& ts)
     {
         m_timespan += ts.m_timespan;
+        tm atm;
+        VERIFY(GMTime(atm, m_timespan));  // Verify m_timespan is valid.
         return *this;
     }
 
@@ -1030,6 +982,8 @@ namespace Win32xx
     inline CTimeSpan& CTimeSpan::operator-=(CTimeSpan& ts)
     {
         m_timespan -= ts.m_timespan;
+        tm atm;
+        VERIFY(GMTime(atm, m_timespan));  // Verify m_timespan is valid.
         return *this;
     }
 
