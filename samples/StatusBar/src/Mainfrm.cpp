@@ -192,6 +192,11 @@ void CMainFrame::SetStatusIndicators()
         CString scrl = LoadString(IDW_INDICATOR_SCRL);
         CString empty;
 
+        CString oldCap = m_cap;
+        CString oldNum = m_num;
+        CString oldOvr = m_ovr;
+        CString oldScrl = m_scrl;
+
         m_cap  = (::GetKeyState(VK_CAPITAL) & 0x0001) ? cap : empty;
         m_num  = (::GetKeyState(VK_NUMLOCK) & 0x0001) ? num : empty;
         m_ovr  = (::GetKeyState(VK_INSERT) & 0x0001) ? ovr : ins;
@@ -199,10 +204,14 @@ void CMainFrame::SetStatusIndicators()
 
         // Update the indicators.
         // Use member variables for owner drawn text to keep the text in scope.
-        GetStatusBar().SetPartText(5, m_cap,  SBT_OWNERDRAW);
-        GetStatusBar().SetPartText(6, m_num,  SBT_OWNERDRAW);
-        GetStatusBar().SetPartText(7, m_ovr,  SBT_OWNERDRAW);
-        GetStatusBar().SetPartText(8, m_scrl, SBT_OWNERDRAW);
+        if (m_cap != oldCap)
+            GetStatusBar().SetPartText(5, m_cap,  SBT_OWNERDRAW);
+        if (oldNum != m_num)
+            GetStatusBar().SetPartText(6, m_num,  SBT_OWNERDRAW);
+        if (oldOvr != m_ovr)
+            GetStatusBar().SetPartText(7, m_ovr,  SBT_OWNERDRAW);
+        if (oldScrl != m_scrl)
+            GetStatusBar().SetPartText(8, m_scrl, SBT_OWNERDRAW);
     }
 }
 

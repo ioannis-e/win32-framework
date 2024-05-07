@@ -13,6 +13,11 @@ Changes:
 
 Changes in detail
 -----------------
+Added:  tm* ::GMTime(tm& atm, const time_t& t)              global function
+Added:  tm* ::LocalTime(tm& atm, const time_t& t)           global function
+
+Added CFrameT<T>::RemoveKbdHook()
+
 Added:  CStringA operator+(const CStringA& string1, const CStringA& string2)
 Added:  CStringW operator+(const CStringW& string1, const CStringW& string2)
 
@@ -31,9 +36,6 @@ Added:  CString& operator+=(const CStringW& str);
 Added:  CString ToCString(const CStringA& string)
 Added:  CString ToCString(const CStringW& string)
 Added:  CString ToCString(const CString& string)
-
-Added:  tm* ::GMTime(tm& atm, const time_t& t)
-Added:  tm* ::LocalTime(tm& atm, const time_t& t)
 
 Modified: CTime(int yr, int mo, int wkday, int nthwk, int hr, int min, int sec, int isDST);
 Modified: CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);

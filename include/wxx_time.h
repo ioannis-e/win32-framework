@@ -394,7 +394,8 @@ namespace Win32xx
         assert(ptm1);
 
         // Compute number of days until the nthwk occurrence of wkday.
-        time_t nthwkday = (7 + time_t(wkday) - ptm1->tm_wday) % 7 + time_t(nthwk - 1) * 7;
+        int nthweek = nthwk - 1;
+        time_t nthwkday = (7 + time_t(wkday) - ptm1->tm_wday) % 7 + time_t(nthweek) * 7;
 
         // Add this to the first of the month.
         time_t sec_per_day = 86400;

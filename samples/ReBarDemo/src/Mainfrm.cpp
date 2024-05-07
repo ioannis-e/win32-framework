@@ -268,6 +268,7 @@ void CMainFrame::RecalcLayout()
         if (IsUsingMenuStatus())
             GetStatusBar().SetWindowText(GetStatusText());
 
+        SetStatusParts();
         SetStatusIndicators();
     }
 

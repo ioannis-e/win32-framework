@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -181,6 +181,7 @@ namespace Win32xx
         CWnd& GetView() const;
         CString GetXPThemeName() const;
         BOOL IsMDIFrame() const                           { return static_cast<BOOL>(T::SendMessage(UWM_GETCMDIFRAMET)); }
+        void RemoveKbdHook();
         void ResetMenuMetrics()                           { m_menuMetrics.SetMetrics(*this); }
         void SetAccelerators(UINT accelID);
         void SetFrameMenu(UINT menuID);
@@ -1908,6 +1909,9 @@ namespace Win32xx
 
         if (LOWORD(wparam) == WA_INACTIVE)
         {
+            // Remove the keyboard hook used by the keyboard indicators.
+            RemoveKbdHook();
+
             // Save the hwnd of the window that currently has focus.
             // This must be CFrame window itself or a child window.
             if (!T::IsIconic()) m_oldFocus = ::GetFocus();
@@ -1918,6 +1922,10 @@ namespace Win32xx
         }
         else
         {
+            // Set the keyboard hook by the keyboard indicators..
+            
+            SetKbdHook();
+
             // Now set the focus to the appropriate child window.
             if (m_oldFocus != NULL) ::SetFocus(m_oldFocus);
         }
@@ -1946,10 +1954,6 @@ namespace Win32xx
     template <class T>
     inline int CFrameT<T>::OnCreate(CREATESTRUCT&)
     {
-        // Start the keyboard hook to capture the CapsLock, NumLock,
-        // ScrollLock and Insert keys.
-        SetKbdHook();
-
         // Set the icon.
         T::SetIconLarge(IDW_MAIN);
         T::SetIconSmall(IDW_MAIN);
@@ -2853,6 +2857,18 @@ namespace Win32xx
         return TRUE;
     }
 
+    // Removes the keyboard hook installed by SetKbdHook. The hook is used to
+    // display the keyboard indicator status for the CAPs lock, NUM lock, 
+    // Scroll lock and Insert keys.
+    template<class T>
+    inline void CFrameT<T>::RemoveKbdHook()
+    {
+        if (m_kbdHook != NULL)
+            UnhookWindowsHookEx(m_kbdHook);
+        
+        m_kbdHook = NULL;
+    }
+
     // Sets the accelerator table for the application for this window.
     template <class T>
     inline void CFrameT<T>::SetAccelerators(UINT accelID)
@@ -2906,6 +2922,16 @@ namespace Win32xx
         m_initValues = values;
     }
 
+    // Installs a keyboard hook. The hook is used to display the keyboard
+    // indicator status for the CAPs lock, NUM lock, Scroll lock and
+    // Insert keys.
+    template <class T>
+    inline void CFrameT<T>::SetKbdHook()
+    {
+        GetApp()->SetMainWnd(*this);
+        m_kbdHook = ::SetWindowsHookEx(WH_KEYBOARD, StaticKeyboardProc, 0, ::GetCurrentThreadId());
+    }
+
     // Sets the menu icons. Any previous menu icons are removed.
     template <class T>
     inline UINT CFrameT<T>::SetMenuIcons(const std::vector<UINT>& menuData, COLORREF mask, UINT toolBarID, UINT toolBarDisabledID)
@@ -2918,14 +2944,6 @@ namespace Win32xx
 
         // Add the menu icons from the bitmap IDs.
         return AddMenuIcons(menuData, mask, toolBarID, toolBarDisabledID);
-    }
-
-    // Implements a keyboard hook. The hook is used to detect the CAPs lock,
-    // NUM lock, Scroll lock and Insert keys.
-    template <class T>
-    inline void CFrameT<T>::SetKbdHook()
-    {
-        m_kbdHook = ::SetWindowsHookEx(WH_KEYBOARD, StaticKeyboardProc, 0, ::GetCurrentThreadId());
     }
 
     // Sets the minimum width of the MenuBar band to the width of the rebar.
@@ -3008,15 +3026,23 @@ namespace Win32xx
             CString scrl = LoadString(IDW_INDICATOR_SCRL);
             CString empty;
 
+            CString old0 = m_indicators[0];
+            CString old1 = m_indicators[1];
+            CString old2 = m_indicators[2];
+
             m_indicators[0] = (::GetKeyState(VK_CAPITAL) & 0x0001) ? cap : empty;
             m_indicators[1] = (::GetKeyState(VK_NUMLOCK) & 0x0001) ? num : empty;
             m_indicators[2] = (::GetKeyState(VK_SCROLL) & 0x0001) ? scrl : empty;
 
             // Update the indicators text.
             // We need member variables for owner drawn text to keep the text in scope.
-            GetStatusBar().SetPartText(1, m_indicators[0], SBT_OWNERDRAW);
-            GetStatusBar().SetPartText(2, m_indicators[1], SBT_OWNERDRAW);
-            GetStatusBar().SetPartText(3, m_indicators[2], SBT_OWNERDRAW);
+            // Only set the indicator if it changed.
+            if (old0 != m_indicators[0])
+                GetStatusBar().SetPartText(1, m_indicators[0], SBT_OWNERDRAW);
+            if (old1 != m_indicators[1])
+                GetStatusBar().SetPartText(2, m_indicators[1], SBT_OWNERDRAW);
+            if (old2 != m_indicators[2])
+                GetStatusBar().SetPartText(3, m_indicators[2], SBT_OWNERDRAW);
         }
     }
 
