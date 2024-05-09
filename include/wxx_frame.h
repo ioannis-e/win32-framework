@@ -1922,8 +1922,8 @@ namespace Win32xx
         }
         else
         {
-            // Set the keyboard hook by the keyboard indicators..
-            
+            // Set the keyboard hook by the keyboard indicators if
+            // m_useIndicatorStatus is TRUE.
             SetKbdHook();
 
             // Now set the focus to the appropriate child window.
@@ -2922,14 +2922,17 @@ namespace Win32xx
         m_initValues = values;
     }
 
-    // Installs a keyboard hook. The hook is used to display the keyboard
-    // indicator status for the CAPs lock, NUM lock, Scroll lock and
-    // Insert keys.
+    // Installs a keyboard hook if m_useIndicatorStatus is true. The 
+    // hook is used to display the keyboard indicator status for the
+    // CAPs lock, NUM lock, Scroll lock and Insert keys.
     template <class T>
     inline void CFrameT<T>::SetKbdHook()
     {
-        GetApp()->SetMainWnd(*this);
-        m_kbdHook = ::SetWindowsHookEx(WH_KEYBOARD, StaticKeyboardProc, 0, ::GetCurrentThreadId());
+        if (m_useIndicatorStatus)
+        {
+            GetApp()->SetMainWnd(*this);
+            m_kbdHook = ::SetWindowsHookEx(WH_KEYBOARD, StaticKeyboardProc, 0, ::GetCurrentThreadId());
+        }
     }
 
     // Sets the menu icons. Any previous menu icons are removed.
@@ -3549,9 +3552,9 @@ namespace Win32xx
     {
         HWND frame = GetApp()->GetMainWnd();
         CFrameT<T>* pFrame = static_cast< CFrameT<T>* >(CWnd::GetCWndPtr(frame));
-        assert(pFrame);
+        assert(dynamic_cast<CFrameT<T>*>(pFrame) != NULL);
 
-        if (pFrame)
+        if (pFrame != NULL)
             pFrame->OnKeyboardHook(code, wparam, lparam);
 
         // The HHOOK parameter in CallNextHookEx should be supplied for Win95, Win98 and WinME.

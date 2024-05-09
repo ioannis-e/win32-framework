@@ -109,9 +109,7 @@ namespace Win32xx
         CTime(const CTime& t);
         CTime(time_t t);
         CTime(tm& atm);
-        CTime(int yr, int mo, int wkday, int nthwk, int hr, int min, int sec, int isDST);
         CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
-        CTime(int yr, int doy, int hr, int min, int sec);
         CTime(WORD dosDate, WORD dosTime, int isDST = -1);
         CTime(const SYSTEMTIME& st, int isDST = -1);
         CTime(const FILETIME& ft,  int isDST = -1);
@@ -366,47 +364,6 @@ namespace Win32xx
         assert(m_time != -1);
     }
 
-    // Constructs a CTime of the nthwk occurrence of the given wkday (0..6)
-    // in the mo month of yr year, at hr:min:sec of that day, local time.
-    inline CTime::CTime(int yr, int mo, int wkday, int nthwk, int hr,
-                        int min, int sec, int isDST)
-    {
-        // Validate parameters w.r.t. ranges.
-        assert(yr >= 1969); // Last few hours of 1969 might be a valid local time.
-        assert(wkday <= 6);
-        assert(1 <= mo && mo <= 12);
-
-        // This computation is tricky because adding whole days to a time_t
-        // may result in date within the DST zone, which, when rendered into
-        // calendar date form, appears off by the daylight bias. Rather, we
-        // need to work in UTC calendar days and  add integer calendar days to
-        // the first-of-month epoch in the given year to yield the desired
-        // date.  To start, compute the first of the month in the given year
-        // at the given hour, minute, and  second.
-        tm atm = {sec, min, hr, 1, mo - 1, yr - 1900, 0, 0, isDST};
-
-        // Get the (valid) local time of the UTC time corresponding to this.
-        time_t t1st = UTCtime(&atm);
-
-        // Recover the day of the week.
-        tm tm1;
-        tm* ptm1 = GMTime(tm1, t1st);
-        assert(ptm1);
-
-        // Compute number of days until the nthwk occurrence of wkday.
-        int nthweek = nthwk - 1;
-        time_t nthwkday = (7 + time_t(wkday) - ptm1->tm_wday) % 7 + time_t(nthweek) * 7;
-
-        // Add this to the first of the month.
-        time_t sec_per_day = 86400;
-        time_t tnthwkdy = t1st + nthwkday * sec_per_day;
-        VERIFY(GMTime(tm1, tnthwkdy));
-
-        // Compute the object time_t.
-        m_time = ::mktime(ptm1);
-        assert(m_time != -1);
-    }
-
     // Constructs a CTime object from local time elements. Each element is
     // constrained to lie within the following UTC ranges:
     //   year       1970-2038 (on 32-bit systems)
@@ -426,29 +383,6 @@ namespace Win32xx
 
         // Compute the object time_t.
         m_time = ::mktime(&atm);
-        assert(m_time != -1);
-    }
-
-    // Constructs a CTime using the day-of-year doy,
-    // where doy = 1 is January 1 in the specified year.
-    inline CTime::CTime(int yr, int doy, int hr, int min, int sec)
-    {
-        // Validate parameters w.r.t. ranges.
-        assert(yr >= 1969);  // Last few hours of 1969 might be a valid local time.
-
-        // Fill out a time_tm with the calendar date for Jan 1, yr, hr:min:sec.
-        int isDST = -1;
-        tm atm1st = {sec, min, hr, 1, 0, yr - 1900, 0, 0, isDST};
-
-        // Get the local time of the UTC time corresponding to this.
-        time_t Jan1 = UTCtime(&atm1st);
-        time_t sec_per_day = 86400;
-        time_t tDoy = Jan1 + doy * sec_per_day - sec_per_day;
-        tm* ptm = GMTime(atm1st, tDoy);
-        assert(ptm);
-
-        // Compute the object time_t.
-        m_time = ::mktime(ptm);
         assert(m_time != -1);
     }
 

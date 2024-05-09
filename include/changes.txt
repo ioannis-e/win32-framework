@@ -37,9 +37,10 @@ Added:  CString ToCString(const CStringA& string)
 Added:  CString ToCString(const CStringW& string)
 Added:  CString ToCString(const CString& string)
 
-Modified: CTime(int yr, int mo, int wkday, int nthwk, int hr, int min, int sec, int isDST);
 Modified: CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
-Modified: CTime(int yr, int doy, int hr, int min, int sec);
+
+Removed: CTime(UINT yr, UINT mo, UINT wkday, UINT nthwk, UINT hr, UINT min, UINT sec, int isDST = -1);
+Removed: CTime(UINT yr, UINT doy, UINT hr, UINT min, UINT sec, int isDST = -1);
 
 Removed: time_tm typedef
 Removed: timespan_t typedef

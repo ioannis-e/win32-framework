@@ -279,47 +279,31 @@ NewDocument()                                                               /*
     PushContent(_T("   8. CTime t6(2024, 3, 9, 3, 37, 40);           ")
         + t6.Format(longDateFmt));
 
-    CTime t7(2024, 69, 3, 37, 40);
-    PushContent(_T("   9. CTime t7(2024, 69, 3, 37, 40);             ")
-        + t7.Format(longDateFmt));
-
-    CTime t8(2024, 69, 3, 37, 40);
-    PushContent(_T("  10. CTime t8(2024, 69, 3, 37, 40);             ")
-        + t8.Format(longDateFmt));
-
     CString s9(_T("09-Mar-2024 3:37:40"));
     CTime t9(GetTimeFromStr(s9));  // a CString conversion
-    PushContent(_T("  11. CTime t9(\"09-Mar-2024 3:37:40\")   CString  ")
+    PushContent(_T("   9. CTime t9(\"09-Mar-2024 3:37:40\")   CString  ")
         + t9.Format(longDateFmt));
 
     CTime t10(GetTimeFromStr(_T("09-Mar-2024 3:37:40")));  // a LPCTSTR conversion
-    PushContent(_T("  12. CTime t10(\"09-Mar-2024 3:37:40\")  LPCTSTR  ")
+    PushContent(_T("  10. CTime t10(\"09-Mar-2024 3:37:40\")  LPCTSTR  ")
         + t10.Format(longDateFmt));
 
-    CTime t11(2024, 3, 6, 2, 3, 37, 40, -1);
-    PushContent(_T("  13. CTime t11(2024, 3, 6, 2, 3, 37, 40, -1);   ")
-        + t11.Format(longDateFmt));
-
-    CTime t12(2024, 3, 6, 2, 3, 37, 40, -1);
-    PushContent(_T("  14. CTime t12(2024, 3, 6, 2, 3, 37, 40, -1);   ")
-        + t12.Format(longDateFmt));
-
     SYSTEMTIME st;
-    t12.GetAsSystemTime(st);
+    t10.GetAsSystemTime(st);
     CTime t13(st);
-    PushContent(_T("  15. GetAsSystemTime(t12);                      ")
+    PushContent(_T("  11. GetAsSystemTime(t12);                      ")
         + t13.Format(longDateFmt));
 
     FILETIME ft;
-    t12.GetAsFileTime(ft);
+    t10.GetAsFileTime(ft);
     CTime t14(ft, 0);
-    PushContent(_T("  16. GetAsFileTime(t12);                        ")
+    PushContent(_T("  12. GetAsFileTime(t12);                        ")
         + t14.Format(longDateFmt));
 
     WORD fatdate, fattime;
     ::FileTimeToDosDateTime(&ft, &fatdate, &fattime);
     CTime t15(fatdate, fattime, 0);
-    PushContent(_T("  17. t15(fatdate, fattime)                      ")
+    PushContent(_T("  13. t15(fatdate, fattime)                      ")
         + t15.Format(longDateFmt));
 
     int yr = t15.GetYear();
@@ -332,7 +316,7 @@ NewDocument()                                                               /*
     int dy = t15.GetDayOfYear();
     CString fmt = _T("%04d-%02d-%02d %02d:%02d:%02d [%03d] (%d) ");
     s.Format(fmt + _T("local"), yr, mo, da, hr, mn, sc, dy, dw);
-    PushContent(_T("  18. t15, yr-mo-day hr:min:sec [doy] (wk)       ")
+    PushContent(_T("  14. t15, yr-mo-day hr:min:sec [doy] (wk)       ")
         + s);
 
     yr = t15.GetYear(false);
@@ -347,56 +331,53 @@ NewDocument()                                                               /*
     PushContent("  19. t15, yr-mo-day hr:min:sec [doy] (wk)       "
         + s);
 
-    CTimeSpan ts = t12 - t1;
+    CTimeSpan ts = t10 - t1;
     s = ts.Format(_T("%D days, %H:%M:%S"));
-    PushContent(_T("  20. t12 - t1 =                                 ")
+    PushContent(_T("  15. t10 - t1 =                                 ")
         + s);
 
     s.Format(_T("%ld total hrs, %ld min, %ld sec"),
         ts.GetTotalHours(), ts.GetTotalMinutes(), ts.GetTotalSeconds());
-    PushContent(_T("  21. t12 - t1 =                                 ")
+    PushContent(_T("  16. t10 - t1 =                                 ")
         + s);
 
-    ts = t1 - t12;
+    ts = t1 - t10;
     s = ts.Format(_T("%D days, %H:%M:%S"));
-    PushContent(_T("  22. t1 - t12 =                                 ")
+    PushContent(_T("  17. t1 - t10 =                                 ")
         + s);
 
-    CTime t16 = t12 + ts;
-    PushContent(_T("  23. t16 = t12 + (t1 - t12) =  t1               ")
+    CTime t16 = t10 + (t1 - t10);
+    PushContent(_T("  18. t16 = t10 + (t1 - t10) =  t1               ")
         + t16.Format(longDateFmt));
 
-    t16 -= ts;
-    PushContent(_T("  24. t16 -= (t1 - t12) =  t12                   ")
+    t16 -= (t1 - t10);
+    PushContent(_T("  19. t16 -= (t1 - t10) =  t10                   ")
         + t16.Format(longDateFmt));
 
-    t16 += ts;
-    PushContent(_T("  25. t16 += (t1 - t12) =  t1                    ")
+    t16 += (t1 - t10);
+    PushContent(_T("  20. t16 += (t1 - t10) =  t1                    ")
         + t16.Format(longDateFmt));
 
-    t16 = t1 - ts;
-    PushContent(_T("  26. t16 = t1 - (t1 - t12) =  t12               ")
+    t16 = t1 - (t1 - t10);
+    PushContent(_T("  21. t16 = t1 - (t1 - t10) =  t10               ")
         + t16.Format(longDateFmt));
 
-    ts = -ts;
+    ts = -(t1 - t10);
     s = ts.Format(_T("%D days, %H:%M:%S"));
-    PushContent(_T("  27. -(t1 - t12) =                              ")
+    PushContent(_T("  22. -(t1 - t10) =                              ")
         + s);
 
-    PushContent(_T("  28. t8 == t7;                                  ")
-        + Truth(t8 == t7));
+    PushContent(_T("  23. t5 == t6;                                  ")
+        + Truth(t5 == t6));
 
-    PushContent(_T("  29. t8 == t9;                                  ")
-        + Truth(t8 == t9));
+    PushContent(_T("  24. t5 != t6;                                  ")
+        + Truth(t5 != t6));
 
-    PushContent(_T("  30. t8 != t7;                                  ")
-        + Truth(t8 != t7));
+    PushContent(_T("  25. t5 < t6;                                   ")
+        + Truth(t5 < t6));
 
-    PushContent(_T("  31. t8 < t7;                                   ")
-        + Truth(t8 < t7));
-
-    PushContent(_T("  32. t8 > t7;                                   ")
-        + Truth(t8 > t7));
+    PushContent(_T("  26. t5 > t6;                                   ")
+        + Truth(t5 > t6));
 
     PushContent(_T(""));
     s.Format(_T("  -------------------------------------------------------"));

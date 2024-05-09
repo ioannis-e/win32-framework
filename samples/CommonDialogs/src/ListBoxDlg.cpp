@@ -49,6 +49,7 @@ DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)                         /*
                     break;
                 }
             }
+            break;
         }
         case WM_SYSCOMMAND:
         {
