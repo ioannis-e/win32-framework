@@ -38,6 +38,7 @@ Added:  CString ToCString(const CStringW& string)
 Added:  CString ToCString(const CString& string)
 
 Modified: CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
+Modified: CTime::GetDayOfWeek    Now returns value in the range 1 through 7
 
 Removed: CTime(UINT yr, UINT mo, UINT wkday, UINT nthwk, UINT hr, UINT min, UINT sec, int isDST = -1);
 Removed: CTime(UINT yr, UINT doy, UINT hr, UINT min, UINT sec, int isDST = -1);
