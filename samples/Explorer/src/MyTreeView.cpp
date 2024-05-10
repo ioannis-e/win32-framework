@@ -32,7 +32,7 @@ int CALLBACK CMyTreeView::CompareFunction(LPARAM param1, LPARAM param2, LPARAM)
     if(FAILED(result))
         return 0;
 
-    return (short)SCODE_CODE(GetScode(result));
+    return SCODE_CODE(GetScode(result));
 }
 
 // Identifies the tree view item for the point, and calls DoItemMenu.

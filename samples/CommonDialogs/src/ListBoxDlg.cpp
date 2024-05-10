@@ -1,4 +1,4 @@
-/* (28-Aug-2016) [Tab/Indent: 8/8][Line/Box: 80/74]           (ListBoxDlg.cpp) *
+/* (10-May-2024) [Tab/Indent: 8/8][Line/Box: 80/74]           (ListBoxDlg.cpp) *
 ********************************************************************************
 |                                                                              |
 |                    Authors: Robert Tausworthe, David Nash                    |
@@ -107,5 +107,13 @@ OnInitDialog()                                                              /*
     for (UINT i = 0; i < m_listContent.size(); i++)
         m_listBox.AddString(m_listContent[i]);
     return TRUE;
+}
+/*============================================================================*/
+    void    CListBoxDlg::                                                   
+SetWindowTitle() const                                                      /*
+     Sets the window caption's text.                                          */
+/*----------------------------------------------------------------------------*/
+{
+    SetWindowText(m_boxTitle);
 }
 /*----------------------------------------------------------------------------*/

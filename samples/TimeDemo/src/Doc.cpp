@@ -1,7 +1,7 @@
 /* (06-May-2024) [Tab/Indent: 8/8][Line/Box: 80/74]                  (Doc.cpp) *
 ********************************************************************************
 |                                                                              |
-|               Authors: Robert C. Tausworthe, David Nash, 2020                |
+|               Authors: Robert C. Tausworthe, David Nash, 2024                |
 |                                                                              |
 ===============================================================================*
 
@@ -263,8 +263,8 @@ NewDocument()                                                               /*
     PushContent(_T("   4. CTime t3(time_t(0)); (simple HMS format)   ")
         + t3.FormatGmt(simpleHMSFmt));
 
-    t3 = CTime::GetCurrentTime();
-    PushContent(_T("   5. CTime t3 = GetCurrentTime()                ")
+    t3 = t3.GetCurrentTime();
+    PushContent(_T("   5. CTime t3 = t3.GetCurrentTime()             ")
         + t3.Format(longDateFmt));
 
     CTime t4(2024, 3, 9, 3, 37, 40);
@@ -290,93 +290,93 @@ NewDocument()                                                               /*
 
     SYSTEMTIME st;
     t10.GetAsSystemTime(st);
-    CTime t13(st);
-    PushContent(_T("  11. GetAsSystemTime(t12);                      ")
-        + t13.Format(longDateFmt));
+    CTime t11(st);
+    PushContent(_T("  11. GetAsSystemTime(t10);                      ")
+        + t11.Format(longDateFmt));
 
     FILETIME ft;
     t10.GetAsFileTime(ft);
-    CTime t14(ft, 0);
-    PushContent(_T("  12. GetAsFileTime(t12);                        ")
-        + t14.Format(longDateFmt));
+    CTime t12(ft, 0);
+    PushContent(_T("  12. GetAsFileTime(t10);                        ")
+        + t12.Format(longDateFmt));
 
     WORD fatdate, fattime;
     ::FileTimeToDosDateTime(&ft, &fatdate, &fattime);
-    CTime t15(fatdate, fattime, 0);
-    PushContent(_T("  13. t15(fatdate, fattime)                      ")
-        + t15.Format(longDateFmt));
+    CTime t13(fatdate, fattime, 0);
+    PushContent(_T("  13. CTime t13(fatdate, fattime)                ")
+        + t13.Format(longDateFmt));
 
-    int yr = t15.GetYear();
-    int mo = t15.GetMonth();
-    int da = t15.GetDay();
-    int hr = t15.GetHour();
-    int mn = t15.GetMinute();
-    int sc = t15.GetSecond();
-    int dw = t15.GetDayOfWeek();
-    int dy = t15.GetDayOfYear();
+    int yr = t13.GetYear();
+    int mo = t13.GetMonth();
+    int da = t13.GetDay();
+    int hr = t13.GetHour();
+    int mn = t13.GetMinute();
+    int sc = t13.GetSecond();
+    int dw = t13.GetDayOfWeek();
+    int dy = t13.GetDayOfYear();
     CString fmt = _T("%04d-%02d-%02d %02d:%02d:%02d [%03d] (%d) ");
     s.Format(fmt + _T("local"), yr, mo, da, hr, mn, sc, dy, dw);
-    PushContent(_T("  14. t15, yr-mo-day hr:min:sec [doy] (wk)       ")
+    PushContent(_T("  14. t13, yr-mo-day hr:min:sec [doy] (wk)       ")
         + s);
 
-    yr = t15.GetYear(false);
-    mo = t15.GetMonth(false);
-    da = t15.GetDay(false);
-    hr = t15.GetHour(false);
-    mn = t15.GetMinute(false);
-    sc = t15.GetSecond(false);
-    dw = t15.GetDayOfWeek(false);
-    dy = t15.GetDayOfYear(false);
+    yr = t13.GetYear(false);
+    mo = t13.GetMonth(false);
+    da = t13.GetDay(false);
+    hr = t13.GetHour(false);
+    mn = t13.GetMinute(false);
+    sc = t13.GetSecond(false);
+    dw = t13.GetDayOfWeek(false);
+    dy = t13.GetDayOfYear(false);
     s.Format(fmt + _T("UTC"), yr, mo, da, hr, mn, sc, dy, dw);
-    PushContent("  19. t15, yr-mo-day hr:min:sec [doy] (wk)       "
+    PushContent("  15. t13, yr-mo-day hr:min:sec [doy] (wk)       "
         + s);
 
     CTimeSpan ts = t10 - t1;
     s = ts.Format(_T("%D days, %H:%M:%S"));
-    PushContent(_T("  15. t10 - t1 =                                 ")
+    PushContent(_T("  16. t10 - t1 =                                 ")
         + s);
 
     s.Format(_T("%ld total hrs, %ld min, %ld sec"),
         ts.GetTotalHours(), ts.GetTotalMinutes(), ts.GetTotalSeconds());
-    PushContent(_T("  16. t10 - t1 =                                 ")
+    PushContent(_T("  17. t10 - t1 =                                 ")
         + s);
 
     ts = t1 - t10;
     s = ts.Format(_T("%D days, %H:%M:%S"));
-    PushContent(_T("  17. t1 - t10 =                                 ")
+    PushContent(_T("  18. t1 - t10 =                                 ")
         + s);
 
     CTime t16 = t10 + (t1 - t10);
-    PushContent(_T("  18. t16 = t10 + (t1 - t10) =  t1               ")
+    PushContent(_T("  19. t16 = t10 + (t1 - t10) =  t1               ")
         + t16.Format(longDateFmt));
 
     t16 -= (t1 - t10);
-    PushContent(_T("  19. t16 -= (t1 - t10) =  t10                   ")
+    PushContent(_T("  20. t16 -= (t1 - t10) =  t10                   ")
         + t16.Format(longDateFmt));
 
     t16 += (t1 - t10);
-    PushContent(_T("  20. t16 += (t1 - t10) =  t1                    ")
+    PushContent(_T("  21. t16 += (t1 - t10) =  t1                    ")
         + t16.Format(longDateFmt));
 
     t16 = t1 - (t1 - t10);
-    PushContent(_T("  21. t16 = t1 - (t1 - t10) =  t10               ")
+    PushContent(_T("  22. t16 = t1 - (t1 - t10) =  t10               ")
         + t16.Format(longDateFmt));
 
     ts = -(t1 - t10);
     s = ts.Format(_T("%D days, %H:%M:%S"));
-    PushContent(_T("  22. -(t1 - t10) =                              ")
+    PushContent(_T("  23. -(t1 - t10) =                              ")
         + s);
 
-    PushContent(_T("  23. t5 == t6;                                  ")
+    PushContent(_T("  24. t5 == t6;                                  ")
         + Truth(t5 == t6));
 
-    PushContent(_T("  24. t5 != t6;                                  ")
+    PushContent(_T("  25. t5 != t6;                                  ")
         + Truth(t5 != t6));
 
-    PushContent(_T("  25. t5 < t6;                                   ")
+    PushContent(_T("  26. t5 < t6;                                   ")
         + Truth(t5 < t6));
 
-    PushContent(_T("  26. t5 > t6;                                   ")
+    PushContent(_T("  27. t5 > t6;                                   ")
         + Truth(t5 > t6));
 
     PushContent(_T(""));

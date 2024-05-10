@@ -1,4 +1,4 @@
-/* (02-Aug-2016) [Tab/Indent: 4/4][Line/Box: 80/74]              (MainFrm.cpp) *
+/* (10-May-2024) [Tab/Indent: 4/4][Line/Box: 80/74]              (MainFrm.cpp) *
 ********************************************************************************
 |                                                                              |
 |                Authors: Robert Tausworthe, David Nash, 2020                  |
@@ -285,6 +285,17 @@ OnHelp()                                                                    /*
     m_aboutDialog.DoModal(*this);
     return TRUE;
 }
+
+/*============================================================================*/
+    void CMainFrame::                                                       /*
+
+    This function is called after the window is created.
+*-----------------------------------------------------------------------------*/
+OnInitialUpdate()
+    {
+        GetFrameMenu().CheckMenuItem(IDM_LINE_NUMBERING,
+            MF_UNCHECKED);
+    }
 
 /*============================================================================*/
     BOOL CMainFrame::

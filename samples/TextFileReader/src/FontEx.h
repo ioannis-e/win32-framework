@@ -1,4 +1,4 @@
-/* (31-Dec-2017) [Tab/Indent: 4/4][Line/Box: 80/74]                 (FontEx.h) *
+/* (10-May-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                 (FontEx.h) *
 ********************************************************************************
 |                                                                              |
 |                Authors: Robert Tausworthe, David Nash, 2020                  |
@@ -37,7 +37,7 @@ CFontExDialog : public CFontDialog                                          /*
                     { m_dlgBoxTitle = title; }
 
     protected:
-        BOOL    OnInitDialog()
+        virtual BOOL OnInitDialog()
                     {  SetWindowText(m_dlgBoxTitle); return TRUE; }
 
     private:
@@ -74,7 +74,7 @@ CFontEx : public CObject                                                       /
         void    SetTxColor(COLORREF c)  { m_txcolor = c; }
 
     protected:
-        void    Serialize(CArchive &ar);
+        virtual void Serialize(CArchive &ar);
 
     private:
         CFontEx(const CFontEx&);                // Disable copy construction
