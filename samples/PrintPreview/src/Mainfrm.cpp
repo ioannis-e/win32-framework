@@ -436,16 +436,15 @@ void CMainFrame::OnInitialUpdate()
 // Update the menu before it is displayed.
 void CMainFrame::OnMenuUpdate(UINT id)
 {
-    UINT flag = MF_GRAYED;
+    UINT check;
+    UINT enabled;
 
     switch (id)
     {
     case IDM_OPTIONS_WRAP:
     {
-        if (m_isWrapped)
-            GetFrameMenu().CheckMenuItem(id, MF_CHECKED);
-        else
-            GetFrameMenu().CheckMenuItem(id, MF_UNCHECKED);
+        check = m_isWrapped ? MF_CHECKED : MF_UNCHECKED;
+        GetFrameMenu().CheckMenuItem(id, check);
         break;
     }
     case IDM_EDIT_COPY:
@@ -454,36 +453,28 @@ void CMainFrame::OnMenuUpdate(UINT id)
     {
         CHARRANGE range;
         m_richView.GetSel(range);
-        if (range.cpMin != range.cpMax)
-            flag = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_COPY, flag);
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_CUT, flag);
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_DELETE, flag);
+        enabled = (range.cpMin != range.cpMax) ? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_COPY, enabled);
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_CUT, enabled);
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_DELETE, enabled);
         break;
     }
     case IDM_EDIT_PASTE:
     {
-        if (m_richView.CanPaste(CF_TEXT))
-            flag = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_PASTE, flag);
+        enabled = m_richView.CanPaste(CF_TEXT) ? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_PASTE, enabled);
         break;
     }
     case IDM_EDIT_REDO:
     {
-        if (m_richView.CanRedo())
-            flag = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_REDO, flag);
+        enabled = m_richView.CanRedo()? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_REDO, enabled);
         break;
     }
     case IDM_EDIT_UNDO:
     {
-        if (m_richView.CanUndo())
-            flag = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_UNDO, flag);
+        enabled = m_richView.CanUndo()? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_UNDO, enabled);
         break;
     }
     }

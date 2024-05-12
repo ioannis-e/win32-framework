@@ -109,7 +109,7 @@ OnInitDialog()                                                              /*
     return TRUE;
 }
 /*============================================================================*/
-    void    CListBoxDlg::                                                   
+    void    CListBoxDlg::
 SetWindowTitle() const                                                      /*
      Sets the window caption's text.                                          */
 /*----------------------------------------------------------------------------*/

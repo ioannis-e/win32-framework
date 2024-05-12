@@ -519,7 +519,7 @@ void CMyListView::GetLastWriteTime(FILETIME modified, LPTSTR string)
     ZeroMemory(&localFileTime, sizeof(localFileTime));
 
     // Convert the last-write time to local time.
-    if (GetWinVersion() > 2501) 
+    if (GetWinVersion() > 2501)
     {
         // For Windows Vista and later.
         ::FileTimeToSystemTime(&modified, &utcTime);

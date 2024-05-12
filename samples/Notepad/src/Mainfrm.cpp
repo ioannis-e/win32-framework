@@ -572,15 +572,6 @@ void CMainFrame::OnInitialUpdate()
 {
     DragAcceptFiles(TRUE);
     SetWindowTitle();
-
-    // Select the ANSI radio button
-    int menuItem = GetFrameMenu().FindMenuItem(_T("&Encoding"));
-    if (menuItem >= 0)
-    {
-        CMenu ThemeMenu = GetFrameMenu().GetSubMenu(menuItem);
-        ThemeMenu.CheckMenuRadioItem(IDM_ENC_ANSI, IDM_ENC_UTF16, IDM_ENC_ANSI, MF_BYCOMMAND);
-    }
-
     m_richView.SetFocus();
     SetEncoding(ANSI);
 
@@ -594,26 +585,29 @@ void CMainFrame::OnInitialUpdate()
 // Updates menu items before they are displayed.
 void CMainFrame::OnMenuUpdate(UINT id)
 {
-    UINT displayed = MF_GRAYED;
-    UINT checked = MF_UNCHECKED;
+    UINT enabled;
+    UINT checked;
 
     switch (id)
     {
     case IDM_OPTIONS_WRAP:
     {
-        if (m_isWrapped)
-            checked = MF_CHECKED;
-
+        checked = m_isWrapped ? MF_CHECKED : MF_GRAYED;
         GetFrameMenu().CheckMenuItem(id, checked);
+        break;
+    }
+    case IDM_ENC_UTF8:
+    {
+        // Only enable UTF-8 for plain text mode.
+        enabled = m_isRTF ? MF_GRAYED : MF_ENABLED;
+        GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
     case IDM_ENC_UTF16:
     {
         // Only enable UTF-16 for plain text mode.
-        if (!m_isRTF)
-            displayed = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(id, displayed);
+        enabled = m_isRTF? MF_GRAYED : MF_ENABLED;
+        GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
     case IDM_EDIT_COPY:
@@ -622,36 +616,29 @@ void CMainFrame::OnMenuUpdate(UINT id)
     {
         CHARRANGE range;
         m_richView.GetSel(range);
-        if (range.cpMin != range.cpMax)
-            displayed = MF_ENABLED;
+        enabled = (range.cpMin != range.cpMax)? MF_ENABLED : MF_GRAYED;
 
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_COPY, displayed);
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_CUT, displayed);
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_DELETE, displayed);
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_COPY, enabled);
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_CUT, enabled);
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_DELETE, enabled);
         break;
     }
     case IDM_EDIT_PASTE:
     {
-        if (m_richView.CanPaste(CF_TEXT))
-            displayed = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_PASTE, displayed);
+        enabled = m_richView.CanPaste(CF_TEXT)? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_PASTE, enabled);
         break;
     }
     case IDM_EDIT_REDO:
     {
-        if (m_richView.CanRedo())
-            displayed = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_REDO, displayed);
+        enabled = m_richView.CanRedo()? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_REDO, enabled);
         break;
     }
     case IDM_EDIT_UNDO:
     {
-        if (m_richView.CanUndo())
-            displayed = MF_ENABLED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_UNDO, displayed);
+        enabled = m_richView.CanUndo()? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(IDM_EDIT_UNDO, enabled);
         break;
     }
     }

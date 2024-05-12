@@ -574,7 +574,7 @@ namespace Win32xx
         return 1900 + ptm->tm_year;
     }
 
-    // Returns the month of the year represented by this CTime object in the 
+    // Returns the month of the year represented by this CTime object in the
     // range 1 through 12, local (true) or UTC (false).
     inline int  CTime::GetMonth(bool local /* = true */) const
     {
@@ -592,7 +592,7 @@ namespace Win32xx
         return ptm->tm_mday ;
     }
 
-    // Returns the hour of the day represented by this CTime object in the 
+    // Returns the hour of the day represented by this CTime object in the
     // range 0 through 23, local (true) or UTC (false).
     inline int  CTime::GetHour(bool local /* = true */) const
     {
@@ -962,7 +962,7 @@ namespace Win32xx
         return m_timespan <= ts.m_timespan;
     }
 
-    // Returns true if the specified value is greater than or equal to this 
+    // Returns true if the specified value is greater than or equal to this
     // CTimeSpan object.
     inline bool CTimeSpan::operator>=(const CTimeSpan& ts) const
     {

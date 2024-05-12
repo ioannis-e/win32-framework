@@ -2858,14 +2858,14 @@ namespace Win32xx
     }
 
     // Removes the keyboard hook installed by SetKbdHook. The hook is used to
-    // display the keyboard indicator status for the CAPs lock, NUM lock, 
+    // display the keyboard indicator status for the CAPs lock, NUM lock,
     // Scroll lock and Insert keys.
     template<class T>
     inline void CFrameT<T>::RemoveKbdHook()
     {
         if (m_kbdHook != NULL)
             UnhookWindowsHookEx(m_kbdHook);
-        
+
         m_kbdHook = NULL;
     }
 
@@ -2922,7 +2922,7 @@ namespace Win32xx
         m_initValues = values;
     }
 
-    // Installs a keyboard hook if m_useIndicatorStatus is true. The 
+    // Installs a keyboard hook if m_useIndicatorStatus is true. The
     // hook is used to display the keyboard indicator status for the
     // CAPs lock, NUM lock, Scroll lock and Insert keys.
     template <class T>
