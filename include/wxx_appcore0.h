@@ -188,7 +188,6 @@ namespace Win32xx
         CWnd* pWnd;         // Pointer to CWnd object for window creation
         HWND  mainWnd;      // Handle to the main window for the thread (usually CFrame)
         CMenuBar* pMenuBar; // Pointer to the CMenuBar object with the WH_MSGFILTER hook
-        std::vector<CDialog*> dialogs;   // Pointer to the CDialog object with the WH_MSGFILTER hook
 
         TLSData() : pWnd(NULL), mainWnd(NULL), pMenuBar(NULL) {} // Constructor
     };

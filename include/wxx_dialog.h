@@ -468,7 +468,6 @@ namespace Win32xx
         assert(pTLSData);
 
         // Set the message hook.
-        pTLSData->dialogs.push_back(this);
         m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, 0, ::GetCurrentThreadId());
 
         HINSTANCE instance = GetApp()->GetInstanceHandle();
@@ -491,7 +490,6 @@ namespace Win32xx
         // Remove the message hook.
         ::UnhookWindowsHookEx(m_msgHook);
         m_msgHook = NULL;
-        pTLSData->dialogs.pop_back();
 
         // Throw an exception if the dialog creation fails.
         if (result == -1)
@@ -738,28 +736,27 @@ namespace Win32xx
         }
         count = 0;
 
-        TLSData* pTLSData = GetApp()->GetTlsData();
-        assert(pTLSData != NULL);
-        assert(pTLSData->dialogs.size() > 0);
-
-        if (pTLSData->dialogs.size() > 0)
+        if (code == MSGF_DIALOGBOX)
         {
-            CDialog* pDialog = pTLSData->dialogs.back();
             MSG* pMsg = reinterpret_cast<MSG*>(lparam);
 
-            // Only messages from this dialog.
-            if ((code == MSGF_DIALOGBOX) && (pMsg->hwnd == *pDialog))
+            // Only pre-translate keyboard and mouse events.
+            if (pMsg && ((pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) ||
+                (pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST)))
             {
-                // Only pre-translate keyboard and mouse events.
-                if (pMsg && ((pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) ||
-                    (pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST)))
+                for (HWND wnd = pMsg->hwnd; wnd != 0; wnd = ::GetParent(wnd))
                 {
-                    if (pDialog->PreTranslateMessage(*pMsg))
-                        return 1; // Return a non-zero value to eat the message.
+                    // Only CDialogs respond to the UWM_GETCDIALOG message.
+                    CDialog* pDialog = reinterpret_cast<CDialog*>(::SendMessage(wnd, UWM_GETCDIALOG, 0, 0));
+                    if (pDialog != NULL)
+                    {
+                        if (pDialog->PreTranslateMessage(*pMsg))
+                            return 1; // Eat the message.
+
+                        return ::CallNextHookEx(pDialog->m_msgHook, code, wparam, lparam);
+                    }
                 }
             }
-
-            return ::CallNextHookEx(pDialog->m_msgHook, code, wparam, lparam);
         }
 
         return 0;
