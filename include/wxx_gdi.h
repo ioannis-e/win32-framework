@@ -885,35 +885,7 @@ namespace Win32xx
     class CBitmapInfoPtr
     {
     public:
-        CBitmapInfoPtr(HBITMAP bitmap)
-        {
-            BITMAP data;
-            ZeroMemory(&data, sizeof(data));
-            VERIFY(::GetObject(bitmap, sizeof(data), &data));
-
-            // Convert the color format to a count of bits.
-            WORD cClrBits = static_cast<WORD>(data.bmPlanes * data.bmBitsPixel);
-            if (cClrBits == 1)       cClrBits = 1;
-            else if (cClrBits <= 4)  cClrBits = 4;
-            else if (cClrBits <= 8)  cClrBits = 8;
-            else if (cClrBits <= 16) cClrBits = 16;
-            else if (cClrBits <= 24) cClrBits = 24;
-            else                     cClrBits = 32;
-
-            // Allocate memory for the BITMAPINFO structure.
-            UINT uQuadSize = (cClrBits >= 24)? 0 : UINT(sizeof(RGBQUAD)) * (1 << cClrBits);
-            m_bmi.assign(sizeof(BITMAPINFOHEADER) + uQuadSize, 0);
-            m_pbmiArray = (LPBITMAPINFO) &m_bmi.front();
-
-            m_pbmiArray->bmiHeader.biSize       = sizeof(BITMAPINFOHEADER);
-            m_pbmiArray->bmiHeader.biHeight     = data.bmHeight;
-            m_pbmiArray->bmiHeader.biWidth      = data.bmWidth;
-            m_pbmiArray->bmiHeader.biPlanes     = data.bmPlanes;
-            m_pbmiArray->bmiHeader.biBitCount   = data.bmBitsPixel;
-            m_pbmiArray->bmiHeader.biCompression = BI_RGB;
-            if (cClrBits < 24)
-                m_pbmiArray->bmiHeader.biClrUsed = (1U << cClrBits);
-        }
+        CBitmapInfoPtr(HBITMAP bitmap);
         LPBITMAPINFO get() const { return m_pbmiArray; }
         operator LPBITMAPINFO() const { return m_pbmiArray; }
         LPBITMAPINFO operator->() const { return m_pbmiArray; }
@@ -5218,6 +5190,41 @@ namespace Win32xx
             Release();  // Cleanup
             throw;      // Rethrow
         }
+    }
+
+
+    ///////////////////////////////////////////////
+    // Definitions for the CBitmapInfoPtr class
+    //
+
+    inline CBitmapInfoPtr::CBitmapInfoPtr(HBITMAP bitmap)
+    {
+        BITMAP data;
+        ZeroMemory(&data, sizeof(data));
+        VERIFY(::GetObject(bitmap, sizeof(data), &data));
+
+        // Convert the color format to a count of bits.
+        WORD cClrBits = static_cast<WORD>(data.bmPlanes * data.bmBitsPixel);
+        if (cClrBits == 1)       cClrBits = 1;
+        else if (cClrBits <= 4)  cClrBits = 4;
+        else if (cClrBits <= 8)  cClrBits = 8;
+        else if (cClrBits <= 16) cClrBits = 16;
+        else if (cClrBits <= 24) cClrBits = 24;
+        else                     cClrBits = 32;
+
+        // Allocate memory for the BITMAPINFO structure.
+        UINT uQuadSize = (cClrBits >= 24) ? 0 : UINT(sizeof(RGBQUAD)) * (1 << cClrBits);
+        m_bmi.assign(sizeof(BITMAPINFOHEADER) + uQuadSize, 0);
+        m_pbmiArray = (LPBITMAPINFO)&m_bmi.front();
+
+        m_pbmiArray->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        m_pbmiArray->bmiHeader.biHeight = data.bmHeight;
+        m_pbmiArray->bmiHeader.biWidth = data.bmWidth;
+        m_pbmiArray->bmiHeader.biPlanes = data.bmPlanes;
+        m_pbmiArray->bmiHeader.biBitCount = data.bmBitsPixel;
+        m_pbmiArray->bmiHeader.biCompression = BI_RGB;
+        if (cClrBits < 24)
+            m_pbmiArray->bmiHeader.biClrUsed = (1U << cClrBits);
     }
 
 

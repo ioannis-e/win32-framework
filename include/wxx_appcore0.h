@@ -65,6 +65,7 @@ namespace Win32xx
     class CClientDC;
     class CClientDCEx;
     class CDataExchange;
+    class CDialog;
     class CDC;
     class CDocker;
     class CFont;
@@ -186,11 +187,10 @@ namespace Win32xx
     {
         CWnd* pWnd;         // Pointer to CWnd object for window creation
         HWND  mainWnd;      // Handle to the main window for the thread (usually CFrame)
-        CMenuBar* pMenuBar; // Pointer to CMenuBar object used for the WH_MSGFILTER hook
-        HHOOK msgHook;      // WH_MSGFILTER hook for CMenuBar and modal dialogs
-        long  dlgHooks;     // Number of dialog MSG hooks
+        CMenuBar* pMenuBar; // Pointer to the CMenuBar object with the WH_MSGFILTER hook
+        std::vector<CDialog*> dialogs;   // Pointer to the CDialog object with the WH_MSGFILTER hook
 
-        TLSData() : pWnd(NULL), mainWnd(NULL), pMenuBar(NULL), msgHook(NULL), dlgHooks(0) {} // Constructor
+        TLSData() : pWnd(NULL), mainWnd(NULL), pMenuBar(NULL) {} // Constructor
     };
 
     ///////////////////////////////////////////////////////////////////

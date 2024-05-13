@@ -52,8 +52,8 @@
 //
 ////////////////////////////////////////////////////////
 
-#ifndef _WIN32XX_CTIME_H_
-#define _WIN32XX_CTIME_H_
+#ifndef _WIN32XX_TIME_H_
+#define _WIN32XX_TIME_H_
 
 #include "wxx_wincore.h"
 #include <time.h>
@@ -973,4 +973,4 @@ namespace Win32xx
 } // namespace Win32XX
 
 
-#endif // _WIN32XX_CTIME_H_
+#endif // _WIN32XX_TIME_H_

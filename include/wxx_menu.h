@@ -80,7 +80,7 @@
 //  }
 
 
-#if !defined (_WIN32XX_MENU_H_)
+#ifndef _WIN32XX_MENU_H_
 #define _WIN32XX_MENU_H_
 
 

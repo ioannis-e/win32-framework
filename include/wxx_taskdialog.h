@@ -127,17 +127,7 @@ namespace Win32xx
     private:
         struct TaskButton
         {
-            TaskButton(int id, LPCWSTR text) : buttonID(id)
-            {
-                if (IS_INTRESOURCE(text))        // support MAKEINTRESOURCE
-                {
-                    UINT textID = static_cast<UINT>(reinterpret_cast<UINT_PTR>(text));
-                    buttonText.LoadString(textID);
-                }
-                else
-                    buttonText = text;
-            }
-
+            TaskButton(int id, LPCWSTR text);  // Constructor
             int buttonID;
             CStringW buttonText;
         };
@@ -817,6 +807,18 @@ namespace Win32xx
         WPARAM wparam = static_cast<WPARAM>(element);
         LPARAM lparam = reinterpret_cast<LPARAM>(newText);
         SendMessage(TDM_UPDATE_ELEMENT_TEXT, wparam, lparam);
+    }
+
+    // Constructor for the nested TaskButton struct.
+    inline CTaskDialog::TaskButton::TaskButton(int id, LPCWSTR text) : buttonID(id)
+    {
+        if (IS_INTRESOURCE(text))        // support MAKEINTRESOURCE
+        {
+            UINT textID = static_cast<UINT>(reinterpret_cast<UINT_PTR>(text));
+            buttonText.LoadString(textID);
+        }
+        else
+            buttonText = text;
     }
 
 }

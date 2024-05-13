@@ -40,8 +40,8 @@
 // wxx_rich_edit.h
 //  Declaration of the CRichEdit class
 
-#ifndef _WIN32XX_RICH_EDIT_H_
-#define _WIN32XX_RICH_EDIT_H_
+#ifndef _WIN32XX_RICHEDIT_H_
+#define _WIN32XX_RICHEDIT_H_
 
 
 #include "wxx_wincore.h"

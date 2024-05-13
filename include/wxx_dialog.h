@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -109,7 +109,7 @@ namespace Win32xx
         void SetDialogTemplate(LPCDLGTEMPLATE pDlgTemplate);
 
         // Wrappers for Windows API functions
-        UINT  GetDefID() const;
+        UINT GetDefID() const;
         void GotoDlgCtrl(HWND control) const;
         BOOL MapDialogRect(RECT& rc) const;
         void NextDlgCtrl() const;
@@ -143,6 +143,7 @@ namespace Win32xx
         BOOL IsIndirect() const { return (m_pDlgTemplate != NULL); }
 
         BOOL m_isModal;                  // a flag for modal dialogs
+        HHOOK m_msgHook;                 // the message hook handle
         LPCTSTR m_resourceName;          // the resource name for the dialog
         LPCDLGTEMPLATE m_pDlgTemplate;   // the dialog template for indirect dialogs
     };
@@ -243,26 +244,26 @@ namespace Win32xx
     // Default constructor. Use SetDialogTemplate, SetDialogResource or
     // SetDialogResourceFromID to specify the dialog if this constructor
     // is used.
-    inline CDialog::CDialog() : m_isModal(FALSE),
+    inline CDialog::CDialog() : m_isModal(FALSE), m_msgHook(NULL),
         m_resourceName(NULL), m_pDlgTemplate(NULL)
     {
     }
 
     // Constructor that specifies the dialog's resource
     inline CDialog::CDialog(LPCTSTR resourceName) : m_isModal(FALSE),
-                        m_resourceName(resourceName), m_pDlgTemplate(NULL)
+        m_msgHook(NULL), m_resourceName(resourceName), m_pDlgTemplate(NULL)
     {
     }
 
     // Constructor that specifies the dialog's resource ID
-    inline CDialog::CDialog(UINT resourceID) : m_isModal(FALSE),
-                        m_resourceName(MAKEINTRESOURCE (resourceID)), m_pDlgTemplate(NULL)
+    inline CDialog::CDialog(UINT resourceID) : m_isModal(FALSE), m_msgHook(NULL),
+        m_resourceName(MAKEINTRESOURCE (resourceID)), m_pDlgTemplate(NULL)
     {
     }
 
     // Constructor for indirect dialogs, created from a dialog box template in memory.
     inline CDialog::CDialog(LPCDLGTEMPLATE pDlgTemplate) : m_isModal(FALSE),
-                        m_resourceName(NULL), m_pDlgTemplate(pDlgTemplate)
+        m_msgHook(NULL), m_resourceName(NULL), m_pDlgTemplate(pDlgTemplate)
     {
     }
 
@@ -464,12 +465,11 @@ namespace Win32xx
 
         // Retrieve this thread's TLS data.
         TLSData* pTLSData = GetApp()->GetTlsData();
+        assert(pTLSData);
 
-        if (pTLSData->msgHook == NULL)
-        {
-            pTLSData->msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, 0, ::GetCurrentThreadId());
-        }
-        InterlockedIncrement(&pTLSData->dlgHooks);
+        // Set the message hook.
+        pTLSData->dialogs.push_back(this);
+        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, 0, ::GetCurrentThreadId());
 
         HINSTANCE instance = GetApp()->GetInstanceHandle();
         pTLSData->pWnd = this;
@@ -488,12 +488,10 @@ namespace Win32xx
         pTLSData->pWnd = NULL;
         Cleanup();
 
-        InterlockedDecrement(&pTLSData->dlgHooks);
-        if (pTLSData->dlgHooks == 0)
-        {
-            ::UnhookWindowsHookEx(pTLSData->msgHook);
-            pTLSData->msgHook = NULL;
-        }
+        // Remove the message hook.
+        ::UnhookWindowsHookEx(m_msgHook);
+        m_msgHook = NULL;
+        pTLSData->dialogs.pop_back();
 
         // Throw an exception if the dialog creation fails.
         if (result == -1)
@@ -603,17 +601,8 @@ namespace Win32xx
             // Process dialog keystrokes for modeless dialogs.
             if (!IsModal())
             {
-                TLSData* pTLSData = GetApp()->GetTlsData();
-                if (pTLSData->msgHook == NULL)
-                {
-                    if (IsDialogMessage(msg))
-                        return TRUE;
-                }
-                else
-                {
-                    // A modal message loop is running which performs IsDialogMessage
-                    // for us.
-                }
+                if (IsDialogMessage(msg))
+                    return TRUE;
             }
         }
 
@@ -730,7 +719,7 @@ namespace Win32xx
 
     } // INT_PTR CALLBACK CDialog::StaticDialogProc(...)
 
-    // Used by modal dialogs for idle processing and PreTranslateMessage.
+    // Used only by modal dialogs for idle processing and PreTranslateMessage.
     inline LRESULT CALLBACK CDialog::StaticMsgHook(int code, WPARAM wparam, LPARAM lparam)
     {
         MSG msg;
@@ -749,38 +738,31 @@ namespace Win32xx
         }
         count = 0;
 
-        if (code == MSGF_DIALOGBOX)
-        {
-            MSG* pMsg = reinterpret_cast<MSG*>(lparam);
-
-            // only pre-translate keyboard and mouse events
-            if (pMsg && ((pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) ||
-                (pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST)))
-            {
-                for (HWND wnd = pMsg->hwnd; wnd != NULL; wnd = ::GetParent(wnd))
-                {
-                    // Only CDialogs respond to this message.
-                    CDialog* pDialog = reinterpret_cast<CDialog*>(::SendMessage(wnd, UWM_GETCDIALOG, 0, 0));
-                    if (pDialog != NULL)
-                    {
-                        if (pDialog->PreTranslateMessage(*pMsg))
-                            return 1; // Eat the message.
-
-                        break;  // Pass the message on
-                    }
-                }
-            }
-        }
-
         TLSData* pTLSData = GetApp()->GetTlsData();
         assert(pTLSData != NULL);
-        if (pTLSData == NULL)
+        assert(pTLSData->dialogs.size() > 0);
+
+        if (pTLSData->dialogs.size() > 0)
         {
-            // Thread Local Storage data isn't assigned.
-            return 0;
+            CDialog* pDialog = pTLSData->dialogs.back();
+            MSG* pMsg = reinterpret_cast<MSG*>(lparam);
+
+            // Only messages from this dialog.
+            if ((code == MSGF_DIALOGBOX) && (pMsg->hwnd == *pDialog))
+            {
+                // Only pre-translate keyboard and mouse events.
+                if (pMsg && ((pMsg->message >= WM_KEYFIRST && pMsg->message <= WM_KEYLAST) ||
+                    (pMsg->message >= WM_MOUSEFIRST && pMsg->message <= WM_MOUSELAST)))
+                {
+                    if (pDialog->PreTranslateMessage(*pMsg))
+                        return 1; // Return a non-zero value to eat the message.
+                }
+            }
+
+            return ::CallNextHookEx(pDialog->m_msgHook, code, wparam, lparam);
         }
 
-        return ::CallNextHookEx(pTLSData->msgHook, code, wparam, lparam);
+        return 0;
     }
 
 

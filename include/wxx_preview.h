@@ -41,8 +41,8 @@
 // in developing this class.
 
 
-#ifndef _WIN32XX_PREVIEWDIALOG_H_
-#define _WIN32XX_PREVIEWDIALOG_H_
+#ifndef _WIN32XX_PREVIEW_H_
+#define _WIN32XX_PREVIEW_H_
 
 #include "wxx_wincore.h"
 #include "wxx_dialog.h"
@@ -542,4 +542,4 @@ namespace Win32xx
 }
 
 
-#endif // _WIN32XX_PREVIEWDIALOG_H_
+#endif // _WIN32XX_PREVIEW_H_

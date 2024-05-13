@@ -242,7 +242,6 @@ namespace Win32xx
     };
 
 
-
     ///////////////////////////////////////////////
     // A CString object provides a safer and a more
     // convenient alternative to an array of CHAR
