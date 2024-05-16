@@ -38,6 +38,7 @@ protected:
     virtual void OnInitialUpdate();
     virtual void OnMenuUpdate(UINT id);
     virtual void PreCreate(CREATESTRUCT& cs);
+    virtual void RecalcDockLayout();
     virtual BOOL SaveRegistrySettings();
     virtual void SetupMenuIcons();
     virtual void SetupToolBar();

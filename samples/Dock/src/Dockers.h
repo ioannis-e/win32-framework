@@ -16,6 +16,9 @@ public:
     CDockSimple();
     virtual ~CDockSimple() {}
 
+protected:
+    virtual void PreCreate(CREATESTRUCT& cs);
+
 private:
     CDockSimple(const CDockSimple&);               // Disable copy construction
     CDockSimple& operator=(const CDockSimple&);    // Disable assignment operator
@@ -32,6 +35,9 @@ class CDockClasses : public CDocker
 public:
     CDockClasses();
     virtual ~CDockClasses() {}
+
+protected:
+    virtual void PreCreate(CREATESTRUCT& cs);
 
 private:
     CDockClasses(const CDockClasses&);               // Disable copy construction
@@ -50,6 +56,9 @@ public:
     CDockFiles();
     virtual ~CDockFiles() {}
 
+protected:
+    virtual void PreCreate(CREATESTRUCT& cs);
+
 private:
     CDockFiles(const CDockFiles&);               // Disable copy construction
     CDockFiles& operator=(const CDockFiles&);    // Disable assignment operator
@@ -66,6 +75,9 @@ class CDockText : public CDocker
 public:
     CDockText();
     virtual ~CDockText() {}
+
+protected:
+    virtual void PreCreate(CREATESTRUCT& cs);
 
 private:
     CDockText(const CDockText&);               // Disable copy construction

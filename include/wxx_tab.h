@@ -566,7 +566,7 @@ namespace Win32xx
 
             }
 
-            if (GetWinVersion() >= 3000)
+            if (GetWinVersion() >= 3000)  // Windows 10 or later.
                 rcList.OffsetRect(1, -1);
 
             // Draw the down arrow button.

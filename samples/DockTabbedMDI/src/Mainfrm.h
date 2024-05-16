@@ -45,6 +45,7 @@ protected:
     virtual LRESULT OnInitMenuPopup(UINT msg, WPARAM wparam, LPARAM lparam);
     virtual void    OnMenuUpdate(UINT id);
     virtual void    PreCreate(CREATESTRUCT& cs);
+    virtual void    RecalcDockLayout();
     virtual BOOL    SaveRegistrySettings();
     virtual void    SetupMenuIcons();
     virtual void    SetupToolBar();

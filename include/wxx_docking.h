@@ -536,6 +536,7 @@ namespace Win32xx
         virtual void Hide();
         virtual BOOL LoadContainerRegistrySettings(LPCTSTR registryKeyName);
         virtual BOOL LoadDockRegistrySettings(LPCTSTR registryKeyName);
+        virtual void RecalcDockChildLayout(CRect& rc);
         virtual void RecalcDockLayout();
         virtual BOOL SaveDockRegistrySettings(LPCTSTR registryKeyName);
         virtual void SaveContainerRegistrySettings(CRegKey& dockKey, CDockContainer* pContainer, UINT& container);
@@ -635,7 +636,6 @@ namespace Win32xx
         int  GetMonitorDpi(HWND wnd);
         void MoveDockChildren(CDocker* pDockTarget);
         void PromoteFirstChild();
-        void RecalcDockChildLayout(CRect& rc);
         void ResizeDockers(LPDRAGPOS pDragPos);
         CDocker* SeparateFromDock();
         void SendNotify(UINT messageID);
@@ -3594,13 +3594,18 @@ namespace Win32xx
         return FinalWindowProc(msg, wparam, lparam);
     }
 
+    // Set the CREATESTURCT parameters before the window is created
     inline void CDocker::PreCreate(CREATESTRUCT& cs)
     {
+        // Call base clase to set defaults.
+        CWnd::PreCreate(cs);
+
         // Specify the WS_POPUP style to have this window owned.
         if (this != GetDockAncestor())
-            cs.style = WS_POPUP;
+            cs.style |= WS_POPUP;
 
-        cs.dwExStyle = WS_EX_TOOLWINDOW;
+        cs.style |= WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
+        cs.dwExStyle |= WS_EX_TOOLWINDOW;
     }
 
     inline void CDocker::PreRegisterClass(WNDCLASS& wc)
@@ -3664,7 +3669,7 @@ namespace Win32xx
         }
     }
 
-    // Repositions child windows.
+    // Called by RecalcDockLayout to reposition child dockers.
     inline void CDocker::RecalcDockChildLayout(CRect& rc)
     {
         // This function positions the Docker's dock children, the Dockers client area

@@ -74,12 +74,6 @@ LRESULT CViewClasses::OnDpiChangedBeforeParent(UINT msg, WPARAM wparam, LPARAM l
     return FinalWindowProc(msg, wparam, lparam);
 }
 
-// Set the CREATESTURCT parameters befoe the window is created.
-void CViewClasses::PreCreate(CREATESTRUCT& cs)
-{
-    cs.style = TVS_NOTOOLTIPS | WS_CHILD;
-}
-
 // Adjusts the treeview image sizes in response to window DPI changes.
 void CViewClasses::SetDPIImages()
 {

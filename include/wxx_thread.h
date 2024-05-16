@@ -36,7 +36,6 @@
 ////////////////////////////////////////////////////////
 
 
-
 #ifndef _WIN32XX_THREAD_H_
 #define _WIN32XX_THREAD_H_
 
@@ -165,7 +164,7 @@ namespace Win32xx
                 TRACE("*** Warning *** Ending CWinThread before ending its thread\n");
             }
 
-            // Close the thread's handle
+            // Close the thread's handle.
             ::CloseHandle(m_thread);
         }
     }
@@ -187,8 +186,8 @@ namespace Win32xx
             ::CloseHandle(m_thread);
         }
 
-        m_thread = reinterpret_cast<HANDLE>(::_beginthreadex(pSecurityAttributes, stack_size, m_pfnThreadProc,
-            m_pThreadParams, initflag, &m_threadID));
+        m_thread = reinterpret_cast<HANDLE>(::_beginthreadex(pSecurityAttributes, stack_size,
+            m_pfnThreadProc, m_pThreadParams, initflag, &m_threadID));
 
         if (m_thread == NULL)
             throw CWinException(GetApp()->MsgAppThread());
@@ -211,7 +210,7 @@ namespace Win32xx
         return m_threadID;
     }
 
-    // Retrieves this thread's priority
+    // Retrieves this thread's priority.
     // Refer to GetThreadPriority in the Windows API documentation for more information.
     template <class T>
     inline int CThreadT<T>::GetThreadPriority() const
@@ -281,7 +280,7 @@ namespace Win32xx
     // When the GUI thread starts, it runs this function.
     inline UINT WINAPI CWinThread::StaticThreadProc(LPVOID pCThread)
     {
-        // Get the pointer for this CWinThread object
+        // Get the pointer for this CWinThread object.
         CWinThread* pThread = static_cast<CWinThread*>(pCThread);
         assert(pThread != NULL);
 

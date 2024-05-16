@@ -21,7 +21,6 @@ public:
 protected:
     // Virtual functions that override base class functions
     virtual void OnAttach();
-    virtual void PreCreate(CREATESTRUCT& cs);
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
@@ -42,6 +41,17 @@ class CContainClasses : public CDockContainer
 public:
     CContainClasses();
     virtual ~CContainClasses() {}
+
+    // Sets the CREATESTRUCT parameters before the window is created.
+    virtual void PreCreate(CREATESTRUCT& cs)
+    {
+        // Call base clase to set defaults.
+        CDockContainer::PreCreate(cs);
+
+        // Add the WS_EX_COMPOSITED to reduce flicker.
+        if (GetWinVersion() >= 3000)  // Windows 10 or later.
+            cs.dwExStyle |= WS_EX_COMPOSITED;
+    }
 
 protected:
     // Virtual functions that override base class functions

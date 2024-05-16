@@ -64,6 +64,17 @@ public:
     CDockText();
     virtual ~CDockText() {}
 
+    // Sets the CREATESTRUCT parameters before the window is created.
+    virtual void PreCreate(CREATESTRUCT& cs)
+    {
+        // Call base clase to set defaults.
+        CDocker::PreCreate(cs);
+
+        // Add the WS_EX_COMPOSITED to reduce flicker.
+        if (GetWinVersion() >= 3000)  // Windows 10 or later.
+            cs.dwExStyle |= WS_EX_COMPOSITED;
+    }
+
 private:
     CDockText(const CDockText&);                // Disable copy construction
     CDockText& operator=(const CDockText&);   // Disable assignment operator

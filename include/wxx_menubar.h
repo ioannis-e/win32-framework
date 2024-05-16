@@ -804,7 +804,7 @@ namespace Win32xx
         // Set the message hook.
         TLSData* pTLSData = GetApp()->GetTlsData();
         pTLSData->pMenuBar = this;
-        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, NULL, ::GetCurrentThreadId());
+        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, StaticMsgHook, NULL, ::GetCurrentThreadId());
 
         // Display the shortcut menu.
         bool isRightToLeft = false;

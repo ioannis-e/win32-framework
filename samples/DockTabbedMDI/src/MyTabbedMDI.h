@@ -23,9 +23,25 @@ public:
     CMyTabbedMDI();
     virtual ~CMyTabbedMDI() {}
 
+    virtual void OnAttach()
+    {
+        CTabbedMDI::OnAttach();
+        if (GetWinVersion() >= 3000)  // Windows 10 or later.
+            SetExStyle(WS_EX_COMPOSITED);
+    }
+
 protected:
     // Virtual functions that override base class functions
     virtual CWnd* NewMDIChildFromID(int mdiChild);
+
+    virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam)
+    {
+        LockWindowUpdate();
+        CTabbedMDI::OnWindowPosChanged(msg, wparam, lparam);
+        UnlockWindowUpdate();
+        UpdateWindow();
+        return 0;
+    }
 
 private:
     CMyTabbedMDI(const CMyTabbedMDI&);               // Disable copy construction

@@ -222,6 +222,7 @@ namespace Win32xx
         virtual int  OnCreate(CREATESTRUCT& cs);
         virtual void OnDestroy();
         virtual void OnSize(int width, int height);
+        virtual void PreCreate(CREATESTRUCT& cs);
 
         // Not intended to be overridden
         LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -811,6 +812,13 @@ namespace Win32xx
     {
         // position the container
         VERIFY(SUCCEEDED(GetAXHost()->SetLocation(0, 0, width, height)));
+    }
+
+    // Set the CREATESTURCT parameters before the window is created.
+    inline void CWebBrowser::PreCreate(CREATESTRUCT& cs)
+    {
+        CWnd::PreCreate(cs);
+        cs.style |= WS_CLIPCHILDREN;
     }
 
     // Provides default message processing for the web browser window.

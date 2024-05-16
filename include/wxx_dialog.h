@@ -453,7 +453,8 @@ namespace Win32xx
 
     // Creates a modal dialog. A modal dialog box must be closed by the user
     // before the application continues.
-    // Refer to DialogBox and DialogBoxIndirect in the Windows API documentation for more information.
+    // Refer to DialogBox and DialogBoxIndirect in the Windows API documentation
+    // for more information.
     inline INT_PTR CDialog::DoModal(HWND parent /* = NULL */)
     {
         assert(!IsWindow());        // Only one window per CWnd instance allowed
@@ -463,31 +464,30 @@ namespace Win32xx
         m_isModal=TRUE;
         m_wnd = NULL;
 
-        // Retrieve this thread's TLS data.
+        // Set the message hook used to support OnIdle and PreTranslateMessage.
+        // The hook is only used in modal dialogs.
+        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook,
+                                       0, ::GetCurrentThreadId());
+
+        // Store this CDialog's pointer in thread local storage.
         TLSData* pTLSData = GetApp()->GetTlsData();
         assert(pTLSData);
-
-        // Set the message hook.
-        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, 0, ::GetCurrentThreadId());
-
-        HINSTANCE instance = GetApp()->GetInstanceHandle();
         pTLSData->pWnd = this;
 
         // Create a modal dialog.
+        HINSTANCE instance = GetApp()->GetInstanceHandle();
         if (m_pDlgTemplate != NULL)
-            result = ::DialogBoxIndirect(instance, m_pDlgTemplate, parent, (DLGPROC)CDialog::StaticDialogProc);
+            result = ::DialogBoxIndirect(instance, m_pDlgTemplate, parent, CDialog::StaticDialogProc);
         else
         {
             if (::FindResource(GetApp()->GetResourceHandle(), m_resourceName, RT_DIALOG))
                 instance = GetApp()->GetResourceHandle();
-            result = ::DialogBox(instance, m_resourceName, parent, (DLGPROC)CDialog::StaticDialogProc);
+            result = ::DialogBox(instance, m_resourceName, parent, CDialog::StaticDialogProc);
         }
 
         // Tidy up.
         pTLSData->pWnd = NULL;
         Cleanup();
-
-        // Remove the message hook.
         ::UnhookWindowsHookEx(m_msgHook);
         m_msgHook = NULL;
 
@@ -520,13 +520,13 @@ namespace Win32xx
 
         // Create the modeless dialog.
         if (m_pDlgTemplate != NULL)
-            wnd = ::CreateDialogIndirect(instance, m_pDlgTemplate, parent, (DLGPROC)CDialog::StaticDialogProc);
+            wnd = ::CreateDialogIndirect(instance, m_pDlgTemplate, parent, CDialog::StaticDialogProc);
         else
         {
             if (::FindResource(GetApp()->GetResourceHandle(), m_resourceName, RT_DIALOG))
                 instance = GetApp()->GetResourceHandle();
 
-            wnd = ::CreateDialog(instance, m_resourceName, parent, (DLGPROC)CDialog::StaticDialogProc);
+            wnd = ::CreateDialog(instance, m_resourceName, parent, CDialog::StaticDialogProc);
         }
 
         // Tidy up.
@@ -692,7 +692,6 @@ namespace Win32xx
             TLSData* pTLSData = GetApp()->GetTlsData();
             if (pTLSData)
             {
-
                 // Retrieve pointer to CWnd object from Thread Local Storage TLS.
                 pDialog = static_cast<CDialog*>(pTLSData->pWnd);
                 if (pDialog)
