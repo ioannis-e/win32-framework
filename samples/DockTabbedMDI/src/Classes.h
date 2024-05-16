@@ -20,7 +20,7 @@ public:
     void SetDPIImages();
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual void OnAttach();
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
@@ -43,12 +43,14 @@ public:
     CContainClasses();
     virtual ~CContainClasses() {}
 
-    // Virtual functions that override base class functions
+protected:
+    // Virtual functions that override base class functions.
     virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam);
+    virtual void PreCreate(CREATESTRUCT& cs);
     virtual void SetupToolBar();
 
 private:
-    CContainClasses(const CContainClasses&);                // Disable copy construction
+    CContainClasses(const CContainClasses&);              // Disable copy construction
     CContainClasses& operator=(const CContainClasses&);   // Disable assignment operator
 
     // Command handlers
@@ -68,19 +70,8 @@ public:
     CDockClasses();
     virtual ~CDockClasses() {}
 
-    // Sets the CREATESTRUCT parameters before the window is created.
-    virtual void PreCreate(CREATESTRUCT& cs)
-    {
-        // Call base clase to set defaults.
-        CDocker::PreCreate(cs);
-
-        // Add the WS_EX_COMPOSITED to reduce flicker.
-        if (GetWinVersion() >= 3000)  // Windows 10 or later.
-            cs.dwExStyle |= WS_EX_COMPOSITED;
-    }
-
 private:
-    CDockClasses(const CDockClasses&);                // Disable copy construction
+    CDockClasses(const CDockClasses&);              // Disable copy construction
     CDockClasses& operator=(const CDockClasses&);   // Disable assignment operator
 
     CContainClasses m_classes;

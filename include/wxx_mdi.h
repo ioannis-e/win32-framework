@@ -1132,4 +1132,3 @@ namespace Win32xx
 } // namespace Win32xx
 
 #endif // _WIN32XX_MDI_H_
-

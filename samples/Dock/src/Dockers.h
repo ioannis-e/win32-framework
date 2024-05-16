@@ -17,6 +17,7 @@ public:
     virtual ~CDockSimple() {}
 
 protected:
+    // Virtual functions overriding base class functions.
     virtual void PreCreate(CREATESTRUCT& cs);
 
 private:
@@ -28,7 +29,7 @@ private:
 
 
 ///////////////////////////////////////////////////////
-// CDockClasses manages the docker which uses CViewTree
+// CDockClasses manages the docker which uses CViewClasses
 // as its view.
 class CDockClasses : public CDocker
 {
@@ -37,18 +38,19 @@ public:
     virtual ~CDockClasses() {}
 
 protected:
+    // Virtual functions overriding base class functions.
     virtual void PreCreate(CREATESTRUCT& cs);
 
 private:
     CDockClasses(const CDockClasses&);               // Disable copy construction
     CDockClasses& operator=(const CDockClasses&);    // Disable assignment operator
 
-    CViewTree m_view;
+    CViewClasses m_view;
 };
 
 
 /////////////////////////////////////////////////////
-// CDockFiles manages the docker which uses CViewList
+// CDockFiles manages the docker which uses CViewFiles
 // as its view.
 class CDockFiles : public CDocker
 {
@@ -57,13 +59,14 @@ public:
     virtual ~CDockFiles() {}
 
 protected:
+    // Virtual functions overriding base class functions.
     virtual void PreCreate(CREATESTRUCT& cs);
 
 private:
     CDockFiles(const CDockFiles&);               // Disable copy construction
     CDockFiles& operator=(const CDockFiles&);    // Disable assignment operator
 
-    CViewList m_view;
+    CViewFiles m_view;
 };
 
 
@@ -77,6 +80,7 @@ public:
     virtual ~CDockText() {}
 
 protected:
+    // Virtual functions overriding base class functions.
     virtual void PreCreate(CREATESTRUCT& cs);
 
 private:

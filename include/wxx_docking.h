@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1290,6 +1290,7 @@ namespace Win32xx
         return FinalWindowProc(msg, wparam, lparam);
     }
 
+    // Called after the window is resized.
     inline LRESULT CDocker::CDockClient::OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Reposition the View window to cover the DockClient's client area.
@@ -3573,7 +3574,7 @@ namespace Win32xx
         return FinalWindowProc(msg, wparam, lparam);
     }
 
-    // Called when the undocked docker move is complete.
+    // Called after the docker is moved or resized.
     inline LRESULT CDocker::OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         if (m_isDragging)
@@ -5543,4 +5544,3 @@ namespace Win32xx
 } // namespace Win32xx
 
 #endif // _WIN32XX_DOCKING_H_
-
