@@ -1,5 +1,5 @@
 // Win32++   Version 9.5.2
-// Release Date: TBA
+// Release Date: 20th May 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -462,7 +462,7 @@ namespace Win32xx
 
         INT_PTR result = 0;
         m_isModal=TRUE;
-        m_wnd = NULL;
+        Cleanup();
 
         // Set the message hook used to support OnIdle and PreTranslateMessage.
         // The hook is only used in modal dialogs.
@@ -507,7 +507,7 @@ namespace Win32xx
         assert(m_pDlgTemplate || m_resourceName);  // Dialog layout must be defined.
 
         m_isModal=FALSE;
-        m_wnd = NULL;
+        Cleanup();
 
         // Retrieve this thread's TLS data.
         TLSData* pTLSData = GetApp()->GetTlsData();
@@ -745,20 +745,22 @@ namespace Win32xx
             {
                 for (HWND wnd = pMsg->hwnd; wnd != 0; wnd = ::GetParent(wnd))
                 {
-                    // Only CDialogs respond to the UWM_GETCDIALOG message.
-                    CDialog* pDialog = reinterpret_cast<CDialog*>(::SendMessage(wnd, UWM_GETCDIALOG, 0, 0));
+                    // The wnd will be a handle to the dialog or a child control.
+                    CDialog* pDialog = dynamic_cast<CDialog*>(GetCWndPtr(wnd));
                     if (pDialog != NULL)
                     {
                         if (pDialog->PreTranslateMessage(*pMsg))
                             return 1; // Eat the message.
 
+                        // The HHOOK parameter is used in CallNextHookEx for Win95, Win98 and WinME.
+                        // The HHOOK parameter is ignored for Windows NT and above.
                         return ::CallNextHookEx(pDialog->m_msgHook, code, wparam, lparam);
                     }
                 }
             }
         }
 
-        return 0;
+        return ::CallNextHookEx(0, code, wparam, lparam);
     }
 
 

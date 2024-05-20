@@ -1,5 +1,5 @@
-// Win32++   Version 9.5.1
-// Release Date: 24th April 2024
+// Win32++   Version 9.5.2
+// Release Date: 20th May 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -627,6 +627,7 @@ namespace Win32xx
     inline HWND CPropertySheet::Create(HWND parent /*= NULL*/)
     {
         assert(!IsWindow());        // Only one window per CWnd instance allowed.
+        Cleanup();
 
         if (parent)
         {
@@ -654,7 +655,7 @@ namespace Win32xx
         // Only one window per CWnd instance allowed
         assert(!IsWindow());
 
-        INT_PTR ipResult = 0;
+        INT_PTR result = 0;
         m_wnd = NULL;
 
         // Retrieve this thread's TLS data.
@@ -664,15 +665,15 @@ namespace Win32xx
         pTLSData->pWnd = this;
 
         // Create the property sheet.
-        ipResult = PropertySheet(pPSH);
+        result = PropertySheet(pPSH);
 
         // Tidy up.
         pTLSData->pWnd = NULL;
 
-        if (ipResult == -1)
+        if (result == -1)
             throw CWinException(GetApp()->MsgWndPropertSheet());
 
-        return ipResult;
+        return result;
     }
 
     // Removes the specified button.
@@ -702,6 +703,7 @@ namespace Win32xx
     inline int CPropertySheet::DoModal()
     {
         assert(!IsWindow());        // Only one window per CWnd instance allowed.
+        Cleanup();
 
         BuildPageArray();
         PROPSHEETPAGE* pPSPArray = &m_allSheetPages.front();

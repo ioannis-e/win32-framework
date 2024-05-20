@@ -1,5 +1,5 @@
 // Win32++   Version 9.5.2
-// Release Date: TBA
+// Release Date: 20th May 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1569,7 +1569,7 @@ namespace Win32xx
         assert(pDockTarget);
         assert(pDockDrag);
 
-        // Hint window requires Win2000 or higher.
+        // Hint window requires Win2000 or later.
         if (GetWinVersion() < 2500)
             return;
 
@@ -1750,7 +1750,7 @@ namespace Win32xx
     // Constructor.
     inline CDocker::CTargetCentre::CTargetCentre() : m_isOverContainer(FALSE), m_pOldDockTarget(0)
     {
-        m_image.LoadBitmap(IDW_SDCENTER);;
+        m_image.LoadBitmap(IDW_SDCENTER);
     }
 
     inline CDocker::CTargetCentre::~CTargetCentre()

@@ -1,5 +1,5 @@
 // Win32++   Version 9.5.2
-// Release Date: TBA
+// Release Date: 20th May 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1111,7 +1111,9 @@ namespace Win32xx
         if (MSGF_MENU == code)
             pMenuBar->OnMenuInput(pMsg->message, pMsg->wParam, pMsg->lParam);
 
-        return CallNextHookEx(pMenuBar->m_msgHook, code, wparam, lparam);
+        // The HHOOK parameter in CallNextHookEx should be supplied for Win95, Win98 and WinME.
+        // The HHOOK parameter is ignored for Windows NT and above.
+        return ::CallNextHookEx(pMenuBar->m_msgHook, code, wparam, lparam);
     }
 
     inline LRESULT CMenuBar::SysCommand(UINT msg, WPARAM wparam, LPARAM lparam)

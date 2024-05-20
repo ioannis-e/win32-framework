@@ -348,7 +348,7 @@ New Features and Enhancements
   Windows theme is using dark mode, and adjusts the frame's theme accordingly.
   The sample also uses a dialog that supports dark mode to display the 
   information about the application. 
-  This samples requires Windows 10 or higher.
+  This samples requires Windows 10 or later.
 
 Changes in Detail
 -----------------

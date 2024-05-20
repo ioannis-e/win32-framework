@@ -21,7 +21,7 @@ public:
     virtual HWND Create(HWND parent = NULL);
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual void    DrawStatusBar(LPDRAWITEMSTRUCT pDrawItem);
     virtual BOOL    DrawStatusBarBkgnd(CDC& dc, CStatusBar& statusbar);
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam);

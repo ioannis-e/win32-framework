@@ -411,7 +411,7 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton( 0 );                      // Separator
     AddToolBarButton( IDM_HELP_ABOUT );
 
-    // Add the two other toolbars if we can use rebars (Need Win95 and IE 4 or better)
+    // Add the two other toolbars if we can use rebars (Need Win95 and IE 4 or later)
     if (IsReBarSupported())
     {
         // Add the Arrows toolbar

@@ -1,5 +1,5 @@
 // Win32++   Version 9.5.2
-// Release Date: TBA
+// Release Date: 20th May 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -247,7 +247,6 @@ namespace Win32xx
         virtual LRESULT OnRBNHeightChange(LPNMHDR pNMHDR);
         virtual LRESULT OnRBNLayoutChanged(LPNMHDR pNMHDR);
         virtual LRESULT OnRBNMinMax(LPNMHDR pNMHDR);
-        virtual LRESULT OnSetFocus(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnSettingChange(UINT, WPARAM, LPARAM);
         virtual LRESULT OnSize(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnSysColorChange(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -414,7 +413,8 @@ namespace Win32xx
     template <class T>
     inline CFrameT<T>::~CFrameT()
     {
-        if (m_kbdHook != NULL) UnhookWindowsHookEx(m_kbdHook);
+        if (m_kbdHook != NULL)
+            ::UnhookWindowsHookEx(m_kbdHook);
     }
 
     // Adds the grayscale image of the specified icon the disabled menu image-list.
@@ -2481,14 +2481,6 @@ namespace Win32xx
         return 0;
     }
 
-    // Called when the frame window (not a child window) receives focus.
-    template <class T>
-    inline LRESULT CFrameT<T>::OnSetFocus(UINT, WPARAM, LPARAM)
-    {
-        SetStatusIndicators();
-        return 0;
-    }
-
     // Called when the SystemParametersInfo function changes a system-wide
     // setting or when policy settings have changed.
     template <class T>
@@ -2670,7 +2662,6 @@ namespace Win32xx
             VERIFY(GetStatusBar().SetWindowPos(HWND_TOP, 0, 0, 0, 0, SWP_SHOWWINDOW));
 
             SetStatusParts();
-            SetStatusIndicators();
         }
 
         // Resize the rebar or toolbar.
@@ -2864,7 +2855,7 @@ namespace Win32xx
     inline void CFrameT<T>::RemoveKbdHook()
     {
         if (m_kbdHook != NULL)
-            UnhookWindowsHookEx(m_kbdHook);
+            ::UnhookWindowsHookEx(m_kbdHook);
 
         m_kbdHook = NULL;
     }
@@ -2932,6 +2923,7 @@ namespace Win32xx
         {
             GetApp()->SetMainWnd(*this);
             m_kbdHook = ::SetWindowsHookEx(WH_KEYBOARD, StaticKeyboardProc, 0, ::GetCurrentThreadId());
+            SetStatusIndicators();
         }
     }
 
@@ -3555,11 +3547,15 @@ namespace Win32xx
         assert(dynamic_cast<CFrameT<T>*>(pFrame) != NULL);
 
         if (pFrame != NULL)
+        {
             pFrame->OnKeyboardHook(code, wparam, lparam);
 
-        // The HHOOK parameter in CallNextHookEx should be supplied for Win95, Win98 and WinME.
-        // The HHOOK parameter is ignored for Windows NT and above.
-        return pFrame? ::CallNextHookEx(pFrame->m_kbdHook, code, wparam, lparam) : 0;
+            // The HHOOK parameter is used in CallNextHookEx for Win95, Win98 and WinME.
+            // The HHOOK parameter is ignored for Windows NT and above.
+            return ::CallNextHookEx(pFrame->m_kbdHook, code, wparam, lparam);
+        }
+
+        return ::CallNextHookEx(0, code, wparam, lparam);
     }
 
     // Update the MenuBar band size.
@@ -3722,7 +3718,6 @@ namespace Win32xx
         case WM_MENUCHAR:       return OnMenuChar(msg, wparam, lparam);
         case WM_MEASUREITEM:    return OnMeasureItem(msg, wparam, lparam);
         case WM_MENUSELECT:     return OnMenuSelect(msg, wparam, lparam);
-        case WM_SETFOCUS:       return OnSetFocus(msg, wparam, lparam);
         case WM_SETTINGCHANGE:  return OnSettingChange(msg, wparam, lparam);
         case WM_SIZE:           return OnSize(msg, wparam, lparam);
         case WM_SYSCOLORCHANGE: return OnSysColorChange(msg, wparam, lparam);
