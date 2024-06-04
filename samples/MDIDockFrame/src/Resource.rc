@@ -107,6 +107,15 @@ BEGIN
     END
 END
 
+IDM_NEWMENU MENU
+BEGIN
+    POPUP "New"
+    BEGIN
+        MENUITEM "New &Dock Child",             IDM_FILE_NEWDOCK
+        MENUITEM "New &MDI Child",              IDM_FILE_NEWMDI
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -115,11 +124,10 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDW_MAIN                ICON                    "../src/res/mdi.ico"
-
-IDI_VIEW                ICON                    "../src/res/view.ico"
-
+IDW_MAIN                ICON                    "../src/res/MDI.ico"
+IDI_DOCK                ICON                    "../src/res/dock.ico"
 IDI_FILEVIEW            ICON                    "../src/res/fileview.ico"
+IDI_VIEW                ICON                    "../src/res/view.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -242,9 +250,9 @@ END
 
 STRINGTABLE
 BEGIN
-    IDW_MDI_CASCADE         "Cascade MDI Windows"
-    IDW_MDI_TILE            "Tile MDI Windows"
-    IDW_MDI_ARRANGE         "Arrange Icons"
+    IDW_MDI_CASCADE         "Cascade the MDI Windows"
+    IDW_MDI_TILE            "Tile the MDI Windows"
+    IDW_MDI_ARRANGE         "Arrange the MDI Icons"
     IDW_MDI_CLOSEALL        "Close All MDI Windows"
     IDW_FIRSTCHILD          "Activate this window"
     IDW_CHILD2              "Activate this window"
@@ -260,13 +268,14 @@ END
 
 STRINGTABLE
 BEGIN
-    IDM_FILE_NEWDOCK        "Create a New Docking Window"
-    IDM_FILE_NEWMDI         "Create a New MDI Window"
+    IDM_FILE_NEW            "Create a New Dock Child or MDI Child"
+    IDM_FILE_NEWDOCK        "Create a New Dock Child Window"
+    IDM_FILE_NEWMDI         "Create a New MDI Child Window"
     IDM_FILE_OPEN           "Open Existing Document"
     IDM_FILE_SAVE           "Save the Document"
     IDM_FILE_SAVEAS         "Save the Document with a new name"
     IDM_FILE_PRINT          "Print the Document"
-    IDM_FILE_MDICLOSE       "Close MDI Window"
+    IDM_FILE_MDICLOSE       "Close the MDI Window"
     IDM_FILE_EXIT           "End the Program"
 END
 
@@ -283,11 +292,11 @@ END
 
 STRINGTABLE
 BEGIN
-    IDM_COLOR_BLACK         "Use Black Printing"
-    IDM_COLOR_RED           "Use Red Printing"
-    IDM_COLOR_GREEN         "Use Green Printing"
-    IDM_COLOR_BLUE          "Use Blue Printing"
-    IDM_COLOR_WHITE         "Use White Printing"
+    IDM_COLOR_BLACK         "Display Black Text"
+    IDM_COLOR_RED           "Display Red Text"
+    IDM_COLOR_GREEN         "Display Green Text"
+    IDM_COLOR_BLUE          "Display Blue Text"
+    IDM_COLOR_WHITE         "Display White Text"
 END
 
 STRINGTABLE

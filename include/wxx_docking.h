@@ -308,12 +308,12 @@ namespace Win32xx
             CDockBar();
             virtual ~CDockBar();
 
-            CBrush GetBrushBkgnd() const    {return m_brBackground;}
-            CDocker& GetDocker() const      {assert (m_pDocker); return *m_pDocker;}
-            int GetWidth() const            {return m_dockBarWidth;}
+            CBrush GetBrushBkgnd() const     {return m_brBackground;}
+            CDocker& GetDocker() const       {assert (m_pDocker); return *m_pDocker;}
+            int GetWidth() const             {return m_dockBarWidth;}
             void SetColor(COLORREF color);
-            void SetDocker(CDocker& docker) {m_pDocker = &docker;}
-            void SetWidth(int width)        {m_dockBarWidth = width;}
+            void SetDocker(CDocker* pDocker) {m_pDocker = pDocker;}
+            void SetWidth(int width)         {m_dockBarWidth = width;}
 
         protected:
             virtual void OnDraw(CDC& dc);
@@ -582,7 +582,7 @@ namespace Win32xx
         void SetCaptionHeight(int height);
         void SetDefaultCaptionHeight();
         void SetDockBar(CDockBar& dockBar) { m_pDockBar = &dockBar; }
-        void SetDockClient(CDockClient& dockClient) { m_pDockClient = &dockClient; }
+        void SetDockClient(CDockClient& dockClient);
         void SetDockHint(CDockHint& dockHint) { m_pDockHint = &dockHint; }
         void SetDockStyle(DWORD dockStyle);
         void SetDockSize(int dockSize);
@@ -858,7 +858,8 @@ namespace Win32xx
 
     inline void CDocker::CDockClient::DrawCaption()
     {
-        if (IsWindow() && !(m_pDocker->GetDockStyle() & DS_NO_CAPTION))
+        assert(m_pDocker);
+        if (!(m_pDocker->GetDockStyle() & DS_NO_CAPTION))
         {
             if (m_pDocker->IsUndockable())
             {
@@ -2079,12 +2080,12 @@ namespace Win32xx
                     m_newDpi(USER_DEFAULT_SCREEN_DPI), m_oldDpi(USER_DEFAULT_SCREEN_DPI),
                     m_dockZone(0), m_dockStyle(0), m_dockUnderPoint(0)
     {
-        // Assume this docker is the DockAncestor for now.
+        // Set the initial defaults.
         SetDockBar(m_dockBar);
         SetDockClient(m_dockClient);
         SetDockHint(m_dockHint);
 
-        m_pDockAncestor = this;
+        m_pDockAncestor = this;         // Assume this docker is the DockAncestor for now.
         m_allDockers.push_back(this);
         GetDockClient().SetDocker(this);
     }
@@ -3163,7 +3164,7 @@ namespace Win32xx
         GetView().Create(GetDockClient());
 
         // Create the slider bar belonging to this docker.
-        GetDockBar().SetDocker(*this);
+        GetDockBar().SetDocker(this);
         if (GetDockAncestor() != this)
             GetDockBar().Create(*GetDockAncestor());
 
@@ -4099,6 +4100,13 @@ namespace Win32xx
     inline void CDocker::SetDefaultCaptionHeight()
     {
         SetCaptionHeight(MAX(20, GetTextHeight() + 5));
+    }
+
+    // Sets the dock client window for this docker.
+    inline void CDocker::SetDockClient(CDockClient& dockClient)
+    {
+        m_pDockClient = &dockClient;
+        m_pDockClient->SetDocker(this);
     }
 
     // Sets the size of a docked docker

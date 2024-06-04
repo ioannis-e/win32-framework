@@ -268,7 +268,7 @@ void CMainMDIFrame::SetupToolBar()
     // Use larger buttons with separate imagelists for normal, hot and disabled buttons.
     SetToolBarImages(RGB(192,192,192), IDW_MAIN, IDB_TOOLBAR24_HOT, IDB_TOOLBAR24_DIS);
 
-    // Configure the "New" toolbar button to bring up a menu
+    // Configure the "New" toolbar button to bring up a menu.
     GetToolBar().SetButtonStyle(IDM_FILE_NEW, BTNS_WHOLEDROPDOWN);
 }
 

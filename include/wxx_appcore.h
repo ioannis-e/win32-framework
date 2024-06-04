@@ -549,11 +549,9 @@ namespace Win32xx
         TLSData* pTLSData = GetTlsData();
         if (pTLSData == NULL)
         {
-            pTLSData = new TLSData;
-            TLSDataPtr dataPtr(pTLSData);
-            m_allTLSData.push_back(dataPtr); // Store as a smart pointer.
-
-            VERIFY(::TlsSetValue(m_tlsData, pTLSData));
+            TLSDataPtr dataPtr(new TLSData);
+            m_allTLSData.push_back(dataPtr);
+            VERIFY(::TlsSetValue(m_tlsData, dataPtr.get()));
         }
     }
 

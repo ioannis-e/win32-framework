@@ -211,7 +211,8 @@ namespace Win32xx
     inline CRichEdit::~CRichEdit()
     {
         // Destroy the window before freeing the DLL.
-        Destroy();
+        if (IsWindow())
+            ::DestroyWindow(*this);
 
         ::FreeLibrary(m_rich1);
         if (m_rich2)

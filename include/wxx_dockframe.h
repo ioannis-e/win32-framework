@@ -253,9 +253,6 @@ namespace Win32xx
 
         // Assign m_dockMDIClient as this docker's dock client.
         SetDockClient(m_dockMDIClient);
-
-        // Assign this CMDIDockFrame as the new dock client's docker.
-        m_dockMDIClient.SetDocker(this);
     }
 
     // Called when the frame window is created.

@@ -91,9 +91,9 @@ void CMainMDIFrame::OnInitialUpdate()
 
     // Add some Dockers to the MDI Frame
     DWORD dwStyle = DS_CLIENTEDGE; // The style added to each docker
-    int DockWidth = DpiScaleInt(150);
-    CDocker* pDock1 = AddDockedChild(new CDockFiles, DS_DOCKED_LEFT | dwStyle, DockWidth);
-    CDocker* pDock2 = AddDockedChild(new CDockFiles, DS_DOCKED_RIGHT | dwStyle, DockWidth);
+    int dockWidth = DpiScaleInt(150);
+    CDocker* pDock1 = AddDockedChild(new CDockFiles, DS_DOCKED_LEFT | dwStyle, dockWidth);
+    CDocker* pDock2 = AddDockedChild(new CDockFiles, DS_DOCKED_RIGHT | dwStyle, dockWidth);
 
     assert (pDock1->GetContainer());
     assert (pDock2->GetContainer());
@@ -181,10 +181,34 @@ BOOL CMainMDIFrame::OnFileNewMDI()
     return TRUE;
 }
 
+// Creates the popup menu when the "New" toolbar button is pressed
+BOOL CMainMDIFrame::OnFileNew()
+{
+    // Position the popup menu
+    CToolBar& tb = GetToolBar();
+    RECT rc = tb.GetItemRect(tb.CommandToIndex(IDM_FILE_NEW));
+    tb.MapWindowPoints(HWND_DESKTOP, (LPPOINT)&rc, 2);
+
+    TPMPARAMS tpm;
+    tpm.cbSize = sizeof(tpm);
+    tpm.rcExclude = rc;
+
+    // Load the popup menu
+    CMenu topMenu(IDM_NEWMENU);
+    CMenu popupMenu = topMenu.GetSubMenu(0);
+
+    // Start the popup menu
+    popupMenu.TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, rc.left, rc.bottom, *this, &tpm);
+
+    return TRUE;
+}
+
 // Create a new docker.
 BOOL CMainMDIFrame::OnFileNewDocker()
 {
-    AddDockedChild(new CDockFiles, DS_DOCKED_LEFT | DS_CLIENTEDGE, 150);
+    int dockWidth = DpiScaleInt(150);
+    CDocker* pDock = AddDockedChild(new CDockFiles, DS_DOCKED_LEFT | DS_CLIENTEDGE, dockWidth);
+    pDock->GetContainer()->SetHideSingleTab(TRUE);
     return TRUE;
 }
 
@@ -216,6 +240,27 @@ BOOL CMainMDIFrame::OnMDITile()
     return TRUE;
 }
 
+// Process notification messages (WM_NOTIFY) from child windows.
+LRESULT CMainMDIFrame::OnNotify(WPARAM wparam, LPARAM lparam)
+{
+    // Notification from our dropdown button is received if Comctl32.dll version
+    // is 4.70 or later (IE v3 required).
+    LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
+    switch (pHeader->code)
+    {
+        // Menu for dropdown toolbar button
+    case TBN_DROPDOWN:
+    {
+        if (pHeader->hwndFrom == GetToolBar())
+            OnFileNew();
+    }
+    break;
+
+    } //switch LPNMHDR
+
+    return CMDIDockFrame::OnNotify(wparam, lparam);
+}
+
 // Configures the images for menu items.
 void CMainMDIFrame::SetupMenuIcons()
 {
@@ -227,14 +272,15 @@ void CMainMDIFrame::SetupMenuIcons()
         SetMenuIcons(data, RGB(192, 192, 192), IDB_TOOLBAR16);
 
     // Add an extra icon for the New Docker menu item
-    AddMenuIcon(IDM_FILE_NEWDOCK, IDW_MAIN);
+    AddMenuIcon(IDM_FILE_NEWDOCK, IDI_DOCK);
+    AddMenuIcon(IDM_FILE_NEWMDI, IDW_MAIN);
 }
 
 // Assign resource IDs and images to the toolbar buttons.
 void CMainMDIFrame::SetupToolBar()
 {
     // Define the resource IDs for the toolbar
-    AddToolBarButton( IDM_FILE_NEWMDI);
+    AddToolBarButton( IDM_FILE_NEW);
     AddToolBarButton( IDM_FILE_OPEN  );
     AddToolBarButton( IDM_FILE_SAVE  );
     AddToolBarButton( 0 );              // Separator
@@ -247,6 +293,9 @@ void CMainMDIFrame::SetupToolBar()
     AddToolBarButton( IDM_HELP_ABOUT );
 
     SetToolBarImages(RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR24_HOT, IDB_TOOLBAR24_DIS);
+
+    // Configure the "New" toolbar button to bring up a menu.
+    GetToolBar().SetButtonStyle(IDM_FILE_NEW, BTNS_WHOLEDROPDOWN);
 }
 
 // Process the frame's window messages.

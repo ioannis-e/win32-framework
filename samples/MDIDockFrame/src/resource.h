@@ -12,6 +12,7 @@
 #include "default_resource.h"
 
 //Resource IDs for menu items and ToolBar items
+#define IDM_FILE_NEW                    120
 #define IDM_FILE_NEWDOCK                121
 #define IDM_FILE_NEWMDI                 122
 #define IDM_FILE_OPEN                   123
@@ -27,8 +28,10 @@
 #define IDM_EDIT_PASTE                  134
 #define IDM_EDIT_DELETE                 135
 #define IDM_HELP_ABOUT                  140
+#define IDM_NEWMENU                     145
 
 // Icon Resource
+#define IDI_DOCK                        160
 #define IDI_VIEW                        161
 
 // Bitmaps for the toolbar and menus

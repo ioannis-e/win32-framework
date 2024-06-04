@@ -282,6 +282,7 @@ BOOL CMainFrame::OnNoUndocking()
 BOOL CMainFrame::OnStylesDefault()
 {
     SetDockStylesToDefault();
+    RecalcDockLayout();
     return TRUE;
 }
 
