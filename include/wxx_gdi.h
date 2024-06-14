@@ -1484,12 +1484,12 @@ namespace Win32xx
         UINT widthBytes = bmiHeader.biSizeImage/bmiHeader.biHeight;
 
         // Ensure sane color correction values.
-        cBlue  = MIN(cBlue, 255);
-        cBlue  = MAX(cBlue, -255);
-        cRed   = MIN(cRed, 255);
-        cRed   = MAX(cRed, -255);
-        cGreen = MIN(cGreen, 255);
-        cGreen = MAX(cGreen, -255);
+        cBlue  = std::min(cBlue, 255);
+        cBlue  = std::max(cBlue, -255);
+        cRed   = std::min(cRed, 255);
+        cRed   = std::max(cRed, -255);
+        cGreen = std::min(cGreen, 255);
+        cGreen = std::max(cGreen, -255);
 
         // Pre-calculate the RGB modification values.
         int b1 = 256 - cBlue;

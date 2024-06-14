@@ -44,8 +44,8 @@
 #ifndef _WIN32XX_WINCORE0_H_
 #define _WIN32XX_WINCORE0_H_
 
-#include "wxx_rect.h"
 #include "wxx_appcore0.h"
+#include "wxx_rect.h"
 
 // Ensure these macros are defined.
 #ifndef BTNS_DROPDOWN

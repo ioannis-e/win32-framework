@@ -82,9 +82,10 @@
 #endif
 
 
+#ifndef NOMINMAX
+#define NOMINMAX        // Allow std::min and std::max. Must be defined before windows.h
+#endif
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
-
-#include "wxx_shared_ptr.h"
 
 #include <WinSock2.h>   // must include before windows.h
 #include <Windows.h>
@@ -101,6 +102,8 @@
 #include <stdarg.h>
 #include <tchar.h>
 #include <process.h>
+
+#include "wxx_shared_ptr.h"
 
 // Required by compilers lacking Win64 support.
 #ifndef  GetWindowLongPtr

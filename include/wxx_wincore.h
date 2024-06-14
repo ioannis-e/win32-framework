@@ -713,7 +713,7 @@ namespace Win32xx
     inline CBitmap CWnd::DpiScaleUpBitmap(CBitmap bitmap) const
     {
         int dpi = GetWindowDpi(*this);
-        int scale = MAX(1, dpi / USER_DEFAULT_SCREEN_DPI);
+        int scale = std::max(1, dpi / USER_DEFAULT_SCREEN_DPI);
 
         return ScaleUpBitmap(bitmap, scale);
     }

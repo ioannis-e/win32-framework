@@ -44,10 +44,6 @@
 #ifndef _WIN32XX_RECT_H_
 #define _WIN32XX_RECT_H_
 
-#include <winsock2.h>       // Must be included before windows.h.
-#include <windows.h>        // For SIZE, POINT, RECT etc.
-#include "wxx_setup.h"      // For VERIFY.
-
 
 // define useful macros from WindowsX.h
 #ifndef GET_X_LPARAM

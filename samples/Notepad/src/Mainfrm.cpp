@@ -538,7 +538,17 @@ BOOL CMainFrame::OnFileSave()
     if (m_pathName.IsEmpty())
         OnFileSaveAs();
     else
-        WriteFile(m_pathName);
+    {
+        DWORD dwAttrib = GetFileAttributes(m_pathName);
+        if (dwAttrib != INVALID_FILE_ATTRIBUTES)
+        {
+            CString str = "This file already exists.\nDo you want to replace it?";
+            if (IDYES == MessageBox(str, L"Confirm Save", MB_ICONWARNING | MB_OKCANCEL))
+                WriteFile(m_pathName);
+        }
+        else
+            WriteFile(m_pathName);
+    }
 
     return TRUE;
 }
@@ -610,6 +620,12 @@ void CMainFrame::OnMenuUpdate(UINT id)
         GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
+    case IDM_FILE_SAVE:
+    {
+        enabled = m_richView.GetModify() ? MF_ENABLED : MF_GRAYED;
+        GetFrameMenu().EnableMenuItem(id, enabled);
+        break;
+    }
     case IDM_EDIT_COPY:
     case IDM_EDIT_CUT:
     case IDM_EDIT_DELETE:
@@ -617,28 +633,25 @@ void CMainFrame::OnMenuUpdate(UINT id)
         CHARRANGE range;
         m_richView.GetSel(range);
         enabled = (range.cpMin != range.cpMax)? MF_ENABLED : MF_GRAYED;
-
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_COPY, enabled);
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_CUT, enabled);
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_DELETE, enabled);
+        GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
     case IDM_EDIT_PASTE:
     {
         enabled = m_richView.CanPaste(CF_TEXT)? MF_ENABLED : MF_GRAYED;
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_PASTE, enabled);
+        GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
     case IDM_EDIT_REDO:
     {
         enabled = m_richView.CanRedo()? MF_ENABLED : MF_GRAYED;
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_REDO, enabled);
+        GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
     case IDM_EDIT_UNDO:
     {
         enabled = m_richView.CanUndo()? MF_ENABLED : MF_GRAYED;
-        GetFrameMenu().EnableMenuItem(IDM_EDIT_UNDO, enabled);
+        GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
     }
@@ -1027,7 +1040,9 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        ::MessageBox(NULL, e.GetText(), AtoT(e.what()), MB_ICONERROR);
+        CString str;
+        str << e.GetText() << _T("\n") << e.GetErrorString();
+        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
 
         return 0;
     }
