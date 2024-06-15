@@ -7,9 +7,18 @@
 #include "resource.h"
 #include "CustomPrintDlg.h"
 
+#ifndef INVALID_FILE_ATTRIBUTES
+  #define INVALID_FILE_ATTRIBUTES ((DWORD)-1)
+#endif
+
 #ifndef SF_USECODEPAGE
   #define SF_USECODEPAGE    0x0020
 #endif
+
+// Encoding IDs
+const int ANSI = 0;            // Default for plain text
+const int UTF8 = 1;            // Default for rich text
+const int UTF16LE = 2;
 
 
 ///////////////////////////////////
@@ -571,7 +580,7 @@ BOOL CMainFrame::OnFileSave()
         if (dwAttrib != INVALID_FILE_ATTRIBUTES)
         {
             CString str = "This file already exists.\nDo you want to replace it?";
-            if (IDYES == MessageBox(str, L"Confirm Save", MB_ICONWARNING | MB_OKCANCEL))
+            if (IDYES == MessageBox(str, _T("Confirm Save"), MB_ICONWARNING | MB_OKCANCEL))
                 WriteFile(m_pathName);
         }
         else

@@ -1,6 +1,21 @@
+Version 9.5.3
+=============
+
+New Features and Enhancements
+-----------------------------
+ * The NOMINMAX is defined before including <windows.h>.
+    This allows std::min and std::max to be used.
+
+ * Added the ScintillaDemo sample.
+    This sample demonstrates how to use the Scintilla control with Win32++
+    to develop a simple text editor.
+
+
 Version 9.5.2
 =============
-Changes:
+
+New Features and Enhancements
+-----------------------------
  * Updated CString.
     The CString constructor, operator+, operator+=, and operator<< overloads
     now support CStringA and CStringW arguments in addition to the arguments

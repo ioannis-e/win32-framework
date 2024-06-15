@@ -9,13 +9,6 @@
 #include "resource.h"
 
 
-// Encoding IDs
-
-const int ANSI = 0;            // Default for plain text
-const int UTF8 = 1;            // Default for rich text
-const int UTF16LE = 2;
-
-
 ///////////////////////////////////////////////////////////
 // CMainFrame manages the application's main window.
 // The main window is a frame that has a menubar, toolbar,

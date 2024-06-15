@@ -25,7 +25,9 @@
     catch (const CException &e)
     {
         // Display the exception and quit.
-        ::MessageBox(NULL, e.GetErrorString(), e.GetText(), MB_ICONWARNING);
+        CString str;
+        str << e.GetText() << _T("\n") << e.GetErrorString();
+        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
 
         return -1;
     }

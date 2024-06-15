@@ -9,8 +9,17 @@
 #if defined (_MSC_VER) && (_MSC_VER == 1900) // == VS2015
 #pragma warning (disable : 4458) // disable warning: declaration hides class member
 #endif
+
+// Declare min and max for older versions of Visual Studio
+#if defined (_MSC_VER) && (_MSC_VER < 1920) // < VS2019
+using std::min;
+using std::max;
+#endif
+
 #include <gdiplus.h>
 #ifdef _MSC_VER
+
+
 #pragma warning (default : 4458) // return warning to default
 #endif
 
