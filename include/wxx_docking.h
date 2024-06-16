@@ -860,7 +860,7 @@ namespace Win32xx
         assert(m_pDocker);
         if (!(m_pDocker->GetDockStyle() & DS_NO_CAPTION))
         {
-            if (m_pDocker->IsUndockable())
+            if (m_pDocker->IsWindow() && m_pDocker->IsUndockable())
             {
                 // Acquire the DC for our NonClient painting.
                 CWindowDC dc(*this);
