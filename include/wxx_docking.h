@@ -212,20 +212,19 @@ namespace Win32xx
         CDocker* GetDocker() const            { return m_pDocker; }
         SIZE GetMaxTabTextSize() const;
         HICON GetTabIcon() const { return m_tabIcon; }
-        LPCTSTR GetTabText() const { return m_tabText; }
+        const CString& GetTabText() const     { return m_tabText; }
         CToolBar& GetToolBar()  const         { return GetViewPage().GetToolBar(); }
         std::vector<UINT>& GetToolBarData()   { return m_toolBarData; }
         CWnd* GetView() const                 { return GetViewPage().GetView(); }
         CViewPage& GetViewPage() const { return *m_pViewPage; }
         void SetActiveContainer(CDockContainer* pContainer);
         void SetDocker(CDocker* pDocker)      { m_pDocker = pDocker; }
-        void SetDockCaption(LPCTSTR caption)  { m_caption = caption; }
+        void SetDockCaption(LPCTSTR caption);
         void SetHideSingleTab(BOOL hideSingle);
-        void SetTabIcon(HICON tabIcon)        { m_tabIcon = tabIcon; }
+        void SetTabIcon(HICON tabIcon);
         void SetTabIcon(UINT iconID);
         void SetTabSize();
-
-        void SetTabText(LPCTSTR text)         { m_tabText = text; }
+        void SetTabText(LPCTSTR text);
         void SetToolBar(CToolBar& toolBar) const   { GetViewPage().SetToolBar(toolBar); }
         void SetToolBarImages(COLORREF mask, UINT normalID, UINT hotID, UINT disabledID);
         void SetView(CWnd& wnd) const;
@@ -4701,7 +4700,7 @@ namespace Win32xx
         }
     }
 
-    //Returns a pointer to the container at the specified tab number.
+    // Returns a pointer to the container at the specified tab number.
     inline CDockContainer* CDockContainer::GetContainerFromIndex(size_t index) const
     {
         CDockContainer* pContainer = NULL;
@@ -4740,31 +4739,38 @@ namespace Win32xx
     {
         assert(pView);
 
-        std::vector<ContainerInfo>::const_iterator iter;
+        std::vector<ContainerInfo>::const_iterator it;
         CDockContainer* pViewContainer = NULL;
-        for (iter = GetAll().begin(); iter != GetAll().end(); ++iter)
+        for (it = GetAll().begin(); it != GetAll().end(); ++it)
         {
-            CDockContainer* pContainer = (*iter).pContainer;
+            CDockContainer* pContainer = (*it).pContainer;
             if (pContainer->GetView() == pView)
+            {
                 pViewContainer = pContainer;
+                break;
+            }
         }
 
         return pViewContainer;
     }
 
-    // Returns a pointer to the container at the specified tab number.
+    // Returns the tab index of the specified container.
     inline int CDockContainer::GetContainerIndex(CDockContainer* pContainer) const
     {
         assert(pContainer);
-        int result = -1;
+        int index = -1;
+        std::vector<ContainerInfo>::iterator it;
 
-        for (size_t i = 0; i < m_pContainerParent->m_allInfo.size(); ++i)
+        for (it = GetAll().begin(); it != GetAll().end(); ++it)
         {
-            if (m_pContainerParent->m_allInfo[i].pContainer == pContainer)
-                result = static_cast<int>(i);
+            if ((*it).pContainer == pContainer)
+            {
+                index = static_cast<int>(std::distance(GetAll().begin(), it));
+                break;
+            }
         }
 
-        return result;
+        return index;
     }
 
     // Returns the size (width and height) of the caption text.
@@ -5141,12 +5147,37 @@ namespace Win32xx
         SelectPage(page);
     }
 
+    // Sets the caption of the docker whose view is this container.
+    inline void CDockContainer::SetDockCaption(LPCTSTR caption)
+    {
+        m_caption = caption;
+        if (IsWindow() && this == GetActiveContainer())
+        {
+            GetContainerParent()->GetDocker()->SetCaption(caption);
+            GetContainerParent()->GetDocker()->RedrawWindow();
+        }
+    }
+
     // Shows or hides the tab if it has only one page.
     inline void CDockContainer::SetHideSingleTab(BOOL hideSingle)
     // Only display tabs if there are two or more.
     {
         m_isHideSingleTab = hideSingle;
         RecalcLayout();
+    }
+
+    // Sets the icon for this container's tab.
+    inline void CDockContainer::SetTabIcon(HICON tabIcon)
+    {
+        m_tabIcon = tabIcon;
+        int index = GetContainerIndex(this);
+        if (index >= 0)
+        {
+            int image = GetContainerParent()->GetImages().Replace(index, tabIcon);
+            GetContainerParent()->m_allInfo[index].tabImage = image;
+            GetContainerParent()->SetTabSize();
+            GetContainerParent()->UpdateTabs();
+        }
     }
 
     // Sets the icon for this container's tab.
@@ -5218,6 +5249,18 @@ namespace Win32xx
         }
 
         SetItemSize(itemWidth, itemHeight);
+    }
+
+    // Sets the tab text for this container's tab.
+    inline void CDockContainer::SetTabText(LPCTSTR text)
+    {
+        m_tabText = text;
+        int index = GetContainerIndex(this);
+        if (index >= 0)
+        {
+            GetContainerParent()->m_allInfo[index].tabText = text;
+            GetContainerParent()->SetTabSize();
+        }
     }
 
     // Sets the Image List for toolbars.
