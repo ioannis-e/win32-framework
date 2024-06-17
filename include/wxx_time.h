@@ -72,8 +72,8 @@
 
 //  On systems where time_t is defined as a 32-bit integer, there is an
 //  upper date limit of January 18, 19:14:07, 2038. This issue can affect
-//  code compiled with Visual Studio 6 and Visual Studio 2003.
-//  Visual Studio 2005 and later defines time_t as a 64 bit integer.
+//  code compiled with Visual Studio 2003. Visual Studio 2005 and later
+//  defines time_t as a 64 bit integer.
 
 //  Windows also has other time types that also interface with the CTime
 //  type. These are FILETIME, SYSTEMTIME, and MS-DOS date and time, each

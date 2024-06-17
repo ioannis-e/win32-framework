@@ -618,8 +618,8 @@ void CMainFrame::SetStatusParts()
 
     // Insert the width for the first status bar part into the vector.
     CRect clientRect = GetClientRect();
-    const int minWidth = 300;
-    int width = MAX(minWidth, clientRect.right);
+    const LONG minWidth = 300;
+    int width = std::max(minWidth, clientRect.right);
     std::vector<int>::iterator begin = partWidths.begin();
     partWidths.insert(begin, width - sumWidths);
 
@@ -644,20 +644,21 @@ void CMainFrame::SetupMenuIcons()
 // Set the resource IDs and images for the toolbar buttons.
 void CMainFrame::SetupToolBar()
 {
-    AddToolBarButton( IDM_FILE_NEW   );
-    AddToolBarButton( IDM_FILE_OPEN  );
-    AddToolBarButton( IDM_FILE_SAVE  );
+    AddToolBarButton(IDM_FILE_NEW);
+    AddToolBarButton(IDM_FILE_OPEN);
+    AddToolBarButton(IDM_FILE_SAVE);
+    AddToolBarButton(IDM_FILE_SAVEAS);
 
-    AddToolBarButton( 0 );               // Separator
-    AddToolBarButton( IDM_EDIT_CUT   );  // disabled button
-    AddToolBarButton( IDM_EDIT_COPY  );  // disabled button
-    AddToolBarButton( IDM_EDIT_PASTE );  // disabled button
+    AddToolBarButton(0);               // Separator
+    AddToolBarButton(IDM_EDIT_CUT);    // disabled button
+    AddToolBarButton(IDM_EDIT_COPY);   // disabled button
+    AddToolBarButton(IDM_EDIT_PASTE);  // disabled button
 
-    AddToolBarButton( 0 );               // Separator
-    AddToolBarButton( IDM_FILE_PRINT );
+    AddToolBarButton(0);               // Separator
+    AddToolBarButton(IDM_FILE_PRINT);
 
-    AddToolBarButton( 0 );               // Separator
-    AddToolBarButton( IDM_HELP_ABOUT );
+    AddToolBarButton(0);               // Separator
+    AddToolBarButton(IDM_HELP_ABOUT);
 }
 
 // Sets the frame's title.

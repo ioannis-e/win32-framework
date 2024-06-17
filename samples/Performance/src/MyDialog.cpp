@@ -64,7 +64,7 @@ void CMyDialog::OnOK()
     // Note 1: A Windows limit of 10000 handles per process imposes a practical limit of aprox 1000 test windows.
     //         Refer to: http://support.microsoft.com/kb/327699
     // Note 2: Creating (or destroying) more than say 200 windows may temporarily stress the Explorer process.
-    int nWindows = MIN(1000, GetDlgItemInt(IDC_WINDOWS, FALSE));
+    int nWindows = std::min(1000U, GetDlgItemInt(IDC_WINDOWS, FALSE));
 
     // Get the number of test messages to send
     int nTestMessages = GetDlgItemInt(IDC_MESSAGES, FALSE);

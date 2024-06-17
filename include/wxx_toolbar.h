@@ -184,7 +184,7 @@ namespace Win32xx
         CBitmap bitmap(bitmapID);
         assert (bitmap.GetHandle());
         BITMAP data = bitmap.GetBitmapData();
-        int imageWidth  = MAX(data.bmHeight, 16);
+        int imageWidth  = std::max(static_cast<int>(data.bmHeight), 16);
         int images = data.bmWidth / imageWidth;
 
         TBADDBITMAP tbab;
@@ -270,7 +270,7 @@ namespace Win32xx
         BITMAP data = bitmap.GetBitmapData();
 
         int imageHeight = data.bmHeight;
-        int imageWidth = MAX(data.bmHeight, 16);
+        int imageWidth = std::max(static_cast<int>(data.bmHeight), 16);
 
         // Set the bitmap size first.
         SetBitmapSize(imageWidth, imageHeight);
@@ -811,7 +811,7 @@ namespace Win32xx
         CBitmap Bitmap(newBitmapID);
         assert (Bitmap.GetHandle());
         BITMAP data = Bitmap.GetBitmapData();
-        int imageWidth  = MAX(data.bmHeight, 16);
+        int imageWidth  = std::max(static_cast<int>(data.bmHeight), 16);
         int images = data.bmWidth / imageWidth;
 
         TBREPLACEBITMAP tbrb;

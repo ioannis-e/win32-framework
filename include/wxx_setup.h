@@ -161,7 +161,7 @@ using namespace Win32xx;
 #define MIN(a,b)        (((a) < (b)) ? (a) : (b))
 
 // Version macro
-#define _WIN32XX_VER 0x0952     // Win32++ version 9.5.2
+#define _WIN32XX_VER 0x0960     // Win32++ version 9.6
 
 // Define the TRACE Macro.
 // In debug mode, TRACE send text to the debug/output pane, or an external debugger

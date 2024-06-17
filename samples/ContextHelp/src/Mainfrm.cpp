@@ -113,17 +113,14 @@ CString CMainFrame::CreateAppDataFolder(const CString& subfolder)
     int to = subfolder.GetLength();
     while (from < to)
     {
-        int nextbk = subfolder.Find(_T("\\"), from);
-        int nextfwd = subfolder.Find(_T("/"), from);
-        int next = MAX(nextbk, nextfwd);
+        int next = subfolder.Find(_T("\\"), from);
         if (next < 0)
             next = to;
 
         CString add = subfolder.Mid(from, next - from);
         appDataPath += _T("\\") + add;
-        ::CreateDirectory(appDataPath, NULL);
 
-        if ((::CreateDirectory(appDataPath, NULL) == 0) && GetLastError() != ERROR_ALREADY_EXISTS)
+        if (!::CreateDirectory(appDataPath, NULL) && GetLastError() != ERROR_ALREADY_EXISTS)
         {
             CString msg = appDataPath + _T("Directory creation error.");
             throw CUserException(msg);

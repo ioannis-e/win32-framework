@@ -50,8 +50,8 @@ CRect CView::GetImageRect()
     int heightInPixels = MulDiv(height, dc.GetDeviceCaps(LOGPIXELSY), HIMETRIC_INCH);
 
     CRect imageRect;
-    imageRect.right = MAX(widthInPixels, 200);
-    imageRect.bottom = MAX(heightInPixels, 200);
+    imageRect.right = std::max(widthInPixels, 200);
+    imageRect.bottom = std::max(heightInPixels, 200);
     return imageRect;
 }
 

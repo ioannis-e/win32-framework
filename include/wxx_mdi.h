@@ -760,7 +760,7 @@ namespace Win32xx
             if (menuItems > 0)
             {
                 // The Window menu is typically second from the right
-                int windowItem = MAX(menuItems - 2, 0);
+                int windowItem = std::max(menuItems - 2, 0);
                 CMenu menuWindow = menu.GetSubMenu(windowItem);
 
                 if (menuWindow.GetHandle())

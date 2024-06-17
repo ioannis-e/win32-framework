@@ -869,7 +869,7 @@ namespace Win32xx
                 CRect rc = GetWindowRect();
                 CMemDC memDC(dc);
                 int rcAdjust = (GetExStyle() & WS_EX_CLIENTEDGE) ? 2 : 0;
-                int width = MAX(rc.Width() - rcAdjust, 0);
+                int width = std::max(rc.Width() - rcAdjust, 0);
 
                 int height = m_pDocker->m_ncHeight + rcAdjust;
                 memDC.CreateCompatibleBitmap(dc, width, height);
@@ -903,7 +903,8 @@ namespace Win32xx
                 int cxSmallIcon = ::GetSystemMetrics(SM_CXSMICON) * GetWindowDpi(*this) / GetWindowDpi(HWND_DESKTOP);
                 int cx = (m_pDocker->GetDockStyle() & DS_NO_CLOSE) ? 0 : cxSmallIcon;
                 CRect rcText(4 + rcAdjust, rcAdjust, rc.Width() - 4 - cx - rcAdjust, m_pDocker->m_ncHeight + rcAdjust);
-                memDC.DrawText(m_caption, m_caption.GetLength(), rcText, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+                memDC.DrawText(m_caption, m_caption.GetLength(), rcText, DT_LEFT | DT_VCENTER |
+                    DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
 
                 // Draw the close button.
                 if (!(m_pDocker->GetDockStyle() & DS_NO_CLOSE))
@@ -1130,7 +1131,7 @@ namespace Win32xx
                                     pParentC->GetDocker()->RecalcDockLayout();
                                 else
                                 {
-                                    pParentC->SelectPage(MAX(tab - 1, 0));
+                                    pParentC->SelectPage(std::max(tab - 1, 0));
                                     pParentC->RecalcLayout();
                                 }
                             }
@@ -1468,13 +1469,13 @@ namespace Win32xx
         {
             Width = rcDockDrag.Width();
             if (Width >= (rcDockTarget.Width() - pDockDrag->GetBarWidth()))
-                Width = MAX(rcDockTarget.Width()/2 - pDockDrag->GetBarWidth(), pDockDrag->GetBarWidth());
+                Width = std::max(rcDockTarget.Width()/2 - pDockDrag->GetBarWidth(), pDockDrag->GetBarWidth());
         }
         else
         {
             Width = rcDockDrag.Height();
             if (Width >= (rcDockTarget.Height() - pDockDrag->GetBarWidth()))
-                Width = MAX(rcDockTarget.Height()/2 - pDockDrag->GetBarWidth(), pDockDrag->GetBarWidth());
+                Width = std::max(rcDockTarget.Height()/2 - pDockDrag->GetBarWidth(), pDockDrag->GetBarWidth());
         }
         switch (dockSide)
         {
@@ -1524,13 +1525,13 @@ namespace Win32xx
         {
             width = rcDockDrag.Width();
             if (width >= rcDockClient.Width() - barWidth)
-                width = MAX(rcDockClient.Width()/2 - barWidth, barWidth);
+                width = std::max(rcDockClient.Width()/2 - barWidth, barWidth);
         }
         else
         {
             width = rcDockDrag.Height();
             if (width >= rcDockClient.Height() - barWidth)
-                width = MAX(rcDockClient.Height()/2 - barWidth, barWidth);
+                width = std::max(rcDockClient.Height()/2 - barWidth, barWidth);
         }
 
         bool isRTL = false;
@@ -1604,7 +1605,7 @@ namespace Win32xx
                 CSize imageSize = pDragged->GetImages().GetIconSize();
                 CSize textSize1 = pDragged->GetMaxTabTextSize();
                 CSize textSize2 = pTarget->GetMaxTabTextSize();
-                int tabWidth = imageSize.cx + MAX(textSize1.cx, textSize2.cx) + gap;
+                int tabWidth = imageSize.cx + std::max(textSize1.cx, textSize2.cx) + gap;
                 rgn.CreateRectRgn(0, 0, rcHint.Width(), rcHint.Height() - tabHeight);
                 assert(rgn.GetHandle());
                 CRgn rgn2;
@@ -2311,14 +2312,14 @@ namespace Win32xx
             int width = GetDockClient().GetWindowRect().Width();
             int barWidth = pDocker->GetBarWidth();
             if (pDocker->m_dockStartSize >= (width - barWidth))
-                pDocker->SetDockSize(MAX(width/2 - barWidth, barWidth));
+                pDocker->SetDockSize(std::max(width/2 - barWidth, barWidth));
         }
         else
         {
             int height = GetDockClient().GetWindowRect().Height();
             int barWidth = pDocker->GetBarWidth();
             if (pDocker->m_dockStartSize >= (height - barWidth))
-                pDocker->SetDockSize(MAX(height/2 - barWidth, barWidth));
+                pDocker->SetDockSize(std::max(height/2 - barWidth, barWidth));
         }
 
         // Redraw the docked windows.
@@ -2422,14 +2423,14 @@ namespace Win32xx
             int width = GetDockAncestor()->GetDockClient().GetWindowRect().Width();
             int barWidth = pDocker->GetBarWidth();
             if (pDocker->m_dockStartSize >= (width - barWidth))
-                pDocker->SetDockSize(MAX(width/2 - barWidth, barWidth));
+                pDocker->SetDockSize(std::max(width/2 - barWidth, barWidth));
         }
         else
         {
             int height = GetDockAncestor()->GetDockClient().GetWindowRect().Height();
             int barWidth = pDocker->GetBarWidth();
             if (pDocker->m_dockStartSize >= (height - barWidth))
-                pDocker->SetDockSize(MAX(height/2 - barWidth, barWidth));
+                pDocker->SetDockSize(std::max(height/2 - barWidth, barWidth));
         }
 
         // Redraw the docked windows.
@@ -3712,40 +3713,40 @@ namespace Win32xx
                 if (isRTL)
                 {
                     rcChild.left = rcChild.right - dockSize;
-                    rcChild.left = MIN(rcChild.left, rc.right - minSize);
-                    rcChild.left = MAX(rcChild.left, rc.left + minSize);
+                    rcChild.left = std::min(rcChild.left, rc.right - minSize);
+                    rcChild.left = std::max(rcChild.left, rc.left + minSize);
                 }
                 else
                 {
                     rcChild.right = rcChild.left + dockSize;
-                    rcChild.right = MAX(rcChild.right, rc.left + minSize);
-                    rcChild.right = MIN(rcChild.right, rc.right - minSize);
+                    rcChild.right = std::max(rcChild.right, rc.left + minSize);
+                    rcChild.right = std::min(rcChild.right, rc.right - minSize);
                 }
                 break;
             case DS_DOCKED_RIGHT:
                 if (isRTL)
                 {
                     rcChild.right = rcChild.left + dockSize;
-                    rcChild.right = MAX(rcChild.right, rc.left + minSize);
-                    rcChild.right = MIN(rcChild.right, rc.right - minSize);
+                    rcChild.right = std::max(rcChild.right, rc.left + minSize);
+                    rcChild.right = std::min(rcChild.right, rc.right - minSize);
                 }
                 else
                 {
                     rcChild.left = rcChild.right - dockSize;
-                    rcChild.left = MIN(rcChild.left, rc.right - minSize);
-                    rcChild.left = MAX(rcChild.left, rc.left + minSize);
+                    rcChild.left = std::min(rcChild.left, rc.right - minSize);
+                    rcChild.left = std::max(rcChild.left, rc.left + minSize);
                 }
 
                 break;
             case DS_DOCKED_TOP:
                 rcChild.bottom = rcChild.top + dockSize;
-                rcChild.bottom = MAX(rcChild.bottom, rc.top + minSize);
-                rcChild.bottom = MIN(rcChild.bottom, rc.bottom - minSize);
+                rcChild.bottom = std::max(rcChild.bottom, rc.top + minSize);
+                rcChild.bottom = std::min(rcChild.bottom, rc.bottom - minSize);
                 break;
             case DS_DOCKED_BOTTOM:
                 rcChild.top = rcChild.bottom - dockSize;
-                rcChild.top = MIN(rcChild.top, rc.bottom - minSize);
-                rcChild.top = MAX(rcChild.top, rc.top + minSize);
+                rcChild.top = std::min(rcChild.top, rc.bottom - minSize);
+                rcChild.top = std::max(rcChild.top, rc.top + minSize);
 
                 break;
             }
@@ -3824,6 +3825,8 @@ namespace Win32xx
 
         POINT pt = pDragPos->pos;
         VERIFY(ScreenToClient(pt));
+        int posX = pt.x;
+        int posY = pt.y;
 
         CDocker* pDocker = pDragPos->pDocker;
         assert(pDocker);
@@ -3844,27 +3847,27 @@ namespace Win32xx
         switch (pDocker->GetDockStyle() & 0xF)
         {
         case DS_DOCKED_LEFT:
-            if (isRTL) dockSize = rcDock.right - MAX(pt.x, barWidth / 2) - (barWidth / 2);
-            else     dockSize = MAX(pt.x, barWidth / 2) - rcDock.left - (barWidth / 2);
+            if (isRTL) dockSize = rcDock.right - std::max(posX, barWidth / 2) - (barWidth / 2);
+            else     dockSize = std::max(posX, barWidth / 2) - rcDock.left - (barWidth / 2);
 
-            dockSize = MAX(-barWidth, dockSize);
+            dockSize = std::max(-barWidth, dockSize);
             pDocker->SetDockSize(dockSize);
             break;
         case DS_DOCKED_RIGHT:
-            if (isRTL)  dockSize = MAX(pt.x, barWidth / 2) - rcDock.left - (barWidth / 2);
-            else      dockSize = rcDock.right - MAX(pt.x, barWidth / 2) - (barWidth / 2);
+            if (isRTL)  dockSize = std::max(posX, barWidth / 2) - rcDock.left - (barWidth / 2);
+            else      dockSize = rcDock.right - std::max(posX, barWidth / 2) - (barWidth / 2);
 
-            dockSize = MAX(-barWidth, dockSize);
+            dockSize = std::max(-barWidth, dockSize);
             pDocker->SetDockSize(dockSize);
             break;
         case DS_DOCKED_TOP:
-            dockSize = MAX(pt.y, barWidth / 2) - rcDock.top - (barWidth / 2);
-            dockSize = MAX(-barWidth, dockSize);
+            dockSize = std::max(posY, barWidth / 2) - rcDock.top - (barWidth / 2);
+            dockSize = std::max(-barWidth, dockSize);
             pDocker->SetDockSize(dockSize);
             break;
         case DS_DOCKED_BOTTOM:
-            dockSize = rcDock.bottom - MAX(pt.y, barWidth / 2) - (barWidth / 2);
-            dockSize = MAX(-barWidth, dockSize);
+            dockSize = rcDock.bottom - std::max(posY, barWidth / 2) - (barWidth / 2);
+            dockSize = std::max(-barWidth, dockSize);
             pDocker->SetDockSize(dockSize);
             break;
         }
@@ -4098,7 +4101,7 @@ namespace Win32xx
     // Sets the caption height based on the current text height.
     inline void CDocker::SetDefaultCaptionHeight()
     {
-        SetCaptionHeight(MAX(20, GetTextHeight() + 5));
+        SetCaptionHeight(std::max(20, GetTextHeight() + 5));
     }
 
     // Sets the dock client window for this docker.
@@ -4172,7 +4175,7 @@ namespace Win32xx
         CRect rc;
         rc = GetDockClient().GetWindowRect();
         CRect testRect = rc;
-        testRect.bottom = MIN(testRect.bottom, testRect.top + m_ncHeight);
+        testRect.bottom = std::min(testRect.bottom, testRect.top + m_ncHeight);
         if ( !testRect.PtInRect(pt))
             rc.SetRect(pt.x - rc.Width()/2, pt.y - m_ncHeight/2, pt.x + rc.Width()/2, pt.y - m_ncHeight/2 + rc.Height());
 
@@ -4694,7 +4697,8 @@ namespace Win32xx
 
                     // Draw the text.
                     dc.SelectObject(GetTabFont());
-                    dc.DrawText(str, -1, rcText, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+                    dc.DrawText(str, -1, rcText, DT_LEFT | DT_VCENTER |
+                        DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
                 }
             }
         }
@@ -4819,7 +4823,8 @@ namespace Win32xx
         assert(pBitmap->GetHandle());
         BITMAP data = pBitmap->GetBitmapData();
         int cy = data.bmHeight;
-        int cx = MAX(data.bmHeight, 16);
+        int dataHeight = data.bmHeight;
+        int cx = std::max(dataHeight, 16);
 
         return CSize(cx, cy);
     }
@@ -5079,7 +5084,7 @@ namespace Win32xx
         pWnd->m_pContainerParent = pWnd;
 
         // Display next lowest page.
-        m_currentPage = MAX(tab - 1, 0);
+        m_currentPage = std::max(tab - 1, 0);
         if (IsWindow() && updateParent)
         {
             if (GetItemCount() > 0)
@@ -5244,8 +5249,11 @@ namespace Win32xx
 
         if ((m_allInfo.size() > 0) && ((GetItemCount() != 1) || !m_isHideSingleTab))
         {
-            itemWidth = MIN(szImage.cx + GetMaxTabTextSize().cx + padding, (rc.Width() - 2) / static_cast<int>(m_allInfo.size()));
-            itemHeight = MAX(szImage.cy, GetTextHeight()) + padding;
+            int imageX = szImage.cx;
+            int imageY = szImage.cy;
+            int tabTextWidth = GetMaxTabTextSize().cx;
+            itemWidth = std::min(imageX + tabTextWidth + padding, (rc.Width() - 2) / static_cast<int>(m_allInfo.size()));
+            itemHeight = std::max(imageY, GetTextHeight()) + padding;
         }
 
         SetItemSize(itemWidth, itemHeight);

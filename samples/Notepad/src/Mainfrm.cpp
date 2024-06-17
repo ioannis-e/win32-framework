@@ -92,7 +92,7 @@ void CMainFrame::DetermineEncoding(CFile& file)
         try
         {
             file.SeekToBegin();
-            DWORD testlen = MIN(1024, (DWORD)fileLength);
+            DWORD testlen = std::min(1024, static_cast<int>(fileLength));
             std::vector<byte> buffer(testlen);
             file.Read(&buffer.front(), testlen);
 
@@ -958,8 +958,8 @@ void CMainFrame::SetStatusParts()
 
     // Insert the width for the first status bar part into the vector.
     CRect clientRect = GetClientRect();
-    const int minWidth = 300;
-    int width = MAX(minWidth, clientRect.right);
+    const LONG minWidth = 300;
+    int width = std::max(minWidth, clientRect.right);
     std::vector<int>::iterator begin = partWidths.begin();
     partWidths.insert(begin, width - sumWidths);
 
@@ -976,7 +976,7 @@ void CMainFrame::SetupMenuIcons()
 {
     std::vector<UINT> data = GetToolBarData();
     if ((GetMenuIconHeight() >= 24) && (GetWindowDpi(*this) != 192))
-        SetMenuIcons(data, RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR_DIS);
+        SetMenuIcons(data, RGB(192, 192, 192), IDW_MAIN);
     else
         SetMenuIcons(data, RGB(192, 192, 192), IDW_MENUICONS);
 }
@@ -985,21 +985,22 @@ void CMainFrame::SetupMenuIcons()
 void CMainFrame::SetupToolBar()
 {
     // Define the resource IDs for the toolbar
-    AddToolBarButton( IDM_FILE_NEW_PLAIN );
-    AddToolBarButton( IDM_FILE_NEW_RICH );
-    AddToolBarButton( IDM_FILE_OPEN  );
-    AddToolBarButton( IDM_FILE_SAVE  );
-    AddToolBarButton( 0 );              // Separator
-    AddToolBarButton( IDM_EDIT_CUT   );
-    AddToolBarButton( IDM_EDIT_COPY  );
-    AddToolBarButton( IDM_EDIT_PASTE );
-    AddToolBarButton( 0 );              // Separator
-    AddToolBarButton( IDM_FILE_PRINT );
-    AddToolBarButton( 0 );              // Separator
-    AddToolBarButton( IDM_HELP_ABOUT );
+    AddToolBarButton(IDM_FILE_NEW_PLAIN);
+    AddToolBarButton(IDM_FILE_NEW_RICH);
+    AddToolBarButton(IDM_FILE_OPEN);
+    AddToolBarButton(IDM_FILE_SAVE);
+    AddToolBarButton(IDM_FILE_SAVEAS);
+    AddToolBarButton(0);                // Separator
+    AddToolBarButton(IDM_EDIT_CUT);
+    AddToolBarButton(IDM_EDIT_COPY);
+    AddToolBarButton(IDM_EDIT_PASTE);
+    AddToolBarButton(0);                // Separator
+    AddToolBarButton(IDM_FILE_PRINT);
+    AddToolBarButton(0);                // Separator
+    AddToolBarButton(IDM_HELP_ABOUT);
 
     // Use separate imagelists for normal, hot and disabled buttons.
-    SetToolBarImages(RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR_HOT, IDB_TOOLBAR_DIS);
+//    SetToolBarImages(RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR_HOT, IDB_TOOLBAR_DIS);
 }
 
 // Sets the frame's title.
@@ -1024,10 +1025,10 @@ void CMainFrame::UpdateToolbar()
     BOOL canPaste = m_richView.CanPaste(CF_TEXT);
     BOOL isDirty = m_richView.GetModify();
 
+    GetToolBar().EnableButton(IDM_FILE_SAVE, isDirty);
     GetToolBar().EnableButton(IDM_EDIT_COPY, isSelected);
     GetToolBar().EnableButton(IDM_EDIT_CUT, isSelected);
     GetToolBar().EnableButton(IDM_EDIT_PASTE, canPaste);
-    GetToolBar().EnableButton(IDM_FILE_SAVE, isDirty);
 }
 
 // Process the frame's window messages.

@@ -17,7 +17,6 @@ Win32++ supports the following compilers and development environments:
 * Microsoft Visual Studio Community 2013
 * Microsoft Visual Studio Community 2015
 * Microsoft Visual Studio Community 2019
-* Microsoft Visual Studio 6.0
 * Microsoft Visual Studio.net 2003
 * Microsoft Visual Studio 2005
 * Microsoft Visual Studio 2008

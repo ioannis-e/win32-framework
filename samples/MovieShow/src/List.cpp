@@ -439,7 +439,7 @@ void CViewList::SetLastColumnWidth()
             remainingWidth -= GetColumnWidth(i);
         }
 
-        SetColumnWidth(lastCol, MAX(remainingWidth, 100));
+        SetColumnWidth(lastCol, std::max(remainingWidth, 100));
     }
 }
 

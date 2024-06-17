@@ -900,7 +900,7 @@ namespace Win32xx
         assert(index >= 0);
         assert(ch);
 
-        index = MIN(index, GetLength());
+        index = std::min(index, GetLength());
         m_str.insert(index, &ch, 1);
 
         return static_cast<int>(m_str.size());
@@ -912,7 +912,7 @@ namespace Win32xx
     {
         assert(index >= 0);
 
-        index = MIN(index, GetLength());
+        index = std::min(index, GetLength());
         m_str.insert(index, str);
 
         return static_cast<int>(m_str.size());
@@ -1009,7 +1009,7 @@ namespace Win32xx
 
         assert(m_buf.size() > 0);
         assert(newLength <= static_cast<int>(m_buf.size() -1));
-        newLength = MIN(newLength, static_cast<int>(m_buf.size() -1));
+        newLength = std::min(newLength, static_cast<int>(m_buf.size() -1));
 
         T ch = 0;
         m_str.assign(static_cast<size_t>(newLength), ch);
@@ -1129,7 +1129,7 @@ namespace Win32xx
         assert(count >= 0);
 
         CStringT str;
-        count = MIN(count, GetLength());
+        count = std::min(count, GetLength());
         str.m_str.assign(m_str, m_str.size() - static_cast<size_t>(count), static_cast<size_t>(count));
         return str;
     }

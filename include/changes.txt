@@ -1,14 +1,25 @@
-Version 9.5.3
-=============
+Version 9.6
+===========
 
 New Features and Enhancements
 -----------------------------
  * The NOMINMAX is defined before including <windows.h>.
-    This allows std::min and std::max to be used.
+    This allows std::min and std::max to be used. The MIN and MAX
+    macros are still supported for backwards compatibility, but
+    they are now depricated.
+
+ * Win32++ no longer supports Visual Studio 6 due to its poor standards
+    compliance.
 
  * Added the ScintillaDemo sample.
     This sample demonstrates how to use the Scintilla control with Win32++
     to develop a simple text editor.
+
+Changes in detail
+-----------------
+Added:   CTab::SetTabIcon         Additional overload.
+
+Added ScintillaDemo sample.
 
 
 Version 9.5.2

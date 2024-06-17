@@ -84,9 +84,9 @@ void CRichView::DoPrint(LPCTSTR docName)
     {
         // Acquire the currently selected printer and page settings.
         CDC printerDC = m_printDialog.GetPrinterDC();
-        m_printDialog.SetFromPage(MAX(m_printDialog.GetFromPage(), 1));
-        m_printDialog.SetToPage(MIN(m_printDialog.GetToPage(), CollatePages(printerDC)));
-        m_printDialog.SetFromPage(MIN(m_printDialog.GetFromPage(), m_printDialog.GetToPage()));
+        m_printDialog.SetFromPage(std::max(m_printDialog.GetFromPage(), 1));
+        m_printDialog.SetToPage(std::min(m_printDialog.GetToPage(), CollatePages(printerDC)));
+        m_printDialog.SetFromPage(std::min(m_printDialog.GetFromPage(), m_printDialog.GetToPage()));
 
         // Calculate the pages to print.
         std::vector<UINT> pages = SetPagesToPrint(printerDC);
@@ -335,8 +335,8 @@ std::vector<UINT> CRichView::SetPagesToPrint(const CDC& printerDC)
             UINT toPage = m_printDialog.GetToPage();
             if (fromPage <= toPage)
             {
-                fromPage = MAX(minPage, fromPage);
-                toPage = MIN(maxPage, toPage);
+                fromPage = std::max(minPage, fromPage);
+                toPage = std::min(maxPage, toPage);
 
                 // Loop for multiple pages.
                 for (UINT j = fromPage; j <= toPage; j++)
@@ -351,8 +351,8 @@ std::vector<UINT> CRichView::SetPagesToPrint(const CDC& printerDC)
             }
             else
             {
-                fromPage = MIN(maxPage, fromPage);
-                toPage = MAX(minPage, toPage);
+                fromPage = std::min(maxPage, fromPage);
+                toPage = std::max(minPage, toPage);
 
                 // Loop for multiple pages in reverse order.
                 for (UINT j = fromPage; j >= toPage; j--)

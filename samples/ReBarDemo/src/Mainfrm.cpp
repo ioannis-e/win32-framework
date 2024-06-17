@@ -49,7 +49,7 @@ void CMainFrame::DpiScaleReBar()
 
     // Resize the rebar band holding the arrow toolbar.
     CSize sizeToolBar = m_toolBar.GetMaxSize();
-    int minxy = MIN(sizeToolBar.cx, sizeToolBar.cy);
+    int minxy = std::min(sizeToolBar.cx, sizeToolBar.cy);
     m_reBar.ResizeBand(0, CSize(minxy, minxy));
 }
 
@@ -308,7 +308,7 @@ void CMainFrame::SetReBarPos()
         cxRB += m_reBar.GetRowHeight(u);
 
     CRect rc = CFrame::GetViewRect();
-    int cyRB = MIN(cxRB, rc.Height());
+    int cyRB = std::min(cxRB, rc.Height());
 
     DWORD style = m_reBar.GetStyle();
     style &= CCS_VERT | CCS_BOTTOM; // Filter unwanted styles

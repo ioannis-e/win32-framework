@@ -92,7 +92,7 @@ void CMainFrame::DetermineEncoding(CFile& file)
         try
         {
             file.SeekToBegin();
-            DWORD testlen = MIN(1024, (DWORD)fileLength);
+            DWORD testlen = std::min(1024, static_cast<int>(fileLength));
             std::vector<byte> buffer(testlen);
             file.Read(&buffer.front(), testlen);
 
@@ -1001,8 +1001,8 @@ void CMainFrame::SetStatusParts()
 
     // Insert the width for the first status bar part into the vector.
     CRect clientRect = GetClientRect();
-    const int minWidth = 300;
-    int width = MAX(minWidth, clientRect.right);
+    const LONG minWidth = 300;
+    int width = std::max(minWidth, clientRect.right);
     std::vector<int>::iterator begin = partWidths.begin();
     partWidths.insert(begin, width - sumWidths);
 
