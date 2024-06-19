@@ -429,7 +429,7 @@ BOOL CMainFrame::OnFilePreview()
             m_preview.Create(*this);
 
         // Set the preview's owner for notification messages, and number of pages.
-        UINT maxPage = m_richView.CollatePages();
+        int maxPage = m_richView.CollatePages(printerDC);
         m_preview.DoPrintPreview(*this, maxPage);
 
         // Save the current Focus.
@@ -783,7 +783,8 @@ LRESULT CMainFrame::OnPreviewSetup()
         }
 
         // Initiate the print preview.
-        UINT maxPage = m_richView.CollatePages();
+        CDC printerDC = printDlg.GetPrinterDC();
+        int maxPage = m_richView.CollatePages(printerDC);
         m_preview.DoPrintPreview(*this, maxPage);
     }
 
@@ -883,7 +884,7 @@ void CMainFrame::SaveModifiedText()
 }
 
 // Set the encoding type.
-void CMainFrame::SetEncoding(UINT encoding)
+void CMainFrame::SetEncoding(int encoding)
 {
     m_encoding = encoding;
 
@@ -998,9 +999,6 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton(IDM_FILE_PRINT);
     AddToolBarButton(0);                // Separator
     AddToolBarButton(IDM_HELP_ABOUT);
-
-    // Use separate imagelists for normal, hot and disabled buttons.
-//    SetToolBarImages(RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR_HOT, IDB_TOOLBAR_DIS);
 }
 
 // Sets the frame's title.

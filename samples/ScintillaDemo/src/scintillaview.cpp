@@ -8,7 +8,7 @@
 
 const int blockSize = 128 * 1024;
 const COLORREF black = RGB(0, 0, 0);
-const COLORREF gray  = RGB(127, 127, 127);
+const COLORREF gray  = RGB(159, 159, 159);
 const COLORREF white = RGB(255, 255, 255);
 
 // Constructor.
@@ -73,7 +73,7 @@ Sci_Position ScintillaView::CollatePages(Sci_Position startChar, Sci_Position en
 }
 
 // Returns the maximum printable area of rendering device.
-Sci_Rectangle ScintillaView::GetPageRect(CDC& dc) const
+Sci_Rectangle ScintillaView::GetPageRect(const CDC& dc) const
 {
     // Retrieve the physical page size (in device units).
     CPoint ptPage;
@@ -105,10 +105,18 @@ Sci_Rectangle ScintillaView::GetPageRect(CDC& dc) const
 }
 
 // Returns a rectangle specifying the area to print to.
-Sci_Rectangle ScintillaView::GetPrintRect(CDC& dc) const
+Sci_Rectangle ScintillaView::GetPrintRect(const CDC& dc) const
 {
+    // Scale the print margins to the device dpi.
+    int dpiX = dc.GetDeviceCaps(LOGPIXELSX);
+    int dpiY = dc.GetDeviceCaps(LOGPIXELSY);
+    Sci_Rectangle printMargins = { dpiX / 6, dpiY / 6, dpiX / 6, dpiY / 6 };
+
+    // Adjust the page margins to accomodate the header and footer.
+    printMargins.top += dpiY / 4;
+    printMargins.bottom += dpiY / 4;
+
     Sci_Rectangle pageRect = GetPageRect(dc);
-    Sci_Rectangle printMargins = GetPrintMargins(dc);
     Sci_Rectangle printRect;
 
     printRect.left = pageRect.left + printMargins.left;
@@ -122,19 +130,6 @@ Sci_Rectangle ScintillaView::GetPrintRect(CDC& dc) const
     return printRect;
 }
 
-// Returns the margins to reduce the maximum printable area by for printing.
-Sci_Rectangle ScintillaView::GetPrintMargins(CDC& dc) const
-{
-    Sci_Rectangle pageMargins = {100, 100, 100, 100};
-    int dpiY = dc.GetDeviceCaps(LOGPIXELSY);
-
-    // Adjust the page margins to accomodate the header and footer.
-    pageMargins.top += dpiY / 4;
-    pageMargins.bottom += dpiY / 4;
-
-    return pageMargins;
-}
-
 void ScintillaView::InitialiseEditor()
 {
     m_directPointer = SendMessage(SCI_GETDIRECTPOINTER, 0, 0);
@@ -145,8 +140,8 @@ void ScintillaView::InitialiseEditor()
     assert(m_directFunction);
 
     // Set up the attributes of the global default style.
-    StyleSetFont(STYLE_DEFAULT, "Consolas");
-    StyleSetSize(STYLE_DEFAULT, 11);
+    StyleSetFont(STYLE_DEFAULT, "Courier New");
+    StyleSetSize(STYLE_DEFAULT, 10);
     StyleSetBack(STYLE_DEFAULT, white);
     StyleSetFore(STYLE_DEFAULT, black);
     StyleClearAll();
@@ -227,8 +222,8 @@ void ScintillaView::PrintFooter(CDC& dc, const CString& footerText) const
     dc.GetTextMetrics(tm);
     int headerLineHeight = tm.tmHeight + tm.tmExternalLeading;
     dc.CreatePen(0, 1, gray);
-    dc.MoveTo(m_fr.rc.left, m_fr.rc.bottom + (headerLineHeight / 4));
-    dc.LineTo(m_fr.rc.right, m_fr.rc.bottom + (headerLineHeight / 4));
+    dc.MoveTo(m_fr.rc.left, m_fr.rc.bottom + (headerLineHeight / 2));
+    dc.LineTo(m_fr.rc.right, m_fr.rc.bottom + (headerLineHeight / 2));
 }
 
 // Prints the header part of the page.
@@ -250,13 +245,13 @@ void ScintillaView::PrintHeader(CDC& dc, const CString& headerText) const
     dc.GetTextMetrics(tm);
     int headerLineHeight = tm.tmHeight + tm.tmExternalLeading;
     dc.CreatePen(0, 1, gray);
-    dc.MoveTo(m_fr.rc.left, m_fr.rc.top - headerLineHeight / 4);
-    dc.LineTo(m_fr.rc.right, m_fr.rc.top - headerLineHeight / 4);
+    dc.MoveTo(m_fr.rc.left, m_fr.rc.top - headerLineHeight / 2);
+    dc.LineTo(m_fr.rc.right, m_fr.rc.top - headerLineHeight / 2);
 }
 
 // Prints the specified page to specified dc.
 // Called by CPrintPreview, and also used for printing.
-void ScintillaView::PrintPage(CDC& dc, size_t page)
+void ScintillaView::PrintPage(CDC& dc, int page)
 {
     CPrintDialog printDlg;
     CDC printerDC = printDlg.GetPrinterDC();

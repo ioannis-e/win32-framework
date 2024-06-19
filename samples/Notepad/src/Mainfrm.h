@@ -83,7 +83,7 @@ private:
     void RestoreFocus() { ::SetFocus(m_oldFocus); }
     void SaveFocus() { m_oldFocus = ::GetFocus(); }
     void SaveModifiedText();
-    void SetEncoding(UINT encoding);
+    void SetEncoding(int encoding);
     void SetPathName(LPCTSTR fullFileName);
 
     void SetWindowTitle();
@@ -97,7 +97,7 @@ private:
     CString m_cap;
     CString m_num;
     CString m_ovr;
-    UINT m_encoding;
+    int  m_encoding;
     bool m_isToolbarShown;
     bool m_isWrapped;
     bool m_isRTF;

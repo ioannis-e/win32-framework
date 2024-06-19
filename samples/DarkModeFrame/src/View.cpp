@@ -73,7 +73,7 @@ void CView::PreRegisterClass(WNDCLASS& wc)
 // Prints the specified page to the specified device context.
 // Here we copy (stretch) a bitmap image of the view window
 // to the printed page.
-void CView::PrintPage(CDC& dc, UINT)
+void CView::PrintPage(CDC& dc, int)
 {
     try
     {

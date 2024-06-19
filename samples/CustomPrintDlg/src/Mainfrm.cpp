@@ -920,7 +920,7 @@ void CMainFrame::SaveModifiedText()
 }
 
 // Set the encoding type.
-void CMainFrame::SetEncoding(UINT encodeMode)
+void CMainFrame::SetEncoding(int encodeMode)
 {
     m_encodeMode = encodeMode;
     SetStatusIndicators();
@@ -1020,7 +1020,7 @@ void CMainFrame::SetupMenuIcons()
 {
     std::vector<UINT> data = GetToolBarData();
     if ((GetMenuIconHeight() >= 24) && (GetWindowDpi(*this) != 192))
-        SetMenuIcons(data, RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR_DIS);
+        SetMenuIcons(data, RGB(192, 192, 192), IDW_MAIN);
     else
         SetMenuIcons(data, RGB(192, 192, 192), IDW_MENUICONS);
 }
@@ -1029,21 +1029,19 @@ void CMainFrame::SetupMenuIcons()
 void CMainFrame::SetupToolBar()
 {
     // Define the resource IDs for the toolbar
-    AddToolBarButton( IDM_FILE_NEW_PLAIN );
-    AddToolBarButton( IDM_FILE_NEW_RICH );
-    AddToolBarButton( IDM_FILE_OPEN  );
-    AddToolBarButton( IDM_FILE_SAVE  );
-    AddToolBarButton( 0 );              // Separator
-    AddToolBarButton( IDM_EDIT_CUT   );
-    AddToolBarButton( IDM_EDIT_COPY  );
-    AddToolBarButton( IDM_EDIT_PASTE );
-    AddToolBarButton( 0 );              // Separator
-    AddToolBarButton( IDM_FILE_PRINT );
-    AddToolBarButton( 0 );              // Separator
-    AddToolBarButton( IDM_HELP_ABOUT );
-
-    // Use separate imagelists for normal, hot and disabled buttons.
-    SetToolBarImages(RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR_HOT, IDB_TOOLBAR_DIS);
+    AddToolBarButton(IDM_FILE_NEW_PLAIN);
+    AddToolBarButton(IDM_FILE_NEW_RICH);
+    AddToolBarButton(IDM_FILE_OPEN);
+    AddToolBarButton(IDM_FILE_SAVE);
+    AddToolBarButton(IDM_FILE_SAVEAS);
+    AddToolBarButton(0);                // Separator
+    AddToolBarButton(IDM_EDIT_CUT);
+    AddToolBarButton(IDM_EDIT_COPY);
+    AddToolBarButton(IDM_EDIT_PASTE);
+    AddToolBarButton(0);                // Separator
+    AddToolBarButton(IDM_FILE_PRINT);
+    AddToolBarButton(0);                // Separator
+    AddToolBarButton(IDM_HELP_ABOUT);
 }
 
 // Sets the frame's title.

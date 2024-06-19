@@ -69,7 +69,7 @@ void CView::Print(LPCTSTR docName)
 }
 
 // Prints the image on either the preview pane or the printer.
-void CView::PrintPage(CDC& dc, UINT)
+void CView::PrintPage(CDC& dc, int)
 {
     try
     {

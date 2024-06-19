@@ -26,7 +26,7 @@ CRichView::~CRichView()
 
 // Calculates the character position of the page breaks, and returns
 // the number of pages.
-UINT CRichView::CollatePages()
+int CRichView::CollatePages()
 {
     CPrintDialog printDlg;
     CDC printerDC = printDlg.GetPrinterDC();
@@ -62,7 +62,7 @@ UINT CRichView::CollatePages()
     m_pageBreaks.push_back(-1);
 
     // Return the number of pages.
-    return static_cast<UINT>(m_pageBreaks.size());
+    return static_cast<int>(m_pageBreaks.size());
 }
 
 // Choose the printer and start the print job.
@@ -153,7 +153,7 @@ void CRichView::PreCreate(CREATESTRUCT& cs)
 
 // Prints the specified page to specified dc.
 // Called by CPrintPreview, and also used for printing.
-void CRichView::PrintPage(CDC& dc, UINT page)
+void CRichView::PrintPage(CDC& dc, int page)
 {
     CPrintDialog printDlg;
     CDC printerDC = printDlg.GetPrinterDC();
@@ -205,8 +205,8 @@ void CRichView::QuickPrint(LPCTSTR docName)
     di.lpszOutput = NULL;   // Do not print to file.
     printerDC.StartDoc(&di);
 
-    UINT maxPages = CollatePages();
-    for (UINT page = 0; page < maxPages; ++page)
+    int maxPages = CollatePages();
+    for (int page = 0; page < maxPages; ++page)
     {
         // Start the page.
         printerDC.StartPage();

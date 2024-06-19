@@ -14,9 +14,9 @@ class CRichView : public CRichEdit
 public:
     CRichView();
     virtual ~CRichView();
-    UINT  CollatePages();
+    int  CollatePages(const CDC& printerDC, int startChar = 0, int endChar = -1);
     void  DoPrint(LPCTSTR docName);
-    void  PrintPage(CDC& dc, UINT page);
+    void  PrintPage(CDC& dc, int page);
     void  QuickPrint(LPCTSTR docName);
     void  SetFontDefaults();
 
@@ -29,8 +29,8 @@ private:
     CRichView(const CRichView&);               // Disable copy construction
     CRichView& operator=(const CRichView&);    // Disable assignment operator
 
-    CRect GetPageRect();
-    CRect GetPrintRect();
+    CRect GetPageRect(const CDC& dc);
+    CRect GetPrintRect(const CDC& dc);
     std::vector<int> m_pageBreaks;
 };
 

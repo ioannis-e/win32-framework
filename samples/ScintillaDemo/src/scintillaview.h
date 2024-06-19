@@ -18,15 +18,14 @@ public:
     virtual ~ScintillaView();
 
     Sci_Position CollatePages(Sci_Position startChar = 0, Sci_Position endChar = -1);
-    Sci_Rectangle GetPageRect(CDC& dc) const;
-    Sci_Rectangle GetPrintMargins(CDC& dc) const;
-    Sci_Rectangle GetPrintRect(CDC& dc) const;
+    Sci_Rectangle GetPageRect(const CDC& dc) const;
+    Sci_Rectangle GetPrintRect(const CDC& dc) const;
 
     void InitialiseEditor();
     void OpenFile(LPCWSTR fileName);
     void PrintFooter(CDC& dc, const CString& footerText) const;
     void PrintHeader(CDC& dc, const CString& headerText) const;
-    void PrintPage(CDC& dc, size_t page);
+    void PrintPage(CDC& dc, int page);
     void QuickPrint(LPCTSTR docName);
     void SaveFile(LPCWSTR fullPath);
     void SetHeaderText(const CString& headerText) { m_header = headerText; }
