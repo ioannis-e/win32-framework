@@ -44,6 +44,7 @@ public:
     Sci_Position FormatRangeFull(bool draw, Sci_RangeToFormatFull* fr);
     bool GetModify();
     void GetRangeFull(Sci_Position start, Sci_Position end, char* text);
+    int  GetWrapMode();
     Sci_Position GetTextLength();
     Sci_Position GetSelectionEnd();
     Sci_Position GetSelectionStart();
@@ -55,6 +56,7 @@ public:
     void SetScrollWidth(int pixelWidth);
     void SetScrollWidthTracking(bool tracking);
     void SetUndoCollection(bool collectUndo);
+    void SetWrapMode(int mode);
     void StyleClearAll();
     COLORREF StyleGetBack(int style);
     bool StyleGetBold(int style);

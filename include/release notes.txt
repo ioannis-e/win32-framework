@@ -139,7 +139,6 @@ The sample applications include:
  * Notepad - A simple text editor with printing.
  * Performance - Measures Win32++'s message handling speed.
  * Picture - A simple picture rendering application.
- * PrintPreview - Extends the Notepad sample by adding a print preview.
  * PropertySheets - A demonstration of property sheets.
  * RebarDemo - Demonstrates the how to add a second ReBar to a frame application.
  * RibbonDockFrame - Demonstrates how to use a ribbon with a Docking Frame.
@@ -147,6 +146,7 @@ The sample applications include:
  * RibbonMDIFrame - Demonstrates how to use the Windows 7 ribbon with a MDI frame.
  * RibbonSimple - Demonstrates how to use the Windows 7 ribbon with a simple window.
  * RoundWindow - Demonstrates how to use Win32++ to create a round window.
+ * ScintillaDemo - Demonstrates how to use a Scintilla control with Win32++.
  * Scribble - A simple drawing application.
  * ScrollTextFile - displays a text file in a scrollable window.
  * Simple - Creates a simple window.

@@ -52,6 +52,7 @@ private:
     BOOL    OnFilePreview();
     BOOL    OnOptionsBackground();
     BOOL    OnOptionsFont();
+    BOOL    OnOptionWordWrap();
 
     // Message handlers
     LRESULT OnDropFiles(UINT, WPARAM wparam, LPARAM);

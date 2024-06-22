@@ -115,15 +115,16 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
     case IDW_VIEW_STATUSBAR:  return OnViewStatusBar();
     case IDW_VIEW_TOOLBAR:    return OnViewToolBar();
     case IDM_HELP_ABOUT:      return OnHelp();
-    case IDM_EDIT_UNDO:       m_view.Undo(); break;
-    case IDM_EDIT_REDO:       m_view.Redo(); break;
-    case IDM_EDIT_CUT:        m_view.Cut(); break;
-    case IDM_EDIT_COPY:       m_view.Copy(); break;
-    case IDM_EDIT_PASTE:      m_view.Paste(); break;
-    case IDM_EDIT_DELETE:     m_view.Clear(); break;
-    case IDM_EDIT_SELECTALL:  m_view.SelectAll(); break;
+    case IDM_EDIT_UNDO:       m_view.Undo(); return TRUE;
+    case IDM_EDIT_REDO:       m_view.Redo(); return TRUE;
+    case IDM_EDIT_CUT:        m_view.Cut(); return TRUE;
+    case IDM_EDIT_COPY:       m_view.Copy(); return TRUE;
+    case IDM_EDIT_PASTE:      m_view.Paste(); return TRUE;
+    case IDM_EDIT_DELETE:     m_view.Clear(); return TRUE;
+    case IDM_EDIT_SELECTALL:  m_view.SelectAll(); return TRUE;
     case IDM_OPTION_FONT:     return OnOptionsFont();
     case IDM_OPTION_BACKGROUND: return OnOptionsBackground();
+    case IDM_OPTION_WORDWRAP: return OnOptionWordWrap();
 
     case IDW_FILE_MRU_FILE1:
     case IDW_FILE_MRU_FILE2:
@@ -409,6 +410,7 @@ BOOL CMainFrame::OnFileMRU(WPARAM wparam)
 void CMainFrame::OnMenuUpdate(UINT id)
 {
     UINT enabled;
+    UINT checked;
 
     switch (id)
     {
@@ -446,6 +448,13 @@ void CMainFrame::OnMenuUpdate(UINT id)
         GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
+    case IDM_OPTION_WORDWRAP:
+    {
+        checked = m_view.GetWrapMode() ? MF_CHECKED : MF_UNCHECKED;
+        GetFrameMenu().CheckMenuItem(id, checked);
+        break;
+    }
+
     }
 
     CFrame::OnMenuUpdate(id);
@@ -508,6 +517,15 @@ BOOL CMainFrame::OnOptionsFont()
         m_view.StyleSetUnderLine(STYLE_DEFAULT, cf.dwEffects & CFE_UNDERLINE);
         m_view.StyleClearAll();                                      // Put this last.
     }
+
+    return TRUE;
+}
+
+BOOL CMainFrame::OnOptionWordWrap()
+{
+    int mode = m_view.GetWrapMode();
+    int newMode = (mode == 0) ? 1 : 0;
+    m_view.SetWrapMode(newMode);
 
     return TRUE;
 }

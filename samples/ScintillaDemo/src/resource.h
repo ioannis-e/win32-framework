@@ -28,6 +28,7 @@
 #define IDM_EDIT_SELECTALL              136
 #define IDM_OPTION_FONT                 137
 #define IDM_OPTION_BACKGROUND           138
+#define IDM_OPTION_WORDWRAP             139
 #define IDM_HELP_ABOUT                  140
 #define IDB_MENUICONS                   150
 #define IDW_INDICATOR_INS               160

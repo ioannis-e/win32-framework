@@ -1,8 +1,24 @@
 Version 9.6
 ===========
+This version adds support for std::min and std::max. The MIN and MAX macros
+are now depricated. Users should now use std::min and std::max in place of the
+MIN and MAX macros.
+
+Support has been added for the C++ compiler from Embarcadero.
+
+This version also adds the ScintillaDemo sample. Scintilla is a free source code
+and text editing component. On Windows, Scintilla is a Windows control that can be
+as a direct replacement for a RichEdit control. Scintilla has a number of features
+missing RichEdit controls and has better support for printing.
+
+Scintilla can be downloaded from:
+https://www.scintilla.org/ScintillaDownload.html
 
 New Features and Enhancements
 -----------------------------
+ * Added support for the C++ from Embarcadero. 
+    The samples include the project files for C++ Builder 11 CE from Embarcadero.
+ 
  * Added support for std::min and std::max.
 
  * The MIN and MAX macros are are now depricated and will be removed in future

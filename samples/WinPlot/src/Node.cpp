@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 #include <cmath>
+#include <math.h>
 #include <vector>
 #include <map>
 #include "enums.h"
@@ -61,7 +62,7 @@ namespace Calc
                 break;
 
             case tPower:
-                Value = pow(Value, NodeVal);
+				Value = pow(Value, NodeVal);
                 break;
             default:
                 break;

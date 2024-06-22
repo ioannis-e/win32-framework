@@ -293,8 +293,8 @@ void ScintillaView::QuickPrint(LPCTSTR docName)
     di.lpszOutput = NULL;   // Do not print to file.
     printerDC.StartDoc(&di);
 
-    size_t maxPages = CollatePages();
-    for (size_t page = 0; page < maxPages; ++page)
+    int maxPages = CollatePages();
+    for (int page = 0; page < maxPages; ++page)
     {
         // Start the page.
         printerDC.StartPage();
@@ -431,6 +431,11 @@ Sci_Position ScintillaView::GetSelectionStart()
     return Call(SCI_GETSELECTIONSTART, 0, 0);
 }
 
+int  ScintillaView::GetWrapMode()
+{
+    return static_cast<int>(Call(SCI_GETWRAPMODE, 0, 0));
+}
+
 Sci_Position ScintillaView::GetTextLength()
 {
     return Call(SCI_GETTEXTLENGTH, 0, 0);
@@ -474,6 +479,11 @@ void ScintillaView::SetScrollWidthTracking(bool tracking)
 void ScintillaView::SetUndoCollection(bool collectUndo)
 {
     Call(SCI_SETUNDOCOLLECTION, collectUndo, 0);
+}
+
+void ScintillaView::SetWrapMode(int mode)
+{
+    Call(SCI_SETWRAPMODE, mode, 0);
 }
 
 void ScintillaView::StyleClearAll()

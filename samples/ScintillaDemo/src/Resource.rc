@@ -65,6 +65,7 @@ BEGIN
     BEGIN
         MENUITEM "Choose Font\tCtrl+F",         IDM_OPTION_FONT
         MENUITEM "Background Color\tCtrl+B",    IDM_OPTION_BACKGROUND
+        MENUITEM "Word wrap",                   IDM_OPTION_WORDWRAP, CHECKED
     END
     POPUP "&View"
     BEGIN
@@ -105,7 +106,7 @@ IDB_MENUICONS           BITMAP                  "../src/res/MenuIcons.bmp"
 IDW_ABOUT DIALOGEX 0, 0, 186, 90
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "About"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+FONT 8, "MS Shell Dlg", 400, 0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,68,49,50,14
     CTEXT           "Scintilla Frame Application",IDC_STATIC,60,22,64,19
