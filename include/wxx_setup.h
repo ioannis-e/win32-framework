@@ -73,7 +73,7 @@
   #endif
 #endif
 
-#ifdef __BORLANDC__
+#if defined (__BORLANDC__) && (__BORLANDC__ < 0x600)
   #pragma option -w-8026            // functions with exception specifications are not expanded inline
   #pragma option -w-8027            // function not expanded inline
   #pragma option -w-8030            // Temporary used for 'rhs'
@@ -186,9 +186,8 @@ using namespace Win32xx;
 #endif
 
 // A macro to support noexcept for new compilers and throw for old compilers.
-// VS2015 and higher, Borland >= version 6), (GNU >= 11), or Clang.
+// VS2015 and higher, (GNU >= 11), or Clang.
 #if ((defined (_MSC_VER) && (_MSC_VER >= 1900)) || \
-        (defined(__BORLANDC__) && (__BORLANDC__ >= 0x600)) || \
         (defined(__GNUC__) && (__GNUC__ >= 11)) || \
         (defined(__clang_major__)))
 

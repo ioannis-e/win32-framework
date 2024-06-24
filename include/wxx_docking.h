@@ -759,7 +759,7 @@ namespace Win32xx
                 cursor = GetApp()->LoadCursor(IDW_SPLITV);
 
             if (cursor) SetCursor(cursor);
-            else TRACE("**WARNING** Missing cursor resource for slider bar\n");
+            else TRACE("\n*** WARNING Missing cursor resource for slider bar. ***\n");
 
             return TRUE;
         }
@@ -787,7 +787,9 @@ namespace Win32xx
         m_dragPos.hdr.code = messageID;
         m_dragPos.hdr.hwndFrom = GetHwnd();
         m_dragPos.pos = GetCursorPos();
-        m_dragPos.pos.x += 1;
+        if (GetDocker().GetDockStyle() & DS_CLIENTEDGE)
+            m_dragPos.pos.x += 1;
+
         m_dragPos.pDocker = m_pDocker;
         LPARAM lparam = reinterpret_cast<LPARAM>(&m_dragPos);
         GetParent().SendMessage(WM_NOTIFY, 0, lparam);
@@ -1678,7 +1680,7 @@ namespace Win32xx
             dc.DrawBitmap(0, 0, imageSize.cx, imageSize.cy, image, RGB(255, 0, 255));
         }
         else
-            TRACE("Missing docking resource\n");
+            TRACE("\n*** WARNING: Missing docking resource. ***\n");
     }
 
     inline void CDocker::CTarget::PreCreate(CREATESTRUCT& cs)
@@ -2131,29 +2133,29 @@ namespace Win32xx
         if (!(dockStyle & DS_NO_RESIZE))
         {
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SPLITH), RT_GROUP_CURSOR))
-                TRACE("**WARNING** Horizontal cursor resource missing\n");
+                TRACE("*** WARNING: Horizontal cursor resource missing. ***\n");
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SPLITV), RT_GROUP_CURSOR))
-                TRACE("**WARNING** Vertical cursor resource missing\n");
+                TRACE("*** WARNING: Vertical cursor resource missing. ***\n");
         }
 
         if (!(dockStyle & DS_NO_UNDOCK))
         {
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SDCENTER), RT_BITMAP))
-                TRACE("**WARNING** Docking center bitmap resource missing\n");
+                TRACE("*** WARNING: Docking center bitmap resource missing. ***\n");
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SDLEFT), RT_BITMAP))
-                TRACE("**WARNING** Docking left bitmap resource missing\n");
+                TRACE("*** WARNING: Docking left bitmap resource missing. ***\n");
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SDRIGHT), RT_BITMAP))
-                TRACE("**WARNING** Docking right bitmap resource missing\n");
+                TRACE("*** WARNING: Docking right bitmap resource missing. ***\n");
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SDTOP), RT_BITMAP))
-                TRACE("**WARNING** Docking top bitmap resource missing\n");
+                TRACE("*** WARNING: Docking top bitmap resource missing. ***\n");
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SDBOTTOM), RT_BITMAP))
-                TRACE("**WARNING** Docking center bottom resource missing\n");
+                TRACE("*** WARNING: Docking center bottom resource missing. ***\n");
         }
 
         if (dockStyle & DS_DOCKED_CONTAINER)
         {
             if (!FindResource(module, MAKEINTRESOURCE(IDW_SDMIDDLE), RT_BITMAP))
-                TRACE("**WARNING** Docking container bitmap resource missing\n");
+                TRACE("*** WARNING Docking container bitmap resource missing. ***\n");
         }
 
         RecalcDockLayout();
@@ -2906,7 +2908,7 @@ namespace Win32xx
 
             catch (const CUserException&)
             {
-                TRACE("*** Failed to load dock containers from registry. ***\n");
+                TRACE("*** WARNING: Failed to load dock containers from registry. ***\n");
                 CloseAllDockers();
 
                 // Delete the bad key from the registry.
@@ -3022,7 +3024,7 @@ namespace Win32xx
 
             catch (const CUserException&)
             {
-                TRACE("*** Failed to load dockers from registry. ***\n");
+                TRACE("*** WARNING: Failed to load dockers from registry. ***\n");
                 isLoaded = FALSE;
                 CloseAllDockers();
 
@@ -4012,7 +4014,7 @@ namespace Win32xx
 
             catch (const CUserException&)
             {
-                TRACE("*** Failed to save dock settings in registry. ***\n");
+                TRACE("*** WARNING: Failed to save dock settings in registry. ***\n");
 
                 // Roll back the registry changes by deleting the subkeys.
                 if (appKey.GetKey())
@@ -4461,7 +4463,7 @@ namespace Win32xx
     // A diagnostic routine that verifies the integrity of the docking layout.
     inline BOOL CDocker::VerifyDockers()
     {
-        BOOL Verified = TRUE;
+        BOOL isVerified = TRUE;
 
         // Check dock ancestor
         std::vector<DockPtr>::const_iterator iter;
@@ -4469,26 +4471,17 @@ namespace Win32xx
         for (iter = GetAllChildren().begin(); iter != GetAllChildren().end(); ++iter)
         {
             if (GetDockAncestor() != (*iter)->m_pDockAncestor)
-            {
-                TRACE("Invalid Dock Ancestor\n");
-                Verified = FALSE;
-            }
+                isVerified = FALSE;
         }
 
         // Check presence of dock parent.
         for (iter = GetAllChildren().begin(); iter != GetAllChildren().end(); ++iter)
         {
             if ((*iter)->IsUndocked() && (*iter)->m_pDockParent != NULL)
-            {
-                TRACE("Error: Undocked dockers should not have a dock parent\n");
-                Verified = FALSE;
-            }
+                isVerified = FALSE;
 
             if ((*iter)->IsDocked() && (*iter)->m_pDockParent == NULL)
-            {
-                TRACE("Error: Docked dockers should have a dock parent\n");
-                Verified = FALSE;
-            }
+                isVerified = FALSE;
         }
 
         // Check dock parent/child relationship.
@@ -4498,16 +4491,10 @@ namespace Win32xx
             for (iterChild = (*iter)->m_dockChildren.begin(); iterChild != (*iter)->m_dockChildren.end(); ++iterChild)
             {
                 if ((*iterChild)->m_pDockParent != (*iter).get())
-                {
-                    TRACE("Error: Docking parent/Child information mismatch\n");
-                    Verified = FALSE;
-                }
+                    isVerified = FALSE;
 
                 if ((*iterChild)->GetParent() != (*iter).get()->GetHwnd())
-                {
-                    TRACE("Error: Incorrect windows child parent relationship\n");
-                    Verified = FALSE;
-                }
+                    isVerified = FALSE;
             }
         }
 
@@ -4516,10 +4503,12 @@ namespace Win32xx
         {
             CDocker* pDockTopLevel = (*iter)->GetTopmostDocker();
             if (pDockTopLevel->IsDocked())
-                TRACE("Error: Top level parent should be undocked\n");
+                isVerified = FALSE;
         }
 
-        return Verified;
+        assert(isVerified);
+
+        return isVerified;
     }
 
     inline LRESULT CDocker::WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam)

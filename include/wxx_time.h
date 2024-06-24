@@ -269,8 +269,14 @@ namespace Win32xx
     (defined(__GNUC__) && (__GNUC__ >= 11)) || \
     defined(__clang_major__))
 
+#if defined(__BORLANDC__)
+        if (::localtime_s(&t, &atm) == 0)
+            ptm = NULL;
+#else
         if (::localtime_s(&atm, &t) != 0)
             ptm = NULL;
+#endif
+
 #else
         tm* ptmTemp = ::localtime(&t);
         if (ptmTemp != NULL)

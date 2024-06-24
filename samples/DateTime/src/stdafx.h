@@ -86,12 +86,12 @@
     #include <wxx_printdialogex.h>  // Add CPrintDialogEx
   #endif
 
-  // Windows Vista or higher with Microsoft VS2013 or higher,
-  // MinGW version 8 or higher or Clang compiler
-  #if (WINVER >= 0x0600) && ((defined (_MSC_VER) && (_MSC_VER >= 1800)) || defined(__clang_major__))
+  // Windows Vista or higher and Visual Studio VS2013 or higher,
+  // or with Visual Studio using Clang compiler
+  #if (WINVER >= 0x0600) && defined (_MSC_VER) && \
+      ((_MSC_VER >= 1800) || defined(__clang_major__))
     #include <wxx_ribbon.h>         // Add CRibbon, CRibbonFrame
   #endif
-
 
   // Windows Vista or higher with Microsoft VS2008 or higher,
   // MinGW version 8 or higher or Clang compiler. Requires Unicode.

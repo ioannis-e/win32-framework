@@ -237,9 +237,12 @@ namespace Win32xx
         wc.lpszClassName = RICHEDIT_CLASS;
 
         // For RichEdit version 4.1 (available on XP and above).
+        // Requires Unicode.
 #if defined MSFTEDIT_CLASS && defined UNICODE
         if (m_rich4_1 != NULL)
             wc.lpszClassName = MSFTEDIT_CLASS;
+#else
+        TRACE("\n*** WARNING: Using an old version of the RichEdit control ***\n\n");
 #endif
 
     }

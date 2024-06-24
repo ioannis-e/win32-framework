@@ -62,7 +62,7 @@ namespace Calc
                 break;
 
             case tPower:
-				Value = pow(Value, NodeVal);
+                Value = pow(Value, NodeVal);
                 break;
             default:
                 break;

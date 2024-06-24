@@ -293,7 +293,7 @@ void ScintillaView::QuickPrint(LPCTSTR docName)
     di.lpszOutput = NULL;   // Do not print to file.
     printerDC.StartDoc(&di);
 
-    int maxPages = CollatePages();
+    int maxPages = static_cast<int>(CollatePages());
     for (int page = 0; page < maxPages; ++page)
     {
         // Start the page.

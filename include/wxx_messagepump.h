@@ -139,7 +139,7 @@ namespace Win32xx
         }
         else
         {
-            TRACE("InitInstance failed!  Terminating the thread\n");
+            TRACE("\n*** ERROR:InitInstance failed!  Terminating the thread. ***\n\n");
             ::PostQuitMessage(-1);
             return -1;
         }

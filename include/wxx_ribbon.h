@@ -408,7 +408,7 @@ namespace Win32xx
             }
             else
             {
-                TRACE("Failed to create Ribbon\n");
+                TRACE("\n*** WARNING Failed to create Ribbon. ***\n\n");
                 DestroyRibbon();
             }
         }

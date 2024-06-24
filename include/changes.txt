@@ -31,6 +31,7 @@ New Features and Enhancements
 
 Changes in detail
 -----------------
+Added:   CString::Append
 Added:   CTab::SetTabIcon         Additional overload.
 
 Added:   ScintillaDemo sample.

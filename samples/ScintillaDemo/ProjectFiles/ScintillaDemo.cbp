@@ -17,6 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-g3" />
+					<Add option="-municode" />
 					<Add option="-D_DEBUG" />
 					<Add option="-DUNICODE" />
 					<Add option="-D_UNICODE" />
@@ -27,7 +28,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-static" />
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ole32" />
 					<Add library="Oleaut32" />
@@ -43,6 +44,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-municode" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DUNICODE" />
 					<Add option="-D_UNICODE" />
@@ -54,7 +56,7 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static" />
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ole32" />
 					<Add library="Oleaut32" />

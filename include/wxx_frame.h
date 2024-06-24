@@ -714,7 +714,7 @@ namespace Win32xx
         }
         else
         {
-            TRACE("Warning ... No resource IDs assigned to the toolbar\n");
+            TRACE("\n*** WARNING: No resource IDs assigned to the toolbar. ***\n\n");
             ShowToolBar(FALSE);
         }
 
@@ -1768,7 +1768,7 @@ namespace Win32xx
                     else
                     {
                         pathName.ReleaseBuffer();
-                        TRACE(_T("LoadRegistryMRUSettings: QueryStringValue failed\n"));
+                        TRACE(_T("\n*** WARNING: LoadRegistryMRUSettings: QueryStringValue failed. ***\n"));
                     }
                 }
             }
@@ -1859,7 +1859,7 @@ namespace Win32xx
 
             catch (const CUserException&)
             {
-                TRACE("*** Failed to load values from registry, using defaults. ***\n");
+                TRACE("*** ERROR: Failed to load values from registry, using defaults. ***\n");
 
                 // Delete the bad key from the registry.
                 const CString appKeyName = _T("Software\\") + m_keyName;
@@ -1897,7 +1897,7 @@ namespace Win32xx
         if (~pMID->mii.fType & MFT_SEPARATOR)  // if the type is not a separator.
         {
             // Account for icon height.
-            int iconGap = T::DpiScaleInt(6);
+            int iconGap = T::DpiScaleInt(4);
             int sizeY = size.cy;
             size.cy = std::max(sizeY, GetMenuIconHeight() + iconGap);
         }
@@ -2763,7 +2763,7 @@ namespace Win32xx
 
         catch (const CUserException&)
         {
-            TRACE("*** Failed to save registry MRU settings. ***\n");
+            TRACE("*** ERROR: Failed to save registry MRU settings. ***\n");
 
             const CString appKeyName = _T("Software\\") + m_keyName;
             CRegKey appKey;
@@ -2835,7 +2835,7 @@ namespace Win32xx
 
             catch (const CUserException&)
             {
-                TRACE("*** Failed to save registry settings. ***\n");
+                TRACE("*** ERROR: Failed to save registry settings. ***\n");
 
                 const CString appKeyName = _T("Software\\") + m_keyName;
                 CRegKey appKey;
@@ -3654,19 +3654,12 @@ namespace Win32xx
                 mii.wID = IDW_FILE_MRU_FILE1 + pos;
                 mii.dwTypeData = const_cast<LPTSTR>(mruStrings[index].c_str());
 
-                BOOL result;
                 if (item == maxMRUIndex)
                     // Replace the last MRU entry first.
-                    result = fileMenu.SetMenuItemInfo(IDW_FILE_MRU_FILE1, mii, FALSE);
+                    VERIFY(fileMenu.SetMenuItemInfo(IDW_FILE_MRU_FILE1, mii, FALSE));
                 else
                     // Insert the other MRU entries next.
-                    result = fileMenu.InsertMenuItem(IDW_FILE_MRU_FILE1 + pos + 1, mii, FALSE);
-
-                if (!result)
-                {
-                    TRACE("Failed to set MRU menu item\n");
-                    break;
-                }
+                    VERIFY(fileMenu.InsertMenuItem(IDW_FILE_MRU_FILE1 + pos + 1, mii, FALSE));
             }
         }
 

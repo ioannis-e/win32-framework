@@ -623,7 +623,7 @@ namespace Win32xx
 
                     // Draw the text.
                     dc.SelectObject(m_tabFont);
-                    dc.DrawText(str, -1, rcText, DT_LEFT | DT_VCENTER | 
+                    dc.DrawText(str, -1, rcText, DT_LEFT | DT_VCENTER |
                         DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
                 }
             }
