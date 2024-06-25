@@ -292,18 +292,42 @@ namespace Win32xx
         // Note: m_wnd is set in CWnd::CreateEx(...).
     }
 
-    inline CWnd::CWnd(HWND wnd) : m_prevWindowProc(NULL)
+    // A private constructor, used internally.
+    inline CWnd::CWnd(HWND wnd) : m_wnd(wnd), m_prevWindowProc(NULL)
     {
-        // A private constructor, used internally.
-
-        m_wnd = wnd;
     }
 
+    // Creates a copy of this CWnd without adding its pointer to the map.
+    // GetCWndPtr on this object will return NULL.
+    inline CWnd::CWnd(const CWnd& rhs)
+    {
+        m_wnd = rhs.m_wnd;
+        m_prevWindowProc = rhs.m_prevWindowProc;
+    }
+
+    // Assigns a copy of this CWnd without adding its pointer to the map.
+    // GetCWndPtr on this object will return NULL.
+    inline CWnd& CWnd::operator=(const CWnd& rhs)
+    {
+        // This CWnd must not own a managed window.
+        std::map<HWND, CWnd*, CompareHWND>::iterator m;
+        for (m = GetApp()->m_mapHWND.begin(); m != GetApp()->m_mapHWND.end(); ++m)
+        {
+            assert(this != m->second);
+        }
+        
+        m_wnd = rhs.m_wnd;
+        m_prevWindowProc = rhs.m_prevWindowProc;
+        return *this;
+    }
+
+    // Destructor
     inline CWnd::~CWnd()
     {
         if (CWinApp::SetnGetThis() != NULL) // Is the CWinApp object still valid?
         {
-            if (GetCWndPtr(*this) == this)  // Is window managed by Win32++?
+            // Only destroy windows managed by C++.
+            if (GetCWndPtr(*this) == this)
             {
                 if (IsWindow())
                     ::DestroyWindow(*this);
@@ -779,7 +803,7 @@ namespace Win32xx
     // Returns NULL if a CWnd object doesn't already exist for this HWND.
     inline CWnd* CWnd::GetCWndPtr(HWND wnd)
     {
-        return wnd ? GetApp()->GetCWndFromMap(wnd) : 0;
+        return wnd ? GetApp()->GetCWndFromMap(wnd) : NULL;
     }
 
     // Retrieves the title or text associated with a control in a dialog box.

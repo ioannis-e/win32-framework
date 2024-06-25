@@ -161,6 +161,171 @@
         <BRCC_IncludePath>C:\Program Files (x86)\Embarcadero\Studio\22.0\include\windows\sdk;$(BRCC_IncludePath)</BRCC_IncludePath>
     </PropertyGroup>
     <ItemGroup>
+        <None Include="..\..\..\include\default_resource.h">
+            <BuildOrder>31</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_appcore.h">
+            <BuildOrder>32</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_appcore0.h">
+            <BuildOrder>33</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_archive.h">
+            <BuildOrder>34</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_commondlg.h">
+            <BuildOrder>35</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_controls.h">
+            <BuildOrder>36</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_criticalsection.h">
+            <BuildOrder>37</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_cstring.h">
+            <BuildOrder>38</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_ddx.h">
+            <BuildOrder>39</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_dialog.h">
+            <BuildOrder>40</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_dockframe.h">
+            <BuildOrder>41</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_docking.h">
+            <BuildOrder>42</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_exception.h">
+            <BuildOrder>43</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_file.h">
+            <BuildOrder>44</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_filefind.h">
+            <BuildOrder>45</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_folderdialog.h">
+            <BuildOrder>46</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_frame.h">
+            <BuildOrder>47</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_gdi.h">
+            <BuildOrder>48</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_hglobal.h">
+            <BuildOrder>49</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_imagelist.h">
+            <BuildOrder>50</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_listview.h">
+            <BuildOrder>51</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_mdi.h">
+            <BuildOrder>52</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_menu.h">
+            <BuildOrder>53</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_menubar.h">
+            <BuildOrder>54</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_menumetrics.h">
+            <BuildOrder>55</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_messagepump.h">
+            <BuildOrder>56</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_messagepump0.h">
+            <BuildOrder>57</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_metafile.h">
+            <BuildOrder>58</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_mutex.h">
+            <BuildOrder>59</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_preview.h">
+            <BuildOrder>60</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_printdialogex.h">
+            <BuildOrder>61</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_printdialogs.h">
+            <BuildOrder>62</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_propertysheet.h">
+            <BuildOrder>63</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_rebar.h">
+            <BuildOrder>64</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_rect.h">
+            <BuildOrder>65</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_regkey.h">
+            <BuildOrder>66</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_ribbon.h">
+            <BuildOrder>67</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_richedit.h">
+            <BuildOrder>68</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_scrollview.h">
+            <BuildOrder>69</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_setup.h">
+            <BuildOrder>70</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_shared_ptr.h">
+            <BuildOrder>71</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_socket.h">
+            <BuildOrder>72</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_statusbar.h">
+            <BuildOrder>73</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_stdcontrols.h">
+            <BuildOrder>74</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_tab.h">
+            <BuildOrder>75</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_taskdialog.h">
+            <BuildOrder>76</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_textconv.h">
+            <BuildOrder>77</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_themes.h">
+            <BuildOrder>78</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_thread.h">
+            <BuildOrder>79</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_time.h">
+            <BuildOrder>80</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_toolbar.h">
+            <BuildOrder>81</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_treeview.h">
+            <BuildOrder>82</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_webbrowser.h">
+            <BuildOrder>83</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_wincore.h">
+            <BuildOrder>84</BuildOrder>
+        </None>
+        <None Include="..\..\..\include\wxx_wincore0.h">
+            <BuildOrder>85</BuildOrder>
+        </None>
         <CppCompile Include="..\src\AboutBox.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -350,15 +515,21 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Embarcadero\Win64\Debug\CommonDialogs.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win64">
+                <DeployFile LocalName=".\Embarcadero\Win32\Debug\CommonDialogs.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
                         <RemoteName>CommonDialogs.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\NewProject.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName=".\Embarcadero\Win32\Debug\CommonDialogs.tds" Configuration="Debug" Class="DebugSymbols">
                     <Platform Name="Win32">
-                        <RemoteName>NewProject.exe</RemoteName>
+                        <RemoteName>CommonDialogs.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Embarcadero\Win64\Debug\CommonDialogs.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>CommonDialogs.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

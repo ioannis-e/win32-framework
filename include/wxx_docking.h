@@ -2661,11 +2661,9 @@ namespace Win32xx
     // This function uses the GetDpiForMonitor function.
     inline int CDocker::GetMonitorDpi(HWND wnd)
     {
-        UNREFERENCED_PARAMETER(wnd);
-
-        // Retrieve desktop's dpi as a fallback.
-        CClientDC desktopDC(HWND_DESKTOP);
-        int dpi = GetDeviceCaps(desktopDC, LOGPIXELSX);
+        // Retrieve window's default dpi as a fallback.
+        CClientDC clientDC(wnd);
+        int dpi = GetDeviceCaps(clientDC, LOGPIXELSX);
 
 #ifdef MONITOR_DEFAULTTOPRIMARY
 
