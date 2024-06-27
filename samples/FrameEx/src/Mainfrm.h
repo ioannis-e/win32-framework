@@ -51,6 +51,15 @@ protected:
     virtual void    OnClose();
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam);
     virtual int     OnCreate(CREATESTRUCT& cs);
+/*    virtual LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam)
+    {
+        CFrame::OnDpiChanged(msg, wparam, lparam);
+    //    m_menuImages.DeleteImageList();
+        SetupMenuIcons();
+        return 0;
+    } */
+
+
     virtual void    OnInitialUpdate();
     virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam);
     virtual void    PreCreate(CREATESTRUCT& cs);
@@ -82,7 +91,7 @@ private:
     ULONG_PTR   m_gdiplusToken;
     CImageList m_toolbarImages;
     CImageList m_disabledImages;
-    CImageList m_menuImages;
+//    CImageList m_menuImages;
 };
 
 #endif //MAINFRM_H

@@ -92,6 +92,7 @@
 #define IDI_MOVEDOWN                    202
 #define IDI_MOVEUP                      203
 #define IDI_EYE                         204
+#define IDP_BIGCURTAINS                 210
 
 #define IDM_REMOVE_FILE                 240
 #define IDM_ADD_BOXSET                  242

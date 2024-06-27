@@ -391,14 +391,37 @@ void CRichView::SetDefaultPrintOptions()
 
 LRESULT CRichView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    switch (msg)
+    try
     {
-    case UWM_SETDEFAULTOPTIONS:
-    {
-        SetDefaultPrintOptions();
-    }
-    break;
+        switch (msg)
+        {
+        case UWM_SETDEFAULTOPTIONS:
+        {
+            SetDefaultPrintOptions();
+        }
+        break;
+        }
+
+        return WndProcDefault(msg, wparam, lparam);
     }
 
-    return WndProcDefault(msg, wparam, lparam);
+    catch (const CException& e)
+    {
+        // Display the exception and continue.
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+    }
+
+    // Catch all unhandled std::exception types.
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return 0;
 }

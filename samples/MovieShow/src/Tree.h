@@ -56,6 +56,9 @@ public:
     virtual ~CDockTree() {}
     CViewTree& GetViewTree() { return m_treeView; }
 
+protected:
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+
 private:
     CDockTree(const CDockTree&);                // Disable copy construction
     CDockTree& operator=(const CDockTree&);   // Disable assignment operator

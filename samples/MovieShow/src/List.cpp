@@ -496,12 +496,36 @@ void CViewList::UpdateItemImage(int item)
 
 LRESULT CViewList::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    switch (msg)
+    try
     {
-    case WM_WINDOWPOSCHANGED:        return OnWindowPosChanged(msg, wparam, lparam);
-    case WM_DPICHANGED_BEFOREPARENT: return OnDpiChangedBeforeParent(msg, wparam, lparam);
+        switch (msg)
+        {
+        case WM_WINDOWPOSCHANGED:        return OnWindowPosChanged(msg, wparam, lparam);
+        case WM_DPICHANGED_BEFOREPARENT: return OnDpiChangedBeforeParent(msg, wparam, lparam);
+        }
+
+        return WndProcDefault(msg, wparam, lparam);
     }
 
-    return WndProcDefault(msg, wparam, lparam);
+    catch (const CException& e)
+    {
+        // Display the exception and continue.
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+    }
+
+    // Catch all unhandled std::exception types.
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return 0;
+
 }
 

@@ -405,6 +405,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         return WndProcDefault(msg, wparam, lparam);
     }
 
+    // Catch all unhandled CException types.
     catch (const CException& e)
     {
         // Display the exception.

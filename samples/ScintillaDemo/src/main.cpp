@@ -9,7 +9,7 @@
 #if defined (_MSC_VER) && (_MSC_VER >= 1920) // >= VS2019
   int WINAPI wWinMain (__in HINSTANCE, __in_opt HINSTANCE, __in LPWSTR, __in int)
 #else
-  int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
+int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 #endif
 {
     try
@@ -21,15 +21,23 @@
         return theApp.Run();
     }
 
-    // Catch all unhandled CException types.
-    catch (const CException &e)
+    catch (const CException& e)
     {
-        // Display the exception and quit.
-        CString str;
-        str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
-
-        return -1;
+        // Display the exception and continue.
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
     }
-}
 
+    // Catch all unhandled std::exception types.
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return -1;
+}

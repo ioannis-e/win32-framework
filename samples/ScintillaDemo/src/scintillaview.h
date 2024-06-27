@@ -80,6 +80,7 @@ protected:
     virtual void OnInitialUpdate();
     virtual void PreCreate(CREATESTRUCT& cs);
     virtual void PreRegisterClass(WNDCLASS& wc);
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
     inline LRESULT Call(UINT message, WPARAM wParam, LPARAM lParam);

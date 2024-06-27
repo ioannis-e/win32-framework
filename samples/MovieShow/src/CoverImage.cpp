@@ -31,9 +31,6 @@ using namespace Gdiplus;
 // Constructor.
 CCoverImage::CCoverImage()
 {
-    // Initialize GDI+.
-    GdiplusStartupInput gdiplusStartupInput;
-    GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, nullptr);
 
     // The entry for the dialog's control in resource.rc must match this name.
     CString className = L"CoverImage";

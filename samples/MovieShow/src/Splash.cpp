@@ -6,6 +6,8 @@
 #include "Splash.h"
 #include "resource.h"
 
+using namespace Gdiplus;
+
 ///////////////////////////////
 // CSplash function definitions
 //
@@ -13,15 +15,21 @@
 // Constructor.
 CSplash::CSplash() : m_fontHandle(nullptr)
 {
-    int xImage = DpiScaleInt(256);
-    int yImage = DpiScaleInt(256);
-    m_hIcon = (HICON)GetApp()->LoadImage(IDW_MAIN, IMAGE_ICON, xImage, yImage, LR_SHARED);
+    // Initialize GDI+.
+    GdiplusStartupInput gdiplusStartupInput;
+    GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, nullptr);
+
+    BitmapPtr bitmap = LoadPngResource(IDP_BIGCURTAINS);
+    if (bitmap.get() != nullptr)
+        bitmap->GetHICON(&m_hIcon);
+
     LoadFont();
 }
 
 // Destructor.
 CSplash::~CSplash()
 {
+    GdiplusShutdown(m_gdiplusToken);
 }
 
 // Called during window creation.
@@ -79,6 +87,50 @@ void CSplash::LoadFont()
             }
         }
     }
+}
+
+// Loads an image from a PNG resource and returns a unique_ptr to
+// the Gdiplus::Bitmap containing the image.
+// The returned unique_ptr contains nullptr if the resouce isn't found.
+BitmapPtr CSplash::LoadPngResource(UINT id)
+{
+    BitmapPtr bitmap;
+    HINSTANCE instance = GetApp()->GetResourceHandle();
+
+    HRSRC resourceInfo = ::FindResource(instance, MAKEINTRESOURCE(id), _T("PNG"));
+    if (resourceInfo != nullptr)
+    {
+        DWORD bufferSize = ::SizeofResource(instance, resourceInfo);
+        if (bufferSize != 0)
+        {
+            HGLOBAL resource = ::LoadResource(instance, resourceInfo);
+            if (resource != nullptr)
+            {
+                const void* resourceData = ::LockResource(resource);
+                if (resourceData != nullptr)
+                {
+                    CHGlobal globalMemory(bufferSize);
+                    if (globalMemory.Get() != nullptr)
+                    {
+                        CGlobalLock<CHGlobal> buffer(globalMemory);
+                        if (buffer != nullptr)
+                        {
+                            CopyMemory(buffer, resourceData, bufferSize);
+
+                            IStream* stream;
+                            if (CreateStreamOnHGlobal(buffer, FALSE, &stream) == S_OK)
+                            {
+                                bitmap.reset(Gdiplus::Bitmap::FromStream(stream));
+                                stream->Release();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return bitmap;
 }
 
 // Perform the drawing on the splash window
@@ -147,4 +199,33 @@ void CSplash::ShowText(LPCTSTR text, CWnd* parent)
 
     UpdateWindow();
     Invalidate();
+}
+
+// Process the messages for the treeview window.
+LRESULT CSplash::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    try
+    {
+        return WndProcDefault(msg, wparam, lparam);
+    }
+
+    catch (const CException& e)
+    {
+        // Display the exception and continue.
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+    }
+
+    // Catch all unhandled std::exception types.
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return 0;
 }

@@ -55,16 +55,25 @@ INT_PTR CViewDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
         return DialogProcDefault(msg, wparam, lparam);
     }
 
-    // Catch all CException types.
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str;
-        str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
-
-        return 0;
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
     }
+
+    // Catch all unhandled std::exception types.
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return 0;
 }
 
 // Called in response to a WM_DPICHANGED_BEFOREPARENT message that is sent to child
@@ -157,4 +166,33 @@ CDockDialog::CDockDialog() : m_view(IDD_MYDIALOG)
 
     // Set the width of the splitter bar
     SetBarWidth(8);
+}
+
+// Process the messages for the dockdialog window.
+LRESULT CDockDialog::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    try
+    {
+        return WndProcDefault(msg, wparam, lparam);
+    }
+
+    // Catch all unhandled CException types.
+    catch (const CException& e)
+    {
+        // Display the exception and continue.
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+    }
+
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return 0;
 }

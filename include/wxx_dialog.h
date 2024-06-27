@@ -516,7 +516,7 @@ namespace Win32xx
         pTLSData->pWnd = this;
 
         HINSTANCE instance = GetApp()->GetInstanceHandle();
-        HWND wnd;
+        HWND wnd = NULL;
 
         // Create the modeless dialog.
         if (m_pDlgTemplate != NULL)

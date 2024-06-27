@@ -68,6 +68,9 @@ public:
 
     CViewDialog& GetViewDialog() { return m_view; }
 
+protected:
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+
 private:
     CDockDialog(const CDockDialog&);                // Disable copy construction
     CDockDialog& operator=(const CDockDialog&);   // Disable assignment operator

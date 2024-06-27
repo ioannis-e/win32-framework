@@ -315,7 +315,7 @@ namespace Win32xx
         {
             assert(this != m->second);
         }
-        
+
         m_wnd = rhs.m_wnd;
         m_prevWindowProc = rhs.m_prevWindowProc;
         return *this;

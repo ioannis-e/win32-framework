@@ -35,6 +35,11 @@ using std::max;
 #pragma warning ( pop )  // ( disable : 26812 )    enum type is unscoped.
 #endif // (_MSC_VER) && (_MSC_VER >= 1400)
 
+// For C++Builder
+#if defined (__BORLANDC__) && !(_WIN64)
+#pragma comment(lib, "shell32.lib")
+#endif
+
 using namespace MediaInfoDLL;
 using namespace Gdiplus;
 
@@ -1765,15 +1770,24 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         return WndProcDefault(msg, wparam, lparam);
     }
 
-    // Catch all CException types.
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str;
-        str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
-
-        return 0;
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
     }
+
+    // Catch all unhandled std::exception types.
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return 0;
 }
 

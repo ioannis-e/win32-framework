@@ -19,6 +19,7 @@ protected:
     // Virtual functions that override base class functions.
     virtual void AddContainer(CDockContainer* pContainer, BOOL insert, BOOL selectPage);
     virtual void RemoveContainer(CDockContainer* pContainer, BOOL updateParent);
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
     CMainContainer(const CMainContainer&);               // Disable copy construction
