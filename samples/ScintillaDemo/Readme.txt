@@ -7,8 +7,8 @@ provides a print preview and the option to select the font, text color and
 background color.
 
 On Windows, Scintilla is a Windows control that can be as a direct replacement
-for a RichEdit control. Scintilla has a number of features missing RichEdit
-controls and has better support for printing.
+for a RichEdit control. Scintilla has a number of features missing from
+RichEdit controls and has better support for printing.
 
 Scintilla is a free source code editing component. It comes with complete
 source code and a license that permits use in any free project or commercial

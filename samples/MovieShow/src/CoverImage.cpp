@@ -31,6 +31,9 @@ using namespace Gdiplus;
 // Constructor.
 CCoverImage::CCoverImage()
 {
+    // Initialize GDI+.
+    GdiplusStartupInput gdiplusStartupInput;
+    GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, nullptr);
 
     // The entry for the dialog's control in resource.rc must match this name.
     CString className = L"CoverImage";
@@ -55,6 +58,7 @@ CCoverImage::CCoverImage()
 // Destructor.
 CCoverImage::~CCoverImage()
 {
+    GdiplusShutdown(m_gdiplusToken);
 }
 
 // Draws the cover image to the specified device context.
@@ -125,14 +129,24 @@ LRESULT CCoverImage::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         return WndProcDefault(msg, wparam, lparam);
     }
 
-    // Catch all CException types.
+    // Catch all unhandled CException types.
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str;
-        str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
-
-        return 0;
+        CString str1;
+        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
+
+    // Catch all unhandled std::exception types.
+    catch (const std::exception& e)
+    {
+        // Display the exception and continue.
+        CString str1 = e.what();
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+    }
+
+    return 0;
 }

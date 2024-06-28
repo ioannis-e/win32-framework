@@ -1,9 +1,9 @@
+@echo off
 REM: A batch program to rebuild the Win32++ samples using C++ Builder 11 CE.
 REM: The contents of the log file is erased 
 
 REM: Set the paths and environment variables
 call "C:\Program Files (x86)\Embarcadero\Studio\22.0\bin\rsvars.bat"
-
 
 ::Cleanup
 call CleanSamples
@@ -84,6 +84,8 @@ msbuild MDIFrameSplitter\ProjectFiles\MDIFrameSplitter.cbproj /t:build /p:Config
 msbuild MDIFrameSplitter\ProjectFiles\MDIFrameSplitter.cbproj /t:build /p:Config=Release /p:Platform=Win64 >>"..\output\Embarcadero.log"
 msbuild MetaFile\ProjectFiles\MetaFile.cbproj /t:build /p:Config=Debug /p:Platform=Win64                   >>"..\output\Embarcadero.log"
 msbuild MetaFile\ProjectFiles\MetaFile.cbproj /t:build /p:Config=Release /p:Platform=Win64                 >>"..\output\Embarcadero.log"
+msbuild MovieShow\ProjectFiles\MovieShow.cbproj /t:build /p:Config=Debug /p:Platform=Win64                 >>"..\output\Embarcadero.log"
+msbuild MovieShow\ProjectFiles\MovieShow.cbproj /t:build /p:Config=Release /p:Platform=Win64               >>"..\output\Embarcadero.log"
 msbuild NetClient\ProjectFiles\NetClient.cbproj /t:build /p:Config=Debug /p:Platform=Win64                 >>"..\output\Embarcadero.log"
 msbuild NetClient\ProjectFiles\NetClient.cbproj /t:build /p:Config=Release /p:Platform=Win64               >>"..\output\Embarcadero.log"
 msbuild NetClientAsync\ProjectFiles\NetClientAsync.cbproj /t:build /p:Config=Debug /p:Platform=Win64       >>"..\output\Embarcadero.log"
@@ -173,6 +175,8 @@ copy MDIFrame\ProjectFiles\Embarcadero\Win64\Debug\MDIFrame.exe                 
 copy MDIFrameDemo\ProjectFiles\Embarcadero\Win64\Debug\MDIDemo.exe              "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
 copy MDIFrameSplitter\ProjectFiles\Embarcadero\Win64\Debug\MDIFrameSplitter.exe "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
 copy MetaFile\ProjectFiles\Embarcadero\Win64\Debug\MetaFile.exe                 "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
+copy MovieShow\ProjectFiles\Embarcadero\Win64\Debug\MovieShow.exe               "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
+copy MovieShow\install\files\MediaInfo.dll                                      "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
 copy NetClient\ProjectFiles\Embarcadero\Win64\Debug\NetClient.exe               "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
 copy NetClientAsync\ProjectFiles\Embarcadero\Win64\Debug\NetClientAsync.exe     "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
 copy NetServer\ProjectFiles\Embarcadero\Win64\Debug\NetServer.exe               "..\output\Embarcadero\Debug"    >>"..\output\Embarcadero.log"
@@ -236,6 +240,8 @@ copy MDIFrame\ProjectFiles\Embarcadero\Win64\Release\MDIFrame.exe               
 copy MDIFrameDemo\ProjectFiles\Embarcadero\Win64\Release\MDIDemo.exe              "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"
 copy MDIFrameSplitter\ProjectFiles\Embarcadero\Win64\Release\MDIFrameSplitter.exe "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"
 copy MetaFile\ProjectFiles\Embarcadero\Win64\Release\MetaFile.exe                 "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"
+copy MovieShow\ProjectFiles\Embarcadero\Win64\Release\MovieShow.exe               "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"
+copy MovieShow\install\files\MediaInfo.dll                                        "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"
 copy NetClient\ProjectFiles\Embarcadero\Win64\Release\NetClient.exe               "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"
 copy NetClientAsync\ProjectFiles\Embarcadero\Win64\Release\NetClientAsync.exe     "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"
 copy NetServer\ProjectFiles\Embarcadero\Win64\Release\NetServer.exe               "..\output\Embarcadero\Release"    >>"..\output\Embarcadero.log"

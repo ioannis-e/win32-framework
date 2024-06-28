@@ -5,16 +5,6 @@
 #ifndef SPLASH_H
 #define SPLASH_H
 
-// Declare min and max for older versions of Visual Studio
-#if defined (_MSC_VER) && (_MSC_VER < 1920) // < VS2019
-using std::min;
-using std::max;
-#endif
-
-#include <gdiplus.h>
-#include <memory>
-
-typedef std::unique_ptr<Gdiplus::Bitmap> BitmapPtr;
 
 ///////////////////////////////////////////////////////////////////////
 // CSplash creates a splash screen with optional text and progress bar.
@@ -24,7 +14,9 @@ class CSplash : public CWnd
 {
 public:
     CSplash();
-    virtual ~CSplash();
+    virtual ~CSplash() override;
+    CSplash(const CSplash&) = delete;               // Disable copy construction
+    CSplash& operator=(const CSplash&) = delete;    // Disable assignment operator
 
     const CProgressBar& GetBar() const { return m_progress; }
 
@@ -34,25 +26,20 @@ public:
 
 protected:
     // Virtual functions that override base class functions
-    virtual int  OnCreate(CREATESTRUCT& cs);
-    virtual void OnDraw(CDC& dc);
-    virtual void PreCreate(CREATESTRUCT& cs);
-    virtual void PreRegisterClass(WNDCLASS& wc);
-    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+    virtual int  OnCreate(CREATESTRUCT& cs) override;
+    virtual void OnDraw(CDC& dc) override;
+    virtual void PreCreate(CREATESTRUCT& cs) override;
+    virtual void PreRegisterClass(WNDCLASS& wc) override;
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    CSplash(const CSplash&);               // Disable copy construction
-    CSplash& operator=(const CSplash&);    // Disable assignment operator
-
     void LoadFont();
-    BitmapPtr LoadPngResource(UINT id);
     void RemoveBar();
 
     CProgressBar m_progress;
     CString      m_text;
     HICON        m_hIcon;
     HANDLE       m_fontHandle;
-    ULONG_PTR   m_gdiplusToken;
 };
 
 

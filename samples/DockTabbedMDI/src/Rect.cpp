@@ -85,9 +85,7 @@ LRESULT CViewRect::OnTimer(UINT, WPARAM, LPARAM)
         int rcBottom = (top > bottom) ? top  : bottom;
         RectDC.Rectangle(rcLeft, rcTop, rcRight, rcBottom);
 
-        RectData rectData;
-        rectData.color = color;
-        rectData.rect = CRect(rcLeft, rcTop, rcRight, rcBottom);
+        RectData rectData(color, CRect(rcLeft, rcTop, rcRight, rcBottom));
         m_rects.push_back(rectData);
     }
 
