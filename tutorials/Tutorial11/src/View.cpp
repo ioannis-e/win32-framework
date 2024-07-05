@@ -42,7 +42,7 @@ std::vector<PlotPoint>& CView::GetAllPoints()
 // Called during window creation.
 int CView::OnCreate(CREATESTRUCT&)
 {
-    // Support drag and drop on this window.
+    // Support Drag and Drop on this window.
     DragAcceptFiles(TRUE);
     return 0;
 }
@@ -62,9 +62,7 @@ CMemDC CView::Draw()
     // Draw the lines on the memory DC.
     if (GetAllPoints().size() > 0)
     {
-        // Start with the pen up.
-        bool isDrawing = false;
-
+        bool isDrawing = false;  // Start with the pen up
         for (size_t i = 0 ; i < GetAllPoints().size(); ++i)
         {
             memDC.CreatePen(PS_SOLID, 1, GetAllPoints()[i].penColor);
@@ -88,7 +86,7 @@ void CView::OnDraw(CDC& dc)
     int width = GetClientRect().Width();
     int height = GetClientRect().Height();
 
-    // Copy from the memory dc to our painting dc.
+    // Copy from the memory DC to our painting dc
     CMemDC memDC = Draw();
     dc.BitBlt(0, 0, width, height, memDC, 0, 0, SRCCOPY);
 }
@@ -151,7 +149,7 @@ LRESULT CView::OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam)
 // Called before window creation to update the window's CREATESTRUCT
 void CView::PreCreate(CREATESTRUCT& cs)
 {
-    // Set the extra style to provide a sunken effect
+    // Set the extra style to provide a sunken effect.
     cs.dwExStyle = WS_EX_CLIENTEDGE;
 }
 
@@ -169,7 +167,7 @@ void CView::Print(LPCTSTR docName)
 {
     CPrintDialog printDlg;
 
-    // Bring up a dialog to choose the printer
+    // Bring up a dialog to choose the printer.
     if (printDlg.DoModal(*this) == IDOK)    // throws exception if there is no default printer
     {
         QuickPrint(docName);
@@ -184,7 +182,7 @@ void CView::PrintPage(CDC& dc, int)
 {
     try
     {
-        // Get the dimensions of the View window
+        // Get the dimensions of the view window.
         CRect viewRect = GetClientRect();
         int width = viewRect.Width();
         int height = viewRect.Height();
@@ -313,5 +311,3 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 
     return 0;
 }
-
-

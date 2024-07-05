@@ -30,6 +30,10 @@ New Features and Enhancements
     This sample demonstrates how to use the Scintilla control with Win32++
     to develop a simple text editor.
 
+* The samples now use larger icons.
+    Larger icons are suitable for applications that are placed on the desktop
+    on higher resolution monitors.
+
 Changes in detail
 -----------------
 Added:   CString::Append
