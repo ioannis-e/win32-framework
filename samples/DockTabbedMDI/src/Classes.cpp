@@ -92,6 +92,16 @@ void CViewClasses::SetDPIImages()
     SetIndent(imageWidth);
 }
 
+void CViewClasses::PreCreate(CREATESTRUCT& cs)
+{
+    // Call base class to set defaults.
+    CTreeView::PreCreate(cs);
+
+    // Add the WS_EX_COMPOSITED to reduce flicker.
+    if (GetWinVersion() >= 3000)  // Windows 10 or later.
+        cs.dwExStyle |= WS_EX_COMPOSITED;
+}
+
 // Processes the tree-view's window messages.
 LRESULT CViewClasses::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -172,17 +182,6 @@ BOOL CContainClasses::OnHelpAbout()
     GetAncestor().SendMessage(WM_HELP);
 
     return TRUE;
-}
-
-// Sets the CREATESTRUCT parameters before the window is created.
-void CContainClasses::PreCreate(CREATESTRUCT& cs)
-{
-    // Call base clase to set defaults.
-    CDockContainer::PreCreate(cs);
-
-    // Add the WS_EX_COMPOSITED to reduce flicker.
-    if (GetWinVersion() >= 3000)  // Windows 10 or later.
-        cs.dwExStyle |= WS_EX_COMPOSITED;
 }
 
 // Set the Bitmap resource for the toolbar

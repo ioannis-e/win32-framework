@@ -84,17 +84,6 @@ CContainOutput::CContainOutput()
     SetTabIcon(IDI_TEXT);
 }
 
-// Sets the CREATESTRUCT parameters before the window is created.
-void CContainOutput::PreCreate(CREATESTRUCT& cs)
-{
-    // Call base clase to set defaults.
-    CDockContainer::PreCreate(cs);
-
-    // Add the WS_EX_COMPOSITED to reduce flicker.
-    if (GetWinVersion() >= 3000)  // Windows 10 or later.
-        cs.dwExStyle |= WS_EX_COMPOSITED;
-}
-
 // Handle the window's messages.
 LRESULT CContainOutput::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {

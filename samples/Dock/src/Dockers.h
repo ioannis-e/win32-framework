@@ -18,7 +18,6 @@ public:
 
 protected:
     // Virtual functions overriding base class functions.
-    virtual void PreCreate(CREATESTRUCT& cs);
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
@@ -40,7 +39,6 @@ public:
 
 protected:
     // Virtual functions overriding base class functions.
-    virtual void PreCreate(CREATESTRUCT& cs);
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
@@ -62,7 +60,6 @@ public:
 
 protected:
     // Virtual functions overriding base class functions.
-    virtual void PreCreate(CREATESTRUCT& cs);
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
@@ -84,7 +81,6 @@ public:
 
 protected:
     // Virtual functions overriding base class functions.
-    virtual void PreCreate(CREATESTRUCT& cs);
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:

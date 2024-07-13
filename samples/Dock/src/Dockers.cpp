@@ -22,16 +22,6 @@ CDockSimple::CDockSimple()
     SetCaption (_T("Simple View - Docking"));
 }
 
-// Set the CREATESTURCT parameters before the window is created.
-void CDockSimple::PreCreate(CREATESTRUCT& cs)
-{
-    // Call base clase to set defaults.
-    CDocker::PreCreate(cs);
-
-    if (GetWinVersion() >= 3000)  // Windows 10 or later.
-        cs.dwExStyle |= WS_EX_COMPOSITED;
-}
-
 // Handle the window's messages.
 LRESULT CDockSimple::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -77,16 +67,6 @@ CDockText::CDockText()
     SetBarWidth(8);
 
     SetCaption(_T("Text View - Docking"));
-}
-
-// Set the CREATESTURCT parameters before the window is created.
-void CDockText::PreCreate(CREATESTRUCT& cs)
-{
-    // Call base clase to set defaults.
-    CDocker::PreCreate(cs);
-
-    if (GetWinVersion() >= 3000)  // Windows 10 or later.
-        cs.dwExStyle |= WS_EX_COMPOSITED;
 }
 
 // Handle the window's messages.
@@ -136,16 +116,6 @@ CDockClasses::CDockClasses()
     SetCaption(_T("Class View - Docking"));
 }
 
-// Set the CREATESTURCT parameters before the window is created.
-void CDockClasses::PreCreate(CREATESTRUCT& cs)
-{
-    // Call base clase to set defaults.
-    CDocker::PreCreate(cs);
-
-    if (GetWinVersion() >= 3000)  // Windows 10 or later.
-       cs.dwExStyle |= WS_EX_COMPOSITED;
-}
-
 // Handle the window's messages.
 LRESULT CDockClasses::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -192,16 +162,6 @@ CDockFiles::CDockFiles()
     SetBarWidth(8);
 
     SetCaption(_T("Files View - Docking"));
-}
-
-// Set the CREATESTURCT parameters before the window is created.
-void CDockFiles::PreCreate(CREATESTRUCT& cs)
-{
-    // Call base clase to set defaults.
-    CDocker::PreCreate(cs);
-
-    if (GetWinVersion() >= 3000)  // Windows 10 or later.
-        cs.dwExStyle |= WS_EX_COMPOSITED;
 }
 
 // Handle the window's messages.

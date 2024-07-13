@@ -230,7 +230,7 @@ namespace Win32xx
     inline CPoint GetCursorPos()
     {
         CPoint pt;
-        VERIFY(::GetCursorPos(&pt));
+        ::GetCursorPos(&pt);
         return pt;
     }
 

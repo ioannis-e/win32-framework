@@ -21,6 +21,8 @@ public:
 protected:
     // Virtual functions that override base class functions.
     virtual void OnAttach();
+	    // Sets the CREATESTRUCT parameters before the window is created.
+    void PreCreate(CREATESTRUCT& cs);
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:
@@ -45,7 +47,6 @@ public:
 protected:
     // Virtual functions that override base class functions.
     virtual BOOL OnCommand(WPARAM, LPARAM);
-    virtual void PreCreate(CREATESTRUCT& cs);
     virtual void SetupToolBar();
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 

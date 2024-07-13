@@ -57,6 +57,13 @@ void CViewFiles::OnAttach()
 
     SetColumns();
     InsertItems();
+
+#ifndef LVS_EX_DOUBLEBUFFER
+  #define LVS_EX_DOUBLEBUFFER     0x00010000
+#endif
+
+    // Set the extended style to double buffer.
+    SetExtendedStyle(LVS_EX_DOUBLEBUFFER);
 }
 
 // Respond to a mouse click on the window
@@ -159,17 +166,6 @@ CContainFiles::CContainFiles()
     SetTabIcon(IDI_FILEVIEW);
     SetDockCaption (_T("File View - Docking container"));
     SetView(m_viewFiles);
-}
-
-// Sets the CREATESTRUCT parameters before the window is created.
-void CContainFiles::PreCreate(CREATESTRUCT& cs)
-{
-    // Call base clase to set defaults.
-    CDockContainer::PreCreate(cs);
-
-    // Add the WS_EX_COMPOSITED to reduce flicker.
-    if (GetWinVersion() >= 3000)  // Windows 10 or later.
-        cs.dwExStyle |= WS_EX_COMPOSITED;
 }
 
 // Handle the window's messages.
