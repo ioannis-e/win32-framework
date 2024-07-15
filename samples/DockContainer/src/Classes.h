@@ -72,7 +72,8 @@ public:
     CDockClasses();
     virtual ~CDockClasses() {}
 
-private:
+protected:
+    virtual void RecalcDockLayout();
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 
 private:

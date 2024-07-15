@@ -59,6 +59,10 @@ void CViewFiles::OnAttach()
     InsertItems();
     SetDPIColumnWidths();
 
+#ifndef LVS_EX_DOUBLEBUFFER
+  #define LVS_EX_DOUBLEBUFFER     0x00010000
+#endif
+
     // Set the extended style to double buffer.
     SetExtendedStyle(LVS_EX_DOUBLEBUFFER);
 }
@@ -212,6 +216,28 @@ CDockFiles::CDockFiles()
 
     // Set the width of the splitter bar.
     SetBarWidth(8);
+}
+
+// This function overrides CDocker::RecalcDockLayout to elimate jitter
+// when the dockers are resized. The technique used here is is most
+// appropriate for a complex arrangement of dockers. It might not suite
+// other docking applications. To support this technique the
+// WS_EX_COMPOSITED extended style has been added to each docker.
+void CDockFiles::RecalcDockLayout()
+{
+    if (GetWinVersion() >= 3000)  // Windows 10 or later.
+    {
+        if (GetDockAncestor()->IsWindow())
+        {
+            GetTopmostDocker()->LockWindowUpdate();
+            CRect rc = GetTopmostDocker()->GetViewRect();
+            GetTopmostDocker()->RecalcDockChildLayout(rc);
+            GetTopmostDocker()->UnlockWindowUpdate();
+            GetTopmostDocker()->UpdateWindow();
+        }
+    }
+    else
+        CDocker::RecalcDockLayout();
 }
 
 // Handle the window's messages.
