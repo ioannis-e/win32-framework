@@ -97,10 +97,10 @@ BitmapPtr CMainFrame::LoadPngResource(UINT id)
                         CGlobalLock<CHGlobal> buffer(globalMemory);
                         if (buffer != nullptr)
                         {
-                            CopyMemory(buffer, resourceData, bufferSize);
+                            memcpy(buffer, resourceData, bufferSize);
 
                             IStream* stream;
-                            if (CreateStreamOnHGlobal(buffer, FALSE, &stream) == S_OK)
+                            if (::CreateStreamOnHGlobal(buffer, FALSE, &stream) == S_OK)
                             {
                                 bitmap.reset(Gdiplus::Bitmap::FromStream(stream));
                                 stream->Release();

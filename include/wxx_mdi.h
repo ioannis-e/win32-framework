@@ -162,6 +162,7 @@ namespace Win32xx
 
         // Override these functions as required.
         virtual CMDIChild* AddMDIChild(CMDIChild* pMDIChild);
+        virtual CMDIChild* AddMDIChild(MDIChildPtr MDIChild);
         virtual HWND Create(HWND parent = NULL);
         virtual void RemoveMDIChild(CMDIChild* pChild);
         virtual BOOL RemoveAllMDIChildren();
@@ -265,8 +266,19 @@ namespace Win32xx
     {
         assert(pMDIChild != NULL); // Cannot add Null MDI Child
 
-        m_mdiChildren.push_back(MDIChildPtr(pMDIChild));
+        return AddMDIChild(MDIChildPtr(pMDIChild));
+    }
+
+    // Adds a MDI child to the MDI frame. The pointer to the MDI child will be
+    // automatically deleted when the MDI Frame destroys the MDI child.
+    template <class T>
+    inline CMDIChild* CMDIFrameT<T>::AddMDIChild(MDIChildPtr MDIChild)
+    {
+        CMDIChild* pMDIChild = MDIChild.get();
+        assert(pMDIChild != NULL); // Cannot add Null MDI Child
+
         pMDIChild->Create(GetMDIClient());
+        m_mdiChildren.push_back(std::move(MDIChild));
 
         return pMDIChild;
     }
@@ -684,15 +696,19 @@ namespace Win32xx
     {
         BOOL succeeded = TRUE;
 
-        // Remove the children in reverse order.
-        std::vector<MDIChildPtr>::const_reverse_iterator mdiChild;
-        const std::vector<MDIChildPtr> mdiChildren = m_mdiChildren;
-        for (mdiChild = mdiChildren.rbegin(); mdiChild != mdiChildren.rend(); ++mdiChild)
+        // Collect the CMDIChild pointers.
+        std::vector<CMDIChild*> mdiChildren;
+        for (auto mdiChild = m_mdiChildren.rbegin(); mdiChild != m_mdiChildren.rend(); ++mdiChild)
+        {
+            mdiChildren.push_back((*mdiChild).get());
+        }
+
+        for (auto it = mdiChildren.begin(); it != mdiChildren.end(); ++it)
         {
             // Ask the window to close. If it is destroyed, RemoveMDIChild gets called.
-            (*mdiChild)->SendMessage(WM_SYSCOMMAND, SC_CLOSE, 0);
+            (*it)->SendMessage(WM_SYSCOMMAND, SC_CLOSE, 0);
 
-            if ((*mdiChild)->IsWindow())
+            if ((*it)->IsWindow())
                 succeeded = FALSE;
         }
 

@@ -1024,12 +1024,14 @@ void CMainFrame::OnInitialUpdate()
     // Add the tree view.
     DWORD dockStyle = DS_NO_UNDOCK | DS_NO_CAPTION;
     int width = m_treeWidth ? m_treeWidth : (GetViewRect().Width() / 3);
-    m_pDockTree = static_cast<CDockTree*>(AddDockedChild(new CDockTree, dockStyle | DS_DOCKED_LEFT, width));
+    m_pDockTree = static_cast<CDockTree*>(AddDockedChild(std::make_unique<CDockTree>(),
+        dockStyle | DS_DOCKED_LEFT, width));
 
     // Add the dialog.
     int height = m_dialogHeight ? m_dialogHeight : 2 * GetViewRect().Height() / 3;
     dockStyle = dockStyle | DS_CLIENTEDGE;
-    m_pDockDialog = static_cast<CDockDialog*>(m_pDockTree->AddDockedChild(new CDockDialog, dockStyle | DS_DOCKED_BOTTOM, height));
+    m_pDockDialog = static_cast<CDockDialog*>(m_pDockTree->AddDockedChild(
+        std::make_unique<CDockDialog>(), dockStyle | DS_DOCKED_BOTTOM, height));
 
     // Fill the tree view and list view.
     LoadMovies();

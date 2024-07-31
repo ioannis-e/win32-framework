@@ -119,8 +119,8 @@ void CView::DoPlot(CDC& dc)
     double yoffset = (m_ymin + m_ymax) / 2;
 
     PrepareDC(dc);
-    PlotXAxis(dc, xnorm, ynorm, xoffset, yoffset);
-    PlotYAxis(dc, xnorm, ynorm, xoffset, yoffset);
+    DrawXAxis(dc, xnorm, ynorm, xoffset, yoffset);
+    DrawYAxis(dc, xnorm, ynorm, xoffset, yoffset);
     PlotFunction(dc, xnorm, ynorm, xoffset, yoffset);
     DrawLabel(dc);
 }
@@ -180,7 +180,7 @@ void CView::PrepareDC(CDC& dc)
 }
 
 // Draws the x axis, including the ticks and tick labels.
-void CView::PlotXAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset)
+void CView::DrawXAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset)
 {
     CRect rc = GetClientRect();
     CSize size(rc.right, rc.bottom);
@@ -231,7 +231,7 @@ void CView::PlotXAxis(CDC& dc, double xnorm, double ynorm, double xoffset, doubl
 }
 
 // Draws the y axis, including the ticks and tick labels.
-void CView::PlotYAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset)
+void CView::DrawYAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset)
 {
     CRect rc = GetClientRect();
     CSize size(rc.right, rc.bottom);

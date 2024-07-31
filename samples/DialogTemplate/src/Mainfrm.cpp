@@ -190,7 +190,7 @@ void CMainFrame::OnInitialUpdate()
     DWORD style = DS_DOCKED_LEFT | DS_CLIENTEDGE | DS_NO_CLOSE | DS_NO_UNDOCK | DS_NO_CAPTION;
     const int width = DpiScaleInt(250);
     m_pDockDialogsTree = static_cast<CDockDialogsTree*>
-                         (AddDockedChild(new CDockDialogsTree, style, width));
+                         (AddDockedChild(std::make_unique<CDockDialogsTree>(), style, width));
 
     Reset();
 }

@@ -69,7 +69,7 @@ int CALLBACK CViewList::CompareFunction(LPARAM lp1, LPARAM lp2, LPARAM pSortView
     assert(lp2);
     assert(pSortViewItems);
 
-    if (lp1 == 0 || lp2 == 0 || pSortViewItems == 0)
+    if (lp1 == NULL || lp2 == NULL || pSortViewItems == NULL)
         return 0;
 
     SortViewItems* pSort = reinterpret_cast<SortViewItems*>(pSortViewItems);

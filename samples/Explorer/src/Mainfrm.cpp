@@ -73,7 +73,8 @@ void CMainFrame::LoadDefaultWindowPanes()
     // Add the right window pane
     int width = GetWindowRect().Width() / 3;
     DWORD dockStyle = DS_DOCKED_LEFT | DS_NO_UNDOCK | DS_NO_CAPTION;
-    m_pLeftPane = static_cast<CLeftPane*>(m_rightPane.AddDockedChild(new CLeftPane, dockStyle, width, ID_DOCK_LEFTPANE));
+    m_pLeftPane = m_rightPane.AddDockedChild(
+        std::make_unique<CLeftPane>(), dockStyle, width, ID_DOCK_LEFTPANE);
 }
 
 // Process input from the menu and toolbar.
@@ -192,7 +193,7 @@ void CMainFrame::OnInitialUpdate()
 {
     if (m_rightPane.LoadDockRegistrySettings(GetRegistryKeyName()))
     {
-        m_pLeftPane = dynamic_cast<CLeftPane*>(m_rightPane.GetDockFromID(ID_DOCK_LEFTPANE));
+        m_pLeftPane = m_rightPane.GetDockFromID(ID_DOCK_LEFTPANE);
         if (m_pLeftPane == 0)
         {
             m_rightPane.CloseAllDockers();

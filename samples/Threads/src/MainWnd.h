@@ -11,7 +11,7 @@
 
 // Note: Modern C++ compilers can use this typedef instead.
 // typedef std::shared_ptr<CMyWinThread> MyThreadPtr;
-typedef Shared_Ptr<CMyWinThread> MyThreadPtr;
+typedef std::unique_ptr<CMyWinThread> MyThreadPtr;
 
 
 /////////////////////////////////////////////////////

@@ -6,6 +6,8 @@
 #include "LeftPane.h"
 #include "RightPane.h"
 
+using namespace std;
+
 //////////////////////////////////
 // CRightPane function definitions
 //
@@ -19,20 +21,20 @@ CRightPane::CRightPane()
 // Adds a new docker. The id specifies the dock type.
 // The id is used by LoadDockRegistrySettings to restore the
 // previous splitter window arrangement.
-CDocker* CRightPane::NewDockerFromID(int id)
+DockPtr CRightPane::NewDockerFromID(int id)
 {
-    CDocker* pDock = NULL;
+    DockPtr docker;
     switch (id)
     {
     case ID_DOCK_LEFTPANE:
-        pDock = new CLeftPane;
+        docker = make_unique<CLeftPane>();
         break;
     default:
         TRACE("Unknown Dock ID\n");
         break;
     }
 
-    return pDock;
+    return docker;
 }
 
 // Handle the window's messages.

@@ -8,6 +8,8 @@
 #include "Output.h"
 #include "resource.h"
 
+using namespace std;
+
 ///////////////////////////////////
 // CDockSimple function definitions
 //
@@ -167,10 +169,12 @@ void CSplitterMDIChild::OnInitialUpdate()
     DWORD style = DS_CLIENTEDGE;// | DS_NO_UNDOCK;
     m_view.SetDockStyle(style);
     int width = DpiScaleInt(200);
-    CDocker* pDockLeft  = m_view.AddDockedChild(new CDockOutput, DS_DOCKED_LEFT  | style, width, 0);
-    CDocker* pDockRight = m_view.AddDockedChild(new CDockOutput, DS_DOCKED_RIGHT | style, width, 0);
-    pDockLeft->AddDockedChild(new CDockFiles, DS_DOCKED_CONTAINER | style, 0, 0);
-    pDockRight->AddDockedChild(new CDockFiles, DS_DOCKED_CONTAINER | style, 0, 0);
+    CDocker* pDockLeft  = m_view.AddDockedChild(make_unique<CDockOutput>(),
+        DS_DOCKED_LEFT  | style, width, 0);
+    CDocker* pDockRight = m_view.AddDockedChild(make_unique<CDockOutput>(),
+        DS_DOCKED_RIGHT | style, width, 0);
+    pDockLeft->AddDockedChild(make_unique<CDockFiles>(), DS_DOCKED_CONTAINER | style, 0, 0);
+    pDockRight->AddDockedChild(make_unique<CDockFiles>(), DS_DOCKED_CONTAINER | style, 0, 0);
 }
 
 // Respond to menu and toolbar input.

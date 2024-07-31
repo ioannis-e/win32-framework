@@ -242,8 +242,7 @@ namespace Win32xx
         m_pfnFreeAddrInfo = reinterpret_cast<FREEADDRINFO*>(
             reinterpret_cast<void*>(::GetProcAddress(m_ws2_32, "freeaddrinfo")));
 
-        WorkThreadPtr threadPtr(new CWorkThread(EventThread, this));
-        m_threadPtr = threadPtr;
+        m_threadPtr = std::make_unique<CWorkThread>(EventThread, this);
     }
 
     inline CSocket::~CSocket()

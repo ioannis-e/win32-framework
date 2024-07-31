@@ -34,7 +34,7 @@ private:
     CMainFrame& operator=(const CMainFrame&);    // Disable assignment operator
 
     // Command handlers
-    BOOL    OnEditFunction();
+    BOOL    OnInputFunction();
     BOOL    OnFileExit();
 
     // Message handlers

@@ -46,10 +46,10 @@ private:
     void CalcPoints(double xmin, double xmax);
     void DoPlot(CDC& dc);
     void DrawLabel(CDC& dc);
-    double GetXMin() { return m_inputDlg.GetMin(); }
-    double GetXMax() { return m_inputDlg.GetMax(); }
-    void PlotXAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset);
-    void PlotYAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset);
+    double GetXMin() const { return m_inputDlg.GetMin(); }
+    double GetXMax() const { return m_inputDlg.GetMax(); }
+    void DrawXAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset);
+    void DrawYAxis(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset);
     void PlotFunction(CDC& dc, double xnorm, double ynorm, double xoffset, double yoffset);
     void PrepareDC(CDC& dc);
 

@@ -404,8 +404,10 @@ void CMyListView::EnumObjects(CShellFolder& folder, Cpidl& cpidlParent)
             // Fill in the TV_ITEM structure for this item.
             lvItem.mask = LVIF_PARAM | LVIF_TEXT | LVIF_IMAGE | LVIF_STATE;
 
-            // Store a pointer to the ListItemData in the lParam and m_pItems.
-            ListItemDataPtr pItem(new ListItemData(cpidlParent, cpidlRel, folder));
+            // Create the ListItemDataPtr unique_ptr.
+            ListItemDataPtr pItem = std::make_unique<ListItemData>(cpidlParent, cpidlRel, folder);
+
+            // Store a pointer to the ListItemData in the lParam.
             lvItem.lParam = reinterpret_cast<LPARAM>(pItem.get());
 
             TCHAR fileName[MAX_PATH];
@@ -434,9 +436,9 @@ void CMyListView::EnumObjects(CShellFolder& folder, Cpidl& cpidlParent)
                 pItem->m_fileType = sfi.szTypeName;
             }
 
-            // m_pItems is a vector of smart pointers. The memory allocated by
-            // new is automatically deleted when the vector goes out of scope.
-            m_pItems.push_back(pItem);
+            // m_pItems is a vector of unique pointers. The object is
+            // automatically deleted when the vector goes out of scope.
+            m_pItems.push_back(std::move(pItem));
 
             // Text and images are done on a callback basis.
             lvItem.pszText = LPSTR_TEXTCALLBACK;
@@ -730,7 +732,7 @@ void CMyListView::PreCreate(CREATESTRUCT& cs)
 {
     CListView::PreCreate(cs);
     cs.style |= WS_TABSTOP | LVS_AUTOARRANGE | LVS_ICON | LVS_SHOWSELALWAYS;
-    cs.dwExStyle = WS_EX_CLIENTEDGE;
+    cs.dwExStyle |= WS_EX_CLIENTEDGE;
 }
 
 // Sets the up and down sort arrows in the listview's header.

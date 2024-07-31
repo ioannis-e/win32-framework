@@ -320,11 +320,13 @@ LRESULT CMainFrame::OnGetAllPoints()
 
 void CMainFrame::OnInitialUpdate()
 {
+    using namespace std;
+
     // Add some Dockers to the Ribbon Frame
     DWORD style = DS_CLIENTEDGE; // The style added to each docker
     int dockWidth = DpiScaleInt(150);
-    CDocker* pDock1 = AddDockedChild(new CDockFiles, DS_DOCKED_LEFT | style, dockWidth);
-    CDocker* pDock2 = AddDockedChild(new CDockFiles, DS_DOCKED_RIGHT | style, dockWidth);
+    CDocker* pDock1 = AddDockedChild(make_unique<CDockFiles>(), DS_DOCKED_LEFT | style, dockWidth);
+    CDocker* pDock2 = AddDockedChild(make_unique<CDockFiles>(), DS_DOCKED_RIGHT | style, dockWidth);
 
     assert(pDock1->GetContainer());
     assert(pDock2->GetContainer());

@@ -32,7 +32,7 @@ public:
 
 protected:
     // Virtual functions overriding base class functions.
-    virtual CDocker* NewDockerFromID(int id);
+    virtual DockPtr NewDockerFromID(int id);
     virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam);
     virtual int  OnCreate(CREATESTRUCT& cs);
     virtual void OnInitialUpdate();

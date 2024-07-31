@@ -12,6 +12,8 @@
 #include "MDIChildListView.h"
 #include "resource.h"
 
+using namespace std;
+
 /////////////////////////////////////
 // CMainMDIFrame function definitions
 //
@@ -140,42 +142,42 @@ BOOL CMainMDIFrame::OnFileExit()
 // Adds a MDI child with a list view.
 BOOL CMainMDIFrame::OnFileNewList()
 {
-    AddMDIChild(new CMDIChildList); // This pointer is stored in a Shared_Ptr
+    AddMDIChild(make_unique<CMDIChildList>());
     return TRUE;
 }
 
 // Adds a maximised MDI child.
 BOOL CMainMDIFrame::OnFileNewMax()
 {
-    AddMDIChild(new CMDIChildMax);  // This pointer is stored in a Shared_Ptr
+    AddMDIChild(make_unique<CMDIChildMax>());
     return TRUE;
 }
 
 // Adds a MDI child displaying random rectangles.
 BOOL CMainMDIFrame::OnFileNewRect()
 {
-    AddMDIChild(new CMDIChildRect); // This pointer is stored in a Shared_Ptr
+    AddMDIChild(make_unique<CMDIChildRect>());
     return TRUE;
 }
 
 // Adds a MDI child with a text view.
 BOOL CMainMDIFrame::OnFileNewText()
 {
-    AddMDIChild(new CMDIChildText); // This pointer is stored in a Shared_Ptr
+    AddMDIChild(make_unique<CMDIChildText>());
     return TRUE;
 }
 
 // Adds a MDI child with a tree view.
 BOOL CMainMDIFrame::OnFileNewTree()
 {
-    AddMDIChild(new CMDIChildTree); // This pointer is stored in a Shared_Ptr
+    AddMDIChild(make_unique<CMDIChildTree>());
     return TRUE;
 }
 
 // Adds a MDI child with a simple view.
 BOOL CMainMDIFrame::OnFileNewView()
 {
-    AddMDIChild(new CMDIChildSimple);   // This pointer is stored in a Shared_Ptr
+    AddMDIChild(make_unique<CMDIChildSimple>());
     return TRUE;
 }
 

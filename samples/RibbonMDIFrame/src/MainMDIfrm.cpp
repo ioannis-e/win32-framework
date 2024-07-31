@@ -175,7 +175,7 @@ void CMainMDIFrame::OnFileExit()
 
 void CMainMDIFrame::OnFileNew()
 {
-    AddMDIChild(new CSimpleMDIChild);
+    AddMDIChild(std::make_unique<CSimpleMDIChild>());
 }
 
 void CMainMDIFrame::OnMDIClose()

@@ -8,6 +8,8 @@
 #include "Files.h"
 #include "resource.h"
 
+using namespace std;
+
 /////////////////////////////////////
 // CMainMDIFrame function definitions
 //
@@ -92,8 +94,8 @@ void CMainMDIFrame::OnInitialUpdate()
     // Add some Dockers to the MDI Frame
     DWORD dwStyle = DS_CLIENTEDGE; // The style added to each docker
     int dockWidth = DpiScaleInt(150);
-    CDocker* pDock1 = AddDockedChild(new CDockFiles, DS_DOCKED_LEFT | dwStyle, dockWidth);
-    CDocker* pDock2 = AddDockedChild(new CDockFiles, DS_DOCKED_RIGHT | dwStyle, dockWidth);
+    CDocker* pDock1 = AddDockedChild(make_unique<CDockFiles>(), DS_DOCKED_LEFT | dwStyle, dockWidth);
+    CDocker* pDock2 = AddDockedChild(make_unique<CDockFiles>(), DS_DOCKED_RIGHT | dwStyle, dockWidth);
 
     assert (pDock1->GetContainer());
     assert (pDock2->GetContainer());
@@ -101,8 +103,8 @@ void CMainMDIFrame::OnInitialUpdate()
     pDock2->GetContainer()->SetHideSingleTab(TRUE);
 
     // Add some  MDI children
-    AddMDIChild(new CSimpleMDIChild);
-    AddMDIChild(new CSimpleMDIChild);
+    AddMDIChild(make_unique<CSimpleMDIChild>());
+    AddMDIChild(make_unique<CSimpleMDIChild>());
 }
 
 // Process input from the menu and toolbar.
@@ -177,7 +179,7 @@ BOOL CMainMDIFrame::OnFileExit()
 // Create a new MDI child
 BOOL CMainMDIFrame::OnFileNewMDI()
 {
-    AddMDIChild(new CSimpleMDIChild);
+    AddMDIChild(make_unique<CSimpleMDIChild>());
     return TRUE;
 }
 
@@ -198,7 +200,8 @@ BOOL CMainMDIFrame::OnFileNew()
     CMenu popupMenu = topMenu.GetSubMenu(0);
 
     // Start the popup menu
-    popupMenu.TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, rc.left, rc.bottom, *this, &tpm);
+    popupMenu.TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, 
+        rc.left, rc.bottom, *this, &tpm);
 
     return TRUE;
 }
@@ -207,7 +210,8 @@ BOOL CMainMDIFrame::OnFileNew()
 BOOL CMainMDIFrame::OnFileNewDocker()
 {
     int dockWidth = DpiScaleInt(150);
-    CDocker* pDock = AddDockedChild(new CDockFiles, DS_DOCKED_LEFT | DS_CLIENTEDGE, dockWidth);
+    CDocker* pDock = AddDockedChild(make_unique<CDockFiles>(), 
+        DS_DOCKED_LEFT | DS_CLIENTEDGE, dockWidth);
     pDock->GetContainer()->SetHideSingleTab(TRUE);
     return TRUE;
 }

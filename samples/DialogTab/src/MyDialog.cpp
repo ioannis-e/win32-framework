@@ -6,6 +6,7 @@
 #include "MyDialog.h"
 #include "resource.h"
 
+using namespace std;
 
 /////////////////////////////////////
 // CButtonDialog function definitions
@@ -276,8 +277,8 @@ BOOL CMyDialog::OnInitDialog()
 
     AttachItem(IDC_TAB1, m_tab);
 
-    m_pButtonDlg = static_cast<CButtonDialog*>(m_tab.AddTabPage(new CButtonDialog(IDD_BUTTONS), _T("Button Dialog")));
-    m_pComboDlg = static_cast<CComboBoxDialog*>(m_tab.AddTabPage(new CComboBoxDialog(IDD_COMBOBOXES), _T("ComboBox Dialog")));
+    m_pButtonDlg = static_cast<CButtonDialog*>(m_tab.AddTabPage(make_unique<CButtonDialog>(IDD_BUTTONS), _T("Button Dialog")));
+    m_pComboDlg = static_cast<CComboBoxDialog*>(m_tab.AddTabPage(make_unique<CComboBoxDialog>(IDD_COMBOBOXES), _T("ComboBox Dialog")));
     m_tab.SelectPage(0);
 
     // Add some checkmarks to buttons to the button dialog
