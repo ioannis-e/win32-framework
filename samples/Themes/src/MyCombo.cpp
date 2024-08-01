@@ -33,8 +33,7 @@ BOOL CMyCombo::AddItems()
     for (it = itemsText.begin(); it != itemsText.end(); ++it)
     {
         int i = static_cast<int>(it - itemsText.begin());
-        COMBOBOXEXITEM cbei;
-        ZeroMemory(&cbei, sizeof(cbei));
+        COMBOBOXEXITEM cbei = {};
         cbei.mask = CBEIF_TEXT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE;
         cbei.iItem          = i;
         cbei.pszText        = const_cast<LPTSTR>(itemsText[i].c_str());

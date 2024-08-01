@@ -15,8 +15,7 @@ namespace ShellWrapper
     // This is the name as it appears in Windows Explorer.
     BOOL GetDisplayName(LPCITEMIDLIST pidlFull, LPTSTR pszDisplayName)
     {
-        SHFILEINFO     sfi;
-        ZeroMemory(&sfi, sizeof(sfi));
+        SHFILEINFO sfi = {};
 
         // Get the display name of the item
         if(!::SHGetFileInfo((LPCTSTR)pidlFull, 0, &sfi, sizeof(sfi), SHGFI_PIDL | SHGFI_DISPLAYNAME))

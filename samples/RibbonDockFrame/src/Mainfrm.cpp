@@ -232,8 +232,7 @@ void CMainFrame::OnFilePrint()
             // Inform the driver that the application is about to begin sending data.
             printDC.StartPage();
 
-            BITMAPINFOHEADER bi;
-            ZeroMemory(&bi, sizeof(bi));
+            BITMAPINFOHEADER bi = {};
             bi.biSize = sizeof(bi);
             bi.biHeight = height;
             bi.biWidth = width;
@@ -247,7 +246,7 @@ void CMainFrame::OnFilePrint()
 
             // Retrieve the image data
             std::vector<byte> vBits(bi.biSizeImage, 0); // a vector to hold the byte array
-            byte* pByteArray = &vBits.front();
+            byte* pByteArray = vBits.data();
             VERIFY(memDC.GetDIBits(bmView, 0, height, pByteArray, reinterpret_cast<BITMAPINFO*>(&bi), DIB_RGB_COLORS));
 
             // Determine the scaling factors required to print the bitmap and retain its original proportions.

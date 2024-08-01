@@ -476,8 +476,8 @@ namespace Win32xx
 
     // Allocates a BSTR from the CStringT content.
     // Note: Free the returned string later with SysFreeString to avoid a memory leak.
-    template <>
-    inline BSTR CStringW::AllocSysString() const
+    template <class T>
+    inline BSTR CStringT<T>::AllocSysString() const
     {
         BSTR bstr = ::SysAllocStringLen(m_str.c_str(), static_cast<UINT>(m_str.size()));
         if (bstr == 0)
@@ -530,8 +530,8 @@ namespace Win32xx
     }
 
     // Performs a case sensitive comparison of the two strings using locale-specific information.
-    template <>
-    inline int CStringW::Collate(const WCHAR* text) const
+    template <class T>
+    inline int CStringT<T>::Collate(const T* text) const
     {
         assert(text != nullptr);
         int res = ::CompareStringW(LOCALE_USER_DEFAULT, 0, m_str.c_str(), -1, text, -1);
@@ -558,8 +558,8 @@ namespace Win32xx
     }
 
     // Performs a case insensitive comparison of the two strings using locale-specific information.
-    template <>
-    inline int CStringW::CollateNoCase(const WCHAR* text) const
+    template <class T>
+    inline int CStringT<T>::CollateNoCase(const T* text) const
     {
         assert(text != nullptr);
         int res = ::CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, m_str.c_str(), -1, text, -1);
@@ -580,8 +580,8 @@ namespace Win32xx
     }
 
     // Performs a case sensitive comparison of the two strings.
-    template <>
-    inline int CStringW::Compare(const WCHAR* text) const
+    template <class T>
+    inline int CStringT<T>::Compare(const T* text) const
     {
         assert(text != nullptr);
         return ::lstrcmpW(m_str.c_str(), text);
@@ -596,8 +596,8 @@ namespace Win32xx
     }
 
     // Performs a case insensitive comparison of the two strings.
-    template <>
-    inline int CStringW::CompareNoCase(const WCHAR* text) const
+    template <class T>
+    inline int CStringT<T>::CompareNoCase(const T* text) const
     {
         assert(text != nullptr);
         return ::lstrcmpiW(m_str.c_str(), text);
@@ -680,23 +680,17 @@ namespace Win32xx
             while (result == -1)
             {
                 buffer.assign( size_t(length)+1, 0 );
-
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )
-                result = _vsnprintf(&buffer.front(), length, format, args);
-#else
-                result = _vsnprintf_s(&buffer.front(), length, length -1, format, args);
-#endif
+                result = _vsnprintf_s(buffer.data(), length, length -1, format, args);
                 length *= 2;
             }
-            m_str.assign(&buffer.front());
+            m_str.assign(buffer.data());
         }
     }
 
     // Formats the string using a variable list of arguments.
-    template <>
-    inline void CStringW::FormatV(const WCHAR*  format, va_list args)
+    template <class T>
+    inline void CStringT<T>::FormatV(const T*  format, va_list args)
     {
-
         if (format)
         {
             int result = -1;
@@ -708,14 +702,10 @@ namespace Win32xx
             while (result == -1)
             {
                 buffer.assign( size_t(length)+1, 0 );
-#if !defined (_MSC_VER) ||  ( _MSC_VER < 1400 )
-                result = _vsnwprintf(&buffer.front(), length, format, args);
-#else
-                result = _vsnwprintf_s(&buffer.front(), length, length -1, format, args);
-#endif
+                result = _vsnwprintf_s(buffer.data(), length, length -1, format, args);
                 length *= 2;
             }
-            m_str.assign(&buffer.front());
+            m_str.assign(buffer.data());
         }
     }
 
@@ -748,8 +738,8 @@ namespace Win32xx
     }
 
     // Formats a message string using a variable argument list.
-    template <>
-    inline void CStringW::FormatMessageV(const WCHAR* format, va_list args)
+    template <class T>
+    inline void CStringT<T>::FormatMessageV(const T* format, va_list args)
     {
         LPWSTR temp = 0;
         if (format)
@@ -804,7 +794,7 @@ namespace Win32xx
 
         std::copy(m_str.begin(), it_end, m_buf.begin());
 
-        return &m_buf.front();
+        return m_buf.data();
     }
 
     // Sets the string to the value of the specified environment variable.
@@ -818,16 +808,16 @@ namespace Win32xx
         if (length > 0)
         {
             std::vector<CHAR> buffer(size_t(length) +1, 0 );
-            ::GetEnvironmentVariableA(var, &buffer.front(), length);
-            m_str = &buffer.front();
+            ::GetEnvironmentVariableA(var, buffer.data(), length);
+            m_str = buffer.data();
         }
 
         return (length != 0);
     }
 
     // Sets the string to the value of the specified environment variable.
-    template <>
-    inline bool CStringW::GetEnvironmentVariable(const WCHAR* var)
+    template <class T>
+    inline bool CStringT<T>::GetEnvironmentVariable(const T* var)
     {
         assert(var);
         Empty();
@@ -836,8 +826,8 @@ namespace Win32xx
         if (length > 0)
         {
             std::vector<WCHAR> buffer(static_cast<size_t>(length) +1, 0);
-            ::GetEnvironmentVariableW(var, &buffer.front(), length);
-            m_str = &buffer.front();
+            ::GetEnvironmentVariableW(var, buffer.data(), length);
+            m_str = buffer.data();
         }
 
         return (length != 0);
@@ -852,22 +842,22 @@ namespace Win32xx
         if (length > 0)
         {
             std::vector<CHAR> buffer(size_t(length) +1, 0 );
-            ::GetWindowTextA(wnd, &buffer.front(), length +1);
-            m_str = &buffer.front();
+            ::GetWindowTextA(wnd, buffer.data(), length +1);
+            m_str = buffer.data();
         }
     }
 
     // Retrieves a window's text.
-    template <>
-    inline void CStringW::GetWindowText(HWND wnd)
+    template <class T>
+    inline void CStringT<T>::GetWindowText(HWND wnd)
     {
         Empty();
         int length = ::GetWindowTextLengthW(wnd);
         if (length > 0)
         {
             std::vector<WCHAR> buffer(size_t(length) +1, 0 );
-            ::GetWindowTextW(wnd, &buffer.front(), length +1);
-            m_str = &buffer.front();
+            ::GetWindowTextW(wnd, buffer.data(), length +1);
+            m_str = buffer.data();
         }
     }
 
@@ -887,8 +877,8 @@ namespace Win32xx
     }
 
     // Returns the error string for the specified System Error Code (e.g from GetLastError).
-    template <>
-    inline void CStringW::GetErrorString(DWORD error)
+    template <class T>
+    inline void CStringT<T>::GetErrorString(DWORD error)
     {
         Empty();
         WCHAR* buffer = nullptr;
@@ -953,8 +943,8 @@ namespace Win32xx
     }
 
     // Converts all the characters in this string to lowercase characters.
-    template <>
-    inline void CStringW::MakeLower()
+    template <class T>
+    inline void CStringT<T>::MakeLower()
     {
         std::transform(m_str.begin(), m_str.end(), m_str.begin(), ::towlower);
     }
@@ -974,8 +964,8 @@ namespace Win32xx
     }
 
     // Converts all the characters in this string to uppercase characters.
-    template <>
-    inline void CStringW::MakeUpper()
+    template <class T>
+    inline void CStringT<T>::MakeUpper()
     {
         std::transform(m_str.begin(), m_str.end(), m_str.begin(), ::towupper);
     }
@@ -1012,7 +1002,7 @@ namespace Win32xx
     {
         if (newLength == -1)
         {
-            newLength = lstrlenT(&m_buf.front());
+            newLength = lstrlenT(m_buf.data());
         }
 
         assert(m_buf.size() > 0);
@@ -1167,8 +1157,8 @@ namespace Win32xx
     }
 
     // Sets an existing BSTR object to the string.
-    template <>
-    inline BSTR CStringW::SetSysString(BSTR* pBstr) const
+    template <class T>
+    inline BSTR CStringT<T>::SetSysString(BSTR* pBstr) const
     {
         assert(pBstr);
 
@@ -1260,8 +1250,8 @@ namespace Win32xx
     }
 
     // Trims leading whitespace characters from the string.
-    template <>
-    inline void CStringW::TrimLeft()
+    template <class T>
+    inline void CStringT<T>::TrimLeft()
     {
         // This method is supported by the Borland 5.5 compiler.
         std::basic_string<WCHAR>::iterator iter;
@@ -1305,8 +1295,8 @@ namespace Win32xx
     }
 
     // Trims trailing whitespace characters from the string.
-    template <>
-    inline void CStringW::TrimRight()
+    template <class T>
+    inline void CStringT<T>::TrimRight()
     {
         // This method is supported by the Borland 5.5 compiler.
         std::basic_string<WCHAR>::reverse_iterator riter;

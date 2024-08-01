@@ -217,8 +217,7 @@ namespace Win32xx
         CString className = _T("PreviewPane");
 
         // Register the window class for use as a custom control in the dialog.
-        WNDCLASS wc;
-        ZeroMemory(&wc, sizeof(WNDCLASS));
+        WNDCLASS wc = {};
 
         if (!::GetClassInfo(GetApp()->GetInstanceHandle(), className, &wc))
         {
@@ -308,7 +307,7 @@ namespace Win32xx
             UINT scanLines = static_cast<UINT>(bm.bmHeight);
             memDC.GetDIBits(m_bitmap, 0, scanLines, nullptr, pbmi, DIB_RGB_COLORS);
             std::vector<byte> byteArray(pBIH->biSizeImage, 0);
-            byte* pByteArray = &byteArray.front();
+            byte* pByteArray = byteArray.data();
             memDC.GetDIBits(m_bitmap, 0, scanLines, pByteArray, pbmi, DIB_RGB_COLORS);
 
             // Use half tone stretch mode for smoother rendering.

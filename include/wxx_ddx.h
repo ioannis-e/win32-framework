@@ -292,8 +292,7 @@ namespace Win32xx
         }
 
         // Set the given DateTime range.
-        SYSTEMTIME sta[2];
-        ZeroMemory(&sta, sizeof(sta));
+        SYSTEMTIME sta[2] = {};
         sta[0] = min;
         sta[1] = max;
 
@@ -395,12 +394,10 @@ namespace Win32xx
             }
         }
 
-        SYSTEMTIME minMax[2];
-        ZeroMemory(&minMax, sizeof(minMax));
+        SYSTEMTIME minMax[2] = {};
         DWORD limit = GDTR_MIN | GDTR_MAX;
-        memcpy(&minMax[0], &min, sizeof(SYSTEMTIME));
-        memcpy(&minMax[1], &max, sizeof(SYSTEMTIME));
-
+        minMax[0] = min;
+        minMax[1] = max;
         WPARAM wparam = static_cast<WPARAM>(limit);
         LPARAM lparam = reinterpret_cast<LPARAM>(&minMax);
 

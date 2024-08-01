@@ -11,8 +11,7 @@
 //
 BOOL CView::Minimize()
 {
-    NOTIFYICONDATA nid;
-    ZeroMemory(&nid, sizeof(nid));
+    NOTIFYICONDATA nid = {};
     nid.cbSize = sizeof(nid);
     nid.hWnd = GetHwnd();
     nid.uID = IDW_MAIN;
@@ -196,8 +195,7 @@ void CView::PreCreate(CREATESTRUCT& cs)
 
 void CView::Restore()
 {
-    NOTIFYICONDATA nid;
-    ZeroMemory(&nid, sizeof(nid));
+    NOTIFYICONDATA nid = {};
     nid.cbSize = sizeof(NOTIFYICONDATA);
     nid.hWnd = GetHwnd();
     nid.uID = IDW_MAIN;

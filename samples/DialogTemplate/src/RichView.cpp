@@ -121,8 +121,7 @@ CRect CRichView::GetPrintRect()
 // OnAttach is called when the rich edit window is created.
 void CRichView::OnAttach()
 {
-    CHARFORMAT cf;
-    ZeroMemory(&cf, sizeof(cf));
+    CHARFORMAT cf = {};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_COLOR | CFM_FACE | CFM_EFFECTS;
 
@@ -175,8 +174,7 @@ void CRichView::PrintPage(CDC& dc, int page)
     CDC printerDC = printDlg.GetPrinterDC();
 
     // Assign values to the FORMATRANGE struct
-    FORMATRANGE fr;
-    ZeroMemory(&fr, sizeof(fr));
+    FORMATRANGE fr = {};
     fr.hdcTarget = printerDC;
     fr.hdc = dc;
     fr.rcPage = GetPageRect();
@@ -199,8 +197,7 @@ void CRichView::QuickPrint(LPCTSTR docName)
     CDC printerDC = printDlg.GetPrinterDC();
 
     // Assign values to the FORMATRANGE struct
-    FORMATRANGE fr;
-    ZeroMemory(&fr, sizeof(fr));
+    FORMATRANGE fr = {};
     fr.hdc = printerDC;
     fr.hdcTarget = printerDC;
 
@@ -212,8 +209,7 @@ void CRichView::QuickPrint(LPCTSTR docName)
     fr.chrg.cpMax = -1;
 
     // Start print job.
-    DOCINFO di;
-    ZeroMemory(&di, sizeof(di));
+    DOCINFO di = {};
     di.cbSize = sizeof(DOCINFO);
     di.lpszDocName = docName;
     di.lpszOutput = nullptr;   // Do not print to file.

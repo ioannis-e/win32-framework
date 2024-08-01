@@ -17,7 +17,7 @@
 //
 CDXView::CDXView() : m_pD3D(nullptr), m_pd3dDevice(nullptr), m_pVB(nullptr)
 {
-    ZeroMemory(&m_d3dpp, sizeof(m_d3dpp));
+    m_d3dpp = {};
 }
 
 CDXView::~CDXView()
@@ -63,7 +63,7 @@ HRESULT CDXView::InitD3D( HWND wnd )
     CRect rc = GetClientRect();
 
     // Set up the structure used to create the D3DDevice
-    ZeroMemory( &m_d3dpp, sizeof(m_d3dpp) );
+    m_d3dpp = {};
     m_d3dpp.Windowed = TRUE;
     m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
     m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;

@@ -203,8 +203,8 @@ namespace Win32xx
     inline CException::CException(int messageID) noexcept
             : m_messageID(messageID), m_error(::GetLastError())
     {
-        ZeroMemory(m_text, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
-        ZeroMemory(m_errorString, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_text = {};
+        *m_errorString = {};
 
         // Store error information in m_errorString.
         DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
@@ -216,8 +216,8 @@ namespace Win32xx
     inline CException::CException(LPCTSTR text /*= nullptr*/, int messageID /*= 0*/) noexcept
             : m_messageID(messageID), m_error(::GetLastError())
     {
-        ZeroMemory(m_text, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
-        ZeroMemory(m_errorString, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_text = {};
+        *m_errorString = {};
 
         if (text)
             StrCopy(m_text, text, WXX_MAX_STRING_SIZE);
@@ -230,8 +230,8 @@ namespace Win32xx
     // CException copy constructor.
     inline CException::CException(const CException& rhs) noexcept
     {
-        ZeroMemory(m_text, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
-        ZeroMemory(m_errorString, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_text = {};
+        *m_errorString = {};
 
         m_messageID = rhs.m_messageID;
         m_error = rhs.m_error;
@@ -243,8 +243,8 @@ namespace Win32xx
     // CException assignment operator.
     inline CException& CException::operator=(const CException& rhs) noexcept
     {
-        ZeroMemory(m_text, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
-        ZeroMemory(m_errorString, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_text = {};
+        *m_errorString = {};
 
         m_messageID = rhs.m_messageID;
         m_error = rhs.m_error;
@@ -294,7 +294,7 @@ namespace Win32xx
     inline CFileException::CFileException(LPCTSTR filePath, int messageID) noexcept
         : CException(messageID)
     {
-        ZeroMemory(m_filePath, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_filePath = {};
 
         // Display some text in the debugger.
         TRACE(_T("*** CFileException thrown ***\n"));
@@ -316,7 +316,7 @@ namespace Win32xx
         LPCTSTR filePath, LPCTSTR text /*= nullptr*/, int messageID /*= 0*/) noexcept
         : CException(text, messageID)
     {
-        ZeroMemory(m_filePath, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_filePath = {};
 
         // Display some text in the debugger.
         TRACE(_T("*** CFileException thrown ***\n"));
@@ -343,7 +343,7 @@ namespace Win32xx
     inline CFileException::CFileException(const CFileException& rhs) noexcept
         : CException(rhs)
     {
-        ZeroMemory(m_filePath, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_filePath = {};
         StrCopy(m_filePath, rhs.m_filePath, WXX_MAX_STRING_SIZE);
     }
 
@@ -351,7 +351,7 @@ namespace Win32xx
     inline CFileException& CFileException::operator=(const CFileException& rhs) noexcept
     {
         CException::operator =(rhs);
-        ZeroMemory(m_filePath, WXX_MAX_STRING_SIZE * sizeof(TCHAR));
+        *m_filePath = {};
         StrCopy(m_filePath, rhs.m_filePath, WXX_MAX_STRING_SIZE);
 
         return *this;

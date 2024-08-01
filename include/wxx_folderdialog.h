@@ -205,7 +205,7 @@ namespace Win32xx
 
     inline CFolderDialog::CFolderDialog() : m_pidlRoot(nullptr), m_fullPidl(nullptr), m_imageIndex(0)
     {
-        ZeroMemory(&m_bi, sizeof(m_bi));
+        m_bi = {};
         m_bi.lpfn = BrowseCallbackProc;
         m_bi.lParam = reinterpret_cast<LPARAM>(this);
 

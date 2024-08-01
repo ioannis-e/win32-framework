@@ -152,8 +152,7 @@ namespace Win32xx
 
         for (int band = 0; band < GetBandCount(); ++band)
         {
-            REBARBANDINFO rbbi;
-            ZeroMemory(&rbbi, GetSizeofRBBI());
+            REBARBANDINFO rbbi = {};
             rbbi.cbSize = GetSizeofRBBI();
             rbbi.fMask = RBBIM_CHILD;
             GetBandInfo(band, rbbi);
@@ -296,16 +295,14 @@ namespace Win32xx
         VERIFY(ScreenToClient(pt));
 
         // Get the rebar band with the point.
-        RBHITTESTINFO rbhti;
-        ZeroMemory(&rbhti, sizeof(rbhti));
+        RBHITTESTINFO rbhti = {};
         rbhti.pt = pt;
         int iBand = HitTest(rbhti);
 
         if (iBand >= 0)
         {
             // Get the rebar band's wnd.
-            REBARBANDINFO rbbi;
-            ZeroMemory(&rbbi, GetSizeofRBBI());
+            REBARBANDINFO rbbi = {};
             rbbi.cbSize = GetSizeofRBBI();
             rbbi.fMask = RBBIM_CHILD;
             GetBandInfo(iBand, rbbi);
@@ -342,8 +339,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        REBARBANDINFO rbbi;
-        ZeroMemory(&rbbi, GetSizeofRBBI());
+        REBARBANDINFO rbbi = {};
         rbbi.cbSize = GetSizeofRBBI();
         rbbi.fMask = RBBIM_STYLE;
         GetBandInfo(band, rbbi);
@@ -501,8 +497,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        REBARBANDINFO rbbi;
-        ZeroMemory(&rbbi, GetSizeofRBBI());
+        REBARBANDINFO rbbi = {};
         rbbi.cbSize = GetSizeofRBBI();
         rbbi.fMask = RBBIM_CHILDSIZE | RBBIM_SIZE;
 
@@ -522,8 +517,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        REBARBANDINFO rbbi;
-        ZeroMemory(&rbbi, GetSizeofRBBI());
+        REBARBANDINFO rbbi = {};
         rbbi.cbSize = GetSizeofRBBI();
         rbbi.fMask  = RBBIM_STYLE;
         GetBandInfo(band, rbbi);
@@ -542,8 +536,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        REBARBANDINFO rbbi;
-        ZeroMemory(&rbbi, GetSizeofRBBI());
+        REBARBANDINFO rbbi = {};
         rbbi.cbSize = GetSizeofRBBI();
         rbbi.fMask = RBBIM_COLORS;
         rbbi.clrFore = foreground;
@@ -594,8 +587,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        REBARBANDINFO rbbi;
-        ZeroMemory(&rbbi, GetSizeofRBBI());
+        REBARBANDINFO rbbi = {};
         rbbi.cbSize = GetSizeofRBBI();
         rbbi.fMask = RBBIM_STYLE;
         GetBandInfo(band, rbbi);

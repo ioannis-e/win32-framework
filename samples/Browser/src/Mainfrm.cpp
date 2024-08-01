@@ -33,8 +33,7 @@ void CMainFrame::AddComboBoxBand()
     int height = m_combo.GetWindowRect().Height() + DpiScaleInt(padding);
 
     // Put the window in a new rebar band.
-    REBARBANDINFO rbbi;
-    ZeroMemory(&rbbi, sizeof(rbbi));
+    REBARBANDINFO rbbi = {};
     rbbi.cbSize     = sizeof(rbbi);
     rbbi.fMask      = RBBIM_COLORS | RBBIM_CHILDSIZE | RBBIM_STYLE | RBBIM_CHILD | RBBIM_TEXT;
     rbbi.cyMinChild = height;
@@ -392,8 +391,7 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
                 CString str = m_combo.GetWindowText();
 
                 // Insert text into the list box.
-                COMBOBOXEXITEM item;
-                ZeroMemory(&item, sizeof(item));
+                COMBOBOXEXITEM item = {};
                 item.mask = CBEIF_TEXT;
                 item.pszText = const_cast<LPTSTR>(str.c_str());
                 m_combo.InsertItem(item);
@@ -424,12 +422,9 @@ BOOL CMainFrame::OnPrint()
     SAFEARRAY* psaHeadFoot;
     long rgIndices;
 
-    VARIANT vHeadStr;
-    VARIANT vFootStr;
-    VARIANT vArg;
-    ZeroMemory(&vHeadStr, sizeof(vHeadStr));
-    ZeroMemory(&vFootStr, sizeof(vFootStr));
-    ZeroMemory(&vArg, sizeof(vArg));
+    VARIANT vHeadStr = {};
+    VARIANT vFootStr = {};
+    VARIANT vArg = {};
 
     try
     {

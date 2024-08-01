@@ -579,8 +579,7 @@ namespace Win32xx
     // in the Windows API documentation for more information.
     inline ULONG_PTR CMenu::GetMenuItemData(UINT idOrPos, BOOL byPosition /* = FALSE*/) const
     {
-        MENUITEMINFO mii;
-        ZeroMemory(&mii, sizeof(mii));
+        MENUITEMINFO mii = {};
         mii.cbSize = GetSizeofMenuItemInfo();
         mii.fMask = MIIM_TYPE | MIIM_DATA;
         ULONG_PTR pData = 0;

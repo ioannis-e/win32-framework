@@ -40,7 +40,7 @@ CMainFrame()                                                                /*
     m_yWin  = 100;
     m_cxWin = 800;
     m_cyWin = 700;
-    ZeroMemory(&m_plWnd, sizeof(WINDOWPLACEMENT));
+    m_plWnd = {};
 
       // Set m_view as the view window of the frame.
     SetView(m_view);
@@ -431,7 +431,7 @@ Serialize(CArchive &ar)                                                     /*
           // reconstructed.
 
           // save current window placement information
-        ZeroMemory(&m_plWnd, sizeof(WINDOWPLACEMENT));
+        m_plWnd = {};
         m_plWnd.length = sizeof(WINDOWPLACEMENT);
         GetWindowPlacement(m_plWnd);
         ArchiveObject w(&m_plWnd, m_plWnd.length);

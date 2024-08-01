@@ -393,8 +393,7 @@ SetReBarColors(COLORREF clrBkGnd1, COLORREF clrBkGnd2, COLORREF clrBand1,
 {
     if (IsReBarSupported())
     {
-        ReBarTheme rt;
-        ZeroMemory(&rt, sizeof(rt));
+        ReBarTheme rt = {};
         rt.UseThemes    = TRUE;
         rt.clrBkgnd1    = clrBkGnd1;
         rt.clrBkgnd2    = clrBkGnd2;

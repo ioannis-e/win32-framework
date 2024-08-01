@@ -100,7 +100,7 @@ void CView::PrintPage(CDC& dc, int)
             CMemDC memDC(viewDC);
             memDC.GetDIBits(m_image, 0, bmHeight, nullptr, pbmi, DIB_RGB_COLORS);
             std::vector<byte> byteArray(pBIH->biSizeImage, 0);
-            byte* pByteArray = &byteArray.front();
+            byte* pByteArray = byteArray.data();
             memDC.GetDIBits(m_image, 0, bmHeight, pByteArray, pbmi, DIB_RGB_COLORS);
 
             // Copy (stretch) the DI bits to the specified dc.
@@ -164,13 +164,12 @@ BOOL CView::SaveFileImage(LPCTSTR fileName)
        // Use GetDIBits to create a DIB from our DDB, and extract the colour data
        VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, nullptr, pbmi, DIB_RGB_COLORS));
        std::vector<byte> byteArray(pbmi->bmiHeader.biSizeImage, 0);
-       byte* pByteArray = &byteArray.front();
+       byte* pByteArray = byteArray.data();
 
        VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, pByteArray, pbmi, DIB_RGB_COLORS));
 
        LPBITMAPINFOHEADER pbmih = &pbmi->bmiHeader;
-       BITMAPFILEHEADER hdr;
-       ZeroMemory(&hdr, sizeof(BITMAPFILEHEADER));
+       BITMAPFILEHEADER hdr = {};
        hdr.bfType = 0x4d42;        // 0x42 = "B" 0x4d = "M"
        hdr.bfSize = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof(RGBQUAD) + pbmih->biSizeImage);
        hdr.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof (RGBQUAD));

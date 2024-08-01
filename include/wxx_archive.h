@@ -739,7 +739,7 @@ namespace Win32xx
         {
             // Use a vector to create our WCHAR array.
             std::vector<WCHAR> vWChar(size_t(chars) + 1, L'\0');
-            WCHAR* buf = &vWChar.front();
+            WCHAR* buf = vWChar.data();
 
             Read(buf, static_cast<UINT>(chars)*2);
 
@@ -756,7 +756,7 @@ namespace Win32xx
         {
             // Use a vector to create our char array.
             std::vector<char> vChar(size_t(chars) + 1, '\0');
-            char* buf = &vChar.front();
+            char* buf = vChar.data();
 
             Read(buf, static_cast<UINT>(chars));
 

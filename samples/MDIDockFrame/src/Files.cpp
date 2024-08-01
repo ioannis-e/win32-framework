@@ -80,8 +80,7 @@ void CViewFiles::SetColumns()
     DeleteAllItems();
 
     // initialize the columns
-    LV_COLUMN column;
-    ZeroMemory(&column, sizeof(column));
+    LV_COLUMN column = {};
     column.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
     column.fmt = LVCFMT_LEFT;
     column.cx = 120;

@@ -115,7 +115,7 @@ namespace Win32xx
     {
         MenuItemData() : menu(nullptr), pos(0)
         {
-            ZeroMemory(&mii, GetSizeofMenuItemInfo());
+            mii = {};
         }
 
         HMENU menu;

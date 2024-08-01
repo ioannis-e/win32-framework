@@ -29,7 +29,7 @@ CRichEditView()                                                             /*
 *-----------------------------------------------------------------------------*/
     :   m_textLength(0), m_isAppBanded(FALSE)
 {
-    ZeroMemory(&m_fr, sizeof(m_fr));
+        m_fr = {};
 }
 
 /*============================================================================*/
@@ -296,8 +296,7 @@ DoPrintView()                                                               /*
         OnBeginPrinting(DC, info);
 
           // Set up the print job
-        DOCINFO di;
-        ZeroMemory(&di, sizeof(di));
+        DOCINFO di = {};
         di.cbSize       = sizeof(DOCINFO);
         di.lpszDocName  = m_docPath; // the spooler label
         di.lpszOutput   = (m_printPath.IsEmpty() ?
@@ -453,7 +452,7 @@ OnBeginPrinting(CDC& DC, CPrintInfo& info)                                  /*
     HDC hPrinterDC = DC.GetHDC();
 
       // Rendering to the same DC we are measuring.
-    ZeroMemory(&m_fr, sizeof(m_fr));
+    m_fr = {};
     m_fr.hdc       = hPrinterDC;  // device to render to
     m_fr.hdcTarget = hPrinterDC;  // device to format to
 

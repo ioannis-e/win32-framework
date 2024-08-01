@@ -205,7 +205,7 @@ void CView::PrintPage(CDC& dc, int)
     // Extract the device independent image data.
     memDC.GetDIBits(bmView, 0, height, nullptr, pbmi, DIB_RGB_COLORS);
     std::vector<byte> byteArray(pBIH->biSizeImage, 0);
-    byte* pByteArray = &byteArray.front();
+    byte* pByteArray = byteArray.data();
     memDC.GetDIBits(bmView, 0, height, pByteArray, pbmi, DIB_RGB_COLORS);
 
     // Get the device context of the default or currently chosen printer

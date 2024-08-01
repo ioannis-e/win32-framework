@@ -169,8 +169,7 @@ void CMainFrame::DrawTitleText(CDC& dc) const
     titlebarTextRect.right = buttonRects.minimize.left;
 
     // Draw the title bar text.
-    DTTOPTS drawThemeOptions;
-    ZeroMemory(&drawThemeOptions, sizeof(drawThemeOptions));
+    DTTOPTS drawThemeOptions = {};
     drawThemeOptions.dwSize = sizeof(drawThemeOptions);
     drawThemeOptions.dwFlags = DTT_TEXTCOLOR;
     COLORREF itemColor = IsActive() ? m_colors.activeItem : m_colors.inactiveItem;
@@ -330,8 +329,7 @@ CRect CMainFrame::GetViewRect() const
 // Returns true of the window is maximized, false otherwise.
 bool CMainFrame::IsMaximized() const
 {
-    WINDOWPLACEMENT placement;
-    ZeroMemory(&placement, sizeof(placement));
+    WINDOWPLACEMENT placement = {};
     placement.length = sizeof(WINDOWPLACEMENT);
     if (GetWindowPlacement(placement))
     {

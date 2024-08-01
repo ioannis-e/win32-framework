@@ -49,11 +49,10 @@ void CMainFrame::DoPopupMenu()
     CMenu popupMenu = topMenu.GetSubMenu(0);
 
     // Put a radio check in the currently checked item.
-    MENUITEMINFO mii;
-    ZeroMemory(&mii, GetSizeofMenuItemInfo());
+    MENUITEMINFO mii = {};
     for (int i = 3 ; i < 7 ; i++)
     {
-        ZeroMemory(&mii, GetSizeofMenuItemInfo());
+        mii = {};
         mii.cbSize = GetSizeofMenuItemInfo();
 
         mii.fMask  = MIIM_STATE | MIIM_ID;
@@ -155,8 +154,7 @@ void CMainFrame::LoadListViewRegistrySettings()
 
             for (int i = 0; i < 4; i++)
             {
-                HDITEM headerItem;
-                ZeroMemory(&headerItem, sizeof(headerItem));
+                HDITEM headerItem = {};
                 headerItem.mask = HDI_WIDTH;
                 headerItem.cxy = columns[i];
                 GetListView().GetListHeader().SetItem(i, headerItem);
@@ -327,8 +325,7 @@ BOOL CMainFrame::SaveRegistrySettings()
                     DWORD columns[4];
                     for (int i = 0; i < 4; i++)
                     {
-                        HDITEM headerItem;
-                        ZeroMemory(&headerItem, sizeof(headerItem));
+                        HDITEM headerItem = {};
                         headerItem.mask = HDI_WIDTH;
                         GetListView().GetListHeader().GetItem(i, headerItem);
                         columns[i] = headerItem.cxy;

@@ -168,7 +168,7 @@ namespace Win32xx
 
     inline CTaskDialog::CTaskDialog() : m_selectedButtonID(0), m_selectedRadioButtonID(0), m_verificationCheckboxState(FALSE)
     {
-        ZeroMemory(&m_tc, sizeof(m_tc));
+        m_tc = {};
         m_tc.cbSize = sizeof(m_tc);
         m_tc.pfCallback = CTaskDialog::StaticTaskDialogProc;
     }
@@ -238,8 +238,7 @@ namespace Win32xx
         std::vector<TASKDIALOG_BUTTON> buttons;
         for (it = m_buttons.begin(); it != m_buttons.end(); ++it)
         {
-            TASKDIALOG_BUTTON tb;
-            ZeroMemory(&tb, sizeof(tb));
+            TASKDIALOG_BUTTON tb = {};
             tb.nButtonID = (*it).buttonID;
             tb.pszButtonText = (*it).buttonText;
             buttons.push_back(tb);
@@ -249,8 +248,7 @@ namespace Win32xx
         std::vector<TASKDIALOG_BUTTON> radioButtons;
         for (it = m_radioButtons.begin(); it != m_radioButtons.end(); ++it)
         {
-            TASKDIALOG_BUTTON tb;
-            ZeroMemory(&tb, sizeof(tb));
+            TASKDIALOG_BUTTON tb = {};
             tb.nButtonID = (*it).buttonID;
             tb.pszButtonText = (*it).buttonText;
             radioButtons.push_back(tb);
@@ -260,9 +258,9 @@ namespace Win32xx
 
         // Fill the TASKDIALOGCONFIG struct.
         m_tc.cbSize = sizeof(m_tc);
-        m_tc.pButtons = buttons.empty()? nullptr : &buttons.front();
+        m_tc.pButtons = buttons.empty()? nullptr : buttons.data();
         m_tc.cButtons = static_cast<UINT>(buttons.size());
-        m_tc.pRadioButtons = radioButtons.empty()? nullptr : &radioButtons.front();
+        m_tc.pRadioButtons = radioButtons.empty()? nullptr : radioButtons.data();
         m_tc.cRadioButtons = static_cast<UINT>(radioButtons.size());
         m_tc.hwndParent = parent;
 

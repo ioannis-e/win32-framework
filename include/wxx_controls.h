@@ -740,7 +740,7 @@ namespace Win32xx
     {
         assert(IsWindow());
         assert(pcbi);
-        ZeroMemory(pcbi, sizeof(COMBOBOXINFO));
+        *pcbi = {};
         pcbi->cbSize = sizeof(COMBOBOXINFO);
         return ::GetComboBoxInfo(*this, pcbi);
     }
@@ -796,8 +796,7 @@ namespace Win32xx
     // Refer to GetComboBoxInfo in the Windows API documentation for more information.
     inline HWND  CComboBox::GetEditCtrl() const
     {
-        COMBOBOXINFO cbi;
-        ZeroMemory(&cbi, sizeof(cbi));
+        COMBOBOXINFO cbi = {};
         cbi.cbSize = sizeof(cbi);
         VERIFY(::GetComboBoxInfo(*this, &cbi));
 
@@ -855,8 +854,7 @@ namespace Win32xx
     // Refer to GetComboBoxInfo in the Windows API documentation for more information.
     inline HWND  CComboBox::GetLBCtrl() const
     {
-        COMBOBOXINFO cbi;
-        ZeroMemory(&cbi, sizeof(cbi));
+        COMBOBOXINFO cbi = {};
         cbi.cbSize = sizeof(cbi);
         VERIFY(::GetComboBoxInfo(*this, &cbi));
 
@@ -1211,8 +1209,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        SYSTEMTIME ranges[2];
-        ZeroMemory(ranges, 2 * sizeof(SYSTEMTIME));
+        SYSTEMTIME ranges[2] = {};
         DWORD result = DateTime_GetRange(*this, ranges);
         minRange = ranges[0];
         maxRange = ranges[1];
@@ -1227,8 +1224,7 @@ namespace Win32xx
     inline SYSTEMTIME CDateTime::GetTime(DWORD* pReturnCode) const
     {
         assert(IsWindow());
-        SYSTEMTIME time;
-        ZeroMemory(&time,  sizeof(time));
+        SYSTEMTIME time = {};
         DWORD Res = DateTime_GetSystemtime(*this, &time);
         if (pReturnCode)
             *pReturnCode = Res;
@@ -1267,8 +1263,7 @@ namespace Win32xx
     inline BOOL CDateTime::SetRange(const SYSTEMTIME& minRange, const SYSTEMTIME& maxRange) const
     {
         assert(IsWindow());
-        SYSTEMTIME ranges[2];
-        ZeroMemory(&ranges, sizeof(ranges));
+        SYSTEMTIME ranges[2] = {};
         ranges[0] = minRange;
         ranges[1] = maxRange;
         DWORD flags = GDTR_MIN | GDTR_MAX;
@@ -1555,8 +1550,7 @@ namespace Win32xx
         if (GetComCtlVersion() > 470)
         {
             // Call InitCommonControlsEx.
-            INITCOMMONCONTROLSEX initStruct;
-            ZeroMemory(&initStruct, sizeof(initStruct));
+            INITCOMMONCONTROLSEX initStruct = {};
             initStruct.dwSize = sizeof(initStruct);
             initStruct.dwICC = ICC_INTERNET_CLASSES;
             InitCommonControlsEx(&initStruct);
@@ -1695,8 +1689,7 @@ namespace Win32xx
     inline SYSTEMTIME CMonthCalendar::GetCurSel() const
     {
         assert(IsWindow());
-        SYSTEMTIME st;
-        ZeroMemory(&st, sizeof(st));
+        SYSTEMTIME st = {};
         LPARAM lparam = reinterpret_cast<LPARAM>(&st);
         SendMessage(MCM_GETCURSEL, 0, lparam);
         return st;
@@ -1746,8 +1739,7 @@ namespace Win32xx
     inline int CMonthCalendar::GetMonthRange(SYSTEMTIME& minRange, SYSTEMTIME& maxRange, DWORD flags) const
     {
         assert(IsWindow());
-        SYSTEMTIME minMax[2];
-        ZeroMemory(minMax, 2*sizeof(SYSTEMTIME));
+        SYSTEMTIME minMax[2] = {};
         int count = static_cast<int>(MonthCal_GetMonthRange(*this, flags, minMax));
         minRange = minMax[0];
         maxRange = minMax[1];
@@ -1759,8 +1751,7 @@ namespace Win32xx
     inline LRESULT CMonthCalendar::GetRange(SYSTEMTIME& minRange, SYSTEMTIME& maxRange) const
     {
         assert(IsWindow());
-        SYSTEMTIME minMax[2];
-        ZeroMemory(minMax, 2*sizeof(SYSTEMTIME));
+        SYSTEMTIME minMax[2] = {};
         LPARAM lparam = reinterpret_cast<LPARAM>(&minMax);
         LRESULT value = SendMessage(MCM_GETRANGE, 0, lparam);
         minRange = minMax[0];
@@ -1773,8 +1764,7 @@ namespace Win32xx
     inline LRESULT CMonthCalendar::GetSelRange(SYSTEMTIME& minRange, SYSTEMTIME& maxRange) const
     {
         assert(IsWindow());
-        SYSTEMTIME minMax[2];
-        ZeroMemory(minMax, 2*sizeof(SYSTEMTIME));
+        SYSTEMTIME minMax[2] = {};
         LRESULT value = MonthCal_GetSelRange(*this, &minMax);
         minRange = minMax[0];
         maxRange = minMax[1];
@@ -1786,8 +1776,7 @@ namespace Win32xx
     inline SYSTEMTIME CMonthCalendar::GetToday() const
     {
         assert(IsWindow());
-        SYSTEMTIME dateTime;
-        ZeroMemory(&dateTime, sizeof(dateTime));
+        SYSTEMTIME dateTime = {};
         LPARAM lparam = reinterpret_cast<LPARAM>(&dateTime);
         VERIFY (SendMessage(MCM_GETTODAY, 0, lparam));
         return dateTime;
@@ -1862,8 +1851,7 @@ namespace Win32xx
     // Refer to MonthCal_SetRange in the Windows API documentation for more information.
     inline BOOL CMonthCalendar::SetRange(const SYSTEMTIME& minRange, const SYSTEMTIME& maxRange) const
     {
-        SYSTEMTIME minMax[2];
-        ZeroMemory(&minMax, sizeof(minMax));
+        SYSTEMTIME minMax[2] = {};
         DWORD limit = GDTR_MIN | GDTR_MAX;
 
         minMax[0] = minRange;
@@ -1876,8 +1864,7 @@ namespace Win32xx
     // Refer to MonthCal_SetSelRange in the Windows API documentation for more information.
     inline BOOL CMonthCalendar::SetSelRange(const SYSTEMTIME& minRange, const SYSTEMTIME& maxRange) const
     {
-        SYSTEMTIME minMax[2];
-        ZeroMemory(&minMax, sizeof(minMax));
+        SYSTEMTIME minMax[2] = {};
         minMax[0] = minRange;
         minMax[1] = maxRange;
 
@@ -2580,8 +2567,7 @@ namespace Win32xx
     inline TOOLINFO CToolTip::GetToolInfo(HWND control, UINT id) const
     {
         assert(IsWindow());
-        TOOLINFO info;
-        ZeroMemory(&info, sizeof(info));
+        TOOLINFO info = {};
         info.cbSize = sizeof(info);
         if (id == static_cast<UINT>(-1))
         {
@@ -2608,7 +2594,7 @@ namespace Win32xx
     // Override this function to specify different flags.
     inline void CToolTip::FillToolInfo(TOOLINFO& info, HWND control) const
     {
-        ZeroMemory(&info, sizeof(info));
+        info = {};
         info.cbSize = sizeof(info);
 
         info.hwnd = ::GetParent(*this);  // pass notifications to the parent window
@@ -2627,7 +2613,7 @@ namespace Win32xx
     // Override this function to specify different flags.
     inline void CToolTip::FillToolInfo(TOOLINFO& info, HWND control, const RECT& rc, UINT id) const
     {
-        ZeroMemory(&info, sizeof(info));
+        info = {};
         info.cbSize = sizeof(info);
 
         info.hwnd = control;
@@ -2642,8 +2628,7 @@ namespace Win32xx
     inline BOOL CToolTip::HitTest(HWND wnd, CPoint pt, const TOOLINFO& toolInfo) const
     {
         assert(IsWindow());
-        TTHITTESTINFO hti;
-        ZeroMemory(&hti, sizeof(hti));
+        TTHITTESTINFO hti = {};
         hti.hwnd = wnd;
         hti.pt = pt;
         hti.ti = toolInfo;

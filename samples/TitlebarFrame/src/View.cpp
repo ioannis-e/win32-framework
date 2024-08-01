@@ -104,7 +104,7 @@ void CView::PrintPage(CDC& dc, int)
         BITMAPINFOHEADER* pBIH = reinterpret_cast<BITMAPINFOHEADER*>(pbmi.get());
         memDC.GetDIBits(bmView, 0, cyView, nullptr, pbmi, DIB_RGB_COLORS);
         std::vector<byte> byteArray(pBIH->biSizeImage, 0);
-        byte* pByteArray = &byteArray.front();
+        byte* pByteArray = byteArray.data();
         memDC.GetDIBits(bmView, 0, cyView, pByteArray, pbmi, DIB_RGB_COLORS);
 
         // Copy the DI bits to the specified dc

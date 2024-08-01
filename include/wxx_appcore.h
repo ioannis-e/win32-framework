@@ -204,8 +204,7 @@ namespace Win32xx
                 SetnGetThis(this);
 
                 // Set the instance handle.
-                MEMORY_BASIC_INFORMATION mbi;
-                ZeroMemory(&mbi, sizeof(mbi));
+                MEMORY_BASIC_INFORMATION mbi = {};
                 static int address = 0;
                 ::VirtualQuery(&address, &mbi, sizeof(mbi));
                 assert(mbi.AllocationBase);
@@ -460,18 +459,15 @@ namespace Win32xx
     // address of CWnd::StaticWindowProc.
     inline void CWinApp::SetCallback()
     {
-        WNDCLASS defaultWC;
-        ZeroMemory(&defaultWC, sizeof(defaultWC));
-
+        WNDCLASS defaultWC = {};
         LPCTSTR className    = _T("Win32++ Temporary Window Class");
         defaultWC.hInstance     = GetInstanceHandle();
         defaultWC.lpfnWndProc   = CWnd::StaticWindowProc;
         defaultWC.lpszClassName = className;
-
         VERIFY(::RegisterClass(&defaultWC));
 
         // Retrieve the class information.
-        ZeroMemory(&defaultWC, sizeof(defaultWC));
+        defaultWC = {};
         VERIFY(::GetClassInfo(GetInstanceHandle(), className, &defaultWC));
 
         // Save the callback address of CWnd::StaticWindowProc.
@@ -564,8 +560,7 @@ namespace Win32xx
         if (m_devNames.Get() == nullptr)
         {
             // Allocate global printer memory by specifying the default printer.
-            PRINTDLG pd;
-            ZeroMemory(&pd, sizeof(pd));
+            PRINTDLG pd = {};
             pd.Flags = PD_RETURNDEFAULT;
             pd.lStructSize = sizeof(pd);
             ::PrintDlg(&pd);
@@ -578,8 +573,7 @@ namespace Win32xx
             if (CDevNames(m_devNames).IsDefaultPrinter())
             {
                 // Get current default printer
-                PRINTDLG pd;
-                ZeroMemory(&pd, sizeof(pd));
+                PRINTDLG pd = {};
                 pd.lStructSize = sizeof(pd);
                 pd.Flags = PD_RETURNDEFAULT;
                 ::PrintDlg(&pd);
@@ -849,7 +843,7 @@ namespace Win32xx
         {
             startSize = startSize * 4;
             vString.assign(size_t(startSize) + 1, 0);
-            pTCharArray = &vString.front();
+            pTCharArray = vString.data();
             chars = ::LoadStringA(GetApp()->GetResourceHandle(), id, pTCharArray, startSize);
         }
 
@@ -861,8 +855,8 @@ namespace Win32xx
 
     // Loads the string from a Windows resource.
     // Refer to LoadString in the Windows API documentation for more information.
-    template <>
-    inline bool CStringW::LoadString(UINT id)
+    template <class T>
+    inline bool CStringT<T>::LoadString(UINT id)
     {
         assert(GetApp());
 
@@ -880,7 +874,7 @@ namespace Win32xx
         {
             startSize = startSize * 4;
             vString.assign(size_t(startSize) + 1, 0);
-            pTCharArray = &vString.front();
+            pTCharArray = vString.data();
             chars = ::LoadStringW(GetApp()->GetResourceHandle(), id, pTCharArray, startSize);
         }
 

@@ -94,7 +94,7 @@ void CMainFrame::DetermineEncoding(CFile& file)
             file.SeekToBegin();
             DWORD testlen = std::min(1024, static_cast<int>(fileLength));
             std::vector<byte> buffer(testlen);
-            file.Read(&buffer.front(), testlen);
+            file.Read(buffer.data(), testlen);
 
             // look UTF Byte Order Mark (BOM)
             if (buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
@@ -103,7 +103,7 @@ void CMainFrame::DetermineEncoding(CFile& file)
             // check for UTF-16 LE with Byte Order Mark (BOM)
             int tests = IS_TEXT_UNICODE_SIGNATURE;
             int textLength = static_cast<int>(testlen);
-            if (::IsTextUnicode(&buffer.front(), textLength, &tests) != 0)
+            if (::IsTextUnicode(buffer.data(), textLength, &tests) != 0)
                 encoding = UTF16LE;
         }
         catch (const CFileException& e)
@@ -693,8 +693,7 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
 BOOL CMainFrame::OnOptionsFont()
 {
     // Retrieve the current character format.
-    CHARFORMAT cf;
-    ZeroMemory(&cf, sizeof(cf));
+    CHARFORMAT cf = {};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_COLOR | CFM_FACE | CFM_EFFECTS;
 

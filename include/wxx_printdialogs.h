@@ -196,9 +196,8 @@ namespace Win32xx
     // PRINTDLG struct in the Windows API documentation.
     inline CPrintDialog::CPrintDialog(DWORD flags /* = PD_ALLPAGES | PD_USEDEVMODECOPIES | PD_NOPAGENUMS | PD_HIDEPRINTTOFILE | PD_NOSELECTION */)
     {
-        // initialize the PRINTDLG member
-        ZeroMemory(&m_pd, sizeof(m_pd));
-
+        // Initialize the PRINTDLG member
+        m_pd = {};
         m_pd.Flags = flags;
         m_pd.Flags &= ~PD_RETURNIC;
         m_pd.Flags &= ~PD_RETURNDC;   // Use GetPrinterDC to retrieve the dc.
@@ -518,7 +517,7 @@ namespace Win32xx
     // PAGESETUPDLG struct in the Windows API documentation.
     inline CPageSetupDialog::CPageSetupDialog( DWORD flags /* = PSD_MARGINS */ )
     {
-        ZeroMemory(&m_psd, sizeof(m_psd));
+        m_psd = {};
         m_psd.Flags = flags;
 
         // Enable the hook proc for the help button

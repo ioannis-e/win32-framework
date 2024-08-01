@@ -39,10 +39,10 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMod
         DWORD bytesNeeded = 0;
         ::GetPrinter(printer, 2, nullptr, 0, &bytesNeeded);
         std::vector<BYTE> infoBuffer(bytesNeeded);
-        PRINTER_INFO_2* p2 = reinterpret_cast<PRINTER_INFO_2*>(&infoBuffer.front());
+        PRINTER_INFO_2* p2 = reinterpret_cast<PRINTER_INFO_2*>(infoBuffer.data());
 
         // Fill the PRINTER_INFO_2 structure and close the printer handle.
-        if (::GetPrinter(printer, 2, &infoBuffer.front(), bytesNeeded, &bytesNeeded))
+        if (::GetPrinter(printer, 2, infoBuffer.data(), bytesNeeded, &bytesNeeded))
         {
             // Allocate a global handle for DEVMODE.
             size_t bufferSize = sizeof(DEVMODE) + p2->pDevMode->dmDriverExtra;
@@ -174,8 +174,7 @@ INT_PTR CCustomPrintDlg::DoSetupModal(HWND owner)
     GetApp()->UpdateDefaultPrinter();
 
     // Display the print setup dialog.
-    PRINTDLG pd;
-    ZeroMemory(&pd, sizeof(pd));
+    PRINTDLG pd = {};
     pd.lStructSize = sizeof(pd);
     pd.hDevMode = GetApp()->GetHDevMode();
     pd.hDevNames = GetApp()->GetHDevNames();
@@ -225,13 +224,13 @@ std::vector<CString> CCustomPrintDlg::FindPrinters() const
 
         // Fill the buffer. The buffer is actually an array of PRINTER_INFO_2.
         VERIFY(::EnumPrinters(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
-            nullptr, level, &buffer.front(), bufferSize, &bufferSize, &printerCount));
+            nullptr, level, buffer.data(), bufferSize, &bufferSize, &printerCount));
 
         // Do we have any printers?
         if (printerCount != 0)
         {
             // Get our array of PRINTER_INFO_2
-            PRINTER_INFO_2* pInfo = reinterpret_cast<PRINTER_INFO_2*>(&buffer.front());
+            PRINTER_INFO_2* pInfo = reinterpret_cast<PRINTER_INFO_2*>(buffer.data());
 
             for (DWORD i = 0; i < printerCount; i++, pInfo++)
             {
@@ -348,9 +347,9 @@ DWORD CCustomPrintDlg::GetPrinterStatus(LPCTSTR printerName) const
         std::vector<BYTE> infoBuffer(bufferSize);
 
         // Fill the PRINTER_INFO_2 structure.
-        if (::GetPrinter(printer, 2, &infoBuffer.front(), bufferSize, &bufferSize))
+        if (::GetPrinter(printer, 2, infoBuffer.data(), bufferSize, &bufferSize))
         {
-            PRINTER_INFO_2* printerInfo2 = reinterpret_cast<PRINTER_INFO_2*>(&infoBuffer.front());
+            PRINTER_INFO_2* printerInfo2 = reinterpret_cast<PRINTER_INFO_2*>(infoBuffer.data());
             status = printerInfo2->Status;
         }
         ::ClosePrinter(printer);
@@ -571,8 +570,7 @@ BOOL CCustomPrintDlg::OnPrintProperties()
 
         // Retrieve the printer handle with PRINTER_ALL_ACCESS if we can.
         HANDLE printer;
-        PRINTER_DEFAULTS printerDefaults;
-        ZeroMemory(&printerDefaults, sizeof(printerDefaults));
+        PRINTER_DEFAULTS printerDefaults = {};
         printerDefaults.DesiredAccess = PRINTER_ALL_ACCESS;
         if (::OpenPrinter(deviceName, &printer, &printerDefaults) == FALSE)
             if (::OpenPrinter(deviceName, &printer, nullptr) == FALSE)
@@ -581,7 +579,7 @@ BOOL CCustomPrintDlg::OnPrintProperties()
         // Allocate the pDevMode buffer as an array of BYTE.
         size_t devModeSize = ::DocumentProperties(*this, printer, deviceName, nullptr, GetDevMode(), 0);
         std::vector<BYTE> buffer(devModeSize);
-        LPDEVMODE pDevMode = reinterpret_cast<DEVMODE*>(&buffer.front());
+        LPDEVMODE pDevMode = reinterpret_cast<DEVMODE*>(buffer.data());
 
         // Display the printer property sheet, and retrieve the updated devMode data.
         if (IDOK == ::DocumentProperties(nullptr, printer, deviceName, pDevMode, 0, DM_IN_PROMPT | DM_OUT_BUFFER))
@@ -637,8 +635,7 @@ bool CCustomPrintDlg::SetPrinterFromDevMode(LPCTSTR deviceName, LPDEVMODE pDevMo
 
     // Retrieve the printer handle with PRINTER_ALL_ACCESS if we can.
     HANDLE printer;
-    PRINTER_DEFAULTS printerDefaults;
-    ZeroMemory(&printerDefaults, sizeof(printerDefaults));
+    PRINTER_DEFAULTS printerDefaults = {};
     printerDefaults.DesiredAccess = PRINTER_ALL_ACCESS;
     if (::OpenPrinter(const_cast<LPTSTR>(deviceName), &printer, &printerDefaults) == FALSE)
         if (::OpenPrinter(const_cast<LPTSTR>(deviceName), &printer, nullptr) == FALSE)
@@ -653,13 +650,13 @@ bool CCustomPrintDlg::SetPrinterFromDevMode(LPCTSTR deviceName, LPDEVMODE pDevMo
 
     // Allocate a buffer for the PRINTER_INFO_2.
     std::vector<BYTE> infoBuffer(bufferSize);
-    PRINTER_INFO_2* printerInfo2 = reinterpret_cast<PRINTER_INFO_2*>(&infoBuffer.front());
+    PRINTER_INFO_2* printerInfo2 = reinterpret_cast<PRINTER_INFO_2*>(infoBuffer.data());
 
     // Update the printer.
-    if (::GetPrinter(printer, 2, &infoBuffer.front(), bufferSize, &bufferSize))
+    if (::GetPrinter(printer, 2, infoBuffer.data(), bufferSize, &bufferSize))
     {
         printerInfo2->pDevMode = pDevMode;
-        ::SetPrinter(printer, 2, &infoBuffer.front(), 0);
+        ::SetPrinter(printer, 2, infoBuffer.data(), 0);
         return true;
     }
 

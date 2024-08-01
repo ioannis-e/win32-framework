@@ -102,7 +102,7 @@ void CView::PrintPage(CDC& dc, int)
         UINT scanLines = static_cast<UINT>(cyView);
         memDC.GetDIBits(bmView, 0, scanLines, nullptr, pbmi, DIB_RGB_COLORS);
         std::vector<byte> byteArray(pBIH->biSizeImage, 0);
-        byte* pByteArray = &byteArray.front();
+        byte* pByteArray = byteArray.data();
         memDC.GetDIBits(bmView, 0, scanLines, pByteArray, pbmi, DIB_RGB_COLORS);
 
         // Copy the DI bits to the specified dc

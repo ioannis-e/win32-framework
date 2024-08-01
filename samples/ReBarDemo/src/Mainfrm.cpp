@@ -163,8 +163,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
     m_toolBar.AddButtons(5, buttonInfo);
 
     // Fill the REBARBAND structure
-    REBARBANDINFO rbbi;
-    ZeroMemory(&rbbi, sizeof(REBARBANDINFO));
+    REBARBANDINFO rbbi = {};
     rbbi.fMask      = RBBIM_CHILD |RBBIM_CHILDSIZE| RBBIM_ID | RBBIM_SIZE | RBBIM_STYLE;
     rbbi.fStyle     = RBBS_BREAK;
     rbbi.hwndChild  = m_toolBar.GetHwnd();

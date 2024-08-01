@@ -369,7 +369,7 @@ namespace Win32xx
     inline CColorDialog::CColorDialog(COLORREF initColor /* = 0 */, DWORD flags /* = 0 */)
     {
         // Set the parameters in the CHOOSECOLOR struct.
-        ZeroMemory(&m_cc,  sizeof(m_cc));
+        m_cc = {};
         m_cc.rgbResult = initColor;
         m_cc.Flags = flags;
 
@@ -511,7 +511,7 @@ namespace Win32xx
         m_isOpenFileDialog = isOpenFileDialog;
 
         // Assign the OPENFILENAME struct.
-        ZeroMemory(&m_ofn, sizeof(m_ofn));
+        m_ofn = {};
         m_ofn.lpstrFile     = const_cast<LPTSTR>(fileName);
         m_ofn.lpstrFilter   = filter;
         m_ofn.lpstrDefExt   = defExt;
@@ -1062,7 +1062,7 @@ namespace Win32xx
     // for information of the FINDREPLACE structure.
     inline CFindReplaceDialog::CFindReplaceDialog(BOOL isFindDialogOnly /* = TRUE */)
     {
-        ZeroMemory(&m_fr, sizeof(m_fr));
+        m_fr = {};
         m_isFindDialogOnly = isFindDialogOnly;
         SetParameters(m_fr);
     }
@@ -1297,10 +1297,10 @@ namespace Win32xx
     inline CFontDialog::CFontDialog(const LOGFONT& initial, DWORD flags /* = 0 */,
         HDC printer /* = nullptr */)
     {
-        ZeroMemory(&m_logFont, sizeof(m_logFont));
+        m_logFont = {};
 
         // Set the dialog parameters.
-        ZeroMemory(&m_cf, sizeof(m_cf));
+        m_cf = {};
         m_cf.rgbColors   = 0; // black
         m_cf.lStructSize = sizeof(m_cf);
         m_cf.Flags  = flags;
@@ -1329,10 +1329,10 @@ namespace Win32xx
     inline CFontDialog::CFontDialog(const CHARFORMAT& charformat, DWORD flags /* = 0 */,
         HDC printer /* = nullptr */)
     {
-        ZeroMemory(&m_logFont, sizeof(m_logFont));
+        m_logFont = {};
 
         // Set dialog parameters.
-        ZeroMemory(&m_cf, sizeof(m_cf));
+        m_cf = {};
         m_cf.lStructSize = sizeof(m_cf);
         FillInLogFont(charformat);
         m_cf.lpLogFont = &m_logFont;
@@ -1357,10 +1357,10 @@ namespace Win32xx
     // Construct a default CFontDialog object.
     inline CFontDialog::CFontDialog(DWORD flags /* = 0 */, HDC printer /* =  nullptr */)
     {
-        ZeroMemory(&m_logFont, sizeof(m_logFont));
+        m_logFont = {};
 
         // Set the dialog parameters.
-        ZeroMemory(&m_cf, sizeof(m_cf));
+        m_cf = {};
         m_cf.rgbColors = 0; // black
         m_cf.lStructSize = sizeof(m_cf);
         m_cf.Flags  = flags;
@@ -1464,8 +1464,7 @@ namespace Win32xx
     // information in the m_FR CHOOSEFONT struct.
     inline CHARFORMAT CFontDialog::GetCharFormat() const
     {
-        CHARFORMAT chfmt;
-        ZeroMemory(&chfmt, sizeof(chfmt));
+        CHARFORMAT chfmt = {};
         chfmt.cbSize = sizeof(chfmt);
 
         if ((m_cf.Flags & CF_NOSTYLESEL) == 0)
@@ -1599,7 +1598,7 @@ namespace Win32xx
         if (cf.lpLogFont)
             m_logFont = *cf.lpLogFont;
         else
-            ZeroMemory(&m_logFont, sizeof(m_logFont));
+            m_logFont = {};
 
         if (cf.lpszStyle)
             m_styleName = cf.lpszStyle;

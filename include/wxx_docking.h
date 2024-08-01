@@ -703,7 +703,7 @@ namespace Win32xx
     //
     inline CDocker::CDockBar::CDockBar() : m_pDocker(nullptr), m_dockBarWidth(4)
     {
-        ZeroMemory(&m_dragPos, sizeof(m_dragPos));
+        m_dragPos = {};
     }
 
     inline CDocker::CDockBar::~CDockBar()
@@ -1026,8 +1026,7 @@ namespace Win32xx
     {
         if (!m_isTracking)
         {
-            TRACKMOUSEEVENT TrackMouseEventStruct;
-            ZeroMemory(&TrackMouseEventStruct, sizeof(TrackMouseEventStruct));
+            TRACKMOUSEEVENT TrackMouseEventStruct = {};
             TrackMouseEventStruct.cbSize = sizeof(TrackMouseEventStruct);
             TrackMouseEventStruct.dwFlags = TME_LEAVE | TME_NONCLIENT;
             TrackMouseEventStruct.hwndTrack = *this;
@@ -1331,8 +1330,7 @@ namespace Win32xx
     inline void CDocker::CDockClient::SendNotify(UINT messageID)
     {
         // Fill the DRAGPOS structure with data.
-        DRAGPOS dragPos;
-        ZeroMemory(&dragPos, sizeof(dragPos));
+        DRAGPOS dragPos = {};
         dragPos.hdr.code = messageID;
         dragPos.hdr.hwndFrom = GetHwnd();
         dragPos.pos = GetCursorPos();
@@ -4005,8 +4003,7 @@ namespace Win32xx
                 // Fill the DockInfo vector with the docking information.
                 for (iter = sortedDockers.begin(); iter != sortedDockers.end(); ++iter)
                 {
-                    DockInfo di;
-                    ZeroMemory(&di, sizeof(di));
+                    DockInfo di = {};
                     if (! (*iter)->IsWindow())
                         throw CUserException();
 
@@ -4080,8 +4077,7 @@ namespace Win32xx
     // Sends a docking notification to the docker below the cursor.
     inline void CDocker::SendNotify(UINT messageID)
     {
-        DRAGPOS dragPos;
-        ZeroMemory(&dragPos, sizeof(dragPos));
+        DRAGPOS dragPos = {};
         dragPos.hdr.code = messageID;
         dragPos.hdr.hwndFrom = GetHwnd();
         dragPos.pos = GetCursorPos();
@@ -4235,8 +4231,7 @@ namespace Win32xx
         m_isUndocking = FALSE;
 
         // Send the undock notification to the frame.
-        NMHDR nmhdr;
-        ZeroMemory(&nmhdr, sizeof(nmhdr));
+        NMHDR nmhdr = {};
         nmhdr.hwndFrom = GetHwnd();
         nmhdr.code = UWN_UNDOCKED;
         nmhdr.idFrom = static_cast<UINT_PTR>(m_dockID);
@@ -4629,8 +4624,7 @@ namespace Win32xx
 
         if (IsWindow())
         {
-            TCITEM tie;
-            ZeroMemory(&tie, sizeof(tie));
+            TCITEM tie = {};
             tie.mask = TCIF_TEXT | TCIF_IMAGE;
             tie.iImage = ci.tabImage;
             size_t newPageIndex = static_cast<size_t>(newPage);
@@ -4908,8 +4902,7 @@ namespace Win32xx
         for (size_t i = 0; i < m_allInfo.size(); ++i)
         {
             // Add tabs for each view.
-            TCITEM tie;
-            ZeroMemory(&tie, sizeof(tie));
+            TCITEM tie = {};
             tie.mask = TCIF_TEXT | TCIF_IMAGE;
             tie.iImage = m_allInfo[i].tabImage;
             tie.pszText = const_cast<LPTSTR>(m_allInfo[i].tabText.c_str());
@@ -4937,8 +4930,7 @@ namespace Win32xx
     inline LRESULT CDockContainer::OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         CPoint pt(lparam);
-        TCHITTESTINFO info;
-        ZeroMemory(&info, sizeof(info));
+        TCHITTESTINFO info = {};
         info.pt = pt;
         m_pressedTab = HitTest(info);
 
@@ -4985,8 +4977,7 @@ namespace Win32xx
 
         if (IsLeftButtonDown())
         {
-            TCHITTESTINFO info;
-            ZeroMemory(&info, sizeof(info));
+            TCHITTESTINFO info = {};
             info.pt = CPoint(lparam);
             int tab = HitTest(info);
             if (tab >= 0 && m_pressedTab >= 0)
@@ -5444,16 +5435,14 @@ namespace Win32xx
             ContainerInfo info1 = GetContainerParent()->m_allInfo[tab1Index];
             ContainerInfo info2 = GetContainerParent()->m_allInfo[tab2Index];
 
-            TCITEM Item1;
-            ZeroMemory(&Item1, sizeof(Item1));
+            TCITEM Item1 = {};
             Item1.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_RTLREADING | TCIF_STATE | TCIF_TEXT;
             Item1.cchTextMax = info1.tabText.GetLength()+1;
             Item1.pszText = const_cast<LPTSTR>(info1.tabText.c_str());
             GetItem(tab1, &Item1);
 
-            TCITEM Item2;
-            ZeroMemory(&Item2, sizeof(Item2));
-            Item2.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_RTLREADING | TCIF_STATE | TCIF_TEXT;
+            TCITEM Item2 = {};
+             Item2.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_RTLREADING | TCIF_STATE | TCIF_TEXT;
             Item2.cchTextMax = info2.tabText.GetLength()+1;
             Item2.pszText = const_cast<LPTSTR>(info2.tabText.c_str());
             GetItem(tab2, &Item2);

@@ -68,8 +68,7 @@ BOOL CMainMDIFrame::OnFileSave()
 BOOL CMainMDIFrame::OnFilePrint()
 {
     // Bring up a dialog to choose the printer
-    PRINTDLG pd;
-    ZeroMemory(&pd, sizeof(pd));
+    PRINTDLG pd = {};
     pd.lStructSize = sizeof( pd );
     pd.Flags = PD_RETURNDC;
     pd.hwndOwner = GetHwnd();

@@ -293,8 +293,7 @@ namespace Win32xx
 
 #ifdef GetAddrInfo  // Skip the following code block for older development environments
 
-            ADDRINFO hints;
-            ZeroMemory(&hints, sizeof(hints));
+            ADDRINFO hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFO *AddrInfo;
             CString portName;
@@ -323,8 +322,7 @@ namespace Win32xx
         }
         else
         {
-            sockaddr_in clientService;
-            ZeroMemory(&clientService, sizeof(clientService));
+            sockaddr_in clientService = {};
             clientService.sin_family = AF_INET;
 
 #ifdef _MSC_VER
@@ -369,8 +367,7 @@ namespace Win32xx
 
 #ifdef GetAddrInfo  // Skip the following code block for older development environments.
 
-            ADDRINFO hints;
-            ZeroMemory(&hints, sizeof(hints));
+            ADDRINFO hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFO *AddrInfo;
 
@@ -399,8 +396,7 @@ namespace Win32xx
         }
         else
         {
-            sockaddr_in clientService;
-            ZeroMemory(&clientService, sizeof(clientService));
+            sockaddr_in clientService = {};
             clientService.sin_family = AF_INET;
 
 #ifdef _MSC_VER
@@ -482,8 +478,7 @@ namespace Win32xx
         CEvent& stopRequestEvent = pSocket->m_stopRequest;
         SOCKET& clientSocket = pSocket->m_socket;
 
-        WSAEVENT allEvents[2];
-        ZeroMemory(&allEvents, sizeof(allEvents));
+        WSAEVENT allEvents[2] = {};
         allEvents[0] = ::WSACreateEvent();
         allEvents[1] = reinterpret_cast<WSAEVENT>(stopRequestEvent.GetHandle());  // cast supports Borland v5.5
         long events = FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE;
@@ -730,8 +725,7 @@ namespace Win32xx
 
 #ifdef GetAddrInfo  // Skip the following code block for older development environments.
 
-            ADDRINFO hints;
-            ZeroMemory(&hints, sizeof(hints));
+            ADDRINFO hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFO *addrInfo;
             CString portName;
@@ -762,8 +756,7 @@ namespace Win32xx
         }
         else
         {
-            sockaddr_in clientService;
-            ZeroMemory(&clientService, sizeof(clientService));
+            sockaddr_in clientService = {};
             clientService.sin_family = AF_INET;
 
 #ifdef _MSC_VER

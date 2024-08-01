@@ -126,8 +126,8 @@ namespace Win32xx
         LPCWSTR c_str() { return m_str ? &m_wideArray[0] : nullptr; }
 
     private:
-        CAtoW(const CAtoW&);
-        CAtoW& operator= (const CAtoW&);
+        CAtoW(const CAtoW&) = delete;
+        CAtoW& operator= (const CAtoW&) = delete;
         std::vector<wchar_t> m_wideArray;
         LPCSTR m_str;
     };
@@ -141,8 +141,8 @@ namespace Win32xx
         LPCSTR c_str() { return m_str ? &m_ansiArray[0] : nullptr; }
 
     private:
-        CWtoA(const CWtoA&);
-        CWtoA& operator= (const CWtoA&);
+        CWtoA(const CWtoA&) = delete;
+        CWtoA& operator= (const CWtoA&) = delete;
         std::vector<char> m_ansiArray;
         LPCWSTR m_str;
     };
@@ -156,8 +156,8 @@ namespace Win32xx
         LPCWSTR c_str() const { return m_str; }
 
     private:
-        CWtoW(const CWtoW&);
-        CWtoW& operator= (const CWtoW&);
+        CWtoW(const CWtoW&) = delete;
+        CWtoW& operator= (const CWtoW&) = delete;
 
         LPCWSTR m_str;
     };
@@ -170,8 +170,8 @@ namespace Win32xx
         LPCSTR c_str() const { return m_str; }
 
     private:
-        CAtoA(const CAtoA&);
-        CAtoA& operator= (const CAtoA&);
+        CAtoA(const CAtoA&) = delete;
+        CAtoA& operator= (const CAtoA&) = delete;
 
         LPCSTR m_str;
     };
@@ -184,8 +184,8 @@ namespace Win32xx
         operator BSTR() { return m_bstrString;}
 
     private:
-        CWtoBSTR(const CWtoBSTR&);
-        CWtoBSTR& operator= (const CWtoBSTR&);
+        CWtoBSTR(const CWtoBSTR&) = delete;
+        CWtoBSTR& operator= (const CWtoBSTR&) = delete;
         BSTR m_bstrString;
     };
 
@@ -197,8 +197,8 @@ namespace Win32xx
         operator BSTR() { return m_bstrString;}
 
     private:
-        CAtoBSTR(const CAtoBSTR&);
-        CAtoBSTR& operator= (const CAtoBSTR&);
+        CAtoBSTR(const CAtoBSTR&) = delete;
+        CAtoBSTR& operator= (const CAtoBSTR&) = delete;
         BSTR m_bstrString;
     };
 

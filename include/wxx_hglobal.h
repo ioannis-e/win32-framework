@@ -62,8 +62,8 @@ namespace Win32xx
         operator HGLOBAL() const        { return m_global; }
 
     private:
-        CHGlobal(const CHGlobal&);              // Disable copy
-        CHGlobal& operator=(const CHGlobal&);   // Disable assignment
+        CHGlobal(const CHGlobal&) = delete;
+        CHGlobal& operator=(const CHGlobal&) = delete;
 
         HGLOBAL m_global;
     };

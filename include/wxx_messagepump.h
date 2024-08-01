@@ -56,8 +56,7 @@ namespace Win32xx
     // them to a window procedure.
     inline int CMessagePump::MessageLoop()
     {
-        MSG msg;
-        ZeroMemory(&msg, sizeof(msg));
+        MSG msg = {};
         int status = 1;
         LONG count = 0;
 

@@ -173,8 +173,7 @@ void CView::Print()
         // Inform the driver that the application is about to begin sending data.
         printDC.StartPage();
 
-        BITMAPINFOHEADER bih;
-        ZeroMemory(&bih, sizeof(bih));
+        BITMAPINFOHEADER bih = {};
         bih.biSize = sizeof(bih);
         bih.biHeight = height;
         bih.biWidth = width;
@@ -189,7 +188,7 @@ void CView::Print()
 
         // Retrieve the image data
         std::vector<byte> vBits(bih.biSizeImage, 0); // a vector to hold the byte array
-        byte* pByteArray = &vBits.front();
+        byte* pByteArray = vBits.data();
         VERIFY(memDC.GetDIBits(bmView, 0, height, pByteArray, pBI, DIB_RGB_COLORS));
 
         // Determine the scaling factors required to print the bitmap and retain its original proportions.

@@ -278,8 +278,7 @@ LRESULT CViewList::OnLVColumnClick(LPNMLISTVIEW pListView)
     assert(pListView);
 
     // Determine the required sort order.
-    HDITEM  hdrItem;
-    ZeroMemory(&hdrItem, sizeof(hdrItem));
+    HDITEM  hdrItem = {};
     hdrItem.mask = HDI_FORMAT;
     int column = pListView->iSubItem;
     VERIFY(Header_GetItem(GetHeader(), column, &hdrItem));
@@ -353,8 +352,7 @@ void CViewList::PreCreate(CREATESTRUCT& cs)
 void CViewList::SetColumn()
 {
     // Initialize the columns
-    LV_COLUMN lvColumn;
-    ZeroMemory(&lvColumn, sizeof(LV_COLUMN));
+    LV_COLUMN lvColumn = {};
     lvColumn.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
     lvColumn.fmt = LVCFMT_LEFT;
 
@@ -398,8 +396,7 @@ void CViewList::SetDPIImages()
 BOOL CViewList::SetHeaderSortImage(int  columnIndex, int showArrow)
 {
     HWND    hHeader = nullptr;
-    HDITEM  hdrItem;
-    ZeroMemory(&hdrItem, sizeof(hdrItem));
+    HDITEM  hdrItem = {};
 
     hHeader = GetHeader();
     if (hHeader)
@@ -485,8 +482,7 @@ void CViewList::UpdateItemImage(int item)
         if (mi->flags & 0x0002)
             nImage = 4;
 
-        LVITEM lvi;
-        ZeroMemory(&lvi, sizeof(LVITEM));
+        LVITEM lvi = {};
         lvi.mask = LVIF_IMAGE;
         lvi.iImage = nImage;
         lvi.iItem = item;

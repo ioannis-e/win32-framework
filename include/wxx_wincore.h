@@ -436,8 +436,7 @@ namespace Win32xx
             if (pfnGetMonitorInfo && pfnMonitorFromWindow)
             {
                 HMONITOR hActiveMonitor = pfnMonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST);
-                MONITORINFO mi;
-                ZeroMemory(&mi, sizeof(mi));
+                MONITORINFO mi = {};
                 mi.cbSize = sizeof(mi);
 
                 if (pfnGetMonitorInfo(hActiveMonitor, &mi))
@@ -478,9 +477,7 @@ namespace Win32xx
     // are used. A failure to create a window throws an exception.
     inline HWND CWnd::Create(HWND parent /* = nullptr */)
     {
-        // Set the WNDCLASS parameters to reasonable defaults.
-        WNDCLASS wc;
-        ZeroMemory(&wc, sizeof(wc));
+        WNDCLASS wc = {};
 
         // Allow the WNDCLASS parameters to be modified.
         PreRegisterClass(wc);
@@ -490,8 +487,7 @@ namespace Win32xx
             VERIFY(RegisterClass(wc));
 
         // Set the CREATESTUCT parameters to reasonable defaults.
-        CREATESTRUCT cs;
-        ZeroMemory(&cs, sizeof(cs));
+        CREATESTRUCT cs = {};
         LONG dwOverlappedStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
         cs.style = WS_VISIBLE | ((parent)? WS_CHILD : dwOverlappedStyle );
         cs.hwndParent = parent;
@@ -567,8 +563,7 @@ namespace Win32xx
         else
             classString = className;
 
-        WNDCLASS wc;
-        ZeroMemory(&wc, sizeof(wc));
+        WNDCLASS wc = {};
         wc.lpszClassName = classString;
         wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
         wc.hCursor       = ::LoadCursor(nullptr, IDC_ARROW);
@@ -1113,8 +1108,7 @@ namespace Win32xx
         assert((wc.lpszClassName != nullptr) && (lstrlen(wc.lpszClassName) <=  WXX_MAX_STRING_SIZE));
 
         // Check to see if this classname is already registered.
-        WNDCLASS wcTest;
-        ZeroMemory(&wcTest, sizeof(wcTest));
+        WNDCLASS wcTest = {};
         BOOL done = FALSE;
 
         if (::GetClassInfo(GetApp()->GetInstanceHandle(), wc.lpszClassName, &wcTest))

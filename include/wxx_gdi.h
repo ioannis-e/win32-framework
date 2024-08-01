@@ -405,7 +405,7 @@ namespace Win32xx
         CDC_Data() : dc(nullptr), count(1L), isManagedHDC(FALSE), wnd(nullptr),
                      savedDCState(0), isPaintDC(false)
         {
-            ZeroMemory(&ps, sizeof(ps));
+            ps = {};
         }
 
         CBitmap bitmap;
@@ -1257,7 +1257,7 @@ namespace Win32xx
         VERIFY(dc.GetDIBits(*this, 0, scanLines, nullptr, pbmi, DIB_RGB_COLORS));
         DWORD size = pbmi->bmiHeader.biSizeImage;
         std::vector<byte> vBits(size, 0);
-        byte* bits = &vBits.front();
+        byte* bits = vBits.data();
         VERIFY(dc.GetDIBits(*this, 0, scanLines, bits, pbmi, DIB_RGB_COLORS));
 
         UINT widthBytes = bmiHeader.biSizeImage / bmiHeader.biHeight;
@@ -1366,8 +1366,7 @@ namespace Win32xx
     inline BITMAP CBitmap::GetBitmapData() const
     {
         assert(GetHandle() != nullptr);
-        BITMAP data;
-        ZeroMemory(&data, sizeof(data));
+        BITMAP data = {};
         VERIFY(::GetObject(GetHandle(), sizeof(data), &data));
         return data;
     }
@@ -1697,8 +1696,7 @@ namespace Win32xx
     inline LOGBRUSH CBrush::GetLogBrush() const
     {
         assert(GetHandle() != nullptr);
-        LOGBRUSH logBrush;
-        ZeroMemory(&logBrush, sizeof(logBrush));
+        LOGBRUSH logBrush = {};
         VERIFY(::GetObject (GetHandle(), sizeof(logBrush), &logBrush));
         return logBrush;
     }
@@ -1764,8 +1762,7 @@ namespace Win32xx
     // Refer to CreateFontIndirect in the Windows API documentation for more information.
     inline void CFont::CreatePointFont(int pointSize, LPCTSTR faceName, HDC dc /*= nullptr*/, BOOL isBold /*= FALSE*/, BOOL isItalic /*= FALSE*/)
     {
-        LOGFONT logFont;
-        ZeroMemory(&logFont, sizeof(logFont));
+        LOGFONT logFont = {};
         logFont.lfCharSet = DEFAULT_CHARSET;
         logFont.lfHeight = pointSize;
 
@@ -1826,8 +1823,7 @@ namespace Win32xx
     inline LOGFONT CFont::GetLogFont() const
     {
         assert(GetHandle() != nullptr);
-        LOGFONT logFont;
-        ZeroMemory(&logFont, sizeof(logFont));
+        LOGFONT logFont = {};
         VERIFY(::GetObject(GetHandle(), sizeof(logFont), &logFont));
         return logFont;
     }
@@ -2020,8 +2016,7 @@ namespace Win32xx
     {
         assert(GetHandle() != nullptr);
 
-        LOGPEN logPen;
-        ZeroMemory(&logPen, sizeof(logPen));
+        LOGPEN logPen = {};
         VERIFY(::GetObject(GetHandle(), sizeof(logPen), &logPen));
         return logPen;
     }
@@ -2041,8 +2036,7 @@ namespace Win32xx
     {
         assert(GetHandle() != nullptr);
 
-        EXTLOGPEN exLogPen;
-        ZeroMemory(&exLogPen, sizeof(exLogPen));
+        EXTLOGPEN exLogPen = {};
         VERIFY(::GetObject(GetHandle(), sizeof(exLogPen), &exLogPen));
         return exLogPen;
     }
@@ -2530,8 +2524,7 @@ namespace Win32xx
 
             if (pGradientFill)
             {
-                TRIVERTEX vertex[2];
-                ZeroMemory(&vertex, sizeof(vertex));
+                TRIVERTEX vertex[2] = {};
                 vertex[0].x = rc.left;
                 vertex[0].y = rc.top;
                 vertex[0].Red   = COLOR16(GetRValue(color1) << 8);
@@ -2548,8 +2541,7 @@ namespace Win32xx
 
                 // Create a GRADIENT_RECT structure that
                 // references the TRIVERTEX vertices.
-                GRADIENT_RECT rect;
-                ZeroMemory(&rect, sizeof(rect));
+                GRADIENT_RECT rect = {};
                 rect.UpperLeft = 0;
                 rect.LowerRight = 1;
 
@@ -2838,7 +2830,7 @@ namespace Win32xx
         m_pData->dc = nullptr;
         SetWindow(nullptr);
         SetPaintDC(false);
-        ZeroMemory(&m_pData->ps, sizeof(m_pData->ps));
+        m_pData->ps = {};
         SetManaged(false);
     }
 
@@ -2849,8 +2841,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HBITMAP bitmap = (HBITMAP)::GetCurrentObject(m_pData->dc, OBJ_BITMAP);
-        BITMAP bitmapInfo;
-        ZeroMemory(&bitmapInfo, sizeof(bitmapInfo));
+        BITMAP bitmapInfo = {};
         VERIFY(::GetObject(bitmap, sizeof(bitmapInfo), &bitmapInfo));
         return bitmapInfo;
     }
@@ -3016,8 +3007,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HBRUSH brush = static_cast<HBRUSH>(::GetCurrentObject(m_pData->dc, OBJ_BRUSH));
-        LOGBRUSH logBrush;
-        ZeroMemory(&logBrush, sizeof(logBrush));
+        LOGBRUSH logBrush = {};
         VERIFY(::GetObject(brush, sizeof(logBrush), &logBrush));
         return logBrush;
     }
@@ -3143,8 +3133,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HFONT font = static_cast<HFONT>(::GetCurrentObject(m_pData->dc, OBJ_FONT));
-        LOGFONT logFont;
-        ZeroMemory(&logFont, sizeof(logFont));
+        LOGFONT logFont = {};
         VERIFY(::GetObject(font, sizeof(logFont), &logFont));
         return logFont;
     }
@@ -3310,8 +3299,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HPEN pen = static_cast<HPEN>(::GetCurrentObject(m_pData->dc, OBJ_PEN));
-        LOGPEN logPen;
-        ZeroMemory(&logPen, sizeof(logPen));
+        LOGPEN logPen = {};
         VERIFY(::GetObject(pen, sizeof(logPen), &logPen));
         return logPen;
     }
@@ -5242,8 +5230,7 @@ namespace Win32xx
 
     inline CBitmapInfoPtr::CBitmapInfoPtr(HBITMAP bitmap)
     {
-        BITMAP data;
-        ZeroMemory(&data, sizeof(data));
+        BITMAP data = {};
         VERIFY(::GetObject(bitmap, sizeof(data), &data));
 
         // Convert the color format to a count of bits.
@@ -5258,7 +5245,7 @@ namespace Win32xx
         // Allocate memory for the BITMAPINFO structure.
         UINT uQuadSize = (cClrBits >= 24) ? 0 : UINT(sizeof(RGBQUAD)) * (1 << cClrBits);
         m_bmi.assign(sizeof(BITMAPINFOHEADER) + uQuadSize, 0);
-        m_pbmiArray = (LPBITMAPINFO)&m_bmi.front();
+        m_pbmiArray = (LPBITMAPINFO)m_bmi.data();
 
         m_pbmiArray->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
         m_pbmiArray->bmiHeader.biHeight = data.bmHeight;

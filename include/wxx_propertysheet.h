@@ -181,7 +181,7 @@ namespace Win32xx
 
     inline CPropertyPage::CPropertyPage(UINT templateID, LPCTSTR title /* = nullptr*/)
     {
-        ZeroMemory(&m_psp, sizeof(m_psp));
+        m_psp = {};
         SetTitle(title);
 
         m_psp.dwSize        = sizeof(m_psp);
@@ -516,7 +516,7 @@ namespace Win32xx
 
     inline CPropertySheet::CPropertySheet(UINT captionID, HWND parent /* = nullptr*/)
     {
-        ZeroMemory(&m_psh, sizeof(m_psh));
+        m_psh = {};
         SetTitle(LoadString(captionID));
 
         if (GetComCtlVersion() >= 471)
@@ -533,7 +533,7 @@ namespace Win32xx
 
     inline CPropertySheet::CPropertySheet(LPCTSTR caption /*= nullptr*/, HWND parent /* = nullptr*/)
     {
-        ZeroMemory(&m_psh, sizeof (m_psh));
+        m_psh = {};
         SetTitle(caption);
 
         if (GetComCtlVersion() >= 471)
@@ -591,7 +591,7 @@ namespace Win32xx
         for (iter = m_allPages.begin(); iter != m_allPages.end(); ++iter)
             m_allSheetPages.push_back((*iter)->GetPSP());
 
-        PROPSHEETPAGE* pPSPArray = &m_allSheetPages.front(); // Array of PROPSHEETPAGE
+        PROPSHEETPAGE* pPSPArray = m_allSheetPages.data(); // Array of PROPSHEETPAGE
         m_psh.ppsp = pPSPArray;
     }
 
@@ -648,7 +648,7 @@ namespace Win32xx
         }
 
         BuildPageArray();
-        PROPSHEETPAGE* pPSPArray = &m_allSheetPages.front();
+        PROPSHEETPAGE* pPSPArray = m_allSheetPages.data();
         m_psh.ppsp = pPSPArray;
 
         // Create a modeless Property Sheet.
@@ -719,7 +719,7 @@ namespace Win32xx
         Cleanup();
 
         BuildPageArray();
-        PROPSHEETPAGE* pPSPArray = &m_allSheetPages.front();
+        PROPSHEETPAGE* pPSPArray = m_allSheetPages.data();
         m_psh.ppsp = pPSPArray;
 
         // Create the Property Sheet.

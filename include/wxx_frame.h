@@ -394,10 +394,10 @@ namespace Win32xx
                               m_useMenuStatus(TRUE), m_useStatusBar(TRUE), m_useThemes(TRUE), m_useToolBar(TRUE),
                               m_altKeyPressed(FALSE)
     {
-        ZeroMemory(&m_mbTheme, sizeof(m_mbTheme));
-        ZeroMemory(&m_rbTheme, sizeof(m_rbTheme));
-        ZeroMemory(&m_sbTheme, sizeof(m_sbTheme));
-        ZeroMemory(&m_tbTheme, sizeof(m_tbTheme));
+        m_mbTheme = {};
+        m_rbTheme = {};
+        m_sbTheme = {};
+        m_tbTheme = {};
         m_indicators.assign(3, CString());
 
         // By default, we use the rebar if we can.
@@ -595,9 +595,7 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::AddMenuBarBand()
     {
-        REBARBANDINFO rbbi;
-        ZeroMemory(&rbbi, sizeof(rbbi));
-
+        REBARBANDINFO rbbi = {};
         rbbi.fMask      = RBBIM_STYLE | RBBIM_CHILD | RBBIM_ID;
         rbbi.fStyle     = RBBS_BREAK | RBBS_VARIABLEHEIGHT;
         rbbi.hwndChild  = GetMenuBar();
@@ -639,9 +637,7 @@ namespace Win32xx
         tb.CreateEx(0, TOOLBARCLASSNAME, 0, style, 0, 0, 0, 0, GetReBar(), 0);
 
         // Fill the REBARBAND structure.
-        REBARBANDINFO rbbi;
-        ZeroMemory(&rbbi, sizeof(rbbi));
-
+        REBARBANDINFO rbbi = {};
         rbbi.fMask      = RBBIM_STYLE |  RBBIM_CHILD | RBBIM_ID;
         rbbi.fStyle     = bandStyle;
         rbbi.hwndChild  = tb;
@@ -994,8 +990,7 @@ namespace Win32xx
 
 
                         // Draw the button image.
-                        TBBUTTON tbb;
-                        ZeroMemory(&tbb, sizeof(tbb));
+                        TBBUTTON tbb = {};
                         int button = pTB->CommandToIndex(item);
                         pTB->GetButton(button, tbb);
                         int image = tbb.iBitmap;
@@ -1375,7 +1370,7 @@ namespace Win32xx
             if (rt.clrBand1 || rt.clrBand2)
             {
                 // Draw the individual band backgrounds.
-                for (int band = 0 ; band < rebar.GetBandCount(); ++band)
+                for (int band = 0; band < rebar.GetBandCount(); ++band)
                 {
                     if (rebar.IsBandVisible(band))
                     {
@@ -1392,16 +1387,16 @@ namespace Win32xx
                             }
 
                             // Determine the size of the child window.
-                            REBARBANDINFO rbbi;
-                            ZeroMemory(&rbbi, sizeof(rbbi));
-                            rbbi.fMask = RBBIM_CHILD ;
+                            REBARBANDINFO rbbi = {};
+                            rbbi.fMask = RBBIM_CHILD;
                             rebar.GetBandInfo(band, rbbi);
-                            CRect childRect;
-                            VERIFY(::GetWindowRect(rbbi.hwndChild, &childRect));
-                            VERIFY(T::ScreenToClient(childRect));
+                            CWnd* pChild = T::GetCWndPtr(rbbi.hwndChild);
+                            assert(pChild);
+                            CRect childRect = pChild->GetWindowRect();
+                            pChild->ScreenToClient(childRect);
 
                             // Determine our drawing rectangle.
-                            int startPad = IsXPThemed()? 2: 0;
+                            int startPad = IsXPThemed() ? 2 : 0;
                             CRect drawRect = bandRect;
                             CRect borderRect = rebar.GetBandBorders(band);
                             if (isVertical)
@@ -1424,7 +1419,7 @@ namespace Win32xx
                             sourceDC.GradientFill(rt.clrBand1, rt.clrBand2, drawRect, !isVertical);
 
                             // Set Curve amount for rounded edges.
-                            int curve = rt.RoundBorders? T::DpiScaleInt(12) : 0;
+                            int curve = rt.RoundBorders ? T::DpiScaleInt(12) : 0;
 
                             // Create our mask for rounded edges using RoundRect.
                             CMemDC maskDC(dc);
@@ -1439,20 +1434,20 @@ namespace Win32xx
 
                             if (rt.FlatStyle)
                             {
-                                maskDC.SolidFill(RGB(0,0,0), drawRect);
+                                maskDC.SolidFill(RGB(0, 0, 0), drawRect);
                                 maskDC.BitBlt(left, top, cx, cy, maskDC, left, top, PATINVERT);
                                 maskDC.RoundRect(left, top, right, bottom, curve, curve);
                             }
                             else
                             {
-                                maskDC.SolidFill(RGB(0,0,0), drawRect);
+                                maskDC.SolidFill(RGB(0, 0, 0), drawRect);
                                 maskDC.RoundRect(left, top, right, bottom, curve, curve);
                                 maskDC.BitBlt(left, top, cx, cy, maskDC, left, top, PATINVERT);
                             }
 
                             // Copy Source DC to Memory DC using the RoundRect mask.
                             memDC.BitBlt(left, top, cx, cy, sourceDC, left, top, SRCINVERT);
-                            memDC.BitBlt(left, top, cx, cy, maskDC,   left, top, SRCAND);
+                            memDC.BitBlt(left, top, cx, cy, maskDC, left, top, SRCAND);
                             memDC.BitBlt(left, top, cx, cy, sourceDC, left, top, SRCINVERT);
                         }
                     }
@@ -1462,20 +1457,20 @@ namespace Win32xx
             if (rt.UseLines)
             {
                 // Draw lines between bands.
-                for (int j = 0; j < GetReBar().GetBandCount()-1; ++j)
+                for (int j = 0; j < GetReBar().GetBandCount() - 1; ++j)
                 {
                     CRect bandRect = GetReBar().GetBandRect(j);
                     if (isVertical)
                     {
                         int rebarTop = rebarRect.top;
                         bandRect.top = std::max(0, rebarTop - 4);
-                        bandRect.right +=2;
+                        bandRect.right += 2;
                     }
                     else
                     {
                         int rebarLeft = rebarRect.left;
                         bandRect.left = std::max(0, rebarLeft - 4);
-                        bandRect.bottom +=2;
+                        bandRect.bottom += 2;
                     }
                     memDC.DrawEdge(bandRect, EDGE_ETCHED, BF_BOTTOM | BF_ADJUST);
                 }
@@ -1829,8 +1824,7 @@ namespace Win32xx
                 if (monitor == nullptr)
                     throw CUserException();
 
-                MONITORINFO mi;
-                ZeroMemory(&mi, sizeof(mi));
+                MONITORINFO mi = {};
                 mi.cbSize = sizeof(mi);
                 ::GetMonitorInfo(monitor, &mi);
                 CRect workArea = mi.rcWork;
@@ -2209,8 +2203,7 @@ namespace Win32xx
 #if (WINVER >= 0x0500)  // Minimum OS required is Win2000
         if (IsUsingThemes())
         {
-            MENUINFO mi;
-            ZeroMemory(&mi, sizeof(mi));
+            MENUINFO mi = {};
             mi.cbSize = sizeof(mi);
             mi.fMask = MIM_BACKGROUND | MIM_APPLYTOSUBMENUS;
 
@@ -2235,8 +2228,7 @@ namespace Win32xx
             {
                 // The MenuItemData pointer is deleted in OnUnInitMenuPopup.
                 MenuItemDataPtr itemDataPtr(std::make_unique<MenuItemData>());
-                MENUITEMINFO mii;
-                ZeroMemory(&mii, sizeof(mii));
+                MENUITEMINFO mii = {};
                 mii.cbSize = GetSizeofMenuItemInfo();
 
                 // Use old fashioned MIIM_TYPE instead of MIIM_FTYPE for Win95 compatibility.
@@ -2591,8 +2583,7 @@ namespace Win32xx
         for (int i = 0; i < menu.GetMenuItemCount(); i++)
         {
             UINT position = static_cast<UINT>(i);
-            MENUITEMINFO mii;
-            ZeroMemory(&mii, sizeof(mii));
+            MENUITEMINFO mii = {};
             mii.cbSize = GetSizeofMenuItemInfo();
             mii.fMask = MIIM_STATE | MIIM_ID | MIIM_SUBMENU | MIIM_CHECKMARKS | MIIM_TYPE | MIIM_DATA;
             menu.GetMenuItemInfo(position, mii, TRUE);
@@ -2800,8 +2791,7 @@ namespace Win32xx
                     throw CUserException(_T("CRegKey::Open failed"));
 
                 // Store the window position in the registry.
-                WINDOWPLACEMENT wndpl;
-                ZeroMemory(&wndpl, sizeof(wndpl));
+                WINDOWPLACEMENT wndpl = {};
                 wndpl.length = sizeof(wndpl);
 
                 if (T::GetWindowPlacement(wndpl))
@@ -2963,8 +2953,7 @@ namespace Win32xx
         {
             CRect rcBorder = rb.GetBandBorders(band);
 
-            REBARBANDINFO rbbi;
-            ZeroMemory(&rbbi, sizeof(rbbi));
+            REBARBANDINFO rbbi = {};
             rbbi.fMask = RBBIM_CHILDSIZE | RBBIM_SIZE;
             rb.GetBandInfo(band, rbbi);
 
@@ -3631,8 +3620,7 @@ namespace Win32xx
         }
 
         // Set MRU menu items.
-        MENUITEMINFO mii;
-        ZeroMemory(&mii, sizeof(mii));
+        MENUITEMINFO mii = {};
         mii.cbSize = GetSizeofMenuItemInfo();
 
         // We place the MRU items under the left most menu item.

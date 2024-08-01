@@ -108,7 +108,7 @@ BOOL CTCPClientDlg::OnInitDialog()
 void CTCPClientDlg::Receive()
 {
     std::vector<char> bufVector( 1025, '\0' );
-    char* bufArray = &bufVector.front(); // char array with 1025 elements initialized to '\0'
+    char* bufArray = bufVector.data(); // char array with 1025 elements initialized to '\0'
     if (m_pSocket->Receive(bufArray, 1024, 0) != SOCKET_ERROR)
     {
         AppendText(IDC_EDIT_RECEIVE2, AtoT(bufArray));
@@ -137,7 +137,7 @@ void CTCPClientDlg::Send()
 CSvrDialog::CSvrDialog(int resID) : CDialog(resID), m_isServerStarted(false),
                                       m_socketType(SOCK_STREAM)
 {
-    ZeroMemory(&m_saUDPClient, sizeof(m_saUDPClient));
+    m_saUDPClient = {};
 
     // Add support for the IP Address control
     // It requires Win95 with IE4 integrated or a later version of Windows OS.
@@ -466,7 +466,7 @@ BOOL CSvrDialog::OnSocketReceive(WPARAM wparam)
 {
     CWorkerSocket* pClient = reinterpret_cast<CWorkerSocket*>(wparam);
     std::vector<char> vChar(1025, '\0');
-    char* bufArray = &vChar.front(); // char array with 1025 elements
+    char* bufArray = vChar.data(); // char array with 1025 elements
 
     switch (m_socketType)
     {

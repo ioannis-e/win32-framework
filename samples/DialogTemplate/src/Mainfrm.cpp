@@ -68,7 +68,7 @@ void CMainFrame::DialogFromTemplateText()
             resToken = arrayText.Tokenize(_T(","), curPos);
         };
 
-        m_holder.ShowDialog(this, &array.front());
+        m_holder.ShowDialog(this, array.data());
     }
 }
 

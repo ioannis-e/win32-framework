@@ -838,8 +838,7 @@ namespace Win32xx
     {
         assert(parent != nullptr);
 
-        CLIENTCREATESTRUCT clientcreate;
-        ZeroMemory(&clientcreate, sizeof(clientcreate));
+        CLIENTCREATESTRUCT clientcreate = {};
         clientcreate.hWindowMenu  = nullptr;
         clientcreate.idFirstChild = IDW_FIRSTCHILD;
         DWORD style = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | MDIS_ALLCHILDSTYLES;
@@ -926,11 +925,8 @@ namespace Win32xx
     // This technique avoids unnecessary flicker when creating maximized MDI children.
     inline HWND CMDIChild::Create(HWND parent /*= nullptr*/)
     {
-        CREATESTRUCT cs;
-        WNDCLASS wc;
-
-        ZeroMemory(&cs, sizeof(cs));
-        ZeroMemory(&wc, sizeof(wc));
+        CREATESTRUCT cs = {};
+        WNDCLASS wc = {};
 
         // Call PreCreate in case its overloaded.
         PreCreate(cs);

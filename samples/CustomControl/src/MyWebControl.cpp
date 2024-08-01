@@ -16,9 +16,7 @@ CWebControl::CWebControl()
     CString className = _T("WebControl");
 
     // Register the window class
-    WNDCLASS wc;
-    ZeroMemory(&wc, sizeof(wc));
-
+    WNDCLASS wc = {};
     HINSTANCE instance = GetApp()->GetInstanceHandle();
     if (!::GetClassInfo(instance, className, &wc))
     {

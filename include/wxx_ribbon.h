@@ -509,8 +509,7 @@ namespace Win32xx
     template <class T>
     inline CRibbonFrameT<T>::CRecentFiles::CRecentFiles(PWSTR fullPath) : m_count(0)
     {
-        SHFILEINFOW sfi;
-        ZeroMemory(&sfi, sizeof(sfi));
+        SHFILEINFOW sfi = {};
         DWORD_PTR ptr = 0;
         m_fullPath[0] = L'\0';
         m_displayName[0] = L'\0';

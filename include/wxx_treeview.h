@@ -298,8 +298,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.mask = TVIF_PARAM;
         tvi.hItem = item;
         SendMessage(TVM_GETITEM, 0, reinterpret_cast<LPARAM>(&tvi));
@@ -320,8 +319,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.mask = TVIF_IMAGE | TVIF_SELECTEDIMAGE;
         tvi.hItem = item;
         BOOL result = TreeView_GetItem( *this, &tvi );
@@ -354,8 +352,7 @@ namespace Win32xx
         CString str;
         if (textMax > 0)
         {
-            TVITEM tvi;
-            ZeroMemory(&tvi, sizeof(tvi));
+            TVITEM tvi = {};
             tvi.hItem = item;
             tvi.mask = TVIF_TEXT;
             tvi.cchTextMax = textMax;
@@ -494,8 +491,7 @@ namespace Win32xx
         LPARAM lparam, HTREEITEM parent,
         HTREEITEM insertAfter) const
     {
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.mask = mask;
         tvi.iImage = image;
         tvi.iSelectedImage = selectedImage;
@@ -504,8 +500,7 @@ namespace Win32xx
         tvi.lParam = lparam;
         tvi.pszText = const_cast<LPTSTR>(text);
 
-        TVINSERTSTRUCT tvis;
-        ZeroMemory(&tvis, sizeof(tvis));
+        TVINSERTSTRUCT tvis = {};
         tvis.hParent = parent;
         tvis.hInsertAfter = insertAfter;
         tvis.item = tvi;
@@ -518,13 +513,11 @@ namespace Win32xx
     inline HTREEITEM CTreeView::InsertItem(LPCTSTR text, HTREEITEM parent,
         HTREEITEM insertAfter) const
     {
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.mask = TVIF_TEXT;
         tvi.pszText = const_cast<LPTSTR>(text);
 
-        TVINSERTSTRUCT tvis;
-        ZeroMemory(&tvis, sizeof(tvis));
+        TVINSERTSTRUCT tvis = {};
         tvis.hParent = parent;
         tvis.hInsertAfter = insertAfter;
         tvis.item = tvi;
@@ -537,15 +530,13 @@ namespace Win32xx
     inline HTREEITEM CTreeView::InsertItem(LPCTSTR text, int image, int selectedImage,
         HTREEITEM parent, HTREEITEM insertAfter) const
     {
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
         tvi.iImage = image;
         tvi.iSelectedImage = selectedImage;
         tvi.pszText = const_cast<LPTSTR>(text);
 
-        TVINSERTSTRUCT tvis;
-        ZeroMemory(&tvis, sizeof(tvis));
+        TVINSERTSTRUCT tvis = {};
         tvis.hParent = parent;
         tvis.hInsertAfter = insertAfter;
         tvis.item = tvi;
@@ -686,8 +677,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.hItem = item;
         tvi.mask  = mask;
         tvi.pszText = const_cast<LPTSTR>(text);
@@ -705,8 +695,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.hItem = item;
         tvi.mask = TVIF_PARAM;
         tvi.lParam = static_cast<LPARAM>(data);
@@ -727,8 +716,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.hItem = item;
         tvi.iImage = image;
         tvi.iSelectedImage = selectedImage;
@@ -742,8 +730,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        TVITEM tvi;
-        ZeroMemory(&tvi, sizeof(tvi));
+        TVITEM tvi = {};
         tvi.hItem = item;
         tvi.pszText = const_cast<LPTSTR>(text);
         tvi.mask = TVIF_TEXT;

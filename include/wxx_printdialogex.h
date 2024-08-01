@@ -161,7 +161,7 @@ namespace Win32xx
     // PRINTDLGEX struct in the Windows API documentation.
     inline CPrintDialogEx::CPrintDialogEx(DWORD flags) : m_pServices(nullptr)
     {
-        ZeroMemory(&m_pdex, sizeof(m_pdex));
+        m_pdex = {};
         m_pdex.lStructSize = sizeof(m_pdex);
         m_pdex.Flags = flags;
         m_pdex.nStartPage = START_PAGE_GENERAL;
@@ -272,8 +272,7 @@ namespace Win32xx
         {
             // Retrieve the size of the current DevMode.
             UINT size = 0;
-            DEVMODE tempMode;
-            ZeroMemory(&tempMode, sizeof(tempMode));
+            DEVMODE tempMode = {};
             m_pServices->GetCurrentDevMode(&tempMode, &size);
 
             // Retrieve the current DevMode.

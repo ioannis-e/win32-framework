@@ -28,7 +28,7 @@ CMainFrame() : m_xWin(0), m_yWin(0), m_cxWin(0), m_cyWin(0), m_maxMRU(0)        
       // Set m_view as the view window of the frame.
     SetView(m_view);
 
-    ZeroMemory(&m_wndPl, sizeof(WINDOWPLACEMENT));
+    m_wndPl = {};
     m_wndPl.length = sizeof(WINDOWPLACEMENT);
 }
 
@@ -381,7 +381,7 @@ Serialize(CArchive& ar)                                                     /*
     if (ar.IsStoring())
     {
           // save current window placement information
-        ZeroMemory(&m_wndPl, sizeof(WINDOWPLACEMENT));
+        m_wndPl = {};
         m_wndPl.length = sizeof(WINDOWPLACEMENT);
         GetWindowPlacement(m_wndPl);
         ar << w;

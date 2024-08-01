@@ -136,7 +136,7 @@ namespace Win32xx
     inline CFileFind::CFileFind()
     {
         m_fileFind = INVALID_HANDLE_VALUE;
-        ZeroMemory(&m_findData, sizeof(m_findData));
+        m_findData = {};
     }
 
     inline CFileFind::~CFileFind()
@@ -147,7 +147,7 @@ namespace Win32xx
     //  Closes the FileFind handle and returns the CFileFind object to default.
     inline void CFileFind::Close()
     {
-        ZeroMemory(&m_findData, sizeof(m_findData));
+        m_findData = {};
 
         if (m_fileFind != INVALID_HANDLE_VALUE)
             ::FindClose(m_fileFind);

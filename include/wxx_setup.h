@@ -236,8 +236,7 @@ namespace Win32xx
                     reinterpret_cast<void*>(::GetProcAddress(comCtl, "DllGetVersion")));
                 if (pfnDLLGetVersion)
                 {
-                    DLLVERSIONINFO dvi;
-                    ZeroMemory(&dvi, sizeof(dvi));
+                    DLLVERSIONINFO dvi = {};
                     dvi.cbSize = sizeof dvi;
                     if (NOERROR == pfnDLLGetVersion(&dvi))
                     {
@@ -282,8 +281,7 @@ namespace Win32xx
         typedef NTSTATUS WINAPI RTLGETVERSION(PRTL_OSVERSIONINFOW);
 
         HMODULE module = ::GetModuleHandleW(L"ntdll.dll");
-        RTL_OSVERSIONINFOW osvi;
-        ZeroMemory(&osvi, sizeof(osvi));
+        RTL_OSVERSIONINFOW osvi = {};
         if (module)
         {
             RTLGETVERSION* pfn = reinterpret_cast<RTLGETVERSION*>(
@@ -299,8 +297,7 @@ namespace Win32xx
 #else
 
         // Use the legacy GetVersionEx function.
-        OSVERSIONINFO osvi;
-        ZeroMemory(&osvi, sizeof(osvi));
+        OSVERSIONINFO osvi = {};
         osvi.dwOSVersionInfoSize = sizeof(osvi);
         GetVersionEx(&osvi);
 
@@ -318,8 +315,7 @@ namespace Win32xx
     // Refer to NONCLIENTMETRICS in the Windows API documentation for more information.
     inline NONCLIENTMETRICS GetNonClientMetrics()
     {
-        NONCLIENTMETRICS ncm;
-        ZeroMemory(&ncm, sizeof(ncm));
+        NONCLIENTMETRICS ncm = {};
         ncm.cbSize = sizeof(ncm);
 
 #if (WINVER >= 0x0600)
@@ -370,8 +366,7 @@ namespace Win32xx
             if (pfnInitEx)
             {
                 // Load the full set of common controls.
-                INITCOMMONCONTROLSEX initStruct;
-                ZeroMemory(&initStruct, sizeof(initStruct));
+                INITCOMMONCONTROLSEX initStruct{};
                 initStruct.dwSize = sizeof(initStruct);
                 initStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_DATE_CLASSES;
 

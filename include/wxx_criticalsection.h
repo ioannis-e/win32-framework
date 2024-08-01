@@ -60,8 +60,8 @@ namespace Win32xx
         void Release();
 
     private:
-        CCriticalSection ( const CCriticalSection& );
-        CCriticalSection& operator=( const CCriticalSection& );
+        CCriticalSection (const CCriticalSection&) = delete;
+        CCriticalSection& operator=(const CCriticalSection&) = delete;
 
         CRITICAL_SECTION m_cs;
         long m_count;

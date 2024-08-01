@@ -650,8 +650,7 @@ CPreviewPaneEx()                                                            /*
       // resource.rc must match this name.
     CString ClassName = _T("PreviewPane");
       // Register the window class for use as a custom control in the dialog
-    WNDCLASS wc;
-    ZeroMemory(&wc, sizeof(WNDCLASS));
+    WNDCLASS wc = {};
     if (!::GetClassInfo(TheApp()->GetInstanceHandle(), ClassName, &wc))
     {
         wc.lpszClassName = ClassName;
@@ -810,7 +809,7 @@ OnDraw(CDC& dc)                                                             /*
         CMemDC dcMem(dc);
         dcMem.GetDIBits(m_bitmap, 0, bm.bmHeight, nullptr, pbmi, DIB_RGB_COLORS);
         std::vector<byte> byteArray(pBIH->biSizeImage, 0);
-        byte* pByteArray = &byteArray.front();
+        byte* pByteArray = byteArray.data();
         dcMem.GetDIBits(m_bitmap, 0, bm.bmHeight, pByteArray, pbmi,
             DIB_RGB_COLORS);
           // draw a line on the bitmap around the document page
