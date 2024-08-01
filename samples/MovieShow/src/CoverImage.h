@@ -13,8 +13,8 @@ class CCoverImage : public CWnd
 public:
     CCoverImage();
     virtual ~CCoverImage() override;
-    CCoverImage(const CCoverImage&) = delete;               // Disable copy construction
-    CCoverImage& operator=(const CCoverImage&) = delete;    // Disable assignment operator
+    CCoverImage(const CCoverImage&) = delete;
+    CCoverImage& operator=(const CCoverImage&) = delete;
 
     std::vector<BYTE>& SetImageData() { return m_imageData; }
 

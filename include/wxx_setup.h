@@ -157,17 +157,6 @@ using namespace Win32xx;
   #endif
 #endif
 
-// A macro to support noexcept for new compilers and throw for old compilers.
-// VS2015 and higher, (GNU >= 11), or Clang.
-#if ((defined (_MSC_VER) && (_MSC_VER >= 1900)) || \
-        (defined(__GNUC__) && (__GNUC__ >= 11)) || \
-        (defined(__clang_major__)))
-
-#define WXX_NOEXCEPT noexcept
-#else
-#define WXX_NOEXCEPT throw()
-#endif
-
 // tString is a TCHAR std::string
 typedef std::basic_string<TCHAR> tString;
 typedef std::basic_stringstream<TCHAR> tStringStream;
@@ -229,7 +218,7 @@ namespace Win32xx
     {
         // Retrieve the Common Controls DLL handle.
         HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == NULL)
+        if (comCtl == nullptr)
             return 0;
 
         DWORD comCtlVer = 400;
@@ -300,7 +289,7 @@ namespace Win32xx
             RTLGETVERSION* pfn = reinterpret_cast<RTLGETVERSION*>(
                 reinterpret_cast<void*>(::GetProcAddress(module, "RtlGetVersion")));
 
-            if (pfn != NULL)
+            if (pfn != nullptr)
             {
                 osvi.dwOSVersionInfoSize = sizeof(osvi);
                 pfn(&osvi);
@@ -367,7 +356,7 @@ namespace Win32xx
     {
         // Retrieve the Common Controls DLL handle.
         HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == NULL)
+        if (comCtl == nullptr)
             comCtl = ::GetModuleHandle(_T("commctrl.dll"));
 
         if (comCtl)
@@ -411,8 +400,8 @@ namespace Win32xx
     // Copies an ANSI string from src to dst.
     inline void StrCopyA(char* dst, const char* src, size_t dst_size)
     {
-        assert(dst != NULL);
-        assert(src != NULL);
+        assert(dst != nullptr);
+        assert(src != nullptr);
         assert(dst_size != 0);
 
         if (dst && src && dst_size != 0)
@@ -436,8 +425,8 @@ namespace Win32xx
     // Copies a wide string from src to dst.
     inline void StrCopyW(wchar_t* dst, const wchar_t* src, size_t dst_size)
     {
-        assert(dst != NULL);
-        assert(src != NULL);
+        assert(dst != nullptr);
+        assert(src != nullptr);
         assert(dst_size != 0);
 
         if (dst && src && dst_size != 0)

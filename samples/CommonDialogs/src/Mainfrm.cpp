@@ -111,7 +111,7 @@ LoadPersistentData()                                                        /*
         CString msg = _T("Default values are being used on this first\n")
             _T("startup. Your customized settings, colors, and font\n")
             _T("will be restored in future usages.\n");
-        ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
             MB_ICONINFORMATION | MB_TASKMODAL);
         return;
     }
@@ -128,7 +128,7 @@ LoadPersistentData()                                                        /*
     {
         CString msg = _T("Previous settings could not be restored.\n")
             _T("Unable to read archived values.\n");
-        ::MessageBox(NULL, msg, _T("Exception"), MB_OK | MB_ICONSTOP |
+        ::MessageBox(nullptr, msg, _T("Exception"), MB_OK | MB_ICONSTOP |
             MB_TASKMODAL);
     }
 
@@ -469,13 +469,13 @@ OnInitialUpdate()                                                           /*
       // Resize the rich text window within the client window
     CRect rc = m_view.GetClientRect();
     rc.DeflateRect(10, 10);
-    GetRichView().SetWindowPos(NULL, rc, SWP_SHOWWINDOW);
+    GetRichView().SetWindowPos(nullptr, rc, SWP_SHOWWINDOW);
       // if there is a MRU item at the top of the list, use it
       // as the name of the document to open
     CString openPath = GetMRUEntry(0);
     CString msg;
     msg.Format(_T("Open previous document?\n    %s"), openPath.c_str());
-    if (!openPath.IsEmpty() &&  (::MessageBox(NULL, msg, _T("Question..."),
+    if (!openPath.IsEmpty() &&  (::MessageBox(nullptr, msg, _T("Question..."),
       MB_YESNO | MB_ICONQUESTION) == IDYES))
         OpenDoc(openPath);
 
@@ -522,11 +522,11 @@ OnNewDoc()                                                                  /*
           // prompt the user to try again
         msg.Format(_T("That document file\n    '%s'\n")
             _T("already exists."), selected.c_str());
-        ::MessageBox(NULL, msg, _T("Error"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Error"), MB_OK |
             MB_ICONERROR | MB_TASKMODAL);
     }
     msg = _T("No name was entered, no action was taken.");
-    ::MessageBox(NULL, msg, _T("Information"),
+    ::MessageBox(nullptr, msg, _T("Information"),
         MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
     return;
 }
@@ -581,7 +581,7 @@ OnOpenDoc()                                                            /*
     }
 
     msg = _T("No valid name was entered, no action was taken.");
-    ::MessageBox(NULL, msg, _T("Information"),
+    ::MessageBox(nullptr, msg, _T("Information"),
         MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
     return;
 }
@@ -652,7 +652,7 @@ OnSaveAs()                                                                  /*
         {     // the named paths are the same
             msg.Format(_T("Document file\n    '%s'\n is already ")
                 _T("open. No action taken"), m_doc.GetDocPath().c_str());
-            ::MessageBox(NULL, msg, _T("Information"),
+            ::MessageBox(nullptr, msg, _T("Information"),
                 MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
             return;
         }
@@ -666,7 +666,7 @@ OnSaveAs()                                                                  /*
         {
             msg.Format(_T("Saved document file\n    '%s'")
                 _T(" could not be reopened."), selected.c_str());
-            ::MessageBox(NULL, msg, _T("Information"),
+            ::MessageBox(nullptr, msg, _T("Information"),
                 MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
               // reopen the current file at entry
             OpenDoc(current_doc);
@@ -674,7 +674,7 @@ OnSaveAs()                                                                  /*
         }
     }
     msg = _T("No name was entered, no action was taken.");
-    ::MessageBox(NULL, msg, _T("Information"),
+    ::MessageBox(nullptr, msg, _T("Information"),
         MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
 }
 
@@ -701,7 +701,7 @@ OpenDoc(LPCTSTR docPath)                                             /*
     {
         CString msg;
         msg.Format(_T("Document file\n    '%s'\nis already open."), docPath);
-        ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
             MB_ICONINFORMATION | MB_TASKMODAL);
           // not deemed a failure, as the file is open, as specified
         return TRUE;
@@ -769,13 +769,13 @@ SaveRegistrySettings()                                                      /*
         msg.Format(_T("%s\n%s\n%s"),
             _T("Program settings could not be saved."),
             e.GetErrorString(), e.what());
-        ::MessageBox(NULL, msg, _T("Exception"), MB_OK | MB_ICONSTOP |
+        ::MessageBox(nullptr, msg, _T("Exception"), MB_OK | MB_ICONSTOP |
             MB_TASKMODAL);
     }
     catch(...)
     {
         CString msg = _T("\nProgram settings could not be saved.\n    ");
-        ::MessageBox(NULL, msg, _T("Unregistered Exception"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Unregistered Exception"), MB_OK |
             MB_ICONSTOP | MB_TASKMODAL);
     }
     return TRUE;
@@ -1211,7 +1211,7 @@ ValidateMRU()                                                               /*
         if (_taccess(s, 4) != 0)
         {
               // for the demo, announce removal
-            ::MessageBox(NULL, s, _T("Removing invalid MRU entry..."),
+            ::MessageBox(nullptr, s, _T("Removing invalid MRU entry..."),
                 MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
             RemoveMRUEntry(s);
         }

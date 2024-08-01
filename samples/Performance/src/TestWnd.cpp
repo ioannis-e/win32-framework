@@ -26,7 +26,7 @@ void CTestWindow::CreateWin(int i)
     // Create a test window without a close button.
     CRect rc(420, 50 + 4 * i, 300, 200);
     CRect rcDPI = DpiScaleRect(rc);
-    CreateEx(0, NULL, str, WS_VISIBLE, rcDPI, NULL, 0);
+    CreateEx(0, nullptr, str, WS_VISIBLE, rcDPI, nullptr, 0);
 }
 
 // Called when the window is created.
@@ -77,7 +77,7 @@ LRESULT CTestWindow::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -85,7 +85,7 @@ LRESULT CTestWindow::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

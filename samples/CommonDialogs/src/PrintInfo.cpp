@@ -52,7 +52,7 @@ CPrintInfo()                                                            /*
 
 *-----------------------------------------------------------------------------*/
 {
-    m_pPD = NULL;
+    m_pPD = nullptr;
     m_bPreview   = FALSE;       // initialize to not preview
     m_bDirect    = FALSE;       // initialize to not direct
     m_bDocObject = FALSE;       // initialize to not IPrint
@@ -68,7 +68,7 @@ CPrintInfo()                                                            /*
     m_nToPage    = 0xffff;      // last printed page
     m_nCurPage   = 0;       // Current page
 
-    m_lpUserData = NULL;        // pointer to user created struct
+    m_lpUserData = nullptr;        // pointer to user created struct
     m_nNumPreviewPages = 0;     // (not supported)
     m_rectDraw.SetRect(0, 0, 0, 0); // rect of current usable page area
     m_strPageDesc = _T("Page %u");  // Format string for page number display

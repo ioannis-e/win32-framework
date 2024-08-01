@@ -120,7 +120,7 @@ LRESULT CViewClasses::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         // Display the exception and continue.
         CString str;
         str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
+        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
 
         return 0;
     }
@@ -259,7 +259,7 @@ LRESULT CViewFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         // Display the exception and continue.
         CString str;
         str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
+        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
 
         return 0;
     }
@@ -331,7 +331,7 @@ LRESULT CViewSimple::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         // Display the exception and continue.
         CString str;
         str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
+        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
 
         return 0;
     }
@@ -374,7 +374,7 @@ LRESULT CViewText::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -382,7 +382,7 @@ LRESULT CViewText::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

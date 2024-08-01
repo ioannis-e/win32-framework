@@ -25,7 +25,7 @@ class CDoc : public CObject
 {
 public:
     CDoc() {}
-    virtual ~CDoc() {}
+    virtual ~CDoc() override {}
     std::vector<PlotPoint>& GetAllPoints() { return m_points; }   // returns a vector of PlotPoint data
     void FileOpen(LPCTSTR filename);
     void FileSave(LPCTSTR filename);
@@ -33,7 +33,7 @@ public:
 
 protected:
     // Virtual functions that override base class functions
-    void Serialize(CArchive &ar);
+    void Serialize(CArchive &ar) override;
 
 private:
     std::vector<PlotPoint> m_points;    // Points of lines to draw

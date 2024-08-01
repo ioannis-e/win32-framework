@@ -11,11 +11,11 @@ class CCustomPrintDlg : public CDialog
 {
 public:
     CCustomPrintDlg();
-    virtual ~CCustomPrintDlg();
+    virtual ~CCustomPrintDlg() override;
 
-    virtual INT_PTR DoModal(HWND owner = NULL);
+    virtual INT_PTR DoModal(HWND owner = nullptr) override;
 
-    INT_PTR DoSetupModal(HWND owner = NULL);
+    INT_PTR DoSetupModal(HWND owner = nullptr);
     int  GetCopies() const;
     CDevMode GetDevMode() const;
     CDevNames GetDevNames() const;
@@ -43,12 +43,12 @@ public:
     void UpdateStatusText();
 
 protected:
-    virtual void DoDataExchange(CDataExchange& DX);
-    virtual void OnCancel();
-    virtual void OnClose();
-    virtual BOOL OnCommand(WPARAM wparam, LPARAM);
-    virtual BOOL OnInitDialog();
-    virtual void OnOK();
+    virtual void DoDataExchange(CDataExchange& DX) override;
+    virtual void OnCancel() override;
+    virtual void OnClose() override;
+    virtual BOOL OnCommand(WPARAM wparam, LPARAM) override;
+    virtual BOOL OnInitDialog() override;
+    virtual void OnOK() override;
 
 private:
     CCustomPrintDlg(const CCustomPrintDlg&);

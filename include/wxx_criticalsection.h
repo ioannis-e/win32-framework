@@ -80,8 +80,8 @@ namespace Win32xx
         ~CThreadLock() { m_cs.Release(); }
 
     private:
-        CThreadLock(const CThreadLock&);                // Disable copy construction
-        CThreadLock& operator= (const CThreadLock&);    // Disable assignment operator
+        CThreadLock(const CThreadLock&) = delete;
+        CThreadLock& operator= (const CThreadLock&) = delete;
         CCriticalSection& m_cs;
     };
 

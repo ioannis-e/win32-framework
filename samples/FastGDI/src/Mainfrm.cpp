@@ -213,7 +213,7 @@ BOOL CMainFrame::LoadFile(CString& fileName)
 // Displays the File Open dialog, to choose a file to load.
 BOOL CMainFrame::OnFileOpen()
 {
-    CFileDialog fileDlg(TRUE, _T("bmp"), NULL, OFN_FILEMUSTEXIST, _T("Bitmap Files (*.bmp)\0*.bmp\0\0"));
+    CFileDialog fileDlg(TRUE, _T("bmp"), nullptr, OFN_FILEMUSTEXIST, _T("Bitmap Files (*.bmp)\0*.bmp\0\0"));
 
     if (fileDlg.DoModal(*this) == IDOK)
     {
@@ -300,7 +300,7 @@ BOOL CMainFrame::OnFilePreview()
         // An exception occurred. Display the relevant information.
         MessageBox(e.GetText(), _T("Print Preview Failed"), MB_ICONWARNING);
         SetView(m_view);
-        ShowMenu(GetFrameMenu() != NULL);
+        ShowMenu(GetFrameMenu() != nullptr);
         ShowToolBar(m_isToolbarShown);
     }
 
@@ -334,7 +334,7 @@ BOOL CMainFrame::OnFileSave()
 // Save the bitmap to the specified file.
 BOOL CMainFrame::OnFileSaveAs()
 {
-    CFileDialog FileDlg(FALSE, _T("bmp"), NULL, 0, _T("Bitmap Files (*.bmp)\0*.bmp\0\0"));
+    CFileDialog FileDlg(FALSE, _T("bmp"), nullptr, 0, _T("Bitmap Files (*.bmp)\0*.bmp\0\0"));
 
     if (FileDlg.DoModal(*this) == IDOK)
     {
@@ -389,7 +389,7 @@ LRESULT CMainFrame::OnPreviewClose()
     SetView(m_view);
 
     // Show the menu and toolbar
-    ShowMenu(GetFrameMenu() != NULL);
+    ShowMenu(GetFrameMenu() != nullptr);
     ShowToolBar(m_isToolbarShown);
     UpdateSettings();
 
@@ -448,7 +448,7 @@ LRESULT CMainFrame::OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam)
     // The DPI can change when the window is moved to a different monitor.
     if (m_isDPIChanging)
     {
-        if (m_view.GetImage().GetHandle() != NULL)
+        if (m_view.GetImage().GetHandle() != nullptr)
         {
             // Adjust the frame size to fit the view.
             AdjustFrameRect(m_viewRect);
@@ -549,7 +549,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -557,7 +557,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

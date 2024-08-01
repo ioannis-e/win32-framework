@@ -61,7 +61,7 @@ namespace Win32xx
     struct MetaFileData   // A structure that contains the data members for CMetaFile.
     {
         // Constructor
-        MetaFileData() : metaFile(NULL) {}
+        MetaFileData() : metaFile(nullptr) {}
 
         HMETAFILE metaFile;
     };
@@ -69,7 +69,7 @@ namespace Win32xx
     struct EnhMetaFileData    // A structure that contains the data members for CEnhMetaFile.
     {
         // Constructor
-        EnhMetaFileData() : enhMetaFile(NULL) {}
+        EnhMetaFileData() : enhMetaFile(nullptr) {}
 
         HENHMETAFILE enhMetaFile;
     };
@@ -173,7 +173,7 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_gdiLock);
 
         // Delete the metafile when the last copy goes out of scope.
-        if (m_pData.use_count() == 1 && m_pData->metaFile != NULL)
+        if (m_pData.use_count() == 1 && m_pData->metaFile != nullptr)
         {
             VERIFY(::DeleteMetaFile(m_pData->metaFile));
         }
@@ -222,7 +222,7 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_gdiLock);
 
         // Delete the enhanced metafile when the last copy goes out of scope.
-        if (m_pData.use_count() == 1 && m_pData->enhMetaFile != NULL)
+        if (m_pData.use_count() == 1 && m_pData->enhMetaFile != nullptr)
         {
             VERIFY(::DeleteEnhMetaFile(m_pData->enhMetaFile));
         }

@@ -15,8 +15,8 @@ void CResourceFinder::FindResources(LPCTSTR fileName)
 {
     m_fileName.Empty();
     m_allInfo.clear();
-    HMODULE module = LoadLibraryEx(fileName, NULL, LOAD_LIBRARY_AS_DATAFILE);
-    if (module != NULL)
+    HMODULE module = LoadLibraryEx(fileName, nullptr, LOAD_LIBRARY_AS_DATAFILE);
+    if (module != nullptr)
     {
         // Find all of the loaded file's resources.
         EnumResourceTypes(module, reinterpret_cast<ENUMRESTYPEPROC>(EnumTypesProc),

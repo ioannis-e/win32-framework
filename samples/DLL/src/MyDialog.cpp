@@ -48,7 +48,7 @@ INT_PTR CMyDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
         // Display the exception and continue.
         CString str;
         str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
+        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
 
         return 0;
     }
@@ -106,7 +106,7 @@ BOOL CMyDialog::OnInitDialog()
 // Called when the OK button or Enter key is pressed.
 void CMyDialog::OnOK()
 {
-    ::MessageBox(NULL, _T("OK Button Pressed.  Dialog will now end."), _T("Button"), MB_OK);
+    ::MessageBox(nullptr, _T("OK Button Pressed.  Dialog will now end."), _T("Button"), MB_OK);
     CDialog::OnOK();
 }
 

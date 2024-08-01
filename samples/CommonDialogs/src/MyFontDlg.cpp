@@ -20,7 +20,7 @@
 
 /*============================================================================*/
     MyFontDialog::
-MyFontDialog(DWORD dwFlags, HDC hdcPrinter /* = NULL */)           /*
+MyFontDialog(DWORD dwFlags, HDC hdcPrinter /* = nullptr */)           /*
 
     Create a simple default font dialog object with the title "Font", a
     10pt Courier New typeface, and font, style, strikeout, underline, text
@@ -69,7 +69,7 @@ RecordFontMetrics()                                                     /*
 
     Record the current font TEXTMETRIC values and the average character
     width and height for the given parent window whose handle is
-    m_cf.hwndOwner, if non-NUL, or for the entire screen if NULL.
+    m_cf.hwndOwner, if non-NUL, or for the entire screen if nullptr.
 *-----------------------------------------------------------------------------*/{
       // get the handle to the hWnd's device context
     CWindowDC dc(GetParameters().hwndOwner);
@@ -153,7 +153,7 @@ SetFontIndirect(const LOGFONT& lf)                                      /*
 
     catch (const CResourceException&)
     {
-        ::MessageBox(NULL, _T("Font creation error."),
+        ::MessageBox(nullptr, _T("Font creation error."),
             _T("Error"), MB_OK | MB_ICONEXCLAMATION |
             MB_TASKMODAL);
     }

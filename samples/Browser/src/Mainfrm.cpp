@@ -52,7 +52,7 @@ void CMainFrame::AddComboBoxBand()
 // Connect to the event sink.
 void CMainFrame::ConnectEvents()
 {
-    IConnectionPoint* pcp = NULL;
+    IConnectionPoint* pcp = nullptr;
     pcp = GetConnectionPoint(DIID_DWebBrowserEvents2);
     if (pcp)
     {
@@ -73,7 +73,7 @@ HWND CMainFrame::Create(HWND parent)
 // Disconnect from the event sink.
 void CMainFrame::DisconnectEvents()
 {
-    IConnectionPoint* pcp = NULL;
+    IConnectionPoint* pcp = nullptr;
     pcp = GetConnectionPoint(DIID_DWebBrowserEvents2);
     if (pcp)
     {
@@ -86,12 +86,12 @@ void CMainFrame::DisconnectEvents()
 // Call Release on this pointer when it is no longer required.
 IConnectionPoint* CMainFrame::GetConnectionPoint(REFIID riid) const
 {
-    IConnectionPoint* pcp = NULL;
-    IUnknown* pUnk = NULL;
+    IConnectionPoint* pcp = nullptr;
+    IUnknown* pUnk = nullptr;
     GetIWebBrowser2()->QueryInterface(IID_IUnknown, (void**)&pUnk);
     if (pUnk)
     {
-        IConnectionPointContainer* pcpc = NULL;
+        IConnectionPointContainer* pcpc = nullptr;
         VERIFY(SUCCEEDED(pUnk->QueryInterface(IID_IConnectionPointContainer, (void**)&pcpc)));
         if (pcpc)
         {
@@ -248,7 +248,7 @@ BOOL CMainFrame::OnEditCut()
     if (GetFocus() == GetCBEdit()->GetHwnd())
         GetCBEdit()->Cut();
     else
-        m_browser.ExecWB( OLECMDID_CUT, OLECMDEXECOPT_DODEFAULT, NULL, NULL );
+        m_browser.ExecWB( OLECMDID_CUT, OLECMDEXECOPT_DODEFAULT, nullptr, nullptr );
 
     return TRUE;
 }
@@ -260,7 +260,7 @@ BOOL CMainFrame::OnEditCopy()
     if (GetFocus() == GetCBEdit()->GetHwnd())
         GetCBEdit()->Copy();
     else
-        m_browser.ExecWB( OLECMDID_COPY, OLECMDEXECOPT_DODEFAULT, NULL, NULL );
+        m_browser.ExecWB( OLECMDID_COPY, OLECMDEXECOPT_DODEFAULT, nullptr, nullptr );
 
     return TRUE;
 }
@@ -272,7 +272,7 @@ BOOL CMainFrame::OnEditPaste()
     if (GetFocus() == GetCBEdit()->GetHwnd())
         GetCBEdit()->Paste();
     else
-        m_browser.ExecWB( OLECMDID_PASTE, OLECMDEXECOPT_DODEFAULT, NULL, NULL );
+        m_browser.ExecWB( OLECMDID_PASTE, OLECMDEXECOPT_DODEFAULT, nullptr, nullptr );
 
     return TRUE;
 }
@@ -288,7 +288,7 @@ BOOL CMainFrame::OnEditDelete()
     if (GetFocus() == GetCBEdit()->GetHwnd())
         GetCBEdit()->Clear();
     else
-        m_browser.ExecWB( OLECMDID_DELETE, OLECMDEXECOPT_DODEFAULT, NULL, NULL );
+        m_browser.ExecWB( OLECMDID_DELETE, OLECMDEXECOPT_DODEFAULT, nullptr, nullptr );
 
     return TRUE;
 }
@@ -413,7 +413,7 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
 // Displays the web page as it would look when printed.
 BOOL CMainFrame::OnPrintPreview()
 {
-    m_browser.ExecWB(OLECMDID_PRINTPREVIEW, OLECMDEXECOPT_DODEFAULT, NULL, NULL);
+    m_browser.ExecWB(OLECMDID_PRINTPREVIEW, OLECMDEXECOPT_DODEFAULT, nullptr, nullptr);
     return TRUE;
 }
 
@@ -437,7 +437,7 @@ BOOL CMainFrame::OnPrint()
         psabBounds[0].lLbound = 0;
         psabBounds[0].cElements = 3;
         psaHeadFoot = SafeArrayCreate(VT_VARIANT, 1, psabBounds);
-        if (NULL == psaHeadFoot)
+        if (nullptr == psaHeadFoot)
             throw std::bad_alloc();
 
         VariantInit(&vHeadStr);
@@ -446,7 +446,7 @@ BOOL CMainFrame::OnPrint()
         // Argument 1: Header
         vHeadStr.vt = VT_BSTR;
         vHeadStr.bstrVal = SysAllocString(L"This is my header string.");
-        if (vHeadStr.bstrVal == NULL)
+        if (vHeadStr.bstrVal == nullptr)
             throw std::bad_alloc();
 
         rgIndices = 0;
@@ -455,7 +455,7 @@ BOOL CMainFrame::OnPrint()
             // Argument 2: Footer
             vFootStr.vt = VT_BSTR;
             vFootStr.bstrVal = SysAllocString(L"This is my footer string.");
-            if (vFootStr.bstrVal == NULL)
+            if (vFootStr.bstrVal == nullptr)
                 throw std::bad_alloc();
 
             rgIndices = 1;
@@ -465,7 +465,7 @@ BOOL CMainFrame::OnPrint()
                 VariantInit(&vArg);
                 vArg.vt = VT_ARRAY | VT_BYREF;
                 vArg.parray = psaHeadFoot;
-                if (FAILED(m_browser.ExecWB(OLECMDID_PRINT, OLECMDEXECOPT_DONTPROMPTUSER, &vArg, NULL)))
+                if (FAILED(m_browser.ExecWB(OLECMDID_PRINT, OLECMDEXECOPT_DONTPROMPTUSER, &vArg, nullptr)))
                     throw CUserException(_T("Print Failed"));
             }
         }
@@ -649,7 +649,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -657,7 +657,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

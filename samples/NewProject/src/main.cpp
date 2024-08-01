@@ -20,8 +20,8 @@ class CView : public CWnd
 {
 public:
     CView() {}
-    virtual ~CView() {}
-    virtual void OnDestroy() { PostQuitMessage(0); }    // Ends the program
+    virtual ~CView() override {}
+    virtual void OnDestroy() override { PostQuitMessage(0); }    // Ends the program
 };
 
 

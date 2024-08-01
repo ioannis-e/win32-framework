@@ -99,7 +99,7 @@ DetermineEncoding(UINT testlen, UINT& offset)                               /*
     else if (b0 == 0xef && b1 == 0xbb && b2 == 0xbf)
         encoding = UTF8wBOM;
         // check for Unicode w/o BOM
-    else if (::IsTextUnicode(buffer, testlen, NULL) == 1)
+    else if (::IsTextUnicode(buffer, testlen, nullptr) == 1)
         encoding = UnicodeNoBOM;
     else
     {     // check for non ANSI characters
@@ -202,7 +202,7 @@ OpenDoc(LPCTSTR filename)                                                   /*
             {
                 msg.Format(_T("Document file\n'%s'\nis already open."),
                     m_openPath.c_str());
-                ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+                ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
                     MB_ICONINFORMATION | MB_TASKMODAL);
                   // not deemed a failure, as the file is open, as specified
                 return TRUE;
@@ -253,7 +253,7 @@ OpenDoc(LPCTSTR filename)                                                   /*
         CString msg;
         msg.Format(_T("File could not be opened and read:\n\n%s"),
             e.GetText());
-        ::MessageBox(NULL, msg, _T("Error"), MB_OK | MB_ICONEXCLAMATION |
+        ::MessageBox(nullptr, msg, _T("Error"), MB_OK | MB_ICONEXCLAMATION |
             MB_TASKMODAL);
         ok = m_isOpen = FALSE;
         m_openPath.Empty();

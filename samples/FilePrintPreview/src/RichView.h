@@ -31,7 +31,7 @@ CRichView : public CRichEdit                                                /*
 {
     public:
         CRichView() {}
-        virtual ~CRichView() {}
+        virtual ~CRichView() override {}
 
         UINT    GetPageBreaks(CDC& dcPrinter);
         BOOL    GetNewFont() const;
@@ -44,8 +44,8 @@ CRichView : public CRichEdit                                                /*
         BOOL    WriteFile(LPCTSTR filePath);
 
     protected:
-        virtual void    OnAttach();
-        virtual void    PreCreate(CREATESTRUCT& cs);
+        virtual void    OnAttach() override;
+        virtual void    PreCreate(CREATESTRUCT& cs) override;
 
     private:
         CRichView(const CRichView&);               // Disable copy construction

@@ -153,7 +153,7 @@ BOOL CMainFrame::OnFileOpen()
     LPCTSTR filters = _T("Supported Files Types(*.bmp;*.gif;*.jpg;*.ico;*.emf;*.wmf)\0*.bmp;*.gif;*.jpg;*.ico;*.emf;*.wmf\0Bitmaps (*.bmp)\0*.bmp\0GIF Files (*.gif)\0*.gif\0JPEG Files (*.jpg)\0*.jpg\0Icons (*.ico)\0*.ico\0Enhanced Metafiles (*.emf)\0*.emf\0Windows Metafiles (*.wmf)\0*.wmf\0\0");
 
     DWORD flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-    CFileDialog fileDlg(TRUE, NULL, NULL, flags, filters);
+    CFileDialog fileDlg(TRUE, nullptr, nullptr, flags, filters);
 
     if (fileDlg.DoModal(*this) == IDOK)
     {
@@ -180,8 +180,8 @@ BOOL CMainFrame::OnFileSaveAs()
     {
         SHORT Type;
         m_view.GetPicture()->get_Type(&Type);
-        LPCTSTR filter = NULL;
-        LPCTSTR ext    = NULL;
+        LPCTSTR filter = nullptr;
+        LPCTSTR ext    = nullptr;
 
         // Assign the default file extension and filter.
         // Note: iPicture doesn't convert between file types
@@ -206,7 +206,7 @@ BOOL CMainFrame::OnFileSaveAs()
         }
 
         DWORD flags = OFN_OVERWRITEPROMPT;
-        CFileDialog fileDlg(FALSE, ext, NULL, flags, filter);
+        CFileDialog fileDlg(FALSE, ext, nullptr, flags, filter);
 
         if (fileDlg.DoModal(*this) == IDOK)
         {
@@ -227,7 +227,7 @@ void CMainFrame::OnMenuUpdate(UINT id)
     case IDM_FILE_SAVE:
     {
         // Enable FileSave menu item if a picture is loaded.
-        UINT enabled = m_view.GetPicture() != NULL ? MF_ENABLED : MF_GRAYED;
+        UINT enabled = m_view.GetPicture() != nullptr ? MF_ENABLED : MF_GRAYED;
         GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
@@ -292,7 +292,7 @@ void CMainFrame::SetupToolBar()
 void CMainFrame::UpdateToolbar()
 {
     // Enable the FileSave toolbar button if a picture is loaded.
-    BOOL enabled = (m_view.GetPicture() != NULL);
+    BOOL enabled = (m_view.GetPicture() != nullptr);
     GetToolBar().EnableButton(IDM_FILE_SAVE, enabled);
 }
 
@@ -319,7 +319,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -327,7 +327,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

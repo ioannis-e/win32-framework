@@ -35,7 +35,7 @@ CApp()                                                                      /*
       // extract the app name, directory, and  path names
     m_months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec";
     CString appPath;
-    ::GetModuleFileName(NULL, appPath.GetBuffer(FILENAME_MAX),
+    ::GetModuleFileName(nullptr, appPath.GetBuffer(FILENAME_MAX),
         FILENAME_MAX);
     appPath.ReleaseBuffer();
     CFile f; // no file opened here, just using the name parsing parts

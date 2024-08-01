@@ -14,11 +14,11 @@
 //
 
 // Constructor.
-CView::CView() : m_pInetExplorer(NULL), m_pSourceUnk(NULL), m_pSinkUnk(NULL),
+CView::CView() : m_pInetExplorer(nullptr), m_pSourceUnk(nullptr), m_pSinkUnk(nullptr),
                  m_adviseCookie(0)
 {
     // Initialize OLE
-    if FAILED(OleInitialize(NULL))
+    if FAILED(OleInitialize(nullptr))
         throw CUserException(_T("Failed to initial COM"));
  }
 
@@ -56,14 +56,14 @@ int CView::OnCreate(CREATESTRUCT&)
     SetIconLarge(IDW_MAIN);
 
     // Use ATL to create the ActiveX control, initializes it, and hosts it in the specified window.
-    LRESULT hr = AtlAxCreateControlEx(L"about:blank", *this, NULL, NULL, &m_pSourceUnk, IID_NULL);
+    LRESULT hr = AtlAxCreateControlEx(L"about:blank", *this, nullptr, nullptr, &m_pSourceUnk, IID_NULL);
     if (SUCCEEDED(hr))
     {
         // Set the IWebBrowser2 pointer.
         m_pSourceUnk->QueryInterface (IID_IWebBrowser2, (LPVOID *) &m_pInetExplorer);
 
         // Create sink object using CDispatchSink.
-        CComObject<CDispatchSink> *pSinkClass = NULL;
+        CComObject<CDispatchSink> *pSinkClass = nullptr;
         hr = CComObject<CDispatchSink>::CreateInstance (&pSinkClass);
         if (SUCCEEDED(hr))
         {

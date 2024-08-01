@@ -175,8 +175,8 @@ SaveDocRegistry(LPCTSTR keyName)                                          /*
     CString strKey = _T("Software\\") + (CString)keyName  +
         _T("\\Document Settings");
     CRegKey key;
-    key.Create(HKEY_CURRENT_USER, strKey, NULL, REG_OPTION_NON_VOLATILE,
-        KEY_ALL_ACCESS, NULL, NULL);
+    key.Create(HKEY_CURRENT_USER, strKey, nullptr, REG_OPTION_NON_VOLATILE,
+        KEY_ALL_ACCESS, nullptr, nullptr);
       // Create() closes the key handle, so we have to reopen it
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, strKey, KEY_WRITE))
     {

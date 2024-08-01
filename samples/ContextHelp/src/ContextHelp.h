@@ -42,7 +42,7 @@ class CContextHelp : public CWnd
 {
 public:
     CContextHelp();
-    virtual ~CContextHelp();
+    virtual ~CContextHelp() override;
 
     void  AddHelpTopic(UINT id, LPCTSTR topic);
     const CString& GetHelpFilePath() const     { return m_helpFilePath; }
@@ -51,11 +51,11 @@ public:
     void  ShowHelpTopic(LPCTSTR topic);
 
 protected:
-    LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+    LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    CContextHelp(const CContextHelp&);               // Disable copy construction
-    CContextHelp& operator=(const CContextHelp&);    // Disable assignment operator
+    CContextHelp(const CContextHelp&) = delete;
+    CContextHelp& operator=(const CContextHelp&) = delete;
 
     HWND    CreateHtmlHelp(HWND hwndCaller, LPCTSTR string, UINT command, DWORD data);
 

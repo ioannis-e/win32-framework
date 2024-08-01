@@ -68,7 +68,7 @@ InitInstance()                                                              /*
 *-----------------------------------------------------------------------------*/
 {
          // extract the app name, directory, and  path names
-    ::GetModuleFileName(NULL, m_appPath.GetBuffer(FILENAME_MAX),
+    ::GetModuleFileName(nullptr, m_appPath.GetBuffer(FILENAME_MAX),
         FILENAME_MAX);
     m_appPath.ReleaseBuffer();
     CFile f;

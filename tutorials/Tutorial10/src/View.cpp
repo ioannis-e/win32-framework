@@ -192,7 +192,7 @@ void CView::PrintPage(CDC& dc, int)
     BITMAPINFOHEADER* pBIH = reinterpret_cast<BITMAPINFOHEADER*>(pbmi.get());
 
     // Extract the device independent image data.
-    memDC.GetDIBits(bmView, 0, height, NULL, pbmi, DIB_RGB_COLORS);
+    memDC.GetDIBits(bmView, 0, height, nullptr, pbmi, DIB_RGB_COLORS);
     std::vector<byte> byteArray(pBIH->biSizeImage, 0);
     byte* pByteArray = &byteArray.front();
     memDC.GetDIBits(bmView, 0, height, pByteArray, pbmi, DIB_RGB_COLORS);

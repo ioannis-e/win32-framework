@@ -31,7 +31,7 @@ CFontEx()                                                                   /*
 
 /*============================================================================*/
     void CFontEx::
-Choose(LPCTSTR wintitle /* =  NULL */)                                      /*
+Choose(LPCTSTR wintitle /* =  nullptr */)                                      /*
 
     Select the object font typeface, characteristics, color, and size in the
     device context dc. The font background color is presumed to be supplied by
@@ -42,7 +42,7 @@ Choose(LPCTSTR wintitle /* =  NULL */)                                      /*
     LOGFONT lf = m_font.GetLogFont();
       // open the dialog
     CFontExDialog fd;
-    if (wintitle != NULL)
+    if (wintitle != nullptr)
         fd.SetBoxTitle(wintitle);
     CHOOSEFONT cf = fd.GetParameters();
       // display effects and color boxes, and use logfont provided, as

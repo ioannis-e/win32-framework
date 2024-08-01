@@ -39,8 +39,8 @@ public:
     CDoc& GetDoc()      { return m_view.GetDoc(); }
 
     // Virtual functions that override public base class functions
-    virtual ~CMainFrame();
-    virtual HWND Create(HWND parent = NULL);
+    virtual ~CMainFrame() override;
+    virtual HWND Create(HWND parent = nullptr) override;
 
     void AddMenuIconFromPNG(UINT pngID, UINT disabledPngID, UINT menuID);
     void AddIconFromPNG(CImageList& images, UINT pngID);
@@ -48,19 +48,19 @@ public:
 
 protected:
     // Virtual functions that override base class functions
-    virtual void    OnClose();
-    virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam);
-    virtual int     OnCreate(CREATESTRUCT& cs);
-    virtual void    OnInitialUpdate();
-    virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam);
-    virtual void    PreCreate(CREATESTRUCT& cs);
-    virtual void    SetupMenuIcons();
-    virtual void    SetupToolBar();
-    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+    virtual void    OnClose() override;
+    virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
+    virtual int     OnCreate(CREATESTRUCT& cs) override;
+    virtual void    OnInitialUpdate() override;
+    virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
+    virtual void    PreCreate(CREATESTRUCT& cs) override;
+    virtual void    SetupMenuIcons() override;
+    virtual void    SetupToolBar() override;
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    CMainFrame(const CMainFrame&);               // Disable copy construction
-    CMainFrame& operator=(const CMainFrame&);    // Disable assignment operator
+    CMainFrame(const CMainFrame&) = delete;
+    CMainFrame& operator=(const CMainFrame&) = delete;
 
     // Command Handlers
     BOOL    OnFileExit();

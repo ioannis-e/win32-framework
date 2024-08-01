@@ -44,7 +44,7 @@ InitInstance()                                                              /*
       // Initialize data strings containing the AboutBox information, the
       // app path, the app directory, the app name, and the archive path.
     CString appPath;
-    ::GetModuleFileName(NULL, appPath.GetBuffer(FILENAME_MAX), FILENAME_MAX);
+    ::GetModuleFileName(nullptr, appPath.GetBuffer(FILENAME_MAX), FILENAME_MAX);
     appPath.ReleaseBuffer();
     CFile f; // no file opened here, just using the name parsing parts
     f.SetFilePath(appPath);
@@ -112,7 +112,7 @@ MakeAppDataPath(const CString& subpath) const                               /*
 
         CString add = subpath.Mid(from, next - from);
         app_data_path += _T("\\") + add;
-        if ((::CreateDirectory(app_data_path, NULL) == 0) &&
+        if ((::CreateDirectory(app_data_path, nullptr) == 0) &&
         GetLastError() != ERROR_ALREADY_EXISTS)
         {
             CString msg = app_data_path + _T("\nDirectory creation error.");

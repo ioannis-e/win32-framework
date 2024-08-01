@@ -54,7 +54,7 @@ namespace Win32xx
 
     public:
         CMenuBar();
-        virtual ~CMenuBar();
+        virtual ~CMenuBar() override;
 
         void    DrawAllMDIButtons(CDC& drawDC);
         HMENU   GetBarMenu() const {return m_topMenu;}
@@ -65,7 +65,7 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void OnAttach();
+        virtual void OnAttach() override;
         virtual LRESULT OnDrawItem(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnExitMenuLoop(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnInitMenuPopup(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -86,16 +86,16 @@ namespace Win32xx
         virtual LRESULT OnTBNHotItemChange(LPNMTBHOTITEM pNMHI);
         virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual void    PreCreate(CREATESTRUCT& cs);
-        virtual void    PreRegisterClass(WNDCLASS& wc);
-        virtual BOOL    PreTranslateMessage(MSG& msg);
+        virtual void    PreCreate(CREATESTRUCT& cs) override;
+        virtual void    PreRegisterClass(WNDCLASS& wc) override;
+        virtual BOOL    PreTranslateMessage(MSG& msg) override;
 
         // Not intended to be overridden.
         LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
 
     private:
-        CMenuBar(const CMenuBar&);              // Disable copy construction
-        CMenuBar& operator=(const CMenuBar&);   // Disable assignment operator
+        CMenuBar(const CMenuBar&) = delete;
+        CMenuBar& operator=(const CMenuBar&) = delete;
 
         void Cancel() const;
         void DoAltKey(WORD keyCode);
@@ -147,8 +147,8 @@ namespace Win32xx
     // Definitions for the CMenuBar class
     //
 
-    inline CMenuBar::CMenuBar() : m_msgHook(NULL), m_popupMenu(NULL), m_selectedMenu(NULL),
-        m_topMenu(NULL), m_prevFocus(NULL), m_hotItem(-1), m_isAltMode(FALSE), m_isExitAfter(FALSE),
+    inline CMenuBar::CMenuBar() : m_msgHook(nullptr), m_popupMenu(nullptr), m_selectedMenu(nullptr),
+        m_topMenu(nullptr), m_prevFocus(nullptr), m_hotItem(-1), m_isAltMode(FALSE), m_isExitAfter(FALSE),
         m_isKeyMode(FALSE), m_isMenuActive(FALSE), m_isSelectedPopup(FALSE)
     {
     }
@@ -313,7 +313,7 @@ namespace Win32xx
     // Retrieves a pointer to the active MDI child if any.
     inline CWnd* CMenuBar::GetActiveMDIChild() const
     {
-        CWnd* pMDIChild = NULL;
+        CWnd* pMDIChild = nullptr;
         if (GetMDIClient())
         {
             HWND mdiChild = reinterpret_cast<HWND>(GetMDIClient()->SendMessage(WM_MDIGETACTIVE, 0, 0));
@@ -323,11 +323,11 @@ namespace Win32xx
         return pMDIChild;
     }
 
-    // Retrieves a pointer to the MDIClient. Returns NULL if there
+    // Retrieves a pointer to the MDIClient. Returns nullptr if there
     // is no MDIClient.
     inline CWnd* CMenuBar::GetMDIClient() const
     {
-        CWnd* pMDIClient = NULL;
+        CWnd* pMDIClient = nullptr;
 
         // Is the ancestor a CMDIFrame?
         if (GetAncestor().SendMessage(UWM_GETCMDIFRAMET) != 0)
@@ -768,7 +768,7 @@ namespace Win32xx
         m_isExitAfter = FALSE;
         m_oldMousePos = GetCursorPos();
 
-        CWnd* pMaxMDIChild = NULL;
+        CWnd* pMaxMDIChild = nullptr;
         if (IsMDIChildMaxed())
             pMaxMDIChild = GetActiveMDIChild();
 
@@ -795,7 +795,7 @@ namespace Win32xx
         Press(m_hotItem, TRUE);
 
         m_isSelectedPopup = FALSE;
-        m_selectedMenu = NULL;
+        m_selectedMenu = nullptr;
         m_isMenuActive = TRUE;
 
         // We hook mouse input to process mouse and keyboard input during
@@ -804,7 +804,7 @@ namespace Win32xx
         // Set the message hook.
         TLSData* pTLSData = GetApp()->GetTlsData();
         pTLSData->pMenuBar = this;
-        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, StaticMsgHook, NULL, ::GetCurrentThreadId());
+        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, StaticMsgHook, nullptr, ::GetCurrentThreadId());
 
         // Display the shortcut menu.
         bool isRightToLeft = false;
@@ -822,7 +822,7 @@ namespace Win32xx
 
         // Remove the message hook.
         ::UnhookWindowsHookEx(m_msgHook);
-        pTLSData->pMenuBar = NULL;
+        pTLSData->pMenuBar = nullptr;
 
         // Process MDI Child system menu.
         if (IsMDIChildMaxed())

@@ -54,9 +54,9 @@ namespace Win32xx
     {
     public:
         CListView() {}
-        virtual ~CListView() {}
-        virtual void PreCreate(CREATESTRUCT& cs);
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual ~CListView() override {}
+        virtual void PreCreate(CREATESTRUCT& cs) override;
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
 
         // Accessors and mutators
         CSize   ApproximateViewRect(CSize sz = CSize(-1, -1), int count = -1) const;
@@ -136,7 +136,7 @@ namespace Win32xx
         BOOL    EnsureVisible( int item, BOOL isPartialOK ) const;
         int     FindItem( LVFINDINFO& findInfo, int start = -1 ) const;
         int     HitTest( LVHITTESTINFO& hitTestInfo ) const;
-        int     HitTest( CPoint pt, UINT* flags = NULL ) const;
+        int     HitTest( CPoint pt, UINT* flags = nullptr ) const;
         int     InsertColumn( int col, const LVCOLUMN& colInfo ) const;
         int     InsertColumn( int col, LPCTSTR columnHeading, int format = LVCFMT_LEFT,
                             int width = -1, int subItem = -1 ) const;
@@ -151,8 +151,8 @@ namespace Win32xx
         BOOL    Update( int item ) const;
 
     private:
-        CListView(const CListView&);              // Disable copy construction
-        CListView& operator=(const CListView&);   // Disable assignment operator
+        CListView(const CListView&) = delete;
+        CListView& operator=(const CListView&) = delete;
 
         CImageList m_normalImages;
         CImageList m_smallImages;
@@ -572,7 +572,7 @@ namespace Win32xx
 
     // Determines which list-view item, if any, is at a specified position.
     // Refer to ListView_HitTest in the Windows API documentation for more information.
-    inline int CListView::HitTest(CPoint pt, UINT* pFlags /*= NULL*/) const
+    inline int CListView::HitTest(CPoint pt, UINT* pFlags /*= nullptr*/) const
     {
         assert(IsWindow());
 

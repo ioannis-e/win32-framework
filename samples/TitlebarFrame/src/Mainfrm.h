@@ -44,8 +44,8 @@ class CMainFrame : public CFrame
 {
 public:
     CMainFrame();
-    virtual ~CMainFrame();
-    virtual HWND Create(HWND parent = nullptr);
+    virtual ~CMainFrame() override;
+    virtual HWND Create(HWND parent = nullptr) override;
 
     // Accessors
     CDoc& GetDoc()      { return m_view.GetDoc(); }
@@ -58,20 +58,20 @@ public:
 
 protected:
     // Virtual functions that override base class functions
-    virtual CRect   GetViewRect() const;
-    virtual void    OnClose();
-    virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam);
-    virtual int     OnCreate(CREATESTRUCT& cs);
-    virtual LRESULT OnCustomDraw(LPNMHDR pNMHDR);
-    virtual void    OnInitialUpdate();
-    virtual void    RecalcLayout();
-    virtual void    SetupMenuIcons();
-    virtual void    SetupToolBar();
-    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+    virtual CRect   GetViewRect() const override;
+    virtual void    OnClose() override;
+    virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
+    virtual int     OnCreate(CREATESTRUCT& cs) override;
+    virtual LRESULT OnCustomDraw(LPNMHDR pNMHDR) override;
+    virtual void    OnInitialUpdate() override;
+    virtual void    RecalcLayout() override;
+    virtual void    SetupMenuIcons() override;
+    virtual void    SetupToolBar() override;
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    CMainFrame(const CMainFrame&) = delete;               // Disable copy construction
-    CMainFrame& operator=(const CMainFrame&) = delete;    // Disable assignment operator
+    CMainFrame(const CMainFrame&) = delete;
+    CMainFrame& operator=(const CMainFrame&) = delete;
 
     void DrawCloseButton(CDC& dc) const;
     void DrawBackground(CDC& dc) const;

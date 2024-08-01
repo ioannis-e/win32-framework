@@ -46,7 +46,7 @@ CPrintPreviewEx(DWORD flags /* = HIDE_HELP */ )                             /*
     Construct the preview dialog object. Use a nominal screen size, to be
     adjusted later for the actual monitor being used.
 *-----------------------------------------------------------------------------*/
-    : CDialog(IDD_PRINTPREVIEW), m_dcMem(NULL)
+    : CDialog(IDD_PRINTPREVIEW), m_dcMem(nullptr)
 {
     m_previewInches   = DSize(8.0, 10.0);
     m_currentPage     = 0;
@@ -168,8 +168,8 @@ InitializeContexts()                                                        /*
       // set the mapping mode to translate between printer and screen
       // coordinates to utilize the bitmap dimensions
     m_dcMem.SetMapMode(MM_ANISOTROPIC);
-    m_dcMem.SetWindowExtEx(m_printerDots.cx, m_printerDots.cy, NULL);
-    m_dcMem.SetViewportExtEx(viewport.cx, viewport.cy, NULL);
+    m_dcMem.SetWindowExtEx(m_printerDots.cx, m_printerDots.cy, nullptr);
+    m_dcMem.SetViewportExtEx(viewport.cx, viewport.cy, nullptr);
 }
 
 /*============================================================================*/
@@ -428,9 +428,9 @@ OnPreview(const CString &docPath)                                           /*
 {
     CPrintDialog printDlg(PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC);
     HDC hPrinter = printDlg.GetPrinterDC();
-    if (hPrinter == NULL)
+    if (hPrinter == nullptr)
     {
-        ::MessageBox(NULL, _T("Print preview requires a printer to copy settings from"),
+        ::MessageBox(nullptr, _T("Print preview requires a printer to copy settings from"),
             _T("No Printer found"), MB_ICONWARNING);
         return FALSE;
     }
@@ -580,8 +580,8 @@ SaveSizesRegistry()                                                         /*
       // save the size in the registry
     CString strKey = PREVIEW_REGISTRY_KEY;
     CRegKey key;
-    key.Create(HKEY_CURRENT_USER, strKey, NULL, REG_OPTION_NON_VOLATILE,
-        KEY_ALL_ACCESS, NULL, NULL);
+    key.Create(HKEY_CURRENT_USER, strKey, nullptr, REG_OPTION_NON_VOLATILE,
+        KEY_ALL_ACCESS, nullptr, nullptr);
       // Create() closes the key handle, so we have to reopen it
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, strKey, KEY_WRITE))
     {
@@ -612,7 +612,7 @@ SetWindowSizes()                                                            /*
     CSize ctr((m_screenPixels.cx - preview.cx) / 2,
               (m_screenPixels.cy - preview.cy) / 2);
     CRect rcPos(ctr.cx, ctr.cy, ctr.cx + preview.cx, ctr.cy + preview.cy);
-    SetWindowPos(NULL, rcPos, SWP_SHOWWINDOW);
+    SetWindowPos(nullptr, rcPos, SWP_SHOWWINDOW);
 }
 
 /*============================================================================*/
@@ -658,7 +658,7 @@ CPreviewPaneEx()                                                            /*
         wc.lpfnWndProc   = ::DefWindowProc;
         wc.hInstance     = TheApp()->GetInstanceHandle();
         wc.hbrBackground = (HBRUSH)GetStockObject(GRAY_BRUSH);
-        wc.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+        wc.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
         ::RegisterClass(&wc);
     }
     assert(::GetClassInfo(TheApp()->GetInstanceHandle(), ClassName, &wc));
@@ -808,7 +808,7 @@ OnDraw(CDC& dc)                                                             /*
           // Extract the m_bitmap information into a device independent image
           // data format (DIB).
         CMemDC dcMem(dc);
-        dcMem.GetDIBits(m_bitmap, 0, bm.bmHeight, NULL, pbmi, DIB_RGB_COLORS);
+        dcMem.GetDIBits(m_bitmap, 0, bm.bmHeight, nullptr, pbmi, DIB_RGB_COLORS);
         std::vector<byte> byteArray(pBIH->biSizeImage, 0);
         byte* pByteArray = &byteArray.front();
         dcMem.GetDIBits(m_bitmap, 0, bm.bmHeight, pByteArray, pbmi,
@@ -943,7 +943,7 @@ OnPaint(UINT, WPARAM, LPARAM)                                               /*
     one, since it is actually the preview window.
 *-----------------------------------------------------------------------------*/
 {
-    if (::GetUpdateRect(*this, NULL, FALSE))
+    if (::GetUpdateRect(*this, nullptr, FALSE))
     {
         CPaintDC dc(*this);
         OnDraw(dc);

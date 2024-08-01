@@ -29,8 +29,8 @@ class CViewList : public CListView
 public:
     CViewList();
     virtual ~CViewList() override;
-    CViewList(const CViewList&) = delete;               // Disable copy construction
-    CViewList& operator=(const CViewList&) = delete;    // Disable assignment operator
+    CViewList(const CViewList&) = delete;
+    CViewList& operator=(const CViewList&) = delete;
 
     void    AddItem(const MovieInfo& mi);
     void    SetDPIImages();

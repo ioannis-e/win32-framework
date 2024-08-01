@@ -26,7 +26,7 @@ CMainFrame::~CMainFrame()
 // Enables choose topic mode
 BOOL CMainFrame::ChooseHelpTopic()
 {
-    ::SetCursor(::LoadCursor(NULL, IDC_HELP));
+    ::SetCursor(::LoadCursor(nullptr, IDC_HELP));
     SetCapture();
     m_isChoosing = TRUE;
     return TRUE;
@@ -68,7 +68,7 @@ HWND CMainFrame::Create(HWND parent)
     }
     else
     {
-        ::MessageBox(NULL, _T("Failed to find ") + LoadString(IDS_HELP_FILE), _T("File not found"), MB_ICONWARNING);
+        ::MessageBox(nullptr, _T("Failed to find ") + LoadString(IDS_HELP_FILE), _T("File not found"), MB_ICONWARNING);
     }
 
     // Generate the Win32++ version string.
@@ -120,7 +120,7 @@ CString CMainFrame::CreateAppDataFolder(const CString& subfolder)
         CString add = subfolder.Mid(from, next - from);
         appDataPath += _T("\\") + add;
 
-        if (!::CreateDirectory(appDataPath, NULL) && GetLastError() != ERROR_ALREADY_EXISTS)
+        if (!::CreateDirectory(appDataPath, nullptr) && GetLastError() != ERROR_ALREADY_EXISTS)
         {
             CString msg = appDataPath + _T("Directory creation error.");
             throw CUserException(msg);
@@ -295,7 +295,7 @@ LRESULT CMainFrame::OnSetCursor(UINT msg, WPARAM wparam, LPARAM lparam)
 {
     if (m_isChoosing)
     {
-        ::SetCursor(::LoadCursor(NULL, IDC_HELP));
+        ::SetCursor(::LoadCursor(nullptr, IDC_HELP));
         return TRUE;
     }
 
@@ -433,7 +433,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -441,7 +441,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

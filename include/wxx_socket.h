@@ -206,8 +206,8 @@ namespace Win32xx
         operator SOCKET() const {return m_socket;}
 
     private:
-        CSocket(const CSocket&);               // Disable copy construction.
-        CSocket& operator=(const CSocket&);    // Disable assignment operator.
+        CSocket(const CSocket&) = delete;
+        CSocket& operator=(const CSocket&) = delete;
         static UINT WINAPI EventThread(LPVOID pThis);
 
         SOCKET m_socket;
@@ -234,7 +234,7 @@ namespace Win32xx
             throw CNotSupportedException(GetApp()->MsgSocWSAStartup());
 
         m_ws2_32 = ::GetModuleHandle(_T("ws2_32.dll"));
-        if (m_ws2_32 == NULL)
+        if (m_ws2_32 == nullptr)
             throw CNotSupportedException(GetApp()->MsgSocWS2Dll());
 
         m_pfnGetAddrInfo = reinterpret_cast<GETADDRINFO*>(
@@ -588,12 +588,12 @@ namespace Win32xx
     inline CString CSocket::GetErrorString() const
     {
         DWORD errorCode = static_cast<DWORD>(WSAGetLastError());
-        LPTSTR message = NULL;
+        LPTSTR message = nullptr;
         CString errorMessage;
 
         FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS |
                       FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_MAX_WIDTH_MASK,
-                      NULL, errorCode, 0, reinterpret_cast<LPTSTR>(&message), 1024, NULL);
+                      nullptr, errorCode, 0, reinterpret_cast<LPTSTR>(&message), 1024, nullptr);
 
         if (message)
         {
@@ -655,7 +655,7 @@ namespace Win32xx
 
 #ifdef GetAddrInfo
 
-        if (m_pfnGetAddrInfo != NULL && m_pfnFreeAddrInfo != NULL)
+        if (m_pfnGetAddrInfo != nullptr && m_pfnFreeAddrInfo != nullptr)
             isIPV6Supported = TRUE;
 
 #endif

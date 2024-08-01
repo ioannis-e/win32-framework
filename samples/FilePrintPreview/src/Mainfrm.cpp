@@ -285,7 +285,7 @@ OnFileOpen()                                                                /*
       // define two-part CFileDialog filter, one for text strings and another
       // for all files.
     LPCTSTR filter = _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||");
-    CFileDialog fileDlg(TRUE, _T("txt"), NULL, OFN_FILEMUSTEXIST, filter);
+    CFileDialog fileDlg(TRUE, _T("txt"), nullptr, OFN_FILEMUSTEXIST, filter);
       // open the dialog and get the path
     if (fileDlg.DoModal(*this) == IDOK)
     {
@@ -417,7 +417,7 @@ OnFileSaveAs()                                                              /*
       // define two-part CFileDialog filter, one for text strings and another
       // for all files.
     LPCTSTR filter = _T("Text Files (*.txt)|*.txt|All Files (*.*)|*.*||");
-    CFileDialog fileDlg(FALSE, _T("txt"), NULL, OFN_OVERWRITEPROMPT, filter);
+    CFileDialog fileDlg(FALSE, _T("txt"), nullptr, OFN_OVERWRITEPROMPT, filter);
       // bring up the dialog and get the file path
     if (fileDlg.DoModal(*this) == IDOK)
     {
@@ -521,7 +521,7 @@ QuickPrint(CPrintDialog& printDlg)                                          /*
 {
     CPrintDialog dlg(PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC);
     HDC hPrinter = dlg.GetPrinterDC();
-    if (hPrinter == NULL)
+    if (hPrinter == nullptr)
     {
         MessageBox(_T("Quick Print requires a printer"),_T("No Printer found"),
             MB_ICONWARNING);
@@ -656,7 +656,7 @@ WndProc(UINT msg, WPARAM wparam, LPARAM lparam)                             /*
           // Display the exception and continue.
         CString str;
         str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
+        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
         return 0;
     }
 }

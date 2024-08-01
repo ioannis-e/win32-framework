@@ -15,11 +15,11 @@ CHyperlink::CHyperlink() : m_isUrlVisited(false), m_isClicked(false),
     m_urlName = _T("Win32++");
 
     // Create the cursor.
-    m_hCursor = ::LoadCursor(NULL, IDC_HAND);
+    m_hCursor = ::LoadCursor(nullptr, IDC_HAND);
 
     // IDC_HAND is not available on Win95, so load a reasonable alternative.
     if( !m_hCursor )
-        m_hCursor = ::LoadCursor(NULL, IDC_ARROW);
+        m_hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 }
 
 CHyperlink::~CHyperlink()
@@ -65,7 +65,7 @@ void CHyperlink::OpenUrl()
 {
     CString url("http://sourceforge.net/projects/win32-framework/");
 
-    HINSTANCE result = ShellExecute(NULL, _T("open"), url, NULL, NULL, SW_SHOWNORMAL);
+    HINSTANCE result = ShellExecute(nullptr, _T("open"), url, nullptr, nullptr, SW_SHOWNORMAL);
 
     if (reinterpret_cast<INT_PTR>(result) > 32)
     {
@@ -91,7 +91,7 @@ LRESULT CHyperlink::OnMessageReflect(UINT msg, WPARAM wparam, LPARAM)
         // Keep our changes.
         dc.Detach();
 
-        // Return a NULL brush for a transparent background
+        // Return a nullptr brush for a transparent background
         return (LRESULT)GetStockObject(NULL_BRUSH);
     }
     return 0;
@@ -128,7 +128,7 @@ LRESULT CHyperlink::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -136,7 +136,7 @@ LRESULT CHyperlink::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

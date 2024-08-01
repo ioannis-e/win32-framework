@@ -157,7 +157,7 @@ PrintPages(CPrintDialog& printDlg)                                          /*
     ZeroMemory(&di, sizeof(di));
     di.cbSize      = sizeof(DOCINFO);
     di.lpszDocName = m_docPath;    // name of document to print
-    di.lpszOutput  = NULL;      // NULL here means output to fr.hdc
+    di.lpszOutput  = nullptr;      // nullptr here means output to fr.hdc
     dcPrinter.StartDoc(&di);    // start the printing
       // get the length of document to print
     LONG textLength = GetTextLengthEx(GTL_NUMCHARS);
@@ -215,7 +215,7 @@ ReadFile(LPCTSTR filePath)                                                  /*
     {
         CString msg = _T("Failed to load:  ");
         msg += e.GetFilePath();
-        ::MessageBox(NULL, msg, AtoT(e.what()), MB_ICONWARNING);
+        ::MessageBox(nullptr, msg, AtoT(e.what()), MB_ICONWARNING);
         return FALSE;
     }
     return TRUE;
@@ -230,7 +230,7 @@ SetFontDefaults()                                                           /*
 *-----------------------------------------------------------------------------*/
 {
       //Set font
-    if (m_font.GetHandle() == NULL)
+    if (m_font.GetHandle() == nullptr)
         m_font.CreateFont(16, 0, 0, 0, FW_NORMAL, 0, 0, 0, ANSI_CHARSET,
             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
             FF_MODERN, _T("Courier New"));
@@ -309,7 +309,7 @@ WriteFile(LPCTSTR filePath)                                                 /*
     {
         CString str = _T("Failed to write:  ");
         str += filePath;
-        ::MessageBox(NULL, str, _T("Warning"), MB_ICONWARNING);
+        ::MessageBox(nullptr, str, _T("Warning"), MB_ICONWARNING);
         return FALSE;
     }
     return TRUE;
@@ -332,7 +332,7 @@ RVStreamInCallback(DWORD handle, LPBYTE buffer, LONG size, LONG *read)      /*
         return (1);
 
     *read = 0;
-    if (!::ReadFile((HANDLE)(DWORD_PTR) handle, buffer, size, (LPDWORD)read, NULL))
+    if (!::ReadFile((HANDLE)(DWORD_PTR) handle, buffer, size, (LPDWORD)read, nullptr))
         ::MessageBox(0, _T("ReadFile Failed"), _T(""), MB_OK);
     return 0;
 }
@@ -350,8 +350,8 @@ RVStreamOutCallback(DWORD handle, LPBYTE buffer, LONG size, LONG *out)      /*
         return (1);
 
     *out = 0;
-    if (!::WriteFile((HANDLE)(DWORD_PTR)handle, buffer, size, (LPDWORD)out, NULL))
-        ::MessageBox(NULL, _T("WriteFile Failed"), _T(""), MB_OK);
+    if (!::WriteFile((HANDLE)(DWORD_PTR)handle, buffer, size, (LPDWORD)out, nullptr))
+        ::MessageBox(nullptr, _T("WriteFile Failed"), _T(""), MB_OK);
     return 0;
 }
 /*----------------------------------------------------------------------------*/

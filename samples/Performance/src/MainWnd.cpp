@@ -26,7 +26,7 @@ CMainWindow::~CMainWindow()
 }
 
 // Creates the main window.
-HWND CMainWindow::Create(HWND hParent /*= NULL*/)
+HWND CMainWindow::Create(HWND hParent /*= nullptr*/)
 {
     CString str = _T("Main Window");
 
@@ -34,7 +34,7 @@ HWND CMainWindow::Create(HWND hParent /*= NULL*/)
     CRect rc(20, 50, 400, 300);
     CRect rcDPI = DpiScaleRect(rc);
 
-    return CreateEx(WS_EX_TOPMOST, NULL, str, WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+    return CreateEx(WS_EX_TOPMOST, nullptr, str, WS_OVERLAPPEDWINDOW | WS_VISIBLE,
         rcDPI, hParent, 0);
 }
 
@@ -207,7 +207,7 @@ LRESULT CMainWindow::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -215,7 +215,7 @@ LRESULT CMainWindow::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

@@ -111,7 +111,7 @@ namespace Win32xx
     struct CGDI_Data
     {
         // Constructor
-        CGDI_Data() : hGDIObject(NULL), count(1L), isManagedObject(false) {}
+        CGDI_Data() : hGDIObject(nullptr), count(1L), isManagedObject(false) {}
 
         HGDIOBJ hGDIObject;
         long    count;
@@ -123,7 +123,7 @@ namespace Win32xx
     struct CIml_Data
     {
         // Constructor
-        CIml_Data() : images(NULL), isManagedHiml(false), count(1L) {}
+        CIml_Data() : images(nullptr), isManagedHiml(false), count(1L) {}
 
         HIMAGELIST  images;
         bool        isManagedHiml;
@@ -134,7 +134,7 @@ namespace Win32xx
     struct CMenu_Data
     {
         // Constructor
-        CMenu_Data() : menu(NULL), isManagedMenu(false), count(1L) {}
+        CMenu_Data() : menu(nullptr), isManagedMenu(false), count(1L) {}
 
         HMENU menu;
         bool isManagedMenu;
@@ -183,7 +183,7 @@ namespace Win32xx
         HWND  mainWnd;      // Handle to the main window for the thread (usually CFrame)
         CMenuBar* pMenuBar; // Pointer to the CMenuBar object with the WH_MSGFILTER hook
 
-        TLSData() : pWnd(NULL), mainWnd(NULL), pMenuBar(NULL) {} // Constructor
+        TLSData() : pWnd(nullptr), mainWnd(nullptr), pMenuBar(nullptr) {} // Constructor
     };
 
     ///////////////////////////////////////////////////////////////////
@@ -208,7 +208,7 @@ namespace Win32xx
     {
     public:
         // Constructors and Destructors
-        CGlobalLock() : m_h(NULL), m_p(NULL) {}
+        CGlobalLock() : m_h(nullptr), m_p(nullptr) {}
         CGlobalLock(HANDLE h) : m_h(h) { Lock(); }
         CGlobalLock(const CGlobalLock& rhs);
         ~CGlobalLock() { Unlock(); }
@@ -259,7 +259,7 @@ namespace Win32xx
 
     public:
         CWinApp();
-        virtual ~CWinApp();
+        virtual ~CWinApp() override;
 
         // Operations
         CWnd* GetCWndFromMap(HWND wnd);
@@ -285,8 +285,8 @@ namespace Win32xx
         void      UpdatePrinterMemory(HGLOBAL hDevMode, HGLOBAL hDevNames);
 
     private:
-        CWinApp(const CWinApp&);               // Disable copy construction
-        CWinApp& operator=(const CWinApp&);    // Disable assignment operator
+        CWinApp(const CWinApp&) = delete;
+        CWinApp& operator=(const CWinApp&) = delete;
 
         void AddCDCData(HDC dc, CDC_Data* pData);
         void AddCGDIData(HGDIOBJ gdi, CGDI_Data* pData);
@@ -299,7 +299,7 @@ namespace Win32xx
         void SetCallback();
         void SetTlsData();
 
-        static CWinApp* SetnGetThis(CWinApp* pThis = NULL, bool reset = false);
+        static CWinApp* SetnGetThis(CWinApp* pThis = nullptr, bool reset = false);
 
         std::map<HDC, CDC_Data*, CompareHDC> m_mapCDCData;
         std::map<HGDIOBJ, CGDI_Data*, CompareGDI> m_mapCGDIData;

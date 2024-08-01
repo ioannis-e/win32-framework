@@ -14,9 +14,9 @@
 
     // Load the MyDLL.dll
     HMODULE hModule = LoadLibrary(_T("MyDLL.dll"));
-    if (hModule == NULL)
+    if (hModule == nullptr)
     {
-        ::MessageBox(NULL, _T("Failed to load MyDLL.dll"), _T("Error"), MB_OK);
+        ::MessageBox(nullptr, _T("Failed to load MyDLL.dll"), _T("Error"), MB_OK);
         return 0;
     }
 
@@ -25,13 +25,13 @@
     SHOWDIALOG* pfnShowDialog = (SHOWDIALOG*)::GetProcAddress(hModule, "ShowDialog");
     assert(pfnShowDialog);
 
-    if (pfnShowDialog != NULL)
+    if (pfnShowDialog != nullptr)
     {
         // Call MyDLL's ShowDialog function.
         pfnShowDialog();
     }
     else
-        ::MessageBox(NULL, _T("Failed to run ShowDialog"), _T("Error"), MB_OK);
+        ::MessageBox(nullptr, _T("Failed to run ShowDialog"), _T("Error"), MB_OK);
 
     // We get here when the dialog is closed.
     FreeLibrary(hModule);

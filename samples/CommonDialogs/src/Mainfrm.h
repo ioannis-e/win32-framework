@@ -33,7 +33,7 @@ CMainFrame : public CFrame                                                  /*
 {
     public:
         CMainFrame();
-        virtual ~CMainFrame() {}
+        virtual ~CMainFrame() override {}
 
         AboutBox& GetAboutBox() { return m_aboutBox; }
         void    EmptyMRUList();
@@ -50,34 +50,36 @@ CMainFrame : public CFrame                                                  /*
         void    SetWindowTitle(LPCTSTR);
         void    UpdateControlUIState();
 
-    private:
-        CMainFrame(const CMainFrame&);               // Disable copy construction
-        CMainFrame& operator=(const CMainFrame&);    // Disable assignment operator
+    protected:
+        virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
+        virtual int     OnCreate(CREATESTRUCT& rcs) override;
+        virtual void    OnInitialUpdate() override;
+        virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
+        virtual void    PreCreate(CREATESTRUCT& cs) override;
+        virtual BOOL    SaveRegistrySettings() override;
+        virtual void    Serialize(CArchive& ar) override;
+        virtual LRESULT WndProc(UINT msg, WPARAM, LPARAM) override;
 
+    private:
+        CMainFrame(const CMainFrame&) = delete;
+        CMainFrame& operator=(const CMainFrame&) = delete;
         BOOL    DropFiles(LPARAM lparam);
         CRichEditView& GetRichView() { return m_view.GetRichView();}
         void    InitCtlColors();
         void    LoadPersistentData();
         void    OnCloseDoc();
         void    OnColorChoice();
-        BOOL    OnCommand(WPARAM wparam, LPARAM lparam);
-        int     OnCreate(CREATESTRUCT& rcs);
         void    OnEditFind();
         void    OnEditReplace();
         void    OnFileOpenMRU(UINT);
         void    OnFontChoice();
         BOOL    OnHelp();
-        void    OnInitialUpdate();
-        LRESULT OnNotify(WPARAM wparam, LPARAM lparam);
         void    OnNewDoc();
         void    OnOpenDoc();
         void    OnSaveAs();
         BOOL    OnProcessMRU(WPARAM wparam, LPARAM lparam);
         void    OnWrapText();
         BOOL    OpenDoc(LPCTSTR);
-        void    PreCreate(CREATESTRUCT& cs);
-        BOOL    SaveRegistrySettings();
-        void    Serialize(CArchive &ar);
         BOOL    SetCheckStatus(UINT, BOOL, ControlBars);
         BOOL    SetEnableStatus(UINT, BOOL, ControlBars);
         void    SetReBarColors(COLORREF, COLORREF, COLORREF, COLORREF);
@@ -89,7 +91,6 @@ CMainFrame : public CFrame                                                  /*
         void    SetViewBgColor()
                      {m_view.SetBgColor(m_colorChoice.GetBrush(DlgBg));}
         void    UpdateMRUMenu();
-        LRESULT WndProc(UINT msg, WPARAM, LPARAM);
         void    ValidateMRU();
 
         CDoc         m_doc;         // the document

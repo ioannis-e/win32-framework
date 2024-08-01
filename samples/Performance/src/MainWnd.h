@@ -24,21 +24,21 @@ class CMainWindow : public CWnd
 {
 public:
     CMainWindow();
-    virtual ~CMainWindow();
-    virtual HWND Create(HWND hParent = NULL);
+    virtual ~CMainWindow() override;
+    virtual HWND Create(HWND hParent = nullptr) override;
     void CreateTestWindows(int windows);
     void SetTestMessages(int testMessages) {m_testMessages = testMessages;}
 
 protected:
     // Virtual functions that override base class functions
-    virtual int  OnCreate(CREATESTRUCT& cs);
-    virtual void OnDestroy();
-    virtual void OnInitialUpdate();
-    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+    virtual int  OnCreate(CREATESTRUCT& cs) override;
+    virtual void OnDestroy() override;
+    virtual void OnInitialUpdate() override;
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    CMainWindow(const CMainWindow&);               // Disable copy construction
-    CMainWindow& operator=(const CMainWindow&);    // Disable assignment operator
+    CMainWindow(const CMainWindow&) = delete;
+    CMainWindow& operator=(const CMainWindow&) = delete;
 
     // Message handlers
     LRESULT OnDpiChanged(UINT, WPARAM, LPARAM lparam);

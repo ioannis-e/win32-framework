@@ -15,8 +15,8 @@ class CSplash : public CWnd
 public:
     CSplash();
     virtual ~CSplash() override;
-    CSplash(const CSplash&) = delete;               // Disable copy construction
-    CSplash& operator=(const CSplash&) = delete;    // Disable assignment operator
+    CSplash(const CSplash&) = delete;
+    CSplash& operator=(const CSplash&) = delete;
 
     const CProgressBar& GetBar() const { return m_progress; }
 

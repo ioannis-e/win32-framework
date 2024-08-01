@@ -14,8 +14,8 @@ class CSearchDialog : public CDialog
 public:
     CSearchDialog(UINT resID);
     virtual ~CSearchDialog() override;
-    CSearchDialog(const CSearchDialog&) = delete;               // Disable copy construction
-    CSearchDialog& operator=(const CSearchDialog&) = delete;    // Disable assignment operator
+    CSearchDialog(const CSearchDialog&) = delete;
+    CSearchDialog& operator=(const CSearchDialog&) = delete;
 
     const CString& GetTitleString() { return m_titleText; }
     const CString& GetActorsString() { return m_actorsText; }

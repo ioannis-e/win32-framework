@@ -90,7 +90,7 @@ INT_PTR CColourDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -98,7 +98,7 @@ INT_PTR CColourDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;
@@ -205,7 +205,7 @@ BOOL CColourDialog::OnTextChange(HWND editCtrl)
     if (editCtrl == m_blueEdit)
         m_blueSlider.SetPos(value, TRUE);
 
-    if (m_previewImage.GetHandle() != NULL)
+    if (m_previewImage.GetHandle() != nullptr)
         UpdatePreview();
 
     return TRUE;
@@ -243,9 +243,9 @@ void CColourDialog::Paint()
 void CColourDialog::UpdatePreview()
 {
     // Copy m_hbmPreviewOrig to m_hbmPreview.
-    CMemDC Mem1DC(NULL);    // Compatible with the desktop
+    CMemDC Mem1DC(nullptr);    // Compatible with the desktop
     Mem1DC.SelectObject(m_previewOrigImage);
-    CMemDC Mem2DC(NULL);    // Compatible with the desktop
+    CMemDC Mem2DC(nullptr);    // Compatible with the desktop
     Mem2DC.SelectObject(m_previewImage);
     int cx = m_preview.GetWindowRect().Width();
     int cy = m_preview.GetWindowRect().Height();

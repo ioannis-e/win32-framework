@@ -78,12 +78,12 @@ GetDocOpenFileName(const CString &title) const                              /*
     // Bring up the dialog, and  open the file
     CString str;
     DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-    CFileDialog FileDlg(TRUE, NULL, NULL, dwFlags, m_fileDlgFilter);
+    CFileDialog FileDlg(TRUE, nullptr, nullptr, dwFlags, m_fileDlgFilter);
     FileDlg.SetTitle(title);
     if (FileDlg.DoModal() == IDOK)
         str = FileDlg.GetPathName();
     else
-        ::MessageBox(NULL, _T("No document name was selected.\n")
+        ::MessageBox(nullptr, _T("No document name was selected.\n")
             _T("The document cannot be opened."),
             _T("Information"), MB_OK | MB_ICONINFORMATION |
             MB_TASKMODAL);
@@ -123,12 +123,12 @@ GetDocSaveFileName(const CString &title) const                              /*
     CString str;
     TCHAR extbuff[10];
     DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT;
-    CFileDialog FileDlg(FALSE, extbuff, NULL, dwFlags, m_fileDlgFilter);
+    CFileDialog FileDlg(FALSE, extbuff, nullptr, dwFlags, m_fileDlgFilter);
     FileDlg.SetTitle(title);
     if (FileDlg.DoModal() == IDOK)
         str = FileDlg.GetPathName();
     else
-        ::MessageBox(NULL, _T("No document name was selected.\n")
+        ::MessageBox(nullptr, _T("No document name was selected.\n")
             _T("The current document will not be saved."),
             _T("Information"), MB_OK | MB_ICONINFORMATION |
             MB_TASKMODAL);
@@ -161,7 +161,7 @@ OpenDoc(const CString &docFileName)                                         /*
         CString s;
         s.Format(_T("This file is already open:\n    %s"),
             docFileName.c_str());
-        ::MessageBox(NULL, s, _T("Error"), MB_OK |
+        ::MessageBox(nullptr, s, _T("Error"), MB_OK |
             MB_ICONEXCLAMATION | MB_TASKMODAL);
         return true;
     }
@@ -182,14 +182,14 @@ OpenDoc(const CString &docFileName)                                         /*
         CString what(e.what());
         msg.Format(_T("Error restoring the document.\n%s\n%s"),
             e.GetText(), e.GetErrorString());
-        ::MessageBox(NULL, msg.c_str(), what.c_str(),
+        ::MessageBox(nullptr, msg.c_str(), what.c_str(),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
         return false;
     }
     catch(...) // catch everything else
     {
         CString msg = _T("Error restoring the document.\n");
-        ::MessageBox(NULL, msg.c_str(), _T("Exception"),
+        ::MessageBox(nullptr, msg.c_str(), _T("Exception"),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
         return false;
     }
@@ -646,14 +646,14 @@ SaveDoc()                                                                   /*
         CString what(e.what());
         msg.Format(_T("Error while saving document:\n%s\n%s"),
             e.GetText(), e.GetErrorString());
-        ::MessageBox(NULL, msg.c_str(), what.c_str(),
+        ::MessageBox(nullptr, msg.c_str(), what.c_str(),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
         return false;
     }
     catch(...)
     {
         CString msg = _T("Error while saving document:\n");
-        ::MessageBox(NULL, msg.c_str(), _T("Exception"),
+        ::MessageBox(nullptr, msg.c_str(), _T("Exception"),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
         return false;
     }

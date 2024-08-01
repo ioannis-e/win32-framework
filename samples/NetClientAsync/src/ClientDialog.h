@@ -17,18 +17,18 @@ class CClientDialog : public CDialog
 {
 public:
     CClientDialog(UINT resID);
-    virtual ~CClientDialog();
+    virtual ~CClientDialog() override;
 
 protected:
     // Virtual functions that override base class functions
-    virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam);
-    virtual void OnClose();
-    virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam);
-    virtual BOOL OnInitDialog();
+    virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
+    virtual void OnClose() override;
+    virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam) override;
+    virtual BOOL OnInitDialog() override;
 
 private:
-    CClientDialog(const CClientDialog&);               // Disable copy construction
-    CClientDialog& operator=(const CClientDialog&);    // Disable assignment operator
+    CClientDialog(const CClientDialog&) = delete;
+    CClientDialog& operator=(const CClientDialog&) = delete;
 
     // Nested classes for this dialog's child windows
     // Nesting is optional. Its done to keep the IDE's class view tidy.

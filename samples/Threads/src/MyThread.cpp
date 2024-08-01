@@ -63,7 +63,7 @@ BOOL CMyWinThread::InitInstance()
         // Display the exception and quit.
         CString str;
         str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
+        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
 
         return FALSE;
     }

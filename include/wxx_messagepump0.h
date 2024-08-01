@@ -65,8 +65,8 @@ namespace Win32xx
         virtual BOOL PreTranslateMessage(MSG& msg);
 
     private:
-        CMessagePump(const CMessagePump&);               // Disable copy construction
-        CMessagePump& operator=(const CMessagePump&);    // Disable assignment operator
+        CMessagePump(const CMessagePump&) = delete;
+        CMessagePump& operator=(const CMessagePump&) = delete;
 
         HACCEL m_accel;               // handle to the accelerator table
         HWND m_accelWnd;              // handle to the window for accelerator keys

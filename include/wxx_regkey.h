@@ -64,12 +64,12 @@ namespace Win32xx
         LONG Create(HKEY keyParent, LPCTSTR keyName, LPTSTR className = REG_NONE,
                     DWORD options = REG_OPTION_NON_VOLATILE,
                     REGSAM samDesired = KEY_READ | KEY_WRITE,
-                    LPSECURITY_ATTRIBUTES secAttr = NULL,
-                    LPDWORD disposition = NULL);
+                    LPSECURITY_ATTRIBUTES secAttr = nullptr,
+                    LPDWORD disposition = nullptr);
         LONG DeleteSubKey(LPCTSTR subKey) const;
         LONG DeleteValue(LPCTSTR subKey) const;
         HKEY Detach();
-        LONG EnumKey(DWORD index, LPTSTR name, LPDWORD nameLength, FILETIME* lastWriteTime = NULL) const;
+        LONG EnumKey(DWORD index, LPTSTR name, LPDWORD nameLength, FILETIME* lastWriteTime = nullptr) const;
         LONG Flush() const;
         HKEY GetKey()  const { return m_key; }
         LONG NotifyChangeKeyValue(BOOL watchSubtree, DWORD notifyFilter, HANDLE event, BOOL isAsync = TRUE) const;
@@ -107,11 +107,11 @@ namespace Win32xx
 
 namespace Win32xx
 {
-    inline CRegKey::CRegKey() : m_key(NULL)
+    inline CRegKey::CRegKey() : m_key(nullptr)
     {
     }
 
-    inline CRegKey::CRegKey(HKEY key) : m_key(NULL)
+    inline CRegKey::CRegKey(HKEY key) : m_key(nullptr)
     {
         Attach(key);
     }
@@ -136,7 +136,7 @@ namespace Win32xx
     // Attaches a KEY handle to this CRegKey object.
     inline void CRegKey::Attach(HKEY key)
     {
-        assert(m_key == NULL);
+        assert(m_key == nullptr);
         m_key = key;
     }
 
@@ -145,10 +145,10 @@ namespace Win32xx
     {
         LONG lRes = ERROR_SUCCESS;
 
-        if (m_key != NULL)
+        if (m_key != nullptr)
         {
             lRes = ::RegCloseKey(m_key);
-            m_key = NULL;
+            m_key = nullptr;
         }
 
         return lRes;
@@ -158,7 +158,7 @@ namespace Win32xx
     inline LONG CRegKey::Create(HKEY keyParent, LPCTSTR keyName, LPTSTR className, DWORD options,
                    REGSAM samDesired, LPSECURITY_ATTRIBUTES secAttr, LPDWORD disposition)
     {
-        HKEY key = NULL;
+        HKEY key = nullptr;
         LONG result =  ::RegCreateKeyEx(keyParent, keyName, 0, className, options, samDesired, secAttr, &key, disposition);
 
         // RegCreateKeyEx opens existing keys, so close it now.
@@ -186,7 +186,7 @@ namespace Win32xx
     {
         assert(m_key);
         HKEY key = m_key;
-        m_key = NULL;
+        m_key = nullptr;
         return key;
     }
 
@@ -225,7 +225,7 @@ namespace Win32xx
         assert(m_key);
         LONG result = ERROR_CANTREAD;
         DWORD type = 0;
-        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, NULL, NULL))
+        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, nullptr, nullptr))
         {
             if (type == REG_BINARY)
                 result = ::RegQueryValueEx(m_key, valueName, 0, &type, static_cast<LPBYTE>(value), bytes);
@@ -249,7 +249,7 @@ namespace Win32xx
         LONG result = ERROR_CANTREAD;
         DWORD type = 0;
         DWORD bytes = sizeof(DWORD);
-        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, NULL, NULL))
+        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, nullptr, nullptr))
         {
             if (type == REG_DWORD)
                 result = ::RegQueryValueEx(m_key, valueName, 0, &type, reinterpret_cast<LPBYTE>(&value), &bytes);
@@ -285,7 +285,7 @@ namespace Win32xx
         assert(m_key);
         LONG result = ERROR_CANTREAD;
         DWORD type = 0;
-        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, NULL, NULL))
+        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, nullptr, nullptr))
         {
             if (type == REG_MULTI_SZ)
                 result = ::RegQueryValueEx(m_key, valueName, 0, &type, reinterpret_cast<LPBYTE>(value), chars);
@@ -300,7 +300,7 @@ namespace Win32xx
         assert(m_key);
         LONG result = ERROR_CANTREAD;
         DWORD type = 0;
-        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, NULL, NULL))
+        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, nullptr, nullptr))
         {
             if (type == REG_SZ)
                 result = ::RegQueryValueEx(m_key, valueName, 0, &type, reinterpret_cast<LPBYTE>(value), chars);
@@ -330,7 +330,7 @@ namespace Win32xx
         FILETIME time;
         DWORD size = MAX_PATH;
         TCHAR subKey[MAX_PATH];
-        while (ERROR_SUCCESS == ::RegEnumKeyEx(key, 0, subKey, &size, NULL, NULL, NULL, &time))
+        while (ERROR_SUCCESS == ::RegEnumKeyEx(key, 0, subKey, &size, nullptr, nullptr, nullptr, &time))
         {
             result = key.RecurseDeleteAllKeys(subKey);
             if (result != ERROR_SUCCESS)
@@ -440,7 +440,7 @@ namespace Win32xx
         DWORD bytes = sizeof(ULONGLONG);
         LONG result = ERROR_CANTREAD;
         DWORD type = 0;
-        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, NULL, NULL))
+        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, nullptr, nullptr))
         {
             if (type == REG_QWORD)
                 result = ::RegQueryValueEx(m_key, valueName, 0, &type, reinterpret_cast<LPBYTE>(&value), &bytes);

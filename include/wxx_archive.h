@@ -183,8 +183,8 @@ namespace Win32xx
 
 
     private:
-        CArchive(const CArchive&);              // Disable copy construction
-        CArchive& operator=(const CArchive&);   // Disable assignment operator
+        CArchive(const CArchive&) = delete;
+        CArchive& operator=(const CArchive&) = delete;
 
         // private data members
         CFile*  m_pFile;            // pointer to the archive CFile
@@ -747,7 +747,7 @@ namespace Win32xx
             memcpy(string.GetBuffer(chars), buf, size_t(chars)*2);
 #else
             // Convert the archive string from Wide to Ansi.
-            WideCharToMultiByte(CP_ACP, 0, buf, chars, string.GetBuffer(chars), chars, NULL, NULL);
+            WideCharToMultiByte(CP_ACP, 0, buf, chars, string.GetBuffer(chars), chars, nullptr, nullptr);
 #endif
 
             string.ReleaseBuffer(chars);
@@ -835,7 +835,7 @@ namespace Win32xx
     // The size (in characters) of the string array must be max or greater.
     // Reads at most max-1 TCHAR characters from the archive and stores it
     // in a string. Strings read from the archive are converted from ANSI
-    // or Unicode to TCHAR if required, and are NULL terminated.
+    // or Unicode to TCHAR if required, and are null terminated.
     // Throws an exception if an error occurs.
     inline LPTSTR CArchive::ReadString(LPTSTR string, UINT max)
     {
@@ -850,7 +850,7 @@ namespace Win32xx
     // The size (in characters) of the string array must be max or greater.
     // Reads at most max-1 TCHAR characters from the archive and store it
     // in a string. Strings read from the archive are converted from ANSI
-    // or Unicode to TCHAR if required, and are NULL terminated.
+    // or Unicode to TCHAR if required, and are null terminated.
     // Throws an exception if an error occurs.
     inline LPSTR CArchive::ReadStringA(LPSTR string, UINT max)
     {
@@ -865,7 +865,7 @@ namespace Win32xx
     // The size (in characters) of the string array must be max or greater.
     // Reads at most max-1 TCHAR characters from the archive and store it
     // in a string. Strings read from the archive are converted from ANSI
-    // or Unicode to TCHAR if required, and are NULL terminated.
+    // or Unicode to TCHAR if required, and are null terminated.
     // Throws an exception if an error occurs.
     inline LPWSTR CArchive::ReadStringW(LPWSTR string, UINT max)
     {

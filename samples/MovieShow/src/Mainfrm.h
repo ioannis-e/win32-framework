@@ -31,8 +31,8 @@ public:
 
     CMainFrame();
     virtual ~CMainFrame() override;
-    CMainFrame(const CMainFrame&) = delete;               // Disable copy construction
-    CMainFrame& operator=(const CMainFrame&) = delete;    // Disable assignment operator
+    CMainFrame(const CMainFrame&) = delete;
+    CMainFrame& operator=(const CMainFrame&) = delete;
 
     virtual HWND Create(HWND parent = nullptr) override;
     void SetCaptionColor(COLORREF color);

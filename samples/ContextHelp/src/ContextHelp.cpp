@@ -78,8 +78,8 @@ HWND CContextHelp::CreateHtmlHelp(HWND hwndCaller, LPCTSTR string, UINT command,
         Detach();
 
     typedef HWND WINAPI HTMLHELPW(HWND, LPCWSTR, UINT, DWORD_PTR);
-    HTMLHELPW* pHtmlHelpW = NULL;
-    HWND hWnd = NULL;
+    HTMLHELPW* pHtmlHelpW = nullptr;
+    HWND hWnd = nullptr;
 
     CString system;
     ::GetSystemDirectory(system.GetBuffer(MAX_PATH), MAX_PATH);
@@ -98,12 +98,12 @@ HWND CContextHelp::CreateHtmlHelp(HWND hwndCaller, LPCTSTR string, UINT command,
         hWnd = pHtmlHelpW(hwndCaller, TtoW(string), command, data);
 
         // Bind the hWnd to this CWnd object.
-        if (hWnd != NULL)
+        if (hWnd != nullptr)
             Attach(hWnd);
     }
 
     // Throw an exception if the window wasn't created.
-    if (hWnd == NULL) throw CWinException(_T("Failed to initiate Context Help"));
+    if (hWnd == nullptr) throw CWinException(_T("Failed to initiate Context Help"));
 
     return hWnd;
 }
@@ -146,7 +146,7 @@ void CContextHelp::ShowHelpTopic(LPCTSTR topic)
             : _T("\n\nMake sure the .chm file is in the .exe directory."));
 
         s.Format(fmt, topic, add.c_str());
-        ::MessageBox(NULL, s, _T("Information"), MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
+        ::MessageBox(nullptr, s, _T("Information"), MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
     }
 }
 
@@ -167,7 +167,7 @@ LRESULT CContextHelp::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -175,7 +175,7 @@ LRESULT CContextHelp::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

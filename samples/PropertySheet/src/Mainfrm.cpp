@@ -167,7 +167,7 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
 // Create a wizard. A wizard displays a series of property sheets.
 BOOL CMainFrame::OnWizard()
 {
-    CMyPropertySheet mps(NULL, *this);
+    CMyPropertySheet mps(nullptr, *this);
     mps.AddPage(make_unique<CButtonPage>(IDD_BUTTONS, _T("Buttons")));
     mps.AddPage(make_unique<CComboPage>(IDD_COMBOBOXES, _T("Combo Boxes")));
     mps.SetWizardMode(TRUE);
@@ -229,7 +229,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -237,7 +237,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

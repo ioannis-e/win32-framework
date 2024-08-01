@@ -164,7 +164,7 @@ LRESULT CView::OnTrayIcon(UINT, WPARAM wparam, LPARAM lparam)
 
         SetForegroundWindow();
         CPoint pos = GetCursorPos();
-        UINT uSelected = subMenu.TrackPopupMenu(TPM_RETURNCMD | TPM_NONOTIFY, pos.x, pos.y, *this, NULL);
+        UINT uSelected = subMenu.TrackPopupMenu(TPM_RETURNCMD | TPM_NONOTIFY, pos.x, pos.y, *this, nullptr);
 
         switch (uSelected)
         {
@@ -235,7 +235,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -243,7 +243,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

@@ -152,7 +152,7 @@ OnDraw(CDC& memDC)                                                          /*
                 line_no.Format(fmt, i + 1);
             if (i == doc_length)
             {
-                if (m_endOfView != NULL)
+                if (m_endOfView != nullptr)
                     TextLineOut(memDC, 0, i, m_endOfView);
             }
             else

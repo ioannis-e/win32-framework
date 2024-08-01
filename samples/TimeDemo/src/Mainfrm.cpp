@@ -144,7 +144,7 @@ OnCreate(CREATESTRUCT& cs)                                                  /*
         CString what(e.what());
         msg.Format(_T("Error restoring previous parameters.\n%s\n%s"),
             e.GetText(), e.GetErrorString());
-        ::MessageBox(NULL, msg.c_str(), what.c_str(),
+        ::MessageBox(nullptr, msg.c_str(), what.c_str(),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
           // remove the corrupted application archive file
         ::DeleteFile(m_arcName);
@@ -153,7 +153,7 @@ OnCreate(CREATESTRUCT& cs)                                                  /*
     catch(...)
     {
         CString msg = _T("Error restoring previous parameters.\n");
-        ::MessageBox(NULL, msg.c_str(), _T("Exception"),
+        ::MessageBox(nullptr, msg.c_str(), _T("Exception"),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
         m_view.SetDefaults();
     }
@@ -191,13 +191,13 @@ OnDestroy()                                                                 /*
         CString what(e.what());
         msg.Format(_T("Error while saving program settings:\n%s\n%s"),
             e.GetText(), e.GetErrorString());
-        ::MessageBox(NULL, msg.c_str(), what.c_str(),
+        ::MessageBox(nullptr, msg.c_str(), what.c_str(),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
     }
     catch(...)
     {
         CString msg = _T("Error while saving program settings:\n");
-        ::MessageBox(NULL, msg.c_str(), _T("Exception"),
+        ::MessageBox(nullptr, msg.c_str(), _T("Exception"),
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
     }
     CFrame::OnDestroy();
@@ -335,7 +335,7 @@ OnFontChoice()                                                              /*
 
         catch (const CResourceException&)
         {
-            ::MessageBox(NULL, _T("Font creation error."),
+            ::MessageBox(nullptr, _T("Font creation error."),
                 _T("Error"), MB_OK | MB_ICONEXCLAMATION |
                 MB_TASKMODAL);
         }
@@ -560,7 +560,7 @@ WndProc(UINT msg, WPARAM wparam, LPARAM lparam)                             /*
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -568,7 +568,7 @@ WndProc(UINT msg, WPARAM wparam, LPARAM lparam)                             /*
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

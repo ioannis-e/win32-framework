@@ -13,13 +13,13 @@ class CDoc : public CObject
 {
 public:
     CDoc() {}
-    virtual ~CDoc() {}
+    virtual ~CDoc() override {}
     void FileLoad(LPCTSTR filename);
     void FileStore(LPCTSTR filename);
 
 protected:
     // Virtual functions that override base class functions
-    virtual void Serialize(CArchive& ar);
+    virtual void Serialize(CArchive& ar) override;
 };
 
 #endif  // WIN32XX_DOC_H

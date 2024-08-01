@@ -226,7 +226,7 @@ LRESULT CMainFrame::OnPreviewClose()
     SetView(m_view);
 
     // Show the menu and toolbar
-    ShowMenu(GetFrameMenu() != NULL);
+    ShowMenu(GetFrameMenu() != nullptr);
     ShowToolBar(m_isToolbarShown);
     UpdateSettings();
 
@@ -307,7 +307,7 @@ CString CMainFrame::GetINIPath()
             CString add = subfolder.Mid(from, next - from);
             appDataPath += _T("\\") + add;
 
-            if (!::CreateDirectory(appDataPath, NULL) && GetLastError() != ERROR_ALREADY_EXISTS)
+            if (!::CreateDirectory(appDataPath, nullptr) && GetLastError() != ERROR_ALREADY_EXISTS)
             {
                 CString msg = appDataPath + _T("Directory creation error.");
                 throw CUserException(msg);
@@ -322,7 +322,7 @@ CString CMainFrame::GetINIPath()
 
         // Note: on Win2000 and above we could create the folders in a single step:
         // appDataPath += _T("\\Win32++\\INIFrame");
-        // SHCreateDirectory(NULL, FilePath);   // supported on Win2000 and above
+        // SHCreateDirectory(nullptr, FilePath);   // supported on Win2000 and above
     }
     else
         appDataPath = _T(".");
@@ -355,7 +355,7 @@ void CMainFrame::SerializeINI(BOOL isStoring)
             height = std::max(height, 50U);
             UINT showCmd = wndpl.showCmd;
 
-            ::WritePrivateProfileString(NULL, NULL, NULL, fileName);
+            ::WritePrivateProfileString(nullptr, nullptr, nullptr, fileName);
 
             // Write the Frame window's position and show state
             ::WritePrivateProfileString(key, _T("Left"), ItoT(left), fileName);
@@ -392,7 +392,7 @@ void CMainFrame::SerializeINI(BOOL isStoring)
 #ifdef MONITOR_DEFAULTTONULL
 
                 HMONITOR monitor = ::MonitorFromPoint(midpoint, MONITOR_DEFAULTTONULL);
-                if (monitor == NULL)
+                if (monitor == nullptr)
                     throw CUserException();
 
                 MONITORINFO mi;
@@ -501,7 +501,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -509,7 +509,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

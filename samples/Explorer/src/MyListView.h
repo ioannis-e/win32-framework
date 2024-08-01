@@ -31,7 +31,7 @@ class CMyListView : public CListView
 {
 public:
     CMyListView();
-    virtual ~CMyListView();
+    virtual ~CMyListView() override;
     void DisplayFolder(CShellFolder& parentFolder, Cpidl& cpidlParent, Cpidl& cpidlRel);
     void DoDisplay();
     CHeader& GetListHeader() { return m_header; }
@@ -44,19 +44,19 @@ public:
 
 protected:
     // Virtual functions that override base class functions
-    virtual void OnAttach();
-    virtual void OnDestroy();
+    virtual void OnAttach() override;
+    virtual void OnDestroy() override;
     virtual LRESULT OnLVColumnClick(LPNMITEMACTIVATE pnmitem);
     virtual LRESULT OnLVNDispInfo(NMLVDISPINFO* pdi);
     virtual LRESULT OnNMRClick(LPNMHDR pNMHDR);
     virtual LRESULT OnNMReturn(LPNMHDR pNMHDR);
-    virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam);
-    virtual void PreCreate(CREATESTRUCT& cs);
-    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
+    virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam) override;
+    virtual void PreCreate(CREATESTRUCT& cs) override;
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    CMyListView(const CMyListView&);               // Disable copy construction
-    CMyListView& operator=(const CMyListView&);    // Disable assignment operator
+    CMyListView(const CMyListView&) = delete;
+    CMyListView& operator=(const CMyListView&) = delete;
 
     // ListItemData is a nested class inside CMyListView.
     // Each list view item has a pointer to ListItemData.

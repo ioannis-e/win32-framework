@@ -906,7 +906,7 @@ New Features and Enhancements
  - CString and the text conversion classes can now be used independently of
    the rest of the framework.
  - Added CString::Assign. This function is used to assign a specified number
-   of characters to a CString. The assigned string can contain NULL characters.
+   of characters to a CString. The assigned string can contain null characters.
 
 * Updated CFrame and CMDIFrame
  - SetView can now be used to switch between multiple views for frames

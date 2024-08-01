@@ -185,7 +185,7 @@ void CView::Print()
         // Note: BITMAPINFO and BITMAPINFOHEADER are the same for 24 bit bitmaps
         // Get the size of the image data
         BITMAPINFO* pBI = reinterpret_cast<BITMAPINFO*>(&bih);
-        VERIFY(memDC.GetDIBits(bmView, 0, height, NULL, pBI, DIB_RGB_COLORS));
+        VERIFY(memDC.GetDIBits(bmView, 0, height, nullptr, pBI, DIB_RGB_COLORS));
 
         // Retrieve the image data
         std::vector<byte> vBits(bih.biSizeImage, 0); // a vector to hold the byte array
@@ -239,7 +239,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -247,7 +247,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

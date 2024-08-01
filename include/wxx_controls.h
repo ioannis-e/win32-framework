@@ -75,11 +75,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = ANIMATE_CLASS; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = ANIMATE_CLASS; }
 
     private:
-        CAnimation(const CAnimation&);              // Disable copy construction
-        CAnimation& operator=(const CAnimation&);   // Disable assignment operator
+        CAnimation(const CAnimation&) = delete;
+        CAnimation& operator=(const CAnimation&) = delete;
     };
 
 
@@ -91,7 +91,7 @@ namespace Win32xx
     {
     public:
         CComboBox() {}
-        virtual ~CComboBox() {}
+        virtual ~CComboBox()  override {}
 
         virtual int CompareItem(LPCOMPAREITEMSTRUCT pCompareItemStruct);
 
@@ -142,12 +142,12 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual LRESULT OnMessageReflect(UINT msg, WPARAM, LPARAM lparam);
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = _T("ComboBox"); }
+        virtual LRESULT OnMessageReflect(UINT msg, WPARAM, LPARAM lparam) override;
+        virtual void PreRegisterClass(WNDCLASS& wc)  override { wc.lpszClassName = _T("ComboBox"); }
 
     private:
-        CComboBox(const CComboBox&);               // Disable copy construction
-        CComboBox& operator=(const CComboBox&);    // Disable assignment operator
+        CComboBox(const CComboBox&) = delete;
+        CComboBox& operator=(const CComboBox&) = delete;
     };
 
 
@@ -178,8 +178,8 @@ namespace Win32xx
         virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = WC_COMBOBOXEX; }
 
     private:
-        CComboBoxEx(const CComboBoxEx&);               // Disable copy construction
-        CComboBoxEx& operator=(const CComboBoxEx&);    // Disable assignment operator
+        CComboBoxEx(const CComboBoxEx&) = delete;
+        CComboBoxEx& operator=(const CComboBoxEx&) = delete;
 
         CImageList m_images;
     };
@@ -194,7 +194,7 @@ namespace Win32xx
     {
     public:
         CHeader() {}
-        virtual ~CHeader() {}
+        virtual ~CHeader() override {}
 
         // Accessors and mutators
         CImageList GetImageList() const;
@@ -227,11 +227,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = WC_HEADER ; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = WC_HEADER ; }
 
     private:
-        CHeader(const CHeader&);               // Disable copy construction
-        CHeader& operator=(const CHeader&);    // Disable assignment operator
+        CHeader(const CHeader&) = delete;
+        CHeader& operator=(const CHeader&) = delete;
 
         CImageList m_images;
     };
@@ -245,7 +245,7 @@ namespace Win32xx
     {
     public:
         CHotKey() {}
-        virtual ~CHotKey() {}
+        virtual ~CHotKey() override {}
 
         DWORD GetHotKey() const;
         CString GetKeyName(UINT keyCode, BOOL isExtended) const;
@@ -254,11 +254,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = HOTKEY_CLASS; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = HOTKEY_CLASS; }
 
     private:
-        CHotKey(const CHotKey&);               // Disable copy construction
-        CHotKey& operator=(const CHotKey&);    // Disable assignment operator
+        CHotKey(const CHotKey&) = delete;
+        CHotKey& operator=(const CHotKey&) = delete;
     };
 
 
@@ -270,7 +270,7 @@ namespace Win32xx
     {
     public:
         CIPAddress();
-        virtual ~CIPAddress() {}
+        virtual ~CIPAddress() override {}
 
         void ClearAddress() const;
         int GetAddress(BYTE& field0, BYTE& field1, BYTE& field2, BYTE& field3) const;
@@ -284,11 +284,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = WC_IPADDRESS; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = WC_IPADDRESS; }
 
     private:
-        CIPAddress(const CIPAddress&);              // Disable copy construction
-        CIPAddress& operator=(const CIPAddress&);   // Disable assignment operator
+        CIPAddress(const CIPAddress&) = delete;
+        CIPAddress& operator=(const CIPAddress&) = delete;
     };
 
 
@@ -300,15 +300,15 @@ namespace Win32xx
     {
     public:
         CMonthCalendar();
-        virtual ~CMonthCalendar() {}
+        virtual ~CMonthCalendar() override {}
 
         // Accessors and mutators
         COLORREF GetColor(int region) const;
-        int GetFirstDayOfWeek(BOOL* pLocal = NULL) const;
+        int GetFirstDayOfWeek(BOOL* pLocal = nullptr) const;
         CRect GetMinReqRect() const;
         int GetMonthDelta() const;
         COLORREF SetColor(int region, COLORREF color) const;
-        BOOL SetFirstDayOfWeek(int day, int* pOldDay = NULL) const;
+        BOOL SetFirstDayOfWeek(int day, int* pOldDay = nullptr) const;
         int SetMonthDelta(int delta) const;
 
         // Operations
@@ -328,11 +328,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = MONTHCAL_CLASS; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = MONTHCAL_CLASS; }
 
     private:
-        CMonthCalendar(const CMonthCalendar&);              // Disable copy construction
-        CMonthCalendar& operator=(const CMonthCalendar&);   // Disable assignment operator
+        CMonthCalendar(const CMonthCalendar&) = delete;
+        CMonthCalendar& operator=(const CMonthCalendar&) = delete;
     };
 
     ///////////////////////////////////////////////////////////
@@ -344,13 +344,13 @@ namespace Win32xx
     {
     public:
         CDateTime();
-        virtual ~CDateTime() {}
+        virtual ~CDateTime() override {}
 
         COLORREF GetMonthCalColor(int region) const;
         HWND GetMonthCalCtrl() const;
         CFont GetMonthCalFont() const;
         DWORD GetRange(SYSTEMTIME& minRange, SYSTEMTIME& maxRange) const;
-        SYSTEMTIME GetTime(DWORD* pReturnCode = NULL) const;
+        SYSTEMTIME GetTime(DWORD* pReturnCode = nullptr) const;
         COLORREF SetMonthCalColor(int region, COLORREF color) const;
         BOOL SetFormat(LPCTSTR format) const;
         void SetMonthCalFont(HFONT font, BOOL redraw = TRUE) const;
@@ -360,11 +360,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = DATETIMEPICK_CLASS; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = DATETIMEPICK_CLASS; }
 
     private:
-        CDateTime(const CDateTime&);               // Disable copy construction
-        CDateTime& operator=(const CDateTime&);    // Disable assignment operator
+        CDateTime(const CDateTime&) = delete;
+        CDateTime& operator=(const CDateTime&) = delete;
     };
 
 
@@ -376,7 +376,7 @@ namespace Win32xx
     {
     public:
         CProgressBar() {}
-        virtual ~CProgressBar() {}
+        virtual ~CProgressBar() override {}
 
         int  GetPos() const;
         int  GetRange(BOOL whichLimit, const PBRANGE& range) const;
@@ -389,11 +389,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = PROGRESS_CLASS; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = PROGRESS_CLASS; }
 
     private:
-        CProgressBar(const CProgressBar&);              // Disable copy construction
-        CProgressBar& operator=(const CProgressBar&);   // Disable assignment operator
+        CProgressBar(const CProgressBar&) = delete;
+        CProgressBar& operator=(const CProgressBar&) = delete;
     };
 
 
@@ -407,7 +407,7 @@ namespace Win32xx
     {
     public:
         CScrollBar() {}
-        virtual ~CScrollBar() {}
+        virtual ~CScrollBar() override {}
 
         BOOL EnableScrollBar( UINT arrowFlags = ESB_ENABLE_BOTH )  const;
         BOOL GetScrollInfo(SCROLLINFO& si)  const;
@@ -420,11 +420,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = _T("SCROLLBAR"); ; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = _T("SCROLLBAR"); ; }
 
     private:
-        CScrollBar(const CScrollBar&);              // Disable copy construction
-        CScrollBar& operator=(const CScrollBar&);   // Disable assignment operator
+        CScrollBar(const CScrollBar&) = delete;
+        CScrollBar& operator=(const CScrollBar&) = delete;
     };
 
     ///////////////////////////////////////////////////////////////////
@@ -437,7 +437,7 @@ namespace Win32xx
     {
     public:
         CSlider() {}
-        virtual ~CSlider() {}
+        virtual ~CSlider() override {}
 
         void ClearSel() const;
         void ClearTics(BOOL redraw = FALSE ) const;
@@ -470,11 +470,11 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreRegisterClass(WNDCLASS& wc) { wc.lpszClassName = TRACKBAR_CLASS; }
+        virtual void PreRegisterClass(WNDCLASS& wc) override { wc.lpszClassName = TRACKBAR_CLASS; }
 
     private:
-        CSlider(const CSlider&);               // Disable copy construction
-        CSlider& operator=(const CSlider&);    // Disable assignment operator
+        CSlider(const CSlider&) = delete;
+        CSlider& operator=(const CSlider&) = delete;
     };
 
     ////////////////////////////////////////////////////////////
@@ -487,7 +487,7 @@ namespace Win32xx
     {
     public:
         CSpinButton() {}
-        virtual ~CSpinButton() {}
+        virtual ~CSpinButton() override {}
 
         int  GetAccel(int accels, LPUDACCEL pAccels) const;
         int  GetBase() const;
@@ -502,12 +502,12 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void PreCreate(CREATESTRUCT& cs);
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual void PreCreate(CREATESTRUCT& cs) override;
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
 
     private:
-        CSpinButton(const CSpinButton&);               // Disable copy construction
-        CSpinButton& operator=(const CSpinButton&);    // Disable assignment operator
+        CSpinButton(const CSpinButton&) = delete;
+        CSpinButton& operator=(const CSpinButton&) = delete;
     };
 
 
@@ -518,7 +518,7 @@ namespace Win32xx
     {
     public:
         CToolTip();
-        virtual ~CToolTip();
+        virtual ~CToolTip() override;
 
         // Accessors and mutators
         int      GetDelayTime(DWORD duration) const;
@@ -570,11 +570,12 @@ namespace Win32xx
         // Overridables
         virtual void FillToolInfo(TOOLINFO& info, HWND control) const;
         virtual void FillToolInfo(TOOLINFO& info, HWND control, const RECT& rc, UINT id) const;
-        virtual void PreCreate(CREATESTRUCT& cs);
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual void PreCreate(CREATESTRUCT& cs) override;
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
+
     private:
-        CToolTip(const CToolTip&);              // Disable copy construction
-        CToolTip& operator=(const CToolTip&);   // Disable assignment operator
+        CToolTip(const CToolTip&) = delete;
+        CToolTip& operator=(const CToolTip&) = delete;
     };
 
 } // namespace Win32xx
@@ -1289,7 +1290,7 @@ namespace Win32xx
     inline BOOL CDateTime::SetTimeNone() const
     {
         assert(IsWindow());
-        return DateTime_SetSystemtime(*this, GDT_NONE, NULL);
+        return DateTime_SetSystemtime(*this, GDT_NONE, nullptr);
     }
 
 
@@ -1703,7 +1704,7 @@ namespace Win32xx
 
     // Retrieves the first day of the week.
     // Refer to MonthCal_GetFirstDayOfWeek in the Windows API documentation for more information.
-    inline int CMonthCalendar::GetFirstDayOfWeek(BOOL* pLocal /*= NULL*/) const
+    inline int CMonthCalendar::GetFirstDayOfWeek(BOOL* pLocal /*= nullptr*/) const
     {
         assert(IsWindow());
         DWORD result = MonthCal_GetFirstDayOfWeek(*this);
@@ -1829,7 +1830,7 @@ namespace Win32xx
 
     // Sets the first day of the week for the month calendar control.
     // Refer to MonthCal_SetFirstDayOfWeek in the Windows API documentation for more information.
-    inline BOOL CMonthCalendar::SetFirstDayOfWeek(int day, int* pOldDay/* = NULL*/) const
+    inline BOOL CMonthCalendar::SetFirstDayOfWeek(int day, int* pOldDay/* = nullptr*/) const
     {
         assert(IsWindow());
         DWORD result = static_cast<DWORD>(MonthCal_SetFirstDayOfWeek(*this, day));

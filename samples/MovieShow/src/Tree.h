@@ -15,8 +15,8 @@ class CViewTree : public CTreeView
 public:
     CViewTree();
     virtual ~CViewTree() override;
-    CViewTree(const CViewTree&) = delete;               // Disable copy construction
-    CViewTree& operator=(const CViewTree&) = delete;    // Disable assignment operator
+    CViewTree(const CViewTree&) = delete;
+    CViewTree& operator=(const CViewTree&) = delete;
 
     void SetDPIImages();
     void Swap(HTREEITEM item1, HTREEITEM item2);
@@ -54,8 +54,8 @@ class CDockTree : public CDocker
 public:
     CDockTree();
     virtual ~CDockTree() override {}
-    CDockTree(const CDockTree&) = delete;              // Disable copy construction
-    CDockTree& operator=(const CDockTree&) = delete;   // Disable assignment operator
+    CDockTree(const CDockTree&) = delete;
+    CDockTree& operator=(const CDockTree&) = delete;
 
     CViewTree& GetViewTree() { return m_treeView; }
 

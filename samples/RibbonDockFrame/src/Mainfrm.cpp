@@ -13,7 +13,7 @@
 
 //////////////////////////////////
 // CMainFrame function definitions
-CMainFrame::CMainFrame() : m_pIUIRibbon(NULL)
+CMainFrame::CMainFrame() : m_pIUIRibbon(nullptr)
 {
     // Set m_view as the view window of the frame.
     SetView(m_view);
@@ -176,7 +176,7 @@ void CMainFrame::OnFileExit()
 
 void CMainFrame::OnFileOpen()
 {
-    CFileDialog fileDlg(TRUE, L"dat", NULL, OFN_FILEMUSTEXIST, L"Scribble Files (*.dat)\0*.dat\0\0");
+    CFileDialog fileDlg(TRUE, L"dat", nullptr, OFN_FILEMUSTEXIST, L"Scribble Files (*.dat)\0*.dat\0\0");
     fileDlg.SetTitle(L"Open File");
 
     // Bring up the file open dialog retrieve the selected filename
@@ -221,8 +221,8 @@ void CMainFrame::OnFilePrint()
             memset(&di, 0, sizeof(DOCINFO));
             di.cbSize = sizeof(DOCINFO);
             di.lpszDocName = L"Scribble Printout";
-            di.lpszOutput = static_cast<LPTSTR>(NULL);
-            di.lpszDatatype = static_cast<LPTSTR>(NULL);
+            di.lpszOutput = static_cast<LPTSTR>(nullptr);
+            di.lpszDatatype = static_cast<LPTSTR>(nullptr);
             di.fwType = 0;
 
             // Begin a print job by calling the StartDoc function.
@@ -243,7 +243,7 @@ void CMainFrame::OnFilePrint()
 
             // Note: BITMAPINFO and BITMAPINFOHEADER are the same for 24 bit bitmaps
             // Get the size of the image data
-            VERIFY(memDC.GetDIBits(bmView, 0, height, NULL, reinterpret_cast<BITMAPINFO*>(&bi), DIB_RGB_COLORS));
+            VERIFY(memDC.GetDIBits(bmView, 0, height, nullptr, reinterpret_cast<BITMAPINFO*>(&bi), DIB_RGB_COLORS));
 
             // Retrieve the image data
             std::vector<byte> vBits(bi.biSizeImage, 0); // a vector to hold the byte array
@@ -290,7 +290,7 @@ void CMainFrame::OnFileSave()
 
 void CMainFrame::OnFileSaveAs()
 {
-    CFileDialog fileDlg(FALSE, L"dat", NULL, OFN_OVERWRITEPROMPT, L"Scribble Files (*.dat)\0*.dat\0\0");
+    CFileDialog fileDlg(FALSE, L"dat", nullptr, OFN_OVERWRITEPROMPT, L"Scribble Files (*.dat)\0*.dat\0\0");
     fileDlg.SetTitle(L"Save File");
 
     // Bring up the file open dialog retrieve the selected filename
@@ -336,7 +336,7 @@ void CMainFrame::OnInitialUpdate()
 
 void CMainFrame::OnMRUList(const PROPERTYKEY* key, const PROPVARIANT* ppropvarValue)
 {
-    if (ppropvarValue != NULL && key != NULL && UI_PKEY_SelectedItem == *key)
+    if (ppropvarValue != nullptr && key != nullptr && UI_PKEY_SelectedItem == *key)
     {
         UINT mruItem = ppropvarValue->ulVal;
         MRUFileOpen(mruItem);
@@ -346,13 +346,13 @@ void CMainFrame::OnMRUList(const PROPERTYKEY* key, const PROPVARIANT* ppropvarVa
 // Called when the DropdownColorPicker button is pressed.
 void CMainFrame::OnPenColor(const PROPVARIANT* ppropvarValue, IUISimplePropertySet* pCmdExProp)
 {
-    if (ppropvarValue != NULL)
+    if (ppropvarValue != nullptr)
     {
         // Retrieve color type.
         UINT type = ppropvarValue->uintVal;
 
         // The Ribbon framework passes color as additional property if the color type is RGB.
-        if (type == UI_SWATCHCOLORTYPE_RGB && pCmdExProp != NULL)
+        if (type == UI_SWATCHCOLORTYPE_RGB && pCmdExProp != nullptr)
         {
             // Retrieve color.
             PROPVARIANT var;
@@ -492,7 +492,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -500,7 +500,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

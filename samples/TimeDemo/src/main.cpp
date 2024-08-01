@@ -46,12 +46,12 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
       // simultaneously executing instances of this application
       // to m_nInstances.
     HANDLE m_hSemaphore;
-    if ((m_hSemaphore = CreateSemaphore(NULL, nInstances, nInstances,
-        szSemaphoreName)) != NULL)
+    if ((m_hSemaphore = CreateSemaphore(nullptr, nInstances, nInstances,
+        szSemaphoreName)) != nullptr)
     {
         if (WaitForSingleObject(m_hSemaphore, 0) == WAIT_TIMEOUT)
         {
-            ::MessageBox(NULL,
+            ::MessageBox(nullptr,
                 _T("The allowed number of instances of this\n")
                 _T("application are already running."),
                 _T("Stop"), MB_OK | MB_ICONSTOP | MB_TASKMODAL);
@@ -71,18 +71,18 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
             CString what(e.what());
             msg.Format(_T("%s\n%s\n%s"), e.GetText(), e.GetText(),
                 e.GetErrorString(), _T("\nWinMain Goodbye..."));
-            ::MessageBox(NULL, msg.c_str(), what.c_str(),
+            ::MessageBox(nullptr, msg.c_str(), what.c_str(),
                 MB_OK | MB_ICONSTOP | MB_TASKMODAL);
         }
         catch(...)      // catch all other exception events
         {
-            ::MessageBox(NULL, _T("WinMain Goodbye..."),
+            ::MessageBox(nullptr, _T("WinMain Goodbye..."),
                 _T("Error"),
                 MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
         }
 
               // release the semaphore
-            ReleaseSemaphore(m_hSemaphore, 1, NULL);
+            ReleaseSemaphore(m_hSemaphore, 1, nullptr);
             CloseHandle(m_hSemaphore);
         }
     return rtn;

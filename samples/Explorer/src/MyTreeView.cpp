@@ -63,7 +63,7 @@ void CMyTreeView::DoItemMenu(HTREEITEM item, CPoint& point)
         CContextMenu cm;
         CShellFolder sf;
 
-        if (pInfo->GetParentFolder().GetIShellFolder() != NULL)
+        if (pInfo->GetParentFolder().GetIShellFolder() != nullptr)
             sf = pInfo->GetParentFolder();
         else
             sf.DesktopFolder();
@@ -86,7 +86,7 @@ void CMyTreeView::DoItemMenu(HTREEITEM item, CPoint& point)
                         cm.GetContextMenu2(m_ccm2);
 
                         UINT idCmd = popup.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_RIGHTBUTTON ,
-                            point.x, point.y, *this, NULL);
+                            point.x, point.y, *this, nullptr);
 
                         // A Treeview control sometimes requires this to end the
                         // TrackPopupMenu properly.
@@ -486,7 +486,7 @@ LRESULT CMyTreeView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -494,7 +494,7 @@ LRESULT CMyTreeView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

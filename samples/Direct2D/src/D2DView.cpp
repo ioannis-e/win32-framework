@@ -11,7 +11,7 @@
 //
 
 // Constructor
-CD2DView::CD2DView() : m_pRenderTarget(NULL), m_pLightSlateGrayBrush(NULL), m_pCornflowerBlueBrush(NULL)
+CD2DView::CD2DView() : m_pRenderTarget(nullptr), m_pLightSlateGrayBrush(nullptr), m_pCornflowerBlueBrush(nullptr)
 {
 }
 
@@ -218,7 +218,7 @@ void CD2DView::PreCreate(CREATESTRUCT&cs)
 void CD2DView::PreRegisterClass(WNDCLASS& wc)
 {
     wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.hCursor = ::LoadCursor(NULL, IDI_APPLICATION);
+    wc.hCursor = ::LoadCursor(nullptr, IDI_APPLICATION);
     wc.lpszClassName = L"Direct2D";
 }
 
@@ -243,7 +243,7 @@ LRESULT CD2DView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         // Display the exception and continue.
         CString str;
         str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(NULL, str, _T("An exception occurred"), MB_ICONERROR);
+        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
 
         return 0;
     }

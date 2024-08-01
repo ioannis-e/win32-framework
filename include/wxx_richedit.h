@@ -74,7 +74,7 @@ namespace Win32xx
     {
     public:
         CRichEdit();
-        virtual ~CRichEdit();
+        virtual ~CRichEdit() override;
 
         void    AppendText(LPCTSTR text) const;
         BOOL    CanPaste(UINT format = 0) const;
@@ -126,7 +126,7 @@ namespace Win32xx
         int     LineLength(int charIndex = -1) const;
         void    LineScroll(int lines) const;
         void    Paste() const;
-        void    PasteSpecial(UINT clipFormat, DWORD aspect = 0, HMETAFILE mf = NULL) const;
+        void    PasteSpecial(UINT clipFormat, DWORD aspect = 0, HMETAFILE mf = nullptr) const;
         CPoint  PosFromChar(UINT fromChar) const;
         BOOL    Redo() const;
         void    ReplaceSel(LPCTSTR newText, BOOL canUndo = FALSE) const;
@@ -159,12 +159,12 @@ namespace Win32xx
         BOOL    Undo() const;
 
     protected:
-        virtual void PreCreate(CREATESTRUCT& cs);
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual void PreCreate(CREATESTRUCT& cs) override;
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
 
     private:
-        CRichEdit(const CRichEdit&);              // Disable copy construction
-        CRichEdit& operator=(const CRichEdit&);   // Disable assignment operator
+        CRichEdit(const CRichEdit&) = delete;
+        CRichEdit& operator=(const CRichEdit&) = delete;
 
         HMODULE m_rich1;
         HMODULE m_rich2;
@@ -198,7 +198,7 @@ namespace Win32xx
         // Load RichEdit version 1.0
         m_rich1 = ::LoadLibrary(system + _T("\\riched32.dll"));
 
-        if (m_rich1 == NULL)
+        if (m_rich1 == nullptr)
             throw CNotSupportedException(GetApp()->MsgRichEditDll());
 
         // Load RichEdit version 2.0 or 3.0 (for Win98 and above)
@@ -239,7 +239,7 @@ namespace Win32xx
         // For RichEdit version 4.1 (available on XP and above).
         // Requires Unicode.
 #if defined MSFTEDIT_CLASS && defined UNICODE
-        if (m_rich4_1 != NULL)
+        if (m_rich4_1 != nullptr)
             wc.lpszClassName = MSFTEDIT_CLASS;
 #else
         TRACE("\n*** WARNING: Using an old version of the RichEdit control ***\n\n");
@@ -437,7 +437,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        IRichEditOle* pRichEditOle = NULL;
+        IRichEditOle* pRichEditOle = nullptr;
         LPARAM lparam = reinterpret_cast<LPARAM>(pRichEditOle);
         SendMessage(EM_GETOLEINTERFACE, 0, lparam);
         return pRichEditOle;
@@ -763,7 +763,7 @@ namespace Win32xx
 
     // Inserts the contents of the Clipboard in the specified data format.
     // Refer to EM_PASTESPECIAL in the Windows API documentation for more information.
-    inline void CRichEdit::PasteSpecial(UINT clipFormat, DWORD aspect /* = NULL */, HMETAFILE mf /* = NULL */) const
+    inline void CRichEdit::PasteSpecial(UINT clipFormat, DWORD aspect /* = nullptr */, HMETAFILE mf /* = nullptr */) const
     {
         assert(IsWindow());
 

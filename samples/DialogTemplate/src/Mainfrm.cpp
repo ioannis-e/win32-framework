@@ -14,7 +14,7 @@
 //
 
 // Constructor.
-CMainFrame::CMainFrame() : m_preview(m_richView), m_pDockDialogsTree(NULL),
+CMainFrame::CMainFrame() : m_preview(m_richView), m_pDockDialogsTree(nullptr),
                            m_isTemplateShown(false)
 {
     // Set m_view as the view window of the frame.
@@ -63,7 +63,7 @@ void CMainFrame::DialogFromTemplateText()
         resToken = arrayText.Tokenize(_T(","), curPos);
         while (resToken != _T(""))
         {
-            long value = strtol(TtoA(resToken), NULL, 0);
+            long value = strtol(TtoA(resToken), nullptr, 0);
             array.push_back(static_cast<unsigned char>(value));
             resToken = arrayText.Tokenize(_T(","), curPos);
         };
@@ -100,8 +100,8 @@ DWORD CALLBACK CMainFrame::MyStreamOutCallback(DWORD cookie, LPBYTE pBuffer, LON
     HANDLE file = reinterpret_cast<HANDLE>(static_cast<DWORD_PTR>(cookie));
     LPDWORD bytesWritten = reinterpret_cast<LPDWORD>(pcb);
     *bytesWritten = 0;
-    if (!::WriteFile(file, pBuffer, cb, bytesWritten, NULL))
-        ::MessageBox(NULL, _T("WriteFile Failed"), _T(""), MB_OK);
+    if (!::WriteFile(file, pBuffer, cb, bytesWritten, nullptr))
+        ::MessageBox(nullptr, _T("WriteFile Failed"), _T(""), MB_OK);
     return 0;
 }
 
@@ -198,7 +198,7 @@ void CMainFrame::OnInitialUpdate()
 // Create the File Open dialog to choose the file to load.
 BOOL CMainFrame::OnFileOpen()
 {
-    m_richView.SetWindowText(NULL);
+    m_richView.SetWindowText(nullptr);
 
     CString filter = "Program Files (*.exe; *.dll)|*.exe; *.dll|All Files (*.*)|*.*|";
     CFileDialog fileDlg(TRUE);    // TRUE for file open
@@ -362,19 +362,19 @@ BOOL CMainFrame::OnPreviewSetup()
 // Called when a selection is made on the tree view.
 LRESULT CMainFrame::OnSelectTreeItem()
 {
-    m_richView.SetWindowText(NULL);
+    m_richView.SetWindowText(nullptr);
     m_holder.Destroy();
     SetView(m_richView);
     m_isTemplateShown = false;
 
     HTREEITEM item = GetTree()->GetSelection();
-    HMODULE module = LoadLibraryEx(m_pathName, NULL, LOAD_LIBRARY_AS_DATAFILE);
+    HMODULE module = LoadLibraryEx(m_pathName, nullptr, LOAD_LIBRARY_AS_DATAFILE);
     ResourceInfo* info = reinterpret_cast<ResourceInfo*>
                          (GetTree()->GetItemData(item));
 
     if (module != 0)
     {
-        if (info != NULL)
+        if (info != nullptr)
         {
             // Display the dialog template in the rich edit view.
             if (info->resourceID != 0)
@@ -445,10 +445,10 @@ void CMainFrame::ShowTemplateText(HMODULE module, LPCTSTR dialogRes)
 {
     HRSRC dialog = ::FindResource(module, dialogRes, RT_DIALOG);
 
-    if (dialog != NULL)
+    if (dialog != nullptr)
     {
         HGLOBAL dialogResource = ::LoadResource(module, dialog);
-        if (dialogResource != NULL)
+        if (dialogResource != nullptr)
         {
             CString dialogName;
             if (IS_INTRESOURCE(dialogRes))
@@ -457,7 +457,7 @@ void CMainFrame::ShowTemplateText(HMODULE module, LPCTSTR dialogRes)
                 dialogName = dialogRes;
 
             unsigned char* buf = static_cast<unsigned char*>(::LockResource(dialogResource));
-            if (buf != NULL)
+            if (buf != nullptr)
             {
                 CString output;
                 output << "// Template array for dialog: " << dialogName << "\n";
@@ -512,7 +512,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -520,7 +520,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

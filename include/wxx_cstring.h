@@ -338,7 +338,7 @@ namespace Win32xx
     template <class T>
     inline CStringT<T>::CStringT(const T* text)
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         m_str.assign(text);
     }
 
@@ -385,7 +385,7 @@ namespace Win32xx
     template <class T>
     inline bool CStringT<T>::operator==(const T* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         return (Compare(text) == 0);
     }
 
@@ -401,7 +401,7 @@ namespace Win32xx
     template <class T>
     inline bool CStringT<T>::operator!=(const T* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         return Compare(text) != 0;
     }
 
@@ -519,7 +519,7 @@ namespace Win32xx
     template <>
     inline int CStringA::Collate(const CHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         int res = ::CompareStringA(LOCALE_USER_DEFAULT, 0, m_str.c_str(), -1, text, -1);
 
         assert(res);
@@ -533,7 +533,7 @@ namespace Win32xx
     template <>
     inline int CStringW::Collate(const WCHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         int res = ::CompareStringW(LOCALE_USER_DEFAULT, 0, m_str.c_str(), -1, text, -1);
 
         assert(res);
@@ -547,7 +547,7 @@ namespace Win32xx
     template <>
     inline int CStringA::CollateNoCase(const CHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         int res = ::CompareStringA(LOCALE_USER_DEFAULT, NORM_IGNORECASE, m_str.c_str(), -1, text, -1);
 
         assert(res);
@@ -561,7 +561,7 @@ namespace Win32xx
     template <>
     inline int CStringW::CollateNoCase(const WCHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         int res = ::CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, m_str.c_str(), -1, text, -1);
 
         assert(res);
@@ -575,7 +575,7 @@ namespace Win32xx
     template <>
     inline int CStringA::Compare(const CHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         return ::lstrcmpA(m_str.c_str(), text);
     }
 
@@ -583,7 +583,7 @@ namespace Win32xx
     template <>
     inline int CStringW::Compare(const WCHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         return ::lstrcmpW(m_str.c_str(), text);
     }
 
@@ -591,7 +591,7 @@ namespace Win32xx
     template <>
     inline int CStringA::CompareNoCase(const CHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         return ::lstrcmpiA(m_str.c_str(), text);
     }
 
@@ -599,7 +599,7 @@ namespace Win32xx
     template <>
     inline int CStringW::CompareNoCase(const WCHAR* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         return ::lstrcmpiW(m_str.c_str(), text);
     }
 
@@ -637,7 +637,7 @@ namespace Win32xx
     template <class T>
     inline int CStringT<T>::Find(const T* text, int index /* = 0 */) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         assert(index >= 0);
 
         size_t s = m_str.find(text, static_cast<size_t>(index));
@@ -648,7 +648,7 @@ namespace Win32xx
     template <class T>
     inline int CStringT<T>::FindOneOf(const T* text) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
 
         size_t s = m_str.find_first_of(text);
         return static_cast<int>(s);
@@ -779,7 +779,7 @@ namespace Win32xx
         return ch;
     }
 
-    // Creates a buffer of minBufLength characters (+1 extra for NULL termination) and returns
+    // Creates a buffer of minBufLength characters (+1 extra for null termination) and returns
     // a pointer to this buffer. This buffer can be used by any function that accepts a LPTSTR.
     // Care must be taken not to exceed the length of the buffer. Use ReleaseBuffer to safely
     // copy this buffer back to the CStringT object.
@@ -814,7 +814,7 @@ namespace Win32xx
         assert(var);
         Empty();
 
-        DWORD length = ::GetEnvironmentVariableA(var, NULL, 0);
+        DWORD length = ::GetEnvironmentVariableA(var, nullptr, 0);
         if (length > 0)
         {
             std::vector<CHAR> buffer(size_t(length) +1, 0 );
@@ -832,7 +832,7 @@ namespace Win32xx
         assert(var);
         Empty();
 
-        DWORD length = ::GetEnvironmentVariableW(var, NULL, 0);
+        DWORD length = ::GetEnvironmentVariableW(var, nullptr, 0);
         if (length > 0)
         {
             std::vector<WCHAR> buffer(static_cast<size_t>(length) +1, 0);
@@ -876,10 +876,10 @@ namespace Win32xx
     inline void CStringA::GetErrorString(DWORD error)
     {
         Empty();
-        CHAR* buffer = NULL;
+        CHAR* buffer = nullptr;
         DWORD flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
-        ::FormatMessageA(flags, NULL, error, 0, reinterpret_cast<LPSTR>(&buffer), 1, NULL);
-        if (buffer != NULL)
+        ::FormatMessageA(flags, nullptr, error, 0, reinterpret_cast<LPSTR>(&buffer), 1, nullptr);
+        if (buffer != nullptr)
         {
             m_str.assign(buffer);
             ::LocalFree(buffer);
@@ -891,10 +891,10 @@ namespace Win32xx
     inline void CStringW::GetErrorString(DWORD error)
     {
         Empty();
-        WCHAR* buffer = NULL;
+        WCHAR* buffer = nullptr;
         DWORD flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
-        ::FormatMessageW(flags, NULL, error, 0, reinterpret_cast<LPWSTR>(&buffer), 1, NULL);
-        if (buffer != NULL)
+        ::FormatMessageW(flags, nullptr, error, 0, reinterpret_cast<LPWSTR>(&buffer), 1, nullptr);
+        if (buffer != nullptr)
         {
             m_str.assign(buffer);
             ::LocalFree(buffer);
@@ -1033,7 +1033,7 @@ namespace Win32xx
     template <class T>
     inline int CStringT<T>::Remove(const T* text)
     {
-        assert(text != NULL);
+        assert(text != nullptr);
 
         int count = 0;
         size_t pos = 0;
@@ -1120,7 +1120,7 @@ namespace Win32xx
     template <class T>
     inline int CStringT<T>::ReverseFind(const T* text, int end /* = -1 */) const
     {
-        assert(text != NULL);
+        assert(text != nullptr);
         if (!text) return -1;
 
         if (lstrlenT(text) == 1)

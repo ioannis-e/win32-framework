@@ -35,7 +35,7 @@ CDoc    : public CObject                                                    /*
 {
     public:
         CDoc();
-        virtual ~CDoc() {}
+        virtual ~CDoc() override {}
 
         void    LoadDocRegistry(LPCTSTR keyName);
         void    SaveDocRegistry(LPCTSTR keyName);

@@ -16,15 +16,15 @@ class CFrameApp : public CWinApp
 {
 public:
     CFrameApp();
-    virtual ~CFrameApp();
+    virtual ~CFrameApp() override;
 
 protected:
     // Virtual functions that override base class functions
-    virtual BOOL InitInstance();
+    virtual BOOL InitInstance() override;
 
 private:
-    CFrameApp(const CFrameApp&) = delete;               // Disable copy construction
-    CFrameApp& operator=(const CFrameApp&) = delete;    // Disable assignment operator
+    CFrameApp(const CFrameApp&) = delete;
+    CFrameApp& operator=(const CFrameApp&) = delete;
 
     CMainFrame m_frame;
 };

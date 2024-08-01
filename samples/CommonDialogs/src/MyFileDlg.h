@@ -28,21 +28,21 @@ MyFileDialog : public CFileDialog
         MyFileDialog
         (
             BOOL bOpenFileDialog = TRUE,
-            LPCTSTR sDefExt      = NULL,
-            LPCTSTR sFileName    = NULL,
+            LPCTSTR sDefExt      = nullptr,
+            LPCTSTR sFileName    = nullptr,
             DWORD dwFlags        = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-            LPCTSTR  sFilter     = NULL
+            LPCTSTR  sFilter     = nullptr
         )   : CFileDialog(bOpenFileDialog, sDefExt, sFileName,
                 dwFlags, sFilter) {}
 
           // Record the title of the read/saveas dialog box after an object
           // of this class is constructed, but before DoModal() is invoked.
-        virtual void SetBoxTitle(LPCTSTR title)
+        void SetBoxTitle(LPCTSTR title)
                         { m_title = title; SetTitle(title);}
 
     private:
-        MyFileDialog(const MyFileDialog&);               // Disable copy construction
-        MyFileDialog& operator=(const MyFileDialog&);    // Disable assignment operator
+        MyFileDialog(const MyFileDialog&) = delete;
+        MyFileDialog& operator=(const MyFileDialog&) = delete;
 
         CString m_title;       // persistent over object span
 };

@@ -157,7 +157,7 @@ void CMyListView::DoBackgroundMenu(CPoint& point)
                     ccm.GetContextMenu2(m_ccm2);
 
                     idCmd = popup.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_RIGHTBUTTON,
-                        point.x, point.y, *this, NULL);
+                        point.x, point.y, *this, nullptr);
 
                     if(idCmd)
                     {
@@ -295,7 +295,7 @@ void CMyListView::DoDisplay()
 
     if(m_csfCurFolder.GetIShellFolder())
     {
-        HCURSOR  hCur = ::LoadCursor(NULL, IDC_WAIT);
+        HCURSOR  hCur = ::LoadCursor(nullptr, IDC_WAIT);
         hCur = ::SetCursor(hCur);
 
         // Turn redrawing off in the ListView.
@@ -352,7 +352,7 @@ void CMyListView::DoItemMenu(LPINT pItems, UINT items, CPoint& point)
                         ccm.GetContextMenu2(m_ccm2);
                         UINT  idCmd;
                         idCmd = popup.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD | TPM_RIGHTBUTTON,
-                                    point.x, point.y, *this, NULL);
+                                    point.x, point.y, *this, nullptr);
 
                         if(idCmd)
                         {
@@ -492,11 +492,11 @@ void CMyListView::GetFileSizeText(ULONGLONG fileSize, LPTSTR string)
     preFormat.Format(_T("%d"), ((1023 + fileSize) >> 10));
     CString postFormat;
     const int maxSize = 31;
-    ::GetNumberFormat(LOCALE_USER_DEFAULT, LOCALE_NOUSEROVERRIDE, preFormat, NULL, postFormat.GetBuffer(maxSize), maxSize);
+    ::GetNumberFormat(LOCALE_USER_DEFAULT, LOCALE_NOUSEROVERRIDE, preFormat, nullptr, postFormat.GetBuffer(maxSize), maxSize);
     postFormat.ReleaseBuffer();
 
     // Get our decimal point character from Locale information.
-    int buffLen = ::GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SDECIMAL, NULL, 0 );
+    int buffLen = ::GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_SDECIMAL, nullptr, 0 );
     assert(buffLen > 0);
     CString decimal;
     ::GetLocaleInfo(LOCALE_USER_DEFAULT, LOCALE_SDECIMAL, decimal.GetBuffer(buffLen), buffLen);
@@ -525,7 +525,7 @@ void CMyListView::GetLastWriteTime(FILETIME modified, LPTSTR string)
     {
         // For Windows Vista and later.
         ::FileTimeToSystemTime(&modified, &utcTime);
-        ::SystemTimeToTzSpecificLocalTime(NULL, &utcTime, &localSysTime);
+        ::SystemTimeToTzSpecificLocalTime(nullptr, &utcTime, &localSysTime);
     }
     else
     {
@@ -538,8 +538,8 @@ void CMyListView::GetLastWriteTime(FILETIME modified, LPTSTR string)
     const int maxChars = 32;
     TCHAR time[maxChars];
     TCHAR date[maxChars];
-    ::GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &localSysTime, NULL, date, maxChars-1);
-    ::GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &localSysTime, NULL, time, maxChars-1);
+    ::GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &localSysTime, nullptr, date, maxChars-1);
+    ::GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &localSysTime, nullptr, time, maxChars-1);
 
     // Assign the date and time text strings to the string variable.
     CString dateTime;
@@ -868,7 +868,7 @@ LRESULT CMyListView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -876,7 +876,7 @@ LRESULT CMyListView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

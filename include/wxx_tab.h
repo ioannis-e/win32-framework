@@ -59,7 +59,7 @@ namespace Win32xx
         int tabImage;       // index of this tab's image
         int tabID;          // identifier for this tab (used by TabbedMDI)
         CWnd* pView;        // pointer to the view window
-        TabPageInfo() : tabIcon(NULL), tabImage(0), tabID(0), pView(NULL) {}    // constructor
+        TabPageInfo() : tabIcon(nullptr), tabImage(0), tabID(0), pView(nullptr) {}    // constructor
     };
 
     struct TABNMHDR
@@ -84,17 +84,17 @@ namespace Win32xx
         {
         public:
             CSelectDialog(LPCDLGTEMPLATE pDlgTemplate);
-            virtual ~CSelectDialog() {}
+            virtual ~CSelectDialog() override {}
             void AddItem(LPCTSTR string);
 
         protected:
-            virtual BOOL OnInitDialog();
-            virtual void OnOK();
-            virtual void OnCancel() { EndDialog(-2); }
+            virtual BOOL OnInitDialog() override;
+            virtual void OnOK() override;
+            virtual void OnCancel() override { EndDialog(-2); }
 
         private:
-            CSelectDialog(const CSelectDialog&);               // Disable copy construction.
-            CSelectDialog& operator=(const CSelectDialog&);    // Disable assignment operator.
+            CSelectDialog(const CSelectDialog&) = delete;
+            CSelectDialog& operator=(const CSelectDialog&) = delete;
 
             std::vector<CString> m_items;
             UINT IDC_LIST;
@@ -102,7 +102,7 @@ namespace Win32xx
 
     public:
         CTab();
-        virtual ~CTab();
+        virtual ~CTab() override;
         virtual CWnd*  AddTabPage(CWnd* pView, LPCTSTR tabText, HICON icon, int tabID);
         virtual CWnd*  AddTabPage(CWnd* pView, LPCTSTR tabText, UINT iconID, int tabID = 0);
         virtual CWnd*  AddTabPage(CWnd* pView, LPCTSTR tabText);
@@ -185,9 +185,9 @@ namespace Win32xx
         virtual void    DrawListButton(CDC& dc);
         virtual void    DrawTabs(CDC& dc);
         virtual void    DrawTabBorders(CDC& dc, RECT& rc);
-        virtual void    OnAttach();
-        virtual void    OnDestroy();
-        virtual BOOL    OnEraseBkgnd(CDC&) { return TRUE;}
+        virtual void    OnAttach() override;
+        virtual void    OnDestroy() override;
+        virtual BOOL    OnEraseBkgnd(CDC&) override { return TRUE;}
         virtual LRESULT OnEraseBkgnd(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnLButtonDblClk(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -197,7 +197,7 @@ namespace Win32xx
         virtual LRESULT OnKillFocus(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnPaint(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnSetFocus(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnTCNSelChange(LPNMHDR pNMHDR);
         virtual LRESULT OnDpiChangedAfterParent(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -207,16 +207,16 @@ namespace Win32xx
         virtual void    NotifyDragged();
         virtual BOOL    NotifyTabClosing(int page);
         virtual void    Paint();
-        virtual void    PreCreate(CREATESTRUCT& cs);
-        virtual void    PreRegisterClass(WNDCLASS& wc);
+        virtual void    PreCreate(CREATESTRUCT& cs) override;
+        virtual void    PreRegisterClass(WNDCLASS& wc) override;
         virtual void    SetTabSize();
 
         // Not intended to be overridden
-        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
+        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
     private:
-        CTab(const CTab&);              // Disable copy construction
-        CTab& operator=(const CTab&); // Disable assignment operator
+        CTab(const CTab&) = delete;
+        CTab& operator=(const CTab&) = delete;
 
         void ShowActiveView(CWnd* pView);
         void UpdateImageList();
@@ -245,7 +245,7 @@ namespace Win32xx
     {
     public:
         CTabbedMDI();
-        virtual ~CTabbedMDI();
+        virtual ~CTabbedMDI() override;
 
         virtual CWnd* AddMDIChild(CWnd* pView, LPCTSTR tabText, int mdiChildID = 0);
         virtual CWnd* AddMDIChild(WndPtr view, LPCTSTR tabText, int mdiChildID);
@@ -272,20 +272,20 @@ namespace Win32xx
 
     protected:
         virtual WndPtr  NewMDIChildFromID(int mdiChildID);
-        virtual void    OnAttach();
-        virtual void    OnDestroy();
-        virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam);
+        virtual void    OnAttach() override;
+        virtual void    OnDestroy() override;
+        virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnSetFocus(UINT, WPARAM, LPARAM);
         virtual BOOL    OnTabClose(int tab);
         virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual void    RecalcLayout();
 
         // Not intended to be overwritten
-        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
+        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
     private:
-        CTabbedMDI(const CTabbedMDI&);              // Disable copy construction
-        CTabbedMDI& operator=(const CTabbedMDI&);   // Disable assignment operator
+        CTabbedMDI(const CTabbedMDI&) = delete;
+        CTabbedMDI& operator=(const CTabbedMDI&) = delete;
 
         CTab m_tab;
         CTab* m_pTab;
@@ -338,7 +338,7 @@ namespace Win32xx
     // Definitions for the CTab class.
     //
 
-    inline CTab::CTab() : m_pActiveView(NULL), m_isShowingButtons(FALSE), m_isTracking(FALSE),
+    inline CTab::CTab() : m_pActiveView(nullptr), m_isShowingButtons(FALSE), m_isTracking(FALSE),
                           m_isClosePressed(FALSE), m_isListPressed(FALSE), m_isListMenuActive(FALSE)
     {
         /*
@@ -400,7 +400,7 @@ namespace Win32xx
         tpi.tabIcon = icon;
         tpi.tabID = tabID;
         tpi.tabText = tabText;
-        if (icon != NULL)
+        if (icon != nullptr)
             tpi.tabImage = GetImages().Add(icon);
         else
             tpi.tabImage = -1;
@@ -458,7 +458,7 @@ namespace Win32xx
         tpi.tabIcon = icon;
         tpi.tabID = tabID;
         tpi.tabText = tabText;
-        if (icon != NULL)
+        if (icon != nullptr)
             tpi.tabImage = GetImages().Add(icon);
         else
             tpi.tabImage = -1;
@@ -1354,7 +1354,7 @@ namespace Win32xx
                 SelectPage(0);
             }
             else
-                ShowActiveView(NULL);
+                ShowActiveView(nullptr);
 
             NotifyChanged();
         }
@@ -1546,7 +1546,7 @@ namespace Win32xx
             // Choosing the frame's CWnd for the menu's messages will automatically theme the popup menu.
             int page = 0;
             m_isListMenuActive = TRUE;
-            page = GetListMenu().TrackPopupMenuEx(TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, GetAncestor(), NULL) - IDW_FIRSTCHILD;
+            page = GetListMenu().TrackPopupMenuEx(TPM_LEFTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, GetAncestor(), nullptr) - IDW_FIRSTCHILD;
             if ((page >= 0) && (page < 9)) SelectPage(page);
             if (page == 9) ShowListDialog();
             m_isListMenuActive = FALSE;
@@ -1996,7 +1996,7 @@ namespace Win32xx
 
         // Create the MDICLIENT view window.
         if (!CreateEx(0, _T("MDICLIENT"), _T(""),
-            style, 0, 0, 0, 0, parent, NULL, (PSTR) &clientcreate))
+            style, 0, 0, 0, 0, parent, nullptr, (PSTR) &clientcreate))
                 throw CWinException(GetApp()->MsgWndCreate());
 
         return *this;
@@ -2005,7 +2005,7 @@ namespace Win32xx
     // Retrieves a pointer to the active MDI child.
     inline CWnd* CTabbedMDI::GetActiveMDIChild() const
     {
-        CWnd* pView = NULL;
+        CWnd* pView = nullptr;
         int tab = GetTab().GetCurSel();
         if (tab >= 0)
         {
@@ -2158,7 +2158,7 @@ namespace Win32xx
     {
         LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
         assert(pHeader);
-        if (pHeader != NULL)
+        if (pHeader != nullptr)
         {
 
             switch(pHeader->code)
@@ -2197,7 +2197,7 @@ namespace Win32xx
 
             }   // switch(pnmhdr->code)
 
-        }   // if (pHeader == NULL)
+        }   // if (pHeader == nullptr)
 
         return 0;
     }

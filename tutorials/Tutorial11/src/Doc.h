@@ -21,7 +21,7 @@ class CDoc : public CObject
 {
 public:
     CDoc() {}
-    virtual ~CDoc() {}
+    virtual ~CDoc() override {}
 
     std::vector<PlotPoint>& GetAllPoints() {return m_points;}   // returns a vector of PlotPoint data
     void FileOpen(LPCTSTR fileName);

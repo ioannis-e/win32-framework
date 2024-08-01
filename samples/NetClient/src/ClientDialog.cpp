@@ -61,7 +61,7 @@ INT_PTR CClientDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -69,7 +69,7 @@ INT_PTR CClientDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;
@@ -102,7 +102,7 @@ void CClientDialog::LoadCommonControlsEx()
         }
         else
         {
-            ::MessageBox(NULL, _T("IP Address Control not supported!"), _T("Error"), MB_OK);
+            ::MessageBox(nullptr, _T("IP Address Control not supported!"), _T("Error"), MB_OK);
         }
 
         ::FreeLibrary(module);

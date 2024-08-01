@@ -52,8 +52,8 @@
 //      CFolderDialog fd;
 //
 //      // Set the root folder to list the computer's drives (or C:).
-//      ITEMIDLIST* pidlRoot = NULL;
-//      SHGetSpecialFolderLocation(NULL, CSIDL_DRIVES, &pidlRoot);
+//      ITEMIDLIST* pidlRoot = nullptr;
+//      SHGetSpecialFolderLocation(nullptr, CSIDL_DRIVES, &pidlRoot);
 //      fd.SetRoot(pidlRoot);
 //
 //      // Set the title for the dialog.
@@ -151,9 +151,9 @@ namespace Win32xx
     {
     public:
         CFolderDialog();
-        virtual ~CFolderDialog();
+        virtual ~CFolderDialog() override;
 
-        virtual INT_PTR DoModal(HWND parent = NULL);
+        virtual INT_PTR DoModal(HWND parent = nullptr);
 
         CString GetDisplayName() const       { return m_displayName; }
         CString GetFolderPath() const;
@@ -172,16 +172,16 @@ namespace Win32xx
         void SetTitle(LPCTSTR title);
 
     protected:
-        virtual void OnCancel();
+        virtual void OnCancel() override;
         virtual void OnInitialized();
         virtual void OnIUnknown(LPARAM lparam);
-        virtual void OnOK();
+        virtual void OnOK() override;
         virtual void OnSelChanged();
         virtual int  OnValidateFailed(LPARAM lparam);
 
     private:
-        CFolderDialog(const CFolderDialog&);              // Disable copy construction.
-        CFolderDialog& operator=(const CFolderDialog&);   // Disable assignment operator.
+        CFolderDialog(const CFolderDialog&) = delete;
+        CFolderDialog& operator=(const CFolderDialog&) = delete;
 
         static int CALLBACK BrowseCallbackProc(HWND wnd, UINT msg, LPARAM param1, LPARAM lparam2);
 
@@ -203,7 +203,7 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    inline CFolderDialog::CFolderDialog() : m_pidlRoot(NULL), m_fullPidl(NULL), m_imageIndex(0)
+    inline CFolderDialog::CFolderDialog() : m_pidlRoot(nullptr), m_fullPidl(nullptr), m_imageIndex(0)
     {
         ZeroMemory(&m_bi, sizeof(m_bi));
         m_bi.lpfn = BrowseCallbackProc;
@@ -229,7 +229,7 @@ namespace Win32xx
         CFolderDialog* pThis = reinterpret_cast<CFolderDialog*>(param2);
         int result = 0;
 
-        if (pThis->GetHwnd() == NULL)
+        if (pThis->GetHwnd() == nullptr)
         {
             pThis->m_wnd = wnd;
             pThis->AddToMap();
@@ -257,9 +257,9 @@ namespace Win32xx
     // Displays the folder browser dialog.
     inline INT_PTR CFolderDialog::DoModal(HWND parent)
     {
-        if (m_fullPidl != NULL)
+        if (m_fullPidl != nullptr)
             CoTaskMemFree(m_fullPidl);
-        m_fullPidl = NULL;
+        m_fullPidl = nullptr;
         m_bi.lpszTitle = m_title.c_str();
         m_bi.pszDisplayName = m_displayName.GetBuffer(MAX_PATH);
         m_bi.ulFlags = m_flags;

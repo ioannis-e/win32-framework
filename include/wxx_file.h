@@ -102,8 +102,8 @@ namespace Win32xx
         void Write(const void* buffer, UINT count) const;
 
     private:
-        CFile(const CFile&);               // Disable copy construction
-        CFile& operator=(const CFile&);    // Disable assignment operator
+        CFile(const CFile&) = delete;
+        CFile& operator=(const CFile&) = delete;
 
         CString m_fileName;
         CString m_filePath;
@@ -366,7 +366,7 @@ namespace Win32xx
         if (create & OPEN_ALWAYS) openFlags = OPEN_ALWAYS;
         if (create == 0) create = OPEN_EXISTING;
 
-        m_file = ::CreateFile(fileName, access, share, NULL, create, attributes, 0);
+        m_file = ::CreateFile(fileName, access, share, nullptr, create, attributes, 0);
 
         if (INVALID_HANDLE_VALUE == m_file)
         {
@@ -391,7 +391,7 @@ namespace Win32xx
         assert(buffer);
         DWORD read = 0;
 
-        if (!::ReadFile(m_file, buffer, count, &read, NULL))
+        if (!::ReadFile(m_file, buffer, count, &read, nullptr))
             throw CFileException(GetFilePath(), GetApp()->MsgFileRead());
 
         return read;
@@ -451,7 +451,7 @@ namespace Win32xx
     // Note: this function does not open or create the specified file.
     inline void CFile::SetFilePath(LPCTSTR fileName)
     {
-        LPTSTR pShortFileName = NULL;
+        LPTSTR pShortFileName = nullptr;
 
         DWORD buffSize = ::GetFullPathName(fileName, 0, 0, 0);
         int buffer = static_cast<int>(buffSize);
@@ -459,7 +459,7 @@ namespace Win32xx
         {
             ::GetFullPathName(fileName, buffSize, m_filePath.GetBuffer(buffer), &pShortFileName);
 
-            if (pShortFileName != NULL)
+            if (pShortFileName != nullptr)
                 m_fileName = pShortFileName;
             else
                 m_fileName = _T("");
@@ -504,7 +504,7 @@ namespace Win32xx
 
         assert(buffer);
         DWORD written = 0;
-        if (!::WriteFile(m_file, buffer, count, &written, NULL))
+        if (!::WriteFile(m_file, buffer, count, &written, nullptr))
             throw CFileException(GetFilePath(), GetApp()->MsgFileWrite());
 
         if (written != count)

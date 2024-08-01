@@ -13,9 +13,9 @@ CCustomPrintDlg::CCustomPrintDlg()
                              m_collate(0), m_printToFile(0), m_maxPage(0),
                              m_isPropertiesDisplayed(false)
 {
-    m_hDevMode = NULL;
-    m_hDevNames = NULL;
-    m_owner = NULL;
+    m_hDevMode = nullptr;
+    m_hDevNames = nullptr;
+    m_owner = nullptr;
 }
 
 CCustomPrintDlg::~CCustomPrintDlg()
@@ -33,11 +33,11 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMod
 
     // Open printer
     HANDLE printer;
-    if (::OpenPrinter(const_cast<LPTSTR>(printerName), &printer, NULL))
+    if (::OpenPrinter(const_cast<LPTSTR>(printerName), &printer, nullptr))
     {
         // Create PRINTER_INFO_2 structure.
         DWORD bytesNeeded = 0;
-        ::GetPrinter(printer, 2, NULL, 0, &bytesNeeded);
+        ::GetPrinter(printer, 2, nullptr, 0, &bytesNeeded);
         std::vector<BYTE> infoBuffer(bytesNeeded);
         PRINTER_INFO_2* p2 = reinterpret_cast<PRINTER_INFO_2*>(&infoBuffer.front());
 
@@ -48,7 +48,7 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMod
             size_t bufferSize = sizeof(DEVMODE) + p2->pDevMode->dmDriverExtra;
             HGLOBAL newDevMode = ::GlobalAlloc(GHND, bufferSize);
             assert(newDevMode);
-            if (newDevMode != NULL)
+            if (newDevMode != nullptr)
             {
                 // copy DEVMODE data from PRINTER_INFO_2::pDevMode.
                 CDevMode pNewDevMode(newDevMode);
@@ -64,7 +64,7 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMod
                 bufferSize = sizeof(DEVNAMES) + (driverLength + printerLength + portLength) * sizeof(TCHAR);
                 HGLOBAL newDevNames = ::GlobalAlloc(GHND, bufferSize);
                 assert(newDevNames);
-                if (newDevNames != NULL)
+                if (newDevNames != nullptr)
                 {
                     CDevNames pNewDevNames(newDevNames);
 
@@ -154,8 +154,8 @@ inline INT_PTR CCustomPrintDlg::DoModal(HWND owner)
         int error = static_cast<int>(CommDlgExtendedError());
 
         // Reset global memory
-        m_hDevMode = NULL;
-        m_hDevNames = NULL;
+        m_hDevMode = nullptr;
+        m_hDevNames = nullptr;
         GetApp()->ResetPrinterMemory();
         throw CWinException(GetApp()->MsgWndDialog(), error);
     }
@@ -188,13 +188,13 @@ INT_PTR CCustomPrintDlg::DoSetupModal(HWND owner)
         // User pressed OK
         GetApp()->UpdatePrinterMemory(pd.hDevMode, pd.hDevNames);
         SetPrinterFromDevMode(GetDeviceName(), GetDevMode());
-        m_hDevMode = NULL;
-        m_hDevNames = NULL;
+        m_hDevMode = nullptr;
+        m_hDevNames = nullptr;
     }
     else
     {
-        m_hDevMode = NULL;
-        m_hDevNames = NULL;
+        m_hDevMode = nullptr;
+        m_hDevNames = nullptr;
         int error = static_cast<int>(CommDlgExtendedError());
         if (error != 0)
             throw CWinException(GetApp()->MsgWndDialog(), error);
@@ -215,7 +215,7 @@ std::vector<CString> CCustomPrintDlg::FindPrinters() const
 
     // Identify size of PRINTER_INFO_2 buffer required.
     ::EnumPrinters(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
-        NULL, level, NULL, 0, &bufferSize, &printerCount);
+        nullptr, level, nullptr, 0, &bufferSize, &printerCount);
 
     // Check for ERROR_INSUFFICIENT_BUFFER
     if (::GetLastError() == ERROR_INSUFFICIENT_BUFFER)
@@ -225,7 +225,7 @@ std::vector<CString> CCustomPrintDlg::FindPrinters() const
 
         // Fill the buffer. The buffer is actually an array of PRINTER_INFO_2.
         VERIFY(::EnumPrinters(PRINTER_ENUM_LOCAL | PRINTER_ENUM_CONNECTIONS,
-            NULL, level, &buffer.front(), bufferSize, &bufferSize, &printerCount));
+            nullptr, level, &buffer.front(), bufferSize, &bufferSize, &printerCount));
 
         // Do we have any printers?
         if (printerCount != 0)
@@ -252,48 +252,48 @@ int CCustomPrintDlg::GetCopies() const
 
 CDevMode CCustomPrintDlg::GetDevMode() const
 {
-    if (GetApp()->GetHDevMode().Get() == NULL)
+    if (GetApp()->GetHDevMode().Get() == nullptr)
         GetApp()->UpdateDefaultPrinter();
-    if (GetApp()->GetHDevMode().Get() == NULL)
+    if (GetApp()->GetHDevMode().Get() == nullptr)
         throw CResourceException(GetApp()->MsgPrintFound());
     return CDevMode(GetApp()->GetHDevMode());
 }
 
 CDevNames CCustomPrintDlg::GetDevNames() const
 {
-    if (GetApp()->GetHDevNames().Get() == NULL)
+    if (GetApp()->GetHDevNames().Get() == nullptr)
         GetApp()->UpdateDefaultPrinter();
-    if (GetApp()->GetHDevNames().Get() == NULL)
+    if (GetApp()->GetHDevNames().Get() == nullptr)
         throw CResourceException(GetApp()->MsgPrintFound());
     return CDevNames(GetApp()->GetHDevNames());
 }
 
 CString CCustomPrintDlg::GetDriverName() const
 {
-    if (GetApp()->GetHDevNames().Get() == NULL)
+    if (GetApp()->GetHDevNames().Get() == nullptr)
         GetApp()->UpdateDefaultPrinter();
     CString str;
-    if (GetApp()->GetHDevNames().Get() != NULL)
+    if (GetApp()->GetHDevNames().Get() != nullptr)
         str = GetDevNames().GetDriverName();
     return str;
 }
 
 CString CCustomPrintDlg::GetDeviceName() const
 {
-    if (GetApp()->GetHDevNames().Get() == NULL)
+    if (GetApp()->GetHDevNames().Get() == nullptr)
         GetApp()->UpdateDefaultPrinter();
     CString str;
-    if (GetApp()->GetHDevNames().Get() != NULL)
+    if (GetApp()->GetHDevNames().Get() != nullptr)
         str = GetDevNames().GetDeviceName();
     return str;
 }
 
 CString CCustomPrintDlg::GetPortName() const
 {
-    if (GetApp()->GetHDevNames().Get() == NULL)
+    if (GetApp()->GetHDevNames().Get() == nullptr)
         GetApp()->UpdateDefaultPrinter();
     CString str;
-    if (GetApp()->GetHDevNames().Get() != NULL)
+    if (GetApp()->GetHDevNames().Get() != nullptr)
         str = GetDevNames().GetPortName();
     return str;
 }
@@ -303,9 +303,9 @@ CString CCustomPrintDlg::GetPortName() const
 CDC CCustomPrintDlg::GetPrinterDC() const
 {
     CDC dc;
-    if (GetApp()->GetHDevNames().Get() == NULL)
+    if (GetApp()->GetHDevNames().Get() == nullptr)
         GetApp()->UpdateDefaultPrinter();
-    if ((GetApp()->GetHDevNames().Get() != NULL) && (GetApp()->GetHDevMode().Get() != 0))
+    if ((GetApp()->GetHDevNames().Get() != nullptr) && (GetApp()->GetHDevMode().Get() != 0))
     {
         dc.CreateDC(GetDriverName(), GetDeviceName(),
             GetPortName(), GetDevMode());
@@ -339,11 +339,11 @@ DWORD CCustomPrintDlg::GetPrinterStatus(LPCTSTR printerName) const
     DWORD status = 0;
     HANDLE printer = 0;
 
-    if (::OpenPrinter(const_cast<LPTSTR>(printerName), &printer, NULL))
+    if (::OpenPrinter(const_cast<LPTSTR>(printerName), &printer, nullptr))
     {
         // Create PRINTER_INFO_2 structure.
         DWORD bufferSize = 0;
-        ::GetPrinter(printer, 2, NULL, 0, &bufferSize);
+        ::GetPrinter(printer, 2, nullptr, 0, &bufferSize);
         assert(bufferSize);
         std::vector<BYTE> infoBuffer(bufferSize);
 
@@ -437,8 +437,8 @@ BOOL CCustomPrintDlg::OnComboSelection()
     deviceName.ReleaseBuffer();
     if (deviceName != GetDeviceName())
     {
-        HGLOBAL newHDevMode = NULL;
-        HGLOBAL newHDevNames = NULL;
+        HGLOBAL newHDevMode = nullptr;
+        HGLOBAL newHDevNames = nullptr;
         CreateGlobalHandles(deviceName, &newHDevMode, &newHDevNames);
         GetApp()->ResetPrinterMemory();
         m_hDevNames = newHDevNames;
@@ -499,8 +499,8 @@ BOOL CCustomPrintDlg::OnCommand(WPARAM wparam, LPARAM)
 BOOL CCustomPrintDlg::OnInitDialog()
 {
     // Set the dialog's PortName and DriverName text.
-    HGLOBAL hDevMode = NULL;
-    HGLOBAL hDevNames = NULL;
+    HGLOBAL hDevMode = nullptr;
+    HGLOBAL hDevNames = nullptr;
     if (CreateGlobalHandles(GetDeviceName(), &hDevMode, &hDevNames))
     {
         CDevNames pDevNames(hDevNames);
@@ -508,9 +508,9 @@ BOOL CCustomPrintDlg::OnInitDialog()
         m_type = pDevNames.GetDriverName();
         m_where = pDevNames.GetPortName();
     }
-    if (hDevMode != NULL)
+    if (hDevMode != nullptr)
         ::GlobalFree(hDevMode);
-    if (hDevNames != NULL)
+    if (hDevNames != nullptr)
         ::GlobalFree(hDevNames);
 
     UpdateStatusText();
@@ -542,8 +542,8 @@ void CCustomPrintDlg::OnOK()
             m_toPage >= 1 && m_toPage <= m_maxPage)
         {
             GetApp()->UpdatePrinterMemory(m_hDevMode, m_hDevNames);
-            m_hDevMode = NULL;
-            m_hDevNames = NULL;
+            m_hDevMode = nullptr;
+            m_hDevNames = nullptr;
 
             CDialog::OnOK();
         }
@@ -575,20 +575,20 @@ BOOL CCustomPrintDlg::OnPrintProperties()
         ZeroMemory(&printerDefaults, sizeof(printerDefaults));
         printerDefaults.DesiredAccess = PRINTER_ALL_ACCESS;
         if (::OpenPrinter(deviceName, &printer, &printerDefaults) == FALSE)
-            if (::OpenPrinter(deviceName, &printer, NULL) == FALSE)
+            if (::OpenPrinter(deviceName, &printer, nullptr) == FALSE)
                 return false;
 
         // Allocate the pDevMode buffer as an array of BYTE.
-        size_t devModeSize = ::DocumentProperties(*this, printer, deviceName, NULL, GetDevMode(), 0);
+        size_t devModeSize = ::DocumentProperties(*this, printer, deviceName, nullptr, GetDevMode(), 0);
         std::vector<BYTE> buffer(devModeSize);
         LPDEVMODE pDevMode = reinterpret_cast<DEVMODE*>(&buffer.front());
 
         // Display the printer property sheet, and retrieve the updated devMode data.
-        if (IDOK == ::DocumentProperties(NULL, printer, deviceName, pDevMode, 0, DM_IN_PROMPT | DM_OUT_BUFFER))
+        if (IDOK == ::DocumentProperties(nullptr, printer, deviceName, pDevMode, 0, DM_IN_PROMPT | DM_OUT_BUFFER))
         {
             SetPrinterFromDevMode(deviceName, pDevMode);
-            HGLOBAL newDevMode = NULL;
-            HGLOBAL newDevNames = NULL;
+            HGLOBAL newDevMode = nullptr;
+            HGLOBAL newDevNames = nullptr;
             if (CreateGlobalHandles(deviceName, &newDevMode, &newDevNames))
             {
                 // copy the updated devMode data to our global memory.
@@ -641,13 +641,13 @@ bool CCustomPrintDlg::SetPrinterFromDevMode(LPCTSTR deviceName, LPDEVMODE pDevMo
     ZeroMemory(&printerDefaults, sizeof(printerDefaults));
     printerDefaults.DesiredAccess = PRINTER_ALL_ACCESS;
     if (::OpenPrinter(const_cast<LPTSTR>(deviceName), &printer, &printerDefaults) == FALSE)
-        if (::OpenPrinter(const_cast<LPTSTR>(deviceName), &printer, NULL) == FALSE)
+        if (::OpenPrinter(const_cast<LPTSTR>(deviceName), &printer, nullptr) == FALSE)
             throw CWinException(_T("Failed to get printer handle."));;
 
     // Determine the size of the printerInfo buffer.
     DWORD bufferSize = 0;
     SetLastError(0);
-    VERIFY(::GetPrinter(printer, 2, NULL, 0, &bufferSize) == FALSE);
+    VERIFY(::GetPrinter(printer, 2, nullptr, 0, &bufferSize) == FALSE);
     if ((GetLastError() != ERROR_INSUFFICIENT_BUFFER) || (bufferSize == 0))
         throw CWinException(_T("Failed to get printer info buffer size."));
 

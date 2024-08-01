@@ -43,13 +43,13 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int )                                  /*
     LPCTSTR semaphoreName = _T("Win32++_TextFileReader");
     LONG     nInstances = 1; // number of allowed instances
 
-    CSemaphore sf(nInstances, nInstances, semaphoreName, NULL);
+    CSemaphore sf(nInstances, nInstances, semaphoreName, nullptr);
     if (WaitForSingleObject(sf, 0) == WAIT_TIMEOUT)
     {
-        ::MessageBox(NULL, _T("The allowed number of instances of this\n")
+        ::MessageBox(nullptr, _T("The allowed number of instances of this\n")
         _T("application are already running."), _T("Stop"),
         MB_OK | MB_ICONSTOP | MB_TASKMODAL);
-        sf.ReleaseSemaphore(1, NULL);
+        sf.ReleaseSemaphore(1, nullptr);
         return 0;  // before entering the message loop
     }
       // declare the CApp object and run the application
@@ -64,17 +64,17 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int )                                  /*
           // Process the exception and quit
         CString msg = e.what() + (CString)_T("\n") +
             e.GetText() + (CString)_T("\nWinMain Goodbye...");
-        ::MessageBox(NULL, msg, _T("Standard Exception"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Standard Exception"), MB_OK |
             MB_ICONSTOP | MB_TASKMODAL);
     }
     catch(...)      // catch all other exception events
     {
         CString msg = _T("Unregistered exception event.\n")
             _T("WinMain Goodbye...");
-        ::MessageBox(NULL, msg, _T("Unknown Exception"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Unknown Exception"), MB_OK |
             MB_ICONSTOP | MB_TASKMODAL);
     }
       // release the semaphore
-    sf.ReleaseSemaphore(1, NULL);
+    sf.ReleaseSemaphore(1, nullptr);
     return rtn;
 }

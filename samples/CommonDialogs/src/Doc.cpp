@@ -31,7 +31,7 @@
 CDoc()                                                                      /*
 
 *-----------------------------------------------------------------------------*/
-    : m_isOpen(FALSE), m_data(NULL)
+    : m_isOpen(FALSE), m_data(nullptr)
 {
 }
 
@@ -106,7 +106,7 @@ MakeNewDoc(LPCTSTR docPath)                                                 /*
     catch (...) // if there was an error in opening the file
     {
         CString msg = (CString)"Could not create document file:\n" + docPath;
-        ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
             MB_ICONINFORMATION | MB_TASKMODAL);
         return FALSE;
     }
@@ -128,7 +128,7 @@ NotFound(const MyFindReplaceDialog& FR)                                     /*
     LPCTSTR matchcase = (match ? _T("\nmatching case") : _T(""));
     msg.Format(_T("'%s'was not found%s%s."), m_findNext.c_str(),
         wholeword, matchcase);
-    ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+    ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
         MB_ICONINFORMATION | MB_TASKMODAL);
 }
 
@@ -148,7 +148,7 @@ OnCloseDoc()                                                                /*
     CString msg;
     msg.Format(_T("Save changes to this document?\n    %s"),
         m_docPath.c_str());
-    if (m_isOpen && IsDirty() && (::MessageBox(NULL, msg,
+    if (m_isOpen && IsDirty() && (::MessageBox(nullptr, msg,
         _T("Question..."), MB_YESNO | MB_ICONQUESTION) == IDYES))
     {
         OnSaveDoc();
@@ -173,7 +173,7 @@ OnFindReplace(UINT msg, WPARAM wparam, LPARAM lparam)                       /*
 
     MyFindReplaceDialog* fr =
         (MyFindReplaceDialog*)MyFindReplaceDialog::GetNotifier(lparam);
-    assert(fr != NULL);
+    assert(fr != nullptr);
     if (fr->IsTerminating())
         OnFRTerminating(fr);
     else if (fr->FindNext())
@@ -298,7 +298,7 @@ OnSaveDoc()                                                                 /*
     if (m_docPath.IsEmpty())
     {
         CString msg = _T("Attempt to save an invalid file.");
-        ::MessageBox(NULL, msg, _T("Information"),
+        ::MessageBox(nullptr, msg, _T("Information"),
             MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
         m_isOpen = FALSE;
         return FALSE;
@@ -316,7 +316,7 @@ OnSaveDoc()                                                                 /*
     {
         CString msg = (CString)"Document file did not save." +
              m_docPath;
-        ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
             MB_ICONINFORMATION | MB_TASKMODAL);
         m_isOpen = FALSE;
         m_docPath.Empty();
@@ -341,7 +341,7 @@ OpenDoc(LPCTSTR docPath)                                                    /*
     {
         msg.Format(_T("Document file\n    '%s'\nis already open."),
             m_docPath.c_str());
-        ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
             MB_ICONINFORMATION | MB_TASKMODAL);
           // not deemed a failure, as the file is open, as specified
         return TRUE;
@@ -358,7 +358,7 @@ OpenDoc(LPCTSTR docPath)                                                    /*
     catch (...) // if there was an error in opening the file
     {
         msg.Format(_T("Document file\n    '%s'\ndid not open."), docPath);
-        ::MessageBox(NULL, msg, _T("Information"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
             MB_ICONINFORMATION | MB_TASKMODAL);
         m_isOpen = FALSE;
           // if the_path was in the MRU list, remove it

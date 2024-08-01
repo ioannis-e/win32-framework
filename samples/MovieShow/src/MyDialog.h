@@ -17,8 +17,8 @@ class CViewDialog : public CDialog
 public:
     CViewDialog(UINT resID);
     virtual ~CViewDialog() override;
-    CViewDialog(const CViewDialog&) = delete;               // Disable copy construction
-    CViewDialog& operator=(const CViewDialog&) = delete;    // Disable assignment operator
+    CViewDialog(const CViewDialog&) = delete;
+    CViewDialog& operator=(const CViewDialog&) = delete;
 
     const CRichEdit& GetActors() const { return m_actors; }
     const CRichEdit& GetInfo()   const { return m_info; }
@@ -64,8 +64,8 @@ class CDockDialog : public CDocker
 public:
     CDockDialog();
     virtual ~CDockDialog() override {}
-    CDockDialog(const CDockDialog&) = delete;              // Disable copy construction
-    CDockDialog& operator=(const CDockDialog&) = delete;   // Disable assignment operator
+    CDockDialog(const CDockDialog&) = delete;
+    CDockDialog& operator=(const CDockDialog&) = delete;
 
     CViewDialog& GetViewDialog() { return m_view; }
 

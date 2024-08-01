@@ -92,7 +92,7 @@ SetColors(COLORREF txfg, COLORREF txbg, COLORREF bg)                        /*
     void CRichEditView::
 SetFont(HFONT font, BOOL redraw) const                                      /*
 
-    Set the display font; if NULL, the system font is used. Immediately
+    Set the display font; if nullptr, the system font is used. Immediately
     redraw the view if TRUE.  Prevent the control from automatically changing
     fonts if there is a change in the keyboard layout.
 *-----------------------------------------------------------------------------*/
@@ -125,7 +125,7 @@ SetWrapping(int wrap)                                                       /*
       // 0  turns word wrap on based on the window width
       // 1  turns word wrap off completely
       // >1 turns word wrap on for a line width equal to the wrap value
-    SetTargetDevice(NULL, (wrap == 0 ? TRUE : FALSE));
+    SetTargetDevice(nullptr, (wrap == 0 ? TRUE : FALSE));
 }
 
 /*============================================================================*/
@@ -192,8 +192,8 @@ StreamInCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)         /*
 
     *pcb = 0;
     if (!::ReadFile((HANDLE)(DWORD_PTR) dwCookie, pbBuff, cb, (LPDWORD)pcb,
-      NULL))
-        ::MessageBox(NULL, _T("StreamInFile Failed"), _T(""), MB_OK);
+      nullptr))
+        ::MessageBox(nullptr, _T("StreamInFile Failed"), _T(""), MB_OK);
 
     return 0;
 }
@@ -216,8 +216,8 @@ StreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)        /*
 
     *pcb = 0;
     if (!::WriteFile((HANDLE)(DWORD_PTR)dwCookie, pbBuff, cb, (LPDWORD)pcb,
-      NULL))
-        ::MessageBox(NULL, _T("StreamOutFile Failed"), _T(""), MB_OK);
+      nullptr))
+        ::MessageBox(nullptr, _T("StreamOutFile Failed"), _T(""), MB_OK);
     return 0;
 }
 
@@ -301,9 +301,9 @@ DoPrintView()                                                               /*
         di.cbSize       = sizeof(DOCINFO);
         di.lpszDocName  = m_docPath; // the spooler label
         di.lpszOutput   = (m_printPath.IsEmpty() ?
-            NULL : m_printPath.c_str());
+            nullptr : m_printPath.c_str());
         di.lpszDatatype = (m_dataType.IsEmpty() ?
-            NULL : m_dataType.c_str());
+            nullptr : m_dataType.c_str());
         di.fwType       = (m_isAppBanded ?  DI_APPBANDING : 0);
           // Start the document.
         DC.StartDoc(&di);
@@ -498,7 +498,7 @@ OnEndPrinting(CDC& DC, CPrintInfo& info)                                    /*
 
 /*============================================================================*/
     void CRichEditView::
-OnPrepareDC(CDC& DC, CPrintInfo& info /* = NULL */)                         /*
+OnPrepareDC(CDC& DC, CPrintInfo& info /* = nullptr */)                         /*
 
     Make preparations for printing the next page. Here, check for an
     end-of-printing condition.

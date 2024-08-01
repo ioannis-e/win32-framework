@@ -52,7 +52,7 @@ BOOL CView::LoadFileImage(LPCTSTR filename)
     }
 
     SetScrollSizes(totalSize);
-    return (m_image.GetHandle()!= NULL);
+    return (m_image.GetHandle()!= nullptr);
 }
 
 // Select the printer, and call QuickPrint.
@@ -73,7 +73,7 @@ void CView::PrintPage(CDC& dc, int)
 {
     try
     {
-        if (m_image.GetHandle() != NULL)
+        if (m_image.GetHandle() != nullptr)
         {
             BITMAP bitmap = m_image.GetBitmapData();
             int bmWidth = bitmap.bmWidth;
@@ -98,7 +98,7 @@ void CView::PrintPage(CDC& dc, int)
 
             // Extract the device independent image data.
             CMemDC memDC(viewDC);
-            memDC.GetDIBits(m_image, 0, bmHeight, NULL, pbmi, DIB_RGB_COLORS);
+            memDC.GetDIBits(m_image, 0, bmHeight, nullptr, pbmi, DIB_RGB_COLORS);
             std::vector<byte> byteArray(pBIH->biSizeImage, 0);
             byte* pByteArray = &byteArray.front();
             memDC.GetDIBits(m_image, 0, bmHeight, pByteArray, pbmi, DIB_RGB_COLORS);
@@ -159,10 +159,10 @@ BOOL CView::SaveFileImage(LPCTSTR fileName)
        CBitmapInfoPtr pbmi(m_image);
 
        // Create the reference DC for GetDIBits to use
-       CMemDC memDC(NULL);
+       CMemDC memDC(nullptr);
 
        // Use GetDIBits to create a DIB from our DDB, and extract the colour data
-       VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, NULL, pbmi, DIB_RGB_COLORS));
+       VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, nullptr, pbmi, DIB_RGB_COLORS));
        std::vector<byte> byteArray(pbmi->bmiHeader.biSizeImage, 0);
        byte* pByteArray = &byteArray.front();
 
@@ -302,7 +302,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -310,7 +310,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

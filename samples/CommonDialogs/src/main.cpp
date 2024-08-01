@@ -52,10 +52,10 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
 
     const LPCTSTR semaphoreName = _T("Win32++_CommonDialogsDemo");
     const int instances = 1; // number of allowed instances
-    HANDLE semaphore = CreateSemaphore(NULL, instances, instances, semaphoreName);
+    HANDLE semaphore = CreateSemaphore(nullptr, instances, instances, semaphoreName);
     if (WaitForSingleObject(semaphore, 0) == WAIT_TIMEOUT)
     {
-        ::MessageBox(NULL, _T("The allowed number of instances of this\n")
+        ::MessageBox(nullptr, _T("The allowed number of instances of this\n")
         _T("application are already running."), _T("Stop"), MB_OK |
         MB_ICONSTOP | MB_TASKMODAL);
         CloseHandle(semaphore);
@@ -72,18 +72,18 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
           // Process the exception and quit
         CString msg = e.what() + (CString)_T("\n") + e.GetText() +
         (CString)_T("\nWinMain Goodbye...");
-        ::MessageBox(NULL, msg, _T("Standard Exception"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Standard Exception"), MB_OK |
             MB_ICONSTOP | MB_TASKMODAL);
     }
     catch(...)      // catch all other exception events
     {
         CString msg = _T("Unregistered exception event.\n")
             _T("WinMain Goodbye...");
-        ::MessageBox(NULL, msg, _T("Unknown Exception"), MB_OK |
+        ::MessageBox(nullptr, msg, _T("Unknown Exception"), MB_OK |
             MB_ICONSTOP | MB_TASKMODAL);
     }
       // release the semaphore
-    ReleaseSemaphore(semaphore, 1, NULL);
+    ReleaseSemaphore(semaphore, 1, nullptr);
     CloseHandle(semaphore);
     return rtn;
 }

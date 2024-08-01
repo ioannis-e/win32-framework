@@ -53,7 +53,7 @@ namespace Win32xx
     {
     public:
         CReBar();
-        virtual ~CReBar();
+        virtual ~CReBar() override;
 
         // Operations
         BOOL DeleteBand(int band) const;
@@ -93,21 +93,21 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual BOOL OnEraseBkgnd(CDC& dc);
+        virtual BOOL OnEraseBkgnd(CDC& dc) override;
         virtual LRESULT OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnTBWinPosChanging(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnToolBarResize(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual void PreCreate(CREATESTRUCT& cs);
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual void PreCreate(CREATESTRUCT& cs) override;
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
 
         // Not intended to be overridden
-        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
+        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
     private:
-        CReBar(const CReBar&);              // Disable copy construction
-        CReBar& operator=(const CReBar&);   // Disable assignment operator
+        CReBar(const CReBar&) = delete;
+        CReBar& operator=(const CReBar&) = delete;
 
         BOOL m_isDragging;
         HWND m_menuBar;
@@ -125,7 +125,7 @@ namespace Win32xx
     ///////////////////////////////////
     // Definitions for the CReBar class
     //
-    inline CReBar::CReBar() : m_isDragging(FALSE), m_menuBar(NULL), m_oldParam(0)
+    inline CReBar::CReBar() : m_isDragging(FALSE), m_menuBar(nullptr), m_oldParam(0)
     {
     }
 
@@ -148,7 +148,7 @@ namespace Win32xx
         assert(IsWindow());
 
         int result = -1;
-        if (wnd == NULL) return result;
+        if (wnd == nullptr) return result;
 
         for (int band = 0; band < GetBandCount(); ++band)
         {

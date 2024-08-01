@@ -75,32 +75,32 @@ namespace Win32xx
 
         // IUIApplication methods
         virtual STDMETHODIMP OnCreateUICommand(UINT32 nCmdID, __in UI_COMMANDTYPE typeID,
-            __deref_out IUICommandHandler** ppCommandHandler);
+            __deref_out IUICommandHandler** ppCommandHandler) override;
         virtual STDMETHODIMP OnDestroyUICommand(UINT32 commandId, __in UI_COMMANDTYPE typeID,
-            __in_opt IUICommandHandler* commandHandler);
+            __in_opt IUICommandHandler* commandHandler) override;
         virtual STDMETHODIMP OnViewChanged(UINT32 viewId, __in UI_VIEWTYPE typeId, __in IUnknown* pView,
-            UI_VIEWVERB verb, INT uReasonCode);
+            UI_VIEWVERB verb, INT uReasonCode) override;
 
         // IUICommandHandle methods
         virtual STDMETHODIMP Execute(UINT32 nCmdID, UI_EXECUTIONVERB verb, __in_opt const PROPERTYKEY* key, __in_opt const PROPVARIANT* value,
-                                          __in_opt IUISimplePropertySet* pCommandExecutionProperties);
+                                          __in_opt IUISimplePropertySet* pCommandExecutionProperties) override;
         virtual STDMETHODIMP UpdateProperty(UINT32 nCmdID, __in REFPROPERTYKEY key, __in_opt const PROPVARIANT* currentValue,
-                                                 __out PROPVARIANT* newValue);
+                                                 __out PROPVARIANT* newValue) override;
         virtual STDMETHODIMP CreateRibbon(HWND wnd);
         virtual STDMETHODIMP DestroyRibbon();
 
         // IUnknown methods.
-        STDMETHODIMP_(ULONG) AddRef();
-        STDMETHODIMP_(ULONG) Release();
-        STDMETHODIMP QueryInterface(REFIID iid, void** ppObject);
+        STDMETHODIMP_(ULONG) AddRef() override;
+        STDMETHODIMP_(ULONG) Release() override;
+        STDMETHODIMP QueryInterface(REFIID iid, void** ppObject) override;
 
         // Other
         STDMETHODIMP_(IUIFramework*) GetRibbonFramework() const { return m_pRibbonFramework; }
         STDMETHODIMP_(UINT32) GetRibbonHeight() const;
 
     private:
-        CRibbon(const CRibbon&);              // Disable copy construction
-        CRibbon& operator=(const CRibbon&);   // Disable assignment operator
+        CRibbon(const CRibbon&) = delete;
+        CRibbon& operator=(const CRibbon&) = delete;
 
         IUIFramework* m_pRibbonFramework;
         LONG m_count;                         // Reference count.
@@ -125,12 +125,12 @@ namespace Win32xx
             virtual ~CRecentFiles() {}
 
             // IUnknown methods.
-            STDMETHODIMP_(ULONG) AddRef();
-            STDMETHODIMP_(ULONG) Release();
-            STDMETHODIMP QueryInterface(REFIID iid, void** ppObject);
+            STDMETHODIMP_(ULONG) AddRef() override;
+            STDMETHODIMP_(ULONG) Release() override;
+            STDMETHODIMP QueryInterface(REFIID iid, void** ppObject) override;
 
             // IUISimplePropertySet methods
-            STDMETHODIMP GetValue(__in REFPROPERTYKEY key, __out PROPVARIANT* value);
+            STDMETHODIMP GetValue(__in REFPROPERTYKEY key, __out PROPVARIANT* value) override;
 
         private:
             LONG m_count;                        // Reference count.
@@ -141,19 +141,19 @@ namespace Win32xx
         typedef std::unique_ptr<CRecentFiles> RecentFilesPtr;
 
         CRibbonFrameT() {}
-        virtual ~CRibbonFrameT() {}
+        virtual ~CRibbonFrameT() override {}
 
     protected:
         virtual CRect GetViewRect() const;
-        virtual int  OnCreate(CREATESTRUCT& cs);
-        virtual void OnDestroy();
-        virtual STDMETHODIMP OnViewChanged(UINT32 viewId, UI_VIEWTYPE typeId, IUnknown* pView, UI_VIEWVERB verb, INT32 reasonCode);
+        virtual int  OnCreate(CREATESTRUCT& cs) override;
+        virtual void OnDestroy() override;
+        virtual STDMETHODIMP OnViewChanged(UINT32 viewId, UI_VIEWTYPE typeId, IUnknown* pView, UI_VIEWVERB verb, INT32 reasonCode) override;
         virtual HRESULT PopulateRibbonRecentItems(PROPVARIANT* value);
-        virtual void UpdateMRUMenu();
+        virtual void UpdateMRUMenu() override;
 
     private:
-        CRibbonFrameT(const CRibbonFrameT&);            // Disable copy construction
-        CRibbonFrameT& operator=(const CRibbonFrameT&); // Disable assignment operator
+        CRibbonFrameT(const CRibbonFrameT&) = delete;
+        CRibbonFrameT& operator=(const CRibbonFrameT&) = delete;
 
         std::vector<RecentFilesPtr> m_recentFiles;
     };
@@ -164,11 +164,11 @@ namespace Win32xx
     {
     public:
         CRibbonFrame() {}
-        virtual ~CRibbonFrame() {}
+        virtual ~CRibbonFrame() override {}
 
     private:
-        CRibbonFrame(const CRibbonFrame&);            // Disable copy construction
-        CRibbonFrame& operator=(const CRibbonFrame&); // Disable assignment operator
+        CRibbonFrame(const CRibbonFrame&) = delete;
+        CRibbonFrame& operator=(const CRibbonFrame&) = delete;
     };
 
     ////////////////////////////////////////////////////
@@ -178,11 +178,11 @@ namespace Win32xx
     {
     public:
         CRibbonDockFrame() {}
-        virtual ~CRibbonDockFrame() {}
+        virtual ~CRibbonDockFrame() override {}
 
     private:
-        CRibbonDockFrame(const CRibbonDockFrame&);            // Disable copy construction
-        CRibbonDockFrame& operator=(const CRibbonDockFrame&); // Disable assignment operator
+        CRibbonDockFrame(const CRibbonDockFrame&) = delete;
+        CRibbonDockFrame& operator=(const CRibbonDockFrame&) = delete;
     };
 
     //////////////////////////////////////////////////////////////
@@ -192,11 +192,11 @@ namespace Win32xx
     {
     public:
         CRibbonMDIFrame() {}
-        virtual ~CRibbonMDIFrame() {}
+        virtual ~CRibbonMDIFrame() override {}
 
     private:
-        CRibbonMDIFrame(const CRibbonMDIFrame&);            // Disable copy construction
-        CRibbonMDIFrame& operator=(const CRibbonMDIFrame&); // Disable assignment operator
+        CRibbonMDIFrame(const CRibbonMDIFrame&) = delete;
+        CRibbonMDIFrame& operator=(const CRibbonMDIFrame&) = delete;
     };
 
     ////////////////////////////////////////////////////////////////
@@ -207,11 +207,11 @@ namespace Win32xx
     {
     public:
         CRibbonMDIDockFrame() {}
-        virtual ~CRibbonMDIDockFrame() {}
+        virtual ~CRibbonMDIDockFrame() override {}
 
     private:
-        CRibbonMDIDockFrame(const CRibbonMDIDockFrame&);            // Disable copy construction
-        CRibbonMDIDockFrame& operator=(const CRibbonMDIDockFrame&); // Disable assignment operator
+        CRibbonMDIDockFrame(const CRibbonMDIDockFrame&) = delete;
+        CRibbonMDIDockFrame& operator=(const CRibbonMDIDockFrame&) = delete;
     };
 
 }
@@ -226,7 +226,7 @@ namespace Win32xx
     // Definitions for the CRibbon class
     //
 
-    inline CRibbon::CRibbon() : m_pRibbonFramework(NULL), m_count(0)
+    inline CRibbon::CRibbon() : m_pRibbonFramework(nullptr), m_count(0)
     {
     }
 
@@ -271,7 +271,7 @@ namespace Win32xx
         }
         else
         {
-            *ppObject = NULL;
+            *ppObject = nullptr;
             return E_NOINTERFACE;
         }
 
@@ -316,7 +316,7 @@ namespace Win32xx
     {
         HRESULT hr;
         // Instantiate the Ribbon framework object.
-        if (SUCCEEDED(hr = ::CoCreateInstance(CLSID_UIRibbonFramework, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pRibbonFramework))))
+        if (SUCCEEDED(hr = ::CoCreateInstance(CLSID_UIRibbonFramework, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_pRibbonFramework))))
         {
             // Connect the host application to the Ribbon framework.
             assert(m_pRibbonFramework);
@@ -338,7 +338,7 @@ namespace Win32xx
         {
             hr = m_pRibbonFramework->Destroy();
             m_pRibbonFramework->Release();
-            m_pRibbonFramework = NULL;
+            m_pRibbonFramework = nullptr;
         }
 
         return hr;
@@ -348,7 +348,7 @@ namespace Win32xx
     inline STDMETHODIMP_(UINT32) CRibbon::GetRibbonHeight() const
     {
         HRESULT result = E_FAIL;
-        IUIRibbon* pRibbon = NULL;
+        IUIRibbon* pRibbon = nullptr;
         UINT32 ribbonHeight = 0;
 
         if (GetRibbonFramework())
@@ -414,8 +414,8 @@ namespace Win32xx
         T::OnCreate(cs);
         if (GetRibbonFramework())
         {
-            T::SetMenu(NULL);              // Disable the window menu.
-            T::SetFrameMenu(reinterpret_cast<HMENU>(NULL));
+            T::SetMenu(nullptr);              // Disable the window menu.
+            T::SetFrameMenu(reinterpret_cast<HMENU>(nullptr));
         }
 
         return 0;
@@ -470,7 +470,7 @@ namespace Win32xx
         SAFEARRAY* psa = SafeArrayCreateVector(VT_UNKNOWN, 0, (ULONG)fileCount);
         m_recentFiles.clear();
 
-        if (psa != NULL)
+        if (psa != nullptr)
         {
             for (iter = fileNames.begin(); iter != fileNames.end(); ++iter)
             {
@@ -498,7 +498,7 @@ namespace Win32xx
     inline void CRibbonFrameT<T>::UpdateMRUMenu()
     {
         // Update the MRU menu when the ribbon isn't used.
-        if (GetRibbonFramework() == NULL)
+        if (GetRibbonFramework() == nullptr)
             T::UpdateMRUMenu();
     }
 
@@ -511,13 +511,13 @@ namespace Win32xx
     {
         SHFILEINFOW sfi;
         ZeroMemory(&sfi, sizeof(sfi));
-        DWORD_PTR ptr = NULL;
+        DWORD_PTR ptr = 0;
         m_fullPath[0] = L'\0';
         m_displayName[0] = L'\0';
 
         StrCopyW(m_fullPath, fullPath, MAX_PATH);
         ptr = ::SHGetFileInfoW(fullPath, FILE_ATTRIBUTE_NORMAL, &sfi, sizeof(sfi), SHGFI_DISPLAYNAME | SHGFI_USEFILEATTRIBUTES);
-        if (ptr != NULL)
+        if (ptr != 0)
         {
             StrCopyW(m_displayName, sfi.szDisplayName, MAX_PATH);
         }
@@ -558,7 +558,7 @@ namespace Win32xx
         }
         else
         {
-            *ppObject = NULL;
+            *ppObject = nullptr;
             return E_NOINTERFACE;
         }
 

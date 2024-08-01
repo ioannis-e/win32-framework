@@ -18,7 +18,7 @@ public:
     CHelp();
     virtual ~CHelp() {}
 
-    BOOL About(HWND hParent = NULL);
+    BOOL About(HWND hParent = nullptr);
     void SetCredits(LPCTSTR credits);
     void SetHelpFilePath(LPCTSTR chmName);
     void ShowHelpTopic(UINT id);

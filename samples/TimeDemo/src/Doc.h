@@ -27,7 +27,7 @@ CDoc : public CObject                           /*
     public:
 
         CDoc();
-        virtual ~CDoc(){}
+        virtual ~CDoc() override {}
 
         int     GetDocLength() const;
         CString GetDocOpenFileName(const CString&) const;
@@ -48,7 +48,7 @@ CDoc : public CObject                           /*
         static const    CString m_compiledOn;  // date, mmm dd yyyy
 
     protected:
-        virtual void    Serialize(CArchive& ar);  // moved from public
+        virtual void    Serialize(CArchive& ar) override;
 
     private:
         CString     m_docPath;

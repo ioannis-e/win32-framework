@@ -72,7 +72,7 @@ namespace Win32xx
             count = 0;
 
             // Now wait until we get a message.
-            if ((status = ::GetMessage(&msg, NULL, 0, 0)) == -1)
+            if ((status = ::GetMessage(&msg, nullptr, 0, 0)) == -1)
                 return -1;
 
             if (!PreTranslateMessage(msg))
@@ -112,7 +112,7 @@ namespace Win32xx
             else
             {
                 // Search the chain of parents for pretranslated messages.
-                for (HWND wnd = msg.hwnd; wnd != NULL; wnd = ::GetParent(wnd))
+                for (HWND wnd = msg.hwnd; wnd != nullptr; wnd = ::GetParent(wnd))
                 {
                     CWnd* pWnd = GetApp()->GetCWndFromMap(wnd);
                     if (pWnd)

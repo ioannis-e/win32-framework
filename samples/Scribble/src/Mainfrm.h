@@ -16,13 +16,25 @@ class CMainFrame : public CFrame
 {
 public:
     CMainFrame();
-    virtual ~CMainFrame();
-    virtual HWND Create(HWND parent = NULL);
+    virtual ~CMainFrame() override;
+    virtual HWND Create(HWND parent = nullptr) override;
 
     CDoc& GetDoc() { return m_view.GetDoc(); }
     void LoadFile(LPCTSTR fileName);
 
-    LRESULT OnDropFile(WPARAM wparam);
+protected:
+    virtual void OnClose() override;
+    virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam) override;
+    virtual int  OnCreate(CREATESTRUCT& cs) override;
+    virtual void OnInitialUpdate() override;
+    virtual void SetupMenuIcons() override;
+    virtual void SetupToolBar() override;
+    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
+
+private:
+    CMainFrame(const CMainFrame&) = delete;
+    CMainFrame& operator=(const CMainFrame&) = delete;
+
     BOOL OnFileExit();
     BOOL OnFileMRU(WPARAM wparam);
     BOOL OnFileNew();
@@ -32,22 +44,10 @@ public:
     BOOL OnFilePreview();
     BOOL OnFilePrint();
     BOOL OnPenColor();
+    LRESULT OnDropFile(WPARAM wparam);
     LRESULT OnPreviewClose();
     LRESULT OnPreviewPrint();
     LRESULT OnPreviewSetup();
-
-protected:
-    virtual void OnClose();
-    virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam);
-    virtual int  OnCreate(CREATESTRUCT& cs);
-    virtual void OnInitialUpdate();
-    virtual void SetupMenuIcons();
-    virtual void SetupToolBar();
-    virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
-
-private:
-    CMainFrame(const CMainFrame&);               // Disable copy construction
-    CMainFrame& operator=(const CMainFrame&);    // Disable assignment operator
 
     CView m_view;
     CPrintPreview<CView> m_preview;   // CView is the source of the PrintPage function

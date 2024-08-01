@@ -11,7 +11,7 @@ using namespace std;
 ///////////////////////////////////
 // CMainFrame function definitions.
 //
-CMainFrame::CMainFrame() : m_pDockText(NULL), m_pDockTree(NULL), m_pDockList(NULL)
+CMainFrame::CMainFrame() : m_pDockText(nullptr), m_pDockTree(nullptr), m_pDockList(nullptr)
 {
     SetView(m_mainView);
 }
@@ -120,7 +120,7 @@ void CMainFrame::OnInitialUpdate()
         m_pDockTree = dynamic_cast<CDockTree*>(GetDockFromID(ID_DOCK_TREE));
         m_pDockList = dynamic_cast<CDockList*>(GetDockFromID(ID_DOCK_LIST));
 
-        if ((m_pDockText == NULL) || (m_pDockTree == NULL) || (m_pDockList == NULL))
+        if ((m_pDockText == nullptr) || (m_pDockTree == nullptr) || (m_pDockList == nullptr))
         {
             CloseAllDockers();
             LoadDefaultWindowPanes();
@@ -241,7 +241,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         str1 << e.GetText() << _T("\n") << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(NULL, str1, str2, MB_ICONERROR);
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
 
     // Catch all unhandled std::exception types.
@@ -249,7 +249,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(NULL, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
     }
 
     return 0;

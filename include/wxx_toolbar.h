@@ -52,7 +52,7 @@ namespace Win32xx
     {
     public:
         CToolBar();
-        virtual ~CToolBar();
+        virtual ~CToolBar() override;
 
         // Operations
         virtual int  AddBitmap(UINT bitmapID);
@@ -127,20 +127,20 @@ namespace Win32xx
 
     protected:
         // Overridables
-        virtual void OnAttach();
+        virtual void OnAttach() override;
         virtual LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual void PreCreate(CREATESTRUCT& cs);
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual void PreCreate(CREATESTRUCT& cs) override;
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
 
         // Not intended to be overridden
-        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
+        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
     private:
         using CWnd::GetMenu;                    // Make GetMenu private
         using CWnd::SetMenu;                    // Make SetMenu private
 
-        CToolBar(const CToolBar&);              // Disable copy construction
-        CToolBar& operator=(const CToolBar&);   // Disable assignment operator
+        CToolBar(const CToolBar&) = delete;
+        CToolBar& operator=(const CToolBar&) = delete;
 
         std::map<CString, int> m_stringMap;     // A map of strings used in SetButtonText.
 

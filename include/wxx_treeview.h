@@ -58,8 +58,8 @@ namespace Win32xx
     {
     public:
         CTreeView() {}
-        virtual ~CTreeView() {}
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual ~CTreeView() override {}
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
 
         // Accessors and mutators
         COLORREF GetBkColor() const;
@@ -133,8 +133,8 @@ namespace Win32xx
         BOOL    SortChildrenCB(TVSORTCB* pSortFn, BOOL recurse) const;
 
     private:
-        CTreeView(const CTreeView&);              // Disable copy construction
-        CTreeView& operator=(const CTreeView&);   // Disable assignment operator
+        CTreeView(const CTreeView&) = delete;
+        CTreeView& operator=(const CTreeView&) = delete;
 
         CImageList m_normalImages;
         CImageList m_stateImages;

@@ -51,12 +51,12 @@ namespace Win32xx
     {
     public:
         CStatusBar();
-        virtual ~CStatusBar() {}
+        virtual ~CStatusBar() override {}
 
         // Overridables
-        virtual BOOL OnEraseBkgnd(CDC& dc);
-        virtual void PreCreate(CREATESTRUCT& cs);
-        virtual void PreRegisterClass(WNDCLASS& wc);
+        virtual BOOL OnEraseBkgnd(CDC& dc) override;
+        virtual void PreCreate(CREATESTRUCT& cs) override;
+        virtual void PreRegisterClass(WNDCLASS& wc) override;
 
         // Accessors and mutators
         int GetParts() const;
@@ -73,8 +73,8 @@ namespace Win32xx
         void SetSimple(BOOL isSimple = TRUE) const;
 
     private:
-        CStatusBar(const CStatusBar&);              // Disable copy construction
-        CStatusBar& operator=(const CStatusBar&);   // Disable assignment operator
+        CStatusBar(const CStatusBar&) = delete;
+        CStatusBar& operator=(const CStatusBar&) = delete;
     };
 
 }
