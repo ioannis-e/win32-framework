@@ -108,7 +108,7 @@ namespace Win32xx
                                         PD_HIDEPRINTTOFILE | PD_NOSELECTION );
         virtual ~CPrintDialog() override;
 
-        virtual INT_PTR DoModal(HWND owner = nullptr);
+        virtual INT_PTR DoModal(HWND owner = nullptr) override;
         int     GetCopies() const;
         BOOL    GetDefaults();
         CDevMode GetDevMode() const;

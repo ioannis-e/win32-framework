@@ -77,11 +77,11 @@ namespace Win32xx
     public:
         CPropertyPage (UINT templateID, LPCTSTR title = nullptr);
         virtual ~CPropertyPage() override {}
-        virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam);
+        virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual BOOL OnApply();
         virtual void OnCancel() override;
         virtual void OnHelp();
-        virtual BOOL OnInitDialog();
+        virtual BOOL OnInitDialog() override;
         virtual BOOL OnKillActive();
         virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
         virtual void OnOK() override;
@@ -94,7 +94,7 @@ namespace Win32xx
         virtual BOOL PreTranslateMessage(MSG& msg) override;
 
         void CancelToClose() const;
-        INT_PTR DialogProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
+        INT_PTR DialogProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
         PROPSHEETPAGE GetPSP() const {return m_psp;}
         BOOL IsButtonEnabled(UINT buttonID) const;
         LRESULT QuerySiblings(WPARAM wparam, LPARAM lparam) const;
@@ -129,7 +129,7 @@ namespace Win32xx
         // Operations
         virtual CPropertyPage* AddPage(CPropertyPage* pPage);
         virtual CPropertyPage* AddPage(PropertyPagePtr page);
-        virtual HWND Create(HWND parent = nullptr);
+        virtual HWND Create(HWND parent = nullptr) override;
         virtual INT_PTR CreatePropertySheet(LPCPROPSHEETHEADER pPSH);
         virtual void DestroyButton(int button);
         virtual void Destroy() override;

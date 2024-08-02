@@ -180,9 +180,7 @@ namespace Win32xx
 
 namespace Win32xx
 {
-
-// required for Borland 5.5 support
-#if !defined(__BORLANDC__) || (__BORLANDC__ >= 0x600)
+    // Provide operater overload for BYTE.
     inline tStringStream& operator>>(tStringStream& ts, BYTE& value)
     {
         UINT u = 0;
@@ -197,8 +195,6 @@ namespace Win32xx
         }
         return ts;
     }
-#endif
-
 
     ////////////////////////////////////////////////////////////////
     //

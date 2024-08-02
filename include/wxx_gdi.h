@@ -590,15 +590,12 @@ namespace Win32xx
         BOOL FrameRect(const RECT& rc, HBRUSH brush) const;
         BOOL FrameRgn(HRGN rgn, HBRUSH brush, int width, int height) const;
         int  GetPolyFillMode() const;
+        BOOL GradientFill(PTRIVERTEX pVertex, ULONG vertex, PVOID pMesh, ULONG mesh, ULONG mode) const;
         void GradientFill(COLORREF color1, COLORREF color2, const RECT& rc, BOOL isVertical) const;
         BOOL InvertRect(const RECT& rc) const;
         BOOL PaintRgn(HRGN rgn) const;
         int  SetPolyFillMode(int polyFillMode) const;
         void SolidFill(COLORREF color, const RECT& rc) const;
-
-#if (WINVER >= 0x0410)
-        BOOL GradientFill(PTRIVERTEX pVertex, ULONG vertex, PVOID pMesh, ULONG mesh, ULONG mode) const;
-#endif
 
         // Bitmap Functions
         BOOL BitBlt(int x, int y, int width, int height, HDC hSrc, int xSrc, int ySrc, DWORD rop) const;
@@ -623,22 +620,17 @@ namespace Win32xx
                            int xSrc, int ySrc, int srcWidth, int srcHeight,
                            DWORD rop) const;
         int  SetStretchBltMode(int stretchMode) const;
-#if (WINVER >= 0x0410)
         BOOL TransparentBlt(int x, int y, int width, int height, HDC hSrc,
                            int xSrc, int ySrc, int widthSrc, int heightSrc,
                            UINT transparent) const;
-#endif
 
         // Brush Functions
         CPoint   GetBrushOrgEx() const;
         CBrush   GetCurrentBrush() const;
+        COLORREF GetDCBrushColor() const;
         LOGBRUSH GetLogBrush() const;
         CPoint   SetBrushOrgEx(int x, int y);
-
-#if (_WIN32_WINNT >= 0x0500)
-        COLORREF GetDCBrushColor() const;
         COLORREF SetDCBrushColor(COLORREF color) const;
-#endif
 
         // Font Functions
         CFont GetCurrentFont() const;
@@ -693,10 +685,8 @@ namespace Win32xx
         BOOL LPtoDP(RECT& rc)  const;
 
         // Layout Functions
-#if (WINVER >= 0x0500)
         DWORD GetLayout() const;
         DWORD SetLayout(DWORD layout) const;
-#endif
 
         // Mapping functions
         int  GetMapMode() const;
@@ -746,6 +736,8 @@ namespace Win32xx
         COLORREF SetTextColor(COLORREF color) const;
         int   DrawTextEx(LPTSTR string, int count, const RECT& rc, UINT format, LPDRAWTEXTPARAMS pDTParams) const;
         BOOL  GetCharABCWidths(UINT firstChar, UINT lastChar, LPABC pABC) const;
+        BOOL  GetCharABCWidthsI(UINT first, UINT cgi, LPWORD pGI, LPABC pABC) const;
+        BOOL  GetCharWidthI(UINT first, UINT cgi, LPWORD pGI, int* buffer) const;
         DWORD GetCharacterPlacement(LPCTSTR string, int count, int maxExtent,
                                     LPGCP_RESULTS results, DWORD flags) const;
         BOOL  GetCharWidth(UINT firstChar, UINT lastChar, int* buffer) const;
@@ -759,11 +751,6 @@ namespace Win32xx
         int   SetTextJustification(int breakExtra, int breakCount) const;
         CSize TabbedTextOut(int x, int y, LPCTSTR string, int count, int tabPositions, LPINT pTabStopPositions, int tabOrigin) const;
         BOOL  TextOut(int x, int y, LPCTSTR string, int count = -1) const;
-
-  #if (_WIN32_WINNT >= 0x0500) && !defined(__GNUC__)
-        BOOL  GetCharABCWidthsI(UINT first, UINT cgi, LPWORD pGI, LPABC pABC) const;
-        BOOL  GetCharWidthI(UINT first, UINT cgi, LPWORD pGI, int* buffer) const;
-  #endif // (_WIN32_WINNT >= 0x0500) && !defined(__GNUC__)
 
     protected:
         void Assign(HDC object);
@@ -1105,7 +1092,7 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_gdiLock);
 
             // Find the CGdiObject in the map.
-            std::map<HGDIOBJ, CGDI_Data*, CompareGDI>::iterator m;
+            std::map<HGDIOBJ, CGDI_Data*>::iterator m;
             m = GetApp()->m_mapCGDIData.find(m_pData->hGDIObject);
             if (m != GetApp()->m_mapCGDIData.end())
             {
@@ -2583,7 +2570,7 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_gdiLock);
 
             // Find the CDC data entry in the map.
-            std::map<HDC, CDC_Data*, CompareHDC>::iterator m;
+            std::map<HDC, CDC_Data*>::iterator m;
             m = GetApp()->m_mapCDCData.find(m_pData->dc);
             if (m != GetApp()->m_mapCDCData.end())
             {
@@ -3477,8 +3464,6 @@ namespace Win32xx
     //////////////////
     // Brush functions
 
-#if (_WIN32_WINNT >= 0x0500)
-
     // Retrieves the current brush color from the device context.
     // Refer to GetDCBrushColor in the Windows API documentation for more information.
     inline COLORREF CDC::GetDCBrushColor() const
@@ -3495,7 +3480,6 @@ namespace Win32xx
         return ::SetDCBrushColor(m_pData->dc, color);
     }
 
-#endif // _WIN32_WINNT >= 0x0500
 
     /////////////////
     // Font Functions
@@ -4142,8 +4126,6 @@ namespace Win32xx
         return ::FillRgn(m_pData->dc, rgn, brush);
     }
 
-#if (WINVER >= 0x0410)
-
     // Fills rectangle and triangle structures.
     // Refer to GradientFill in the Windows API documentation for more information.
     inline BOOL CDC::GradientFill(PTRIVERTEX pVertex, ULONG vertex, PVOID pMesh, ULONG mesh, ULONG mode) const
@@ -4151,8 +4133,6 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
         return ::GradientFill(m_pData->dc, pVertex, vertex, pMesh, mesh, mode);
     }
-
-#endif
 
     // Draws an icon or cursor.
     // Refer to DrawIcon in the Windows API documentation for more information.
@@ -4317,8 +4297,6 @@ namespace Win32xx
         return ::SetStretchBltMode(m_pData->dc, stretchMode);
     }
 
-#if (WINVER >= 0x0410)
-
     // Performs a bit-block transfer of the color data corresponding to a rectangle
     // of pixels from the specified source device context into a destination device context.
     //  x             x coordinate of destination upper-left corner
@@ -4338,8 +4316,6 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
         return ::TransparentBlt(m_pData->dc, x, y, width, height, hSrc, xSrc, ySrc, widthSrc, heightSrc, transparent);
     }
-
-#endif
 
     // Fills an area of the display surface with the current brush.
     // Refer to FloodFill in the Windows API documentation for more information.
@@ -4398,7 +4374,6 @@ namespace Win32xx
     ///////////////////
     // Layout Functions
 
-#if (WINVER >= 0x0500)
     // Returns the layout of a device context (LAYOUT_RTL and LAYOUT_BITMAPORIENTATIONPRESERVED).
     // Refer to GetLayout in the Windows API documentation for more information.
     inline DWORD CDC::GetLayout() const
@@ -4415,7 +4390,6 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
         return ::SetLayout(m_pData->dc, layout);
     }
-#endif
 
     ////////////////////
     // Mapping Functions
@@ -4873,8 +4847,6 @@ namespace Win32xx
         return ::TextOut(m_pData->dc, x, y, string, count);
     }
 
-  #if (_WIN32_WINNT >= 0x0500) && !defined(__GNUC__)
-
     // Retrieves the widths, in logical units, of consecutive glyph indices in a specified range from the
     // current TrueType font. This function succeeds only with TrueType fonts.
     // Refer to GetCharABCWidthsI in the Windows API documentation for more information.
@@ -4891,8 +4863,6 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
         return ::GetCharWidthI(m_pData->dc, giFirst, cgi, pGI, buffer);
     }
-
-  #endif // (_WIN32_WINNT >= 0x0500) && !defined(__GNUC__)
 
 
     ///////////////////////////////////////////////

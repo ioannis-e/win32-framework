@@ -90,13 +90,6 @@
 #include "default_resource.h"
 
 
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)   // >= VS2019
-  #pragma warning ( push )
-  #pragma warning ( disable : 26812 )            // enum type is unscoped.
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
-
-
 namespace Win32xx
 {
 
@@ -118,32 +111,6 @@ namespace Win32xx
             // The constructor displays the statusbar and toolbar by default.
             InitValues() : showCmd(SW_SHOW), showStatusBar(TRUE), showToolBar(TRUE)
             {}
-        };
-
-        // A local copy of the MENUPARTS enum from uxtheme.h. It's declared within
-        // the CFrameT class to avoid name clashes when uxtheme.h is included.
-        enum MENUPARTS
-        {
-            MENU_MENUITEM_TMSCHEMA = 1,
-            MENU_MENUDROPDOWN_TMSCHEMA = 2,
-            MENU_MENUBARITEM_TMSCHEMA = 3,
-            MENU_MENUBARDROPDOWN_TMSCHEMA = 4,
-            MENU_CHEVRON_TMSCHEMA = 5,
-            MENU_SEPARATOR_TMSCHEMA = 6,
-            MENU_BARBACKGROUND = 7,
-            MENU_BARITEM = 8,
-            MENU_POPUPBACKGROUND = 9,
-            MENU_POPUPBORDERS = 10,
-            MENU_POPUPCHECK = 11,
-            MENU_POPUPCHECKBACKGROUND = 12,
-            MENU_POPUPGUTTER = 13,
-            MENU_POPUPITEM = 14,
-            MENU_POPUPSEPARATOR = 15,
-            MENU_POPUPSUBMENU = 16,
-            MENU_SYSTEMCLOSE = 17,
-            MENU_SYSTEMMAXIMIZE = 18,
-            MENU_SYSTEMMINIMIZE = 19,
-            MENU_SYSTEMRESTORE = 20
         };
 
         CFrameT();
@@ -242,7 +209,7 @@ namespace Win32xx
         virtual LRESULT OnMeasureItem(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnMenuChar(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnMenuSelect(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual void    OnMenuUpdate(UINT id);
+        virtual void    OnMenuUpdate(UINT id) override;
         virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnRBNHeightChange(LPNMHDR pNMHDR);
         virtual LRESULT OnRBNLayoutChanged(LPNMHDR pNMHDR);
@@ -2200,7 +2167,6 @@ namespace Win32xx
         if ((GetWinVersion() == 1400) || (GetWinVersion() == 2400))
             return CWnd::WndProcDefault(msg, wparam, lparam);
 
-#if (WINVER >= 0x0500)  // Minimum OS required is Win2000
         if (IsUsingThemes())
         {
             MENUINFO mi = {};
@@ -2215,7 +2181,6 @@ namespace Win32xx
 
             menu.SetMenuInfo(mi);
         }
-#endif
 
         if (m_useOwnerDrawnMenu)
         {
@@ -3111,6 +3076,7 @@ namespace Win32xx
             // Retrieve the XP theme name.
             CString xpThemeName = GetXPThemeName();
 
+            // Predifined themes.
             enum Themetype{ Win8, Win7, XP_Blue, XP_Silver, XP_Olive, gray };
 
             // For Win2000 and below.
@@ -3733,9 +3699,5 @@ namespace Win32xx
 
 
 } // namespace Win32xx
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)
-  #pragma warning ( pop )
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
 
 #endif // _WIN32XX_FRAME_H_

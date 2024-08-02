@@ -103,16 +103,19 @@ namespace Win32xx
         int   Dir(UINT attr, LPCTSTR wildCard ) const;
         int   FindString(int indexStart, LPCTSTR string) const;
         int   FindStringExact(int indexStart, LPCTSTR string) const;
+        BOOL  GetComboBoxInfo(PCOMBOBOXINFO pcbi) const;
         int   GetCount() const;
         int   GetCurSel() const;
         CRect GetDroppedControlRect() const;
         BOOL  GetDroppedState() const;
         int   GetDroppedWidth() const;
+        HWND  GetEditCtrl() const;
         DWORD GetEditSel() const;
         BOOL  GetExtendedUI() const;
         int   GetHorizontalExtent() const;
         DWORD GetItemData(int index) const;
         int   GetItemHeight(int index) const;
+        HWND  GetLBCtrl() const;
         int   GetLBText(int index, LPTSTR text) const;
         int   GetLBTextLen(int index) const;
         LCID  GetLocale() const;
@@ -133,12 +136,6 @@ namespace Win32xx
         LCID  SetLocale( LCID newLocale ) const;
         int   SetTopIndex(int index) const;
         void  ShowDropDown(BOOL show = TRUE) const;
-
-#if WINVER >= 0x0500
-        BOOL  GetComboBoxInfo(PCOMBOBOXINFO pcbi) const;
-        HWND  GetEditCtrl() const;
-        HWND  GetLBCtrl() const;
-#endif
 
     protected:
         // Overridables
@@ -210,20 +207,16 @@ namespace Win32xx
         int     SetBitmapMargin(int width) const;
 
         // Operations
-        CImageList CreateDragImage(int index) const;
-        BOOL    DeleteItem(int pos) const;
-        int     InsertItem(int pos, const HDITEM& item) const;
-        BOOL    Layout(HDLAYOUT* pHeaderLayout) const;
-#ifdef Header_SetHotDivider
-        int     SetHotDivider(CPoint pt) const;
-        int     SetHotDivider(int index) const;
-#endif
-#ifdef Header_ClearFilter
         int     ClearAllFilters() const;
         int     ClearFilter(int column) const;
+        CImageList CreateDragImage(int index) const;
+        BOOL    DeleteItem(int pos) const;
         int     EditFilter(int column, BOOL discardChanges) const;
+        int     InsertItem(int pos, const HDITEM& item) const;
+        BOOL    Layout(HDLAYOUT* pHeaderLayout) const;
         int     SetFilterChangeTimeout(DWORD timeout) const;
-#endif
+        int     SetHotDivider(CPoint pt) const;
+        int     SetHotDivider(int index) const;
 
     protected:
         // Overridables
@@ -521,6 +514,7 @@ namespace Win32xx
         virtual ~CToolTip() override;
 
         // Accessors and mutators
+        CSize    GetBubbleSize(HWND control, UINT id = -1) const;
         int      GetDelayTime(DWORD duration) const;
         CRect    GetMargin() const;
         int      GetMaxTipWidth() const;
@@ -537,34 +531,23 @@ namespace Win32xx
         void     SetTipTextColor(COLORREF color) const;
         void     SetToolInfo(const TOOLINFO& toolInfo) const;
 
-#ifdef TTM_GETBUBBLESIZE
-        CSize    GetBubbleSize(HWND control, UINT id = -1) const;
-#endif
-
         //Operations
         void Activate(BOOL activate) const;
         BOOL AddTool(HWND control, const RECT& toolRect, UINT id, UINT textID) const;
         BOOL AddTool(HWND control, UINT textID) const;
         BOOL AddTool(HWND control, const RECT& toolRect, UINT id, LPCTSTR text = LPSTR_TEXTCALLBACK) const;
         BOOL AddTool(HWND control, LPCTSTR text = LPSTR_TEXTCALLBACK) const;
+        BOOL AdjustRect(RECT& rc, BOOL isLarger = TRUE) const;
         void DelTool(HWND control, UINT id = -1) const;
         BOOL HitTest(HWND wnd, CPoint pt, const TOOLINFO& toolInfo) const;
         void Pop() const;
         void RelayEvent(MSG& msg) const;
+        BOOL SetTitle(UINT icon, LPCTSTR title) const;
         void SetToolRect(const RECT& rc, HWND control, UINT id = -1) const;
+        void SetTTWindowTheme(LPCWSTR theme) const;
         void Update() const;
         void UpdateTipText(LPCTSTR text, HWND control, UINT id = -1) const;
         void UpdateTipText(UINT textID, HWND control, UINT id = -1) const;
-
-#ifdef TTM_ADJUSTRECT
-        BOOL AdjustRect(RECT& rc, BOOL isLarger = TRUE) const;
-#endif
-#ifdef TTM_SETTITLE
-        BOOL SetTitle(UINT icon, LPCTSTR title) const;
-#endif
-#if (WINVER >= 0x0501) && defined(TTM_SETWINDOWTHEME)
-        void SetTTWindowTheme(LPCWSTR theme) const;
-#endif
 
     protected:
         // Overridables
@@ -734,7 +717,6 @@ namespace Win32xx
         return static_cast<int>(SendMessage(CB_FINDSTRINGEXACT, wparam, lparam));
     }
 
-#if (WINVER >= 0x0500)
     // Retrieves the COMBOBOXINFO struct containing information about the combo box.
     inline BOOL CComboBox::GetComboBoxInfo(PCOMBOBOXINFO pcbi) const
     {
@@ -744,7 +726,6 @@ namespace Win32xx
         pcbi->cbSize = sizeof(COMBOBOXINFO);
         return ::GetComboBoxInfo(*this, pcbi);
     }
-#endif
 
     // Retrieves the number of items in the list box of the combo box.
     // Refer to CB_GETCOUNT in the Windows API documentation for more information.
@@ -790,8 +771,6 @@ namespace Win32xx
         return static_cast<int>(SendMessage(CB_GETDROPPEDWIDTH, 0, 0));
     }
 
-
-#if WINVER >= 0x0500
     // Returns the handle to the edit box.
     // Refer to GetComboBoxInfo in the Windows API documentation for more information.
     inline HWND  CComboBox::GetEditCtrl() const
@@ -802,7 +781,6 @@ namespace Win32xx
 
         return cbi.hwndItem;
     }
-#endif
 
     // Gets the starting and ending character positions of the current selection
     // in the edit control of the combo box.
@@ -848,8 +826,6 @@ namespace Win32xx
         return static_cast<int>(SendMessage(CB_GETITEMHEIGHT, wparam, 0));
     }
 
-
-#if WINVER >= 0x0500
     // Returns the handle to the drop-down list.
     // Refer to GetComboBoxInfo in the Windows API documentation for more information.
     inline HWND  CComboBox::GetLBCtrl() const
@@ -860,7 +836,6 @@ namespace Win32xx
 
         return cbi.hwndList;
     }
-#endif
 
     // Retrieves a string from the list of the combo box.
     // Refer to CB_GETLBTEXT in the Windows API documentation for more information.
@@ -1293,6 +1268,14 @@ namespace Win32xx
     // Definitions for the CHeader class
     //
 
+    // Clears the filter for the header control.
+    // Refer to Header_ClearFilter in the Windows API documentation for more information.
+    inline int CHeader::ClearFilter(int column) const
+    {
+        assert(IsWindow());
+        return Header_ClearFilter(*this, column);
+    }
+
     // Creates a transparent version of an item image within the header control.
     // Refer to Header_CreateDragImage in the Windows API documentation for more information.
     inline CImageList CHeader::CreateDragImage(int index) const
@@ -1309,6 +1292,22 @@ namespace Win32xx
     {
         assert(IsWindow());
         return Header_DeleteItem(*this, pos);
+    }
+
+    // Moves the input focus to the edit box when a filter button has the focus.
+    // Refer to Header_EditFilter in the Windows API documentation for more information.
+    inline int CHeader::EditFilter(int column, BOOL discardChanges) const
+    {
+        assert(IsWindow());
+        return Header_EditFilter(*this, column, MAKELPARAM(discardChanges, 0));
+    }
+
+    // Gets the width of the bitmap margin for a header control.
+    // Refer to Header_GetBitmapMargin in the Windows API documentation for more information.
+    inline int CHeader::GetBitmapMargin() const
+    {
+        assert(IsWindow());
+        return Header_GetBitmapMargin(*this);
     }
 
     // Retrieves the image list that has been set for the header control.
@@ -1380,7 +1379,22 @@ namespace Win32xx
         return Header_OrderToIndex( *this, order);
     }
 
-#ifdef Header_SetHotDivider
+    // Sets the width of the margin, specified in pixels, of a bitmap in the header control.
+    // Refer to Header_SetBitmapMargin in the Windows API documentation for more information.
+    inline int CHeader::SetBitmapMargin(int width) const
+    {
+        assert(IsWindow());
+        return Header_SetBitmapMargin(*this, width);
+    }
+
+    // Sets the timeout interval between the time a change takes place in the filter attributes
+    // and the posting of an HDN_FILTERCHANGE notification.
+    // Refer to Header_SetFilterChangeTimeout in the Windows API documentation for more information.
+    inline int CHeader::SetFilterChangeTimeout(DWORD timeout) const
+    {
+        assert(IsWindow());
+        return Header_SetFilterChangeTimeout(*this, timeout);
+    }
 
     // Changes the color of a divider between header items to indicate the destination of
     // an external drag-and-drop operation.
@@ -1399,8 +1413,6 @@ namespace Win32xx
         assert(IsWindow());
         return Header_SetHotDivider(*this, FALSE, index);
     }
-
-#endif
 
     // Assigns an image list to the header control.
     // Refer to Header_SetImageList in the Windows API documentation for more information.
@@ -1427,58 +1439,6 @@ namespace Win32xx
         assert(IsWindow());
         return Header_SetOrderArray(*this, count, pArray);
     }
-
-#ifdef Header_ClearFilter
-
-    // Clears the filter for the header control.
-    // Refer to Header_ClearFilter in the Windows API documentation for more information.
-    inline int CHeader::ClearFilter(int column) const
-    {
-        assert(IsWindow());
-        return Header_ClearFilter(*this, column);
-    }
-
-    // Clears all of the filters for the header control.
-    // Refer to Header_ClearAllFilters in the Windows API documentation for more information.
-    inline int CHeader::ClearAllFilters() const
-    {
-        assert(IsWindow());
-        return Header_ClearAllFilters(*this);
-    }
-
-    // Moves the input focus to the edit box when a filter button has the focus.
-    // Refer to Header_EditFilter in the Windows API documentation for more information.
-    inline int CHeader::EditFilter(int column, BOOL discardChanges) const
-    {
-        assert(IsWindow());
-        return Header_EditFilter(*this, column, MAKELPARAM(discardChanges, 0));
-    }
-
-    // Gets the width of the bitmap margin for a header control.
-    // Refer to Header_GetBitmapMargin in the Windows API documentation for more information.
-    inline int CHeader::GetBitmapMargin() const
-    {
-        assert(IsWindow());
-        return Header_GetBitmapMargin(*this);
-    }
-
-    // Sets the width of the margin, specified in pixels, of a bitmap in the header control.
-    // Refer to Header_SetBitmapMargin in the Windows API documentation for more information.
-    inline int CHeader::SetBitmapMargin(int width) const
-    {
-        assert(IsWindow());
-        return Header_SetBitmapMargin(*this, width);
-    }
-
-    // Sets the timeout interval between the time a change takes place in the filter attributes
-    // and the posting of an HDN_FILTERCHANGE notification.
-    // Refer to Header_SetFilterChangeTimeout in the Windows API documentation for more information.
-    inline int CHeader::SetFilterChangeTimeout(DWORD timeout) const
-    {
-        assert(IsWindow());
-        return Header_SetFilterChangeTimeout(*this, timeout);
-    }
-#endif
 
 
     ////////////////////////////////////////
@@ -1615,16 +1575,7 @@ namespace Win32xx
     inline void CIPAddress::SetAddress(BYTE field0, BYTE field1, BYTE field2, BYTE field3) const
     {
         assert(IsWindow());
-#if defined (_MSC_VER) && (_MSC_VER >= 1400)   // >= VS2005
-#pragma warning ( push )
-#pragma warning ( disable : 26451 )            // Arithmetic overflow.
-#endif // (_MSC_VER) && (_MSC_VER >= 1400)
-
         SendMessage(IPM_SETADDRESS, 0, MAKEIPADDRESS(field0, field1, field2, field3));
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1400)
-#pragma warning (pop)
-#endif // (_MSC_VER) && (_MSC_VER >= 1400)
     }
 
     // Sets the address values for all four fields in the IP address control.
@@ -1652,18 +1603,9 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1400)   // >= VS2005
-#pragma warning ( push )
-#pragma warning ( disable : 26451 )            // Arithemetic overflow.
-#endif // (_MSC_VER) && (_MSC_VER >= 1400)
-
         WPARAM wparam = static_cast<WPARAM>(field);
         LPARAM lparam = MAKEIPRANGE(static_cast<INT>(lower), static_cast<int>(upper));
         SendMessage(IPM_SETRANGE, wparam, lparam);
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1400)
-#pragma warning (pop)
-#endif // (_MSC_VER) && (_MSC_VER >= 1400)
     }
 
 
@@ -2472,6 +2414,17 @@ namespace Win32xx
         return static_cast<BOOL>(SendMessage(TTM_ADDTOOL, 0, lparam));
     }
 
+    // Calculates a ToolTip control's text display rectangle from its window rectangle, or the
+    // ToolTip window rectangle needed to display a specified text display rectangle.
+    // Refer to TTM_ADJUSTRECT in the Windows API documentation for more information.
+    inline BOOL CToolTip::AdjustRect(RECT& rc, BOOL isLarger /*= TRUE*/) const
+    {
+        assert(IsWindow());
+        WPARAM wparam = static_cast<WPARAM>(isLarger);
+        LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
+        return static_cast<BOOL>(SendMessage(TTM_ADJUSTRECT, wparam, lparam));
+    }
+
     // Removes a tool from a ToolTip control.
     // Refer to TTM_DELTOOL in the Windows API documentation for more information.
     inline void CToolTip::DelTool(HWND control, UINT id) const
@@ -2622,6 +2575,18 @@ namespace Win32xx
         info.uId = id;
     }
 
+    // Returns the width and height of a ToolTip control.
+    // Refer to TTM_GETBUBBLESIZE in the Windows API documentation for more information.
+    inline CSize CToolTip::GetBubbleSize(HWND control, UINT id) const
+    {
+        assert(IsWindow());
+        TOOLINFO info = GetToolInfo(control, id);
+        LPARAM lparam = reinterpret_cast<LPARAM>(&info);
+        LRESULT result = SendMessage(TTM_GETBUBBLESIZE, 0, lparam);
+        CSize sz(LOWORD(result), HIWORD(result));
+        return sz;
+    }
+
     // Tests a point to determine whether it is within the bounding rectangle of the
     //  specified tool and, if it is, retrieves information about the tool.
     // Refer to TTM_HITTEST in the Windows API documentation for more information.
@@ -2723,6 +2688,16 @@ namespace Win32xx
         SendMessage(TTM_SETTIPTEXTCOLOR, wparam, 0);
     }
 
+    // Adds a standard icon and title string to a ToolTip.
+    // Refer to TTM_SETTITLE in the Windows API documentation for more information.
+    inline BOOL CToolTip::SetTitle(UINT icon, LPCTSTR title) const
+    {
+        assert(IsWindow());
+        WPARAM wparam = static_cast<WPARAM>(icon);
+        LPARAM lparam = reinterpret_cast<LPARAM>(title);
+        return static_cast<BOOL>(SendMessage(TTM_SETTITLE, wparam, lparam));
+    }
+
     // Sets the information that a ToolTip control maintains for a tool.
     // Refer to TTM_SETTOOLINFO in the Windows API documentation for more information.
     inline void CToolTip::SetToolInfo(const TOOLINFO& toolInfo) const
@@ -2741,6 +2716,15 @@ namespace Win32xx
         ti.rect = rc;
         LPARAM lparam = reinterpret_cast<LPARAM>(&ti);
         SendMessage(TTM_NEWTOOLRECT, 0, lparam);
+    }
+
+    // Sets the visual style of a ToolTip control.
+    // Refer to TTM_SETWINDOWTHEME in the Windows API documentation for more information.
+    inline void CToolTip::SetTTWindowTheme(LPCWSTR theme) const
+    {
+        assert(IsWindow());
+        LPARAM lparam = reinterpret_cast<LPARAM>(theme);
+        SendMessage(TTM_SETWINDOWTHEME, 0, lparam);
     }
 
     // Forces the current tool to be redrawn.
@@ -2772,61 +2756,6 @@ namespace Win32xx
         LPARAM lparam = reinterpret_cast<LPARAM>(&info);
         SendMessage(TTM_UPDATETIPTEXT, 0, lparam);
     }
-
-#ifdef TTM_ADJUSTRECT
-
-    // Calculates a ToolTip control's text display rectangle from its window rectangle, or the
-    // ToolTip window rectangle needed to display a specified text display rectangle.
-    // Refer to TTM_ADJUSTRECT in the Windows API documentation for more information.
-    inline BOOL CToolTip::AdjustRect(RECT& rc, BOOL isLarger /*= TRUE*/) const
-    {
-        assert(IsWindow());
-        WPARAM wparam = static_cast<WPARAM>(isLarger);
-        LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
-        return static_cast<BOOL>(SendMessage(TTM_ADJUSTRECT, wparam, lparam));
-    }
-
-#endif
-#ifdef TTM_GETBUBBLESIZE
-
-    // Returns the width and height of a ToolTip control.
-    // Refer to TTM_GETBUBBLESIZE in the Windows API documentation for more information.
-    inline CSize CToolTip::GetBubbleSize(HWND control, UINT id) const
-    {
-        assert(IsWindow());
-        TOOLINFO info = GetToolInfo(control, id);
-        LPARAM lparam = reinterpret_cast<LPARAM>(&info);
-        LRESULT result = SendMessage(TTM_GETBUBBLESIZE, 0, lparam);
-        CSize sz(LOWORD(result), HIWORD(result));
-        return sz;
-    }
-
-#endif
-#ifdef TTM_SETTITLE
-
-    // Adds a standard icon and title string to a ToolTip.
-    // Refer to TTM_SETTITLE in the Windows API documentation for more information.
-    inline BOOL CToolTip::SetTitle(UINT icon, LPCTSTR title) const
-    {
-        assert(IsWindow());
-        WPARAM wparam = static_cast<WPARAM>(icon);
-        LPARAM lparam = reinterpret_cast<LPARAM>(title);
-        return static_cast<BOOL>(SendMessage(TTM_SETTITLE, wparam, lparam));
-    }
-
-#endif
-#if (WINVER >= 0x0501) && defined(TTM_SETWINDOWTHEME)
-
-    // Sets the visual style of a ToolTip control.
-    // Refer to TTM_SETWINDOWTHEME in the Windows API documentation for more information.
-    inline void CToolTip::SetTTWindowTheme(LPCWSTR theme) const
-    {
-        assert(IsWindow());
-        LPARAM lparam = reinterpret_cast<LPARAM>(theme);
-        SendMessage(TTM_SETWINDOWTHEME, 0, lparam);
-    }
-
-#endif
 
 } // namespace Win32xx
 

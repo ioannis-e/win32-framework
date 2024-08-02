@@ -46,7 +46,8 @@
 #define _WIN32XX_MENUMETRICS_H_
 
 #include "wxx_wincore.h"
-
+#include <Uxtheme.h>
+#include <vsstyle.h>
 
 #ifndef TMT_BORDERSIZE
   #define TMT_BORDERSIZE    2403
@@ -69,11 +70,6 @@
 #ifndef DT_HIDEPREFIX
   #define DT_HIDEPREFIX 0x00100000
 #endif
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)   // >= VS2019
-  #pragma warning ( push )
-  #pragma warning ( disable : 26812 )            // enum type is unscoped.
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
 
 
 namespace Win32xx
@@ -132,68 +128,6 @@ namespace Win32xx
     // calculations.
     class CMenuMetrics
     {
-        // A local copy of enums from uxtheme.h. They're declared within the
-        // CMenuMetrics class to avoid name clashes when uxtheme.h is included.
-        enum POPUPCHECKBACKGROUNDSTATES
-        {
-            MCB_DISABLED = 1,
-            MCB_NORMAL = 2,
-            MCB_BITMAP = 3
-        };
-
-        enum POPUPCHECKSTATES
-        {
-            MC_CHECKMARKNORMAL = 1,
-            MC_CHECKMARKDISABLED = 2,
-            MC_BULLETNORMAL = 3,
-            MC_BULLETDISABLED = 4
-        };
-
-        enum POPUPITEMSTATES
-        {
-            MPI_NORMAL = 1,
-            MPI_HOT = 2,
-            MPI_DISABLED = 3,
-            MPI_DISABLEDHOT = 4
-        };
-
-        enum POPUPSUBMENUSTATES
-        {
-            MSM_NORMAL = 1,
-            MSM_DISABLED = 2
-        };
-
-        enum THEMESIZE
-        {
-            TS_MIN,             // minimum size
-            TS_TRUE,            // size without stretching
-            TS_DRAW             // size that theme mgr will use to draw part
-        };
-
-        enum MENUPARTS
-        {
-            MENU_MENUITEM_TMSCHEMA = 1,
-            MENU_MENUDROPDOWN_TMSCHEMA = 2,
-            MENU_MENUBARITEM_TMSCHEMA = 3,
-            MENU_MENUBARDROPDOWN_TMSCHEMA = 4,
-            MENU_CHEVRON_TMSCHEMA = 5,
-            MENU_SEPARATOR_TMSCHEMA = 6,
-            MENU_BARBACKGROUND = 7,
-            MENU_BARITEM = 8,
-            MENU_POPUPBACKGROUND = 9,
-            MENU_POPUPBORDERS = 10,
-            MENU_POPUPCHECK = 11,
-            MENU_POPUPCHECKBACKGROUND = 12,
-            MENU_POPUPGUTTER = 13,
-            MENU_POPUPITEM = 14,
-            MENU_POPUPSEPARATOR = 15,
-            MENU_POPUPSUBMENU = 16,
-            MENU_SYSTEMCLOSE = 17,
-            MENU_SYSTEMMAXIMIZE = 18,
-            MENU_SYSTEMMINIMIZE = 19,
-            MENU_SYSTEMRESTORE = 20
-        };
-
     public:
         CMenuMetrics();
         ~CMenuMetrics();
@@ -625,9 +559,5 @@ namespace Win32xx
     }
 
 }
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)
- #pragma warning ( pop )
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
 
 #endif // _WIN32XX_MENUMETRICS_H_

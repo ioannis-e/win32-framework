@@ -195,7 +195,7 @@ namespace Win32xx
         virtual LRESULT OnMouseLeave(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnKillFocus(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnPaint(UINT msg, WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnPaint(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnSetFocus(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -252,7 +252,7 @@ namespace Win32xx
         virtual void  CloseActiveMDI();
         virtual void  CloseAllMDIChildren();
         virtual void  CloseMDIChild(int tab);
-        virtual HWND  Create(HWND hWndParent);
+        virtual HWND  Create(HWND hWndParent) override;
         virtual BOOL  LoadRegistrySettings(LPCTSTR keyName);
         virtual BOOL  SaveRegistrySettings(LPCTSTR keyName);
         virtual void  ShowListDialog() { GetTab().ShowListDialog(); }
@@ -773,14 +773,11 @@ namespace Win32xx
                 rc.top = rc.bottom - cy;
             }
 
-#if (WINVER >= 0x0500)
             if (GetExStyle() & WS_EX_LAYOUTRTL)
             {
                 rc.left = rc.left + gap;
                 rc.right = rc.left + cx;
             }
-#endif
-
         }
 
         return rc;
@@ -1213,9 +1210,7 @@ namespace Win32xx
     inline void CTab::Paint()
     {
         bool isRTL = FALSE;
-#if (WINVER >= 0x0500)
         isRTL = ((GetExStyle() & WS_EX_LAYOUTRTL)) != 0;
-#endif
 
         // Create the memory DC and bitmap.
         CClientDC dcView(*this);

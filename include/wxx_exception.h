@@ -121,7 +121,7 @@ namespace Win32xx
 
         LPCTSTR GetFilePath() const noexcept;
         LPCTSTR GetFileName() const noexcept;
-        virtual const char* what () const noexcept;
+        virtual const char* what () const noexcept override;
 
     private:
         TCHAR m_filePath[WXX_MAX_STRING_SIZE];
@@ -140,7 +140,7 @@ namespace Win32xx
         CNotSupportedException(const CNotSupportedException& rhs) noexcept;
         CNotSupportedException& operator=(const CNotSupportedException& rhs) noexcept;
         virtual ~CNotSupportedException() noexcept override;
-        virtual const char* what() const noexcept;
+        virtual const char* what() const noexcept override;
     };
 
 
@@ -156,7 +156,7 @@ namespace Win32xx
         CResourceException(const CResourceException& rhs) noexcept;
         CResourceException& operator=(const CResourceException& rhs)  noexcept;
         virtual ~CResourceException() noexcept override;
-        virtual const char* what() const noexcept;
+        virtual const char* what() const noexcept override;
     };
 
 
@@ -175,7 +175,7 @@ namespace Win32xx
         CUserException(const CUserException& rhs) noexcept;
         CUserException& operator=(const CUserException& rhs) noexcept;
         virtual ~CUserException() noexcept override;
-        virtual const char* what() const noexcept;
+        virtual const char* what() const noexcept override;
     };
 
 
@@ -191,7 +191,7 @@ namespace Win32xx
         CWinException(const CWinException& rhs) noexcept;
         CWinException& operator=(const CWinException& rhs) noexcept;
         virtual ~CWinException() noexcept override;
-        virtual const char* what () const noexcept;
+        virtual const char* what () const noexcept override;
     };
 
 

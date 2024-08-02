@@ -131,12 +131,6 @@
 #include "wxx_thread.h"
 #include "wxx_mutex.h"
 
-// Work around a bugs in older versions of Visual Studio.
-#if defined (_MSC_VER) && (_MSC_VER < 1500)  // < VS2008
-  // Skip loading wspiapi.h
-  #define _WSPIAPI_H_
-#endif
-
 #include <WS2tcpip.h>
 
 
@@ -164,12 +158,8 @@ namespace Win32xx
         int  Connect(const struct sockaddr* name, int namelen) const;
         bool Create( int family, int type, int protocol = IPPROTO_IP);
         void Disconnect();
-
-#ifdef GetAddrInfo
         void FreeAddrInfo( struct addrinfo* ai ) const;
         int  GetAddrInfo( LPCTSTR nodename, LPCTSTR servname, const struct addrinfo* hints, struct addrinfo** res) const;
-#endif
-
         CString GetErrorString() const;
         int  ioCtlSocket(long cmd, u_long* argp) const;
         bool IsIPV6Supported() const;
@@ -179,7 +169,6 @@ namespace Win32xx
         int  Send(const char* buf, int len, int flags) const;
         int  SendTo(const char* send, int len, int flags, LPCTSTR addr, UINT port) const;
         int  SendTo(const char* buf, int len, int flags, const struct sockaddr* to, int tolen) const;
-
         int  StartAsync(HWND wnd, UINT message, long events);
         void StartEvents();
         void StopEvents();
@@ -290,9 +279,6 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-
-#ifdef GetAddrInfo  // Skip the following code block for older development environments
-
             ADDRINFO hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFO *AddrInfo;
@@ -316,26 +302,12 @@ namespace Win32xx
 
             // Free the address information allocated by GetAddrInfo.
             FreeAddrInfo(AddrInfo);
-
-#endif
-
         }
         else
         {
             sockaddr_in clientService = {};
             clientService.sin_family = AF_INET;
-
-#ifdef _MSC_VER
-  #pragma warning ( push )
-  #pragma warning ( disable : 4996 )
-#endif // _MSC_VER
-
-                clientService.sin_addr.s_addr = inet_addr(TtoA(addr));
-
-#ifdef _MSC_VER
-  #pragma warning ( pop )
-#endif // _MSC_VER
-
+            clientService.sin_addr.s_addr = inet_addr(TtoA(addr));
             clientService.sin_port = htons( static_cast<u_short>(port) );
 
             result = ::bind( m_socket, reinterpret_cast<SOCKADDR*>( &clientService), sizeof(clientService) );
@@ -364,9 +336,6 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-
-#ifdef GetAddrInfo  // Skip the following code block for older development environments.
-
             ADDRINFO hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFO *AddrInfo;
@@ -390,26 +359,12 @@ namespace Win32xx
 
             // Free the address information allocated by GetAddrInfo.
             FreeAddrInfo(AddrInfo);
-
-#endif
-
         }
         else
         {
             sockaddr_in clientService = {};
             clientService.sin_family = AF_INET;
-
-#ifdef _MSC_VER
-  #pragma warning ( push )
-  #pragma warning ( disable : 4996 )
-#endif // _MSC_VER
-
             clientService.sin_addr.s_addr = inet_addr( TtoA(addr) );
-
-#ifdef _MSC_VER
-  #pragma warning ( pop )
-#endif // _MSC_VER
-
             clientService.sin_port = htons( static_cast<u_short>(port) );
 
             result = ::connect( m_socket, reinterpret_cast<SOCKADDR*>( &clientService ), sizeof(clientService) );
@@ -560,9 +515,6 @@ namespace Win32xx
         }
     }
 
-
-#ifdef GetAddrInfo
-
     // Frees address resources allocated by the GetAddrInfo function.
     inline void CSocket::FreeAddrInfo(struct addrinfo* ai) const
     {
@@ -575,8 +527,6 @@ namespace Win32xx
     {
         return m_pfnGetAddrInfo(TtoA(nodename), TtoA(servname), hints, res);
     }
-
-#endif
 
     // Returns a string containing the most recent network error.
     // Refer to WSAGetLastError in the Windows API documentation for additional information.
@@ -648,12 +598,8 @@ namespace Win32xx
     {
         bool isIPV6Supported = FALSE;
 
-#ifdef GetAddrInfo
-
         if (m_pfnGetAddrInfo != nullptr && m_pfnFreeAddrInfo != nullptr)
             isIPV6Supported = TRUE;
-
-#endif
 
         return isIPV6Supported;
     }
@@ -722,9 +668,6 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-
-#ifdef GetAddrInfo  // Skip the following code block for older development environments.
-
             ADDRINFO hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFO *addrInfo;
@@ -750,27 +693,12 @@ namespace Win32xx
 
             // Free the address information allocated by GetAddrInfo.
             FreeAddrInfo(addrInfo);
-
-#endif
-
         }
         else
         {
             sockaddr_in clientService = {};
             clientService.sin_family = AF_INET;
-
-#ifdef _MSC_VER
-  #pragma warning ( push )
-  #pragma warning ( disable : 4996 )
-#endif // _MSC_VER
-
             clientService.sin_addr.s_addr = inet_addr(TtoA(addr));
-
-#ifdef _MSC_VER
-  #pragma warning ( pop )
-#endif // _MSC_VER
-
-
             clientService.sin_port = htons( static_cast<u_short>(port) );
 
             result = ::sendto( m_socket, send, len, flags, reinterpret_cast<SOCKADDR*>( &clientService ), sizeof(clientService) );
@@ -817,17 +745,7 @@ namespace Win32xx
     {
         StopEvents();   // Ensure the event thread isn't running
 
-#ifdef _MSC_VER
-  #pragma warning ( push )
-  #pragma warning ( disable : 4996 )
-#endif // _MSC_VER
-
         return ::WSAAsyncSelect(*this, wnd, message, events);
-
-#ifdef _MSC_VER
-  #pragma warning ( pop )
-#endif // _MSC_VER
-
     }
 
     // This function starts the thread that monitors the socket for events.
@@ -858,6 +776,4 @@ namespace Win32xx
     }
 }
 
-
 #endif // #ifndef _WIN32XX_SOCKET_H_
-

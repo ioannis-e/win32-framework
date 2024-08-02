@@ -151,7 +151,7 @@ namespace Win32xx
         virtual ~CFileDialog() override {}
 
         // Operations
-        virtual INT_PTR DoModal(HWND owner = nullptr);
+        virtual INT_PTR DoModal(HWND owner = nullptr) override;
 
         // methods valid after successful DoModal()
         CString GetFileName() const;
@@ -179,7 +179,7 @@ namespace Win32xx
         virtual void    OnFolderChange();
         virtual void    OnInitDone();
         virtual void    OnLBSelChangedNotify(int boxID, int curSel, UINT code);
-        virtual LRESULT OnNotify(WPARAM, LPARAM);
+        virtual LRESULT OnNotify(WPARAM, LPARAM) override;
         virtual LRESULT OnShareViolation(LPCTSTR pathName);
         virtual void    OnTypeChange();
 
@@ -208,7 +208,7 @@ namespace Win32xx
         CFindReplaceDialog(BOOL isFindDialogOnly = TRUE);
         virtual ~CFindReplaceDialog() override {}
 
-        virtual HWND Create(HWND parent = nullptr);
+        virtual HWND Create(HWND parent = nullptr) override;
         virtual BOOL Create(BOOL isFindDialogOnly,
                         LPCTSTR findWhat,
                         LPCTSTR replaceWith = nullptr,
@@ -282,7 +282,7 @@ namespace Win32xx
         virtual void    OnOK() override;
 
         // Not intended to be overridden.
-        INT_PTR DialogProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
+        INT_PTR DialogProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
     private:
         CFontDialog(const CFontDialog&) = delete;
@@ -998,23 +998,14 @@ namespace Win32xx
     // The parameters are set to sensible values.
     inline void CFileDialog::SetParameters(const OPENFILENAME& ofn)
     {
-        // Set the correct struct size for all Windows versions and compilers.
-        DWORD StructSize = sizeof(m_ofn);
-
-  #if defined OPENFILENAME_SIZE_VERSION_400
-        if (GetWinVersion() < 2500)
-            StructSize = OPENFILENAME_SIZE_VERSION_400;
-        if (GetWinVersion() >= 2500)
-            m_ofn.FlagsEx =     ofn.FlagsEx;
-  #endif
-
         SetFileName(ofn.lpstrFile);
         SetFilter(ofn.lpstrFilter);
         SetTitle(ofn.lpstrFileTitle);
 
         DWORD maxPath = MAX_PATH;
 
-        m_ofn.lStructSize       = StructSize;
+        m_ofn.lStructSize       = sizeof(m_ofn);
+        m_ofn.FlagsEx           = ofn.FlagsEx;
         m_ofn.hwndOwner         = nullptr;            // Set this in DoModal.
         m_ofn.hInstance         = GetApp()->GetInstanceHandle();
         m_ofn.lpstrCustomFilter = ofn.lpstrCustomFilter;

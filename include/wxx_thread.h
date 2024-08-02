@@ -99,11 +99,6 @@ namespace Win32xx
     };
 
 
-#if defined (_MSC_VER)
-#pragma warning ( push )
-#pragma warning ( disable : 4355 )            // 'this' used in base member initializer list.
-#endif // (_MSC_VER)
-
     /////////////////////////////////////////////////////////////
     // CWinThread manages a thread that is capable of supporting
     // windows. It runs a message loop.
@@ -119,10 +114,6 @@ namespace Win32xx
 
         static  UINT WINAPI StaticThreadProc(LPVOID pCThread);
     };
-
-#if defined (_MSC_VER)
-#pragma warning (pop)
-#endif // (_MSC_VER)
 
 }
 

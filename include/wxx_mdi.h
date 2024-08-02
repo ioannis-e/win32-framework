@@ -185,18 +185,18 @@ namespace Win32xx
 
     protected:
         // Overridable virtual functions
-        virtual LRESULT CustomDrawMenuBar(NMHDR* pNMHDR);
+        virtual LRESULT CustomDrawMenuBar(NMHDR* pNMHDR) override;
         virtual void    OnClose() override;
-        virtual LRESULT OnInitMenuPopup(UINT msg, WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnInitMenuPopup(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnMDIActivated(UINT msg, WPARAM wparam, LPARAM);
         virtual LRESULT OnMDIDestroyed(UINT msg, WPARAM wparam, LPARAM);
         virtual void    OnMDIMaximized(BOOL isMaxed);
-        virtual void    OnMenuUpdate(UINT id);
-        virtual BOOL    OnViewStatusBar();
-        virtual BOOL    OnViewToolBar();
+        virtual void    OnMenuUpdate(UINT id) override;
+        virtual BOOL    OnViewStatusBar() override;
+        virtual BOOL    OnViewToolBar() override;
         virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual BOOL    PreTranslateMessage(MSG& msg) override;
-        virtual void    RecalcLayout();
+        virtual void    RecalcLayout() override;
         virtual void    UpdateFrameMenu(CMenu menu);
 
         // Not intended to be overridden
@@ -317,7 +317,7 @@ namespace Win32xx
             {
                 // Add Separator
                 if (window == 0)
-                    windowMenu.AppendMenu(MF_SEPARATOR, 0, reinterpret_cast<LPCTSTR>(nullptr));
+                    windowMenu.AppendMenu(MF_SEPARATOR, 0, reinterpret_cast<LPCTSTR>(0));
 
                 // Add a menu entry for each MDI child (up to 9)
                 if (window < 9)
@@ -926,7 +926,6 @@ namespace Win32xx
     inline HWND CMDIChild::Create(HWND parent /*= nullptr*/)
     {
         CREATESTRUCT cs = {};
-        WNDCLASS wc = {};
 
         // Call PreCreate in case its overloaded.
         PreCreate(cs);

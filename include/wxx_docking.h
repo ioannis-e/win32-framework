@@ -191,14 +191,14 @@ namespace Win32xx
         virtual void AddContainer(CDockContainer* pContainer, BOOL insert = FALSE, BOOL selectPage = TRUE);
         virtual void AddToolBarButton(UINT id, BOOL isEnabled = TRUE);
         virtual void CreateToolBar();
-        virtual void DrawTabs(CDC& dc);
-        virtual void RecalcLayout();
+        virtual void DrawTabs(CDC& dc) override;
+        virtual void RecalcLayout() override;
         virtual void RemoveContainer(CDockContainer* pWnd, BOOL updateParent = TRUE);
-        virtual void SelectPage(int page);
-        virtual void SwapTabs(int tab1, int tab2);
-        virtual void SetTabsFontSize(int fontSize = 9);
-        virtual void SetTabsIconSize(int iconSize = 16);
-        virtual void UpdateTabs();
+        virtual void SelectPage(int page) override;
+        virtual void SwapTabs(int tab1, int tab2) override;
+        virtual void SetTabsFontSize(int fontSize = 9) override;
+        virtual void SetTabsIconSize(int iconSize = 16) override;
+        virtual void UpdateTabs() override;
 
         // Accessors and mutators
         CDockContainer* GetActiveContainer() const;
@@ -223,7 +223,7 @@ namespace Win32xx
         void SetHideSingleTab(BOOL hideSingle);
         void SetTabIcon(HICON tabIcon);
         void SetTabIcon(UINT iconID);
-        void SetTabSize();
+        void SetTabSize() override;
         void SetTabText(LPCTSTR text);
         void SetToolBar(CToolBar& toolBar) const   { GetViewPage().SetToolBar(toolBar); }
         void SetToolBarImages(COLORREF mask, UINT normalID, UINT hotID, UINT disabledID);
@@ -1011,13 +1011,11 @@ namespace Win32xx
         rcClose.right = rc.right - gap;
         rcClose.left = rcClose.right - cx;
 
-#if (WINVER >= 0x0500)
         if (GetExStyle() & WS_EX_LAYOUTRTL)
         {
             rcClose.left = rc.left + gap;
             rcClose.right = rcClose.left + cx;
         }
-#endif
 
         return rcClose;
     }
@@ -1319,11 +1317,8 @@ namespace Win32xx
         if (style & DS_CLIENTEDGE)
             cs.dwExStyle = WS_EX_CLIENTEDGE;
 
-#if (WINVER >= 0x0500)
         if (m_pDocker->GetExStyle() & WS_EX_LAYOUTRTL)
             cs.dwExStyle |= WS_EX_LAYOUTRTL;
-#endif
-
     }
 
     // Sends custom notification messages to the parent window.
@@ -1452,9 +1447,7 @@ namespace Win32xx
         if (!pDockTarget || !pDockDrag) return CRect(0, 0, 0, 0);
 
         bool isRTL = false;
-#if (WINVER >= 0x0500)
         isRTL = ((pDockTarget->GetExStyle() & WS_EX_LAYOUTRTL)) != 0;
-#endif
 
         // Calculate the hint window's position for inner docking.
         CDockClient* pDockClient = &pDockTarget->GetDockClient();
@@ -3196,14 +3189,11 @@ namespace Win32xx
     // Called when this docker is created.
     inline int CDocker::OnCreate(CREATESTRUCT&)
     {
-
-#if (WINVER >= 0x0500)
         if (GetParent().GetExStyle() & WS_EX_LAYOUTRTL)
         {
             DWORD exStyle = static_cast<DWORD>(GetExStyle());
             SetExStyle(exStyle | WS_EX_LAYOUTRTL);
         }
-#endif
 
         // Create the various child windows.
         GetDockClient().Create(*this);

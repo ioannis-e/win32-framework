@@ -199,7 +199,7 @@ BOOL CMainMDIFrame::OnFileNew()
     CMenu popupMenu = topMenu.GetSubMenu(0);
 
     // Start the popup menu
-    popupMenu.TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, 
+    popupMenu.TrackPopupMenuEx(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL,
         rc.left, rc.bottom, *this, &tpm);
 
     return TRUE;
@@ -209,7 +209,7 @@ BOOL CMainMDIFrame::OnFileNew()
 BOOL CMainMDIFrame::OnFileNewDocker()
 {
     int dockWidth = DpiScaleInt(150);
-    CDocker* pDock = AddDockedChild(make_unique<CDockFiles>(), 
+    CDocker* pDock = AddDockedChild(make_unique<CDockFiles>(),
         DS_DOCKED_LEFT | DS_CLIENTEDGE, dockWidth);
     pDock->GetContainer()->SetHideSingleTab(TRUE);
     return TRUE;

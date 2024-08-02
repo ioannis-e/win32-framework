@@ -78,20 +78,20 @@ namespace Win32xx
         virtual BOOL    OnMenuInput(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnMouseLeave(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnSysKeyDown(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnSysKeyUp(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual LRESULT OnTBNDropDown(LPNMTOOLBAR pNMTB);
         virtual LRESULT OnTBNHotItemChange(LPNMTBHOTITEM pNMHI);
         virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual void    PreCreate(CREATESTRUCT& cs) override;
         virtual void    PreRegisterClass(WNDCLASS& wc) override;
         virtual BOOL    PreTranslateMessage(MSG& msg) override;
 
         // Not intended to be overridden.
-        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam);
+        LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
     private:
         CMenuBar(const CMenuBar&) = delete;
@@ -807,11 +807,7 @@ namespace Win32xx
 
         // Display the shortcut menu.
         bool isRightToLeft = false;
-
-#if (WINVER >= 0x0500)
         isRightToLeft = (((GetAncestor().GetExStyle()) & WS_EX_LAYOUTRTL)) != 0;
-#endif
-
         int xPos = isRightToLeft? rc.right : rc.left;
         UINT id = static_cast<UINT>(::TrackPopupMenuEx(m_popupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL,
                                        xPos, rc.bottom, *this, &tpm));

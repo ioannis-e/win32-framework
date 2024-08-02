@@ -58,7 +58,7 @@ namespace Win32xx
         virtual int  AddBitmap(UINT bitmapID);
         virtual BOOL AddButton(UINT buttonID, BOOL isEnabled = TRUE, int image = -1);
         virtual BOOL AddReplaceBitmap(UINT bitmapID);
-        virtual void Destroy();
+        virtual void Destroy() override;
         virtual BOOL ReplaceBitmap(UINT newBitmapID);
         virtual BOOL SetButtonText(UINT buttonID, LPCTSTR text);
 

@@ -232,24 +232,11 @@ namespace Win32xx
     {
         tm* ptm = &atm;
 
-// If Visual Studio >= 2005 or GNU > 11 or clang compiler.
-#if ((defined (_MSC_VER) &&  ( _MSC_VER >= 1400 )) || \
-    (defined(__GNUC__) && (__GNUC__ >= 11)) || \
-    defined(__clang_major__))
-
-#if defined(__BORLANDC__)
+#if defined(__BORLANDC__)  // For Embacadero support
         if (::gmtime_s(&t, &atm) == 0)
             ptm = nullptr;
 #else
         if (::gmtime_s(&atm, &t) != 0)
-            ptm = nullptr;
-#endif
-
-#else
-        tm* ptmTemp = ::gmtime(&t);
-        if (ptmTemp != nullptr)
-            *ptm = *ptmTemp;  // Update the value of atm.
-        else
             ptm = nullptr;
 #endif
 
@@ -264,24 +251,11 @@ namespace Win32xx
     {
         tm* ptm = &atm;
 
-// If Visual Studio >= 2005 or GNU > 11 or clang compiler.
-#if ((defined (_MSC_VER) &&  ( _MSC_VER >= 1400 )) || \
-    (defined(__GNUC__) && (__GNUC__ >= 11)) || \
-    defined(__clang_major__))
-
-#if defined(__BORLANDC__)
+#if defined(__BORLANDC__)  // For Embacadero support
         if (::localtime_s(&t, &atm) == 0)
             ptm = nullptr;
 #else
         if (::localtime_s(&atm, &t) != 0)
-            ptm = nullptr;
-#endif
-
-#else
-        tm* ptmTemp = ::localtime(&t);
-        if (ptmTemp != nullptr)
-            *ptm = *ptmTemp;  // Update the value of atm.
-        else
             ptm = nullptr;
 #endif
 

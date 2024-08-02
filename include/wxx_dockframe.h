@@ -78,17 +78,17 @@ namespace Win32xx
         virtual ~CDockFrame() override {}
 
     protected:
-        virtual LRESULT OnActivate(UINT msg, WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnActivate(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual int     OnCreate(CREATESTRUCT& cs) override;
         virtual void    OnDestroy() override;
-        virtual LRESULT OnDockActivated(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnDockDestroyed(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnGetDpiScaledSize(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual LRESULT OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnDockActivated(UINT msg, WPARAM wparam, LPARAM lparam) override;
+        virtual LRESULT OnDockDestroyed(UINT msg, WPARAM wparam, LPARAM lparam) override;
+        virtual LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam) override;
+        virtual LRESULT OnGetDpiScaledSize(UINT msg, WPARAM wparam, LPARAM lparam) override;
+        virtual LRESULT OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
-        virtual LRESULT OnSysColorChange(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual void    RecalcViewLayout();
+        virtual LRESULT OnSysColorChange(UINT msg, WPARAM wparam, LPARAM lparam) override;
+        virtual void    RecalcViewLayout() override;
         virtual LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
     private:

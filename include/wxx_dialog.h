@@ -73,11 +73,6 @@
     #define SWP_NOCOPYBITS      0x0100
 #endif
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)   // >= VS2019
-#pragma warning ( push )
-#pragma warning ( disable : 26812 )            // enum type is unscoped.
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
-
 namespace Win32xx
 {
     ///////////////////////////////////////////////////////////
@@ -121,7 +116,7 @@ namespace Win32xx
         virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual void EndDialog(INT_PTR result);
         virtual void OnCancel();
-        virtual void OnClose();
+        virtual void OnClose() override;
         virtual BOOL OnInitDialog();
         virtual void OnOK();
         virtual BOOL PreTranslateMessage(MSG& msg) override;
@@ -174,6 +169,7 @@ namespace Win32xx
     {
     public:
 
+        // Alignment specifiers.
         enum Alignment { topleft, topright, bottomleft, bottomright, center, leftcenter, rightcenter, topcenter, bottomcenter };
 
         CResizer() : m_parent(nullptr), m_xScrollPos(0), m_yScrollPos(0),
@@ -1193,9 +1189,5 @@ namespace Win32xx
 
 } // namespace Win32xx
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)
-#pragma warning ( pop )
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
 
 #endif // _WIN32XX_DIALOG_H_
-

@@ -680,7 +680,12 @@ namespace Win32xx
             while (result == -1)
             {
                 buffer.assign( size_t(length)+1, 0 );
-                result = _vsnprintf_s(buffer.data(), length, length -1, format, args);
+
+#if !defined (_MSC_VER)
+                result = _vsnprintf(&buffer.front(), length, format, args);
+#else
+                result = _vsnprintf_s(&buffer.front(), length, length -1, format, args);
+#endif
                 length *= 2;
             }
             m_str.assign(buffer.data());
@@ -702,7 +707,11 @@ namespace Win32xx
             while (result == -1)
             {
                 buffer.assign( size_t(length)+1, 0 );
-                result = _vsnwprintf_s(buffer.data(), length, length -1, format, args);
+#if !defined (_MSC_VER)
+                result = _vsnwprintf(&buffer.front(), length, format, args);
+#else
+                result = _vsnwprintf_s(&buffer.front(), length, length -1, format, args);
+#endif
                 length *= 2;
             }
             m_str.assign(buffer.data());

@@ -634,7 +634,7 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_wndLock);
 
             // Find the CImageList data entry in the map.
-            std::map<HIMAGELIST, CIml_Data*, CompareHIMAGELIST>::iterator m;
+            std::map<HIMAGELIST, CIml_Data*>::iterator m;
             m = GetApp()->m_mapCImlData.find(m_pData->images);
             if (m != GetApp()->m_mapCImlData.end())
             {

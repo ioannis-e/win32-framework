@@ -141,41 +141,6 @@ namespace Win32xx
         long count;
     };
 
-    // The comparison function object used by CWinApp::m_mapHDC
-    struct CompareHDC
-    {
-        bool operator()(const HDC a, const HDC b) const
-            {return (reinterpret_cast<DWORD_PTR>(a) < reinterpret_cast<DWORD_PTR>(b));}
-    };
-
-    // The comparison function object used by CWinApp::m_mapGDI
-    struct CompareGDI
-    {
-        bool operator()(const HGDIOBJ a, const HGDIOBJ b) const
-            {return (reinterpret_cast<DWORD_PTR>(a) < reinterpret_cast<DWORD_PTR>(b));}
-    };
-
-    // The comparison function object used by CWinApp::m_mapHIMAGELIST
-    struct CompareHIMAGELIST
-    {
-        bool operator()(const HIMAGELIST a, const HIMAGELIST b) const
-            {return (reinterpret_cast<DWORD_PTR>(a) < reinterpret_cast<DWORD_PTR>(b));}
-    };
-
-    // The comparison function object used by CWinApp::m_mapHMENU
-    struct CompareHMENU
-    {
-        bool operator()(const HMENU a, const HMENU b) const
-            {return (reinterpret_cast<DWORD_PTR>(a) < reinterpret_cast<DWORD_PTR>(b));}
-    };
-
-    // The comparison function object used by CWinApp::m_mapHWND
-    struct CompareHWND
-    {
-        bool operator()(const HWND a, const HWND b) const
-            {return (reinterpret_cast<DWORD_PTR>(a) < reinterpret_cast<DWORD_PTR>(b));}
-    };
-
     // Used for Thread Local Storage (TLS)
     struct TLSData
     {
@@ -301,11 +266,11 @@ namespace Win32xx
 
         static CWinApp* SetnGetThis(CWinApp* pThis = nullptr, bool reset = false);
 
-        std::map<HDC, CDC_Data*, CompareHDC> m_mapCDCData;
-        std::map<HGDIOBJ, CGDI_Data*, CompareGDI> m_mapCGDIData;
-        std::map<HIMAGELIST, CIml_Data*, CompareHIMAGELIST> m_mapCImlData;
-        std::map<HMENU, CMenu_Data*, CompareHMENU> m_mapCMenuData;
-        std::map<HWND, CWnd*, CompareHWND> m_mapHWND;       // maps window handles to CWnd objects
+        std::map<HDC, CDC_Data*> m_mapCDCData;
+        std::map<HGDIOBJ, CGDI_Data*> m_mapCGDIData;
+        std::map<HIMAGELIST, CIml_Data*> m_mapCImlData;
+        std::map<HMENU, CMenu_Data*> m_mapCMenuData;
+        std::map<HWND, CWnd*> m_mapHWND;       // maps window handles to CWnd objects
         std::vector<TLSDataPtr> m_allTLSData;     // vector of TLSData smart pointers, one for each thread
         CCriticalSection m_appLock;   // thread synchronization for CWinApp and TLS.
         CCriticalSection m_gdiLock;   // thread synchronization for m_mapCDCData and m_mapCGDIData.
@@ -319,7 +284,7 @@ namespace Win32xx
         CHGlobal m_devNames;          // Used by CPrintDialog and CPageSetupDialog
 
     public:
-        // Messages used for exceptions.
+        // Message strings used for exceptions.
         virtual CString MsgAppThread() const;
         virtual CString MsgArReadFail() const;
         virtual CString MsgArNotCStringA() const;
@@ -329,6 +294,7 @@ namespace Win32xx
         virtual CString MsgMtxMutex() const;
         virtual CString MsgMtxSemaphore() const;
 
+        // Message strings used for windows.
         virtual CString MsgWndCreate() const;
         virtual CString MsgWndDialog() const;
         virtual CString MsgWndGlobalLock() const;
@@ -339,6 +305,7 @@ namespace Win32xx
         virtual CString MsgRichEditDll() const;
         virtual CString MsgTaskDialog() const;
 
+        // Message strings used for files.
         virtual CString MsgFileClose() const;
         virtual CString MsgFileFlush() const;
         virtual CString MsgFileLock() const;
@@ -350,6 +317,7 @@ namespace Win32xx
         virtual CString MsgFileUnlock() const;
         virtual CString MsgFileWrite() const;
 
+        // Message strings used for GDI.
         virtual CString MsgGdiDC() const;
         virtual CString MsgGdiIC() const;
         virtual CString MsgGdiBitmap() const;
@@ -369,7 +337,7 @@ namespace Win32xx
         virtual CString MsgMenu() const;
         virtual CString MsgPrintFound() const;
 
-        // DDX anomaly prompting messages
+        // DDX anomaly prompting message strings
         virtual CString MsgDDX_Byte() const;
         virtual CString MsgDDX_Int() const;
         virtual CString MsgDDX_Long() const;

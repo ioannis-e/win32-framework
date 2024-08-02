@@ -97,16 +97,7 @@ namespace Win32xx
     //
     inline CCriticalSection::CCriticalSection() : m_count(0)
     {
-#if defined (_MSC_VER) && (_MSC_VER >= 1400)  // >= VS2005
-#pragma warning ( push )
-#pragma warning ( disable : 28125 )           // call within __try __catch block.
-#endif // (_MSC_VER) && (_MSC_VER >= 1400)
-
         ::InitializeCriticalSection(&m_cs);
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1400)  // Note: Only Windows Server 2003 and Windows XP
-#pragma warning ( pop )                       //       require this warning to be suppressed.
-#endif // (_MSC_VER) && (_MSC_VER >= 1400)    //       This exception was removed in Vista and above.
     }
 
     inline CCriticalSection::~CCriticalSection()

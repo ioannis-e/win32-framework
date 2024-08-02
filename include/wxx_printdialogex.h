@@ -104,9 +104,9 @@ namespace Win32xx
         // Destructor
         virtual ~CPrintDialogEx() override {}
 
-        virtual void OnApply() {}    // Apply then cancel button pressed.
-        virtual void OnCancel() {}   // Cancel button pressed or closed.
-        virtual void OnPrint() {}    // Print button pressed.
+        virtual void OnApply() {}             // Apply then cancel button pressed.
+        virtual void OnCancel() override {}   // Cancel button pressed or closed.
+        virtual void OnPrint(){}              // Print button pressed.
 
         // Operations
         INT_PTR DoModal(HWND owner /* = nullptr */) override;

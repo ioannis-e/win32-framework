@@ -80,7 +80,7 @@ New Features and Enhancements
  
  * Added support for std::min and std::max.
 
- * The MIN and MAX macros are are now depricated and will be removed in future
+ * The MIN and MAX macros are are now deprecated and will be removed in future
     versions. Users should use std::min and std::max in place of the MIN and
     MAX macros.
 

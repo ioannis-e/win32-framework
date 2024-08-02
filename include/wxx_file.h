@@ -52,7 +52,7 @@ namespace Win32xx
     class CFile
     {
     public:
-
+        // File open flags.
         enum OpenFlags
         {
             modeCreate =        CREATE_ALWAYS,  // Creates a new file. Truncates existing file to length 0.
@@ -111,6 +111,7 @@ namespace Win32xx
     };
 
 }
+
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

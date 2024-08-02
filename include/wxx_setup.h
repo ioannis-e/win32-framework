@@ -62,26 +62,6 @@
   #define _WIN32_IE         WINVER
 #endif
 
-
-// Remove pointless warning messages.
-#ifdef _MSC_VER
-  #if _MSC_VER < 1310    // before VS2003
-    #pragma warning (disable : 4511) // copy operator could not be generated
-    #pragma warning (disable : 4512) // assignment operator could not be generated
-    #pragma warning (disable : 4702) // unreachable code (bugs in Microsoft's STL)
-    #pragma warning (disable : 4786) // identifier was truncated
-  #endif
-#endif
-
-#if defined (__BORLANDC__) && (__BORLANDC__ < 0x600)
-  #pragma option -w-8026            // functions with exception specifications are not expanded inline
-  #pragma option -w-8027            // function not expanded inline
-  #pragma option -w-8030            // Temporary used for 'rhs'
-  #pragma option -w-8004            // Assigned value is never used
-  #define STRICT 1
-#endif
-
-
 #ifndef NOMINMAX
 #define NOMINMAX        // Allow std::min and std::max. Must be defined before windows.h
 #endif
@@ -269,14 +249,6 @@ namespace Win32xx
     //  3000     Windows 10 or Windows 11
     inline int GetWinVersion()
     {
-
-        // if (MSC >= VS2008) or (Borland >= version 6) or (GNU >= 11) or Clang.
-        // TDM_GCC 10.3 32bit doesn't support RtlGetVersion.
-#if ((defined (_MSC_VER) && (_MSC_VER >= 1500)) || \
-        (defined(__BORLANDC__) && (__BORLANDC__ >= 0x600)) || \
-        (defined(__GNUC__) && (__GNUC__ >= 11)) || \
-        (defined(__clang_major__)))
-
         // Use the modern RtlGetVersion function.
         typedef NTSTATUS WINAPI RTLGETVERSION(PRTL_OSVERSIONINFOW);
 
@@ -293,15 +265,6 @@ namespace Win32xx
                 pfn(&osvi);
             }
         }
-
-#else
-
-        // Use the legacy GetVersionEx function.
-        OSVERSIONINFO osvi = {};
-        osvi.dwOSVersionInfoSize = sizeof(osvi);
-        GetVersionEx(&osvi);
-
-#endif
 
         DWORD platform = osvi.dwPlatformId;
         DWORD majorVer = osvi.dwMajorVersion;
@@ -369,12 +332,8 @@ namespace Win32xx
                 INITCOMMONCONTROLSEX initStruct{};
                 initStruct.dwSize = sizeof(initStruct);
                 initStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_DATE_CLASSES;
-
-
-#if (_WIN32_IE >= 0x0401)
                 if (GetComCtlVersion() > 470)
                     initStruct.dwICC |= ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS | ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
-#endif
 
                 // Call InitCommonControlsEx.
                 if (!(pfnInitEx(&initStruct)))

@@ -52,7 +52,6 @@ MyFontDialog : public CFontDialog                                       /*
         void    SetWindowTitle() const { SetWindowText(m_boxTitle); }
 
     protected:
- 
         virtual BOOL    OnInitDialog() override;
 
     private:

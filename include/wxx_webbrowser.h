@@ -41,22 +41,7 @@
 #include "wxx_appcore0.h"
 #include <ExDisp.h>
 #include <OCidl.h>
-
-#ifdef _MSC_VER
-  #pragma warning ( push )
-  #pragma warning ( disable : 4091 )  // temporarily disable C4091 warning
-#endif // _MSC_VER
-
 #include <ShlObj.h>
-
-#ifdef _MSC_VER
-  #pragma warning ( pop )
-#endif // _MSC_VER
-
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)   // >= VS2019
-#pragma warning ( push )
-#pragma warning ( disable : 26812 )            // enum type is unscoped.
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
 
 
 namespace Win32xx
@@ -965,9 +950,7 @@ namespace Win32xx
     inline BOOL CWebBrowser::GetRegisterAsBrowser() const
     {
         VARIANT_BOOL isTopLevel = VARIANT_FALSE;
-#if !defined(__BORLANDC__) || (__BORLANDC__ >= 0x600)
         GetIWebBrowser2()->get_RegisterAsBrowser(&isTopLevel);
-#endif
         return static_cast<BOOL>(isTopLevel);
     }
 
@@ -1294,9 +1277,4 @@ namespace Win32xx
 
 }
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)
-#pragma warning ( pop )
-#endif // (_MSC_VER) && (_MSC_VER >= 1920)
-
 #endif  // _WIN32XX_WEBBROWSER_H_
-

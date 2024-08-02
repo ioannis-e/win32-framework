@@ -103,44 +103,8 @@
 
 #include "wxx_dialog.h"
 
-#ifdef _MSC_VER
-#pragma warning ( push )
-#pragma warning (disable : 4091)  // temporarily disable warning: 'typedef': ignored
-#endif // _MSC_VER
-
 #include <shlobj.h>
 
-#ifdef _MSC_VER
-#pragma warning ( pop )
-#endif // _MSC_VER
-
-
-// Support older compilers.
-#ifndef BIF_NONEWFOLDERBUTTON
-
-  #define BIF_NONEWFOLDERBUTTON 0x0200
-
-  #ifndef BIF_NEWDIALOGSTYLE
-    #define BIF_NEWDIALOGSTYLE    0x0040
-  #endif
-
-  // messages from browser
-  #define BFFM_INITIALIZED        1
-  #define BFFM_SELCHANGED         2
-  #define BFFM_VALIDATEFAILEDA    3   // lParam:szPath ret:1(cont),0(EndDialog)
-  #define BFFM_VALIDATEFAILEDW    4   // lParam:wzPath ret:1(cont),0(EndDialog)
-  #define BFFM_IUNKNOWN           5   // provides IUnknown to client. lParam: IUnknown*
-
-  // messages to browser
-  #define BFFM_SETSTATUSTEXTA     (WM_USER + 100)
-  #define BFFM_ENABLEOK           (WM_USER + 101)
-  #define BFFM_SETSELECTIONA      (WM_USER + 102)
-  #define BFFM_SETSELECTIONW      (WM_USER + 103)
-  #define BFFM_SETSTATUSTEXTW     (WM_USER + 104)
-  #define BFFM_SETOKTEXT          (WM_USER + 105) // Unicode only
-  #define BFFM_SETEXPANDED        (WM_USER + 106) // Unicode only
-
-#endif
 
 namespace Win32xx
 {
@@ -153,7 +117,7 @@ namespace Win32xx
         CFolderDialog();
         virtual ~CFolderDialog() override;
 
-        virtual INT_PTR DoModal(HWND parent = nullptr);
+        virtual INT_PTR DoModal(HWND parent = nullptr) override;
 
         CString GetDisplayName() const       { return m_displayName; }
         CString GetFolderPath() const;
