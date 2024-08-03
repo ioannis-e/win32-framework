@@ -56,7 +56,6 @@ private:
     BOOL OnSocketReceive();
 
     void AppendText(const CEdit& edit, LPCTSTR text);
-    void LoadCommonControlsEx();
     void OnStartClient();
     void OnSend();
 

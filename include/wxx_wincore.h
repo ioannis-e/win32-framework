@@ -118,58 +118,16 @@ namespace Win32xx
         ::GetSystemDirectory(system.GetBuffer(MAX_PATH), MAX_PATH);
         system.ReleaseBuffer();
 
-        HMODULE shell = ::LoadLibrary(system + _T("\\Shell32.dll"));
-        if (shell)
+        // Call the SHGetFolderPath function to retrieve the AppData folder.
+        SHGetFolderPath(nullptr, CSIDL_APPDATA | CSIDL_FLAG_CREATE, nullptr, 0, appData.GetBuffer(MAX_PATH));
+        appData.ReleaseBuffer();
+
+        // If we can't get the AppData folder, get the MyDocuments folder instead.
+        if (appData.IsEmpty())
         {
-            typedef HRESULT WINAPI MYPROC(HWND, int, HANDLE, DWORD, LPTSTR);
-
-            // Get the function pointer of the SHGetFolderPath function
-#ifdef UNICODE
-            MYPROC* pSHGetFolderPath = reinterpret_cast<MYPROC*>(
-                reinterpret_cast<void*>(::GetProcAddress(shell, "SHGetFolderPathW")));
-#else
-            MYPROC* pSHGetFolderPath = reinterpret_cast<MYPROC*>(
-                reinterpret_cast<void*>(::GetProcAddress(shell, "SHGetFolderPathA")));
-#endif
-
-#ifndef CSIDL_APPDATA
-#define CSIDL_APPDATA     0x001a
-#define CSIDL_PERSONAL    0x0005 /* My Documents */
-#endif
-
-#ifndef CSIDL_FLAG_CREATE
-#define CSIDL_FLAG_CREATE 0x8000
-#endif
-
-            if (pSHGetFolderPath)
-            {
-                // Call the SHGetFolderPath function to retrieve the AppData folder.
-                pSHGetFolderPath(nullptr, CSIDL_APPDATA | CSIDL_FLAG_CREATE, nullptr, 0, appData.GetBuffer(MAX_PATH));
-                appData.ReleaseBuffer();
-            }
-
-            // If we can't get the AppData folder, get the MyDocuments folder instead.
-            if (appData.IsEmpty())
-            {
-                typedef HRESULT WINAPI GETSPECIALPATH(HWND, LPTSTR, int, BOOL);
-
-#ifdef UNICODE
-                GETSPECIALPATH* pGetSpecialPath = reinterpret_cast<GETSPECIALPATH*>(
-                    reinterpret_cast<void*>(::GetProcAddress(shell, "SHGetSpecialFolderPathW")));
-#else
-                GETSPECIALPATH* pGetSpecialPath = reinterpret_cast<GETSPECIALPATH*>(
-                    reinterpret_cast<void*>(::GetProcAddress(shell, "SHGetSpecialFolderPathA")));
-#endif
-
-                if (pGetSpecialPath)
-                {
-                    // Call the SHGetSpecialFolderPath function to retrieve the MyDocuments folder
-                    pGetSpecialPath(nullptr, appData.GetBuffer(MAX_PATH), CSIDL_PERSONAL, TRUE);
-                    appData.ReleaseBuffer();
-                }
-            }
-
-            ::FreeLibrary(shell);
+            // Call the SHGetSpecialFolderPath function to retrieve the MyDocuments folder.
+            SHGetSpecialFolderPath(nullptr, appData.GetBuffer(MAX_PATH), CSIDL_PERSONAL, TRUE);
+            appData.ReleaseBuffer();
         }
 
         return appData;
@@ -380,24 +338,6 @@ namespace Win32xx
     // Positions the window over the center of its parent.
     inline void CWnd::CenterWindow() const
     {
-
-    // Required for multi-monitor support with Dev-C++ and VC6.
-
-#ifndef MONITOR_DEFAULTTONEAREST
-  #define MONITOR_DEFAULTTONEAREST    0x00000002
-
-      DECLARE_HANDLE(HMONITOR);
-
-      typedef struct tagMONITORINFO
-      {
-          DWORD   cbSize;
-          RECT    rcMonitor;
-          RECT    rcWork;
-          DWORD   dwFlags;
-      } MONITORINFO, *LPMONITORINFO;
-
-#endif    // MONITOR_DEFAULTTONEAREST
-
         assert(IsWindow());
 
         CRect rc = GetWindowRect();
@@ -412,42 +352,18 @@ namespace Win32xx
             parentRect = GetParent().GetWindowRect();
         else
             parentRect = desktopRect;
+            
+        HMONITOR hActiveMonitor = MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST);
+        MONITORINFO mi = {};
+        mi.cbSize = sizeof(mi);
 
-        // Import the GetMonitorInfo and MonitorFromWindow functions.
-        typedef BOOL WINAPI GETMONITORINFO(HMONITOR, LPMONITORINFO);
-        typedef HMONITOR WINAPI MONITORFROMWINDOW(HWND, DWORD);
-        MONITORFROMWINDOW* pfnMonitorFromWindow = nullptr;
-        HMODULE hUser32 = ::GetModuleHandle(_T("user32.dll"));
-        GETMONITORINFO* pfnGetMonitorInfo = nullptr;
-        if (hUser32)
+        if (GetMonitorInfo(hActiveMonitor, &mi))
         {
-
-            pfnMonitorFromWindow = reinterpret_cast<MONITORFROMWINDOW*>(
-                reinterpret_cast<void*>(::GetProcAddress(hUser32, "MonitorFromWindow")));
-  #ifdef UNICODE
-            pfnGetMonitorInfo = reinterpret_cast<GETMONITORINFO*>(
-                reinterpret_cast<void*>(::GetProcAddress(hUser32, "GetMonitorInfoW")));
-  #else
-            pfnGetMonitorInfo = reinterpret_cast<GETMONITORINFO*>(
-                reinterpret_cast<void*>(::GetProcAddress(hUser32, "GetMonitorInfoA")));
-  #endif
-
-            // Take multi-monitor systems into account.
-            if (pfnGetMonitorInfo && pfnMonitorFromWindow)
-            {
-                HMONITOR hActiveMonitor = pfnMonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST);
-                MONITORINFO mi = {};
-                mi.cbSize = sizeof(mi);
-
-                if (pfnGetMonitorInfo(hActiveMonitor, &mi))
-                {
-                    desktopRect = mi.rcWork;
-                    if (GetParent().GetHwnd() == nullptr)
-                        parentRect = mi.rcWork;
-                }
-            }
+            desktopRect = mi.rcWork;
+            if (GetParent().GetHwnd() == nullptr)
+                parentRect = mi.rcWork;
         }
-
+        
         // Calculate point to center the dialog over the portion of parent window on this monitor.
         parentRect.IntersectRect(parentRect, desktopRect);
         int x = parentRect.left + (parentRect.Width() - rc.Width())/2;
@@ -752,35 +668,7 @@ namespace Win32xx
     inline CWnd CWnd::GetAncestor(UINT flags /*= GA_ROOTOWNER*/) const
     {
         assert(IsWindow());
-        HWND wnd = GetHwnd();
-
-        // Load the User32 DLL
-        typedef HWND WINAPI GETANCESTOR(HWND, UINT);
-        GETANCESTOR* pfnGetAncestor = nullptr;
-        HMODULE user32 = ::GetModuleHandle(_T("user32.dll"));
-
-        if (user32 != nullptr)
-        {
-            // Declare a pointer to the GetAncestor function.
-            pfnGetAncestor = reinterpret_cast<GETANCESTOR*>(
-                reinterpret_cast<void*>(::GetProcAddress(user32, "GetAncestor")));
-
-            if (pfnGetAncestor)
-                wnd = (*pfnGetAncestor)(*this, flags);
-        }
-
-        if (!pfnGetAncestor)
-        {
-            // Provide our own GetAncestor if necessary.
-            HWND parent = ::GetParent(wnd);
-            while (::IsChild(parent, wnd))
-            {
-                wnd = parent;
-                parent = ::GetParent(wnd);
-            }
-        }
-
-        return CWnd(wnd);
+        return CWnd(::GetAncestor(*this, flags));
     }
 
     // Retrieves the class name of this object's window.

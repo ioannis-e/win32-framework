@@ -100,7 +100,6 @@ private:
     BOOL OnSocketReceive(WPARAM wparam);
 
     void AppendText(const CEdit& edit, LPCTSTR text);
-    void LoadCommonControlsEx();
     BOOL StartServer();
     void StopServer();
 

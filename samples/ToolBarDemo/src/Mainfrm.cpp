@@ -411,24 +411,21 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton( 0 );                      // Separator
     AddToolBarButton( IDM_HELP_ABOUT );
 
-    // Add the two other toolbars if we can use rebars (Need Win95 and IE 4 or later)
-    if (IsReBarSupported())
-    {
-        // Add the Arrows toolbar
-        AddToolBarBand(m_arrows, 0, IDC_ARROWS);
-        m_arrows.AddButton(IDM_ARROW_LEFT);
-        m_arrows.AddButton(IDM_ARROW_RIGHT);
+    // Add the Arrows toolbar
+    AddToolBarBand(m_arrows, 0, IDC_ARROWS);
+    m_arrows.AddButton(IDM_ARROW_LEFT);
+    m_arrows.AddButton(IDM_ARROW_RIGHT);
 
-        // Add the Cards toolbar
-        AddToolBarBand(m_cards, 0, IDB_CARDS);
-        m_cards.AddButton(IDM_CARD_CLUB);
-        m_cards.AddButton(IDM_CARD_DIAMOND);
-        m_cards.AddButton(IDM_CARD_HEART);
-        m_cards.AddButton(IDM_CARD_SPADE);
+    // Add the Cards toolbar
+    AddToolBarBand(m_cards, 0, IDB_CARDS);
+    m_cards.AddButton(IDM_CARD_CLUB);
+    m_cards.AddButton(IDM_CARD_DIAMOND);
+    m_cards.AddButton(IDM_CARD_HEART);
+    m_cards.AddButton(IDM_CARD_SPADE);
 
-        // Set the images for the toolbars.
-        SetImageListsForToolBars();
-    }
+   // Set the images for the toolbars.
+   SetImageListsForToolBars();
+
 }
 
 // Process the frame's window messages.

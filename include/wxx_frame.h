@@ -251,7 +251,7 @@ namespace Win32xx
 
         // Not intended to be overridden
         CRect ExcludeChildRect(const CRect& clientRect, HWND child) const;
-        BOOL IsReBarSupported() const { return (GetComCtlVersion() > 470); }
+    //    BOOL IsReBarSupported() const { return (GetComCtlVersion() > 470); }
         BOOL IsUsingDarkMenu() const { return m_useDarkMenu; }
         BOOL IsUsingIndicatorStatus() const { return m_useIndicatorStatus; }
         BOOL IsUsingMenuStatus() const { return m_useMenuStatus; }
@@ -367,8 +367,8 @@ namespace Win32xx
         m_tbTheme = {};
         m_indicators.assign(3, CString());
 
-        // By default, we use the rebar if we can.
-        m_useReBar = (GetComCtlVersion() > 470)? TRUE : FALSE;
+        // By default, we use the rebar.
+        m_useReBar = TRUE;
 
         // Assign the default menubar, rebar, statusbar and toolbar.
         SetMenuBar(m_menuBar);
@@ -788,7 +788,7 @@ namespace Win32xx
     template <class T>
     inline LRESULT CFrameT<T>::CustomDrawToolBar(NMHDR* pNMHDR)
     {
-        if ((GetToolBarTheme().UseThemes) && (GetComCtlVersion() > 470))
+        if (GetToolBarTheme().UseThemes)
         {
             LPNMTBCUSTOMDRAW pCustomDraw = (LPNMTBCUSTOMDRAW)pNMHDR;
             CToolBar* pTB = static_cast<CToolBar*>(T::GetCWndPtr(pNMHDR->hwndFrom));
@@ -1938,7 +1938,7 @@ namespace Win32xx
         SetTheme();
 
         // Create the rebar and menubar
-        if (IsReBarSupported() && IsUsingReBar())
+        if (IsUsingReBar())
         {
             // Create the rebar.
             GetReBar().Create(*this);
@@ -2194,7 +2194,7 @@ namespace Win32xx
                 // The MenuItemData pointer is deleted in OnUnInitMenuPopup.
                 MenuItemDataPtr itemDataPtr(std::make_unique<MenuItemData>());
                 MENUITEMINFO mii = {};
-                mii.cbSize = GetSizeofMenuItemInfo();
+                mii.cbSize = sizeof(mii);
 
                 // Use old fashioned MIIM_TYPE instead of MIIM_FTYPE for Win95 compatibility.
                 mii.fMask = MIIM_TYPE | MIIM_DATA;
@@ -2549,7 +2549,7 @@ namespace Win32xx
         {
             UINT position = static_cast<UINT>(i);
             MENUITEMINFO mii = {};
-            mii.cbSize = GetSizeofMenuItemInfo();
+            mii.cbSize = sizeof(mii);
             mii.fMask = MIIM_STATE | MIIM_ID | MIIM_SUBMENU | MIIM_CHECKMARKS | MIIM_TYPE | MIIM_DATA;
             menu.GetMenuItemInfo(position, mii, TRUE);
 
@@ -3303,14 +3303,6 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::SetToolBarImages(CToolBar& toolbar, COLORREF mask, UINT toolBarID, UINT toolBarHotID, UINT toolBarDisabledID)
     {
-        if (GetComCtlVersion() < 470)   // only on Win95
-        {
-            // We are using COMCTL32.DLL version 4.0, so we can't use an ImageList.
-            // Instead we simply set the bitmap.
-            toolbar.AddReplaceBitmap(toolBarID);
-            return;
-        }
-
         // Set the normal imagelist.
         SetTBImageList(toolbar, toolBarID, mask);
 
@@ -3587,7 +3579,7 @@ namespace Win32xx
 
         // Set MRU menu items.
         MENUITEMINFO mii = {};
-        mii.cbSize = GetSizeofMenuItemInfo();
+        mii.cbSize = sizeof(mii);
 
         // We place the MRU items under the left most menu item.
         CMenu fileMenu = GetFrameMenu().GetSubMenu(0);

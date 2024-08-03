@@ -1507,16 +1507,11 @@ namespace Win32xx
 
     inline CIPAddress::CIPAddress()
     {
-        if (GetComCtlVersion() > 470)
-        {
-            // Call InitCommonControlsEx.
-            INITCOMMONCONTROLSEX initStruct = {};
-            initStruct.dwSize = sizeof(initStruct);
-            initStruct.dwICC = ICC_INTERNET_CLASSES;
-            InitCommonControlsEx(&initStruct);
-        }
-        else
-            throw CNotSupportedException(GetApp()->MsgIPControl());
+        // Call InitCommonControlsEx.
+        INITCOMMONCONTROLSEX initStruct = {};
+        initStruct.dwSize = sizeof(initStruct);
+        initStruct.dwICC = ICC_INTERNET_CLASSES;
+        InitCommonControlsEx(&initStruct);
     }
 
     // Clears the contents of the IP address control.

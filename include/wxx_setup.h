@@ -44,23 +44,15 @@
 #ifndef _WIN32XX_SETUP_H_
 #define _WIN32XX_SETUP_H_
 
-// Set the version macros if they aren't already set.
+// Set the version macros.
 // These values are suitable for Windows 10 and Windows 11.
-#ifndef WINVER
-  #define WINVER            0x0A00
-  #undef  _WIN32_WINNT
-  #define _WIN32_WINNT      0x0A00
-  #undef  _WIN32_IE
-  #define _WIN32_IE         0x0A00
-  #undef  NTDDI_VERSION
-  #define NTDDI_VERSION     0x0A000000
-#endif
-#ifndef _WIN32_WINDOWS
-  #define _WIN32_WINDOWS    WINVER
-#endif
-#ifndef _WIN32_IE
-  #define _WIN32_IE         WINVER
-#endif
+#define WINVER            0x0A00
+#undef  _WIN32_WINNT
+#define _WIN32_WINNT      0x0A00
+#undef  _WIN32_IE
+#define _WIN32_IE         0x0A00
+#undef  NTDDI_VERSION
+#define NTDDI_VERSION     0x0A000000
 
 #ifndef NOMINMAX
 #define NOMINMAX        // Allow std::min and std::max. Must be defined before windows.h
@@ -71,6 +63,7 @@
 #include <Windows.h>
 #include <CommCtrl.h>
 #include <Shlwapi.h>
+#include <shlobj.h>
 
 #include <cassert>
 #include <vector>
@@ -83,7 +76,6 @@
 #include <stdarg.h>
 #include <tchar.h>
 #include <process.h>
-
 
 // Automatically include the Win32xx namespace.
 // define NO_USING_NAMESPACE to skip this step.
@@ -182,57 +174,6 @@ namespace Win32xx
     // Global Functions
     //
 
-    // Retrieves the version of common control dll used.
-    // return values and DLL versions
-    // 400  dll ver 4.00    Windows 95/Windows NT 4.0
-    // 470  dll ver 4.70    Internet Explorer 3.x
-    // 471  dll ver 4.71    Internet Explorer 4.0
-    // 472  dll ver 4.72    Internet Explorer 4.01 and Windows 98
-    // 580  dll ver 5.80    Internet Explorer 5
-    // 581  dll ver 5.81    Windows 2000 and Windows ME
-    // 582  dll ver 5.82    Windows XP, Vista, Windows 7 etc. without XP themes
-    // 600  dll ver 6.00    Windows XP with XP themes
-    // 610  dll ver 6.10    Windows Vista with XP themes
-    // 616  dll ver 6.16    Windows Vista SP1 or above with XP themes
-    inline int GetComCtlVersion()
-    {
-        // Retrieve the Common Controls DLL handle.
-        HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == nullptr)
-            return 0;
-
-        DWORD comCtlVer = 400;
-
-        if (::GetProcAddress(comCtl, "InitCommonControlsEx"))
-        {
-            // InitCommonControlsEx is unique to 4.7 and later.
-            comCtlVer = 470;
-
-            if (::GetProcAddress(comCtl, "DllGetVersion"))
-            {
-                DLLGETVERSIONPROC pfnDLLGetVersion;
-
-                pfnDLLGetVersion = reinterpret_cast<DLLGETVERSIONPROC>(
-                    reinterpret_cast<void*>(::GetProcAddress(comCtl, "DllGetVersion")));
-                if (pfnDLLGetVersion)
-                {
-                    DLLVERSIONINFO dvi = {};
-                    dvi.cbSize = sizeof dvi;
-                    if (NOERROR == pfnDLLGetVersion(&dvi))
-                    {
-                        DWORD verMajor = dvi.dwMajorVersion;
-                        DWORD verMinor = dvi.dwMinorVersion;
-                        comCtlVer = 100 * verMajor + verMinor;
-                    }
-                }
-            }
-            else if (::GetProcAddress(comCtl, "InitializeFlatSB"))
-                comCtlVer = 471;    // InitializeFlatSB is unique to version 4.71.
-        }
-
-        return static_cast<int>(comCtlVer);
-    }
-
     // Retrieves the window version
     // Return values and window versions:
     //  1400     Windows 95
@@ -313,38 +254,15 @@ namespace Win32xx
     // Refer to InitCommonControlsEx in the Windows API documentation for more information.
     inline void LoadCommonControls()
     {
-        // Retrieve the Common Controls DLL handle.
-        HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == nullptr)
-            comCtl = ::GetModuleHandle(_T("commctrl.dll"));
+          // Load the full set of common controls.
+          INITCOMMONCONTROLSEX initStruct{};
+          initStruct.dwSize = sizeof(initStruct);
+          initStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_DATE_CLASSES;
+          initStruct.dwICC |= ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS | ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
 
-        if (comCtl)
-        {
-            // Declare a typedef for the InItCommonControlsEx function.
-            typedef BOOL WINAPI INIT_EX(INITCOMMONCONTROLSEX*);
-
-            INIT_EX* pfnInitEx = reinterpret_cast<INIT_EX*>(
-                reinterpret_cast<void*>(::GetProcAddress(comCtl, "InitCommonControlsEx")));
-
-            if (pfnInitEx)
-            {
-                // Load the full set of common controls.
-                INITCOMMONCONTROLSEX initStruct{};
-                initStruct.dwSize = sizeof(initStruct);
-                initStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_DATE_CLASSES;
-                if (GetComCtlVersion() > 470)
-                    initStruct.dwICC |= ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS | ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
-
-                // Call InitCommonControlsEx.
-                if (!(pfnInitEx(&initStruct)))
-                    InitCommonControls();
-            }
-            else
-            {
-                // InitCommonControlsEx not supported. Use older InitCommonControls.
-                InitCommonControls();
-            }
-        }
+          // Call InitCommonControlsEx.
+          if (!(InitCommonControlsEx(&initStruct)))
+              InitCommonControls();
     }
 
     // The following functions perform string copies. The size of the dst buffer

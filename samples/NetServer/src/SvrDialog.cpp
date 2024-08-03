@@ -138,10 +138,6 @@ CSvrDialog::CSvrDialog(int resID) : CDialog(resID), m_isServerStarted(false),
                                       m_socketType(SOCK_STREAM)
 {
     m_saUDPClient = {};
-
-    // Add support for the IP Address control
-    // It requires Win95 with IE4 integrated or a later version of Windows OS.
-    LoadCommonControlsEx();
 }
 
 // Destructor.
@@ -201,47 +197,6 @@ INT_PTR CSvrDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     }
 
     return 0;
-}
-
-// Adds support for the IP address control in the dialog.
-void CSvrDialog::LoadCommonControlsEx()
-{
-    HMODULE module = nullptr;
-
-    try
-    {
-        // Load the Common Controls DLL
-        module = ::LoadLibrary(_T("COMCTL32.DLL"));
-        if (module == nullptr)
-            throw CWinException(_T("Failed to load COMCTL32.DLL"));
-
-        if (GetComCtlVersion() > 470)
-        {
-            // Declare a pointer to the InItCommonControlsEx function
-            typedef BOOL WINAPI INIT_EX(INITCOMMONCONTROLSEX*);
-            INIT_EX* pfnInit = (INIT_EX*)::GetProcAddress(module, "InitCommonControlsEx");
-
-            // Call InitCommonControlsEx
-            INITCOMMONCONTROLSEX initStruct;
-            initStruct.dwSize = sizeof(INITCOMMONCONTROLSEX);
-            initStruct.dwICC = ICC_INTERNET_CLASSES;
-            if((!(*pfnInit)(&initStruct)))
-                throw CWinException(_T("InitCommonControlsEx failed"));
-        }
-        else
-        {
-            ::MessageBox(nullptr, _T("IP Address Control not supported!"), _T("Error"), MB_OK);
-        }
-
-        ::FreeLibrary(module);
-    }
-
-    catch (const CWinException &e)
-    {
-        e.what();
-        if (module != 0)
-            ::FreeLibrary(module);
-    }
 }
 
 // Called when the dialog window is about to be closed.

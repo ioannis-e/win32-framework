@@ -519,11 +519,7 @@ namespace Win32xx
         m_psh = {};
         SetTitle(LoadString(captionID));
 
-        if (GetComCtlVersion() >= 471)
-            m_psh.dwSize = sizeof(PROPSHEETHEADER);
-        else
-            m_psh.dwSize = PROPSHEETHEADER_V1_SIZE;
-
+        m_psh.dwSize = sizeof(m_psh);
         m_psh.dwFlags     = PSH_PROPSHEETPAGE | PSH_USECALLBACK;
         m_psh.hwndParent  = parent;
         m_psh.hInstance   = GetApp()->GetInstanceHandle();
@@ -535,12 +531,7 @@ namespace Win32xx
     {
         m_psh = {};
         SetTitle(caption);
-
-        if (GetComCtlVersion() >= 471)
-            m_psh.dwSize = sizeof(PROPSHEETHEADER);
-        else
-            m_psh.dwSize = PROPSHEETHEADER_V1_SIZE;
-
+        m_psh.dwSize = sizeof(m_psh);
         m_psh.dwFlags     = PSH_PROPSHEETPAGE | PSH_USECALLBACK;
         m_psh.hwndParent  = parent;
         m_psh.hInstance   = GetApp()->GetInstanceHandle();

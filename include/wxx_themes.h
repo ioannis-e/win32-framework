@@ -138,23 +138,18 @@ namespace Win32xx
     {
         BOOL isXPThemed = FALSE;
 
-        // Test if Windows version is XP or greater.
-        if (GetWinVersion() >= 2501)
+        HMODULE theme = ::GetModuleHandle(_T("uxtheme.dll"));
+        if (theme != nullptr)
         {
-            HMODULE theme = ::GetModuleHandle(_T("uxtheme.dll"));
-            if (theme != nullptr)
-            {
-                // Declare pointers to functions
-                FARPROC pIsAppThemed   = ::GetProcAddress(theme, "IsAppThemed");
-                FARPROC pIsThemeActive = ::GetProcAddress(theme, "IsThemeActive");
+            // Declare pointers to functions
+            FARPROC pIsAppThemed   = ::GetProcAddress(theme, "IsAppThemed");
+            FARPROC pIsThemeActive = ::GetProcAddress(theme, "IsThemeActive");
 
-                if (pIsAppThemed && pIsThemeActive)
+            if (pIsAppThemed && pIsThemeActive)
+            {
+                if (pIsAppThemed() && pIsThemeActive())
                 {
-                    if (pIsAppThemed() && pIsThemeActive())
-                    {
-                        // Test if ComCtl32 dll used is version 6 or later.
-                        isXPThemed = (GetComCtlVersion() >= 600);
-                    }
+                    isXPThemed = TRUE;
                 }
             }
         }

@@ -82,7 +82,6 @@ namespace Win32xx
         int GetSelectedButtonID() const;
         int GetSelectedRadioButtonID() const;
         BOOL GetVerificationCheckboxState() const;
-        static BOOL IsSupported();
         void NavigateTo(CTaskDialog& taskDialog) const;
         void SetCommonButtons(TASKDIALOG_COMMON_BUTTON_FLAGS commonButtons);
         void SetContent(LPCWSTR content);
@@ -270,20 +269,8 @@ namespace Win32xx
         // Store the CWnd pointer in thread local storage.
         pTLSData->pWnd = this;
 
-        // Declare a pointer to the TaskDialogIndirect function.
-        HMODULE comCtl = ::GetModuleHandleW(L"comctl32.dll");
-        assert(comCtl);
-        typedef HRESULT WINAPI TASKDIALOGINDIRECT(const TASKDIALOGCONFIG*, int*, int*, BOOL*);
-        HRESULT result = E_FAIL;
-
-        if (comCtl)
-        {
-            TASKDIALOGINDIRECT* pTaskDialogIndirect = reinterpret_cast<TASKDIALOGINDIRECT*>(
-                reinterpret_cast<void*>(::GetProcAddress(comCtl, "TaskDialogIndirect")));
-
-            // Call TaskDialogIndirect through our function pointer.
-            result = pTaskDialogIndirect(&m_tc, &m_selectedButtonID, &m_selectedRadioButtonID, &m_verificationCheckboxState);
-        }
+        // Create the task dialog.
+        HRESULT result = TaskDialogIndirect(&m_tc, &m_selectedButtonID, &m_selectedRadioButtonID, &m_verificationCheckboxState);
 
         pTLSData->pWnd = nullptr;
         Cleanup();
@@ -377,20 +364,6 @@ namespace Win32xx
     {
         assert (GetHwnd() == nullptr);
         return m_verificationCheckboxState;
-    }
-
-    // Returns true if TaskDialogs are supported on this system.
-    inline BOOL CTaskDialog::IsSupported()
-    {
-        BOOL result = FALSE;
-        HMODULE comctl = ::GetModuleHandleW(L"comctl32.dll");
-        assert(comctl);
-        if (comctl)
-        {
-            result = (::GetProcAddress(comctl, "TaskDialogIndirect")) ? TRUE : FALSE;
-        }
-
-        return result;
     }
 
     // Replaces the information displayed by the task dialog.

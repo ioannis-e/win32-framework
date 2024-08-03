@@ -1530,9 +1530,7 @@ namespace Win32xx
         }
 
         bool isRTL = false;
-#ifdef WS_EX_LAYOUTRTL
         isRTL = ((pDockTarget->GetExStyle() & WS_EX_LAYOUTRTL)) != 0;
-#endif
 
         // Adjust the hint rect for the dock side and right to left (RTL).
         switch (dockSide)
@@ -1620,24 +1618,8 @@ namespace Win32xx
         VERIFY(pDockTarget->ClientToScreen(rcHint));
         VERIFY(SetWindowPos(HWND_TOP, rcHint, SWP_SHOWWINDOW));
 
-        // Acquire the SetLayeredWindowAttributes function from user32.dll.
-        HMODULE user32 = ::GetModuleHandle(_T("user32.dll"));
-        if (user32 != nullptr)
-        {
-            // Declare a typedef for the SetLayeredWindowAttributes function.
-            typedef BOOL WINAPI SETLAYEREDWINDOWATTRIBUTES(HWND, COLORREF, BYTE, DWORD);
-
-            // Assign the function pointer to the SetLayeredWindowAttributes function.
-            SETLAYEREDWINDOWATTRIBUTES* pSetLayeredWindowAttributes = reinterpret_cast<SETLAYEREDWINDOWATTRIBUTES*>(
-                reinterpret_cast<void*>(::GetProcAddress(user32, "SetLayeredWindowAttributes")));
-
-            // SetLayeredWindowAttributes requires Win2000 or higher.
-            if (pSetLayeredWindowAttributes != nullptr)
-            {
-                // Call SetLayeredWindowAttributes to specify the hint window's transparency.
-                VERIFY(pSetLayeredWindowAttributes(*this, 0, 92, LWA_ALPHA));
-            }
-        }
+        // Call SetLayeredWindowAttributes to specify the hint window's transparency.
+        VERIFY(SetLayeredWindowAttributes(*this, 0, 92, LWA_ALPHA));
     }
 
     inline void CDocker::CDockHint::PreCreate(CREATESTRUCT& cs)
@@ -1958,7 +1940,6 @@ namespace Win32xx
             int yMid = rc.top + (rc.Height() - cyImage) / 2;
             VERIFY(SetWindowPos(HWND_TOPMOST, rc.left + DpiScaleInt(8), yMid, cxImage, cyImage, SWP_NOACTIVATE | SWP_SHOWWINDOW));
         }
-
 
         CRect rcLeft(0, 0, cxImage, cyImage);
         VERIFY(ScreenToClient(pt));
@@ -3724,9 +3705,7 @@ namespace Win32xx
         // Note: All top level dockers are undocked, including the dock ancestor.
 
         bool isRTL = false;
-#ifdef WS_EX_LAYOUTRTL
         isRTL = ((GetExStyle() & WS_EX_LAYOUTRTL)) != 0;
-#endif
 
         if (IsDocked())
         {
@@ -3877,10 +3856,7 @@ namespace Win32xx
         int dockSize;
 
         BOOL isRTL = false;
-
-#ifdef WS_EX_LAYOUTRTL
         isRTL = ((GetExStyle() & WS_EX_LAYOUTRTL)) != 0;
-#endif
 
         switch (pDocker->GetDockStyle() & 0xF)
         {
@@ -5358,15 +5334,6 @@ namespace Win32xx
     // A disabled image list is created from the normal image list if one isn't provided.
     inline void CDockContainer::SetToolBarImages(COLORREF mask, UINT normalID, UINT hotID, UINT disabledID)
     {
-        // ToolBar ImageLists require Comctl32.dll version 4.7 or later
-        if (GetComCtlVersion() < 470)
-        {
-            // We are using COMCTL32.DLL version 4.0, so we can't use an ImageList.
-            // Instead we simply set the bitmap.
-            GetToolBar().AddReplaceBitmap(normalID);
-            return;
-        }
-
         // Set the normal button images.
         SetTBImageList(GetToolBar(), normalID, mask);
 

@@ -61,7 +61,7 @@ CRect CMainFrame::GetViewRect() const
     if (GetStatusBar().IsWindow() && (GetStatusBar().IsWindowVisible()))
         rcClient = ExcludeChildRect(rcClient, GetStatusBar());
 
-    if (IsReBarSupported() && IsUsingReBar() && GetReBar().IsWindow())
+    if (GetReBar().IsWindow())
         rcClient = ExcludeChildRect(rcClient, GetReBar());
     else
         if (GetToolBar().IsWindow() && GetToolBar().IsWindowVisible())

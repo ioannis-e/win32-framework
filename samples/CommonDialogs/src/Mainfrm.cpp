@@ -329,9 +329,8 @@ OnCreate(CREATESTRUCT& rcs)                                                 /*
 
       // call the base class OnCreate() method with these options
     int rtn = CFrame::OnCreate(rcs);
-      // set theme colors, if supported
-    if (IsReBarSupported())
-        SetThemeColors();  //Set the theme colors
+      // set theme colors
+    SetThemeColors();  //Set the theme colors
       // establish communications
     m_doc.SetDataPath(&m_view);
       // populate the initial control colors (will be overwritten by
@@ -923,23 +922,20 @@ SetReBarColors(COLORREF clrBkGnd1, COLORREF clrBkGnd2, COLORREF clrBand1,
     Set the colors to be used in the rebar theme.
 *-----------------------------------------------------------------------------*/
 {
-    if (IsReBarSupported())
-    {
-        ReBarTheme rt = {};
-        rt.UseThemes    = TRUE;
-        rt.clrBkgnd1    = clrBkGnd1;
-        rt.clrBkgnd2    = clrBkGnd2;
-        rt.clrBand1     = clrBand1;
-        rt.clrBand2     = clrBand2;
-        rt.FlatStyle    = FALSE;
-        rt.BandsLeft    = TRUE;
-        rt.LockMenuBand = TRUE;
-        rt.RoundBorders = TRUE;
-        rt.ShortBands   = TRUE;
-        rt.UseLines     = TRUE;
+    ReBarTheme rt = {};
+    rt.UseThemes    = TRUE;
+    rt.clrBkgnd1    = clrBkGnd1;
+    rt.clrBkgnd2    = clrBkGnd2;
+    rt.clrBand1     = clrBand1;
+    rt.clrBand2     = clrBand2;
+    rt.FlatStyle    = FALSE;
+    rt.BandsLeft    = TRUE;
+    rt.LockMenuBand = TRUE;
+    rt.RoundBorders = TRUE;
+    rt.ShortBands   = TRUE;
+    rt.UseLines     = TRUE;
 
-        SetReBarTheme(rt);
-    }
+    SetReBarTheme(rt);
 }
 
 /*============================================================================*/

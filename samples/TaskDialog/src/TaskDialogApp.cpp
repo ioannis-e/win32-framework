@@ -20,13 +20,6 @@ CTaskDialogApp::~CTaskDialogApp()
 
 BOOL CTaskDialogApp::InitInstance()
 {
-    if (!CTaskDialog::IsSupported())
-    {
-        // Task Dialogs are only supported on Vista and above.
-        ::MessageBoxW(nullptr, L"Vista or later is required for Task Dialogs", L"Not Supported!", MB_ICONERROR);
-        return FALSE;
-    }
-
     // Create the TaskDialog object.
     CMyTaskDialog td;
     td.SetOptions( TDF_ALLOW_DIALOG_CANCELLATION | TDF_USE_COMMAND_LINKS | TDF_EXPANDED_BY_DEFAULT | TDF_SHOW_PROGRESS_BAR | TDF_CALLBACK_TIMER);

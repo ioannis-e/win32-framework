@@ -53,8 +53,7 @@ void CMainFrame::DoPopupMenu()
     for (int i = 3 ; i < 7 ; i++)
     {
         mii = {};
-        mii.cbSize = GetSizeofMenuItemInfo();
-
+        mii.cbSize = sizeof(mii);
         mii.fMask  = MIIM_STATE | MIIM_ID;
         CMenu subMenu = GetFrameMenu().GetSubMenu(1);
         subMenu.GetMenuItemInfo(i, mii, TRUE);

@@ -14,9 +14,6 @@
 CClientDialog::CClientDialog(UINT resID) : CDialog(resID),
                    m_isClientConnected(false), m_socketType(SOCK_STREAM)
 {
-    // Adds support for the IP Address control.
-    // It requires Win95 with IE4 integrated or a later version of Windows OS.
-    LoadCommonControlsEx();
 }
 
 // Destructor.
@@ -73,47 +70,6 @@ INT_PTR CClientDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     }
 
     return 0;
-}
-
-// This function adds support for the IP address control in the dialog.
-void CClientDialog::LoadCommonControlsEx()
-{
-    HMODULE module = 0;
-
-    try
-    {
-        // Load the Common Controls DLL
-        module = ::LoadLibrary(_T("COMCTL32.DLL"));
-        if (module == 0)
-            throw CWinException(_T("Failed to load COMCTL32.DLL"));
-
-        if (GetComCtlVersion() > 470)
-        {
-            // Declare a pointer to the InItCommonControlsEx function
-            typedef BOOL WINAPI INIT_EX(INITCOMMONCONTROLSEX*);
-            INIT_EX* pfnInit = (INIT_EX*)::GetProcAddress(module, "InitCommonControlsEx");
-
-            // Call InitCommonControlsEx
-            INITCOMMONCONTROLSEX initStruct;
-            initStruct.dwSize = sizeof(INITCOMMONCONTROLSEX);
-            initStruct.dwICC = ICC_INTERNET_CLASSES;
-            if ((!(*pfnInit)(&initStruct)))
-                throw CWinException(_T("InitCommonControlsEx failed"));
-        }
-        else
-        {
-            ::MessageBox(nullptr, _T("IP Address Control not supported!"), _T("Error"), MB_OK);
-        }
-
-        ::FreeLibrary(module);
-    }
-
-    catch (const CWinException& e)
-    {
-        e.what();
-        if (module != 0)
-            ::FreeLibrary(module);
-    }
 }
 
 // Called when the dialog window is activated.

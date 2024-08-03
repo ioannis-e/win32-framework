@@ -60,7 +60,6 @@ private:
     void OnSend();
 
     void AppendText(const CEdit& edit, LPCTSTR text);
-    void LoadCommonControlsEx();
 
     // Member variables
     CSocket m_client;

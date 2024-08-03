@@ -257,13 +257,8 @@ namespace Win32xx
         assert(IsWindow());
 
         UINT uSizeof = sizeof(REBARBANDINFO);
-
-    #if defined REBARBANDINFO_V6_SIZE   // Only defined for VS2008 or higher.
-      #if !defined (_WIN32_WINNT) || _WIN32_WINNT >= 0x0600
-        if ((GetWinVersion() < 2600) || (GetComCtlVersion() < 610)) // Vista and Vista themes?
+        if ((GetWinVersion() < 2600))
             uSizeof = REBARBANDINFO_V6_SIZE;
-      #endif
-    #endif
 
         return uSizeof;
     }

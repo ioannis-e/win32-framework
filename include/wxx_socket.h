@@ -158,8 +158,6 @@ namespace Win32xx
         int  Connect(const struct sockaddr* name, int namelen) const;
         bool Create( int family, int type, int protocol = IPPROTO_IP);
         void Disconnect();
-        void FreeAddrInfo( struct addrinfo* ai ) const;
-        int  GetAddrInfo( LPCTSTR nodename, LPCTSTR servname, const struct addrinfo* hints, struct addrinfo** res) const;
         CString GetErrorString() const;
         int  ioCtlSocket(long cmd, u_long* argp) const;
         bool IsIPV6Supported() const;
@@ -203,9 +201,6 @@ namespace Win32xx
         HMODULE m_ws2_32;
         WorkThreadPtr m_threadPtr;          // Smart pointer to the worker thread for the events.
         CEvent m_stopRequest;               // A manual reset event to signal the event thread should stop.
-
-        GETADDRINFO* m_pfnGetAddrInfo;      // Pointer for the getaddrinfo function.
-        FREEADDRINFO* m_pfnFreeAddrInfo;    // Pointer for the freeaddrinfo function.
     };
 }
 
@@ -225,11 +220,6 @@ namespace Win32xx
         m_ws2_32 = ::GetModuleHandle(_T("ws2_32.dll"));
         if (m_ws2_32 == nullptr)
             throw CNotSupportedException(GetApp()->MsgSocWS2Dll());
-
-        m_pfnGetAddrInfo = reinterpret_cast<GETADDRINFO*>(
-            reinterpret_cast<void*>(::GetProcAddress(m_ws2_32, "getaddrinfo")));
-        m_pfnFreeAddrInfo = reinterpret_cast<FREEADDRINFO*>(
-            reinterpret_cast<void*>(::GetProcAddress(m_ws2_32, "freeaddrinfo")));
 
         m_threadPtr = std::make_unique<CWorkThread>(EventThread, this);
     }
@@ -279,13 +269,13 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFO hints = {};
+            ADDRINFOT hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
-            ADDRINFO *AddrInfo;
+            ADDRINFOT *AddrInfo;
             CString portName;
             portName.Format(_T("%u"), port);
 
-            result = GetAddrInfo(addr, portName, &hints, &AddrInfo);
+            result = ::GetAddrInfo(addr, portName, &hints, &AddrInfo);
             if (result != 0)
             {
                 TRACE("GetAddrInfo failed\n");
@@ -301,7 +291,7 @@ namespace Win32xx
             }
 
             // Free the address information allocated by GetAddrInfo.
-            FreeAddrInfo(AddrInfo);
+            ::FreeAddrInfo(AddrInfo);
         }
         else
         {
@@ -336,13 +326,13 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFO hints = {};
+            ADDRINFOT hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
-            ADDRINFO *AddrInfo;
+            ADDRINFOT *AddrInfo;
 
             CString portName;
             portName.Format(_T("%u"), port);
-            result = GetAddrInfo(addr, portName, &hints, &AddrInfo);
+            result = ::GetAddrInfo(addr, portName, &hints, &AddrInfo);
             if (result != 0)
             {
                 TRACE("getaddrinfo failed\n");
@@ -358,7 +348,7 @@ namespace Win32xx
             }
 
             // Free the address information allocated by GetAddrInfo.
-            FreeAddrInfo(AddrInfo);
+            ::FreeAddrInfo(AddrInfo);
         }
         else
         {
@@ -515,19 +505,6 @@ namespace Win32xx
         }
     }
 
-    // Frees address resources allocated by the GetAddrInfo function.
-    inline void CSocket::FreeAddrInfo(struct addrinfo* ai) const
-    {
-        m_pfnFreeAddrInfo(ai);
-    }
-
-    // Provides protocol-independent translation from host name to address.
-    // Refer to getaddrinfo in the Windows API documentation for additional information.
-    inline int CSocket::GetAddrInfo( LPCTSTR nodename, LPCTSTR servname, const struct addrinfo* hints, struct addrinfo** res) const
-    {
-        return m_pfnGetAddrInfo(TtoA(nodename), TtoA(servname), hints, res);
-    }
-
     // Returns a string containing the most recent network error.
     // Refer to WSAGetLastError in the Windows API documentation for additional information.
     inline CString CSocket::GetErrorString() const
@@ -598,7 +575,7 @@ namespace Win32xx
     {
         bool isIPV6Supported = FALSE;
 
-        if (m_pfnGetAddrInfo != nullptr && m_pfnFreeAddrInfo != nullptr)
+        if (GetWinVersion() >= 2600)
             isIPV6Supported = TRUE;
 
         return isIPV6Supported;
@@ -668,13 +645,13 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFO hints = {};
+            ADDRINFOT hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
-            ADDRINFO *addrInfo;
+            ADDRINFOT *addrInfo;
             CString portName;
             portName.Format(_T("%u"), port);
 
-            result = GetAddrInfo(addr, portName, &hints, &addrInfo);
+            result = ::GetAddrInfo(addr, portName, &hints, &addrInfo);
             if (result != 0)
             {
                 TRACE("GetAddrInfo failed\n");
@@ -692,7 +669,7 @@ namespace Win32xx
             }
 
             // Free the address information allocated by GetAddrInfo.
-            FreeAddrInfo(addrInfo);
+            ::FreeAddrInfo(addrInfo);
         }
         else
         {

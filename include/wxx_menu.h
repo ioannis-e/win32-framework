@@ -130,7 +130,12 @@ namespace Win32xx
         int FindMenuItem(LPCTSTR menuName) const;
         UINT GetDefaultItem(UINT flags, BOOL byPosition = FALSE) const;
         DWORD GetMenuContextHelpId() const;
+
+#if (WINVER >= 0x0500)   // Minimum OS required is Win2000
         BOOL GetMenuInfo(MENUINFO& mi) const;
+        BOOL SetMenuInfo(const MENUINFO& mi) const;
+#endif
+
         int GetMenuItemCount() const;
         ULONG_PTR GetMenuItemData(UINT idOrPos, BOOL byPosition = FALSE) const;
         UINT GetMenuItemID(int pos) const;
@@ -148,7 +153,6 @@ namespace Win32xx
         BOOL RemoveMenu(UINT pos, UINT flags) const;
         BOOL SetDefaultItem(UINT idOrPos, BOOL byPosition = FALSE) const;
         BOOL SetMenuContextHelpId(DWORD contextHelpID) const;
-        BOOL SetMenuInfo(const MENUINFO& mi) const;
         BOOL SetMenuItemBitmaps(UINT pos, UINT flags, HBITMAP unchecked, HBITMAP checked) const;
         BOOL SetMenuItemInfo(UINT idOrPos, MENUITEMINFO& menuItemInfo, BOOL byPosition = FALSE) const;
 
@@ -161,6 +165,7 @@ namespace Win32xx
         void Release();
         BOOL RemoveFromMap() const;
         CMenu_Data* m_pData;
+
     };
 
 } // namespace Win32xx
@@ -532,6 +537,10 @@ namespace Win32xx
         return ::GetMenuContextHelpId(m_pData->menu);
     }
 
+
+// Minimum OS required is Win2000.
+#if (WINVER >= 0x0500)
+
     // Retrieves the menu information.
     // Refer to GetMenuInfo in the Windows API documentation for more information.
     inline BOOL CMenu::GetMenuInfo(MENUINFO& mi) const
@@ -542,6 +551,17 @@ namespace Win32xx
         return ::GetMenuInfo(m_pData->menu, &mi);
     }
 
+    // Sets the menu information from the specified MENUINFO structure.
+    // Refer to SetMenuInfo in the Windows API documentation for more information.
+    inline BOOL CMenu::SetMenuInfo(const MENUINFO& mi) const
+    {
+        assert(m_pData);
+        assert(IsMenu(m_pData->menu));
+
+        return ::SetMenuInfo(m_pData->menu, &mi);
+    }
+
+#endif
 
 
     // Retrieves the number of menu items.
@@ -779,16 +799,6 @@ namespace Win32xx
         assert(IsMenu(m_pData->menu));
 
         return ::SetMenuContextHelpId(m_pData->menu, contextHelpID);
-    }
-
-    // Sets the menu information from the specified MENUINFO structure.
-    // Refer to SetMenuInfo in the Windows API documentation for more information.
-    inline BOOL CMenu::SetMenuInfo(const MENUINFO& mi) const
-    {
-        assert(m_pData);
-        assert(IsMenu(m_pData->menu));
-
-        return ::SetMenuInfo(m_pData->menu, &mi);
     }
 
     // Associates the specified bitmap with a menu item.
