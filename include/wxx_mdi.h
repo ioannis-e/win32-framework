@@ -54,7 +54,7 @@
 //    AddMDIChild function to add MDI child windows to the MDI frame. Inherit
 //    from CMDIFrame to create your own MDI frame.
 //
-// 2) CMDIChild: All MDI child windows (ie. CWnd classes) should inherit from
+// 2) CMDIChild: All MDI child windows (i.e. CWnd classes) should inherit from
 //    this class. Each MDI child type can have a different frame menu.
 //
 // 3) CMDIClient: This class is used by CMDIFrameT to host the MDIChild windows.
@@ -308,12 +308,9 @@ namespace Win32xx
 
         UINT window = 0;
 
-        // Allocate an iterator for our MDIChild vector
-        std::vector<MDIChildPtr>::const_iterator v;
-
-        for (v = GetAllMDIChildren().begin(); v != GetAllMDIChildren().end(); ++v)
+        for (const MDIChildPtr& ChildPtr : GetAllMDIChildren())
         {
-            if ((*v)->IsWindow())
+            if (ChildPtr->IsWindow())
             {
                 // Add Separator
                 if (window == 0)
@@ -322,7 +319,7 @@ namespace Win32xx
                 // Add a menu entry for each MDI child (up to 9)
                 if (window < 9)
                 {
-                    CString strMenuItem ( (*v)->GetWindowText() );
+                    CString strMenuItem (ChildPtr->GetWindowText());
 
                     if (strMenuItem.GetLength() > WXX_MAX_STRING_SIZE -10)
                     {
@@ -336,7 +333,7 @@ namespace Win32xx
 
                     windowMenu.AppendMenu(MF_STRING, IDW_FIRSTCHILD + static_cast<UINT_PTR>(window), menuString);
 
-                    if (GetActiveMDIChild() == (*v).get())
+                    if (GetActiveMDIChild() == ChildPtr.get())
                         windowMenu.CheckMenuItem(IDW_FIRSTCHILD + window, MF_CHECKED);
 
                     ++window;
@@ -719,14 +716,11 @@ namespace Win32xx
     template <class T>
     inline void CMDIFrameT<T>::RemoveMDIChild(CMDIChild* pChild)
     {
-        // Allocate an iterator for our HWND map.
-        std::vector<MDIChildPtr>::iterator v;
-
-        for (v = m_mdiChildren.begin(); v!= m_mdiChildren.end(); ++v)
+        for (auto it = m_mdiChildren.begin(); it!= m_mdiChildren.end(); ++it)
         {
-            if ((*v).get() == pChild)
+            if ((*it).get() == pChild)
             {
-                m_mdiChildren.erase(v);
+                m_mdiChildren.erase(it);
                 break;
             }
         }

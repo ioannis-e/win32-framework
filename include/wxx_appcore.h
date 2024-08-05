@@ -230,10 +230,9 @@ namespace Win32xx
     {
         // Forcibly destroy any remaining windows now. Windows created from
         //  static CWnds or dangling pointers are destroyed here.
-        std::map<HWND, CWnd*>::const_iterator m;
-        for (m = m_mapHWND.begin(); m != m_mapHWND.end(); ++m)
+        for (const auto& m : m_mapHWND)
         {
-            HWND wnd = (*m).first;
+            HWND wnd = m.first;
             if (::IsWindow(wnd))
             {
                 ::DestroyWindow(wnd);
@@ -289,9 +288,8 @@ namespace Win32xx
         CThreadLock mapLock(m_gdiLock);
 
         // Find the CDC data mapped to this HDC.
-        std::map<HDC, CDC_Data*>::const_iterator m;
         CDC_Data* pCDCData = nullptr;
-        m = m_mapCDCData.find(dc);
+        auto m = m_mapCDCData.find(dc);
         if (m != m_mapCDCData.end())
             pCDCData = m->second;
 
@@ -304,9 +302,8 @@ namespace Win32xx
         CThreadLock mapLock(m_gdiLock);
 
         // Find the CGDIObject data mapped to this HGDIOBJ.
-        std::map<HGDIOBJ, CGDI_Data*>::const_iterator m;
         CGDI_Data* pCGDIData = nullptr;
-        m = m_mapCGDIData.find(object);
+        auto m = m_mapCGDIData.find(object);
         if (m != m_mapCGDIData.end())
             pCGDIData = m->second;
 
@@ -319,9 +316,8 @@ namespace Win32xx
         CThreadLock mapLock(m_wndLock);
 
         // Find the CImageList data mapped to this HIMAGELIST.
-        std::map<HIMAGELIST, CIml_Data*>::const_iterator m;
         CIml_Data* pCImlData = nullptr;
-        m = m_mapCImlData.find(images);
+        auto m = m_mapCImlData.find(images);
         if (m != m_mapCImlData.end())
             pCImlData = m->second;
 
@@ -334,9 +330,8 @@ namespace Win32xx
         CThreadLock mapLock(m_wndLock);
 
         // Find the CMenu data mapped to this HMENU.
-        std::map<HMENU, CMenu_Data*>::const_iterator m;
         CMenu_Data* pCMenuData = nullptr;
-        m = m_mapCMenuData.find(menu);
+        auto m = m_mapCMenuData.find(menu);
         if (m != m_mapCMenuData.end())
             pCMenuData = m->second;
 
@@ -349,9 +344,8 @@ namespace Win32xx
         CThreadLock mapLock(m_wndLock);
 
         // Find the CWnd pointer mapped to this HWND.
-        std::map<HWND, CWnd*>::const_iterator m;
         CWnd* pWnd = nullptr;
-        m = m_mapHWND.find(wnd);
+        auto m = m_mapHWND.find(wnd);
         if (m != m_mapHWND.end())
             pWnd = m->second;
 

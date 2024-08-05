@@ -46,12 +46,11 @@ HWND CMainFrame::Create(HWND parent)
 void CMainFrame::HideSingleContainerTab(bool hideSingle)
 {
     m_isHideSingleTab = hideSingle;
-    std::vector<DockPtr>::const_iterator iter;
 
     // Set the Tab position for each container.
-    for (iter = GetAllDockChildren().begin(); iter != GetAllDockChildren().end(); ++iter)
+    for (const DockPtr& ptr : GetAllDockChildren())
     {
-        CDockContainer* pContainer = (*iter)->GetContainer();
+        CDockContainer* pContainer = ptr->GetContainer();
         if (pContainer && pContainer->IsWindow())
         {
             pContainer->SetHideSingleTab(hideSingle);
@@ -477,12 +476,11 @@ BOOL CMainFrame::SaveRegistrySettings()
 void CMainFrame::SetContainerTabsAtTop(bool atTop)
 {
     m_isContainerTabsAtTop = atTop;
-    std::vector<DockPtr>::const_iterator iter;
 
     // Set the Tab position for each container
-    for (iter = GetAllDockChildren().begin(); iter != GetAllDockChildren().end(); ++iter)
+    for (const DockPtr& ptr : GetAllDockChildren())
     {
-        CDockContainer* pContainer = (*iter)->GetContainer();
+        CDockContainer* pContainer = ptr->GetContainer();
         if (pContainer && pContainer->IsWindow())
         {
             pContainer->SetTabsAtTop(atTop);

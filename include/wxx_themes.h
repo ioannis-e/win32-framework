@@ -109,23 +109,17 @@ namespace Win32xx
     inline BOOL IsAeroThemed()
     {
         BOOL isAeroThemed = FALSE;
-
-        // Test if Windows version is XP or greater.
-        if (GetWinVersion() >= 2501)
+        HMODULE module = ::GetModuleHandle(_T("uxtheme.dll"));
+        if (module != nullptr)
         {
-            HMODULE module = ::GetModuleHandle(_T("uxtheme.dll"));
+            // Declare pointers to IsCompositionActive function.
+            FARPROC pIsCompositionActive = ::GetProcAddress(module, "IsCompositionActive");
 
-            if (module != nullptr)
+            if (pIsCompositionActive)
             {
-                // Declare pointers to IsCompositionActive function.
-                FARPROC pIsCompositionActive = ::GetProcAddress(module, "IsCompositionActive");
-
-                if (pIsCompositionActive)
+                if (pIsCompositionActive())
                 {
-                    if (pIsCompositionActive())
-                    {
-                        isAeroThemed = TRUE;
-                    }
+                    isAeroThemed = TRUE;
                 }
             }
         }

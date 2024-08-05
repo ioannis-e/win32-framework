@@ -1,7 +1,7 @@
 [Project]
 FileName=FormDemo_RELEASE.dev
 Name=FormDemo
-UnitCount=16
+UnitCount=15
 Type=0
 Ver=2
 ObjFiles=
@@ -170,16 +170,6 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit13]
-FileName=..\src\targetver.h
-CompileCpp=1
-Folder=Header
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit14]
 FileName=..\src\main.cpp
 CompileCpp=1
 Folder=Source
@@ -189,10 +179,20 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit15]
+[Unit14]
 FileName=..\src\StaticImage.h
 CompileCpp=1
 Folder=Header
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=..\src\StaticImage.cpp
+CompileCpp=1
+Folder=Source
 Compile=1
 Link=1
 Priority=1000

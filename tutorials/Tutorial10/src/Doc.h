@@ -5,7 +5,6 @@
 #define WIN32XX_DOC_H
 
 
-#include "targetver.h"
 #include "wxx_wincore.h"
 #include "wxx_archive.h"
 #include "wxx_printdialogs.h"

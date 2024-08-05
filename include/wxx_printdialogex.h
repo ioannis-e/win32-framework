@@ -71,7 +71,6 @@
 //     CPrintDialogEx printDialog;
 //     CDC printerDC = printDialog.GetPrinterDC();
 //
-// NOTE: CPrintDialogEx requires Win2000 or greater (WINVER >= 0x0500).
 
 #ifndef _WIN32XX_PRINTDIALOGEX_H_
 #define _WIN32XX_PRINTDIALOGEX_H_

@@ -2,7 +2,6 @@
 // main.cpp
 //
 
-#include "targetver.h"
 #include "RoundApp.h"
 
 

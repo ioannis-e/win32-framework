@@ -1,7 +1,7 @@
 [Project]
 FileName=Docking_RELEASE.dev
 Name=Docking
-UnitCount=14
+UnitCount=13
 Type=0
 Ver=2
 ObjFiles=
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=3
-CompilerSettings=0000000100000000000000000
+CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
 LogOutput=
 LogOutputEnabled=0
 
@@ -122,9 +122,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit12]
-FileName=..\src\targetver.h
+FileName=..\src\Views.cpp
 CompileCpp=1
-Folder=Header
+Folder=Source
 Compile=1
 Link=1
 Priority=1000
@@ -132,9 +132,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit13]
-FileName=..\src\Views.cpp
+FileName=..\src\Views.h
 CompileCpp=1
-Folder=Source
+Folder=Header
 Compile=1
 Link=1
 Priority=1000

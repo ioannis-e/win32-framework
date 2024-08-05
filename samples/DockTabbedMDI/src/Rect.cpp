@@ -26,11 +26,10 @@ void CViewRect::OnDestroy()
 
 void CViewRect::OnDraw(CDC& dc)
 {
-    std::vector<RectData>::const_iterator it;
-    for (it = m_rects.begin(); it != m_rects.end(); ++it)
+    for (const RectData& rd : m_rects)
     {
-        dc.CreateSolidBrush((*it).color);
-        CRect rc = (*it).rect;
+        dc.CreateSolidBrush(rd.color);
+        CRect rc = rd.rect;
         dc.Rectangle(rc.left, rc.top, rc.right, rc.bottom);
     }
 }

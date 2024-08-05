@@ -5,7 +5,6 @@
 #ifndef SCINTILLAVIEW_H
 #define SCINTILLAVIEW_H
 
-#include "targetver.h"
 #include "Scintilla.h"
 
 

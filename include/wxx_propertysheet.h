@@ -578,9 +578,8 @@ namespace Win32xx
     inline void CPropertySheet::BuildPageArray()
     {
         m_allSheetPages.clear();
-        std::vector<PropertyPagePtr>::const_iterator iter;
-        for (iter = m_allPages.begin(); iter != m_allPages.end(); ++iter)
-            m_allSheetPages.push_back((*iter)->GetPSP());
+        for (const PropertyPagePtr& ptr : m_allPages)
+            m_allSheetPages.push_back(ptr->GetPSP());
 
         PROPSHEETPAGE* pPSPArray = m_allSheetPages.data(); // Array of PROPSHEETPAGE
         m_psh.ppsp = pPSPArray;

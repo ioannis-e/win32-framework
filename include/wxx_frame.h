@@ -251,7 +251,7 @@ namespace Win32xx
 
         // Not intended to be overridden
         CRect ExcludeChildRect(const CRect& clientRect, HWND child) const;
-    //    BOOL IsReBarSupported() const { return (GetComCtlVersion() > 470); }
+        BOOL IsReBarSupported() const { return TRUE; }  // Deprecated
         BOOL IsUsingDarkMenu() const { return m_useDarkMenu; }
         BOOL IsUsingIndicatorStatus() const { return m_useIndicatorStatus; }
         BOOL IsUsingMenuStatus() const { return m_useMenuStatus; }
@@ -493,10 +493,9 @@ namespace Win32xx
     {
         // Count the MenuData entries excluding separators.
         int images = 0;
-        std::vector<UINT>::const_iterator it;
-        for (it = menuData.begin(); it != menuData.end(); ++it)
+        for (const UINT& data : menuData)
         {
-            if (*it != 0)   // Don't count separators
+            if (data != 0)   // Don't count separators
                 ++images;
         }
 
@@ -523,11 +522,10 @@ namespace Win32xx
             m_menuImages.Create(newSize, newSize, ILC_COLOR32 | ILC_MASK, images, 0);
 
             // Add the resource IDs to the m_menuIcons vector.
-            std::vector<UINT>::const_iterator iter;
-            for (iter = menuData.begin(); iter != menuData.end(); ++iter)
+            for (auto it = menuData.begin(); it != menuData.end(); ++it)
             {
-                if ((*iter) != 0)
-                    m_menuItemIDs.push_back(*iter);
+                if ((*it) != 0)
+                    m_menuItemIDs.push_back(*it);
             }
 
             // Add the images to the imageList.
@@ -876,8 +874,7 @@ namespace Win32xx
                         DWORD style = pTB->GetButtonStyle(item);
                         DWORD exStyle = pTB->GetExtendedStyle();
                         bool isDropDown = ((style & BTNS_DROPDOWN) && (exStyle & TBSTYLE_EX_DRAWDDARROWS));
-                        bool isWholeDropDownSupported = (GetWinVersion() != 1400) && (GetWinVersion() != 2400);
-                        bool isWholeDropDown = (style & BTNS_WHOLEDROPDOWN) != 0 && (isWholeDropDownSupported);
+                        bool isWholeDropDown = (style & BTNS_WHOLEDROPDOWN) != 0;
                         bool isListToolbar = (pTB->GetStyle() & TBSTYLE_LIST) != 0;
 
                         // Calculate dropdown width.
@@ -1185,9 +1182,6 @@ namespace Win32xx
 
         int xoffset = (buttonType == MFT_RADIOCHECK)? 1 : 2;
         int yoffset = 0;
-
-        if (GetWinVersion() <= 2500 && (buttonType != MFT_RADIOCHECK))
-            yoffset = 2;
 
         // Draw a white or black check mark as required.
         // Unfortunately MaskBlt isn't supported on Win95, 98 or ME, so we do it the hard way.
@@ -1609,7 +1603,7 @@ namespace Win32xx
     }
 
     // Returns the preferred height of menu icons that fits nicely within a
-    // menu item. The value returned will be a multiple of 8 (ie. 16, 24 or 32).
+    // menu item. The value returned will be a multiple of 8 (e.g. 16, 24 or 32).
     template <class T>
     inline int CFrameT<T>::GetMenuIconHeight() const
     {
@@ -2163,10 +2157,6 @@ namespace Win32xx
         if (HIWORD(lparam) || (T::GetSystemMenu() == menu))
             return CWnd::WndProcDefault(msg, wparam, lparam);
 
-        // Not supported on Win95 or WinNT.
-        if ((GetWinVersion() == 1400) || (GetWinVersion() == 2400))
-            return CWnd::WndProcDefault(msg, wparam, lparam);
-
         if (IsUsingThemes())
         {
             MENUINFO mi = {};
@@ -2665,8 +2655,7 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::RemoveMRUEntry(LPCTSTR MRUEntry)
     {
-        std::vector<CString>::iterator it;
-        for (it = m_mruEntries.begin(); it != m_mruEntries.end(); ++it)
+        for (auto it = m_mruEntries.begin(); it != m_mruEntries.end(); ++it)
         {
             if ((*it) == MRUEntry)
             {

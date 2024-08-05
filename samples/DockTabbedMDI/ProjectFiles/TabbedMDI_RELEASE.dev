@@ -1,7 +1,7 @@
 [Project]
 FileName=TabbedMDI_RELEASE.dev
 Name=TabbedMDI
-UnitCount=26
+UnitCount=25
 Type=0
 Ver=2
 ObjFiles=
@@ -281,9 +281,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit24]
-FileName=..\src\targetver.h
+FileName=..\src\Text.cpp
 CompileCpp=1
-Folder=Header
+Folder=Source
 Compile=1
 Link=1
 Priority=1000
@@ -291,9 +291,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit25]
-FileName=..\src\Text.cpp
+FileName=..\src\Text.h
 CompileCpp=1
-Folder=Source
+Folder=Header
 Compile=1
 Link=1
 Priority=1000

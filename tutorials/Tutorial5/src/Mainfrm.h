@@ -6,7 +6,6 @@
 #define MAINFRM_H
 
 
-#include "targetver.h"
 #include "wxx_frame.h"
 #include "View.h"
 

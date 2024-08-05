@@ -82,6 +82,7 @@ namespace Win32xx
         int GetSelectedButtonID() const;
         int GetSelectedRadioButtonID() const;
         BOOL GetVerificationCheckboxState() const;
+        static BOOL IsSupported() { return TRUE; }  // Deprecated.
         void NavigateTo(CTaskDialog& taskDialog) const;
         void SetCommonButtons(TASKDIALOG_COMMON_BUTTON_FLAGS commonButtons);
         void SetContent(LPCWSTR content);
@@ -231,25 +232,23 @@ namespace Win32xx
         m_selectedRadioButtonID = 0;
         m_verificationCheckboxState = FALSE;
 
-        std::vector<TaskButton>::const_iterator it;
-
         // Build a vector of button info. This will be used later as an array.
         std::vector<TASKDIALOG_BUTTON> buttons;
-        for (it = m_buttons.begin(); it != m_buttons.end(); ++it)
+        for (const TaskButton& button : m_buttons)
         {
             TASKDIALOG_BUTTON tb = {};
-            tb.nButtonID = (*it).buttonID;
-            tb.pszButtonText = (*it).buttonText;
+            tb.nButtonID = button.buttonID;
+            tb.pszButtonText = button.buttonText;
             buttons.push_back(tb);
         }
 
         // Build a vector of radio button info. This will be used later as an array.
         std::vector<TASKDIALOG_BUTTON> radioButtons;
-        for (it = m_radioButtons.begin(); it != m_radioButtons.end(); ++it)
+        for (const TaskButton& button : m_buttons)
         {
             TASKDIALOG_BUTTON tb = {};
-            tb.nButtonID = (*it).buttonID;
-            tb.pszButtonText = (*it).buttonText;
+            tb.nButtonID = button.buttonID;
+            tb.pszButtonText = button.buttonText;
             radioButtons.push_back(tb);
         }
 

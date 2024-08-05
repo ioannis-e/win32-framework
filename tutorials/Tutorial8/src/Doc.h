@@ -4,7 +4,6 @@
 #ifndef WIN32XX_DOC_H
 #define WIN32XX_DOC_H
 
-#include "targetver.h"
 #include "wxx_wincore.h"
 #include "wxx_archive.h"
 

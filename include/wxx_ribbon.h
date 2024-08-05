@@ -415,7 +415,7 @@ namespace Win32xx
         if (GetRibbonFramework())
         {
             T::SetMenu(nullptr);              // Disable the window menu.
-            T::SetFrameMenu(reinterpret_cast<HMENU>(nullptr));
+			T::SetFrameMenu(0);
         }
 
         return 0;
@@ -462,20 +462,19 @@ namespace Win32xx
     template <class T>
     inline HRESULT CRibbonFrameT<T>::PopulateRibbonRecentItems(PROPVARIANT* pvarValue)
     {
-        LONG currentFile = 0;
         std::vector<CString> fileNames = T::GetMRUEntries();
-        std::vector<CString>::const_iterator iter;
-        ULONG_PTR fileCount = fileNames.size();
         HRESULT result = E_FAIL;
-        SAFEARRAY* psa = SafeArrayCreateVector(VT_UNKNOWN, 0, (ULONG)fileCount);
+        SAFEARRAY* psa = SafeArrayCreateVector(VT_UNKNOWN, 0, (ULONG)fileNames.size());
         m_recentFiles.clear();
 
         if (psa != nullptr)
         {
-            for (iter = fileNames.begin(); iter != fileNames.end(); ++iter)
+            LONG currentFile = 0;
+ 
+            for (const CString& fileName : fileNames)
             {
                 WCHAR curFileName[MAX_PATH] = {0};
-                StrCopyW(curFileName, TtoW(*iter), MAX_PATH);
+                StrCopyW(curFileName, TtoW(fileName), MAX_PATH);
 
                 RecentFilesPtr recentFiles(std::make_unique<CRecentFiles>(curFileName));
                 result = SafeArrayPutElement(psa, &currentFile, static_cast<void*>(recentFiles.get()));

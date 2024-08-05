@@ -1,7 +1,7 @@
 [Project]
 FileName=Animation_DEBUG.dev
 Name=Animation
-UnitCount=10
+UnitCount=9
 Type=0
 Ver=2
 ObjFiles=
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=4
-CompilerSettings=0000000100000000001000000
+CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0
 LogOutput=
 LogOutputEnabled=0
 

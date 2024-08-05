@@ -1,7 +1,7 @@
 [Project]
 FileName=Simple_RELEASE.dev
 Name=Simple
-UnitCount=8
+UnitCount=7
 Type=0
 Ver=2
 ObjFiles=
@@ -81,9 +81,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=..\src\targetver.h
+FileName=..\src\View.cpp
 CompileCpp=1
-Folder=Header
+Folder=Source
 Compile=1
 Link=1
 Priority=1000
@@ -91,9 +91,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=..\src\View.cpp
+FileName=..\src\View.h
 CompileCpp=1
-Folder=Source
+Folder=Header
 Compile=1
 Link=1
 Priority=1000

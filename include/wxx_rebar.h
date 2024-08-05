@@ -256,11 +256,11 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        UINT uSizeof = sizeof(REBARBANDINFO);
+        UINT size = sizeof(REBARBANDINFO);
         if ((GetWinVersion() < 2600))
-            uSizeof = REBARBANDINFO_V6_SIZE;
+            size = REBARBANDINFO_V6_SIZE;
 
-        return uSizeof;
+        return size;
     }
 
     // Retrieves the handle to any ToolTip control associated with the rebar control.

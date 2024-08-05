@@ -268,10 +268,9 @@ namespace Win32xx
     inline CWnd& CWnd::operator=(const CWnd& rhs)
     {
         // This CWnd must not own a managed window.
-        std::map<HWND, CWnd*>::iterator m;
-        for (m = GetApp()->m_mapHWND.begin(); m != GetApp()->m_mapHWND.end(); ++m)
+        for (auto it = GetApp()->m_mapHWND.begin(); it != GetApp()->m_mapHWND.end(); ++it)
         {
-            assert(this != m->second);
+            assert(this != it->second);
         }
 
         m_wnd = rhs.m_wnd;
@@ -1028,12 +1027,11 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_wndLock);
 
             // Erase the CWnd pointer entry from the map.
-            std::map<HWND, CWnd*>::iterator m;
-            for (m = GetApp()->m_mapHWND.begin(); m != GetApp()->m_mapHWND.end(); ++m)
+            for (auto it = GetApp()->m_mapHWND.begin(); it != GetApp()->m_mapHWND.end(); ++it)
             {
-                if (this == m->second)
+                if (this == it->second)
                 {
-                    GetApp()->m_mapHWND.erase(m);
+                    GetApp()->m_mapHWND.erase(it);
                     success = TRUE;
                     break;
                 }

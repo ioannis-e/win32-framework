@@ -116,10 +116,7 @@
 // * IPv6 is supported on Windows Vista and above. Windows XP with SP2 provides
 //    "experimental" support, which can be enabled by entering "ipv6 install"
 //    at a command prompt.
-// * IPv6 is not supported by all compilers and development environments. In
-//    particular, it is not by Borland 5.5.
-// * IsIPV6Supported returns false if either the operating system or the
-//    development environment fails to support IPv6.
+// * IsIPV6Supported returns false if for Windows XP.
 //
 
 
@@ -425,10 +422,9 @@ namespace Win32xx
 
         WSAEVENT allEvents[2] = {};
         allEvents[0] = ::WSACreateEvent();
-        allEvents[1] = reinterpret_cast<WSAEVENT>(stopRequestEvent.GetHandle());  // cast supports Borland v5.5
+        allEvents[1] = stopRequestEvent.GetHandle();
         long events = FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE;
-        if (GetWinVersion() != 1400) // Win Version != Win95
-            events |= FD_QOS | FD_ROUTING_INTERFACE_CHANGE | FD_ADDRESS_LIST_CHANGE;
+        events |= FD_QOS | FD_ROUTING_INTERFACE_CHANGE | FD_ADDRESS_LIST_CHANGE;
 
         // Associate the network events with the client socket.
         if ( SOCKET_ERROR == WSAEventSelect(clientSocket, allEvents[0], events))

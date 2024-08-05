@@ -45,7 +45,7 @@
 
 // This class is intended to provide a simple alternative to the MFC/ATL
 // CString class that ships with Microsoft compilers. The CString class
-// specified here is compatible with other compilers such as Borland 5.5
+// specified here is compatible with other compilers such as Embarcadero
 // and MinGW.
 
 // Differences between this class and the MFC/ATL CString class
@@ -1021,7 +1021,7 @@ namespace Win32xx
         T ch = 0;
         m_str.assign(static_cast<size_t>(newLength), ch);
 
-        typename std::vector<T>::iterator it_end = m_buf.begin();
+        auto it_end = m_buf.begin();
         std::advance(it_end, newLength);
 
         std::copy(m_buf.begin(), it_end, m_str.begin());
@@ -1070,8 +1070,7 @@ namespace Win32xx
     inline int CStringT<T>::Replace(T oldChar, T newChar)
     {
         int count = 0;
-        typename std::basic_string<T>::iterator it;
-        it = m_str.begin();
+        auto it = m_str.begin();
         while (it != m_str.end())
         {
             if (*it == oldChar)
@@ -1247,30 +1246,28 @@ namespace Win32xx
     template <>
     inline void CStringA::TrimLeft()
     {
-        // This method is supported by the Borland 5.5 compiler.
-        std::basic_string<CHAR>::iterator iter;
-        for (iter = m_str.begin(); iter != m_str.end(); ++iter)
+        std::basic_string<CHAR>::iterator it;
+        for (it = m_str.begin(); it != m_str.end(); ++it)
         {
-            if (!::isspace(static_cast<unsigned char>(*iter)))
+            if (!::isspace(static_cast<unsigned char>(*it)))
                 break;
         }
 
-        m_str.erase(m_str.begin(), iter);
+        m_str.erase(m_str.begin(), it);
     }
 
     // Trims leading whitespace characters from the string.
     template <class T>
     inline void CStringT<T>::TrimLeft()
     {
-        // This method is supported by the Borland 5.5 compiler.
-        std::basic_string<WCHAR>::iterator iter;
-        for (iter = m_str.begin(); iter != m_str.end(); ++iter)
+        std::basic_string<WCHAR>::iterator it;
+        for (it = m_str.begin(); it != m_str.end(); ++it)
         {
-            if (!iswspace(*iter))
+            if (!iswspace(*it))
                 break;
         }
 
-        m_str.erase(m_str.begin(), iter);
+        m_str.erase(m_str.begin(), it);
     }
 
     // Trims the specified character from the beginning of the string.
@@ -1292,7 +1289,6 @@ namespace Win32xx
     template <>
     inline void CStringA::TrimRight()
     {
-        // This method is supported by the Borland 5.5 compiler.
         std::basic_string<CHAR>::reverse_iterator riter;
         for (riter = m_str.rbegin(); riter != m_str.rend(); ++riter)
         {
@@ -1307,7 +1303,6 @@ namespace Win32xx
     template <class T>
     inline void CStringT<T>::TrimRight()
     {
-        // This method is supported by the Borland 5.5 compiler.
         std::basic_string<WCHAR>::reverse_iterator riter;
         for (riter = m_str.rbegin(); riter != m_str.rend(); ++riter)
         {

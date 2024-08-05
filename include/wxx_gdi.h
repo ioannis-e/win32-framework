@@ -1092,12 +1092,11 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_gdiLock);
 
             // Find the CGdiObject in the map.
-            std::map<HGDIOBJ, CGDI_Data*>::iterator m;
-            m = GetApp()->m_mapCGDIData.find(m_pData->hGDIObject);
-            if (m != GetApp()->m_mapCGDIData.end())
+            auto it = GetApp()->m_mapCGDIData.find(m_pData->hGDIObject);
+            if (it != GetApp()->m_mapCGDIData.end())
             {
                 // Erase the CGDIObject pointer entry from the map.
-                GetApp()->m_mapCGDIData.erase(m);
+                GetApp()->m_mapCGDIData.erase(it);
                 success = TRUE;
             }
         }
@@ -2570,12 +2569,11 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_gdiLock);
 
             // Find the CDC data entry in the map.
-            std::map<HDC, CDC_Data*>::iterator m;
-            m = GetApp()->m_mapCDCData.find(m_pData->dc);
-            if (m != GetApp()->m_mapCDCData.end())
+            auto it = GetApp()->m_mapCDCData.find(m_pData->dc);
+            if (it != GetApp()->m_mapCDCData.end())
             {
                 // Erase the CDC data entry from the map
-                GetApp()->m_mapCDCData.erase(m);
+                GetApp()->m_mapCDCData.erase(it);
                 success = TRUE;
             }
         }
