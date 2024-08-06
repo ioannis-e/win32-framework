@@ -79,6 +79,7 @@ namespace Win32xx
         LONG QueryDWORDValue(LPCTSTR valueName, DWORD& value) const;
         LONG QueryGUIDValue(LPCTSTR valueName, GUID& value) const;
         LONG QueryMultiStringValue(LPCTSTR valueName, LPTSTR value, ULONG* chars) const;
+        LONG QueryQWORDValue(LPCTSTR valueName, ULONGLONG& value) const;
         LONG QueryStringValue(LPCTSTR valueName, LPTSTR value, ULONG* chars) const;
         LONG QueryValue(LPCTSTR valueName, DWORD* type, void* data, ULONG* bytes) const;
         LONG RecurseDeleteKey(LPCTSTR keyName) const;
@@ -88,13 +89,9 @@ namespace Win32xx
         LONG SetGUIDValue(LPCTSTR valueName, REFGUID value) const;
         LONG SetKeySecurity(SECURITY_INFORMATION si, PSECURITY_DESCRIPTOR psd) const;
         LONG SetMultiStringValue(LPCTSTR valueName, LPCTSTR value) const;
+        LONG SetQWORDValue(LPCTSTR valueName, ULONGLONG value) const;
         LONG SetStringValue(LPCTSTR valueName, LPCTSTR value) const;
         LONG SetValue(LPCTSTR valueName, DWORD type, const void* value, ULONG bytes) const;
-
-#ifdef REG_QWORD
-        LONG QueryQWORDValue(LPCTSTR valueName, ULONGLONG& value) const;
-        LONG SetQWORDValue(LPCTSTR valueName, ULONGLONG value) const;
-#endif
 
     private:
         LONG RecurseDeleteAllKeys(LPCTSTR keyName) const;
@@ -294,6 +291,22 @@ namespace Win32xx
         return result;
     }
 
+    // Retrieves the QWORD data for a specified value name.
+    inline LONG CRegKey::QueryQWORDValue(LPCTSTR valueName, ULONGLONG& value) const
+    {
+        assert(m_key);
+        DWORD bytes = sizeof(ULONGLONG);
+        LONG result = ERROR_CANTREAD;
+        DWORD type = 0;
+        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, nullptr, nullptr))
+        {
+            if (type == REG_QWORD)
+                result = ::RegQueryValueEx(m_key, valueName, 0, &type, reinterpret_cast<LPBYTE>(&value), &bytes);
+        }
+
+        return result;
+    }
+
     // Retrieves the string data for the specified value name.
     inline LONG CRegKey::QueryStringValue(LPCTSTR valueName, LPTSTR value, ULONG* chars) const
     {
@@ -424,31 +437,6 @@ namespace Win32xx
         return ::RegSetValueEx(m_key, valueName, 0, REG_SZ, reinterpret_cast<const BYTE*>(value), (lstrlen(value)+1)*sizeof(TCHAR));
     }
 
-    // Sets the value of the registry key.
-    inline LONG CRegKey::SetValue(LPCTSTR valueName, DWORD type, const void* value, ULONG bytes) const
-    {
-        assert(m_key);
-        return ::RegSetValueEx(m_key, valueName, 0, type, reinterpret_cast<const BYTE*>(value), bytes);
-    }
-
-#ifdef REG_QWORD
-
-    // Retrieves the QWORD data for a specified value name.
-    inline LONG CRegKey::QueryQWORDValue(LPCTSTR valueName, ULONGLONG& value) const
-    {
-        assert(m_key);
-        DWORD bytes = sizeof(ULONGLONG);
-        LONG result = ERROR_CANTREAD;
-        DWORD type = 0;
-        if (ERROR_SUCCESS == ::RegQueryValueEx(m_key, valueName, 0, &type, nullptr, nullptr))
-        {
-            if (type == REG_QWORD)
-                result = ::RegQueryValueEx(m_key, valueName, 0, &type, reinterpret_cast<LPBYTE>(&value), &bytes);
-        }
-
-        return result;
-    }
-
     // Sets the QWORD value of the registry key.
     inline LONG CRegKey::SetQWORDValue(LPCTSTR valueName, ULONGLONG value) const
     {
@@ -456,7 +444,12 @@ namespace Win32xx
         return ::RegSetValueEx(m_key, valueName, 0, REG_QWORD, reinterpret_cast<const BYTE*>(&value), sizeof(ULONGLONG) );
     }
 
-#endif
+    // Sets the value of the registry key.
+    inline LONG CRegKey::SetValue(LPCTSTR valueName, DWORD type, const void* value, ULONG bytes) const
+    {
+        assert(m_key);
+        return ::RegSetValueEx(m_key, valueName, 0, type, reinterpret_cast<const BYTE*>(value), bytes);
+    }
 
 }
 

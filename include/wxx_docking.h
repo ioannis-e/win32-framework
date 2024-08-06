@@ -2653,8 +2653,6 @@ namespace Win32xx
         CClientDC clientDC(wnd);
         int dpi = GetDeviceCaps(clientDC, LOGPIXELSX);
 
-#ifdef MONITOR_DEFAULTTOPRIMARY
-
         // Retrieve the monitor's dpi if we can.
         typedef HRESULT WINAPI GETDPIFORMONITOR(HMONITOR hmonitor, int dpiType, UINT* dpiX, UINT* dpiY);
         HMODULE shcore = GetModuleHandle(_T("shcore"));
@@ -2675,8 +2673,6 @@ namespace Win32xx
                 }
             }
         }
-
-#endif // MONITOR_DEFAULTTOPRIMARY
 
         return dpi;
     }

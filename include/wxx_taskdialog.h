@@ -82,7 +82,7 @@ namespace Win32xx
         int GetSelectedButtonID() const;
         int GetSelectedRadioButtonID() const;
         BOOL GetVerificationCheckboxState() const;
-        static BOOL IsSupported() { return TRUE; }  // Deprecated.
+        static BOOL IsSupported();
         void NavigateTo(CTaskDialog& taskDialog) const;
         void SetCommonButtons(TASKDIALOG_COMMON_BUTTON_FLAGS commonButtons);
         void SetContent(LPCWSTR content);
@@ -363,6 +363,13 @@ namespace Win32xx
     {
         assert (GetHwnd() == nullptr);
         return m_verificationCheckboxState;
+    }
+
+    // Returns TRUE if task dialogs are supported by this operating system.
+    inline BOOL CTaskDialog::IsSupported()
+    {
+        // Returns TRUE for Vista and later.
+        return GetWinVersion() >= 2600;
     }
 
     // Replaces the information displayed by the task dialog.

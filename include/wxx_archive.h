@@ -623,9 +623,6 @@ namespace Win32xx
         return *this;
     }
 
-// wchar_t is not an a built-in type on older MS compilers
-#if !defined (_MSC_VER) ||  ( _MSC_VER > 1310 )
-
     // Reads a wchar_t from the archive and stores it in ch.
     // Throws an exception if an error occurs.
     inline CArchive& CArchive::operator>>(wchar_t& ch)
@@ -634,8 +631,6 @@ namespace Win32xx
         *this >> ob;
         return *this;
     }
-
-#endif
 
     // Reads an unsigned int from the archive and stores it in u.
     // Throws an exception if an error occurs.

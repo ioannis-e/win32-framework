@@ -681,7 +681,7 @@ namespace Win32xx
             {
                 buffer.assign( size_t(length)+1, 0 );
 
-#if !defined (_MSC_VER)
+#if defined(__BORLANDC__)  // For Embacadero support
                 result = _vsnprintf(&buffer.front(), length, format, args);
 #else
                 result = _vsnprintf_s(&buffer.front(), length, length -1, format, args);
@@ -707,7 +707,8 @@ namespace Win32xx
             while (result == -1)
             {
                 buffer.assign( size_t(length)+1, 0 );
-#if !defined (_MSC_VER)
+
+#if defined(__BORLANDC__)  // For Embacadero support
                 result = _vsnwprintf(&buffer.front(), length, format, args);
 #else
                 result = _vsnwprintf_s(&buffer.front(), length, length -1, format, args);

@@ -69,9 +69,6 @@
 
 #include "wxx_wincore.h"
 
-#ifndef SWP_NOCOPYBITS
-    #define SWP_NOCOPYBITS      0x0100
-#endif
 
 namespace Win32xx
 {

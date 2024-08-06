@@ -1779,8 +1779,6 @@ namespace Win32xx
                 CPoint midpoint((l + r) / 2, (t + b) / 2);
                 CPoint midtop((l + r)/2, t);
 
-#ifdef MONITOR_DEFAULTTONULL
-
                 HMONITOR monitor = ::MonitorFromPoint(midpoint, MONITOR_DEFAULTTONULL);
                 if (monitor == nullptr)
                     throw CUserException();
@@ -1789,11 +1787,6 @@ namespace Win32xx
                 mi.cbSize = sizeof(mi);
                 ::GetMonitorInfo(monitor, &mi);
                 CRect workArea = mi.rcWork;
-
-#else
-                CRect workArea;
-                SystemParametersInfo(SPI_GETWORKAREA, 0, &workArea, nullptr);
-#endif
 
                 // Check if window is mostly within work area.
                 if (!workArea.PtInRect(midpoint))

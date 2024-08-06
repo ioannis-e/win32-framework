@@ -1016,5 +1016,5 @@ namespace Win32xx
 
 } // namespace Win32xx
 
-#endif // #ifndef _WIN32XX_LISTVIEW_H_
+#endif // _WIN32XX_LISTVIEW_H_
 

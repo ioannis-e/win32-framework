@@ -1155,4 +1155,4 @@ namespace Win32xx
 
 } // namespace Win32xx
 
-#endif // #ifndef _WIN32XX_TOOLBAR_H_
+#endif // _WIN32XX_TOOLBAR_H_

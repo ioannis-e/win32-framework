@@ -57,6 +57,8 @@
 #ifndef NOMINMAX
 #define NOMINMAX        // Allow std::min and std::max. Must be defined before windows.h
 #endif
+
+// Supports the Winsock functions required for Windows XP.
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #include <WinSock2.h>   // must include before windows.h
@@ -127,6 +129,14 @@ using namespace Win32xx;
   #else
     #define VERIFY(f) assert(f)
   #endif
+#endif
+
+// define useful macros from windowsx.h
+#ifndef GET_X_LPARAM
+  #define GET_X_LPARAM(lp)  ((int)(short)LOWORD(lp))
+#endif
+#ifndef GET_Y_LPARAM
+  #define GET_Y_LPARAM(lp)  ((int)(short)HIWORD(lp))
 #endif
 
 // tString is a TCHAR std::string

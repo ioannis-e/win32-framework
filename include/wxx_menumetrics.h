@@ -48,28 +48,7 @@
 #include "wxx_wincore.h"
 #include <Uxtheme.h>
 #include <vsstyle.h>
-
-#ifndef TMT_BORDERSIZE
-  #define TMT_BORDERSIZE    2403
-#endif
-#ifndef TMT_CONTENTMARGINS
-  #define TMT_CONTENTMARGINS    3602
-#endif
-#ifndef VSCLASS_MENU
-  #define VSCLASS_MENU  L"MENU"
-#endif
-#ifndef ODS_NOACCEL
-  #define ODS_NOACCEL 0x0100
-#endif
-#ifndef ODS_HOTLIGHT
-  #define ODS_HOTLIGHT 0x0040
-#endif
-#ifndef ODS_INACTIVE
-  #define ODS_INACTIVE 0x0080
-#endif
-#ifndef DT_HIDEPREFIX
-  #define DT_HIDEPREFIX 0x00100000
-#endif
+#include <vssym32.h>
 
 
 namespace Win32xx

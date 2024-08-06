@@ -47,33 +47,7 @@
 #include "wxx_appcore0.h"
 #include "wxx_rect.h"
 
-// Ensure these macros are defined.
-#ifndef BTNS_DROPDOWN
-  #define BTNS_DROPDOWN         0x0008
-#endif
-
-#ifndef BTNS_WHOLEDROPDOWN
-  #define BTNS_WHOLEDROPDOWN    0x0080
-#endif
-
-#ifndef GA_ROOT
-  #define GA_ROOT    2
-#endif
-
-#ifndef GET_WHEEL_DELTA_WPARAM
-  #define GET_WHEEL_DELTA_WPARAM(wparam)  ((short)HIWORD(wparam))
-#endif
-
-
 #define POINTS_PER_INCH 72
-
-#ifndef USER_DEFAULT_SCREEN_DPI
-  #define USER_DEFAULT_SCREEN_DPI 96
-#endif
-
-#ifndef WHEEL_DELTA
-  #define WHEEL_DELTA                120
-#endif
 
 #ifndef WM_DPICHANGED
   #define WM_DPICHANGED              0x02E0
@@ -81,39 +55,15 @@
 
 #ifndef WM_DPICHANGED_BEFOREPARENT
   #define WM_DPICHANGED_BEFOREPARENT 0x02E2
+#endif
+
+#ifndef WM_DPICHANGED_AFTERPARENT
   #define WM_DPICHANGED_AFTERPARENT  0x02E3
+#endif
+
+#ifndef WM_GETDPISCALEDSIZE
   #define WM_GETDPISCALEDSIZE        0x02E4
 #endif
-
-#ifndef WM_MENURBUTTONUP
-  #define WM_MENURBUTTONUP           0x0122
-#endif
-
-#ifndef WM_MOUSEWHEEL
-  #define WM_MOUSEWHEEL              0x020A
-#endif
-
-#ifndef WM_MENURBUTTONUP
-  #define WM_MENURBUTTONUP           0x0122
-#endif
-
-#ifndef WM_THEMECHANGED
-  #define WM_THEMECHANGED            0x031A
-#endif
-
-#ifndef WM_MENURBUTTONUP
-  #define WM_MENURBUTTONUP           0x0122
-#endif
-
-#ifndef RBN_MINMAX
-  #define RBN_MINMAX                 (RBN_FIRST - 21)
-#endif
-
-#ifndef WM_UNINITMENUPOPUP
-  #define WM_UNINITMENUPOPUP         0x0125
-#endif
-
-
 
 // Messages defined by Win32++
 // WM_APP range: 0x8000 through 0xBFFF

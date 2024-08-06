@@ -176,14 +176,14 @@
 #include "wxx_exception.h"
 #include "wxx_metafile.h"
 
-// Disable macros from Windowsx.h
+// Disable macro from Windowsx.h
 #undef CopyRgn
 
 namespace Win32xx
 {
 
     /////////////////////////////////////////////////////////////////
-    // CObject provides the functionality of a HGDIOBJECT
+    // CGDIObject provides the functionality of a HGDIOBJECT
     // This is the base class for other classes managing GDI objects,
     // such as bitmaps, brushes, palettes, fonts, pens and regions.
     class CGDIObject

@@ -640,4 +640,4 @@ namespace Win32xx
 
 } // namespace Win32xx
 
-#endif // #ifndef _WIN32XX_REBAR_H_
+#endif // _WIN32XX_REBAR_H_

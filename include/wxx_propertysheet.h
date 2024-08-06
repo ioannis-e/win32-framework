@@ -62,9 +62,6 @@
 #define ID_WIZFINISH   0x3025
 #define ID_HELP        0xE146
 
-#ifndef PROPSHEETHEADER_V1_SIZE
- #define PROPSHEETHEADER_V1_SIZE 40
-#endif
 
 namespace Win32xx
 {

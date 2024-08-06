@@ -70,8 +70,7 @@
 
 #include <float.h>
 #include <iomanip>
-#include "wxx_wincore0.h"
-#include "wxx_exception.h"
+#include "wxx_wincore.h"
 
 
 namespace Win32xx
@@ -421,15 +420,8 @@ namespace Win32xx
         {
             if (min > value || max < value)
             {
-    #ifdef _DEBUG
-                // Just leave a trace if writing to the control.
-                int id = static_cast<int>(::GetWindowLongPtr(m_lastControl, GWLP_ID));
-                CString str;
-                str << _T("*** WARNING: slider position is outside given ")
-                        << _T("limits in the control with ID ") << id << _T(". ***\n");
-                TRACE(str);
-    #endif
-                return;     // don't stop now
+                TRACE("*** WARNING: slider position is outside given limits. ***\n");
+                return;
             }
         }
 

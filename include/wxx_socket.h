@@ -749,4 +749,4 @@ namespace Win32xx
     }
 }
 
-#endif // #ifndef _WIN32XX_SOCKET_H_
+#endif // _WIN32XX_SOCKET_H_

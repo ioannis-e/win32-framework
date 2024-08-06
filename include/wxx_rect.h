@@ -45,15 +45,6 @@
 #define _WIN32XX_RECT_H_
 
 
-// define useful macros from WindowsX.h
-#ifndef GET_X_LPARAM
-  #define GET_X_LPARAM(lp)  ((int)(short)LOWORD(lp))
-#endif
-#ifndef GET_Y_LPARAM
-  #define GET_Y_LPARAM(lp)  ((int)(short)HIWORD(lp))
-#endif
-
-
 namespace Win32xx
 {
     // Forward declarations

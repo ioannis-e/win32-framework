@@ -58,6 +58,30 @@
 
 namespace Win32xx
 {
+    //////////////////////////////////////////////////////////////////////
+    // A set of typedefs to simplify the use of CGlobalLock.
+    // These provide self unlocking objects that can be used for pointers
+    // to global memory. Using these typedefs eliminate the need to manually
+    // lock or unlock the global memory handles.
+    // Note: In the examples below, hDevMode and hDevNames can be either a raw
+    //       global memory handle, or a CHGlobal object.
+    //
+    // Example usage:
+    //   CDevMode  pDevMode(hDevMode);      // and use pDevMode as if it were a LPDEVMODE
+    //   CDevNames pDevNames(hDevNames);    // and use pDevNames as if it were a LPDEVNAMES
+    //   assert(pDevNames.Get());           // Get can be used to access the underlying pointer
+    //   CDevNames(hDevNames).GetDeviceName // Returns a CString containing the device name.
+    //
+    /////////////////////////////////////////////////////////////////////
+
+    typedef CGlobalLock<DEVMODE>    CDevMode;
+    typedef CGlobalLock<DEVNAMES>   CDevNames;
+
+    ////////////////////////////////////////
+    // Definitions for the CGlobalLock class
+    //
+
+    // Constructor.
     template <class T>
     CGlobalLock<T>::CGlobalLock(const CGlobalLock& rhs)
     {
@@ -87,7 +111,7 @@ namespace Win32xx
         return *this;
     }
 
-    // Lock the handle.
+    // Lock the handle to allow the global memory to be used.
     template <class T>
     inline void CGlobalLock<T>::Lock()
     {
@@ -116,64 +140,53 @@ namespace Win32xx
         }
     }
 
+    // Returns a const TCHAR* for the DEVNAMES in the global memory.
     template <>
-    inline LPCTSTR CGlobalLock<DEVNAMES>::c_str() const
+    inline LPCTSTR CDevNames::c_str() const
     {
         assert(m_p != nullptr);
         return reinterpret_cast<LPCTSTR>(m_p);
     }
 
+    // Returns a TCHAR* for the DEVNAMES in global the memory.
     template <>
-    inline LPTSTR CGlobalLock<DEVNAMES>::GetString() const
+    inline LPTSTR CDevNames::GetString() const
     {
         assert(m_p != nullptr);
         return reinterpret_cast<LPTSTR>(m_p);
     }
 
+    // Returns a CString containing the DeviceName from the DEVNAMES
+    // in global the memory.
     template<>
-    inline CString CGlobalLock<DEVNAMES>::GetDeviceName() const
+    inline CString CDevNames::GetDeviceName() const
     {
         return (m_p != nullptr) ? c_str() + (*this)->wDeviceOffset : _T("");
     }
 
+    // Returns a CString containing the GetDriverName from the DEVNAMES
+    // in global the memory.
     template<>
-    inline CString CGlobalLock<DEVNAMES>::GetDriverName() const
+    inline CString CDevNames::GetDriverName() const
     {
         return (m_p != nullptr) ? c_str() + (*this)->wDriverOffset : _T("");
     }
 
+    // Returns a CString containing the GetPortName from the DEVNAMES
+    // in global the memory.
     template<>
-    inline CString CGlobalLock<DEVNAMES>::GetPortName() const
+    inline CString CDevNames::GetPortName() const
     {
         return (m_p != nullptr) ? c_str() + (*this)->wOutputOffset : _T("");
     }
 
+    // Returns true if the DEVNAMES in the global memory is for the
+    // default printer. 
     template<>
-    inline bool CGlobalLock<DEVNAMES>::IsDefaultPrinter() const
+    inline bool CDevNames::IsDefaultPrinter() const
     {
         return (m_p != nullptr) ? ((*this)->wDefault & DN_DEFAULTPRN) : false;
     }
-
-
-
-    //////////////////////////////////////////////////////////////////////
-    // A set of typedefs to simplify the use of CGlobalLock.
-    // These provide self unlocking objects that can be used for pointers
-    // to global memory. Using these typedefs eliminate the need to manually
-    // lock or unlock the global memory handles.
-    // Note: In the examples below, hDevMode and hDevNames can be either a raw
-    //       global memory handle, or a CHGlobal object.
-    //
-    // Example usage:
-    //   CDevMode  pDevMode(hDevMode);      // and use pDevMode as if it were a LPDEVMODE
-    //   CDevNames pDevNames(hDevNames);    // and use pDevNames as if it were a LPDEVNAMES
-    //   assert(pDevNames.Get());           // Get can be used to access the underlying pointer
-    //   CDevNames(hDevNames).GetDeviceName // Returns a CString containing the device name.
-    //
-    /////////////////////////////////////////////////////////////////////
-
-    typedef CGlobalLock<DEVMODE>    CDevMode;
-    typedef CGlobalLock<DEVNAMES>   CDevNames;
 
 
     ////////////////////////////////////

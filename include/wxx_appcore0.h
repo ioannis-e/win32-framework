@@ -118,7 +118,6 @@ namespace Win32xx
         bool    isManagedObject;
     };
 
-
     // A structure that contains the data members for CImageList.
     struct CIml_Data
     {
@@ -151,6 +150,7 @@ namespace Win32xx
         TLSData() : pWnd(nullptr), mainWnd(nullptr), pMenuBar(nullptr) {} // Constructor
     };
 
+
     ///////////////////////////////////////////////////////////////////
     // Acknowledgement:
     //  CGlobalLock is based on code by Rob Caldecott
@@ -159,7 +159,7 @@ namespace Win32xx
     ///////////////////////////////////////////////////////////////////
 
 
-    //////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
     // CGlobaLock is a class template used to provide a self unlocking
     // object to global memory. It is used to provide convenient access
     // to the memory provided by hDevMode and hDevNames handles.
