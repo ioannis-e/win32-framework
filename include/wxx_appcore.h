@@ -268,40 +268,40 @@ namespace Win32xx
     }
 
     // Adds a HDC and CDC_Data* pair to the map.
-    inline void CWinApp::AddCDCData(HDC dc, CDC_Data* pData)
+    inline void CWinApp::AddCDCData(HDC dc, std::weak_ptr<CDC_Data> pData)
     {
         CThreadLock mapLock(m_gdiLock);
         m_mapCDCData.insert(std::make_pair(dc, pData));
     }
 
     // Adds a HGDIOBJ and CGDI_Data* pair to the map.
-    inline void CWinApp::AddCGDIData(HGDIOBJ gdi, CGDI_Data* pData)
+    inline void CWinApp::AddCGDIData(HGDIOBJ gdi, std::weak_ptr<CGDI_Data> pData)
     {
         CThreadLock mapLock(m_gdiLock);
         m_mapCGDIData.insert(std::make_pair(gdi, pData));
     }
 
     // Adds a HIMAGELIST and CIml_Data* pair to the map.
-    inline void CWinApp::AddCImlData(HIMAGELIST images, CIml_Data* pData)
+    inline void CWinApp::AddCImlData(HIMAGELIST images, std::weak_ptr<CIml_Data> pData)
     {
         CThreadLock mapLock(m_wndLock);
         m_mapCImlData.insert(std::make_pair(images, pData));
     }
 
     // Adds a HMENU and CMenu_Data* to the map.
-    inline void CWinApp::AddCMenuData(HMENU menu, CMenu_Data* pData)
+    inline void CWinApp::AddCMenuData(HMENU menu, std::weak_ptr<CMenu_Data> pData)
     {
         CThreadLock mapLock(m_wndLock);
         m_mapCMenuData.insert(std::make_pair(menu, pData));
     }
 
     // Retrieves a pointer to CDC_Data from the map.
-    inline CDC_Data* CWinApp::GetCDCData(HDC dc)
+    inline std::weak_ptr<CDC_Data> CWinApp::GetCDCData(HDC dc)
     {
         CThreadLock mapLock(m_gdiLock);
 
         // Find the CDC data mapped to this HDC.
-        CDC_Data* pCDCData = nullptr;
+        std::weak_ptr<CDC_Data> pCDCData;
         auto m = m_mapCDCData.find(dc);
         if (m != m_mapCDCData.end())
             pCDCData = m->second;
@@ -310,12 +310,12 @@ namespace Win32xx
     }
 
     // Retrieves a pointer to CGDI_Data from the map.
-    inline CGDI_Data* CWinApp::GetCGDIData(HGDIOBJ object)
+    inline std::weak_ptr<CGDI_Data> CWinApp::GetCGDIData(HGDIOBJ object)
     {
         CThreadLock mapLock(m_gdiLock);
 
         // Find the CGDIObject data mapped to this HGDIOBJ.
-        CGDI_Data* pCGDIData = nullptr;
+        std::weak_ptr<CGDI_Data> pCGDIData;
         auto m = m_mapCGDIData.find(object);
         if (m != m_mapCGDIData.end())
             pCGDIData = m->second;
@@ -324,12 +324,12 @@ namespace Win32xx
     }
 
     // Retrieves a pointer to CIml_Data from the map.
-    inline CIml_Data* CWinApp::GetCImlData(HIMAGELIST images)
+    inline std::weak_ptr<CIml_Data> CWinApp::GetCImlData(HIMAGELIST images)
     {
         CThreadLock mapLock(m_wndLock);
 
         // Find the CImageList data mapped to this HIMAGELIST.
-        CIml_Data* pCImlData = nullptr;
+        std::weak_ptr<CIml_Data> pCImlData;
         auto m = m_mapCImlData.find(images);
         if (m != m_mapCImlData.end())
             pCImlData = m->second;
@@ -338,12 +338,12 @@ namespace Win32xx
     }
 
     // Retrieves a pointer to CMenu_Data from the map.
-    inline CMenu_Data* CWinApp::GetCMenuData(HMENU menu)
+    inline std::weak_ptr<CMenu_Data> CWinApp::GetCMenuData(HMENU menu)
     {
         CThreadLock mapLock(m_wndLock);
 
         // Find the CMenu data mapped to this HMENU.
-        CMenu_Data* pCMenuData = nullptr;
+        std::weak_ptr<CMenu_Data> pCMenuData;
         auto m = m_mapCMenuData.find(menu);
         if (m != m_mapCMenuData.end())
             pCMenuData = m->second;

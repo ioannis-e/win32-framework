@@ -179,6 +179,8 @@ namespace Win32xx
     // Refer to TB_ADDBITMAP in the Windows API documentation for more information.
     inline int CToolBar::AddBitmap(UINT bitmapID)
     {
+        TRACE("*** Warning: CToolBar::AddBitmap is deprecated. ***\n");
+
         assert(IsWindow());
 
         CBitmap bitmap(bitmapID);
@@ -261,6 +263,7 @@ namespace Win32xx
     // Refer to AddBitmap and ReplaceBitmap for more information.
     inline BOOL CToolBar::AddReplaceBitmap(UINT id)
     {
+        TRACE("*** Warning: CToolBar::AddReplaceBitmap is deprecated. ***\n");
         assert(IsWindow());
 
         CBitmap bitmap(id);

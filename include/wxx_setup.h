@@ -58,7 +58,7 @@
 #define NOMINMAX        // Allow std::min and std::max. Must be defined before windows.h
 #endif
 
-// Supports the Winsock functions required for Windows XP.
+// Support the Winsock functions required for Windows XP.
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #include <WinSock2.h>   // must include before windows.h
@@ -198,6 +198,8 @@ namespace Win32xx
     // 616  dll ver 6.16    Windows Vista SP1 or above with XP themes
     inline int GetComCtlVersion()
     {
+        OutputDebugString(_T("*** Warning: GetComCtlVersion is deprecated. ***\n"));
+
         // Retrieve the Common Controls DLL handle.
         HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
         if (comCtl == NULL)

@@ -716,8 +716,9 @@ namespace Win32xx
     // Refer to WSAAsyncSelect in the Windows API documentation for additional information.
     inline int CSocket::StartAsync(HWND wnd, UINT message, long events)
     {
+        TRACE("*** Warning: CSocket::StartAsync is deprecated. ***\n");
+       
         StopEvents();   // Ensure the event thread isn't running
-
         return ::WSAAsyncSelect(*this, wnd, message, events);
     }
 

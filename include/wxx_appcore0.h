@@ -111,10 +111,9 @@ namespace Win32xx
     struct CGDI_Data
     {
         // Constructor
-        CGDI_Data() : hGDIObject(nullptr), count(1L), isManagedObject(false) {}
+        CGDI_Data() : hGDIObject(nullptr), isManagedObject(false) {}
 
         HGDIOBJ hGDIObject;
-        long    count;
         bool    isManagedObject;
     };
 
@@ -122,22 +121,20 @@ namespace Win32xx
     struct CIml_Data
     {
         // Constructor
-        CIml_Data() : images(nullptr), isManagedHiml(false), count(1L) {}
+        CIml_Data() : images(nullptr), isManagedHiml(false) {}
 
         HIMAGELIST  images;
         bool        isManagedHiml;
-        long        count;
     };
 
     // A structure that contains the data members for CMenu.
     struct CMenu_Data
     {
         // Constructor
-        CMenu_Data() : menu(nullptr), isManagedMenu(false), count(1L) {}
+        CMenu_Data() : menu(nullptr), isManagedMenu(false) {}
 
         HMENU menu;
         bool isManagedMenu;
-        long count;
     };
 
     // Used for Thread Local Storage (TLS)
@@ -253,23 +250,23 @@ namespace Win32xx
         CWinApp(const CWinApp&) = delete;
         CWinApp& operator=(const CWinApp&) = delete;
 
-        void AddCDCData(HDC dc, CDC_Data* pData);
-        void AddCGDIData(HGDIOBJ gdi, CGDI_Data* pData);
-        void AddCImlData(HIMAGELIST images, CIml_Data* pData);
-        void AddCMenuData(HMENU menu, CMenu_Data* pData);
-        CDC_Data*   GetCDCData(HDC dc);
-        CGDI_Data*  GetCGDIData(HGDIOBJ object);
-        CIml_Data*  GetCImlData(HIMAGELIST images);
-        CMenu_Data* GetCMenuData(HMENU menu);
+        void AddCDCData(HDC dc, std::weak_ptr<CDC_Data> pData);
+        void AddCGDIData(HGDIOBJ gdi, std::weak_ptr<CGDI_Data> pData);
+        void AddCImlData(HIMAGELIST images, std::weak_ptr<CIml_Data> pData);
+        void AddCMenuData(HMENU menu, std::weak_ptr<CMenu_Data> pData);
+        std::weak_ptr<CDC_Data>  GetCDCData(HDC dc);
+        std::weak_ptr<CGDI_Data> GetCGDIData(HGDIOBJ object);
+        std::weak_ptr<CIml_Data> GetCImlData(HIMAGELIST images);
+        std::weak_ptr<CMenu_Data> GetCMenuData(HMENU menu);
         void SetCallback();
         void SetTlsData();
 
         static CWinApp* SetnGetThis(CWinApp* pThis = nullptr, bool reset = false);
 
-        std::map<HDC, CDC_Data*> m_mapCDCData;
-        std::map<HGDIOBJ, CGDI_Data*> m_mapCGDIData;
-        std::map<HIMAGELIST, CIml_Data*> m_mapCImlData;
-        std::map<HMENU, CMenu_Data*> m_mapCMenuData;
+        std::map<HDC, std::weak_ptr<CDC_Data>> m_mapCDCData;
+        std::map<HGDIOBJ, std::weak_ptr<CGDI_Data>> m_mapCGDIData;
+        std::map<HIMAGELIST, std::weak_ptr<CIml_Data>> m_mapCImlData;
+        std::map<HMENU, std::weak_ptr<CMenu_Data>> m_mapCMenuData;
         std::map<HWND, CWnd*> m_mapHWND;       // maps window handles to CWnd objects
         std::vector<TLSDataPtr> m_allTLSData;     // vector of TLSData smart pointers, one for each thread
         CCriticalSection m_appLock;   // thread synchronization for CWinApp and TLS.

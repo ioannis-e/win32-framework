@@ -160,7 +160,7 @@ namespace Win32xx
         void Assign(HMENU menu);
         void Release();
         BOOL RemoveFromMap() const;
-        CMenu_Data* m_pData;
+        std::shared_ptr<CMenu_Data> m_pData;
 
     };
 
@@ -178,6 +178,7 @@ namespace Win32xx
     // The size of the MENUIEMINFO struct varies according to the window version.
     inline UINT GetSizeofMenuItemInfo()
     {
+        TRACE("*** Warning: GetSizeofMenuItemInfo is deprecated. ***\n");
         return sizeof(MENUITEMINFO);
     }
 
@@ -186,12 +187,12 @@ namespace Win32xx
     //
     inline CMenu::CMenu()
     {
-        m_pData = new CMenu_Data;
+        m_pData = std::make_shared<CMenu_Data>();
     }
 
     inline CMenu::CMenu(UINT id)
     {
-        m_pData = new CMenu_Data;
+        m_pData = std::make_shared<CMenu_Data>();
         HMENU menu = ::LoadMenu(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(id));
         if (menu != nullptr)
         {
@@ -201,7 +202,7 @@ namespace Win32xx
 
     inline CMenu::CMenu(HMENU menu)
     {
-        m_pData = new CMenu_Data;
+        m_pData = std::make_shared<CMenu_Data>();
         if (menu != nullptr)
             Attach(menu);
     }
@@ -210,9 +211,7 @@ namespace Win32xx
     //       Both objects manipulate the same HMENU and m_pData.
     inline CMenu::CMenu(const CMenu& rhs)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         m_pData = rhs.m_pData;
-        InterlockedIncrement(&m_pData->count);
     }
 
     // Note: A copy of a CMenu is a clone of the original.
@@ -220,8 +219,6 @@ namespace Win32xx
     {
         if (this != &rhs)
         {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-            InterlockedIncrement(&rhs.m_pData->count);
             Release();
             m_pData = rhs.m_pData;
         }
@@ -249,15 +246,15 @@ namespace Win32xx
         GetApp()->AddCMenuData(m_pData->menu, m_pData);
     }
 
-    // Decrements the reference count.
     // Destroys m_pData if the reference count is zero.
     inline void CMenu::Release()
     {
-        if (CWinApp::SetnGetThis())
-            CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
-        if (InterlockedDecrement(&m_pData->count) == 0)
+        if (CWinApp::SetnGetThis())
+            CThreadLock mapLock(GetApp()->m_gdiLock);
+
+        if (m_pData.use_count() == 1)
         {
             if (m_pData->menu != nullptr)
             {
@@ -271,7 +268,6 @@ namespace Win32xx
                 RemoveFromMap();
             }
 
-            delete m_pData;
             m_pData = nullptr;
         }
     }
@@ -338,18 +334,16 @@ namespace Win32xx
             if (m_pData->menu != nullptr)
             {
                 Release();
-                m_pData = new CMenu_Data;
+                m_pData = std::make_shared< CMenu_Data>();
             }
 
             if (menu != nullptr)
             {
                 // Add the menu to this CMenu.
-                CMenu_Data* pCMenuData = GetApp()->GetCMenuData(menu);
+                std::shared_ptr<CMenu_Data> pCMenuData = GetApp()->GetCMenuData(menu).lock();
                 if (pCMenuData)
                 {
-                    delete m_pData;
                     m_pData = pCMenuData;
-                    InterlockedIncrement(&m_pData->count);
                 }
                 else
                 {
@@ -447,18 +441,7 @@ namespace Win32xx
 
         HMENU menu = m_pData->menu;
         RemoveFromMap();
-        m_pData->menu = nullptr;
-        m_pData->isManagedMenu = false;
-
-        if (m_pData->count > 0)
-        {
-            if (InterlockedDecrement(&m_pData->count) == 0)
-            {
-                delete m_pData;
-            }
-        }
-
-        m_pData = new CMenu_Data;
+        m_pData = std::make_shared<CMenu_Data>();
 
         return menu;
     }
@@ -466,7 +449,6 @@ namespace Win32xx
     // Returns the HMENU assigned to this CMenu.
     inline HMENU CMenu::GetHandle() const
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
         return m_pData->menu;
     }

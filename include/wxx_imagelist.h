@@ -136,7 +136,7 @@ namespace Win32xx
         void Release();
         BOOL RemoveFromMap() const;
 
-        CIml_Data* m_pData;
+        std::shared_ptr<CIml_Data> m_pData;
     };
 
 
@@ -146,12 +146,12 @@ namespace Win32xx
 
     inline CImageList::CImageList()
     {
-        m_pData = new CIml_Data;
+        m_pData = std::make_shared<CIml_Data>();
     }
 
     inline CImageList::CImageList(HIMAGELIST images)
     {
-        m_pData = new CIml_Data;
+        m_pData = std::make_shared<CIml_Data>();
         Attach(images);
     }
 
@@ -159,9 +159,7 @@ namespace Win32xx
     //       Both objects manipulate the one HIMAGELIST.
     inline CImageList::CImageList(const CImageList& rhs)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         m_pData = rhs.m_pData;
-        InterlockedIncrement(&m_pData->count);
     }
 
     // Note: A copy of a CImageList is a clone of the original.
@@ -169,8 +167,6 @@ namespace Win32xx
     {
         if (this != &rhs)
         {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-            InterlockedIncrement(&rhs.m_pData->count);
             Release();
             m_pData = rhs.m_pData;
         }
@@ -254,18 +250,16 @@ namespace Win32xx
             if (m_pData->images)
             {
                 Release();
-                m_pData = new CIml_Data;
+                m_pData = std::make_shared<CIml_Data>();
             }
 
             if (images != nullptr)
             {
                 // Add the image list to this CImageList.
-                CIml_Data* pCImlData = GetApp()->GetCImlData(images);
+                std::shared_ptr<CIml_Data> pCImlData = GetApp()->GetCImlData(images).lock();
                 if (pCImlData)
                 {
-                    delete m_pData;
                     m_pData = pCImlData;
-                    InterlockedIncrement(&m_pData->count);
                 }
                 else
                 {
@@ -279,7 +273,7 @@ namespace Win32xx
     // Attach and own the specfied imagelist.
     inline void CImageList::Assign(HIMAGELIST images)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
+        CThreadLock mapLock(GetApp()->m_wndLock);
         Attach(images);
         m_pData->isManagedHiml = true;
     }
@@ -444,18 +438,7 @@ namespace Win32xx
 
         HIMAGELIST images = m_pData->images;
         RemoveFromMap();
-        m_pData->images = nullptr;
-        m_pData->isManagedHiml = false;
-
-        if (m_pData->count > 0)
-        {
-            if (InterlockedDecrement(&m_pData->count) == 0)
-            {
-                delete m_pData;
-            }
-        }
-
-        m_pData = new CIml_Data;
+        m_pData = std::make_shared<CIml_Data>();
 
         return images;
     }
@@ -692,7 +675,6 @@ namespace Win32xx
     // Retrieves the image list's handle.
     inline CImageList::operator HIMAGELIST () const
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         return m_pData->images;
     }
 
@@ -704,7 +686,7 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
-        if (InterlockedDecrement(&m_pData->count) == 0)
+        if (m_pData.use_count() == 1)
         {
             if (m_pData->images != 0)
             {
@@ -716,7 +698,6 @@ namespace Win32xx
                 RemoveFromMap();
             }
 
-            delete m_pData;
             m_pData = nullptr;
         }
     }

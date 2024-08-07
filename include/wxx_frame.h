@@ -251,7 +251,7 @@ namespace Win32xx
 
         // Not intended to be overridden
         CRect ExcludeChildRect(const CRect& clientRect, HWND child) const;
-        BOOL IsReBarSupported() const { return TRUE; }  // Deprecated
+        BOOL IsReBarSupported() const;
         BOOL IsUsingDarkMenu() const { return m_useDarkMenu; }
         BOOL IsUsingIndicatorStatus() const { return m_useIndicatorStatus; }
         BOOL IsUsingMenuStatus() const { return m_useMenuStatus; }
@@ -1655,6 +1655,13 @@ namespace Win32xx
         }
 
         return CString(themeName);
+    }
+
+    template <class T>
+    BOOL CFrameT<T>::IsReBarSupported() const
+    { 
+        TRACE("*** Warning: CFrameT::IsReBarSupported is deprecated. ***\n");
+        return TRUE;
     }
 
     // Returns a reference to the view window.

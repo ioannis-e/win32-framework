@@ -134,19 +134,18 @@ namespace Win32xx
     /////////////////////////////////////////////////////
     // Definitions for the the CMetaFile class
     //
-    inline CMetaFile::CMetaFile() : m_pData(new MetaFileData)
+    inline CMetaFile::CMetaFile() : m_pData(std::make_shared<MetaFileData>())
     {
     }
 
     // A private constructor used by CMetaFileDC.
-    inline CMetaFile::CMetaFile(HMETAFILE metaFile) : m_pData(new MetaFileData)
+    inline CMetaFile::CMetaFile(HMETAFILE metaFile) : m_pData(std::make_shared<MetaFileData>())
     {
         m_pData->metaFile = metaFile;
     }
 
     inline CMetaFile::CMetaFile(const CMetaFile& rhs)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         m_pData = rhs.m_pData;
     }
 
@@ -159,7 +158,6 @@ namespace Win32xx
     {
         if (this != &rhs)
         {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
             Release();
             m_pData = rhs.m_pData;
         }
@@ -196,7 +194,6 @@ namespace Win32xx
 
     inline CEnhMetaFile::CEnhMetaFile(const CEnhMetaFile& rhs)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         m_pData = rhs.m_pData;
     }
 
@@ -209,7 +206,6 @@ namespace Win32xx
     {
         if (this != &rhs)
         {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
             Release();
             m_pData = rhs.m_pData;
         }

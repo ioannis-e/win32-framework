@@ -204,13 +204,12 @@ namespace Win32xx
     protected:
         void    Assign(HGDIOBJ object);
         void    Release();
-        void    SetManaged(bool isManaged) const { m_pData->isManagedObject = isManaged; }
 
     private:
         void    AddToMap();
         BOOL    RemoveFromMap() const;
 
-        CGDI_Data* m_pData;
+        std::shared_ptr<CGDI_Data> m_pData;
     };
 
 
@@ -402,7 +401,7 @@ namespace Win32xx
     struct CDC_Data
     {
         // Constructor
-        CDC_Data() : dc(nullptr), count(1L), isManagedHDC(FALSE), wnd(nullptr),
+        CDC_Data() : dc(nullptr), isManagedHDC(FALSE), wnd(nullptr),
                      savedDCState(0), isPaintDC(false)
         {
             ps = {};
@@ -415,7 +414,6 @@ namespace Win32xx
         CPen    pen;
         CRgn    rgn;
         HDC     dc;             // The HDC belonging to this CDC.
-        long    count;          // Reference count.
         bool    isManagedHDC;   // Delete/Release the HDC on destruction.
         HWND    wnd;            // The HWND of a Window or Client window DC.
         int     savedDCState;   // The save state of the HDC.
@@ -756,16 +754,14 @@ namespace Win32xx
         void Assign(HDC object);
         PAINTSTRUCT* GetPaintStruct() const { return &m_pData->ps; }
         void Release();
-        void SetManaged(bool isManaged) const { m_pData->isManagedHDC = isManaged; }
         void SetPaintDC(bool isPaintDC) const { m_pData->isPaintDC = isPaintDC; }
         void SetWindow(HWND wnd) const { m_pData->wnd = wnd; }
 
     private:
         void AddToMap();
-        void Initialize();
         BOOL RemoveFromMap() const;
 
-        CDC_Data* m_pData;      // pointer to the class's data members
+        std::shared_ptr<CDC_Data> m_pData;      // pointer to the class's data members
     };
 
 
@@ -907,16 +903,14 @@ namespace Win32xx
     // Constructs the CGDIObject.
     inline CGDIObject::CGDIObject()
     {
-        m_pData = new CGDI_Data;
+        m_pData = std::make_shared<CGDI_Data>();
     }
 
     // Note: A copy of a CGDIObject is a clone of the original.
     //       Both objects manipulate the one HGDIOBJ.
     inline CGDIObject::CGDIObject(const CGDIObject& rhs)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         m_pData = rhs.m_pData;
-        InterlockedIncrement(&m_pData->count);
     }
 
     // Deconstructs the CGDIObject.
@@ -931,8 +925,6 @@ namespace Win32xx
     {
         if (this != &rhs)
         {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-            InterlockedIncrement(&rhs.m_pData->count);
             Release();
             m_pData = rhs.m_pData;
         }
@@ -950,7 +942,6 @@ namespace Win32xx
     inline void CGDIObject::AddToMap()
     {
         assert(m_pData->hGDIObject);
-
         GetApp()->AddCGDIData(m_pData->hGDIObject, m_pData);
     }
 
@@ -959,7 +950,7 @@ namespace Win32xx
     {
         CThreadLock mapLock(GetApp()->m_gdiLock);
         Attach(object);
-        SetManaged(true);
+        m_pData->isManagedObject = true;
     }
 
     // Attaches a GDI habdle to the CGDIObject.
@@ -974,18 +965,16 @@ namespace Win32xx
             if (m_pData->hGDIObject != nullptr)
             {
                 Release();
-                m_pData = new CGDI_Data;
+                m_pData = std::make_shared<CGDI_Data>();
             }
 
             if (object != nullptr)
             {
                 // Add the GDI object to this CCGDIObject.
-                CGDI_Data* pCGDIData = GetApp()->GetCGDIData(object);
+                std::shared_ptr<CGDI_Data> pCGDIData = GetApp()->GetCGDIData(object).lock();
                 if (pCGDIData)
                 {
-                    delete m_pData;
                     m_pData = pCGDIData;
-                    InterlockedIncrement(&m_pData->count);
                 }
                 else
                 {
@@ -1027,24 +1016,15 @@ namespace Win32xx
         HGDIOBJ object = m_pData->hGDIObject;
         RemoveFromMap();
         m_pData->hGDIObject = nullptr;
-        SetManaged(false);
+        m_pData->isManagedObject = false;
+        m_pData = std::make_shared<CGDI_Data>();
 
-        if (m_pData->count > 0)
-        {
-            if (InterlockedDecrement(&m_pData->count) == 0)
-            {
-                delete m_pData;
-            }
-        }
-
-        m_pData = new CGDI_Data;
         return object;
     }
 
     // Returns the GDI handle (HGDIOBJ) associated with this object.
     inline HGDIOBJ CGDIObject::GetHandle() const
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
         return m_pData ? m_pData->hGDIObject : 0;
     }
@@ -1066,7 +1046,7 @@ namespace Win32xx
 
         assert(m_pData);
 
-        if (m_pData && InterlockedDecrement(&m_pData->count) == 0)
+        if (m_pData.use_count() == 1)
         {
             if (m_pData->hGDIObject != nullptr)
             {
@@ -1078,7 +1058,6 @@ namespace Win32xx
                 RemoveFromMap();
             }
 
-            delete m_pData;
             m_pData = nullptr;
         }
     }
@@ -2276,7 +2255,7 @@ namespace Win32xx
     inline CDC::CDC()
     {
         // Allocate memory for our data members.
-        m_pData = new CDC_Data;
+        m_pData = std::make_shared<CDC_Data>();
     }
 
     // This constructor assigns a pre-existing HDC to the CDC.
@@ -2285,7 +2264,7 @@ namespace Win32xx
     // CDC MyCDC = SomeHDC;
     inline CDC::CDC(HDC dc)
     {
-        m_pData = new CDC_Data;
+        m_pData = std::make_shared<CDC_Data>();
         Attach(dc);
     }
 
@@ -2303,9 +2282,7 @@ namespace Win32xx
     // the same Device Context and GDI objects.
     inline CDC::CDC(const CDC& rhs) // Copy constructor
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         m_pData = rhs.m_pData;
-        InterlockedIncrement(&m_pData->count);
     }
 
     // Note: A copy of a CDC is a clone of the original.
@@ -2314,8 +2291,6 @@ namespace Win32xx
     {
         if (this != &rhs)
         {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-            InterlockedIncrement(&rhs.m_pData->count);
             Release();
             m_pData = rhs.m_pData;
         }
@@ -2331,7 +2306,6 @@ namespace Win32xx
     // Returns the HDC assigned to this CDC.
     inline HDC CDC::GetHDC() const
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         return m_pData->dc;
     }
 
@@ -2348,7 +2322,7 @@ namespace Win32xx
     {
         CThreadLock mapLock(GetApp()->m_gdiLock);
         Attach(object);
-        SetManaged(true);
+        m_pData->isManagedHDC = true;
     }
 
     // Attaches a HDC to the CDC object.
@@ -2364,17 +2338,15 @@ namespace Win32xx
                 Release();
 
                 // Assign values to our data members.
-                m_pData = new CDC_Data;
+                m_pData = std::make_shared<CDC_Data>();
             }
 
             if (dc != nullptr)
             {
-                CDC_Data* pCDCData = GetApp()->GetCDCData(dc);
+                std::shared_ptr<CDC_Data> pCDCData = GetApp()->GetCDCData(dc).lock();
                 if (pCDCData)
                 {
-                    delete m_pData;
                     m_pData = pCDCData;
-                    InterlockedIncrement(&m_pData->count);
                 }
                 else
                 {
@@ -2404,18 +2376,9 @@ namespace Win32xx
 
         HDC dc = m_pData->dc;
         RemoveFromMap();
-        Initialize();
-
-        if (m_pData->count > 0)
-        {
-            if (InterlockedDecrement(&m_pData->count) == 0)
-            {
-                delete m_pData;
-            }
-        }
 
         // Assign values to our data members.
-        m_pData = new CDC_Data;
+        m_pData = std::make_shared<CDC_Data>();
 
         return dc;
     }
@@ -2549,14 +2512,10 @@ namespace Win32xx
 
         assert(m_pData);
 
-        if (m_pData->count > 0)
+        if (m_pData.use_count() == 1)
         {
-            if (InterlockedDecrement(&m_pData->count) == 0)
-            {
-                Destroy();
-                delete m_pData;
-                m_pData = nullptr;
-            }
+            Destroy();
+            m_pData = nullptr;
         }
     }
 
@@ -2805,18 +2764,13 @@ namespace Win32xx
                     ::DeleteDC(m_pData->dc);
             }
 
-            Initialize();
+            m_pData->savedDCState = 0;
+            m_pData->dc = nullptr;
+            SetWindow(nullptr);
+            SetPaintDC(false);
+            m_pData->ps = {};
+            m_pData->isManagedHDC = false;
         }
-    }
-
-    inline void CDC::Initialize()
-    {
-        m_pData->savedDCState = 0;
-        m_pData->dc = nullptr;
-        SetWindow(nullptr);
-        SetPaintDC(false);
-        m_pData->ps = {};
-        SetManaged(false);
     }
 
     // Retrieves the BITMAP information for the current HBITMAP.
@@ -5086,7 +5040,7 @@ namespace Win32xx
 
     inline  CMetaFileDC::~CMetaFileDC()
     {
-        if (m_pData->count == 1)
+        if (m_pData.use_count() == 1)
         {
             // Assert here if the metafile was created but not closed.
             assert(GetHDC() == nullptr);
@@ -5149,7 +5103,7 @@ namespace Win32xx
 
     inline CEnhMetaFileDC::~CEnhMetaFileDC()
     {
-        if (m_pData->count == 1)
+        if (m_pData.use_count() == 1)
         {
             // Assert here if the enhanced metafile was created but not closed.
             assert(GetHDC() == nullptr);
