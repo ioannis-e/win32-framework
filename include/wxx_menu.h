@@ -441,6 +441,7 @@ namespace Win32xx
 
         HMENU menu = m_pData->menu;
         RemoveFromMap();
+        *m_pData.get() = {};
         m_pData = std::make_shared<CMenu_Data>();
 
         return menu;

@@ -58,6 +58,7 @@
 
 namespace Win32xx
 {
+
     //////////////////////////////////////////////////////////////////////
     // A set of typedefs to simplify the use of CGlobalLock.
     // These provide self unlocking objects that can be used for pointers
@@ -181,7 +182,7 @@ namespace Win32xx
     }
 
     // Returns true if the DEVNAMES in the global memory is for the
-    // default printer. 
+    // default printer.
     template<>
     inline bool CDevNames::IsDefaultPrinter() const
     {

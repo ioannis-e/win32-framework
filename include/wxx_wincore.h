@@ -39,8 +39,8 @@
 ///////////////////////////////////////////////////////
 // wxx_wincore.h
 //  This file contains the definition of the CWnd class.
-//  Including this file adds all the code necessary to start Win32++
-//  and create simple windows.
+//  Including this file adds all the code necessary to
+//  start Win32++ and create simple windows.
 //
 //  Refer to the following example code.
 //
@@ -88,10 +88,7 @@ int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #define _WIN32XX_WINCORE_H_
 
 
-
-//////////////////////////////////////
-//  Include the Win32++ header files
-
+// Include the necessary Win32++ header files.
 #include "wxx_appcore.h"
 #include "wxx_wincore0.h"
 #include "wxx_gdi.h"
@@ -241,6 +238,7 @@ namespace Win32xx
         return newImageDC.DetachBitmap();
     }
 
+
     //////////////////////////////////
     // Definitions for the CWnd class.
     //
@@ -351,7 +349,7 @@ namespace Win32xx
             parentRect = GetParent().GetWindowRect();
         else
             parentRect = desktopRect;
-            
+
         HMONITOR hActiveMonitor = MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST);
         MONITORINFO mi = {};
         mi.cbSize = sizeof(mi);
@@ -362,7 +360,7 @@ namespace Win32xx
             if (GetParent().GetHwnd() == nullptr)
                 parentRect = mi.rcWork;
         }
-        
+
         // Calculate point to center the dialog over the portion of parent window on this monitor.
         parentRect.IntersectRect(parentRect, desktopRect);
         int x = parentRect.left + (parentRect.Width() - rc.Width())/2;

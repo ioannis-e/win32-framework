@@ -330,7 +330,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
     ArrangeBands();
     ShowArrows(m_showArrows);
     ShowCards(m_showCards);
-    
+
     return 0;
 }
 

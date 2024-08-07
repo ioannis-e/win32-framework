@@ -415,7 +415,7 @@ namespace Win32xx
         if (GetRibbonFramework())
         {
             T::SetMenu(nullptr);              // Disable the window menu.
-			T::SetFrameMenu(0);
+            T::SetFrameMenu(0);
         }
 
         return 0;
@@ -470,7 +470,7 @@ namespace Win32xx
         if (psa != nullptr)
         {
             LONG currentFile = 0;
- 
+
             for (const CString& fileName : fileNames)
             {
                 WCHAR curFileName[MAX_PATH] = {0};

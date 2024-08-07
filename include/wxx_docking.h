@@ -4168,7 +4168,7 @@ namespace Win32xx
     inline std::vector<CDocker*> CDocker::SortDockers()
     {
         std::vector<CDocker*> vSorted;
- 
+
         // Add undocked top level dockers
         for (const DockPtr& ptr : GetAllChildren())
         {

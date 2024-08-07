@@ -36,9 +36,12 @@
 ////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 // wxx_gdi.h
-//  Declaration of the CDC class, and CBitmapInfoPtr class
+//  Declaration of the following classes:
+//  CBitmapInfoPtr; CGDIObject; CBitmap; CBrush; CFont; CPalette; CPen;
+//  CRgn; CDC; CClintDC; CClientDCEx; CEnhMetaFileDC; CMemDC; CPrintDC;
+//  CMetaFileDC; CWindowDC.
 
 // The CDC class provides a device context, along with the various associated
 //  objects such as Bitmaps, Brushes, Bitmaps, Fonts and Pens. This class
@@ -129,8 +132,9 @@
 // Notes:
 //  * When the CDC object goes out of scope, its destructor is called, releasing
 //     or deleting the device context if Win32++ created it.
-//  * When the CBitmap, CBrush, CPalette, CPen and CRgn objects go out of scope,
-//     the destructor is called deleting their GDI object if Win32++ created it.
+//  * When the CBitmap, CBrush, CFont, CPalette, CPen and CRgn objects go out
+//     of scope, the destructor is called deleting their GDI object if Win32++
+//     created it.
 //  * When the CDC object's destructor is called, any GDI objects created by one of
 //     the CDC member functions (CDC::CreatePen for example) will be deleted.
 //  * Bitmaps can only be selected into one device context at a time.
@@ -176,7 +180,7 @@
 #include "wxx_exception.h"
 #include "wxx_metafile.h"
 
-// Disable macro from Windowsx.h
+// Disable a macro from Windowsx.h
 #undef CopyRgn
 
 namespace Win32xx
@@ -401,7 +405,7 @@ namespace Win32xx
     struct CDC_Data
     {
         // Constructor
-        CDC_Data() : dc(nullptr), isManagedHDC(FALSE), wnd(nullptr),
+        CDC_Data() : dc(nullptr), isManagedHDC(false), wnd(nullptr),
                      savedDCState(0), isPaintDC(false)
         {
             ps = {};
@@ -1015,8 +1019,7 @@ namespace Win32xx
 
         HGDIOBJ object = m_pData->hGDIObject;
         RemoveFromMap();
-        m_pData->hGDIObject = nullptr;
-        m_pData->isManagedObject = false;
+        *m_pData.get() = {};
         m_pData = std::make_shared<CGDI_Data>();
 
         return object;
@@ -2376,6 +2379,7 @@ namespace Win32xx
 
         HDC dc = m_pData->dc;
         RemoveFromMap();
+        *m_pData.get() = {};
 
         // Assign values to our data members.
         m_pData = std::make_shared<CDC_Data>();
@@ -2764,12 +2768,7 @@ namespace Win32xx
                     ::DeleteDC(m_pData->dc);
             }
 
-            m_pData->savedDCState = 0;
-            m_pData->dc = nullptr;
-            SetWindow(nullptr);
-            SetPaintDC(false);
-            m_pData->ps = {};
-            m_pData->isManagedHDC = false;
+            *m_pData = {};
         }
     }
 

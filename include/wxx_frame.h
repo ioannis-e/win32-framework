@@ -1659,7 +1659,7 @@ namespace Win32xx
 
     template <class T>
     BOOL CFrameT<T>::IsReBarSupported() const
-    { 
+    {
         TRACE("*** Warning: CFrameT::IsReBarSupported is deprecated. ***\n");
         return TRUE;
     }

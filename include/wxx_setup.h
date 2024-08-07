@@ -35,10 +35,12 @@
 //
 ////////////////////////////////////////////////////////
 
+
 ////////////////////////////////////////////////////////
-// This file defines the set of macros and includes the
-// C, C++, and windows header files required by Win32++.
-// It also defines the CObject class.
+// This file defines the set of version macros for windows
+// and includes the header files required by Win32++. It
+// also contains many of the global functions used by
+// Win32++.
 
 
 #ifndef _WIN32XX_SETUP_H_
@@ -145,40 +147,6 @@ typedef std::basic_stringstream<TCHAR> tStringStream;
 
 namespace Win32xx
 {
-
-    class CArchive;
-
-    ////////////////////////////////////////////////////////////////////
-    // The CObject class provides support for Serialization by CArchive.
-    class CObject
-    {
-    public:
-        CObject() {}
-        virtual ~CObject() {}
-
-        virtual void Serialize(CArchive& ar);
-    };
-
-
-    ///////////////////////////////////////
-    // Definitions for the CObject class
-    //
-    inline void CObject::Serialize(CArchive& /* ar */ )
-    {
-    //  Override Serialize in the class inherited from CObject like this.
-
-    //  if (ar.IsStoring())
-    //  {
-    //      // Store a member variable in the archive
-    //      ar << m_someValue;
-    //  }
-    //  else
-    //  {
-    //      // Load a member variable from the archive
-    //      ar >> m_someValue;
-    //  }
-
-    }
 
     ////////////////////////////////////////
     // Global Functions
@@ -303,8 +271,7 @@ namespace Win32xx
         return (state & 0x8000);
     }
 
-    // Loads the common controls using InitCommonControlsEx or InitCommonControls.
-    // Returns TRUE if InitCommonControlsEx is used.
+    // Loads the common controls using InitCommonControlsEx.
     // Refer to InitCommonControlsEx in the Windows API documentation for more information.
     inline void LoadCommonControls()
     {
@@ -315,8 +282,7 @@ namespace Win32xx
           initStruct.dwICC |= ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS | ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
 
           // Call InitCommonControlsEx.
-          if (!(InitCommonControlsEx(&initStruct)))
-              InitCommonControls();
+          VERIFY(InitCommonControlsEx(&initStruct));
     }
 
     // The following functions perform string copies. The size of the dst buffer

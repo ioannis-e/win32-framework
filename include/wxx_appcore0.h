@@ -43,8 +43,8 @@
 
 ///////////////////////////////////////////////////////////////////////////
 // wxx_appcore0.h
-// This file contains the declarations of the CWinApp class.
-// This class is used start Win32++ and run the message loop. You should
+// This file contains the declarations of CGlobalLock and CWinApp.
+// CWinApp is used start Win32++ and run the message loop. You should
 // should inherit from this class to start Win32++ in your own application.
 
 
