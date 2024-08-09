@@ -100,10 +100,7 @@
 #ifndef _WIN32XX_FOLDERDIALOG_H_
 #define _WIN32XX_FOLDERDIALOG_H_
 
-
 #include "wxx_dialog.h"
-
-#include <shlobj.h>
 
 
 namespace Win32xx

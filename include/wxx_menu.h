@@ -441,7 +441,11 @@ namespace Win32xx
 
         HMENU menu = m_pData->menu;
         RemoveFromMap();
+
+        // Nullify all copies of m_pData.
         *m_pData.get() = {};
+
+        // Make a new shared_ptr for this object.
         m_pData = std::make_shared<CMenu_Data>();
 
         return menu;

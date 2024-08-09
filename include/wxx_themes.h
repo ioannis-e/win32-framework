@@ -135,7 +135,7 @@ namespace Win32xx
         HMODULE theme = ::GetModuleHandle(_T("uxtheme.dll"));
         if (theme != nullptr)
         {
-            // Declare pointers to functions
+            // Declare pointers to functions.
             FARPROC pIsAppThemed   = ::GetProcAddress(theme, "IsAppThemed");
             FARPROC pIsThemeActive = ::GetProcAddress(theme, "IsThemeActive");
 

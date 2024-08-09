@@ -438,7 +438,11 @@ namespace Win32xx
 
         HIMAGELIST images = m_pData->images;
         RemoveFromMap();
+
+        // Nullify all copies of m_pData.
         *m_pData.get() = {};
+
+        // Make a new shared_ptr for this object.
         m_pData = std::make_shared<CIml_Data>();
 
         return images;

@@ -41,7 +41,6 @@
 #include "wxx_appcore0.h"
 #include <ExDisp.h>
 #include <OCidl.h>
-#include <ShlObj.h>
 
 
 namespace Win32xx

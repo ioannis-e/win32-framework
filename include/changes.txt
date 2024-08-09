@@ -1,56 +1,117 @@
-Version 9.7
-===========
-This version updates the library to support features available in C++14.
-Shared_ptr is now deprecated. It has been replaced by std::unique_ptr 
-and std::shared_ptr.
+Version 10.0
+============
+This version updates the library to utilize features available in C++11 and
+C++14. Win32++ now uses the unique_ptr and shared_ptr smart pointers. These
+smart pointers are used in place of Shared_Ptr when adding new instances of
+CTab, CMDIChild, CPropertySheet and CDocker.
+
+The new smart pointers provided by C++11 and C++14 can be used in place of raw
+pointers to improve the safety of memory allocations and improve exception
+safety. They automatically delete the allocated memory for us. This removes
+the need for us to call delete for dynamically allocated memory, removing one
+of the common causes of memory leaks.
+
+When these new smart pointers are created using make_shared or make_unique,
+they also eliminate the need to use the 'new' keyword to allocate the new
+memory. This improves exception safety in the event that the attempt to
+allocate the memory with new fails.
+
+The C++ compilers that Win32++ supports have changed. Older compilers that
+don't support C++14 are now longer supported.
+
+The newer C++ compilers that support C++14 don't support the Window 2000 or
+older operating systems. As a result, Win32++ version 10.0 only supports the
+Windows XP and later operating systems. 
+
+Win32++ version 9.6.1 is the latest version to support the older operating
+systems. Win32++ version 9.6.1 supports Win95 through to Windows 11.
+
 
 Incompatibilities with previous versions
 ----------------------------------------
-CDocker::NewDockFromID and CTabbedMDI::NewMDIChildFromID now returns
-a std::unique_ptr. Code that overrides these function will need to
-return a std:unique_ptr as well. For example:
+The following functions now return a unique_ptr instead of a raw pointer:
+* CDocker::NewDockFromID
+* CTabbedMDI::NewMDIChildFromID
 
-DockPtr CMainFrame::NewDockerFromID(int /*id*/)
-{
-    DockPtr docker;
-    switch(id)
-    {
-    case ID_CLASSES:
-        docker = std::make_unique<CDockClasses>();
-        break;
-    case ID_FILES:
-        docker = std::make_unique<CDockFiles>();
-        break;
-    default:
-        TRACE("Unknown Dock ID\n");
-        break;
-    }
+Code that overrides these function need to return a unique_ptr as well.
+For example:
 
-    return docker;
-}
+  DockPtr CMainFrame::NewDockerFromID(int /*id*/)
+  {
+      DockPtr docker;
+      switch(id)
+      {
+      case ID_CLASSES:
+          docker = std::make_unique<CDockClasses>();
+          break;
+      case ID_FILES:
+          docker = std::make_unique<CDockFiles>();
+          break;
+      default:
+          TRACE("Unknown Dock ID\n");
+          break;
+      }
+      return docker;
+  }
 
 
 New Features and Enhancements
 -----------------------------
- * Updated CDocker. Dockers are stored as std::unique_ptr.
- * Updated CMDIFrame. MDIChild windows are stored as std::unique_ptr.
- * Updated CMDITab. Tab windows are stored as std::unique_ptr.
- * Updated CPropertySheet. CPropertyPage windows are stored as std::unique_ptr.
- * Updated CTab. Tab windows are stored as std::unique_ptr.
+Users can now add new instances of the following classes as smart pointers instead
+of raw pointers: CDocker, CMDIChild, CPropertySheet and CTab.
+
+Other changes include:
+ * Updated CDocker. Each new CDocker object is stored as a unique_ptr.
+ * Updated CMDIFrame. Each new CMDIChild is stored as a unique_ptr.
+ * Updated CMDITab. Each new CMDITab object stored as a unique_ptr.
+ * Updated CPropertySheet. Each new CPropertyPage object is stored as a unique_ptr.
+ * Updated CTab. Each new CTab object is stored as a unique_ptr.
+ * Updated CDC. CDC now uses a shared_ptr for its reference counting.
+ * Updated CGDIObject. CGDIObject now uses a shared_ptr for its reference counting.
+ * Updated CMenu. CMenu now uses a shared_ptr for its reference counting.
+ * Updated CImageList. CImageList now uses a shared_ptr for its reference counting.
 
 
 Changes in detail
 -----------------
 Added CDocker::AddDockedChild    - additional override for std::unique_ptr
 Added CDocker::AddUndockedChild  - additional override for std::unique_ptr
-Added CMDIFrameT::AddMDIChild    - Additional override for std::uniqe_ptr
+Added CMDIFrameT::AddMDIChild    - additional override for std::uniqe_ptr
 Added CPropertySheet::AddPage    - additional override for std::unique_ptr
-Added CTab::AddTabPage           - Additional override for std::uniqe_ptr
-Added CTabbedMDI::AddMDIChild    - Additional override for std::uniqe_ptr
+Added CTab::AddTabPage           - additional override for std::uniqe_ptr
+Added CTabbedMDI::AddMDIChild    - additional override for std::uniqe_ptr
 Modified CDocker::NewDockFromID  - returns a std::unique_ptr
 Modified CTabbedMDI::NewMDIChildFromID - returns a std::unique_ptr
 
-Shared_Ptr is now deprecated. It will be removed in future versions of Win32++/
+The type definitions for the smart pointers is in Win32++ have been updated 
+as follows:
+  typedef std::unique_ptr<CDocker> DockPtr;
+  typedef std::shared_ptr<EnhMetaFileData> EnhMetaDataPtr;
+  typedef std::unique_ptr<CMDIChild> MDIChildPtr;
+  typedef std::unique_ptr<MenuItemData> MenuItemDataPtr;
+  typedef std::shared_ptr<MetaFileData> MetaDataPtr;
+  typedef std::unique_ptr<CPropertyPage> PropertyPagePtr;
+  typedef std::unique_ptr<TLSData> TLSDataPtr;
+  typedef std::unique_ptr<CWinThread> WinThreadPtr;
+  typedef std::unique_ptr<CWorkThread> WorkThreadPtr;
+  typedef std::unique_ptr<CWnd> WndPtr;
+
+
+Deprecated features
+-------------------
+The following parts of Win32++ are deprecated and might be removed in future
+versions of Win32++. Code that uses deprecated features should be updated.
+
+ * Shared_Ptr                  class    - use unique_ptr or shared_ptr instead.
+ * CFrameT::IsRebarSupported   function - not required, always TRUE.
+ * CSocket::StartAsync         function - use CSocket::StartEvents instead.
+ * CToolBar::AddBitmap         function - use CToolBar::SetImageList instead.
+ * CToolBar::AddReplaceBitmap  function - use CToolBar::SetImageList instead.
+ * ::GetSizeofMenuItemInfo     function - use sizeof(MENUITEMINFO) instead.
+ * ::GetComCtlVersion          function - not required for Windows XP and later.
+ * MIN and MAX macros          function - use std::min and std::max instead. 
+
+
 
 Version 9.6.1
 =============

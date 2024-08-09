@@ -691,25 +691,21 @@ namespace Win32xx
     template <class T>
     inline BOOL CMDIFrameT<T>::RemoveAllMDIChildren()
     {
-        BOOL succeeded = TRUE;
-
         // Collect the CMDIChild pointers.
         std::vector<CMDIChild*> mdiChildren;
-        for (auto mdiChild = m_mdiChildren.rbegin(); mdiChild != m_mdiChildren.rend(); ++mdiChild)
+        for (auto it = m_mdiChildren.rbegin(); it != m_mdiChildren.rend(); ++it)
         {
-            mdiChildren.push_back((*mdiChild).get());
+            mdiChildren.push_back((*it).get());
         }
 
-        for (auto it = mdiChildren.begin(); it != mdiChildren.end(); ++it)
+        // Ask each MDIChild to close.
+        // An element is removed from m_mdiChildren when the MDIChild is closed.
+        for (auto pMDIChild : mdiChildren)
         {
-            // Ask the window to close. If it is destroyed, RemoveMDIChild gets called.
-            (*it)->SendMessage(WM_SYSCOMMAND, SC_CLOSE, 0);
-
-            if ((*it)->IsWindow())
-                succeeded = FALSE;
+            pMDIChild->SendMessage(WM_SYSCOMMAND, SC_CLOSE, 0);
         }
 
-        return succeeded;
+        return m_mdiChildren.size() == 0 ? TRUE : FALSE;
     }
 
     // Removes an individual MDI child.

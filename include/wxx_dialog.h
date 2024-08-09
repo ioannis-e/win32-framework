@@ -38,7 +38,7 @@
 
 ////////////////////////////////////////////////////////
 // wxx_dialog.h
-//  Declaration of the CDialog class
+//  Declaration of CResizer and CDialog classes.
 
 // CDialog adds support for dialogs to Win32++. Dialogs are specialised
 // windows which are a parent window for common controls. Common controls

@@ -1019,7 +1019,11 @@ namespace Win32xx
 
         HGDIOBJ object = m_pData->hGDIObject;
         RemoveFromMap();
+
+        // Nullify all copies of m_pData.
         *m_pData.get() = {};
+
+        // Make a new shared_ptr for this object.
         m_pData = std::make_shared<CGDI_Data>();
 
         return object;
@@ -2379,9 +2383,11 @@ namespace Win32xx
 
         HDC dc = m_pData->dc;
         RemoveFromMap();
+
+        // Nullify all copies of m_pData.
         *m_pData.get() = {};
 
-        // Assign values to our data members.
+        // Make a new shared_ptr for this object.
         m_pData = std::make_shared<CDC_Data>();
 
         return dc;
