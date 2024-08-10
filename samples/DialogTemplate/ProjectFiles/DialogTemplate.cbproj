@@ -376,9 +376,6 @@
             <BuildOrder>16</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>17</BuildOrder>
-        </None>
         <None Include="..\src\UserMessages.h">
             <BuildOrder>18</BuildOrder>
         </None>

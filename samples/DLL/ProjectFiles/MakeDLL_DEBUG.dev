@@ -101,16 +101,6 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit9]
-FileName=..\src\targetver.h
-CompileCpp=1
-Folder=Header
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
 [Unit10]
 FileName=MakeDLL.cpp
 CompileCpp=1
@@ -189,16 +179,6 @@ ProductName=
 ProductVersion=
 AutoIncBuildNr=0
 SyncProduct=0
-
-[Unit16]
-FileName=targetver.h
-CompileCpp=1
-Folder=Header
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
 
 [Unit1]
 FileName=..\src\MakeDLL.cpp

@@ -160,16 +160,6 @@ Priority=1000
 OverrideBuildCmd=0
 BuildCmd=
 
-[Unit12]
-FileName=..\src\targetver.h
-CompileCpp=1
-Folder=Header
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
 [Unit13]
 FileName=..\src\Slider.h
 CompileCpp=1
@@ -192,16 +182,6 @@ BuildCmd=
 
 [Unit15]
 FileName=..\src\stdafx.h
-CompileCpp=1
-Folder=Header
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-
-[Unit16]
-FileName=..\src\targetver.h
 CompileCpp=1
 Folder=Header
 Compile=1

@@ -290,16 +290,6 @@ OverrideBuildCmd=0
 BuildCmd=
 CompileCpp=1
 
-[Unit32]
-FileName=..\src\targetver.h
-Folder=Header
-Compile=1
-Link=1
-Priority=1000
-OverrideBuildCmd=0
-BuildCmd=
-CompileCpp=1
-
 [Unit31]
 FileName=..\src\StdApp.h
 CompileCpp=1
