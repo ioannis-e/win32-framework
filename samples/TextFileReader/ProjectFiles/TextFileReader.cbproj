@@ -373,9 +373,6 @@
         <None Include="..\src\StdApp.h">
             <BuildOrder>15</BuildOrder>
         </None>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>16</BuildOrder>
-        </None>
         <CppCompile Include="..\src\View.cpp">
             <BuildOrder>17</BuildOrder>
         </CppCompile>

@@ -358,9 +358,6 @@
         <None Include="..\src\SvrDialog.h">
             <BuildOrder>10</BuildOrder>
         </None>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>11</BuildOrder>
-        </None>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

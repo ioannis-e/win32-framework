@@ -568,7 +568,7 @@ namespace Win32xx
         assert(m_pData);
         assert(IsMenu(m_pData->menu));
 
-        menuItemInfo.cbSize = GetSizeofMenuItemInfo();
+        menuItemInfo.cbSize = sizeof(MENUITEMINFO);
         return ::GetMenuItemInfo(m_pData->menu, idOrPos, byPosition, &menuItemInfo);
     }
 
@@ -643,7 +643,7 @@ namespace Win32xx
         assert(m_pData);
         assert(IsMenu(m_pData->menu));
 
-        menuItemInfo.cbSize = GetSizeofMenuItemInfo();
+        menuItemInfo.cbSize = sizeof(MENUITEMINFO);
         return ::InsertMenuItem(m_pData->menu, idOrPos, byPosition, &menuItemInfo);
     }
 
@@ -789,7 +789,7 @@ namespace Win32xx
         assert(m_pData);
         assert(IsMenu(m_pData->menu));
 
-        menuItemInfo.cbSize = GetSizeofMenuItemInfo();
+        menuItemInfo.cbSize = sizeof(MENUITEMINFO);
         return ::SetMenuItemInfo(m_pData->menu, idOrPos, byPosition, &menuItemInfo);
     }
 

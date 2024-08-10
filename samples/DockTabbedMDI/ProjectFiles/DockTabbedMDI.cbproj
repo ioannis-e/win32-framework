@@ -394,9 +394,6 @@
         <None Include="..\src\TabbedMDIApp.h">
             <BuildOrder>22</BuildOrder>
         </None>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>23</BuildOrder>
-        </None>
         <CppCompile Include="..\src\Text.cpp">
             <BuildOrder>24</BuildOrder>
         </CppCompile>

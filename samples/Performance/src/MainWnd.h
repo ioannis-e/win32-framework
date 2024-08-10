@@ -14,9 +14,7 @@
 #define WM_TESTMESSAGE   WM_USER + 2   // the test message
 
 
-// Note: Modern C++ compilers can use this typedef instead.
-// typedef std::shared_ptr<CTestWindow> TestWindowPtr;
-typedef Shared_Ptr<CTestWindow> TestWindowPtr;
+typedef std::unique_ptr<CTestWindow> TestWindowPtr;
 
 ///////////////////////////////////////////////////////////
 // CMainWindow manages the main window for the application.

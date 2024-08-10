@@ -364,9 +364,6 @@
             <BuildOrder>12</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>13</BuildOrder>
-        </None>
         <CppCompile Include="..\src\TestWnd.cpp">
             <BuildOrder>14</BuildOrder>
         </CppCompile>

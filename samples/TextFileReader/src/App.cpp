@@ -143,7 +143,7 @@ MakeAppDataPath(const CString& subpath) const                               /*
     {
         int nextbk  = subpath.Find(_T("\\"), from);
         int nextfwd = subpath.Find(_T("/"), from);
-        next = MAX(nextbk, nextfwd);
+        next = std::max(nextbk, nextfwd);
         if (next < 0)
             next = to;
 

@@ -358,9 +358,6 @@
             <BuildOrder>10</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>11</BuildOrder>
-        </None>
         <CppCompile Include="..\src\View.cpp">
             <BuildOrder>12</BuildOrder>
         </CppCompile>

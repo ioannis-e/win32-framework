@@ -342,9 +342,6 @@
             <BuildOrder>5</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>6</BuildOrder>
-        </None>
         <ResourceCompile Include="..\src\TaskDialog.rc">
             <Form>TaskDialog.res</Form>
             <BuildOrder>7</BuildOrder>

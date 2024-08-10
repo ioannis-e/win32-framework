@@ -376,9 +376,6 @@
         <None Include="..\src\TabDemoApp.h">
             <BuildOrder>16</BuildOrder>
         </None>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>17</BuildOrder>
-        </None>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

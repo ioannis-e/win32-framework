@@ -379,9 +379,6 @@
             <BuildOrder>16</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>17</BuildOrder>
-        </None>
         <CppCompile Include="..\src\View.cpp">
             <BuildOrder>18</BuildOrder>
         </CppCompile>
@@ -484,12 +481,6 @@
                 </DeployFile>
                 <DeployFile LocalName="..\lib\Embarcadero\htmlhelp.a" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win64">
-                        <RemoteDir>.\</RemoteDir>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="..\lib\Embarcadero\htmlhelp.lib" Configuration="Release" Class="ProjectFile">
-                    <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>

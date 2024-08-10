@@ -783,8 +783,6 @@ namespace Win32xx
     // a pointer to this buffer. This buffer can be used by any function that accepts a LPTSTR.
     // Care must be taken not to exceed the length of the buffer. Use ReleaseBuffer to safely
     // copy this buffer back to the CStringT object.
-    // Note: The buffer uses a vector. Vectors are required to be contiguous in memory under
-    //       the current standard, whereas std::strings do not have this requirement.
     template <class T>
     inline T* CStringT<T>::GetBuffer(int minBufLength)
     {
@@ -1025,7 +1023,7 @@ namespace Win32xx
         auto it_end = m_buf.begin();
         std::advance(it_end, newLength);
 
-        std::copy(m_buf.begin(), it_end, m_str.begin());
+        std::move(m_buf.begin(), it_end, m_str.begin());
         m_buf.clear();
     }
 

@@ -377,9 +377,6 @@
             <BuildOrder>16</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>17</BuildOrder>
-        </None>
         <CppCompile Include="..\src\Text.cpp">
             <BuildOrder>18</BuildOrder>
         </CppCompile>

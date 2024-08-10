@@ -353,9 +353,6 @@
             <BuildOrder>8</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>9</BuildOrder>
-        </None>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -456,13 +453,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Embarcadero\Win32\Debug\Animation.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>Animation.tds</RemoteName>
+                <DeployFile LocalName=".\Embarcadero\Win64\Debug\Animation.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>Animation.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Embarcadero\Win64\Debug\Animation.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName=".\Embarcadero\Win64\Release\Animation.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>Animation.exe</RemoteName>
                         <Overwrite>true</Overwrite>

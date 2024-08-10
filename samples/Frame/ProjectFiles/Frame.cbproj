@@ -358,9 +358,6 @@
             <BuildOrder>10</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>11</BuildOrder>
-        </None>
         <CppCompile Include="..\src\View.cpp">
             <BuildOrder>12</BuildOrder>
         </CppCompile>
@@ -462,6 +459,12 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile LocalName=".\Embarcadero\Win64\Debug\Frame.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>Frame.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Embarcadero\Win64\Release\Frame.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>Frame.exe</RemoteName>
                         <Overwrite>true</Overwrite>

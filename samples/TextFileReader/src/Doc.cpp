@@ -344,7 +344,7 @@ RecordEntry(wchar_t w, CStringW& entry)                                     /*
           // enter the record
         AddRecord(entry);
           // record the longest length
-        m_width = MAX(m_width, entry.GetLength());
+        m_width = std::max(m_width, entry.GetLength());
         entry.Empty();
     }
     else

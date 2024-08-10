@@ -46,8 +46,7 @@ void CMainWindow::CreateTestWindows(int windows)
     for (int i = 0 ; i < windows; i++)
     {
         // Create the test windows
-        TestWindowPtr pTestWindow(new CTestWindow());
-        m_pTestWindows.push_back(pTestWindow);
+        m_pTestWindows.push_back(std::make_unique<CTestWindow>());
         m_pTestWindows[i]->CreateWin(i);
     }
 }

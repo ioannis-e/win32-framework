@@ -340,9 +340,6 @@
             <BuildOrder>4</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>5</BuildOrder>
-        </None>
         <CppCompile Include="..\src\TrayApp.cpp">
             <BuildOrder>6</BuildOrder>
         </CppCompile>

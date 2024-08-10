@@ -71,6 +71,12 @@ Other changes include:
  * Updated CMenu. CMenu now uses a shared_ptr for its reference counting.
  * Updated CImageList. CImageList now uses a shared_ptr for its reference counting.
 
+* The values for WINVER and related macros are now set to values suitable for 
+  Windows 10 and Windows 11 by Win32++. Specifying different values for these macros
+  before including wincore.h is no longer supported. Win32++ version 10 supports
+  all operating systems Windows XP and later irrespective of the values of these
+  version macros. 
+
 
 Changes in detail
 -----------------

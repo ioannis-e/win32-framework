@@ -352,9 +352,6 @@
             <BuildOrder>8</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <None Include="..\src\targetver.h">
-            <BuildOrder>9</BuildOrder>
-        </None>
         <None Include="..\src\UserMessages.h">
             <BuildOrder>10</BuildOrder>
         </None>
