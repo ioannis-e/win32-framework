@@ -82,7 +82,7 @@ IUIRibbon* CMainFrame::GetIUIRibbon() const
 
 // Loads data from the specified file. It is called by OnFileOpen,
 // and when a file is dragged and dropped on the window.
-void CMainFrame::LoadFile(LPCTSTR fileName)
+void CMainFrame::LoadFile(LPCWSTR fileName)
 {
     try
     {
@@ -170,8 +170,8 @@ LRESULT CMainFrame::OnDropFile(WPARAM wparam)
 {
     try
     {
-        // wparam is a pointer (LPCTSTR) to the filename.
-        LPCTSTR fileName = reinterpret_cast<LPCTSTR>(wparam);
+        // wparam is a pointer (LPCWSTR) to the filename.
+        LPCWSTR fileName = reinterpret_cast<LPCWSTR>(wparam);
         assert(fileName);
 
         // Load the file.
@@ -466,7 +466,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -477,7 +477,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

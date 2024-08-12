@@ -32,8 +32,8 @@ static const double PREVIEW_MIN =  2.0;     // minimum preview screen inches
   // Registry key for saving print preview sizes. Note: this should match the
   // mainframe's registry key, but with "Software" prefixed, in order to place
   // these entries with the frame's entries.
-static const LPCTSTR PREVIEW_REGISTRY_KEY = _T("Software\\")
-    _T("Win32++\\FilePrintPreview") _T("\\Sizes");
+static const LPCWSTR PREVIEW_REGISTRY_KEY = L"Software\\"
+    L"Win32++\\FilePrintPreview" L"\\Sizes";
 
 /*******************************************************************************
 
@@ -229,10 +229,10 @@ LoadSizesRegistry()                                                         /*
     CString strKey = PREVIEW_REGISTRY_KEY;
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, strKey, KEY_READ))
     {
-        LPTSTR p;
-        CString s = RegQueryStringValue(key, _T("Init preview Width"));
+        LPWSTR p;
+        CString s = RegQueryStringValue(key, L"Init preview Width");
         m_previewInches.cx = _tcstod(s, &p);
-        s = RegQueryStringValue(key, _T("Init preview Height"));
+        s = RegQueryStringValue(key, L"Init preview Height");
         m_previewInches.cy = _tcstod(s, &p);
     }
 }
@@ -345,7 +345,7 @@ OnOK()                                                                      /*
     if (id == IDC_PREVIEW_PAGE)
     {
         CString sPage = m_editPage.GetWindowText();
-        TCHAR *stop;
+        wchar_t* stop;
         UINT nPage = _tcstol(sPage, &stop, 10);
         nPage = std::min(std::max(1U, nPage), m_numPreviewPages);
         OnPreviewPage(nPage - 1);
@@ -430,8 +430,8 @@ OnPreview(const CString &docPath)                                           /*
     HDC hPrinter = printDlg.GetPrinterDC();
     if (hPrinter == nullptr)
     {
-        ::MessageBox(nullptr, _T("Print preview requires a printer to copy settings from"),
-            _T("No Printer found"), MB_ICONWARNING);
+        ::MessageBox(nullptr, L"Print preview requires a printer to copy settings from",
+            L"No Printer found", MB_ICONWARNING);
         return FALSE;
     }
       // save the doument path
@@ -450,8 +450,8 @@ OnPreviewHelp()                                                             /*
     Respond to requests for help on the print preview function.
 *-----------------------------------------------------------------------------*/
 {
-    MessageBox(_T("preview help has not been provided."),
-        _T("Information..."), MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
+    MessageBox(L"preview help has not been provided.",
+        L"Information...", MB_OK | MB_ICONINFORMATION | MB_TASKMODAL);
     return TRUE;
 }
 
@@ -507,8 +507,8 @@ OnZoomChange()                                                              /*
         m_previewPane.SetPaneZoomState(selection);
     else // it is a numeric scaling, figure it out
     {
-        TCHAR val[20];
-        TCHAR *stop;
+        wchar_t val[20];
+        wchar_t* stop;
         m_comboZoom.GetLBText(selection, val);
         m_previewPane.SetPaneZoomState(_tcstol(val, &stop, 10));
     }
@@ -527,20 +527,20 @@ PopulateScaleBox()                                                          /*
 *-----------------------------------------------------------------------------*/
 {
     std::vector<CString> scale;   // scale selection choices
-    scale.push_back(_T("Fit page"));
-    scale.push_back(_T("Fit width"));
-    scale.push_back(_T("30%"));
-    scale.push_back(_T("40%"));
-    scale.push_back(_T("50%"));
-    scale.push_back(_T("60%"));
-    scale.push_back(_T("70%"));
-    scale.push_back(_T("80%"));
-    scale.push_back(_T("90%"));
-    scale.push_back(_T("100%"));
-    scale.push_back(_T("125%"));
-    scale.push_back(_T("150%"));
-    scale.push_back(_T("175%"));
-    scale.push_back(_T("200%"));
+    scale.push_back(L"Fit page");
+    scale.push_back(L"Fit width");
+    scale.push_back(L"30%");
+    scale.push_back(L"40%");
+    scale.push_back(L"50%");
+    scale.push_back(L"60%");
+    scale.push_back(L"70%");
+    scale.push_back(L"80%");
+    scale.push_back(L"90%");
+    scale.push_back(L"100%");
+    scale.push_back(L"125%");
+    scale.push_back(L"150%");
+    scale.push_back(L"175%");
+    scale.push_back(L"200%");
       // put the scales in the combo box, select top item
     m_comboZoom.ResetContent();
     for (UINT i = 0; i < scale.size(); i++)
@@ -550,7 +550,7 @@ PopulateScaleBox()                                                          /*
 
 /*============================================================================*/
     CString CPrintPreviewEx::
-RegQueryStringValue(CRegKey &key, LPCTSTR name)                             /*
+RegQueryStringValue(CRegKey &key, LPCWSTR name)                             /*
 
     Return the CString value of a specified value name found in the
     currently open registry key.
@@ -564,7 +564,7 @@ RegQueryStringValue(CRegKey &key, LPCTSTR name)                             /*
         return sValue;
     }
     else
-        return _T("");
+        return L"";
 }
 
 /*============================================================================*/
@@ -586,10 +586,10 @@ SaveSizesRegistry()                                                         /*
     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, strKey, KEY_WRITE))
     {
         CString s;
-        s.Format(_T("%.2f"),  m_previewInches.cx);
-        key.SetStringValue(_T("Init preview Width"), s.c_str());
-        s.Format(_T("%.2f"),  m_previewInches.cy);
-        key.SetStringValue(_T("Init preview Height"), s.c_str());
+        s.Format(L"%.2f",  m_previewInches.cx);
+        key.SetStringValue(L"Init preview Width", s.c_str());
+        s.Format(L"%.2f",  m_previewInches.cy);
+        key.SetStringValue(L"Init preview Height", s.c_str());
     }
 }
 
@@ -628,9 +628,9 @@ UpdateButtons()                                                             /*
     m_buttonNext.EnableWindow(m_currentPage  < end_page - 1);
     m_buttonLast.EnableWindow(m_currentPage  < end_page - 1);
     CString page;
-    page.Format(_T("%d"), m_currentPage + 1);
+    page.Format(L"%d", m_currentPage + 1);
     m_editPage.SetWindowText(page);
-    page.Format(_T(" of %d"), end_page);
+    page.Format(L" of %d", end_page);
     SetDlgItemText(IDC_PREVIEW_OFPAGES, page.c_str());
 }
 
@@ -648,7 +648,7 @@ CPreviewPaneEx()                                                            /*
 {
       // Note: The entry for the dialog's IDC_PREVIEW_PANE control in
       // resource.rc must match this name.
-    CString ClassName = _T("PreviewPane");
+    CString ClassName = L"PreviewPane";
       // Register the window class for use as a custom control in the dialog
     WNDCLASS wc = {};
     if (!::GetClassInfo(TheApp()->GetInstanceHandle(), ClassName, &wc))

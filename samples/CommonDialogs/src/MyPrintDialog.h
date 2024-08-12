@@ -29,24 +29,24 @@ MyPrintDialog : public CPrintDialog                                         /*
             :   CPrintDialog(dwFlags) {}
         virtual ~MyPrintDialog() override {}
 
-        void    SetBoxTitle (LPCTSTR title) {m_sPDTitle  = title;}
+        void    SetBoxTitle (LPCWSTR title) {m_sPDTitle  = title;}
         void    SetWindowTitle() const { SetWindowText(m_sPDTitle); }
 
     protected:
         virtual BOOL    OnInitDialog() override
         {
             SetWindowTitle();
-            HWND hbtn = FindWindowEx(*this, nullptr, _T("Button"), _T("OK"));
+            HWND hbtn = FindWindowEx(*this, nullptr, L"Button", L"OK");
             if (hbtn != nullptr)
-                ::SetWindowText(hbtn, _T("&Print"));
+                ::SetWindowText(hbtn, L"&Print");
             return TRUE;
         }
 
         virtual void    OnCancel() override
         {
-            ::MessageBox(nullptr, _T("Print job cancelled."),
-                                    _T("Information"), MB_OK | MB_TASKMODAL |
-                                    MB_ICONINFORMATION);
+            ::MessageBox(nullptr, L"Print job cancelled.",
+                                  L"Information", MB_OK | MB_TASKMODAL |
+                                  MB_ICONINFORMATION);
         }
           // override this method to provide the needed preparation to
           // print the document upon user approval
@@ -72,7 +72,7 @@ MyPageSetup : public CPageSetupDialog                                   /*
 
           // Record the title of the page setup dialog box after an object
           // of this class is constructed, but before DoModal() is invoked.
-       void SetBoxTitle(LPCTSTR title) {m_PSDTitle = title;}
+       void SetBoxTitle(LPCWSTR title) {m_PSDTitle = title;}
        void SetWindowTitle() const { SetWindowText(m_PSDTitle); }
 
     protected:
@@ -84,8 +84,8 @@ MyPageSetup : public CPageSetupDialog                                   /*
           // the printer to its incoming state. For now just announce that
           //the dialog was cancelled
         virtual void OnCancel() override
-                        { ::MessageBox(nullptr, _T("Page setup cancelled. "),
-                            _T("Information"), MB_OK | MB_ICONINFORMATION |
+                        { ::MessageBox(nullptr, L"Page setup cancelled. ",
+                            L"Information", MB_OK | MB_ICONINFORMATION |
                             MB_TASKMODAL); }
 
           // override this member to store the page parameters for  use

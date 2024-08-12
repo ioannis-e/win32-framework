@@ -27,7 +27,7 @@ AboutBox    : public CDialog                                            /*
         AboutBox();
         virtual ~AboutBox() override {}
 
-        void    SetAboutBoxInfo(LPCTSTR info) { m_aboutBoxInfo = info;}
+        void    SetAboutBoxInfo(LPCWSTR info) { m_aboutBoxInfo = info;}
 
     protected:
         virtual BOOL OnInitDialog() override;

@@ -87,7 +87,7 @@ INT_PTR CColourDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -98,7 +98,7 @@ INT_PTR CColourDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -168,9 +168,9 @@ BOOL CColourDialog::OnInitDialog()
     m_greenEdit.AttachDlgItem(IDC_EDIT_GREEN, *this);
     m_blueEdit.AttachDlgItem(IDC_EDIT_BLUE, *this);
 
-    m_redEdit.SetWindowText(_T("0"));
-    m_greenEdit.SetWindowText(_T("0"));
-    m_blueEdit.SetWindowText(_T("0"));
+    m_redEdit.SetWindowText(L"0");
+    m_greenEdit.SetWindowText(L"0");
+    m_blueEdit.SetWindowText(L"0");
 
     // Create the two image previews.
     m_preview.AttachDlgItem(IDC_PREVIEW, *this);

@@ -37,11 +37,11 @@ CMRU : public CObject                                                   /*
         CMRU();
         virtual ~CMRU() override {}
 
-        void    AddEntry(LPCTSTR entryName);
+        void    AddEntry(LPCWSTR entryName);
         void    AssignMenu(CMenu frameMenu, size_t maxMRU = 0);
         void    EmptyList();
         CString GetEntry(size_t index);
-        void    RemoveEntry(LPCTSTR entryName);
+        void    RemoveEntry(LPCWSTR entryName);
         void    UpdateMenu();
         void    ValidateMRU();
 

@@ -64,8 +64,8 @@ LRESULT CMainFrame::OnDropFile(WPARAM wparam)
 {
     try
     {
-        // wparam is a pointer (LPCTSTR) to the filename
-        LPCTSTR fileName = reinterpret_cast<LPCTSTR>(wparam);
+        // wparam is a pointer (LPCWSTR) to the filename
+        LPCWSTR fileName = reinterpret_cast<LPCWSTR>(wparam);
         assert(fileName);
 
         // Load the file
@@ -74,7 +74,7 @@ LRESULT CMainFrame::OnDropFile(WPARAM wparam)
 
     catch (const CFileException &e)
     {
-        m_pathName = _T("");
+        m_pathName = L"";
 
         // An exception occurred. Display the relevant information.
         MessageBox(e.GetErrorString(), e.GetText(), MB_ICONWARNING);
@@ -94,13 +94,13 @@ BOOL CMainFrame::OnFileExit()
 BOOL CMainFrame::OnFileNew()
 {
     GetDoc().GetAllPoints().clear();
-    m_pathName = _T("");
+    m_pathName = L"";
     GetView().Invalidate();
     return TRUE;
 }
 
 // Called by OnFileOpen and in response to a UWM_DROPFILE message.
-void CMainFrame::LoadFile(LPCTSTR fileName)
+void CMainFrame::LoadFile(LPCWSTR fileName)
 {
     try
     {
@@ -112,7 +112,7 @@ void CMainFrame::LoadFile(LPCTSTR fileName)
 
     catch (const CFileException &e)
     {
-        m_pathName = _T("");
+        m_pathName = L"";
 
         // An exception occurred. Display the relevant information.
         MessageBox(e.GetErrorString(), e.GetText(), MB_ICONWARNING);
@@ -124,8 +124,9 @@ BOOL CMainFrame::OnFileOpen()
 {
     try
     {
-        CFileDialog fileDlg(TRUE, _T("dat"), nullptr, OFN_FILEMUSTEXIST, _T("Scribble Files (*.dat)\0*.dat\0\0"));
-        fileDlg.SetTitle(_T("Open File"));
+        CFileDialog fileDlg(TRUE, L"dat", nullptr, OFN_FILEMUSTEXIST,
+            L"Scribble Files (*.dat)\0*.dat\0\0");
+        fileDlg.SetTitle(L"Open File");
 
         // Bring up the file open dialog retrieve the selected filename
         if (fileDlg.DoModal(*this) == IDOK)
@@ -137,7 +138,7 @@ BOOL CMainFrame::OnFileOpen()
 
     catch (const CFileException &e)
     {
-        m_pathName = _T("");
+        m_pathName = L"";
 
         // An exception occurred. Display the relevant information.
         MessageBox(e.GetErrorString(), e.GetText(), MB_ICONWARNING);
@@ -148,7 +149,7 @@ BOOL CMainFrame::OnFileOpen()
 
 BOOL CMainFrame::OnFilePrint()
 {
-    MessageBox(_T("File Print  ... Implemented later"), _T("Menu"), MB_OK);
+    MessageBox(L"File Print  ... Implemented later", L"Menu", MB_OK);
     return TRUE;
 }
 
@@ -157,7 +158,7 @@ BOOL CMainFrame::OnFileSave()
 {
     try
     {
-        if (m_pathName == _T(""))
+        if (m_pathName == L"")
             OnFileSaveAs();
         else
             GetDoc().FileSave(m_pathName);
@@ -177,8 +178,9 @@ BOOL CMainFrame::OnFileSaveAs()
 {
     try
     {
-        CFileDialog fileDlg(FALSE, _T("dat"), nullptr, OFN_OVERWRITEPROMPT, _T("Scribble Files (*.dat)\0*.dat\0\0"));
-        fileDlg.SetTitle(_T("Save File"));
+        CFileDialog fileDlg(FALSE, L"dat", nullptr, OFN_OVERWRITEPROMPT,
+            L"Scribble Files (*.dat)\0*.dat\0\0");
+        fileDlg.SetTitle(L"Save File");
 
         // Bring up the file open dialog retrieve the selected filename
         if (fileDlg.DoModal(*this) == IDOK)

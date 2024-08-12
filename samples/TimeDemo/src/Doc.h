@@ -36,13 +36,13 @@ CDoc : public CObject                           /*
         CString GetDocRecord(int, int left = 0, int length = -1) const;
         CString GetDocSaveFileName(const CString&) const;
         int     GetDocWidth() const;
-        CTime   GetTimeFromStr(LPCTSTR szTime, int nDST = -1 ) const;
+        CTime   GetTimeFromStr(LPCWSTR szTime, int nDST = -1 ) const;
         bool    OpenDoc(const CString &);
         void    NewDocument();
         void    PushContent(const CString&);
         bool    SaveDoc();
         bool    SaveDocAs();
-        CString Truth(bool b)           {return b ? _T("true") : _T("false");}
+        CString Truth(bool b)           {return b ? L"true" : L"false";}
 
       // public data members
         static const    CString m_compiledOn;  // date, mmm dd yyyy
@@ -53,7 +53,7 @@ CDoc : public CObject                           /*
     private:
         CString     m_docPath;
         int         m_docWidth;             // length, in characters
-        LPCTSTR     m_fileDlgFilter;        // file dialog filter
+        LPCWSTR     m_fileDlgFilter;        // file dialog filter
         std::vector<CString> m_docContent;  // array of document lines
 };
 /*----------------------------------------------------------------------------*/

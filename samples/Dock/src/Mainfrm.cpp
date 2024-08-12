@@ -31,7 +31,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\Dock"));
+    LoadRegistrySettings(L"Win32++\\Dock");
 
     return CDockFrame::Create(parent);
 }
@@ -411,8 +411,8 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception.
         CString str;
-        str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
+        str << e.GetText() << L'\n' << e.GetErrorString();
+        ::MessageBox(nullptr, str, L"An exception occurred", MB_ICONERROR);
         return 0;
     }
 }

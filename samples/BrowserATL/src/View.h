@@ -30,7 +30,7 @@ public:
     CView();
     virtual ~CView() override;
     virtual IWebBrowser2* GetIWebBrowser2() {return m_pInetExplorer;}
-    virtual void Navigate(LPCTSTR str);
+    virtual void Navigate(LPCWSTR str);
 
 protected:
     virtual int  OnCreate(CREATESTRUCT& cs) override;

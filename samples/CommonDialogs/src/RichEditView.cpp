@@ -39,7 +39,7 @@ Clean()                                                                     /*
     Clear the control of all text.
 *-----------------------------------------------------------------------------*/
 {
-    SetWindowText(_T(""));
+    SetWindowText(L"");
 }
 
 /*============================================================================*/
@@ -193,7 +193,7 @@ StreamInCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)         /*
     *pcb = 0;
     if (!::ReadFile((HANDLE)(DWORD_PTR) dwCookie, pbBuff, cb, (LPDWORD)pcb,
       nullptr))
-        ::MessageBox(nullptr, _T("StreamInFile Failed"), _T(""), MB_OK);
+        ::MessageBox(nullptr, L"StreamInFile Failed", L"", MB_OK);
 
     return 0;
 }
@@ -217,7 +217,7 @@ StreamOutCallback(DWORD dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)        /*
     *pcb = 0;
     if (!::WriteFile((HANDLE)(DWORD_PTR)dwCookie, pbBuff, cb, (LPDWORD)pcb,
       nullptr))
-        ::MessageBox(nullptr, _T("StreamOutFile Failed"), _T(""), MB_OK);
+        ::MessageBox(nullptr, L"StreamOutFile Failed", L"", MB_OK);
     return 0;
 }
 
@@ -256,7 +256,7 @@ DoPreparePrinting(CPrintInfo& info)                                         /*
     info.SetMinPage(pd.nMinPage);
     info.SetMaxPage(pd.nMaxPage);
     info.SetToPage(pd.nToPage);
-    info.m_strPageDesc = _T("Page %u");
+    info.m_strPageDesc = L"Page %u";
     return TRUE;
 }
 
@@ -371,15 +371,15 @@ DoPrintView()                                                               /*
     catch (const CWinException& /* e */)
     {
         // No default printer
-        ::MessageBox(0, _T("Unable to display print dialog"),
-            _T("Print Failed"), MB_OK);
+        ::MessageBox(0, L"Unable to display print dialog",
+            L"Print Failed", MB_OK);
         return;
     }
 }
 
 /*============================================================================*/
     void CRichEditView::
-DoPrintRichView(LPCTSTR sDocPath)                                           /*
+DoPrintRichView(LPCWSTR sDocPath)                                           /*
 
     Print the contents of the CRichEditView control in the CView client
     area accessed by pView. Label the spooler output using the sDocPath.
@@ -520,7 +520,7 @@ OnPreparePrinting(CPrintInfo& info)                                         /*
 {
       // set up the dialog to choose the printer and printing parameters
     MyPrintDialog PrintDlg(PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC);
-    PrintDlg.SetBoxTitle(_T("Print contents of rich edit box."));
+    PrintDlg.SetBoxTitle(L"Print contents of rich edit box.");
     info.InitInfo(&PrintDlg, 1, 0xffff, 1, 0xffff, 1);
     if (!DoPreparePrinting(info))
         return FALSE;

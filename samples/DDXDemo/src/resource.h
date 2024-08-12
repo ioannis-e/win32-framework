@@ -64,7 +64,7 @@
 #define IDC_EDIT_DWORD                  405
 #define IDC_EDIT_FLOAT                  406
 #define IDC_EDIT_DOUBLE                 407
-#define IDC_EDIT_LPTSTR                 408
+#define IDC_EDIT_LPWSTR                 408
 #define IDC_EDIT_CSTRING                409
 #define IDC_EDIT_RICHEDIT               410
 #define IDC_EDIT_STATUS                 411

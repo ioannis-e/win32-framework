@@ -50,8 +50,8 @@ private:
     LRESULT OnPreviewSetup();
 
     CString GetINIPath();
-    CString ItoT(int i);
-    int     TtoI(LPCTSTR string);
+    CString ItoW(int i);
+    int     WtoI(LPCWSTR string);
     void    SerializeINI(BOOL isStoring);
 
     // Member variables

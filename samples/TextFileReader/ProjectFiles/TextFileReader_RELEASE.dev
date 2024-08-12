@@ -12,7 +12,7 @@ ResourceIncludes=C:\Tausware\Win32++\include;..\..\..\include
 MakeIncludes=
 Compiler=
 CppCompiler=-D _RELEASE_@@_-g_@@_-O0_@@__@@_
-Linker=-lComctl32_@@_-lOle32_@@_-lOleaut32_@@_-lUuid_@@_-lws2_32_@@_-s_@@_
+Linker=-lComctl32_@@_-lOle32_@@_-lOleaut32_@@_-lUuid_@@_-lws2_32_@@_-s_@@_-municode_@@_
 IsCpp=1
 Icon=
 ExeOutput=.\Dev-C++\Release
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=1
 SupportXPThemes=0
 CompilerSet=3
-CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
 LogOutput=
 LogOutputEnabled=0
 

@@ -36,12 +36,12 @@ CRichView : public CRichEdit                                                /*
         UINT    GetPageBreaks(CDC& dcPrinter);
         BOOL    GetNewFont() const;
         void    PrintDC(UINT, CDC&, CDC&);
-        BOOL    ReadFile(LPCTSTR filePath);
+        BOOL    ReadFile(LPCWSTR filePath);
         void    SetFontDefaults();
-        void    SetDocName(LPCTSTR &filePath) { m_docPath = filePath;}
+        void    SetDocName(LPCWSTR &filePath) { m_docPath = filePath;}
         void    PrintPages(CPrintDialog& printDlg);
         void    WordWrap(WordWrapType setting);
-        BOOL    WriteFile(LPCTSTR filePath);
+        BOOL    WriteFile(LPCWSTR filePath);
 
     protected:
         virtual void    OnAttach() override;

@@ -58,7 +58,7 @@ int CRichView::CollatePages()
 }
 
 // Choose the printer and print the document.
-void CRichView::DoPrint(LPCTSTR docName)
+void CRichView::DoPrint(LPCWSTR docName)
 {
     // Prepare the print dialog
     CPrintDialog printDlg;
@@ -128,7 +128,7 @@ void CRichView::OnAttach()
     // Set the font to Consolas
     GetDefaultCharFormat(cf);
     cf.dwEffects = 0;
-    StrCopy(cf.szFaceName, _T("Consolas"), LF_FACESIZE);
+    StrCopy(cf.szFaceName, L"Consolas", LF_FACESIZE);
     SetDefaultCharFormat(cf);
 
     // Support Drag and Drop on this window
@@ -190,7 +190,7 @@ void CRichView::PrintPage(CDC& dc, int page)
     FormatRange();
 }
 
-void CRichView::QuickPrint(LPCTSTR docName)
+void CRichView::QuickPrint(LPCWSTR docName)
 {
     // Acquire the currently selected printer and page settings
     CPrintDialog printDlg;
@@ -250,7 +250,7 @@ LRESULT CRichView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -261,7 +261,7 @@ LRESULT CRichView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

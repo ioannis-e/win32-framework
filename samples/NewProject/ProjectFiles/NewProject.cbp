@@ -26,6 +26,7 @@
 					<Add directory="../../../include" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ole32" />
 					<Add library="Oleaut32" />
@@ -51,6 +52,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ole32" />
 					<Add library="Oleaut32" />

@@ -27,23 +27,23 @@ CViewFiles::~CViewFiles()
 void CViewFiles::InsertItems()
 {
     // Add 4th item
-    int item = InsertItem(0, _T("ListViewApp.h"), 2);
-    SetItemText(item, 1, _T("1 KB"));
-    SetItemText(item, 2, _T("C Header file"));
+    int item = InsertItem(0, L"ListViewApp.h", 2);
+    SetItemText(item, 1, L"1 KB");
+    SetItemText(item, 2, L"C Header file");
 
     // add 3rd item
-    item = InsertItem(item, _T("ListViewApp.cpp"), 1);
-    SetItemText(item, 1, _T("3 KB"));
-    SetItemText(item, 2, _T("C++ Source file"));
+    item = InsertItem(item, L"ListViewApp.cpp", 1);
+    SetItemText(item, 1, L"3 KB");
+    SetItemText(item, 2, L"C++ Source file");
 
     // add 2nd item
-    item = InsertItem(item, _T("main.cpp"), 1);
-    SetItemText(item, 1, _T("1 KB"));
-    SetItemText(item, 2, _T("C++ Source file"));
+    item = InsertItem(item, L"main.cpp", 1);
+    SetItemText(item, 1, L"1 KB");
+    SetItemText(item, 2, L"C++ Source file");
 
     // add 1st item
-    item = InsertItem(item, _T("ListView"), 0);
-    SetItemText(item, 2, _T("Folder"));
+    item = InsertItem(item, L"ListView", 0);
+    SetItemText(item, 2, L"Folder");
 }
 
 // Called when a window handle (HWND) is attached to CViewFiles.
@@ -91,9 +91,9 @@ void CViewFiles::SetColumns()
     DeleteAllItems();
 
     // Add the column items.
-    InsertColumn(0, _T("Name"));
-    InsertColumn(1, _T("Size"));
-    InsertColumn(2, _T("Type"));
+    InsertColumn(0, L"Name");
+    InsertColumn(1, L"Size");
+    InsertColumn(2, L"Type");
     SetDPIColumnWidths();
 }
 
@@ -137,7 +137,7 @@ LRESULT CViewFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -148,7 +148,7 @@ LRESULT CViewFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -162,9 +162,9 @@ LRESULT CViewFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 // Constructor.
 CContainFiles::CContainFiles()
 {
-    SetTabText(_T("FileView"));
+    SetTabText(L"FileView");
     SetTabIcon(IDI_FILEVIEW);
-    SetDockCaption (_T("File View - Docking container"));
+    SetDockCaption (L"File View - Docking container");
     SetView(m_viewFiles);
 }
 
@@ -182,7 +182,7 @@ LRESULT CContainFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -193,7 +193,7 @@ LRESULT CContainFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -249,7 +249,7 @@ LRESULT CDockFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -260,7 +260,7 @@ LRESULT CDockFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

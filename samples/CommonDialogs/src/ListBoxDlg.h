@@ -29,10 +29,10 @@ CListBoxDlg : public CDialog                                                  /*
         CListBoxDlg();
         virtual ~CListBoxDlg() override {}
 
-        void   AddListItem(LPCTSTR s)
+        void   AddListItem(LPCWSTR s)
                    { m_listContent.push_back(s);}
         void    ClearList(){ m_listContent.clear();}
-        void    SetBoxTitle(LPCTSTR title)
+        void    SetBoxTitle(LPCWSTR title)
                           { m_boxTitle = title;}
 
     protected:

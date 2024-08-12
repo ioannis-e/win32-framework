@@ -28,7 +28,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\StatusBar Sample"));
+    LoadRegistrySettings(L"Win32++\\StatusBar Sample");
 
     return CFrame::Create(parent);
 }
@@ -62,7 +62,7 @@ void CMainFrame::DrawStatusBar(LPDRAWITEMSTRUCT pDrawItem)
     }
 
     // Draw the owner drawn text, stored in the itemData.
-    LPCTSTR text = reinterpret_cast<LPCTSTR>(pDrawItem->itemData);
+    LPCWSTR text = reinterpret_cast<LPCWSTR>(pDrawItem->itemData);
     dc.SetBkMode(TRANSPARENT);
     dc.DrawText(text, lstrlen(text), partRect, DT_SINGLELINE | DT_VCENTER);
 }
@@ -98,7 +98,7 @@ BOOL CMainFrame::DrawStatusBarBkgnd(CDC& dc, CStatusBar& statusbar)
 }
 
 // Retrieves the width of the part required to contain the specified text.
-int CMainFrame::GetTextPartWidth(LPCTSTR text) const
+int CMainFrame::GetTextPartWidth(LPCWSTR text) const
 {
     CClientDC dc = GetDC();
     dc.SelectObject(GetStatusBar().GetFont());
@@ -329,7 +329,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -340,7 +340,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

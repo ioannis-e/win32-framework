@@ -20,8 +20,8 @@ public:
     virtual ~CDoc() override {}
 
     std::vector<PlotPoint>& GetAllPoints() { return m_points; }
-    BOOL FileOpen(LPCTSTR filename);
-    BOOL FileSave(LPCTSTR filename);
+    BOOL FileOpen(LPCWSTR filename);
+    BOOL FileSave(LPCWSTR filename);
     void StorePoint(PlotPoint& pp);
 
 protected:

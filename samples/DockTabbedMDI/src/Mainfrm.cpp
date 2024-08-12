@@ -37,7 +37,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\TabbedMDI Docking"));
+    LoadRegistrySettings(L"Win32++\\TabbedMDI Docking");
 
     return CDockFrame::Create(parent);
 }
@@ -84,11 +84,11 @@ void CMainFrame::LoadDefaultDockers()
 void CMainFrame::LoadDefaultMDIs()
 {
     // Add some MDI tabs
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewWeb>(), _T("Browser"), ID_MDI_WEB);
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewRect>(), _T("Rectangles"), ID_MDI_RECT);
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewText>(), _T("TextView"), ID_MDI_TEXT);
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewClasses>(), _T("Classes"), ID_MDI_CLASSES);
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewFiles>(), _T("Files"), ID_MDI_FILES);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewWeb>(), L"Browser", ID_MDI_WEB);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewRect>(), L"Rectangles", ID_MDI_RECT);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewText>(), L"TextView", ID_MDI_TEXT);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewClasses>(), L"Classes", ID_MDI_CLASSES);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewFiles>(), L"Files", ID_MDI_FILES);
 
     if (m_myTabbedMDI.IsWindow())
         m_myTabbedMDI.SetActiveMDITab(0);
@@ -294,35 +294,35 @@ BOOL CMainFrame::OnFileNew()
 // Adds a MDI with a list-view.
 BOOL CMainFrame::OnFileNewList()
 {
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewFiles>(), _T("Files"), ID_MDI_FILES);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewFiles>(), L"Files", ID_MDI_FILES);
     return TRUE;
 }
 
 // Adds a MDI with a Rectangles view.
 BOOL CMainFrame::OnFileNewRect()
 {
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewRect>(), _T("Rectangles"), ID_MDI_RECT);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewRect>(), L"Rectangles", ID_MDI_RECT);
     return TRUE;
 }
 
 // Adds a MDI with a Browser view.
 BOOL CMainFrame::OnFileNewBrowser()
 {
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewWeb>(), _T("Browser"), ID_MDI_WEB);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewWeb>(), L"Browser", ID_MDI_WEB);
     return TRUE;
 }
 
 // Adds a MDI with a Text view.
 BOOL CMainFrame::OnFileNewText()
 {
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewText>(), _T("TextView"), ID_MDI_TEXT);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewText>(), L"TextView", ID_MDI_TEXT);
     return TRUE;
 }
 
 // Adds a MDI with a tree-view.
 BOOL CMainFrame::OnFileNewTree()
 {
-    m_myTabbedMDI.AddMDIChild(make_unique<CViewClasses>(), _T("Classes"), ID_MDI_CLASSES);
+    m_myTabbedMDI.AddMDIChild(make_unique<CViewClasses>(), L"Classes", ID_MDI_CLASSES);
     return TRUE;
 }
 
@@ -363,7 +363,7 @@ void CMainFrame::OnInitialUpdate()
     // Modify the menu
     int menuPos = frameMenu.GetMenuItemCount() - 1;
     CMenu winMenu = m_myTabbedMDI.GetListMenu();
-    frameMenu.InsertPopupMenu(menuPos, MF_BYPOSITION, winMenu, _T("&Window"));
+    frameMenu.InsertPopupMenu(menuPos, MF_BYPOSITION, winMenu, L"&Window");
 
     // Replace the frame's menu with our modified menu
     SetFrameMenu(frameMenu);
@@ -551,7 +551,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -562,7 +562,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

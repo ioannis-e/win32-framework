@@ -37,7 +37,7 @@ private:
     CMainFrame& operator=(const CMainFrame&) = delete;
 
     // Message handlers
-    LRESULT OnFileLoaded(LPCTSTR fileName);
+    LRESULT OnFileLoaded(LPCWSTR fileName);
     LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
 
     // Command handlers

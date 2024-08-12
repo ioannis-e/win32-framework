@@ -27,7 +27,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-static" />
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ws2_32" />
 					<Add library="ole32" />
@@ -54,7 +54,7 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-static" />
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ws2_32" />
 					<Add library="ole32" />

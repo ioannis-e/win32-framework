@@ -15,9 +15,9 @@ public:
     CRichView();
     virtual ~CRichView() override;
     int  CollatePages(const CDC& printerDC, int startChar = 0, int endChar = -1);
-    void  DoPrint(LPCTSTR docName);
+    void  DoPrint(LPCWSTR docName);
     void  PrintPage(CDC& dc, int page);
-    void  QuickPrint(LPCTSTR docName);
+    void  QuickPrint(LPCWSTR docName);
     void  SetFontDefaults();
 
 protected:

@@ -54,7 +54,7 @@ private:
 
     IUIRibbon* GetIUIRibbon() const;
     CDoc& GetDoc() { return m_doc; }
-    void LoadFile(LPCTSTR fileName);
+    void LoadFile(LPCWSTR fileName);
     void MRUFileOpen(UINT mruIndex);
     void SetPenColor(COLORREF clr);
 

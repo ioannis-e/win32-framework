@@ -162,13 +162,13 @@ void CView::PreRegisterClass(WNDCLASS& wc)
 {
     // Set the background brush, class name and cursor
     wc.hbrBackground = m_brush;
-    wc.lpszClassName = _T("Scribble Window");
+    wc.lpszClassName = L"Scribble Window";
     wc.hCursor = GetApp()->LoadCursor(IDC_CURSOR1);
 }
 
 
 // Select the printer, and call QuickPrint
-void CView::Print(LPCTSTR docName)
+void CView::Print(LPCWSTR docName)
 {
     CPrintDialog printDlg;
 
@@ -234,7 +234,7 @@ void CView::PrintPage(CDC& dc, int)
 
 
 // Print to the default or previously chosen printer.
-void CView::QuickPrint(LPCTSTR docName)
+void CView::QuickPrint(LPCWSTR docName)
 {
     // Create a DOCINFO structure.
     DOCINFO di;

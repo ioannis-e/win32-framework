@@ -136,7 +136,7 @@ LRESULT CView::OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam)
     if ( (wparam & MK_LBUTTON) && (GetCapture() == *this) )
     {
         CString str;
-        str.Format( _T("Draw Point:  %hd, %hd\n"), GET_X_LPARAM(lparam), GET_Y_LPARAM(lparam) );
+        str.Format(L"Draw Point:  %hd, %hd\n", GET_X_LPARAM(lparam), GET_Y_LPARAM(lparam));
         TRACE(str);
 
         DrawLine(GET_X_LPARAM(lparam), GET_Y_LPARAM(lparam));
@@ -158,12 +158,12 @@ void CView::PreRegisterClass(WNDCLASS& wc)
 {
     // Set the background brush, class name and cursor
     wc.hbrBackground = m_brush;
-    wc.lpszClassName = _T("Scribble Window");
+    wc.lpszClassName = L"Scribble Window";
     wc.hCursor = GetApp()->LoadCursor(IDC_CURSOR1);
 }
 
 // Select the printer, and call QuickPrint.
-void CView::Print(LPCTSTR docName)
+void CView::Print(LPCWSTR docName)
 {
     CPrintDialog printDlg;
 
@@ -231,12 +231,12 @@ void CView::PrintPage(CDC& dc, int)
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 }
 
 // Print to the default or previously chosen printer.
-void CView::QuickPrint(LPCTSTR docName)
+void CView::QuickPrint(LPCWSTR docName)
 {
     try
     {
@@ -269,7 +269,7 @@ void CView::QuickPrint(LPCTSTR docName)
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 }
 
@@ -295,7 +295,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -306,7 +306,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

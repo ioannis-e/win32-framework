@@ -25,7 +25,7 @@ public:
     void PrintFooter(CDC& dc, const CString& footerText) const;
     void PrintHeader(CDC& dc, const CString& headerText) const;
     void PrintPage(CDC& dc, int page);
-    void QuickPrint(LPCTSTR docName);
+    void QuickPrint(LPCWSTR docName);
     void SaveFile(LPCWSTR fullPath);
     void SetHeaderText(const CString& headerText) { m_header = headerText; }
 

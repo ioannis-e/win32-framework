@@ -38,7 +38,7 @@ CApp : public CWinApp                                                       /*
         CApp& operator=(const CApp&) = delete;
 
         CString     MakeAppDataPath(const CString& subpath) const;
-        ULONG       DatInt(LPCTSTR) const;
+        ULONG       DatInt(LPCWSTR) const;
         CString     IntDat(ULONG) const;
 
         CMainFrame  m_frame;

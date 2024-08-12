@@ -12,7 +12,7 @@ CHyperlink::CHyperlink() : m_isUrlVisited(false), m_isClicked(false),
                            m_visitedColor(RGB(128, 0, 128)),
                            m_notVisitedColor(RGB(0,0,255))
 {
-    m_urlName = _T("Win32++");
+    m_urlName = L"Win32++";
 
     // Create the cursor.
     m_hCursor = ::LoadCursor(nullptr, IDC_HAND);
@@ -65,7 +65,7 @@ void CHyperlink::OpenUrl()
 {
     CString url("http://sourceforge.net/projects/win32-framework/");
 
-    HINSTANCE result = ShellExecute(nullptr, _T("open"), url, nullptr, nullptr, SW_SHOWNORMAL);
+    HINSTANCE result = ShellExecute(nullptr, L"open", url, nullptr, nullptr, SW_SHOWNORMAL);
 
     if (reinterpret_cast<INT_PTR>(result) > 32)
     {
@@ -125,7 +125,7 @@ LRESULT CHyperlink::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -136,7 +136,7 @@ LRESULT CHyperlink::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

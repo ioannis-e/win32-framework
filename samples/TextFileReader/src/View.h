@@ -30,7 +30,7 @@ CColorExDialog : public CColorDialog                                      /*
     public:
         CColorExDialog(COLORREF init = 0, DWORD flags = 0)
             : CColorDialog(init, flags | CC_ENABLEHOOK | CC_RGBINIT | CC_ANYCOLOR)
-                { SetBoxTitle(_T("Color..."));}
+                { SetBoxTitle(L"Color...");}
         virtual ~CColorExDialog() override {}
 
         void    SetBoxTitle(const CString& title) { m_boxTitle = title;}

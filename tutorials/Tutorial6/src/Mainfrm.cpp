@@ -69,31 +69,31 @@ BOOL CMainFrame::OnFileExit()
 
 BOOL CMainFrame::OnFileNew()
 {
-    ::MessageBox(nullptr, _T("File New  ... Implemented later"), _T("Menu"), MB_OK);
+    ::MessageBox(nullptr, L"File New  ... Implemented later", L"Menu", MB_OK);
     return TRUE;
 }
 
 BOOL CMainFrame::OnFileOpen()
 {
-    ::MessageBox(nullptr, _T("File Open  ... Implemented later"), _T("Menu"), MB_OK);
+    ::MessageBox(nullptr, L"File Open  ... Implemented later", L"Menu", MB_OK);
     return TRUE;
 }
 
 BOOL CMainFrame::OnFilePrint()
 {
-    ::MessageBox(nullptr, _T("File Print  ... Implemented later"), _T("Menu"), MB_OK);
+    ::MessageBox(nullptr, L"File Print  ... Implemented later", L"Menu", MB_OK);
     return TRUE;
 }
 
 BOOL CMainFrame::OnFileSave()
 {
-    ::MessageBox(nullptr, _T("File Save  ... Implemented later"), _T("Menu"), MB_OK);
+    ::MessageBox(nullptr, L"File Save  ... Implemented later", L"Menu", MB_OK);
     return TRUE;
 }
 
 BOOL CMainFrame::OnFileSaveAs()
 {
-    ::MessageBox(nullptr, _T("File SaveAs  ... Implemented later"), _T("Menu"), MB_OK);
+    ::MessageBox(nullptr, L"File SaveAs  ... Implemented later", L"Menu", MB_OK);
     return TRUE;
 }
 

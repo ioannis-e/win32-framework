@@ -172,6 +172,8 @@ namespace Win32xx
 
     inline CRichEdit::CRichEdit()
     {
+        // History of the Rich Edit control
+        // --------------------------------
         // Windows 95   Includes only Rich Edit 1.0.
         // Windows 98   Includes Rich Edit 1.0 and 2.0.
         // Windows 2000 Includes Rich Edit 3.0 with a Rich Edit 1.0 emulator.
@@ -181,17 +183,24 @@ namespace Win32xx
         ::GetSystemDirectory(system.GetBuffer(MAX_PATH), MAX_PATH);
         system.ReleaseBuffer();
 
-        // Load RichEdit version 1.0
+        // Load RichEdit version 1.0. This registers the "RICHEDIT" class.
+        // The "RICHEDIT" class is often used in dialogs.
         m_rich1 = ::LoadLibrary(system + _T("\\riched32.dll"));
-
         if (m_rich1 == nullptr)
             throw CNotSupportedException(GetApp()->MsgRichEditDll());
 
-        // Load RichEdit version 2.0 or 3.0 (for Win98 and above)
+        // Load RichEdit version 3.0. This registers the "RICHEDIT20A"
+        // and "RICHEDIT20W" classes. This will be used when UNICODE
+        // isn't defined.
         m_rich2 = ::LoadLibrary(system + _T("\\riched20.dll"));
+        if (m_rich2 == nullptr)
+            throw CNotSupportedException(GetApp()->MsgRichEditDll());
 
-        // Load RichEdit version 4.1 (for WinXP and above)
+        // Load RichEdit version 4.1. This registers the "RICHEDIT50W" class.
+        // RichEdit version 4.1 requires Unicode.
         m_rich4_1 = ::LoadLibrary(system + _T("\\Msftedit.dll"));
+        if (m_rich4_1 == nullptr)
+            throw CNotSupportedException(GetApp()->MsgRichEditDll());
     }
 
     inline CRichEdit::~CRichEdit()

@@ -275,7 +275,7 @@ void CMainFrame::OnInitialUpdate()
     GetBrowser()->put_Silent(VARIANT_TRUE);
 
     // Load the web page.
-    m_view.Navigate(_T("www.google.com"));
+    m_view.Navigate(L"www.google.com");
 }
 
 // Called when navigation completes on either a window or frameset element.
@@ -330,7 +330,7 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
                 // Insert text into the combo list box.
                 COMBOBOXEXITEM item = {};
                 item.mask = CBEIF_TEXT;
-                item.pszText = (LPTSTR)str.c_str();
+                item.pszText = (LPWSTR)str.c_str();
                 m_combo.InsertItem(item);
 
                 // Navigate to the web page
@@ -566,7 +566,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << '\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -577,7 +577,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

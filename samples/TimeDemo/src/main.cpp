@@ -26,8 +26,13 @@
     Windows API entry point
 
 *=============================================================================*/
+
+#if defined (_MSC_VER) && (_MSC_VER >= 1920)      // VS2019 or higher
+#pragma warning( disable : 28251 )  // Ignore the annotation requirement for wWinMain.
+#endif
+
     int WINAPI
-WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
+wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)                                   /*
 
     This function is called by the system as the initial entry point for
     a WinApi-based application. None of the passed parameters are used by
@@ -37,7 +42,7 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
 {
       // semaphore name, instances, and  handle: make sure the name is
       // unique to this application
-    const CString szSemaphoreName = _T("Unique name: TimeDemo");
+    const CString szSemaphoreName = L"Unique name: TimeDemo";
        // number of allowed instances: here, 1 avoids archive file clashes
     const int nInstances = 1;
       // set default return value
@@ -52,9 +57,9 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
         if (WaitForSingleObject(m_hSemaphore, 0) == WAIT_TIMEOUT)
         {
             ::MessageBox(nullptr,
-                _T("The allowed number of instances of this\n")
-                _T("application are already running."),
-                _T("Stop"), MB_OK | MB_ICONSTOP | MB_TASKMODAL);
+                L"The allowed number of instances of this\n"
+                L"application are already running.",
+                L"Stop", MB_OK | MB_ICONSTOP | MB_TASKMODAL);
                 return 0;
         }
         try
@@ -69,15 +74,14 @@ WinMain(HINSTANCE, HINSTANCE, LPSTR, int)                                   /*
         {
             CString msg;
             CString what(e.what());
-            msg.Format(_T("%s\n%s\n%s"), e.GetText(), e.GetText(),
-                e.GetErrorString(), _T("\nWinMain Goodbye..."));
+            msg.Format(L"%s\n%s\n%s", e.GetText(), e.GetText(),
+                e.GetErrorString(), L"\nWinMain Goodbye...");
             ::MessageBox(nullptr, msg.c_str(), what.c_str(),
                 MB_OK | MB_ICONSTOP | MB_TASKMODAL);
         }
         catch(...)      // catch all other exception events
         {
-            ::MessageBox(nullptr, _T("WinMain Goodbye..."),
-                _T("Error"),
+            ::MessageBox(nullptr, L"WinMain Goodbye...", L"Error",
                 MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
         }
 

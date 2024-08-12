@@ -33,7 +33,7 @@ The following functions now return a unique_ptr instead of a raw pointer:
 * CDocker::NewDockFromID
 * CTabbedMDI::NewMDIChildFromID
 
-Code that overrides these function need to return a unique_ptr as well.
+Code that overrides of these function need to return a unique_ptr as well.
 For example:
 
   DockPtr CMainFrame::NewDockerFromID(int /*id*/)
@@ -117,7 +117,21 @@ versions of Win32++. Code that uses deprecated features should be updated.
  * ::GetComCtlVersion          function - not required for Windows XP and later.
  * MIN and MAX macros          function - use std::min and std::max instead. 
 
+Supported Compilers
+-------------------
+The modern GNU C++ compilers from the following projects:
+ * MinGW
+ * TDM-GCC    (ships with Code::Blocks and Embarcadero Dev-C++)
+ * MinGW-w64  (the latest GNU C++ compilers available)
 
+Visual Studio Community 2015
+Visual Studio Community 2017
+Visual Studio Community 2019
+Visual Studio Community 2022
+
+Embarcadero C++ Community Edition (Rad Studio 11)
+
+Code for Windows XP can be compiled with Visual Studio Community 2015 and the GNU compilers.
 
 Version 9.6.1
 =============

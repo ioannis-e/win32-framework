@@ -40,7 +40,7 @@ CMainFrame : public CFrame                      /*
                                     { m_appName = appName; }
         void        SetArcFileName(const CString& arcName)
                                     { m_arcName = arcName; }
-        void        SetWindowTitle(const CString &title = _T(""));
+        void        SetWindowTitle(const CString &title = L"");
         CView&      TheView()       {return m_view;}
         CDoc&       ThisDoc()       {return m_view.TheDoc();}
         CMRU&       TheMRU()        {return m_MRU;};

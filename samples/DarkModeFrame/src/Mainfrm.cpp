@@ -32,7 +32,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\DarkFrame"));
+    LoadRegistrySettings(L"Win32++\\DarkFrame");
 
     // Initialize dark mode.
     SetPreferredAppMode(AllowDark);
@@ -116,7 +116,7 @@ BOOL CMainFrame::OnFileOpen()
     CString filter = "Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*|";
     CFileDialog fileDlg(TRUE);    // TRUE for file open
     fileDlg.SetFilter(filter);
-    fileDlg.SetDefExt(_T(".cpp"));
+    fileDlg.SetDefExt(L".cpp");
 
     // Bring up the file open dialog retrieve the selected filename
     if (fileDlg.DoModal(*this) == IDOK)
@@ -133,7 +133,7 @@ BOOL CMainFrame::OnFileSave()
     CString filter = "Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*|";
     CFileDialog fileDlg(FALSE);    // FALSE for file save
     fileDlg.SetFilter(filter);
-    fileDlg.SetDefExt(_T(".cpp"));
+    fileDlg.SetDefExt(L".cpp");
 
     // Bring up the file save dialog retrieve the selected filename
     if (fileDlg.DoModal(*this) == IDOK)
@@ -170,14 +170,14 @@ BOOL CMainFrame::OnFilePreview()
         ShowToolBar(FALSE);
 
         // Update status
-        CString status = _T("Printer: ") + printDlg.GetDeviceName();
+        CString status = L"Printer: " + printDlg.GetDeviceName();
         SetStatusText(status);
     }
 
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Preview Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Preview Failed", MB_ICONWARNING);
         SetView(m_view);
         ShowMenu(GetFrameMenu().GetHandle() != 0);
         ShowToolBar(m_isToolbarShown);
@@ -195,14 +195,14 @@ BOOL CMainFrame::OnFilePrint()
     {
         if (IDOK == printdlg.DoModal(*this))
         {
-            m_view.QuickPrint(_T("Frame Sample"));
+            m_view.QuickPrint(L"Frame Sample");
         }
     }
 
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 
     return TRUE;
@@ -238,7 +238,7 @@ LRESULT CMainFrame::OnPreviewClose()
 // Called when the Print Preview's "Print Now" button is pressed.
 LRESULT CMainFrame::OnPreviewPrint()
 {
-    m_view.QuickPrint(_T("Frame Sample"));
+    m_view.QuickPrint(L"Frame Sample");
     return 0;
 }
 
@@ -252,7 +252,7 @@ LRESULT CMainFrame::OnPreviewSetup()
         // Display the print dialog
         if (printDlg.DoModal(*this) == IDOK)
         {
-            CString status = _T("Printer: ") + printDlg.GetDeviceName();
+            CString status = L"Printer: " + printDlg.GetDeviceName();
             SetStatusText(status);
         }
     }
@@ -377,7 +377,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -388,7 +388,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

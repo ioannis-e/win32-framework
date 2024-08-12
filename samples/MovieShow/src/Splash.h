@@ -22,7 +22,7 @@ public:
 
     void AddBar();
     void Hide();
-    void ShowText(LPCTSTR text, CWnd* parent);
+    void ShowText(LPCWSTR text, CWnd* parent);
 
 protected:
     // Virtual functions that override base class functions

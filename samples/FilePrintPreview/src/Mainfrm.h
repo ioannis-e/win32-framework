@@ -55,10 +55,10 @@ CMainFrame : public CFrame                                                  /*
         BOOL    OnOptionsWrap(WordWrapType);
 
         void    QuickPrint(CPrintDialog& printDlg);
-        BOOL    ReadFile(LPCTSTR path);
+        BOOL    ReadFile(LPCWSTR path);
         void    SaveModifiedText();
-        void    SetPath(LPCTSTR path);
-        BOOL    WriteFile(LPCTSTR path);
+        void    SetPath(LPCWSTR path);
+        BOOL    WriteFile(LPCWSTR path);
 
     protected:
         virtual void    OnClose() override;

@@ -18,10 +18,10 @@ public:
     virtual ~CView() override;
     CRect GetImageRect();
     LPPICTURE GetPicture()  { return m_pPicture; }
-    BOOL LoadPictureFile(LPCTSTR fileName);
+    BOOL LoadPictureFile(LPCWSTR fileName);
     LRESULT OnDropFiles(UINT msg, WPARAM wparam, LPARAM lparam);
     void NewPictureFile();
-    void SavePicture(LPCTSTR fileName);
+    void SavePicture(LPCWSTR fileName);
 
 protected:
     // Virtual functions that override base class functions

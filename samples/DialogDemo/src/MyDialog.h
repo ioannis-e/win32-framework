@@ -16,10 +16,10 @@ class CMyDialog : public CDialog
 {
 public:
     CMyDialog(UINT resID);
-    CMyDialog(LPCTSTR resName);
+    CMyDialog(LPCWSTR resName);
     virtual ~CMyDialog() override;
 
-    void SetStatic(LPCTSTR text);
+    void SetStatic(LPCWSTR text);
     void SetURLFont();
 
 protected:

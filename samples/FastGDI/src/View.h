@@ -16,11 +16,11 @@ public:
 
     CBitmap& GetImage() { return m_image; }
     CRect    GetImageRect();
-    void     QuickPrint(LPCTSTR docName);
-    void     Print(LPCTSTR docName);
+    void     QuickPrint(LPCWSTR docName);
+    void     Print(LPCWSTR docName);
     void     PrintPage(CDC& dc, int page = 1);
-    BOOL     LoadFileImage(LPCTSTR filename);
-    BOOL     SaveFileImage(LPCTSTR filename);
+    BOOL     LoadFileImage(LPCWSTR filename);
+    BOOL     SaveFileImage(LPCWSTR filename);
 
 protected:
     // Virtual functions that override base class functions

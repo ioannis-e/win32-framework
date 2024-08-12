@@ -20,7 +20,7 @@ CView::CView() : m_pPicture(nullptr)
 {
     // Initializes the COM library on the current thread.
     if FAILED(::CoInitialize(nullptr))
-        throw CWinException(_T("Failed to initialize COM"));
+        throw CWinException(L"Failed to initialize COM");
 }
 
 // Destructor.
@@ -72,7 +72,7 @@ void CView::NewPictureFile()
 }
 
 // Loads an image from the specified file.
-BOOL CView::LoadPictureFile(LPCTSTR fileName)
+BOOL CView::LoadPictureFile(LPCWSTR fileName)
 {
     if (m_pPicture)
     {
@@ -97,7 +97,7 @@ BOOL CView::LoadPictureFile(LPCTSTR fileName)
     {
         CString str("Failed to load: ");
         str += fileName;
-        MessageBox(str, _T("Load Picture Failed"), MB_ICONWARNING);
+        MessageBox(str, L"Load Picture Failed", MB_ICONWARNING);
         TRACE(str); TRACE("\n");
 
         // Set Frame title back to default
@@ -170,7 +170,7 @@ LRESULT CView::OnDropFiles(UINT, WPARAM wparam, LPARAM)
 void CView::PreCreate(CREATESTRUCT& cs)
 {
     // Set the Window Class name
-    cs.lpszClass = _T("PictureView");
+    cs.lpszClass = L"PictureView";
 
     cs.style = WS_CHILD | WS_HSCROLL | WS_VSCROLL ;
 
@@ -179,7 +179,7 @@ void CView::PreCreate(CREATESTRUCT& cs)
 }
 
 // Saves the image to the specified file.
-void CView::SavePicture(LPCTSTR fileName)
+void CView::SavePicture(LPCWSTR fileName)
 {
     // get a IPictureDisp interface from your IPicture pointer
     IPictureDisp *pDisp = nullptr;
@@ -211,7 +211,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -222,7 +222,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

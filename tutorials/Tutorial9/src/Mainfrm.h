@@ -33,7 +33,7 @@ private:
     CMainFrame(const CMainFrame&) = delete;
     CMainFrame& operator=(const CMainFrame&) = delete;
 
-    void LoadFile(LPCTSTR fileName);
+    void LoadFile(LPCWSTR fileName);
     LRESULT OnDropFile(WPARAM wparam);
     BOOL OnFileExit();
     BOOL OnFileNew();

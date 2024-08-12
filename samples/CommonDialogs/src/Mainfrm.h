@@ -43,11 +43,11 @@ CMainFrame : public CFrame                                                  /*
         void    SetSBBkColor(COLORREF clr)
                     { GetStatusBar().SendMessage(SB_SETBKCOLOR,
                         0, (LPARAM)clr);}
-        void    SetArchivePath(LPCTSTR path) { m_archivePath = path; }
-        void    SetDocExt(LPCTSTR ext)       { m_docExt = ext; }
-        void    SetDocFilter(LPCTSTR filter) { m_docFilter = filter; }
+        void    SetArchivePath(LPCWSTR path) { m_archivePath = path; }
+        void    SetDocExt(LPCWSTR ext)       { m_docExt = ext; }
+        void    SetDocFilter(LPCWSTR filter) { m_docFilter = filter; }
         void    SetMaxMRU(UINT max)          { m_maxMRU = max; }
-        void    SetWindowTitle(LPCTSTR);
+        void    SetWindowTitle(LPCWSTR);
         void    UpdateControlUIState();
 
     protected:
@@ -79,7 +79,7 @@ CMainFrame : public CFrame                                                  /*
         void    OnSaveAs();
         BOOL    OnProcessMRU(WPARAM wparam, LPARAM lparam);
         void    OnWrapText();
-        BOOL    OpenDoc(LPCTSTR);
+        BOOL    OpenDoc(LPCWSTR);
         BOOL    SetCheckStatus(UINT, BOOL, ControlBars);
         BOOL    SetEnableStatus(UINT, BOOL, ControlBars);
         void    SetReBarColors(COLORREF, COLORREF, COLORREF, COLORREF);

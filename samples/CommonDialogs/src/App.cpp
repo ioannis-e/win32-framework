@@ -52,7 +52,7 @@ InitInstance()                                                              /*
       // locate the archive file
     CString archiveDir = MakeAppDataPath(LoadString(IDS_DATAPATH_SUBDIR) + appName);
       // form the archive file path name
-    CString archivePath  = archiveDir + _T("\\") + appName +
+    CString archivePath  = archiveDir + "\\" + appName +
          LoadString(IDS_ARCHIVE_FILE_EXT);
     m_frame.SetArchivePath( archivePath);
       // the document default extension
@@ -64,23 +64,23 @@ InitInstance()                                                              /*
       // make Win32++ version string
     UINT ver = _WIN32XX_VER;
     CString Win32PPVersion;
-    Win32PPVersion.Format(_T("Win32++ Version %d.%d.%d"), ver / 0x100,
+    Win32PPVersion.Format(L"Win32++ Version %d.%d.%d", ver / 0x100,
         (ver % 0x100) / 0x10, (ver % 0x10));
       // generate compiler information for the About box
     CString compiler;
 #ifdef __GNUC__
-    compiler.Format(_T("Gnu C++ %d.%d.%d"), __GNUC__, __GNUC_MINOR__,
+    compiler.Format(L"Gnu C++ %d.%d.%d", __GNUC__, __GNUC_MINOR__,
         __GNUC_PATCHLEVEL__);
 #elif defined(_MSC_VER)
-    compiler.Format(_T("MS C++ %d.%d"), _MSC_VER / 100, _MSC_VER % 100);
+    compiler.Format(L"MS C++ %d.%d", _MSC_VER / 100, _MSC_VER % 100);
 #else
-    compiler = _T("(unknown compiler name)");
+    compiler = L"(unknown compiler name)";
 #endif
     CString compileDate = __DATE__;
       // put this information into the AboutBox information
     CString aboutBoxInfo;
-    aboutBoxInfo.Format(_T("%s\n\n(%s.exe)\n%s\n%s\ncompiled with ")
-        _T("%s on %s"), LoadString(IDW_MAIN).c_str(), appName.c_str(),
+    aboutBoxInfo.Format(L"%s\n\n(%s.exe)\n%s\n%s\ncompiled with "
+        L"%s on %s", LoadString(IDW_MAIN).c_str(), appName.c_str(),
         LoadString(IDS_APP_VERSION).c_str(), Win32PPVersion.c_str(),
         compiler.c_str(), compileDate.c_str());
     m_frame.GetAboutBox().SetStatus(aboutBoxInfo);
@@ -104,18 +104,18 @@ MakeAppDataPath(const CString& subpath) const                               /*
     int from, to, next;
     for (from = 0, to = subpath.GetLength(); from < to; from = ++next)
     {
-        int nextbk = subpath.Find(_T("\\"), from);
-        int nextfwd = subpath.Find(_T("/"), from);
+        int nextbk = subpath.Find(L"\\", from);
+        int nextfwd = subpath.Find(L"/", from);
         next = std::max(nextbk, nextfwd);
         if (next < 0)
             next = to;
 
         CString add = subpath.Mid(from, next - from);
-        app_data_path += _T("\\") + add;
+        app_data_path += L"\\" + add;
         if ((::CreateDirectory(app_data_path, nullptr) == 0) &&
         GetLastError() != ERROR_ALREADY_EXISTS)
         {
-            CString msg = app_data_path + _T("\nDirectory creation error.");
+            CString msg = app_data_path + L"\nDirectory creation error.";
             throw CUserException(msg);
         }
     }

@@ -173,7 +173,9 @@ namespace Win32xx
     // 616  dll ver 6.16    Windows Vista SP1 or above with XP themes
     inline int GetComCtlVersion()
     {
+#ifndef NDEBUG
         OutputDebugString(_T("*** Warning: GetComCtlVersion is deprecated. ***\n"));
+#endif
 
         // Retrieve the Common Controls DLL handle.
         HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));

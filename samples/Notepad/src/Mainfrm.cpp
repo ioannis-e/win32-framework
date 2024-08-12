@@ -73,7 +73,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\Notepad Sample"));
+    LoadRegistrySettings(L"Win32++\\Notepad Sample");
 
     // Load the settings from the registry with 5 MRU entries.
     LoadRegistryMRUSettings(5);
@@ -119,7 +119,7 @@ void CMainFrame::DetermineEncoding(CFile& file)
 }
 
 // Retrieves the width of the part required to contain the specified text.
-int CMainFrame::GetTextPartWidth(LPCTSTR text) const
+int CMainFrame::GetTextPartWidth(LPCWSTR text) const
 {
     CClientDC statusDC(GetStatusBar());
     statusDC.SelectObject(GetStatusBar().GetFont());
@@ -143,7 +143,7 @@ DWORD CALLBACK CMainFrame::MyStreamInCallback(DWORD cookie, LPBYTE pBuffer, LONG
     *bytesRead = 0;
     DWORD bytesToRead = static_cast<DWORD>(cb);
     if (!::ReadFile(file, pBuffer, bytesToRead, bytesRead, nullptr))
-        ::MessageBox(nullptr, _T("ReadFile Failed"), _T(""), MB_OK);
+        ::MessageBox(nullptr, L"ReadFile Failed", L"", MB_OK);
 
     return 0;
 }
@@ -160,7 +160,7 @@ DWORD CALLBACK CMainFrame::MyStreamOutCallback(DWORD cookie, LPBYTE pBuffer, LON
     *bytesWritten = 0;
     DWORD bytesToRead = static_cast<DWORD>(cb);
     if (!::WriteFile(file, pBuffer, bytesToRead, bytesWritten, nullptr))
-        ::MessageBox(nullptr, _T("WriteFile Failed"), _T(""), MB_OK);
+        ::MessageBox(nullptr, L"WriteFile Failed", L"", MB_OK);
     return 0;
 }
 
@@ -329,7 +329,7 @@ BOOL CMainFrame::OnEditUndo()
 BOOL CMainFrame::OnEncodeANSI()
 {
     SetEncoding(ANSI);
-    int menuItem = GetFrameMenu().FindMenuItem(_T("&Encoding"));
+    int menuItem = GetFrameMenu().FindMenuItem(L"&Encoding");
     if (menuItem >= 0)
     {
         CMenu ThemeMenu = GetFrameMenu().GetSubMenu(menuItem);
@@ -343,7 +343,7 @@ BOOL CMainFrame::OnEncodeANSI()
 BOOL CMainFrame::OnEncodeUTF8()
 {
     SetEncoding(UTF8);
-    int menuItem = GetFrameMenu().FindMenuItem(_T("&Encoding"));
+    int menuItem = GetFrameMenu().FindMenuItem(L"&Encoding");
     if (menuItem >= 0)
     {
         CMenu ThemeMenu = GetFrameMenu().GetSubMenu(menuItem);
@@ -357,7 +357,7 @@ BOOL CMainFrame::OnEncodeUTF8()
 BOOL CMainFrame::OnEncodeUTF16()
 {
     SetEncoding(UTF16LE);
-    int menuItem = GetFrameMenu().FindMenuItem(_T("&Encoding"));
+    int menuItem = GetFrameMenu().FindMenuItem(L"&Encoding");
     if (menuItem >= 0)
     {
         CMenu ThemeMenu = GetFrameMenu().GetSubMenu(menuItem);
@@ -447,7 +447,7 @@ BOOL CMainFrame::OnFilePreview()
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Preview Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Preview Failed", MB_ICONWARNING);
         SetView(m_richView);
         ShowMenu(GetFrameMenu() != nullptr);
         ShowToolBar(m_isToolbarShown);
@@ -467,7 +467,7 @@ BOOL CMainFrame::OnFilePrint()
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 
     return TRUE;
@@ -483,7 +483,7 @@ BOOL CMainFrame::OnFilePrintSetup()
         // Display the print dialog
         if (printDlg.DoModal(*this) == IDOK)
         {
-            CString status = _T("Printer: ") + printDlg.GetDeviceName();
+            CString status = L"Printer: " + printDlg.GetDeviceName();
             SetStatusText(status);
         }
     }
@@ -491,7 +491,7 @@ BOOL CMainFrame::OnFilePrintSetup()
     catch (const CWinException& /* e */)
     {
         // No default printer
-        MessageBox(_T("Unable to display print dialog"), _T("Print Failed"), MB_OK);
+        MessageBox(L"Unable to display print dialog", L"Print Failed", MB_OK);
     }
 
     return TRUE;
@@ -508,7 +508,7 @@ BOOL CMainFrame::OnFilePrintNow()
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
     return TRUE;
 }
@@ -518,13 +518,13 @@ BOOL CMainFrame::OnFileOpen()
 {
     // szFilters is a text string that includes two file name filters:
     // "*.txt" for Plain Text files, "*.rtf" for Rich Text files and "*.*' for "All Files."
-    LPCTSTR filters;
+    LPCWSTR filters;
     if (m_isRTF)
-        filters = _T("Rich Text Files (*.rtf)\0*.rtf\0Plain Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0");
+        filters = L"Rich Text Files (*.rtf)\0*.rtf\0Plain Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0";
     else
-        filters = _T("Plain Text Files (*.txt)\0*.txt\0Rich Text Files (*.rtf)\0*.rtf\0All Files (*.*)\0*.*\0");
+        filters = L"Plain Text Files (*.txt)\0*.txt\0Rich Text Files (*.rtf)\0*.rtf\0All Files (*.*)\0*.*\0";
 
-    CFileDialog fileDlg(TRUE, _T("txt"), nullptr, OFN_FILEMUSTEXIST, filters);
+    CFileDialog fileDlg(TRUE, L"txt", nullptr, OFN_FILEMUSTEXIST, filters);
 
     if (fileDlg.DoModal(*this) == IDOK)
     {
@@ -552,7 +552,7 @@ BOOL CMainFrame::OnFileSave()
         if (dwAttrib != INVALID_FILE_ATTRIBUTES)
         {
             CString str = "This file already exists.\nDo you want to replace it?";
-            if (IDYES == MessageBox(str, _T("Confirm Save"), MB_ICONWARNING | MB_OKCANCEL))
+            if (IDYES == MessageBox(str, L"Confirm Save", MB_ICONWARNING | MB_OKCANCEL))
                 WriteFile(m_pathName);
         }
         else
@@ -567,12 +567,12 @@ BOOL CMainFrame::OnFileSaveAs()
 {
     // szFilter is a text string that includes two file name filters:
     // "*.txt" for Plain Text Files, "*.rtf" for Rich Text Files, and "*.*' for All Files.
-    LPCTSTR filters;
+    LPCWSTR filters;
     if (m_isRTF)
-        filters = _T("Rich Text Files (*.rtf)\0*.rtf\0Plain Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0");
+        filters = L"Rich Text Files (*.rtf)\0*.rtf\0Plain Text Files (*.txt)\0*.txt\0All Files (*.*)\0*.*\0";
     else
-        filters = _T("Plain Text Files (*.txt)\0*.txt\0Rich Text Files (*.rtf)\0*.rtf\0All Files (*.*)\0*.*\0");
-    CFileDialog fileDlg(FALSE, _T("txt"), nullptr, OFN_OVERWRITEPROMPT, filters);
+        filters = L"Plain Text Files (*.txt)\0*.txt\0Rich Text Files (*.rtf)\0*.rtf\0All Files (*.*)\0*.*\0";
+    CFileDialog fileDlg(FALSE, L"txt", nullptr, OFN_OVERWRITEPROMPT, filters);
 
     if (fileDlg.DoModal(*this) == IDOK)
     {
@@ -761,7 +761,7 @@ LRESULT CMainFrame::OnPreviewPrint()
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 
     return 0;
@@ -777,7 +777,7 @@ LRESULT CMainFrame::OnPreviewSetup()
         // Display the print dialog
         if (printDlg.DoModal(*this) == IDOK)
         {
-            CString status = _T("Printer: ") + printDlg.GetDeviceName();
+            CString status = L"Printer: " + printDlg.GetDeviceName();
             SetStatusText(status);
         }
 
@@ -799,7 +799,7 @@ LRESULT CMainFrame::OnPreviewSetup()
 // Update the radio buttons in the menu.
 BOOL CMainFrame::OnUpdateRangeOfIDs(UINT idFirst, UINT idLast, UINT id)
 {
-    int menuItem = GetFrameMenu().FindMenuItem(_T("&Encoding"));
+    int menuItem = GetFrameMenu().FindMenuItem(L"&Encoding");
     CMenu radioMenu = GetFrameMenu().GetSubMenu(menuItem);
     UINT enc = m_encoding + IDM_ENC_ANSI;
     if (enc == id)
@@ -809,7 +809,7 @@ BOOL CMainFrame::OnUpdateRangeOfIDs(UINT idFirst, UINT idLast, UINT id)
 }
 
 // Streams the file into the rich edit control.
-BOOL CMainFrame::ReadFile(LPCTSTR fileName)
+BOOL CMainFrame::ReadFile(LPCWSTR fileName)
 {
     try
     {
@@ -821,13 +821,13 @@ BOOL CMainFrame::ReadFile(LPCTSTR fileName)
         ULONGLONG fileLength = file.GetLength();
         if (fileLength > 100000000)
         {
-            throw CFileException(fileName, _T("File is too large!"));
+            throw CFileException(fileName, L"File is too large!");
         }
 
         // Use RFT mode if the file has an rtf extension
         CString ext = file.GetFileNameExt();
         ext.MakeLower();
-        if (ext == _T("rtf"))
+        if (ext == L"rtf")
             OnFileNewRich();
         else
             OnFileNewPlain();
@@ -862,7 +862,7 @@ BOOL CMainFrame::ReadFile(LPCTSTR fileName)
 
     catch (const CFileException& e)
     {
-        CString str = _T("Failed to load:  ");
+        CString str = L"Failed to load:  ";
         str += e.GetFilePath();
         str += "\n";
         str += e.GetText();
@@ -878,8 +878,11 @@ void CMainFrame::SaveModifiedText()
 {
     // Check for unsaved text
     if (m_richView.GetModify())
-        if (::MessageBox(nullptr, _T("Save changes to this document"), _T("Notepad"), MB_YESNO | MB_ICONWARNING) == IDYES)
+        if (::MessageBox(nullptr, L"Save changes to this document",
+            L"Notepad", MB_YESNO | MB_ICONWARNING) == IDYES)
+        {
             OnFileSave();
+        }
 }
 
 // Set the encoding type.
@@ -889,14 +892,14 @@ void CMainFrame::SetEncoding(int encoding)
 
     switch (m_encoding)
     {
-    case ANSI:         SetStatusText(_T("Encoding: ANSI"));            break;
-    case UTF8:         SetStatusText(_T("Encoding: UTF-8"));           break;
-    case UTF16LE:      SetStatusText(_T("Encoding: UTF-16"));          break;
+    case ANSI:         SetStatusText(L"Encoding: ANSI");            break;
+    case UTF8:         SetStatusText(L"Encoding: UTF-8");           break;
+    case UTF16LE:      SetStatusText(L"Encoding: UTF-16");          break;
     }
 }
 
 // Saves the documents full path name.
-void CMainFrame::SetPathName(LPCTSTR filePathName)
+void CMainFrame::SetPathName(LPCWSTR filePathName)
 {
     m_pathName = filePathName;
 }
@@ -1006,9 +1009,9 @@ void CMainFrame::SetWindowTitle()
     CString title;
 
     if (m_pathName.IsEmpty())
-        title = _T("Notepad");
+        title = L"Notepad";
     else
-        title = m_pathName + _T(" - Notepad");
+        title = m_pathName + L" - Notepad";
 
     SetWindowText(title);
 }
@@ -1048,7 +1051,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -1059,14 +1062,14 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
 }
 
 // Streams from the rich edit control to the specified file.
-BOOL CMainFrame::WriteFile(LPCTSTR szFileName)
+BOOL CMainFrame::WriteFile(LPCWSTR szFileName)
 {
     try
     {
@@ -1077,7 +1080,7 @@ BOOL CMainFrame::WriteFile(LPCTSTR szFileName)
         // Use Rich Text mode if the file has an rtf extension
         CString ext = file.GetFileNameExt();
         ext.MakeLower();
-        m_isRTF = (ext == _T("rtf"));
+        m_isRTF = (ext == L"rtf");
 
         // set the EDITSTREAM mode
         int stream_mode = m_isRTF ? SF_RTF : SF_TEXT;
@@ -1115,9 +1118,9 @@ BOOL CMainFrame::WriteFile(LPCTSTR szFileName)
 
     catch (const CFileException&)
     {
-        CString str = _T("Failed to write:  ");
+        CString str = L"Failed to write:  ";
         str += szFileName;
-        ::MessageBox(nullptr, str, _T("Warning"), MB_ICONWARNING);
+        ::MessageBox(nullptr, str, L"Warning", MB_ICONWARNING);
         return FALSE;
     }
 

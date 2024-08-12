@@ -106,7 +106,7 @@ BOOL CMainFrame::OnFileOpen()
     CString filter = "Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*|";
     CFileDialog fileDlg(TRUE);    // TRUE for file open
     fileDlg.SetFilter(filter);
-    fileDlg.SetDefExt(_T(".cpp"));
+    fileDlg.SetDefExt(L".cpp");
 
     // Bring up the file open dialog retrieve the selected filename
     if (fileDlg.DoModal(*this) == IDOK)
@@ -123,7 +123,7 @@ BOOL CMainFrame::OnFileSave()
     CString filter = "Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*|";
     CFileDialog fileDlg(FALSE);    // FALSE for file save
     fileDlg.SetFilter(filter);
-    fileDlg.SetDefExt(_T(".cpp"));
+    fileDlg.SetDefExt(L".cpp");
 
     // Bring up the file save dialog retrieve the selected filename
     if (fileDlg.DoModal(*this) == IDOK)
@@ -160,14 +160,14 @@ BOOL CMainFrame::OnFilePreview()
         ShowToolBar(FALSE);
 
         // Update status.
-        CString status = _T("Printer: ") + printDlg.GetDeviceName();
+        CString status = L"Printer: " + printDlg.GetDeviceName();
         SetStatusText(status);
     }
 
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Preview Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Preview Failed", MB_ICONWARNING);
         SetView(m_view);
         ShowMenu(GetFrameMenu() != 0);
         ShowToolBar(m_isToolbarShown);
@@ -185,7 +185,7 @@ BOOL CMainFrame::OnFilePrint()
     {
         if (IDOK == printdlg.DoModal(*this))
         {
-            m_view.QuickPrint(_T("Frame Sample"));
+            m_view.QuickPrint(L"Frame Sample");
         }
 
     }
@@ -193,7 +193,7 @@ BOOL CMainFrame::OnFilePrint()
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 
     return TRUE;
@@ -238,7 +238,7 @@ LRESULT CMainFrame::OnPreviewClose()
 // Called when the Print Preview's "Print Now" button is pressed.
 LRESULT CMainFrame::OnPreviewPrint()
 {
-    m_view.QuickPrint(_T("Frame Sample"));
+    m_view.QuickPrint(L"Frame Sample");
     return 0;
 }
 
@@ -252,7 +252,7 @@ LRESULT CMainFrame::OnPreviewSetup()
         // Display the print dialog
         if (printDlg.DoModal(*this) == IDOK)
         {
-            CString status = _T("Printer: ") + printDlg.GetDeviceName();
+            CString status = L"Printer: " + printDlg.GetDeviceName();
             SetStatusText(status);
         }
     }
@@ -269,22 +269,20 @@ LRESULT CMainFrame::OnPreviewSetup()
     return 0;
 }
 
-// Integer to TCHAR. Returns a CString.
-CString CMainFrame::ItoT(int i)
+// Integer to wchar_t. Returns a CString.
+CString CMainFrame::ItoW(int i)
 {
-    // tStringStream is a TCHAR std::stringstream
-    tStringStream tss;
-    tss << i;
-    return CString(tss.str().c_str());
+    std::basic_stringstream<wchar_t> wss;
+    wss << i;
+    return CString(wss.str().c_str());
 }
 
-// TCHAR to Integer.
-int CMainFrame::TtoI(LPCTSTR string)
+// wchar_t to Integer.
+int CMainFrame::WtoI(LPCWSTR string)
 {
-    // tStringStream is a TCHAR std::stringstream
-    tStringStream tss(string);
+    std::basic_stringstream<wchar_t> wss(string);
     int res;
-    tss >> res;
+    wss >> res;
     return res;
 }
 
@@ -292,40 +290,18 @@ int CMainFrame::TtoI(LPCTSTR string)
 CString CMainFrame::GetINIPath()
 {
     CString appDataPath = GetAppDataPath();
-    CString subfolder = _T("Win32++\\INIFrame");
+    CString subfolder = L"Win32++\\INIFrame";
     if (!appDataPath.IsEmpty())
     {
-        // Create the directory if required
-        int from = 0;
-        int to = subfolder.GetLength();
-        while (from < to)
-        {
-            int next = subfolder.Find(_T("\\"), from);
-            if (next < 0)
-                next = to;
-
-            CString add = subfolder.Mid(from, next - from);
-            appDataPath += _T("\\") + add;
-
-            if (!::CreateDirectory(appDataPath, nullptr) && GetLastError() != ERROR_ALREADY_EXISTS)
-            {
-                CString msg = appDataPath + _T("Directory creation error.");
-                throw CUserException(msg);
-            }
-
-            from = ++next;
-        }
+        appDataPath += L"\\Win32++\\INIFrame";
+        ::SHCreateDirectory(nullptr, appDataPath);
 
         DWORD attributes = GetFileAttributes(appDataPath);
         if ((attributes == INVALID_FILE_ATTRIBUTES) || !(attributes & FILE_ATTRIBUTE_DIRECTORY))
-            throw CFileException(appDataPath, _T("Failed to access app directory"));
-
-        // Note: on Win2000 and above we could create the folders in a single step:
-        // appDataPath += _T("\\Win32++\\INIFrame");
-        // SHCreateDirectory(nullptr, FilePath);   // supported on Win2000 and above
+            throw CFileException(appDataPath, L"Failed to access app directory");
     }
     else
-        appDataPath = _T(".");
+        appDataPath = L".";
 
     return appDataPath;
 }
@@ -335,7 +311,7 @@ void CMainFrame::SerializeINI(BOOL isStoring)
 {
     try
     {
-        CString fileName = GetINIPath() + _T("\\Frame.ini");
+        CString fileName = GetINIPath() + "\\Frame.ini";
         CString key("Frame Settings");
 
         WINDOWPLACEMENT wndpl = {};
@@ -357,17 +333,17 @@ void CMainFrame::SerializeINI(BOOL isStoring)
             ::WritePrivateProfileString(nullptr, nullptr, nullptr, fileName);
 
             // Write the Frame window's position and show state
-            ::WritePrivateProfileString(key, _T("Left"), ItoT(left), fileName);
-            ::WritePrivateProfileString(key, _T("Top"), ItoT(top), fileName);
-            ::WritePrivateProfileString(key, _T("Width"), ItoT(width), fileName);
-            ::WritePrivateProfileString(key, _T("Height"), ItoT(height), fileName);
-            ::WritePrivateProfileString(key, _T("ShowCmd"), ItoT(showCmd), fileName);
+            ::WritePrivateProfileString(key, L"Left", ItoW(left), fileName);
+            ::WritePrivateProfileString(key, L"Top", ItoW(top), fileName);
+            ::WritePrivateProfileString(key, L"Width", ItoW(width), fileName);
+            ::WritePrivateProfileString(key, L"Height", ItoW(height), fileName);
+            ::WritePrivateProfileString(key, L"ShowCmd", ItoW(showCmd), fileName);
 
             // Write the StatusBar and ToolBar show state.
             DWORD showStatusBar = GetStatusBar().IsWindow() && GetStatusBar().IsWindowVisible();
             DWORD showToolBar = GetToolBar().IsWindow() && GetToolBar().IsWindowVisible();
-            ::WritePrivateProfileString(key, _T("StatusBar"), ItoT(showStatusBar), fileName);
-            ::WritePrivateProfileString(key, _T("ToolBar"), ItoT(showToolBar), fileName);
+            ::WritePrivateProfileString(key, L"StatusBar", ItoW(showStatusBar), fileName);
+            ::WritePrivateProfileString(key, L"ToolBar", ItoW(showToolBar), fileName);
         }
         else
         {
@@ -376,11 +352,11 @@ void CMainFrame::SerializeINI(BOOL isStoring)
             UINT failed = 999999;
             CString error("Error: GPPS failed");
 
-            UINT left = ::GetPrivateProfileInt(key, _T("Left"), failed, fileName);
-            UINT top = ::GetPrivateProfileInt(key, _T("Top"), failed, fileName);
-            UINT width = ::GetPrivateProfileInt(key, _T("Width"), failed, fileName);
-            UINT height = ::GetPrivateProfileInt(key, _T("Height"), failed, fileName);
-            UINT showCmd = ::GetPrivateProfileInt(key, _T("ShowCmd"), failed, fileName);
+            UINT left = ::GetPrivateProfileInt(key, L"Left", failed, fileName);
+            UINT top = ::GetPrivateProfileInt(key, L"Top", failed, fileName);
+            UINT width = ::GetPrivateProfileInt(key, L"Width", failed, fileName);
+            UINT height = ::GetPrivateProfileInt(key, L"Height", failed, fileName);
+            UINT showCmd = ::GetPrivateProfileInt(key, L"ShowCmd", failed, fileName);
 
             if (left != failed && top != failed && width != failed && height != failed && showCmd != failed)
             {
@@ -419,12 +395,12 @@ void CMainFrame::SerializeINI(BOOL isStoring)
                 values.showCmd = showCmd;
 
                 // Set the show state of the status bar
-                UINT showStatus = ::GetPrivateProfileInt(key, _T("StatusBar"), 0, fileName);
+                UINT showStatus = ::GetPrivateProfileInt(key, L"StatusBar", 0, fileName);
                 if (showStatus != failed)
                     values.showStatusBar = showStatus;
 
                 // Set the show state of the tool bar
-                UINT showTool = ::GetPrivateProfileInt(key, _T("ToolBar"), 0, fileName);
+                UINT showTool = ::GetPrivateProfileInt(key, L"ToolBar", 0, fileName);
                 if (showTool != failed)
                     values.showToolBar = showTool;
             }
@@ -496,7 +472,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -507,7 +483,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

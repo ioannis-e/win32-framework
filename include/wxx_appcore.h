@@ -671,7 +671,7 @@ namespace Win32xx
     { return _T("IP Address Control not supported!."); }
 
     inline CString CWinApp::MsgRichEditDll() const
-    { return _T("Failed to load RICHED32.DLL."); }
+    { return _T("Failed to load the RichEdit dll."); }
 
     inline CString CWinApp::MsgTaskDialog() const
     { return _T("Failed to create Task Dialog."); }

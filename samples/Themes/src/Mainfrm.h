@@ -14,8 +14,6 @@ struct BandData
 {
     UINT index;
     UINT id;
-//    UINT style;
-//    UINT size;
 };
 
 ///////////////////////////////////////////////////////////
@@ -31,7 +29,7 @@ public:
 
 protected:
     // Virtual functions that override base class functions
-    virtual BOOL    LoadRegistrySettings(LPCTSTR keyName) override;
+    virtual BOOL    LoadRegistrySettings(LPCWSTR keyName) override;
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int     OnCreate(CREATESTRUCT& cs) override;
     virtual LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam) override;

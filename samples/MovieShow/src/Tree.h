@@ -29,7 +29,7 @@ protected:
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    bool      IsBoxSetUnique(LPCTSTR text, HTREEITEM item);
+    bool      IsBoxSetUnique(LPCWSTR text, HTREEITEM item);
 
     // Message handlers
     LRESULT OnDpiChangedBeforeParent(UINT msg, WPARAM wparam, LPARAM lparam);

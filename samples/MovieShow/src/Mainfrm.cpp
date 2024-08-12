@@ -247,7 +247,7 @@ void CMainFrame::FillListFromAllBoxSets()
 }
 
 // Fills the list view with movies belonging to the specified boxset.
-void CMainFrame::FillListFromBoxSet(LPCTSTR boxset)
+void CMainFrame::FillListFromBoxSet(LPCWSTR boxset)
 {
     GetViewList().SetRedraw(FALSE);
     m_splashThread.GetSplash()->ShowText(L"Updating List", this);
@@ -270,7 +270,7 @@ void CMainFrame::FillListFromBoxSet(LPCTSTR boxset)
 }
 
 // Fills the list view with movies within the specified date range.
-void CMainFrame::FillListFromDateRange(LPCTSTR dateRange)
+void CMainFrame::FillListFromDateRange(LPCWSTR dateRange)
 {
     GetViewList().SetRedraw(FALSE);
     m_splashThread.GetSplash()->ShowText(L"Updating List", this);
@@ -321,7 +321,7 @@ void CMainFrame::FillListFromFlags(DWORD mask)
 }
 
 // Fills the list view with movies matching the specified genre.
-void CMainFrame::FillListFromGenre(LPCTSTR genre)
+void CMainFrame::FillListFromGenre(LPCWSTR genre)
 {
     // Lock this function for thread safety
     CThreadLock lock(m_cs);
@@ -336,7 +336,7 @@ void CMainFrame::FillListFromGenre(LPCTSTR genre)
 }
 
 // Fills the list view with movies from all genres.
-void CMainFrame::FillListFromGenres(LPCTSTR genreList)
+void CMainFrame::FillListFromGenres(LPCWSTR genreList)
 {
     GetViewList().SetRedraw(FALSE);
     m_splashThread.GetSplash()->ShowText(L"Updating List", this);
@@ -388,7 +388,7 @@ void CMainFrame::FillListFromSearch()
 }
 
 // Fills the list view with movies matching the specified type.
-void CMainFrame::FillListFromType(LPCTSTR videoType)
+void CMainFrame::FillListFromType(LPCWSTR videoType)
 {
     GetViewList().SetRedraw(FALSE);
     m_splashThread.GetSplash()->ShowText(L"Updating List", this);
@@ -656,7 +656,7 @@ void CMainFrame::LoadMovies()
 }
 
 // Loads settings from the registry.
-BOOL CMainFrame::LoadRegistrySettings(LPCTSTR szKeyName)
+BOOL CMainFrame::LoadRegistrySettings(LPCWSTR szKeyName)
 {
     assert(szKeyName != nullptr);
 
@@ -1439,7 +1439,7 @@ LRESULT CMainFrame::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
 
 // Called in response to the popup menu on the list view.
 // Sets the video type to a "Movie" or "Live Performance"
-BOOL CMainFrame::OnVideoType(LPCTSTR videoType)
+BOOL CMainFrame::OnVideoType(LPCWSTR videoType)
 {
     int item = -1;
     while ((item = GetViewList().GetNextItem(item, LVIS_SELECTED)) != -1)
@@ -1485,7 +1485,7 @@ BOOL CMainFrame::OnWatchList()
 }
 
 // Plays the selected movie.
-LRESULT CMainFrame::PlayMovie(LPCTSTR path)
+LRESULT CMainFrame::PlayMovie(LPCWSTR path)
 {
     if (PathFileExists(path))
         ::ShellExecute(*this, L"open", path, nullptr, nullptr, SW_SHOW);
@@ -1563,7 +1563,7 @@ BOOL CMainFrame::SaveRegistrySettings()
 // the caption color. The DWMWA_CAPTION_COLOR option requires Windows 11.
 void CMainFrame::SetCaptionColor(COLORREF color)
 {
-    HMODULE dwmapi = ::LoadLibrary(_T("Dwmapi.dll"));
+    HMODULE dwmapi = ::LoadLibrary(L"Dwmapi.dll");
     if (dwmapi != 0)
     {
         typedef UINT WINAPI DWMSETWINDOWATTRIBUE(HWND, DWORD, LPCVOID, DWORD);
@@ -1747,7 +1747,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
         case UWM_ONRCLICKTREEITEM:      return OnRClickTreeItem();
 
         // Use Messages called by CViewList
-        case UWM_PLAYMOVIE:             return PlayMovie((LPCTSTR)wparam);
+        case UWM_PLAYMOVIE:             return PlayMovie((LPCWSTR)wparam);
         case UWM_ONSELECTLISTITEM:      return OnSelectListItem((const MovieInfo*)wparam);
         case UWM_ONRCLICKLISTITEM:      return OnRClickListItem();
         }
@@ -1761,7 +1761,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -1772,7 +1772,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

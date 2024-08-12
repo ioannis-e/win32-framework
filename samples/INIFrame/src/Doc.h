@@ -15,8 +15,8 @@ public:
     CDoc() {}
     virtual ~CDoc() override {}
 
-    BOOL FileLoad(LPCTSTR filename);
-    BOOL FileStore(LPCTSTR filename);
+    BOOL FileLoad(LPCWSTR filename);
+    BOOL FileStore(LPCWSTR filename);
 
 protected:
     // Virtual functions that override base class functions

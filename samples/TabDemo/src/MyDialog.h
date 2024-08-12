@@ -28,7 +28,7 @@ private:
     CViewDialog(const CViewDialog&) = delete;
     CViewDialog& operator=(const CViewDialog&) = delete;
 
-    void AppendText(int id, LPCTSTR text);
+    void AppendText(int id, LPCWSTR text);
 
     // Command handlers
     BOOL OnButton();

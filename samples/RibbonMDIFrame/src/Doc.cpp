@@ -8,7 +8,7 @@
 /////////////////////////////
 // CDoc function definitions.
 //
-BOOL CDoc::FileLoad(LPCTSTR filename)
+BOOL CDoc::FileLoad(LPCWSTR filename)
 {
     BOOL isLoaded = FALSE;
 
@@ -30,7 +30,7 @@ BOOL CDoc::FileLoad(LPCTSTR filename)
     return isLoaded;
 }
 
-BOOL CDoc::FileStore(LPCTSTR /* filename */)
+BOOL CDoc::FileStore(LPCWSTR /* filename */)
 {
     BOOL isStored = FALSE;
 

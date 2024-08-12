@@ -8,7 +8,7 @@
 /////////////////////////////
 // CDoc function definitions.
 //
-void CDoc::FileOpen(LPCTSTR filename)
+void CDoc::FileOpen(LPCWSTR filename)
 // Loads the plotpoint data from the archive.
 // Throws an exception if unable to read the file.
 {
@@ -17,7 +17,7 @@ void CDoc::FileOpen(LPCTSTR filename)
     ar >> *this;
 }
 
-void CDoc::FileSave(LPCTSTR filename)
+void CDoc::FileSave(LPCWSTR filename)
 // Stores the plotpoint data in the archive.
 // Throws an exception if unable to save the file.
 {

@@ -11,7 +11,7 @@
 //
 
 // Constructor.
-CButtonPage::CButtonPage(UINT templateID, LPCTSTR title /* = nullptr*/) : CPropertyPage(templateID, title)
+CButtonPage::CButtonPage(UINT templateID, LPCWSTR title /* = nullptr*/) : CPropertyPage(templateID, title)
 {
 }
 
@@ -41,7 +41,7 @@ INT_PTR CButtonPage::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -52,7 +52,7 @@ INT_PTR CButtonPage::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -129,7 +129,7 @@ BOOL CButtonPage::Validate()
 //  if (IsValid)
 //      TRACE("Button Page Validation passed\n");
 //  else
-//      MessageBox(_T("Button Page Validation Failed"), _T("PageSheet Check"), MB_OK);
+//      MessageBox(L"Button Page Validation Failed", L"PageSheet Check", MB_OK);
 
     return isValid;
 }
@@ -139,7 +139,7 @@ BOOL CButtonPage::Validate()
 //
 
 // Constructor.
-CComboPage::CComboPage(UINT templateID, LPCTSTR title /* = nullptr*/) : CPropertyPage(templateID, title)
+CComboPage::CComboPage(UINT templateID, LPCWSTR title /* = nullptr*/) : CPropertyPage(templateID, title)
 {
 }
 
@@ -169,7 +169,7 @@ INT_PTR CComboPage::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -180,7 +180,7 @@ INT_PTR CComboPage::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -201,9 +201,9 @@ BOOL CComboPage::OnInitDialog()
     // Put some text in the combo boxes.
     for (int i = 0 ; i < 6 ; i++)
     {
-        SendDlgItemMessage( IDC_COMBO1, CB_ADDSTRING, 0, (LPARAM) _T("C Box 1") );
-        SendDlgItemMessage( IDC_COMBO2, CB_ADDSTRING, 0, (LPARAM) _T("C Box 2") );
-        SendDlgItemMessage( IDC_COMBO3, CB_ADDSTRING, 0, (LPARAM) _T("C Box 3") );
+        SendDlgItemMessage(IDC_COMBO1, CB_ADDSTRING, 0, (LPARAM)L"C Box 1");
+        SendDlgItemMessage(IDC_COMBO2, CB_ADDSTRING, 0, (LPARAM)L"C Box 2");
+        SendDlgItemMessage(IDC_COMBO3, CB_ADDSTRING, 0, (LPARAM)L"C Box 3");
     }
 
     return TRUE;
@@ -225,7 +225,7 @@ BOOL CComboPage::OnSetActive()
 //
 
 // Constructor.
-CMyPropertySheet::CMyPropertySheet(LPCTSTR pszCaption /*=nullptr*/, HWND hParent /* = nullptr*/) : CPropertySheet(pszCaption, hParent)
+CMyPropertySheet::CMyPropertySheet(LPCWSTR pszCaption /*=nullptr*/, HWND hParent /* = nullptr*/) : CPropertySheet(pszCaption, hParent)
 {
     SetIcon(IDI_DIALOG);
 }
@@ -284,7 +284,7 @@ LRESULT CMyPropertySheet::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -295,7 +295,7 @@ LRESULT CMyPropertySheet::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

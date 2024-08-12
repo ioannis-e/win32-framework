@@ -17,8 +17,9 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-g3" />
-					<Add option="-D__DEBUG__" />
 					<Add option="-D_DEBUG" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
 					<Add directory="../../../include" />
 					<Add directory="../src/help" />
 				</Compiler>
@@ -27,7 +28,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-static" />
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ole32" />
 					<Add library="Oleaut32" />
@@ -45,6 +46,8 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-DNDEBUG" />
+					<Add option="-DUNICODE" />
+					<Add option="-D_UNICODE" />
 					<Add directory="../../../include" />
 					<Add directory="../src/help" />
 				</Compiler>
@@ -53,7 +56,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-static" />
-					<Add option="-Wl,--enable-auto-import" />
+					<Add option="-municode" />
 					<Add library="comctl32" />
 					<Add library="Ole32" />
 					<Add library="Oleaut32" />

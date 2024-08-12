@@ -33,12 +33,12 @@ CRichEditView : public CRichEdit                                            /*
         virtual ~CRichEditView() override {}
 
         void    Clean();
-        void    DoPrintRichView(LPCTSTR);
+        void    DoPrintRichView(LPCWSTR);
         void    DoPrintView();
         BOOL    IsSelected();
         void    SetColors(COLORREF txfg, COLORREF txbg, COLORREF bg);
         void    SetFont(HFONT hFont, BOOL bRedraw) const;
-        void    SetPrintPath(LPCTSTR s) { m_printPath = s;}
+        void    SetPrintPath(LPCWSTR s) { m_printPath = s;}
         void    SetWrapping(int wrap);
         BOOL    StreamInFile(const CFile& file);
         BOOL    StreamOutFile(const CFile& file);

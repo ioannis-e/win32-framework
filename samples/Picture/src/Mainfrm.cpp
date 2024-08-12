@@ -28,7 +28,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\Picture Sample"));
+    LoadRegistrySettings(L"Win32++\\Picture Sample");
 
     // Load the settings from the registry with 4 MRU entries.
     LoadRegistryMRUSettings(4);
@@ -150,7 +150,7 @@ BOOL CMainFrame::OnFileNew()
 // Displays the file choose dialog an loads an image file.
 BOOL CMainFrame::OnFileOpen()
 {
-    LPCTSTR filters = _T("Supported Files Types(*.bmp;*.gif;*.jpg;*.ico;*.emf;*.wmf)\0*.bmp;*.gif;*.jpg;*.ico;*.emf;*.wmf\0Bitmaps (*.bmp)\0*.bmp\0GIF Files (*.gif)\0*.gif\0JPEG Files (*.jpg)\0*.jpg\0Icons (*.ico)\0*.ico\0Enhanced Metafiles (*.emf)\0*.emf\0Windows Metafiles (*.wmf)\0*.wmf\0\0");
+    LPCWSTR filters = L"Supported Files Types(*.bmp;*.gif;*.jpg;*.ico;*.emf;*.wmf)\0*.bmp;*.gif;*.jpg;*.ico;*.emf;*.wmf\0Bitmaps (*.bmp)\0*.bmp\0GIF Files (*.gif)\0*.gif\0JPEG Files (*.jpg)\0*.jpg\0Icons (*.ico)\0*.ico\0Enhanced Metafiles (*.emf)\0*.emf\0Windows Metafiles (*.wmf)\0*.wmf\0\0";
 
     DWORD flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
     CFileDialog fileDlg(TRUE, nullptr, nullptr, flags, filters);
@@ -165,7 +165,7 @@ BOOL CMainFrame::OnFileOpen()
 }
 
 // Called when an image has been loaded from a file.
-LRESULT CMainFrame::OnFileLoaded(LPCTSTR fileName)
+LRESULT CMainFrame::OnFileLoaded(LPCWSTR fileName)
 {
     SetWindowText(fileName);
     AdjustFrameRect(m_view.GetImageRect());
@@ -180,28 +180,28 @@ BOOL CMainFrame::OnFileSaveAs()
     {
         SHORT Type;
         m_view.GetPicture()->get_Type(&Type);
-        LPCTSTR filter = nullptr;
-        LPCTSTR ext    = nullptr;
+        LPCWSTR filter = nullptr;
+        LPCWSTR ext    = nullptr;
 
         // Assign the default file extension and filter.
         // Note: iPicture doesn't convert between file types
         switch(Type)
         {
         case PICTYPE_BITMAP:
-            filter = _T("Supported Files Type(*.bmp)\0*.bmp;\0Bitmap (*.bmp)\0*.bmp\0\0");
-            ext = _T("bmp");
+            filter = L"Supported Files Type(*.bmp)\0*.bmp;\0Bitmap (*.bmp)\0*.bmp\0\0";
+            ext = L"bmp";
             break;
         case PICTYPE_METAFILE:
-            filter = _T("Supported Files Type(*.wmf)\0*.bmp;\0Metafile (*.wmf)\0*.wmf\0\0");
-            ext = _T("wmf");
+            filter = L"Supported Files Type(*.wmf)\0*.bmp;\0Metafile (*.wmf)\0*.wmf\0\0";
+            ext = L"wmf";
             break;
         case PICTYPE_ICON:
-            filter = _T("Supported Files Type(*.ico)\0*.ico;\0Icon File (*.ico)\0*.ico\0\0");
-            ext = _T("ico");
+            filter = L"Supported Files Type(*.ico)\0*.ico;\0Icon File (*.ico)\0*.ico\0\0";
+            ext = L"ico";
             break;
         case PICTYPE_ENHMETAFILE:
-            filter = _T("Supported Files Type(*.emf)\0*.emf;\0Enhanced Metafile (*.emf)\0*.emf\0\0");
-            ext = _T("emf");
+            filter = L"Supported Files Type(*.emf)\0*.emf;\0Enhanced Metafile (*.emf)\0*.emf\0\0";
+            ext = L"emf";
             break;
         }
 
@@ -303,7 +303,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         switch (msg)
         {
-        case UWM_FILELOADED:       return OnFileLoaded((LPCTSTR)lparam);
+        case UWM_FILELOADED:       return OnFileLoaded((LPCWSTR)lparam);
         case WM_WINDOWPOSCHANGED:  return OnWindowPosChanged(msg, wparam, lparam);
         }
 
@@ -316,7 +316,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -327,7 +327,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

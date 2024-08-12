@@ -47,7 +47,7 @@ void CViewList::AddItem(const MovieInfo& mi)
         int item = GetItemCount();
 
         UINT mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
-        LPTSTR text = const_cast<LPTSTR>(mi.movieName.c_str());
+        LPWSTR text = const_cast<LPWSTR>(mi.movieName.c_str());
         LPARAM lparam = reinterpret_cast<LPARAM>(&mi);
         InsertItem(mask, item, text, 0, 0, nImage, lparam);
 
@@ -253,7 +253,7 @@ LRESULT CViewList::OnItemActivate(LPNMLISTVIEW pListView)
     assert(pmi);
     if (pmi)
     {
-        LPCTSTR movie = pmi->fileName.c_str();
+        LPCWSTR movie = pmi->fileName.c_str();
         GetAncestor().SendMessage(UWM_PLAYMOVIE, (WPARAM)movie, 0);
     }
 
@@ -357,23 +357,23 @@ void CViewList::SetColumn()
     lvColumn.fmt = LVCFMT_LEFT;
 
     lvColumn.cx = DpiScaleInt(200);
-    lvColumn.pszText = const_cast<LPTSTR>(L"Movie Title");
+    lvColumn.pszText = const_cast<LPWSTR>(L"Movie Title");
     InsertColumn(0, lvColumn);
 
     lvColumn.cx = DpiScaleInt(100);
-    lvColumn.pszText = const_cast<LPTSTR>(L"Release Date");
+    lvColumn.pszText = const_cast<LPWSTR>(L"Release Date");
     InsertColumn(1, lvColumn);
 
     lvColumn.cx = DpiScaleInt(120);
-    lvColumn.pszText = const_cast<LPTSTR>(L"Genre");
+    lvColumn.pszText = const_cast<LPWSTR>(L"Genre");
     InsertColumn(2, lvColumn);
 
     lvColumn.cx = DpiScaleInt(150);
-    lvColumn.pszText = const_cast<LPTSTR>(L"File Name");
+    lvColumn.pszText = const_cast<LPWSTR>(L"File Name");
     InsertColumn(3, lvColumn);
 
     lvColumn.cx = DpiScaleInt(150);
-    lvColumn.pszText = const_cast<LPTSTR>(L"File Date");
+    lvColumn.pszText = const_cast<LPWSTR>(L"File Date");
     InsertColumn(4, lvColumn);
 }
 
@@ -509,7 +509,7 @@ LRESULT CViewList::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -520,7 +520,7 @@ LRESULT CViewList::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

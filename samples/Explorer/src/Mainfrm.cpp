@@ -27,7 +27,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\Explorer Sample"));
+    LoadRegistrySettings(L"Win32++\\Explorer Sample");
 
     return CFrame::Create(parent);
 }
@@ -129,26 +129,26 @@ void CMainFrame::LoadListViewRegistrySettings()
 
     if (!appName.IsEmpty())
     {
-        CString listViewKeyName = _T("\\ListView Settings");
+        CString listViewKeyName = L"\\ListView Settings";
         try
         {
-            CString keyName = _T("Software\\") + appName + listViewKeyName;
+            CString keyName = L"Software\\" + appName + listViewKeyName;
             CRegKey key;
 
             if (ERROR_SUCCESS != key.Create(HKEY_CURRENT_USER, keyName))
-                throw CUserException(_T("RegCreateKeyEx failed"));
+                throw CUserException(L"RegCreateKeyEx failed");
             if (ERROR_SUCCESS != key.Open(HKEY_CURRENT_USER, keyName))
-                throw CUserException(_T("RegCreateKeyEx failed"));
+                throw CUserException(L"RegCreateKeyEx failed");
 
             DWORD columns[4];
 
-            if (ERROR_SUCCESS != key.QueryDWORDValue(_T("Column0"), columns[0]))
+            if (ERROR_SUCCESS != key.QueryDWORDValue(L"Column0", columns[0]))
                 throw CUserException();
-            if (ERROR_SUCCESS != key.QueryDWORDValue(_T("Column1"), columns[1]))
+            if (ERROR_SUCCESS != key.QueryDWORDValue(L"Column1", columns[1]))
                 throw CUserException();
-            if (ERROR_SUCCESS != key.QueryDWORDValue(_T("Column2"), columns[2]))
+            if (ERROR_SUCCESS != key.QueryDWORDValue(L"Column2", columns[2]))
                 throw CUserException();
-            if (ERROR_SUCCESS != key.QueryDWORDValue(_T("Column3"), columns[3]))
+            if (ERROR_SUCCESS != key.QueryDWORDValue(L"Column3", columns[3]))
                 throw CUserException();
 
             for (int i = 0; i < 4; i++)
@@ -162,7 +162,7 @@ void CMainFrame::LoadListViewRegistrySettings()
 
         catch (const  CUserException&)
         {
-            CString keyName = _T("Software\\") + appName;
+            CString keyName = L"Software\\" + appName;
             CRegKey key;
 
             if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, keyName))
@@ -310,16 +310,16 @@ BOOL CMainFrame::SaveRegistrySettings()
 
             if (!appName.IsEmpty())
             {
-                CString listViewKeyName = _T("\\ListView Settings");
+                CString listViewKeyName = L"\\ListView Settings";
                 try
                 {
-                    CString keyName = _T("Software\\") + appName + listViewKeyName;
+                    CString keyName = L"Software\\" + appName + listViewKeyName;
                     CRegKey key;
 
                     if (ERROR_SUCCESS != key.Create(HKEY_CURRENT_USER, keyName))
-                        throw CUserException(_T("RegCreateKeyEx failed"));
+                        throw CUserException(L"RegCreateKeyEx failed");
                     if (ERROR_SUCCESS != key.Open(HKEY_CURRENT_USER, keyName))
-                        throw CUserException(_T("RegCreateKeyEx failed"));
+                        throw CUserException(L"RegCreateKeyEx failed");
 
                     DWORD columns[4];
                     for (int i = 0; i < 4; i++)
@@ -330,13 +330,13 @@ BOOL CMainFrame::SaveRegistrySettings()
                         columns[i] = headerItem.cxy;
                     }
 
-                    if (ERROR_SUCCESS != key.SetDWORDValue(_T("Column0"), columns[0]))
+                    if (ERROR_SUCCESS != key.SetDWORDValue(L"Column0", columns[0]))
                         throw CUserException();
-                    if (ERROR_SUCCESS != key.SetDWORDValue(_T("Column1"), columns[1]))
+                    if (ERROR_SUCCESS != key.SetDWORDValue(L"Column1", columns[1]))
                         throw CUserException();
-                    if (ERROR_SUCCESS != key.SetDWORDValue(_T("Column2"), columns[2]))
+                    if (ERROR_SUCCESS != key.SetDWORDValue(L"Column2", columns[2]))
                         throw CUserException();
-                    if (ERROR_SUCCESS != key.SetDWORDValue(_T("Column3"), columns[3]))
+                    if (ERROR_SUCCESS != key.SetDWORDValue(L"Column3", columns[3]))
                         throw CUserException();
 
                     return TRUE;
@@ -344,7 +344,7 @@ BOOL CMainFrame::SaveRegistrySettings()
 
                 catch (const  CUserException&)
                 {
-                    CString keyName = _T("Software\\") + appName;
+                    CString keyName = L"Software\\" + appName;
                     CRegKey key;
 
                     if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, keyName))
@@ -373,21 +373,21 @@ void CMainFrame::SetupMenuIcons()
 // Define our toolbar.
 void CMainFrame::SetupToolBar()
 {
-    AddToolBarButton( IDM_FILE_NEW  , FALSE, _T("New") );
-    AddToolBarButton( IDM_FILE_OPEN , FALSE, _T("Open") );
-    AddToolBarButton( IDM_FILE_SAVE , FALSE, _T("Save") );
+    AddToolBarButton( IDM_FILE_NEW  , FALSE, L"New" );
+    AddToolBarButton( IDM_FILE_OPEN , FALSE, L"Open" );
+    AddToolBarButton( IDM_FILE_SAVE , FALSE, L"Save" );
 
     AddToolBarButton( 0 );  // Separator
-    AddToolBarButton( IDM_EDIT_CUT  , FALSE, _T("Cut") );
-    AddToolBarButton( IDM_EDIT_COPY , FALSE, _T("Copy") );
-    AddToolBarButton( IDM_EDIT_PASTE, FALSE, _T("Paste") );
-    AddToolBarButton( IDM_FILE_PRINT, FALSE, _T("Print") );
+    AddToolBarButton( IDM_EDIT_CUT  , FALSE, L"Cut" );
+    AddToolBarButton( IDM_EDIT_COPY , FALSE, L"Copy" );
+    AddToolBarButton( IDM_EDIT_PASTE, FALSE, L"Paste" );
+    AddToolBarButton( IDM_FILE_PRINT, FALSE, L"Print" );
 
     AddToolBarButton( 0 );  // Separator
-    AddToolBarButton( IDM_VIEWMENU,   TRUE,  _T("View"));
+    AddToolBarButton( IDM_VIEWMENU,   TRUE,  L"View" );
 
     AddToolBarButton( 0 );  // Separator
-    AddToolBarButton( IDM_HELP_ABOUT, TRUE,  _T(" About ") );
+    AddToolBarButton( IDM_HELP_ABOUT, TRUE,  L" About " );
 
     // Use larger buttons
     SetToolBarImages(RGB(192,192,192), IDW_MAIN, IDB_TOOLBAR_HOT, IDB_TOOLBAR_DIS);
@@ -415,7 +415,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -426,7 +426,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

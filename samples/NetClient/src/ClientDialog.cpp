@@ -22,12 +22,12 @@ CClientDialog::~CClientDialog()
 }
 
 // Appends text to the specified edit control.
-void CClientDialog::AppendText(const CEdit& edit, LPCTSTR text)
+void CClientDialog::AppendText(const CEdit& edit, LPCWSTR text)
 {
     // Append Line Feed
     int length = edit.GetWindowTextLength();
     if (length > 0)
-        edit.AppendText(_T("\r\n"));
+        edit.AppendText(L"\r\n");
 
     edit.AppendText(text);
 }
@@ -55,7 +55,7 @@ INT_PTR CClientDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -66,7 +66,7 @@ INT_PTR CClientDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -148,10 +148,10 @@ BOOL CClientDialog::OnInitDialog()
     m_radioUDP.AttachDlgItem(IDC_RADIO_UDP, *this);
 
     // Set the initial state of the dialog
-    m_editIP6Address.SetWindowText(_T("0000:0000:0000:0000:0000:0000:0000:0001"));
+    m_editIP6Address.SetWindowText(L"0000:0000:0000:0000:0000:0000:0000:0001");
     m_radioIP4.SetCheck(BST_CHECKED);
-    AppendText(m_editStatus, _T("Not Connected"));
-    m_editPort.SetWindowText(_T("3000"));
+    AppendText(m_editStatus, L"Not Connected");
+    m_editPort.SetWindowText(L"3000");
     m_radioTCP.SetCheck(BST_CHECKED);
     m_ip4Address.SetAddress(MAKEIPADDRESS(127, 0, 0, 1));
 
@@ -184,8 +184,8 @@ BOOL CClientDialog::OnSocketConnect()
     m_radioIP6.EnableWindow( FALSE );
     m_radioTCP.EnableWindow( FALSE );
     m_radioUDP.EnableWindow( FALSE );
-    AppendText(m_editStatus, _T("Connected to server"));
-    m_buttonConnect.SetWindowText( _T("Disconnect") );
+    AppendText(m_editStatus, L"Connected to server");
+    m_buttonConnect.SetWindowText(L"Disconnect");
 
     return TRUE;
 }
@@ -197,7 +197,7 @@ BOOL CClientDialog::OnSocketDisconnect()
     m_buttonConnect.EnableWindow( TRUE );
 
     // Update the dialog
-    AppendText(m_editStatus, _T("Disconnected from server"));
+    AppendText(m_editStatus, L"Disconnected from server");
     m_buttonSend.EnableWindow( FALSE );
     m_editSend.EnableWindow( FALSE );
     m_editPort.EnableWindow( TRUE );
@@ -205,7 +205,7 @@ BOOL CClientDialog::OnSocketDisconnect()
     m_radioTCP.EnableWindow( TRUE );
     m_radioUDP.EnableWindow( TRUE );
     m_radioIP4.EnableWindow( TRUE );
-    m_buttonConnect.SetWindowText( _T("Connect") );
+    m_buttonConnect.SetWindowText(L"Connect");
     if ( m_client.IsIPV6Supported() )
     {
         m_editIP6Address.EnableWindow( TRUE );
@@ -223,7 +223,7 @@ BOOL CClientDialog::OnSocketReceive()
     if (m_client.Receive(bufArray, 1024, 0 ) == SOCKET_ERROR)
     {
         if (WSAGetLastError() != WSAEWOULDBLOCK)
-            AppendText(m_editStatus, _T("Network error"));
+            AppendText(m_editStatus, L"Network error");
 
         return FALSE;
     }
@@ -255,7 +255,7 @@ void CClientDialog::OnStartClient()
                 if (!m_client.Create(IPfamily, SOCK_STREAM))
                 {
                     AppendText(m_editStatus, m_client.GetErrorString());
-                    MessageBox( _T("Failed to create Client socket"), _T("Connect Failed"), MB_ICONWARNING );
+                    MessageBox(L"Failed to create Client socket", L"Connect Failed", MB_ICONWARNING);
                     return;
                 }
 
@@ -280,7 +280,8 @@ void CClientDialog::OnStartClient()
                 if (0 != m_client.Connect(strAddr, port) )
                 {
                     AppendText(m_editStatus, m_client.GetErrorString());
-                    MessageBox( _T("Failed to connect to server. Is it started?"), _T("Connect Failed"), MB_ICONWARNING );
+                    MessageBox(L"Failed to connect to server. Is it started?",
+                        L"Connect Failed", MB_ICONWARNING);
                     m_client.Disconnect();
                     m_buttonConnect.EnableWindow( TRUE );
                     return;
@@ -296,7 +297,7 @@ void CClientDialog::OnStartClient()
                 if (!m_client.Create(IPfamily, SOCK_DGRAM))
                 {
                     AppendText(m_editStatus, m_client.GetErrorString());
-                    MessageBox( _T("Failed to create Client socket"), _T("Connect Failed"), MB_ICONWARNING );
+                    MessageBox(L"Failed to create Client socket", L"Connect Failed", MB_ICONWARNING);
                     return;
                 }
 
@@ -312,8 +313,8 @@ void CClientDialog::OnStartClient()
                 m_radioIP6.EnableWindow( FALSE );
                 m_radioTCP.EnableWindow( FALSE );
                 m_radioUDP.EnableWindow( FALSE );
-                m_buttonConnect.SetWindowText( _T("Disconnect") );
-                AppendText(m_editStatus, _T("Connected, ready to send"));
+                m_buttonConnect.SetWindowText(L"Disconnect");
+                AppendText(m_editStatus, L"Connected, ready to send");
                 GotoDlgCtrl(m_editSend);
                 m_isClientConnected = true;
             }
@@ -333,8 +334,8 @@ void CClientDialog::OnStartClient()
         m_radioIP4.EnableWindow( TRUE );
         m_radioTCP.EnableWindow( TRUE );
         m_radioUDP.EnableWindow( TRUE );
-        m_buttonConnect.SetWindowText( _T("Connect") );
-        AppendText(m_editStatus, _T("Not Connected"));
+        m_buttonConnect.SetWindowText(L"Connect");
+        AppendText(m_editStatus, L"Not Connected");
 
         if (m_client.IsIPV6Supported())
         {
@@ -354,7 +355,7 @@ void CClientDialog::OnSend()
             CString sSend = GetDlgItemText(IDC_EDIT_SEND);
             if (SOCKET_ERROR == m_client.Send(TtoA(sSend), sSend.GetLength(), 0))
                 if (WSAGetLastError() != WSAEWOULDBLOCK)
-                    AppendText(m_editStatus, _T("Send Failed"));
+                    AppendText(m_editStatus, L"Send Failed");
         }
         break;
     case SOCK_DGRAM:    // for UDP client
@@ -378,7 +379,7 @@ void CClientDialog::OnSend()
 
             if (SOCKET_ERROR == m_client.SendTo( TtoA(strSend), strSend.GetLength(), 0, strAddr, port ))
                 if (WSAGetLastError() != WSAEWOULDBLOCK)
-                    AppendText(m_editStatus, _T("SendTo Failed"));
+                    AppendText(m_editStatus, L"SendTo Failed");
         }
         break;
     }

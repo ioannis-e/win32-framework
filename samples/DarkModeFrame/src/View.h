@@ -17,7 +17,7 @@ public:
     virtual ~CView() override {}
     CDoc& GetDoc();
     void PrintPage(CDC& dc, int page = 1);
-    void QuickPrint(LPCTSTR docName);
+    void QuickPrint(LPCWSTR docName);
     void SetDarkMode(bool isDarkMode) { m_isDarkMode = isDarkMode; }
 
 protected:

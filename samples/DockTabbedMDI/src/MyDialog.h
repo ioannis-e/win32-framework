@@ -38,7 +38,7 @@ private:
     // Message handlers
     virtual LRESULT OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam);
 
-    void AppendText(int id, LPCTSTR text);
+    void AppendText(int id, LPCWSTR text);
 
     // Member variables
     CResizer m_resizer;

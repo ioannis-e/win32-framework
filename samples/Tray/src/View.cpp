@@ -19,7 +19,7 @@ BOOL CView::Minimize()
     nid.uCallbackMessage = MSG_TRAYICON;
     nid.hIcon = GetApp()->LoadIcon(IDW_MAIN);
 
-    StrCopy(nid.szTip, _T("Tray Demo tooltip"), 128);
+    StrCopy(nid.szTip, L"Tray Demo tooltip", 128);
 
     Shell_NotifyIcon(NIM_ADD, &nid);
     ShowWindow(SW_HIDE);
@@ -30,8 +30,8 @@ BOOL CView::Minimize()
 
 BOOL CView::OnAbout()
 {
-    CString str = _T("Tray Example: Demonstrates minimizing a window to the tray.");
-    MessageBox(str, _T("About Tray Example"), MB_OK | MB_ICONINFORMATION);
+    CString str = "Tray Example: Demonstrates minimizing a window to the tray.";
+    MessageBox(str, L"About Tray Example", MB_OK | MB_ICONINFORMATION);
     return TRUE;
 }
 
@@ -185,7 +185,7 @@ void CView::PreCreate(CREATESTRUCT& cs)
 
     // Set some optional parameters for the window
     cs.dwExStyle = WS_EX_CLIENTEDGE;        // Extended style
-    cs.lpszClass = _T("View Window");       // Window Class
+    cs.lpszClass = L"View Window";          // Window Class
     cs.x = DpiScaleInt(50);                 // top x
     cs.y = DpiScaleInt(50);                 // top y
     cs.cx = DpiScaleInt(400);               // width
@@ -230,7 +230,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -241,7 +241,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

@@ -9,7 +9,7 @@
 ////////////////////////////
 // CDoc function definitions
 //
-BOOL CDoc::FileOpen(LPCTSTR filename)
+BOOL CDoc::FileOpen(LPCWSTR filename)
 {
     GetAllPoints().clear();
     BOOL result = FALSE;
@@ -32,7 +32,7 @@ BOOL CDoc::FileOpen(LPCTSTR filename)
     return result;
 }
 
-BOOL CDoc::FileSave(LPCTSTR filename)
+BOOL CDoc::FileSave(LPCWSTR filename)
 {
     BOOL result = TRUE;
 

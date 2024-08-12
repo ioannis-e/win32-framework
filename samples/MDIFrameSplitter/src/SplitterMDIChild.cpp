@@ -33,7 +33,7 @@ LRESULT CDockSimple::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -44,7 +44,7 @@ LRESULT CDockSimple::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -74,7 +74,7 @@ void CSimpleView::OnDraw(CDC& dc)
     // Centre some text in our view window.
     CRect rc = GetClientRect();
     dc.SetTextColor(m_color);
-    dc.DrawText(_T("View Window"), -1, rc, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+    dc.DrawText(L"View Window", -1, rc, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
 }
 
 // Respond to a mouse click on the window
@@ -112,7 +112,7 @@ LRESULT CSimpleView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -123,7 +123,7 @@ LRESULT CSimpleView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;
@@ -140,7 +140,7 @@ CSplitterMDIChild::CSplitterMDIChild()
     SetView(m_view);
 
     // Set the menu for this MDI child.
-    SetHandles(LoadMenu(GetApp()->GetResourceHandle(), _T("MdiMenuView")), nullptr);
+    SetHandles(LoadMenu(GetApp()->GetResourceHandle(), L"MdiMenuView"), nullptr);
 }
 
 // Destructor.
@@ -152,7 +152,7 @@ CSplitterMDIChild::~CSplitterMDIChild()
 int CSplitterMDIChild::OnCreate(CREATESTRUCT& cs)
 {
     // Set the window caption.
-    SetWindowText( _T("Splitter Window") );
+    SetWindowText(L"Splitter Window");
 
     // Set the window icons.
     SetIconLarge(IDI_VIEW);
@@ -232,7 +232,7 @@ LRESULT CSplitterMDIChild::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -243,7 +243,7 @@ LRESULT CSplitterMDIChild::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

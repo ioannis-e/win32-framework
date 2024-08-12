@@ -14,9 +14,9 @@ public:
     CRichView();
     virtual ~CRichView() override {}
     int CollatePages();
-    void DoPrint(LPCTSTR docName);
+    void DoPrint(LPCWSTR docName);
     void PrintPage(CDC& dc, int page = 1);
-    void QuickPrint(LPCTSTR docName);
+    void QuickPrint(LPCWSTR docName);
 
 protected:
     // Virtual functions that override base class functions

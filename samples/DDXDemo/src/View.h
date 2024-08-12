@@ -105,7 +105,7 @@ CView : public CDialog                                                      /*
         CString     m_editVal;
         CString     m_richEditVal;
         CString     m_statusBoxVal;
-        TCHAR       m_LPTSTRVal[256];
+        WCHAR       m_LPWSTRVal[256];
         SYSTEMTIME  m_dateSysTime;
         SYSTEMTIME  m_calDateSysTime;
 

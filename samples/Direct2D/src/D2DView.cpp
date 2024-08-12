@@ -242,8 +242,8 @@ LRESULT CD2DView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str;
-        str << e.GetText() << _T("\n") << e.GetErrorString();
-        ::MessageBox(nullptr, str, _T("An exception occurred"), MB_ICONERROR);
+        str << e.GetText() << L'\n' << e.GetErrorString();
+        ::MessageBox(nullptr, str, L"An exception occurred", MB_ICONERROR);
 
         return 0;
     }

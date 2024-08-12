@@ -58,7 +58,7 @@ ClientFontChoice()                                                          /*
 *-----------------------------------------------------------------------------*/
 {
       // set font metric to pixels
-    m_fontEx.Choose(_T("Select Font..."));
+    m_fontEx.Choose(L"Select Font...");
     SetAppSize(TRUE);    // document extents will change
     Invalidate();
 }
@@ -101,7 +101,7 @@ OnColorChoice()                                                             /*
     CColorExDialog cd(GetWndBkColor());
       // setup the CColorChoice object
     cd.SetCustomColors(m_colors);
-    cd.SetBoxTitle(_T("Select background color..."));
+    cd.SetBoxTitle(L"Select background color...");
     if (cd.DoModal(*this) == IDOK)
     {
         SetWndBkColor(cd.GetColor());

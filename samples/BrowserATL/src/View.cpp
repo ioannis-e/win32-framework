@@ -19,7 +19,7 @@ CView::CView() : m_pInetExplorer(nullptr), m_pSourceUnk(nullptr), m_pSinkUnk(nul
 {
     // Initialize OLE
     if FAILED(OleInitialize(nullptr))
-        throw CUserException(_T("Failed to initial COM"));
+        throw CUserException(L"Failed to initial COM");
  }
 
 // Destructor.
@@ -39,7 +39,7 @@ CView::~CView()
 }
 
 // Navigate to the web page.
-void CView::Navigate(LPCTSTR str)
+void CView::Navigate(LPCWSTR str)
 {
     VARIANT vars[4];
     memset(vars, 0, sizeof(vars));

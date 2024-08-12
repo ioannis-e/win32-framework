@@ -43,7 +43,7 @@ void CMainFrame::AddComboBoxBand()
     rbbi.clrFore    = GetSysColor(COLOR_BTNTEXT);
     rbbi.clrBack    = GetReBarTheme().clrBand1;
     rbbi.hwndChild  = m_combo.GetHwnd();
-    rbbi.lpText     = const_cast<LPTSTR>(_T("Address"));
+    rbbi.lpText     = const_cast<LPWSTR>(L"Address");
 
     GetReBar().InsertBand(-1, rbbi);
 }
@@ -64,7 +64,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\Browser Sample"));
+    LoadRegistrySettings(L"Win32++\\Browser Sample");
 
     return CFrame::Create(parent);
 }
@@ -227,7 +227,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
 // Called when a document has been completely loaded and initialized.
 void CMainFrame::OnDocumentComplete(DISPPARAMS*)
 {
-    SetStatusText(_T("Done"));
+    SetStatusText(L"Done");
 }
 
 // Called when a navigation operation is beginning.
@@ -340,13 +340,13 @@ void CMainFrame::OnInitialUpdate()
     GetIWebBrowser2()->put_Silent(VARIANT_TRUE);
 
     // Load the web page.
-    m_browser.Navigate2(_T("www.google.com"));
+    m_browser.Navigate2(L"www.google.com");
 }
 
 // Called when navigation completes on either a window or frameset element.
 void CMainFrame::OnNavigateComplete2(DISPPARAMS* pDispParams)
 {
-    CString str = _T("Navigate Complete");
+    CString str = "Navigate Complete";
 
     if (pDispParams->rgvarg[0].vt == (VT_BYREF | VT_VARIANT))
     {
@@ -354,7 +354,7 @@ void CMainFrame::OnNavigateComplete2(DISPPARAMS* pDispParams)
         url.vt = VT_BSTR;
 
         str += url.bstrVal;
-        str += _T("\n");
+        str += '\n';
         TRACE(str);
         VariantClear(&url);
     }
@@ -368,7 +368,7 @@ void CMainFrame::OnNavigateComplete2(DISPPARAMS* pDispParams)
 // Called when a new window is to be created.
 void CMainFrame::OnNewWindow2(DISPPARAMS*)
 {
-    TRACE(_T("NewWindow2\n"));
+    TRACE("NewWindow2\n");
 }
 
 // Called when the frame receives a notification (WM_NOTIFY).
@@ -393,7 +393,7 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
                 // Insert text into the list box.
                 COMBOBOXEXITEM item = {};
                 item.mask = CBEIF_TEXT;
-                item.pszText = const_cast<LPTSTR>(str.c_str());
+                item.pszText = const_cast<LPWSTR>(str.c_str());
                 m_combo.InsertItem(item);
 
                 // Navigate to the web page
@@ -461,7 +461,7 @@ BOOL CMainFrame::OnPrint()
                 vArg.vt = VT_ARRAY | VT_BYREF;
                 vArg.parray = psaHeadFoot;
                 if (FAILED(m_browser.ExecWB(OLECMDID_PRINT, OLECMDEXECOPT_DONTPROMPTUSER, &vArg, nullptr)))
-                    throw CUserException(_T("Print Failed"));
+                    throw CUserException(L"Print Failed");
             }
         }
 
@@ -487,16 +487,16 @@ void CMainFrame::OnProgressChange(DISPPARAMS* pDispParams)
         if (pDispParams->cArgs > 1 && pDispParams->rgvarg[1].vt == VT_I4)
         {
             int progress = pDispParams->rgvarg[1].lVal;
-            str << _T("Progress = ") << progress;
+            str << "Progress = " << progress;
         }
 
         if (pDispParams->rgvarg[0].vt == VT_I4)
         {
             int progressMax = pDispParams->rgvarg[0].lVal;
-            str << _T(", ProgressMax = ") << progressMax;
+            str << ", ProgressMax = " << progressMax;
         }
 
-        str << _T("\n");
+        str << '\n';
         TRACE(str);
     }
 }
@@ -508,11 +508,11 @@ void CMainFrame::OnPropertyChange(DISPPARAMS* pDispParams)
     CString str;
     if (pDispParams->cArgs > 0 && pDispParams->rgvarg[0].vt == VT_BSTR)
     {
-        str += _T("Property Change:");
+        str += "Property Change:";
         str += pDispParams->rgvarg[0].bstrVal;
     }
 
-    str += _T("\n");
+    str += '\n';
     TRACE(str);
 }
 
@@ -528,10 +528,10 @@ void CMainFrame::OnStatusTextChange(DISPPARAMS* pDispParams)
 {
     CString statusText = pDispParams->rgvarg->bstrVal;
 
-    if (statusText != _T(""))
+    if (statusText != L"")
         SetStatusText(statusText);
     else
-        SetStatusText(_T("Done"));
+        SetStatusText(L"Done");
 }
 
 // Stop loading the current web page.
@@ -545,14 +545,14 @@ BOOL CMainFrame::OnStop()
 // or changes.
 void CMainFrame::OnTitleChange(DISPPARAMS* pDispParams)
 {
-    TRACE(_T("TitleChange: \n"));
+    TRACE("TitleChange: \n");
     CString str;
 
     if ((pDispParams->cArgs > 0) && (pDispParams->rgvarg[0].vt == VT_BSTR))
     {
         str = pDispParams->rgvarg[0].bstrVal;
-        str += _T(" - Win32++ Browser");
-        TRACE(str + _T("\n"));
+        str += " - Win32++ Browser";
+        TRACE(str + "\n");
     }
     else
         str = LoadString(IDW_MAIN);
@@ -641,7 +641,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << '\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -652,7 +652,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

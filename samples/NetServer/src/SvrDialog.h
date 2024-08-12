@@ -44,7 +44,7 @@ private:
     class CEditReceive : public CEdit {};
     class CButtonSend : public CButton {};
 
-    void AppendText(int id, LPCTSTR text);
+    void AppendText(int id, LPCWSTR text);
 
     ServerSocketPtr m_pSocket;
     CEditSend   m_editSend;
@@ -99,7 +99,7 @@ private:
     BOOL OnSocketDisconnect(WPARAM wparam);
     BOOL OnSocketReceive(WPARAM wparam);
 
-    void AppendText(const CEdit& edit, LPCTSTR text);
+    void AppendText(const CEdit& edit, LPCWSTR text);
     BOOL StartServer();
     void StopServer();
 

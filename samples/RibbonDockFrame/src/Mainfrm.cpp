@@ -90,7 +90,7 @@ IUIRibbon* CMainFrame::GetIUIRibbon() const
 }
 
 // Called by OnFileOpen and in response to a UWM_DROPFILE message.
-void CMainFrame::LoadFile(LPCTSTR fileName)
+void CMainFrame::LoadFile(LPCWSTR fileName)
 {
     // Retrieve the PlotPoint data
     if (GetDoc().FileOpen(fileName))
@@ -159,8 +159,8 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
 // Called in response to a UWM_DROPFILE message.
 LRESULT CMainFrame::OnDropFile(WPARAM wparam)
 {
-    // wParam is a pointer (LPCTSTR) to the filename
-    LPCTSTR fileName = reinterpret_cast<LPCTSTR>(wparam);
+    // wParam is a pointer (LPCWSTR) to the filename
+    LPCWSTR fileName = reinterpret_cast<LPCWSTR>(wparam);
     assert(fileName);
 
     // Load the file
@@ -221,8 +221,8 @@ void CMainFrame::OnFilePrint()
             memset(&di, 0, sizeof(DOCINFO));
             di.cbSize = sizeof(DOCINFO);
             di.lpszDocName = L"Scribble Printout";
-            di.lpszOutput = static_cast<LPTSTR>(nullptr);
-            di.lpszDatatype = static_cast<LPTSTR>(nullptr);
+            di.lpszOutput = static_cast<LPWSTR>(nullptr);
+            di.lpszDatatype = static_cast<LPWSTR>(nullptr);
             di.fwType = 0;
 
             // Begin a print job by calling the StartDoc function.
@@ -275,7 +275,7 @@ void CMainFrame::OnFilePrint()
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 }
 
@@ -488,7 +488,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -499,7 +499,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

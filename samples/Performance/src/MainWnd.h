@@ -46,7 +46,7 @@ private:
     LONGLONG GetCounter() const;
     void OnAllWindowsCreated();
     void PerformanceTest() const;
-    void SendText(LPCTSTR str) const;
+    void SendText(LPCWSTR str) const;
 
     // Member variables
     std::vector<TestWindowPtr> m_pTestWindows; // A vector CTestWindow smart pointers

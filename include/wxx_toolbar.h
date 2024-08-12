@@ -94,6 +94,7 @@ namespace Win32xx
         HWND  GetToolTips() const;
         BOOL  HasText() const;
         BOOL  HideButton(UINT buttonID, BOOL show) const;
+        int   HitTest(const POINT& pt) const;
         int   HitTest() const;
         BOOL  Indeterminate(UINT buttonID, BOOL isIndeterminate) const;
         BOOL  InsertButton(int index, const TBBUTTON& buttonInfo) const;
@@ -636,29 +637,24 @@ namespace Win32xx
         return static_cast<BOOL>(SendMessage(TB_HIDEBUTTON, wparam, MAKELONG (show, 0)));
     }
 
-    // Determines where a point lies in a ToolBar control.
+    // Returns the button that's positioned under the cursor.
     // Refer to TB_HITTEST in the Windows API documentation for more information.
     inline int CToolBar::HitTest() const
     {
-        // We do our own hit test since TB_HITTEST on some older operating
-        // systems is a bit buggy, and it is not provided on the earliest
-        // versions of Win95.
-
         assert(IsWindow());
         CPoint pos = GetCursorPos();
         VERIFY(ScreenToClient(pos));
 
-        int buttons = GetButtonCount();
-        int button = -1;
+        return HitTest(pos);
+    }
 
-        for (int i = 0 ; i < buttons; ++i)
-        {
-            CRect rc = GetItemRect(i);
-            if (rc.PtInRect(pos))
-                button = i;
-        }
-
-        return button;
+    // Returns the button that's positioned at the specified point.
+    // Refer to TB_HITTEST in the Windows API documentation for more information.
+    inline int CToolBar::HitTest(const POINT& pt) const
+    {
+        assert(IsWindow());
+        LPARAM lparam = reinterpret_cast<LPARAM>(&pt);
+        return static_cast<int>(SendMessage(TB_HITTEST, 0, lparam));
     }
 
     // Sets or clears the indeterminate state of the specified button in a toolbar.

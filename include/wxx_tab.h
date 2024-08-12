@@ -248,7 +248,7 @@ namespace Win32xx
         virtual ~CTabbedMDI() override;
 
         virtual CWnd* AddMDIChild(CWnd* pView, LPCTSTR tabText, int mdiChildID = 0);
-        virtual CWnd* AddMDIChild(WndPtr view, LPCTSTR tabText, int mdiChildID);
+        virtual CWnd* AddMDIChild(WndPtr view, LPCTSTR tabText, int mdiChildID = 0);
         virtual void  CloseActiveMDI();
         virtual void  CloseAllMDIChildren();
         virtual void  CloseMDIChild(int tab);

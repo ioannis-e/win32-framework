@@ -27,8 +27,8 @@ public:
     CDoc() {}
     virtual ~CDoc() override {}
     std::vector<PlotPoint>& GetAllPoints() { return m_points; }   // returns a vector of PlotPoint data
-    void FileOpen(LPCTSTR filename);
-    void FileSave(LPCTSTR filename);
+    void FileOpen(LPCWSTR filename);
+    void FileSave(LPCWSTR filename);
     void StorePoint(int x, int y, bool isPenDown, COLORREF penColor);
 
 protected:

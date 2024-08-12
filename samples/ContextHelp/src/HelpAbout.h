@@ -15,7 +15,7 @@ public:
     virtual ~CAboutHelp() override {}
 
     const CString& GetCredits() const { return m_credits; }
-    void SetCredits(LPCTSTR credits) { m_credits = credits; }
+    void SetCredits(LPCWSTR credits) { m_credits = credits; }
 
 protected:
     // Virtual functions that override base class functions

@@ -27,7 +27,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\ToolBarDemo"));
+    LoadRegistrySettings(L"Win32++\\ToolBarDemo");
 
     return CFrame::Create(parent);
 }
@@ -107,7 +107,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
 // Called when the help button on the customize dialog is pressed.
 LRESULT CMainFrame::OnCustHelp(LPNMHDR)
 {
-    MessageBox(_T("Help Button Pressed"), _T("Help"), MB_ICONINFORMATION | MB_OK);
+    MessageBox(L"Help Button Pressed", L"Help", MB_ICONINFORMATION | MB_OK);
 
     return 0;
 }
@@ -199,18 +199,18 @@ LRESULT CMainFrame::OnGetButtonInfo(LPNMTOOLBAR pNMTB)
         { 7, IDM_HELP_ABOUT,    TBSTATE_ENABLED, 0, {0}, 0, 0 }
     };
 
-    // An array of Button text strings (LPCTSTRs).
+    // An array of Button text strings (LPCWSTRs).
     // These are displayed in the customize dialog.
-    LPCTSTR buttonText[] =
+    LPCWSTR buttonText[] =
     {
-        _T("New Document"),
-        _T("Open File"),
-        _T("Save File"),
-        _T("Cut"),
-        _T("Copy"),
-        _T("Paste"),
-        _T("Print"),
-        _T("Help About")
+        L"New Document",
+        L"Open File",
+        L"Save File",
+        L"Cut",
+        L"Copy",
+        L"Paste",
+        L"Print",
+        L"Help About"
     };
 
     // Pass the next button from the array. There is no need to filter out buttons
@@ -441,7 +441,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -452,7 +452,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

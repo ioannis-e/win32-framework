@@ -46,7 +46,7 @@ public:
     void    SetAppSize(BOOL keepPos = FALSE);
     void    SetDefaultFont();
     void    SetDefaults();
-    void    TextLineOut(CDC&, UINT, UINT, LPCTSTR) const;
+    void    TextLineOut(CDC&, UINT, UINT, LPCWSTR) const;
 
     // public data members
     static const CString m_compiledOn;  // compilation date

@@ -320,7 +320,7 @@ namespace Calc
     {
         eToken Token;
         int Index = m_index;
-        LPCTSTR charArray = m_buffer.c_str();
+        LPCWSTR charArray = m_buffer.c_str();
 
         // Move past white space
         while (isspace(charArray[Index]))
@@ -398,8 +398,8 @@ namespace Calc
         {
         case tNumber:
         {
-            LPTSTR p;
-            LPCTSTR charArray = m_buffer.c_str();
+            LPWSTR p;
+            LPCWSTR charArray = m_buffer.c_str();
             double value = _tcstod(charArray + m_index, &p);
             if (p != charArray)
             {

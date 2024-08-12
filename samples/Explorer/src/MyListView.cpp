@@ -404,7 +404,7 @@ void CMyListView::EnumObjects(CShellFolder& folder, Cpidl& cpidlParent)
             // Store a pointer to the ListItemData in the lParam.
             lvItem.lParam = reinterpret_cast<LPARAM>(pItem.get());
 
-            TCHAR fileName[MAX_PATH];
+            wchar_t fileName[MAX_PATH];
             GetFullFileName(pItem->GetFullCpidl().GetPidl(), fileName);
 
             ULONG attr = SFGAO_CANDELETE | SFGAO_FOLDER;
@@ -412,7 +412,7 @@ void CMyListView::EnumObjects(CShellFolder& folder, Cpidl& cpidlParent)
             pItem->m_isFolder = (attr & SFGAO_FOLDER) != 0;
 
             // Retrieve the file find handle for an existing file.
-            if (lstrcmp(fileName, _T("")) != 0)
+            if (lstrcmp(fileName, L"") != 0)
             {
                 CFileFind file;
                 if (file.FindFirstFile(fileName))
@@ -478,11 +478,11 @@ ULONGLONG CMyListView::FileTimeToULL(FILETIME ft)
 }
 
 // Retrieves the file's size and stores the text in string.
-void CMyListView::GetFileSizeText(ULONGLONG fileSize, LPTSTR string)
+void CMyListView::GetFileSizeText(ULONGLONG fileSize, LPWSTR string)
 {
     // Convert the fileSize to a string using Locale information.
     CString preFormat;
-    preFormat.Format(_T("%d"), ((1023 + fileSize) >> 10));
+    preFormat.Format(L"%d", ((1023 + fileSize) >> 10));
     CString postFormat;
     const int maxSize = 31;
     ::GetNumberFormat(LOCALE_USER_DEFAULT, LOCALE_NOUSEROVERRIDE, preFormat, nullptr, postFormat.GetBuffer(maxSize), maxSize);
@@ -500,12 +500,12 @@ void CMyListView::GetFileSizeText(ULONGLONG fileSize, LPTSTR string)
     if (pos > 0)
         postFormat = postFormat.Left(pos);
 
-    postFormat += _T(" KB");
+    postFormat += L" KB";
     StrCopy(string, postFormat, maxSize);
 }
 
 // Retrieves the file's last write time and stores the text in string.
-void CMyListView::GetLastWriteTime(FILETIME modified, LPTSTR string)
+void CMyListView::GetLastWriteTime(FILETIME modified, LPWSTR string)
 {
     SYSTEMTIME localSysTime = {};
     SYSTEMTIME utcTime = {};
@@ -527,8 +527,8 @@ void CMyListView::GetLastWriteTime(FILETIME modified, LPTSTR string)
 
     // Convert the localSysTime into date and time text strings with regional settings.
     const int maxChars = 32;
-    TCHAR time[maxChars];
-    TCHAR date[maxChars];
+    wchar_t time[maxChars];
+    wchar_t date[maxChars];
     ::GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &localSysTime, nullptr, date, maxChars-1);
     ::GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, &localSysTime, nullptr, time, maxChars-1);
 
@@ -554,7 +554,7 @@ void CMyListView::OnAttach()
     {
         CString str = LoadString(IDS_COLUMN1 + i);
         lvc.iSubItem = i;
-        lvc.pszText = const_cast<LPTSTR>(str.c_str());
+        lvc.pszText = const_cast<LPWSTR>(str.c_str());
         lvc.cx = colSizes[i];
 
         if (i == 1) lvc.fmt = LVCFMT_RIGHT; // right-aligned column
@@ -610,7 +610,7 @@ LRESULT CMyListView::OnLVNDispInfo(NMLVDISPINFO* pdi)
         pItem->GetParentFolder().GetAttributes(1, pItem->GetRelCpidl(), attr);
 
         const int maxLength = 32;
-        TCHAR text[maxLength];
+        wchar_t text[maxLength];
         SHFILEINFO sfi = {};
         bool isTimeValid = (pItem->m_fileTime.dwHighDateTime != 0 && pItem->m_fileTime.dwLowDateTime != 0);
 
@@ -633,7 +633,7 @@ LRESULT CMyListView::OnLVNDispInfo(NMLVDISPINFO* pdi)
                 StrCopy(pdi->item.pszText, text, maxLength);
             }
             else
-                StrCopy(pdi->item.pszText, _T(""), 1);
+                StrCopy(pdi->item.pszText, L"", 1);
         }
         break;
         case 2: // Type
@@ -653,7 +653,7 @@ LRESULT CMyListView::OnLVNDispInfo(NMLVDISPINFO* pdi)
                 StrCopy(pdi->item.pszText, text, maxLength);
             }
             else
-                StrCopy(pdi->item.pszText, _T(""), 1);
+                StrCopy(pdi->item.pszText, L"", 1);
         }
         break;
         }
@@ -761,10 +761,10 @@ void CMyListView::SetImageLists()
     SHFILEINFO  sfi = {};
 
     // Get the system image list
-    HIMAGELIST hLargeImages = reinterpret_cast<HIMAGELIST>(::SHGetFileInfo(_T("C:\\"), 0, &sfi,
+    HIMAGELIST hLargeImages = reinterpret_cast<HIMAGELIST>(::SHGetFileInfo(L"C:\\", 0, &sfi,
                                 sizeof(SHFILEINFO), SHGFI_SYSICONINDEX));
 
-    HIMAGELIST hSmallImages = reinterpret_cast<HIMAGELIST>(::SHGetFileInfo(_T("C:\\"), 0, &sfi,
+    HIMAGELIST hSmallImages = reinterpret_cast<HIMAGELIST>(::SHGetFileInfo(L"C:\\", 0, &sfi,
                                 sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_SMALLICON));
 
     SetImageList(hLargeImages, LVSIL_NORMAL);
@@ -850,7 +850,7 @@ LRESULT CMyListView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -861,7 +861,7 @@ LRESULT CMyListView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

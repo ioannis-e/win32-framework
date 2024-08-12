@@ -27,7 +27,7 @@
 #include "App.h"
 #include "resource.h"
 
-static const LPCTSTR registryKeyName = _T("Win32++\\DDX-DDVDemo");
+static const LPCWSTR registryKeyName = L"Win32++\\DDX-DDVDemo";
 
 /*============================================================================*/
     CMainFrame::
@@ -67,13 +67,13 @@ FeatureNotImplemented()                                                     /*
     program.
 *-----------------------------------------------------------------------------*/
 {
-    ::MessageBox(nullptr, _T("This feature is not yet implemented."), _T(""),
+    ::MessageBox(nullptr, L"This feature is not yet implemented.", L"",
         MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
 }
 
 /*============================================================================*/
     BOOL CMainFrame::
-LoadRegistrySettings(LPCTSTR keyName)                                     /*
+LoadRegistrySettings(LPCWSTR keyName)                                     /*
 
     Load the main frame and document persistent data from the registry
     section marked by keyName. The frame values were automatically
@@ -494,7 +494,7 @@ WndProc(UINT msg, WPARAM wparam, LPARAM lparam)                             /*
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -505,7 +505,7 @@ WndProc(UINT msg, WPARAM wparam, LPARAM lparam)                             /*
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

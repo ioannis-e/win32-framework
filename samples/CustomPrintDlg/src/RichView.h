@@ -18,9 +18,9 @@ public:
     CRichView();
     virtual ~CRichView();
     int   CollatePages(const CDC& printerDC);
-    void  DoPrint(LPCTSTR docName);
+    void  DoPrint(LPCWSTR docName);
     void  PrintPage(CDC& dc, int page);
-    void  QuickPrint(LPCTSTR docName);
+    void  QuickPrint(LPCWSTR docName);
     void  SetDefaultPrintOptions();
     void  SetFontDefaults();
     std::vector<int> SetPagesToPrint(const CDC& printerDC);

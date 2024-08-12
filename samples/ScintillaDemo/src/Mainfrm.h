@@ -62,7 +62,7 @@ private:
     LRESULT OnPreviewSetup();
 
     int  AdjustForDPI(int value) const;
-    int  GetTextPartWidth(LPCTSTR text) const;
+    int  GetTextPartWidth(LPCWSTR text) const;
     void RestoreFocus() { ::SetFocus(m_oldFocus); }
     void SaveFocus() { m_oldFocus = ::GetFocus(); }
 

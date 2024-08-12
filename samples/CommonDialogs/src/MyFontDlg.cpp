@@ -32,9 +32,9 @@ MyFontDialog(DWORD dwFlags, HDC hdcPrinter /* = nullptr */)           /*
     CF_ENABLEHOOK, hdcPrinter)
 {
     m_tm = {};
-    SetBoxTitle(_T("Font"));
+    SetBoxTitle(L"Font");
       // default font, 10pt Courier New
-    m_font.CreatePointFont(10, _T("Courier New"));
+    m_font.CreatePointFont(10, L"Courier New");
     SetChoiceFont(m_font);
 }
 
@@ -153,9 +153,8 @@ SetFontIndirect(const LOGFONT& lf)                                      /*
 
     catch (const CResourceException&)
     {
-        ::MessageBox(nullptr, _T("Font creation error."),
-            _T("Error"), MB_OK | MB_ICONEXCLAMATION |
-            MB_TASKMODAL);
+        ::MessageBox(nullptr, L"Font creation error.",
+            L"Error", MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
     }
 }
 /*----------------------------------------------------------------------------*/

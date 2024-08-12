@@ -46,13 +46,13 @@ CColorChoice()                                                              /*
 {
     ClearColorTable();
     InitCustomColors();
-    SetBoxTitle(_T("Color"));
-    m_LBDlg.SetBoxTitle(_T("Choose color to change."));
+    SetBoxTitle(L"Color");
+    m_LBDlg.SetBoxTitle(L"Choose color to change.");
 }
 
 /*============================================================================*/
     void CColorChoice::
-AddColorChoice(UINT id, LPCTSTR usage, COLORREF color)                      /*
+AddColorChoice(UINT id, LPCWSTR usage, COLORREF color)                      /*
 
     Add the (id, name, color) tuple to the color table, return TRUE on
     success, FALSE otherwise.
@@ -162,7 +162,7 @@ GetTableUsage(UINT id) const                                               /*
 *-----------------------------------------------------------------------------*/
 {
     UINT idx = GetTableIndex(id);
-    CString usage = (idx == static_cast<UINT>(-1) ? _T("") :
+    CString usage = (idx == static_cast<UINT>(-1) ? L"" :
         m_colorTable[idx].usage.c_str());
     return  usage;
 }
@@ -279,7 +279,7 @@ SetTableColor(UINT id, COLORREF rgb)                                       /*
 
 /*============================================================================*/
     void CColorChoice::
-SetTableUsage(UINT id, LPCTSTR s)                                          /*
+SetTableUsage(UINT id, LPCWSTR s)                                          /*
 
     Set the usage entry of the color table entry with the given id to
     the specified s string.

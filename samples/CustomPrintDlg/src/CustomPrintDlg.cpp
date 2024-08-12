@@ -23,7 +23,7 @@ CCustomPrintDlg::~CCustomPrintDlg()
 }
 
 // Creates and assigns the hDevMode and hDevNames global memory for the specified printer.
-bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMode, HGLOBAL* pHDevNames)
+bool CCustomPrintDlg::CreateGlobalHandles(LPCWSTR printerName, HGLOBAL* pHDevMode, HGLOBAL* pHDevNames)
 {
     // HGLOBAL pHdevMode and pHDevNames are required.
     assert(pHDevMode);
@@ -33,7 +33,7 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMod
 
     // Open printer
     HANDLE printer;
-    if (::OpenPrinter(const_cast<LPTSTR>(printerName), &printer, nullptr))
+    if (::OpenPrinter(const_cast<LPWSTR>(printerName), &printer, nullptr))
     {
         // Create PRINTER_INFO_2 structure.
         DWORD bytesNeeded = 0;
@@ -61,7 +61,7 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMod
                 size_t portLength = lstrlen(p2->pPortName) + 1;    // port name
 
                 // Allocate a global handle big enough to hold DEVNAMES.
-                bufferSize = sizeof(DEVNAMES) + (driverLength + printerLength + portLength) * sizeof(TCHAR);
+                bufferSize = sizeof(DEVNAMES) + (driverLength + printerLength + portLength) * sizeof(wchar_t);
                 HGLOBAL newDevNames = ::GlobalAlloc(GHND, bufferSize);
                 assert(newDevNames);
                 if (newDevNames != nullptr)
@@ -69,22 +69,22 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMod
                     CDevNames pNewDevNames(newDevNames);
 
                     // Copy the DEVNAMES information from PRINTER_INFO_2.
-                    // offset = TCHAR Offset into structure.
-                    size_t offset = sizeof(DEVNAMES) / sizeof(TCHAR);
+                    // offset = wchar_t Offset into structure.
+                    size_t offset = sizeof(DEVNAMES) / sizeof(wchar_t);
 
                     pNewDevNames->wDriverOffset = static_cast<WORD>(offset);
                     memcpy(pNewDevNames.GetString() + offset, p2->pDriverName,
-                        driverLength * sizeof(TCHAR));
+                        driverLength * sizeof(wchar_t));
                     offset = offset + driverLength;
 
                     pNewDevNames->wDeviceOffset = static_cast<WORD>(offset);
                     memcpy(pNewDevNames.GetString() + offset, p2->pPrinterName,
-                        printerLength * sizeof(TCHAR));
+                        printerLength * sizeof(wchar_t));
                     offset = offset + printerLength;
 
                     pNewDevNames->wOutputOffset = static_cast<WORD>(offset);
                     memcpy(pNewDevNames.GetString() + offset, p2->pPortName,
-                        portLength * sizeof(TCHAR));
+                        portLength * sizeof(wchar_t));
                     pNewDevNames->wDefault = 0;
 
                     // Set the new hDevMode and hDevNames.
@@ -333,12 +333,12 @@ int CCustomPrintDlg::GetToPage() const
 }
 
 // Retrieves the status from the printer's PRINTER_INFO_2.
-DWORD CCustomPrintDlg::GetPrinterStatus(LPCTSTR printerName) const
+DWORD CCustomPrintDlg::GetPrinterStatus(LPCWSTR printerName) const
 {
     DWORD status = 0;
     HANDLE printer = 0;
 
-    if (::OpenPrinter(const_cast<LPTSTR>(printerName), &printer, nullptr))
+    if (::OpenPrinter(const_cast<LPWSTR>(printerName), &printer, nullptr))
     {
         // Create PRINTER_INFO_2 structure.
         DWORD bufferSize = 0;
@@ -550,7 +550,7 @@ void CCustomPrintDlg::OnOK()
         {
             CString text = "Enter a page between 1 and ";
             text << ToCString(m_maxPage);
-            MessageBox(text, _T("Invalid Page"), MB_OK);
+            MessageBox(text, L"Invalid Page", MB_OK);
         }
     }
 }
@@ -566,7 +566,7 @@ BOOL CCustomPrintDlg::OnPrintProperties()
         m_isPropertiesDisplayed = true;
         // Get the printer name.
         CString dev = GetDeviceName();
-        LPTSTR deviceName = const_cast<LPTSTR>(dev.c_str());
+        LPWSTR deviceName = const_cast<LPWSTR>(dev.c_str());
 
         // Retrieve the printer handle with PRINTER_ALL_ACCESS if we can.
         HANDLE printer;
@@ -628,7 +628,7 @@ void CCustomPrintDlg::SetMaxPage(int maxPage)
 }
 
 // Sets the DEVMODE parameters of the specified printer.
-bool CCustomPrintDlg::SetPrinterFromDevMode(LPCTSTR deviceName, LPDEVMODE pDevMode)
+bool CCustomPrintDlg::SetPrinterFromDevMode(LPCWSTR deviceName, LPDEVMODE pDevMode)
 {
     assert(deviceName);
     assert(pDevMode);
@@ -637,16 +637,16 @@ bool CCustomPrintDlg::SetPrinterFromDevMode(LPCTSTR deviceName, LPDEVMODE pDevMo
     HANDLE printer;
     PRINTER_DEFAULTS printerDefaults = {};
     printerDefaults.DesiredAccess = PRINTER_ALL_ACCESS;
-    if (::OpenPrinter(const_cast<LPTSTR>(deviceName), &printer, &printerDefaults) == FALSE)
-        if (::OpenPrinter(const_cast<LPTSTR>(deviceName), &printer, nullptr) == FALSE)
-            throw CWinException(_T("Failed to get printer handle."));;
+    if (::OpenPrinter(const_cast<LPWSTR>(deviceName), &printer, &printerDefaults) == FALSE)
+        if (::OpenPrinter(const_cast<LPWSTR>(deviceName), &printer, nullptr) == FALSE)
+            throw CWinException(L"Failed to get printer handle.");;
 
     // Determine the size of the printerInfo buffer.
     DWORD bufferSize = 0;
     SetLastError(0);
     VERIFY(::GetPrinter(printer, 2, nullptr, 0, &bufferSize) == FALSE);
     if ((GetLastError() != ERROR_INSUFFICIENT_BUFFER) || (bufferSize == 0))
-        throw CWinException(_T("Failed to get printer info buffer size."));
+        throw CWinException(L"Failed to get printer info buffer size.");
 
     // Allocate a buffer for the PRINTER_INFO_2.
     std::vector<BYTE> infoBuffer(bufferSize);
@@ -670,16 +670,16 @@ void CCustomPrintDlg::UpdateStatusText()
     // windows API documentation for possible status values.
     DWORD status = GetPrinterStatus(GetDeviceName());
     CString statusText;
-    if (status == 0)                       statusText = _T("Ready");
-    if (status & PRINTER_STATUS_PAUSED)    statusText = _T("Paused");
-    if (status & PRINTER_STATUS_ERROR)     statusText = _T("Error");
-    if (status & PRINTER_STATUS_OFFLINE)   statusText = _T("Offline");
-    if (status & PRINTER_STATUS_BUSY)      statusText = _T("Busy");
-    if (status & PRINTER_STATUS_PRINTING)  statusText = _T("Printing");
-    if (status & PRINTER_STATUS_NOT_AVAILABLE) statusText = _T("Not available");
-    if (status & PRINTER_STATUS_TONER_LOW) statusText = _T("Ink or toner low");
-    if (status & PRINTER_STATUS_NO_TONER)  statusText = _T("No ink or toner");
-    if (status & PRINTER_STATUS_PAPER_OUT) statusText = _T("Out of paper");
-    if (status & PRINTER_STATUS_PAPER_JAM) statusText = _T("Paper jam");
+    if (status == 0)                       statusText = L"Ready";
+    if (status & PRINTER_STATUS_PAUSED)    statusText = L"Paused";
+    if (status & PRINTER_STATUS_ERROR)     statusText = L"Error";
+    if (status & PRINTER_STATUS_OFFLINE)   statusText = L"Offline";
+    if (status & PRINTER_STATUS_BUSY)      statusText = L"Busy";
+    if (status & PRINTER_STATUS_PRINTING)  statusText = L"Printing";
+    if (status & PRINTER_STATUS_NOT_AVAILABLE) statusText = L"Not available";
+    if (status & PRINTER_STATUS_TONER_LOW) statusText = L"Ink or toner low";
+    if (status & PRINTER_STATUS_NO_TONER)  statusText = L"No ink or toner";
+    if (status & PRINTER_STATUS_PAPER_OUT) statusText = L"Out of paper";
+    if (status & PRINTER_STATUS_PAPER_JAM) statusText = L"Paper jam";
     m_status = statusText;
 }

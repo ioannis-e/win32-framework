@@ -41,7 +41,7 @@ private:
     virtual LRESULT OnDpiChangedBeforeParent(UINT msg, WPARAM wparam, LPARAM lparam);
     virtual LRESULT OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam);
 
-    void AppendText(int nID, LPCTSTR text);
+    void AppendText(int nID, LPCWSTR text);
 
     CResizer    m_Resizer;
     CRichEdit   m_actors;

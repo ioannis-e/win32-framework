@@ -156,10 +156,10 @@ OnCreate(CREATESTRUCT& cs)                                                  /*
       // determine the availability of the archive file
     if (::_taccess(m_arcvPath, 4) != 0)
     {
-        CString msg = _T("Default values are being used on this first\n")
-            _T("startup. Your customized settings, colors, and font\n")
-            _T("will be restored in future usages.\n");
-        ::MessageBox(nullptr, msg, _T("Information"), MB_OK |
+        CString msg = L"Default values are being used on this first\n"
+            L"startup. Your customized settings, colors, and font\n"
+            L"will be restored in future usages.\n";
+        ::MessageBox(nullptr, msg, L"Information", MB_OK |
             MB_ICONINFORMATION | MB_TASKMODAL);
         return 0;
     }
@@ -177,16 +177,16 @@ OnCreate(CREATESTRUCT& cs)                                                  /*
     {
         CString text = e.GetText();
         if (!text.IsEmpty())
-            text += _T("\n");
-        CString msg = (CString)"Error restoring program's previous state.\n" +
-            text + e.GetErrorString() + _T("\n") + e.what();
-        ::MessageBox(nullptr, msg.c_str(), _T("Exception"),
+            text += L"\n";
+        CString msg = "Error restoring program's previous state.\n" +
+            text + e.GetErrorString() + L"\n" + e.what();
+        ::MessageBox(nullptr, msg.c_str(), L"Exception",
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
     }
     catch(...) // catch all other exception events
     {
-        CString msg = _T("Program's previous state not restored.\n");
-        ::MessageBox(nullptr, msg.c_str(), _T("Unknown Exception"),
+        CString msg = L"Program's previous state not restored.\n";
+        ::MessageBox(nullptr, msg.c_str(), L"Unknown Exception",
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
     }
     m_wndPl.showCmd = SW_RESTORE;
@@ -353,16 +353,16 @@ SaveSettings()                                                              /*
     {
         CString text = e.GetText();
         if (!text.IsEmpty())
-            text += _T("\n");
-        CString msg = (CString)"Error while saving program's state.\n" + text +
-            e.GetErrorString() + _T("\n") + e.what();
-        ::MessageBox(nullptr, msg.c_str(), _T("Exception"),
+            text += L"\n";
+        CString msg = L"Error while saving program's state.\n" + text +
+            e.GetErrorString() + L"\n" + e.what();
+        ::MessageBox(nullptr, msg.c_str(), L"Exception",
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
     }
     catch(...) // catch all other exception events
     {
-        CString msg = _T("Program's current state not saved.\n");
-        ::MessageBox(nullptr, msg.c_str(), _T("Unknown Exception"),
+        CString msg = "Program's current state not saved.\n";
+        ::MessageBox(nullptr, msg.c_str(), L"Unknown Exception",
             MB_OK | MB_ICONSTOP | MB_TASKMODAL);
     }
 }

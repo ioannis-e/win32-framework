@@ -40,7 +40,7 @@ CColorChoice   : public CColorDialog                                        /*
         CColorChoice();
         virtual ~CColorChoice() override {}
 
-        void    AddColorChoice(UINT, LPCTSTR, COLORREF);
+        void    AddColorChoice(UINT, LPCWSTR, COLORREF);
         void    ClearColorTable(){m_colorTable.clear();}
         void    InitCustomColors();
         INT_PTR DoModal(HWND owner = 0);
@@ -50,9 +50,9 @@ CColorChoice   : public CColorDialog                                        /*
         COLORREF GetTableColor(UINT id) const;
         UINT    GetTableIndex(UINT id) const;
         CString GetTableUsage(UINT id) const;
-        void    SetBoxTitle(LPCTSTR title) {m_boxTitle = title;}
+        void    SetBoxTitle(LPCWSTR title) {m_boxTitle = title;}
         void    SetTableColor(UINT id, COLORREF rgb);
-        void    SetTableUsage(UINT id, LPCTSTR s);
+        void    SetTableUsage(UINT id, LPCWSTR s);
 
     protected:
         virtual BOOL    OnInitDialog() override;

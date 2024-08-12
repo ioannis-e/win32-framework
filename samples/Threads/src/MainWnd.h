@@ -33,7 +33,7 @@ private:
     CMainWindow(const CMainWindow&) = delete;
     CMainWindow& operator=(const CMainWindow&) = delete;
 
-    void AppendText(LPCTSTR text);
+    void AppendText(LPCWSTR text);
 
     // Message handlers
     void    OnAllWindowsCreated();

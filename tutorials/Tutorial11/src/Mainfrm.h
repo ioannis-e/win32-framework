@@ -20,7 +20,7 @@ public:
     virtual HWND Create(HWND parent = nullptr) override;
 
     CDoc& GetDoc() { return m_view.GetDoc(); }
-    void LoadFile(LPCTSTR fileName);
+    void LoadFile(LPCWSTR fileName);
 
 protected:
     virtual void OnClose() override;
@@ -35,7 +35,6 @@ private:
     CMainFrame(const CMainFrame&) = delete;
     CMainFrame& operator=(const CMainFrame&) = delete;
 
-    LRESULT OnDropFile(WPARAM wparam);
     BOOL OnFileExit();
     BOOL OnFileMRU(WPARAM wparam);
     BOOL OnFileNew();
@@ -45,6 +44,7 @@ private:
     BOOL OnFilePreview();
     BOOL OnFilePrint();
     BOOL OnPenColor();
+    LRESULT OnDropFile(WPARAM wparam);
     LRESULT OnPreviewClose();
     LRESULT OnPreviewPrint();
     LRESULT OnPreviewSetup();

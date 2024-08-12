@@ -9,7 +9,7 @@
 
 
 // Message - sent to the parent (Frame) window when a file is dropped on the View window.
-//   WPARAM: A pointer to the fileName (LPCTSTR)
+//   WPARAM: A pointer to the fileName (LPCWSTR)
 //   LPARAM: unused
 #define UWM_DROPFILE (WM_APP + 0x0001)
 
@@ -31,9 +31,9 @@ public:
 
     CMemDC Draw();
     void DrawLine(int x, int y);
-    void Print(LPCTSTR docName);
+    void Print(LPCWSTR docName);
     void PrintPage(CDC& dc, int page = 1);
-    void QuickPrint(LPCTSTR docName);
+    void QuickPrint(LPCWSTR docName);
 
 protected:
     virtual int OnCreate(CREATESTRUCT&) override;

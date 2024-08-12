@@ -9,7 +9,7 @@
 
 
 // Message - sent to the parent (Frame) window when a file is dropped on the View window.
-//   WPARAM: A pointer to the fileName (LPCTSTR)
+//   WPARAM: A pointer to the fileName (LPCWSTR)
 //   LPARAM: unused
 #define UWM_DROPFILE (WM_APP + 0x0001)
 
@@ -27,18 +27,17 @@ public:
     CDoc& GetDoc();
     std::vector<PlotPoint>& GetAllPoints();
     COLORREF GetPenColor() { return m_penColor; }
+    void SetPenColor(COLORREF color) { m_penColor = color; }
 
     CMemDC Draw();
     void DrawLine(int x, int y);
-    void Print(LPCTSTR docName);
+    void Print(LPCWSTR docName);
     void PrintPage(CDC& dc, int page = 1);
-    void QuickPrint(LPCTSTR docName);
-    void SetPenColor(COLORREF color) { m_penColor = color; }
+    void QuickPrint(LPCWSTR docName);
 
 protected:
     virtual int OnCreate(CREATESTRUCT&) override;
     virtual void OnDraw(CDC& dc) override;
-
     virtual void PreCreate(CREATESTRUCT& cs) override;
     virtual void PreRegisterClass(WNDCLASS& wc) override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;

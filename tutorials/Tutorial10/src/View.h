@@ -9,7 +9,7 @@
 
 
 // Message - sent to the parent (Frame) window when a file is dropped on the View window.
-//   WPARAM: A pointer to the filename (LPCTSTR)
+//   WPARAM: A pointer to the filename (LPCWSTR)
 //   LPARAM: unused
 #define UWM_DROPFILE (WM_APP + 0x0001)
 
@@ -30,9 +30,9 @@ public:
     std::vector<PlotPoint>& GetAllPoints();
     COLORREF GetPenColor() { return m_penColor; }
 
-    void Print(LPCTSTR docName);
+    void Print(LPCWSTR docName);
     void PrintPage(CDC& dc, int page = 1);
-    void QuickPrint(LPCTSTR docName);
+    void QuickPrint(LPCWSTR docName);
     void SetPenColor(COLORREF color) { m_penColor = color; }
 
 protected:

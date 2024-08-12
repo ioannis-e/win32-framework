@@ -74,11 +74,11 @@ int CALLBACK CView::CompareFunction(LPARAM param1, LPARAM param2, LPARAM pSortVi
 // Insert 4 list view items.
 void CView::AddAllItems()
 {
-    AddItem(_T("ListViewApp.h"),   _T("1 KB"), _T("C++ Header file"));
-    AddItem(_T("main.cpp"),        _T("1 KB"), _T("C++ Source file"));
-    AddItem(_T("ListViewApp.cpp"), _T("3 KB"), _T("C++ Source file"));
-    AddItem(_T("Resource.rc"),     _T("2 KB"), _T("C++ Resource Script"));
-    AddItem(_T("Readme.txt"),      _T("4 KB"), _T("Text file"));
+    AddItem(L"ListViewApp.h",    L"1 KB",   L"C++ Header file");
+    AddItem(L"main.cpp",         L"1 KB",   L"C++ Source file");
+    AddItem(L"ListViewApp.cpp",  L"3 KB",   L"C++ Source file");
+    AddItem(L"Resource.rc",      L"2 KB",   L"C++ Resource Script");
+    AddItem(L"Readme.txt",       L"4 KB",   L"Text file");
 }
 
 // The window handle (HWND) is attached to CView when it is created.
@@ -313,15 +313,15 @@ void CView::SetColumns()
     lvColumn.fmt = LVCFMT_LEFT;
 
     // 1st column
-    lvColumn.pszText = const_cast<LPTSTR>(_T("Name"));
+    lvColumn.pszText = const_cast<LPWSTR>(L"Name");
     InsertColumn(0, lvColumn);
 
     // 2nd column
-    lvColumn.pszText = const_cast<LPTSTR>(_T("Size"));
+    lvColumn.pszText = const_cast<LPWSTR>(L"Size");
     InsertColumn(1, lvColumn);
 
     // 3rd column
-    lvColumn.pszText = const_cast<LPTSTR>(_T("Type"));
+    lvColumn.pszText = const_cast<LPWSTR>(L"Type");
     InsertColumn(2, lvColumn);
 }
 
@@ -399,7 +399,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -410,7 +410,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

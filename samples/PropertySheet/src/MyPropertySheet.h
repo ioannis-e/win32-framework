@@ -12,7 +12,7 @@
 class CMyPropertySheet : public CPropertySheet
 {
 public:
-    CMyPropertySheet(LPCTSTR caption = nullptr, HWND hParent = nullptr);
+    CMyPropertySheet(LPCWSTR caption = nullptr, HWND hParent = nullptr);
     virtual ~CMyPropertySheet() override {}
 
 protected:
@@ -35,7 +35,7 @@ private:
 class CButtonPage : public CPropertyPage
 {
 public:
-    CButtonPage(UINT templateID, LPCTSTR title = nullptr);
+    CButtonPage(UINT templateID, LPCWSTR title = nullptr);
     virtual ~CButtonPage() override {}
 
     BOOL Validate();
@@ -63,7 +63,7 @@ private:
 class CComboPage : public CPropertyPage
 {
 public:
-    CComboPage(UINT templateID, LPCTSTR title  = nullptr);
+    CComboPage(UINT templateID, LPCWSTR title  = nullptr);
     virtual ~CComboPage() override {}
 
 protected:

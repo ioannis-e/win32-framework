@@ -174,8 +174,8 @@ LRESULT CView::OnRButtonDown(UINT msg, WPARAM wparam, LPARAM lparam)
     // Create the menu.
     CMenu popup;
     popup.CreatePopupMenu();
-    popup.AppendMenu(MF_STRING, IDM_COLOR, _T("Color"));
-    popup.AppendMenu(MF_STRING, IDM_EXIT, _T("Exit"));
+    popup.AppendMenu(MF_STRING, IDM_COLOR, L"Color");
+    popup.AppendMenu(MF_STRING, IDM_EXIT, L"Exit");
 
     // Initiate the popup menu.
     CPoint pt = GetCursorPos();
@@ -215,7 +215,7 @@ void CView::PreCreate(CREATESTRUCT& cs)
 void CView::PreRegisterClass(WNDCLASS& wc)
 {
     wc.hbrBackground = m_brush;                 // Background color
-    wc.lpszClassName = _T("Round Window");      // Class name
+    wc.lpszClassName = L"Round Window";      // Class name
     wc.hCursor = ::LoadCursor(nullptr, IDC_ARROW);     // Arrow cursor
 }
 
@@ -261,7 +261,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -272,7 +272,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

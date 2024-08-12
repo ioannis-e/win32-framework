@@ -188,7 +188,7 @@ PrintPages(CPrintDialog& printDlg)                                          /*
 
 /*============================================================================*/
     BOOL CRichView::
-ReadFile(LPCTSTR filePath)                                                  /*
+ReadFile(LPCWSTR filePath)                                                  /*
 
     Open the filePath file as a rich edit view stream for display in
     the main window.
@@ -209,7 +209,7 @@ ReadFile(LPCTSTR filePath)                                                  /*
     }
     catch (const CFileException& e)
     {
-        CString msg = _T("Failed to load:  ");
+        CString msg = "Failed to load:  ";
         msg += e.GetFilePath();
         ::MessageBox(nullptr, msg, AtoT(e.what()), MB_ICONWARNING);
         return FALSE;
@@ -229,7 +229,7 @@ SetFontDefaults()                                                           /*
     if (m_font.GetHandle() == nullptr)
         m_font.CreateFont(16, 0, 0, 0, FW_NORMAL, 0, 0, 0, ANSI_CHARSET,
             OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
-            FF_MODERN, _T("Courier New"));
+            FF_MODERN, L"Courier New");
     SetFont(m_font, FALSE);
 
 // Required for Dev-C++
@@ -282,7 +282,7 @@ WordWrap(WordWrapType setting)                                              /*
 
 /*============================================================================*/
     BOOL CRichView::
-WriteFile(LPCTSTR filePath)                                                 /*
+WriteFile(LPCWSTR filePath)                                                 /*
 
     Write the contents of the rich edit control to the given filePath.
 *-----------------------------------------------------------------------------*/
@@ -303,9 +303,9 @@ WriteFile(LPCTSTR filePath)                                                 /*
     }
     catch (const CFileException&)
     {
-        CString str = _T("Failed to write:  ");
+        CString str = L"Failed to write:  ";
         str += filePath;
-        ::MessageBox(nullptr, str, _T("Warning"), MB_ICONWARNING);
+        ::MessageBox(nullptr, str, L"Warning", MB_ICONWARNING);
         return FALSE;
     }
     return TRUE;
@@ -329,7 +329,7 @@ RVStreamInCallback(DWORD handle, LPBYTE buffer, LONG size, LONG *read)      /*
 
     *read = 0;
     if (!::ReadFile((HANDLE)(DWORD_PTR) handle, buffer, size, (LPDWORD)read, nullptr))
-        ::MessageBox(0, _T("ReadFile Failed"), _T(""), MB_OK);
+        ::MessageBox(0, L"ReadFile Failed", L"", MB_OK);
     return 0;
 }
 
@@ -347,7 +347,7 @@ RVStreamOutCallback(DWORD handle, LPBYTE buffer, LONG size, LONG *out)      /*
 
     *out = 0;
     if (!::WriteFile((HANDLE)(DWORD_PTR)handle, buffer, size, (LPDWORD)out, nullptr))
-        ::MessageBox(nullptr, _T("WriteFile Failed"), _T(""), MB_OK);
+        ::MessageBox(nullptr, L"WriteFile Failed", L"", MB_OK);
     return 0;
 }
 /*----------------------------------------------------------------------------*/

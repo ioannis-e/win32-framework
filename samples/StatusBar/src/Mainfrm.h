@@ -37,7 +37,7 @@ private:
     CMainFrame(const CMainFrame&) = delete;
     CMainFrame& operator=(const CMainFrame&) = delete;
 
-    int GetTextPartWidth(LPCTSTR text) const;
+    int GetTextPartWidth(LPCWSTR text) const;
 
     // Command handlers
     BOOL OnFileExit();

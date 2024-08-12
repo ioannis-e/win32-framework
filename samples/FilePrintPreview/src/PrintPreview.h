@@ -171,7 +171,7 @@ CPrintPreviewEx : public CDialog                                         /*
         BOOL    OnPrintButton();
         BOOL    OnZoomChange();
         void    PopulateScaleBox();
-        CString RegQueryStringValue(CRegKey &key, LPCTSTR name);
+        CString RegQueryStringValue(CRegKey &key, LPCWSTR name);
         void    UpdateButtons();
 
         CDataExchange m_dx;

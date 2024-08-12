@@ -23,7 +23,7 @@ CView::~CView()
 
 // Loads a bitmap image from a file.
 // Only bitmap images (bmp files) can be loaded.
-BOOL CView::LoadFileImage(LPCTSTR filename)
+BOOL CView::LoadFileImage(LPCWSTR filename)
 {
     m_image.DeleteObject();
     CSize totalSize;
@@ -34,7 +34,7 @@ BOOL CView::LoadFileImage(LPCTSTR filename)
         {
             CString str("Failed to load file:  ");
             str += filename;
-            MessageBox(str, _T("File Load Error"), MB_ICONWARNING);
+            MessageBox(str, L"File Load Error", MB_ICONWARNING);
         }
     }
 
@@ -56,7 +56,7 @@ BOOL CView::LoadFileImage(LPCTSTR filename)
 }
 
 // Select the printer, and call QuickPrint.
-void CView::Print(LPCTSTR docName)
+void CView::Print(LPCWSTR docName)
 {
     CPrintDialog printDlg;
 
@@ -112,12 +112,12 @@ void CView::PrintPage(CDC& dc, int)
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 }
 
 // Prints the image on the current default printer.
-void CView::QuickPrint(LPCTSTR docName)
+void CView::QuickPrint(LPCWSTR docName)
 {
     try
     {
@@ -142,12 +142,12 @@ void CView::QuickPrint(LPCTSTR docName)
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Failed", MB_ICONWARNING);
     }
 }
 
 // Saves the bitmap to a file.
-BOOL CView::SaveFileImage(LPCTSTR fileName)
+BOOL CView::SaveFileImage(LPCWSTR fileName)
 {
     CFile file;
     BOOL result = FALSE;
@@ -227,7 +227,8 @@ void CView::OnDraw(CDC& dc)
         }
 
         CRect rc = GetClientRect();
-        dc.DrawText(_T("Use the Menu or ToolBar to open a Bitmap File"), -1, rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+        dc.DrawText(L"Use the Menu or ToolBar to open a Bitmap File",
+            -1, rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     }
 }
 
@@ -271,7 +272,7 @@ void CView::OnInitialUpdate()
 void CView::PreCreate(CREATESTRUCT& cs)
 {
     // Set the Window Class name
-    cs.lpszClass = _T("View");
+    cs.lpszClass = L"View";
 
     cs.style = WS_CHILD | WS_HSCROLL | WS_VSCROLL ;
 
@@ -298,7 +299,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -309,7 +310,7 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

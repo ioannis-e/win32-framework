@@ -28,8 +28,8 @@ public:
 
     std::vector<PlotPoint>& GetAllPoints() {return m_points;}   // returns a vector of PlotPoint data
 
-    void FileOpen(LPCTSTR filename);
-    void FileSave(LPCTSTR filename);
+    void FileOpen(LPCWSTR filename);
+    void FileSave(LPCWSTR filename);
     void Serialize(CArchive &ar);
     void StorePoint(int x, int y, bool isPenDown, COLORREF penColor);
 

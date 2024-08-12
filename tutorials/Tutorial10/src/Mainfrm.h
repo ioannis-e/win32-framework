@@ -23,7 +23,7 @@ public:
     CMainFrame();
     virtual ~CMainFrame() override;
     CDoc& GetDoc() { return m_view.GetDoc(); }
-    void LoadFile(LPCTSTR fileName);
+    void LoadFile(LPCWSTR fileName);
 
 protected:
     virtual void OnClose() override;

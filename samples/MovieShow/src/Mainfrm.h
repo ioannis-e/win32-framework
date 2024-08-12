@@ -39,7 +39,7 @@ public:
 
 protected:
     // Virtual functions that override base class functions
-    virtual BOOL    LoadRegistrySettings(LPCTSTR szKeyName) override;
+    virtual BOOL    LoadRegistrySettings(LPCWSTR szKeyName) override;
     virtual void    OnClose() override;
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int     OnCreate(CREATESTRUCT& cs) override;
@@ -73,13 +73,13 @@ private:
     void FillImageData(const CString& source, std::vector<BYTE>& dest);
     void FillList();
     void FillListFromAllBoxSets();
-    void FillListFromBoxSet(LPCTSTR boxset);
-    void FillListFromDateRange(LPCTSTR dateRange);
+    void FillListFromBoxSet(LPCWSTR boxset);
+    void FillListFromDateRange(LPCWSTR dateRange);
     void FillListFromFlags(DWORD dwMask);
-    void FillListFromGenre(LPCTSTR genre);
-    void FillListFromGenres(LPCTSTR genreList);
+    void FillListFromGenre(LPCWSTR genre);
+    void FillListFromGenres(LPCWSTR genreList);
     void FillListFromSearch();
-    void FillListFromType(LPCTSTR videoType);
+    void FillListFromType(LPCWSTR videoType);
     void FillTreeItems();
     void ForceToForeground();
     void LoadMovieInfoFromFile(const FoundFileInfo& ffi, MovieInfo& movie);
@@ -95,7 +95,7 @@ private:
     LRESULT OnSelectTreeItem();
     LRESULT OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam);
-    LRESULT PlayMovie(LPCTSTR path);
+    LRESULT PlayMovie(LPCWSTR path);
 
     // Command handlers
     BOOL    OnAddBoxSet();
@@ -109,7 +109,7 @@ private:
     BOOL    OnRemoveBoxSet();
     BOOL    OnRemoveFile();
     BOOL    OnSearch();
-    BOOL    OnVideoType(LPCTSTR videoType);
+    BOOL    OnVideoType(LPCWSTR videoType);
     BOOL    OnWatchList();
 
     // Member variables

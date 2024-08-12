@@ -13,14 +13,14 @@ namespace ShellWrapper
 
     // Retrieves the display name for the file from its pidl.
     // This is the name as it appears in Windows Explorer.
-    BOOL GetDisplayName(LPCITEMIDLIST pidlFull, LPTSTR pszDisplayName)
+    BOOL GetDisplayName(LPCITEMIDLIST pidlFull, LPWSTR pszDisplayName)
     {
         SHFILEINFO sfi = {};
 
         // Get the display name of the item
-        if(!::SHGetFileInfo((LPCTSTR)pidlFull, 0, &sfi, sizeof(sfi), SHGFI_PIDL | SHGFI_DISPLAYNAME))
+        if(!::SHGetFileInfo((LPCWSTR)pidlFull, 0, &sfi, sizeof(sfi), SHGFI_PIDL | SHGFI_DISPLAYNAME))
         {
-            pszDisplayName[0] = _T('\0');
+            pszDisplayName[0] = L'\0';
             return FALSE;
         }
 
@@ -29,11 +29,11 @@ namespace ShellWrapper
     }
 
     // Retrieves the file's path name from its pidl.
-    BOOL GetFullFileName(LPCITEMIDLIST pidlFull, LPTSTR pszPathName)
+    BOOL GetFullFileName(LPCITEMIDLIST pidlFull, LPWSTR pszPathName)
     {
         if (!::SHGetPathFromIDList(pidlFull, pszPathName))
         {
-            pszPathName[0] = _T('\0');
+            pszPathName[0] = L'\0';
             return FALSE;
         }
 
@@ -452,7 +452,7 @@ namespace ShellWrapper
         // then copy pidlParent and pidlRel to the new list.
         m_pidl = (LPITEMIDLIST)::CoTaskMemAlloc(cb1 + cb2);
         if (!m_pidl)
-            throw CWinException(_T("Failed to allocate memory for pidl"));
+            throw CWinException(L"Failed to allocate memory for pidl");
 
         ::ZeroMemory(m_pidl, cb1 + cb2);
         if (pidlParent)
@@ -481,7 +481,7 @@ namespace ShellWrapper
         cbSource = GetSize(pidlSource);
         m_pidl = (LPITEMIDLIST)::CoTaskMemAlloc(cbSource);
         if (!m_pidl)
-            throw CWinException(_T("Failed to allocate memory for pidl"));
+            throw CWinException(L"Failed to allocate memory for pidl");
 
         ::CopyMemory(m_pidl, pidlSource, cbSource);
     }
@@ -491,7 +491,7 @@ namespace ShellWrapper
     DWORD_PTR Cpidl::GetFileInfo(DWORD dwFileAttributes, SHFILEINFO& sfi, UINT uFlags)
     {
         LPITEMIDLIST pidl = m_pidl;
-        return (DWORD_PTR)::SHGetFileInfo((LPCTSTR)pidl, dwFileAttributes, &sfi, sizeof(SHFILEINFO), uFlags);
+        return (DWORD_PTR)::SHGetFileInfo((LPCWSTR)pidl, dwFileAttributes, &sfi, sizeof(SHFILEINFO), uFlags);
     }
 
     // Returns the next item in the item identifier list.
@@ -528,7 +528,7 @@ namespace ShellWrapper
         UINT size = GetSize(m_pidl);
         m_pidlParent = (LPITEMIDLIST)::CoTaskMemAlloc(size);
         if (!m_pidlParent)
-            throw CWinException(_T("Failed to allocate pidlParent memory"));
+            throw CWinException(L"Failed to allocate pidlParent memory");
 
         ::CopyMemory(m_pidlParent, m_pidl, size);
 

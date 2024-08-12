@@ -78,16 +78,16 @@ private:
     int  AdjustForDPI(int value) const;
     void ClearContents();
     void DetermineEncoding(CFile& file);
-    int  GetTextPartWidth(LPCTSTR text) const;
-    BOOL ReadFile(LPCTSTR fileName);
+    int  GetTextPartWidth(LPCWSTR text) const;
+    BOOL ReadFile(LPCWSTR fileName);
     void RestoreFocus() { ::SetFocus(m_oldFocus); }
     void SaveFocus() { m_oldFocus = ::GetFocus(); }
     void SaveModifiedText();
     void SetEncoding(int encoding);
-    void SetPathName(LPCTSTR fullFileName);
+    void SetPathName(LPCWSTR fullFileName);
 
     void SetWindowTitle();
-    BOOL WriteFile(LPCTSTR fileName);
+    BOOL WriteFile(LPCWSTR fileName);
 
     // Member variables
     CRichView m_richView;

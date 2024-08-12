@@ -186,44 +186,44 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\Themes Sample"));
+    LoadRegistrySettings(L"Win32++\\Themes Sample");
 
     return CFrame::Create(parent);
 }
 
 // Loads the application's settings from the registry when the application starts.
-BOOL CMainFrame::LoadRegistrySettings(LPCTSTR keyName)
+BOOL CMainFrame::LoadRegistrySettings(LPCWSTR keyName)
 {
     // Call the base class function.
     if (CFrame::LoadRegistrySettings(keyName))
     {
         CString settingsKeyName;
-        settingsKeyName << _T("Software\\") << keyName << _T("\\Theme Settings");
+        settingsKeyName << L"Software\\" << keyName << L"\\Theme Settings";
         CRegKey settingsKey;
 
         int result = settingsKey.Open(HKEY_CURRENT_USER, settingsKeyName);
         if (result == ERROR_SUCCESS)
         {
             DWORD bands = 0;
-            result |= settingsKey.QueryDWORDValue(_T("ColorStyle"), m_color);
-            result |= settingsKey.QueryBoolValue(_T("UseThemes"), m_useThemes);
-            result |= settingsKey.QueryBoolValue(_T("UseBandColors"), m_useBandColors);
-            result |= settingsKey.QueryBoolValue(_T("UseFlatStyle"), m_useFlatStyle);
-            result |= settingsKey.QueryBoolValue(_T("PutBandsLeft"), m_keepBandsLeft);
-            result |= settingsKey.QueryBoolValue(_T("LockMenuBand"), m_lockMenuBand);
-            result |= settingsKey.QueryBoolValue(_T("UseRoundBorders"), m_useRoundBorders);
-            result |= settingsKey.QueryBoolValue(_T("UseShortBands"), m_useShortBands);
-            result |= settingsKey.QueryBoolValue(_T("UseLines"), m_useLines);
-            result |= settingsKey.QueryBoolValue(_T("ShowArrows"), m_showArrows);
-            result |= settingsKey.QueryBoolValue(_T("ShowCards"), m_showCards);
-            result |= settingsKey.QueryDWORDValue(_T("NumBands"), bands);
+            result |= settingsKey.QueryDWORDValue(L"ColorStyle", m_color);
+            result |= settingsKey.QueryBoolValue(L"UseThemes", m_useThemes);
+            result |= settingsKey.QueryBoolValue(L"UseBandColors", m_useBandColors);
+            result |= settingsKey.QueryBoolValue(L"UseFlatStyle", m_useFlatStyle);
+            result |= settingsKey.QueryBoolValue(L"PutBandsLeft", m_keepBandsLeft);
+            result |= settingsKey.QueryBoolValue(L"LockMenuBand", m_lockMenuBand);
+            result |= settingsKey.QueryBoolValue(L"UseRoundBorders", m_useRoundBorders);
+            result |= settingsKey.QueryBoolValue(L"UseShortBands", m_useShortBands);
+            result |= settingsKey.QueryBoolValue(L"UseLines", m_useLines);
+            result |= settingsKey.QueryBoolValue(L"ShowArrows", m_showArrows);
+            result |= settingsKey.QueryBoolValue(L"ShowCards", m_showCards);
+            result |= settingsKey.QueryDWORDValue(L"NumBands", bands);
 
             // Retrieve the band styles and IDs
             for (UINT i = 0; i < bands; ++i)
             {
                 CString bandKeyName;
                 DWORD id = 0;
-                bandKeyName.Format(_T("Band ID %d\0"), i + 1);
+                bandKeyName.Format(L"Band ID %d\0", i + 1);
                 result |= settingsKey.QueryDWORDValue(bandKeyName, id);
                 BandData bandData;
                 bandData.index = i;
@@ -602,25 +602,25 @@ BOOL CMainFrame::SaveRegistrySettings()
     {
         CRegKey settingsKey;
         CString settingsKeyName;
-        settingsKeyName << _T("Software\\") << GetRegistryKeyName() << _T("\\Theme Settings");
+        settingsKeyName << L"Software\\" << GetRegistryKeyName() << L"\\Theme Settings";
         int bands = GetReBar().GetBandCount();
 
         settingsKey.Create(HKEY_CURRENT_USER, settingsKeyName);
         settingsKey.Open(HKEY_CURRENT_USER, settingsKeyName);
 
         // Save the theme settings
-        settingsKey.SetDWORDValue(_T("ColorStyle"), m_color);
-        settingsKey.SetBoolValue(_T("UseThemes"), m_useThemes);
-        settingsKey.SetBoolValue(_T("UseBandColors"), m_useBandColors);
-        settingsKey.SetBoolValue(_T("UseFlatStyle"), m_useFlatStyle);
-        settingsKey.SetBoolValue(_T("PutBandsLeft"), m_keepBandsLeft);
-        settingsKey.SetBoolValue(_T("LockMenuBand"), m_lockMenuBand);
-        settingsKey.SetBoolValue(_T("UseRoundBorders"), m_useRoundBorders);
-        settingsKey.SetBoolValue(_T("UseShortBands"), m_useShortBands);
-        settingsKey.SetBoolValue(_T("UseLines"), m_useLines);
-        settingsKey.SetBoolValue(_T("ShowArrows"), m_showArrows);
-        settingsKey.SetBoolValue(_T("ShowCards"), m_showCards);
-        settingsKey.SetDWORDValue(_T("NumBands"), bands);
+        settingsKey.SetDWORDValue(L"ColorStyle", m_color);
+        settingsKey.SetBoolValue(L"UseThemes", m_useThemes);
+        settingsKey.SetBoolValue(L"UseBandColors", m_useBandColors);
+        settingsKey.SetBoolValue(L"UseFlatStyle", m_useFlatStyle);
+        settingsKey.SetBoolValue(L"PutBandsLeft", m_keepBandsLeft);
+        settingsKey.SetBoolValue(L"LockMenuBand", m_lockMenuBand);
+        settingsKey.SetBoolValue(L"UseRoundBorders", m_useRoundBorders);
+        settingsKey.SetBoolValue(L"UseShortBands", m_useShortBands);
+        settingsKey.SetBoolValue(L"UseLines", m_useLines);
+        settingsKey.SetBoolValue(L"ShowArrows", m_showArrows);
+        settingsKey.SetBoolValue(L"ShowCards", m_showCards);
+        settingsKey.SetDWORDValue(L"NumBands", bands);
 
         // Save the rebar band settings
         REBARBANDINFO rbbi = {};
@@ -631,7 +631,7 @@ BOOL CMainFrame::SaveRegistrySettings()
             GetReBar().GetBandInfo(i, rbbi);
             UINT id = rbbi.wID;
             CString bandKeyName;
-            bandKeyName.Format(_T("Band ID %d\0"), i + 1);
+            bandKeyName.Format(L"Band ID %d\0", i + 1);
             settingsKey.SetDWORDValue(bandKeyName, id);
         }
     }
@@ -643,7 +643,7 @@ BOOL CMainFrame::SaveRegistrySettings()
 // the caption color. The DWMWA_CAPTION_COLOR option requires Windows 11.
 void CMainFrame::SetCaptionColor(COLORREF color)
 {
-    HMODULE dwmapi = ::LoadLibrary(_T("Dwmapi.dll"));
+    HMODULE dwmapi = ::LoadLibrary(L"Dwmapi.dll");
     if (dwmapi != 0)
     {
         typedef UINT WINAPI DWMSETWINDOWATTRIBUE(HWND, DWORD, LPCVOID, DWORD);
@@ -660,7 +660,7 @@ void CMainFrame::SetCaptionColor(COLORREF color)
 // the caption text color. The DWMWA_CAPTION_COLOR option requires Windows 11.
 void CMainFrame::SetCaptionTextColor(COLORREF color)
 {
-    HMODULE dwmapi = ::LoadLibrary(_T("Dwmapi.dll"));
+    HMODULE dwmapi = ::LoadLibrary(L"Dwmapi.dll");
     if (dwmapi != 0)
     {
         typedef UINT WINAPI DWMSETWINDOWATTRIBUE(HWND, DWORD, LPCVOID, DWORD);
@@ -840,7 +840,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -851,7 +851,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

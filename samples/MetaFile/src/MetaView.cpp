@@ -22,7 +22,7 @@ int CMetaView::OnCreate(CREATESTRUCT&)
 
     CEnhMetaFileDC metaDC;
     // Creates an enhanced MetaFile called "Pattern.emf", and also the EnhMetaFile device context
-    metaDC.CreateEnhanced(nullptr, _T("Pattern.emf"), nullptr, nullptr);
+    metaDC.CreateEnhanced(nullptr, L"Pattern.emf", nullptr, nullptr);
 
     // Draw to the Metafile device context
     metaDC.Rectangle(0, 0, 100, 100);
@@ -88,7 +88,7 @@ LRESULT CMetaView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -99,7 +99,7 @@ LRESULT CMetaView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

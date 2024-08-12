@@ -20,7 +20,7 @@ public:
     virtual HWND Create(HWND parent = nullptr) override;
 
     CDoc& GetDoc() { return m_view.GetDoc(); }
-    void LoadFile(LPCTSTR fileName);
+    void LoadFile(LPCWSTR fileName);
 
 protected:
     virtual void OnClose() override;

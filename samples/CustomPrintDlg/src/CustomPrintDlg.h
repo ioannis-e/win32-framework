@@ -23,7 +23,7 @@ public:
     CString GetDeviceName() const;
     CString GetPortName() const;
     CDC  GetPrinterDC() const;
-    DWORD GetPrinterStatus(LPCTSTR szPrnName) const;
+    DWORD GetPrinterStatus(LPCWSTR szPrnName) const;
     int GetFromPage() const;
     int GetRadio() const;
     int GetPrintToFile() const;
@@ -54,12 +54,12 @@ private:
     CCustomPrintDlg(const CCustomPrintDlg&);
     CCustomPrintDlg& operator=(const CCustomPrintDlg&);
 
-    bool CreateGlobalHandles(LPCTSTR printerName, HGLOBAL* pHDevMode, HGLOBAL* pHDevNames);
+    bool CreateGlobalHandles(LPCWSTR printerName, HGLOBAL* pHDevMode, HGLOBAL* pHDevNames);
     std::vector<CString> FindPrinters() const;
     BOOL OnPrintProperties();
     BOOL OnComboSelection();
     BOOL OnRadioSelection(UINT id);
-    bool SetPrinterFromDevMode(LPCTSTR deviceName, LPDEVMODE pDevMode);
+    bool SetPrinterFromDevMode(LPCWSTR deviceName, LPDEVMODE pDevMode);
 
     CDataExchange m_dx;    // DataExchange object, called by UpdateData
     HGLOBAL m_hDevMode;    // Global memory for printer's DevMode

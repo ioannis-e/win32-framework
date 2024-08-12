@@ -41,7 +41,7 @@ CMainFrame : public CFrame                                                  /*
         BOOL    UpdateDialog(BOOL bReadFromControl);
 
    protected:
-       virtual BOOL    LoadRegistrySettings(LPCTSTR keyName) override;
+       virtual BOOL    LoadRegistrySettings(LPCWSTR keyName) override;
        virtual void    OnClose() override;
        virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
        virtual int     OnCreate(CREATESTRUCT& cs) override;

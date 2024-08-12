@@ -14,8 +14,8 @@ class CDoc : public CObject
 public:
     CDoc() {}
     virtual ~CDoc() override {}
-    void FileLoad(LPCTSTR filename);
-    void FileStore(LPCTSTR filename);
+    void FileLoad(LPCWSTR filename);
+    void FileStore(LPCWSTR filename);
 
 protected:
     // Virtual functions that override base class functions

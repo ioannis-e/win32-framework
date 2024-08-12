@@ -70,7 +70,7 @@ int CRichView::CollatePages(const CDC& printerDC, int startChar, int endChar)
 }
 
 // Choose the printer and print the document.
-void CRichView::DoPrint(LPCTSTR docName)
+void CRichView::DoPrint(LPCWSTR docName)
 {
     // Prepare the print dialog
     CPrintDialog printDlg;
@@ -179,7 +179,7 @@ void CRichView::PrintPage(CDC& dc, int page)
 
 // Print the document without bringing up a print dialog.
 // docName - specifies the document name for the print job.
-void CRichView::QuickPrint(LPCTSTR docName)
+void CRichView::QuickPrint(LPCWSTR docName)
 {
     // Acquire the currently selected printer and page settings
     CPrintDialog printDlg;
@@ -228,7 +228,7 @@ void CRichView::SetFontDefaults()
     CHARFORMAT cf = {};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_SIZE | CFM_FACE | CFM_EFFECTS;
-    StrCopy(cf.szFaceName, _T("Courier New"), 32);
+    StrCopy(cf.szFaceName, L"Courier New", 32);
     cf.yHeight = 204;
     SetDefaultCharFormat(cf);
 
@@ -252,7 +252,7 @@ LRESULT CRichView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -263,7 +263,7 @@ LRESULT CRichView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

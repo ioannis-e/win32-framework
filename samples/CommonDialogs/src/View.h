@@ -50,7 +50,7 @@ CView : public CDialog                                                      /*
         CFont          GetEditFont()    { return m_editFont;}
         void           NoDocOpen();
         void           OnPageSetup();
-        void           OnPrintDocument(LPCTSTR);
+        void           OnPrintDocument(LPCWSTR);
         void           SetEditFont(const CFont f);
         void           SetBgColor(CBrush br) { m_bgBrush = br;}
         void           SetRichEditColors(COLORREF, COLORREF, COLORREF);
@@ -68,7 +68,7 @@ CView : public CDialog                                                      /*
         CView& operator=(const CView&) = delete;
 
         BOOL        AddToolTip(HWND, UINT id);
-        BOOL        AddToolTip(HWND, UINT id, LPCTSTR s);
+        BOOL        AddToolTip(HWND, UINT id, LPCWSTR s);
         void        AssignToolTips();
         INT_PTR     OnCtlColor(UINT, WPARAM, LPARAM);
 

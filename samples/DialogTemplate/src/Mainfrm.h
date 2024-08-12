@@ -27,7 +27,7 @@ public:
     CString GetFileName() const;
     CDialogsTree* GetTree();
     void UpdateToolbar();
-    void ShowTemplateText(HMODULE module, LPCTSTR dialogRes);
+    void ShowTemplateText(HMODULE module, LPCWSTR dialogRes);
 
 protected:
     // Virtual functions that override base class functions
@@ -64,7 +64,7 @@ private:
 
     // Private member functions
     void Reset();
-    BOOL WriteFile(LPCTSTR szFileName);
+    BOOL WriteFile(LPCWSTR szFileName);
 
     // Private member variables
     CRichView m_richView;

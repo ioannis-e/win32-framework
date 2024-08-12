@@ -31,7 +31,7 @@ BOOL CDXThread::InitInstance()
 
     // Set CDXView as this thread's window.
     m_pView = &view;
-    view.CreateEx(0, _T("DXView"), nullptr, WS_CHILD | WS_VISIBLE, CRect(), frame, 0);
+    view.CreateEx(0, L"DXView", nullptr, WS_CHILD | WS_VISIBLE, CRect(), frame, 0);
 
     return TRUE;    // return TRUE to run the message loop
 }

@@ -19,7 +19,7 @@ public:
     CDialogsTree();
     virtual ~CDialogsTree() override;
 
-    void FillTree(const std::vector<ResourceInfo>& allInfo, LPCTSTR fileName);
+    void FillTree(const std::vector<ResourceInfo>& allInfo, LPCWSTR fileName);
 
 protected:
     // Virtual functions that override base class functions

@@ -26,14 +26,14 @@ CMainWindow::CMainWindow() : m_windowsCount(0)
 }
 
 // Appends the specified text to the edit control.
-void CMainWindow::AppendText(LPCTSTR text)
+void CMainWindow::AppendText(LPCWSTR text)
 {
     // Append Line Feed.
     if (m_edit.IsWindow())
     {
         int length = m_edit.GetWindowTextLength();
         if (length)
-            m_edit.AppendText(_T("\r\n"));
+            m_edit.AppendText(L"\r\n");
 
         // Append text.
         m_edit.AppendText(text);
@@ -43,7 +43,7 @@ void CMainWindow::AppendText(LPCTSTR text)
 // Create the main window.
 HWND CMainWindow::Create(HWND parent)
 {
-    CString str = _T("Main Thread Window");
+    CString str = L"Main Thread Window";
 
     // Create the main window.
     CRect rc(20 , 50, 400, 500);
@@ -83,7 +83,7 @@ int CMainWindow::OnCreate(CREATESTRUCT&)
             (*iter)->CreateThread();
 
             CString str;
-            str.Format( _T("Thread %d started "), (*iter)->GetThreadNumber() );
+            str.Format(L"Thread %d started ", (*iter)->GetThreadNumber());
             AppendText(str);
         }
 
@@ -109,7 +109,7 @@ void CMainWindow::OnDestroy()
 void CMainWindow::OnAllWindowsCreated()
 {
     CString str;
-    str.Format( _T("%d Test windows created in separate threads"), m_maxWindows );
+    str.Format(L"%d Test windows created in separate threads", m_maxWindows);
     AppendText(str);
 }
 
@@ -163,7 +163,7 @@ LRESULT CMainWindow::OnWindowCreated()
 {
     CString str;
     ++m_windowsCount;
-    str.Format( _T("Created Window %d"), m_windowsCount);
+    str.Format(L"Created Window %d", m_windowsCount);
     AppendText(str);
 
     if (m_windowsCount == m_maxWindows)
@@ -194,7 +194,7 @@ LRESULT CMainWindow::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -205,7 +205,7 @@ LRESULT CMainWindow::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

@@ -23,7 +23,7 @@ HWND CMainFrame::Create(HWND parent)
 {
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
-    LoadRegistrySettings(_T("Win32++\\Scribble Sample"));
+    LoadRegistrySettings(L"Win32++\\Scribble Sample");
 
     // Load the settings from the registry with 4 MRU entries.
     LoadRegistryMRUSettings(4);
@@ -32,7 +32,7 @@ HWND CMainFrame::Create(HWND parent)
 }
 
 // Called by OnFileOpen and in response to a UWM_DROPFILE message.
-void CMainFrame::LoadFile(LPCTSTR fileName)
+void CMainFrame::LoadFile(LPCWSTR fileName)
 {
     try
     {
@@ -49,7 +49,7 @@ void CMainFrame::LoadFile(LPCTSTR fileName)
         // An exception occurred. Display the relevant information.
         MessageBox(e.GetErrorString(), e.GetText(), MB_ICONWARNING);
 
-        m_pathName = _T("");
+        m_pathName = L"";
         m_view.GetAllPoints().clear();
     }
 
@@ -121,8 +121,8 @@ LRESULT CMainFrame::OnDropFile(WPARAM wparam)
 {
     try
     {
-        // wParam is a pointer (LPCTSTR) to the file name.
-        LPCTSTR fileName = reinterpret_cast<LPCTSTR>(wparam);
+        // wParam is a pointer (LPCWSTR) to the file name.
+        LPCWSTR fileName = reinterpret_cast<LPCWSTR>(wparam);
         assert(fileName);
 
         // Load the file
@@ -175,7 +175,7 @@ BOOL CMainFrame::OnFileMRU(WPARAM wparam)
 BOOL CMainFrame::OnFileNew()
 {
     GetDoc().GetAllPoints().clear();
-    m_pathName = _T("");
+    m_pathName = L"";
     GetView().Invalidate();
     return TRUE;
 }
@@ -183,8 +183,9 @@ BOOL CMainFrame::OnFileNew()
 // Load the PlotPoint data from the file.
 BOOL CMainFrame::OnFileOpen()
 {
-    CFileDialog fileDlg(TRUE, _T("dat"), nullptr, OFN_FILEMUSTEXIST, _T("Scribble Files (*.dat)\0*.dat\0\0"));
-    fileDlg.SetTitle(_T("Open File"));
+    CFileDialog fileDlg(TRUE, L"dat", nullptr, OFN_FILEMUSTEXIST,
+        L"Scribble Files (*.dat)\0*.dat\0\0");
+    fileDlg.SetTitle(L"Open File");
 
     try
     {
@@ -212,7 +213,7 @@ BOOL CMainFrame::OnFileSave()
 {
     try
     {
-        if (m_pathName == _T(""))
+        if (m_pathName == L"")
             OnFileSaveAs();
         else
             GetDoc().FileSave(m_pathName);
@@ -232,8 +233,9 @@ BOOL CMainFrame::OnFileSave()
 // Save the PlotPoint data to a specified file.
 BOOL CMainFrame::OnFileSaveAs()
 {
-    CFileDialog fileDlg(FALSE, _T("dat"), nullptr, OFN_OVERWRITEPROMPT, _T("Scribble Files (*.dat)\0*.dat\0\0"));
-    fileDlg.SetTitle(_T("Save File"));
+    CFileDialog fileDlg(FALSE, L"dat", nullptr, OFN_OVERWRITEPROMPT,
+        L"Scribble Files (*.dat)\0*.dat\0\0");
+    fileDlg.SetTitle(L"Save File");
 
     try
     {
@@ -286,14 +288,14 @@ BOOL CMainFrame::OnFilePreview()
         ShowToolBar(FALSE);
 
         // Update status.
-        CString status = _T("Printer: ") + printDlg.GetDeviceName();
+        CString status = L"Printer: " + printDlg.GetDeviceName();
         SetStatusText(status);
     }
 
     catch (const CException& e)
     {
         // An exception occurred. Display the relevant information.
-        MessageBox(e.GetText(), _T("Print Preview Failed"), MB_ICONWARNING);
+        MessageBox(e.GetText(), L"Print Preview Failed", MB_ICONWARNING);
         SetView(m_view);
         ShowMenu(GetFrameMenu() != nullptr);
         ShowToolBar(m_isToolbarShown);
@@ -308,7 +310,7 @@ BOOL CMainFrame::OnFilePrint()
     try
     {
         // print the view window
-        m_view.Print(_T("Scribble Output"));
+        m_view.Print(L"Scribble Output");
     }
 
     catch (const CException& e)
@@ -381,7 +383,7 @@ LRESULT CMainFrame::OnPreviewPrint()
 {
     try
     {
-        m_view.QuickPrint(_T("Scribble Output"));
+        m_view.QuickPrint(L"Scribble Output");
     }
 
     catch (const CException& e)
@@ -402,7 +404,7 @@ LRESULT CMainFrame::OnPreviewSetup()
         // Display the print dialog
         if (printDlg.DoModal(*this) == IDOK)
         {
-            CString status = _T("Printer: ") + printDlg.GetDeviceName();
+            CString status = L"Printer: " + printDlg.GetDeviceName();
             SetStatusText(status);
         }
     }
@@ -473,7 +475,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1;
-        str1 << e.GetText() << _T("\n") << e.GetErrorString();
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
         CString str2;
         str2 << "Error: " << e.what();
         ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
@@ -484,7 +486,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Display the exception and continue.
         CString str1 = e.what();
-        ::MessageBox(nullptr, str1, _T("Error: std::exception"), MB_ICONERROR);
+        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
     }
 
     return 0;

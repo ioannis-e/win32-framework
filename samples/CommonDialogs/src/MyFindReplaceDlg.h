@@ -30,7 +30,7 @@ MyFindReplaceDialog : public CFindReplaceDialog
 
           // Record the title of the find/replace dialog box after an object
           // of this class is constructed, but before DoModal() is invoked.
-        void SetBoxTitle(LPCTSTR title) {m_boxTitle = title; }
+        void SetBoxTitle(LPCWSTR title) {m_boxTitle = title; }
 
     protected:
         virtual BOOL OnInitDialog() override { SetWindowText(m_boxTitle); return TRUE; }
