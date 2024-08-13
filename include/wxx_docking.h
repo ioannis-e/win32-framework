@@ -2348,12 +2348,10 @@ namespace Win32xx
             // Transfer container children to the target container.
             CDockContainer* pContainer = GetContainer();
             CDockContainer* pContainerSource = pDocker->GetContainer();
-
-            std::vector<ContainerInfo>::reverse_iterator riter;
             std::vector<ContainerInfo> allContainers = pContainerSource->GetAllContainers();
-            for (riter = allContainers.rbegin(); riter != allContainers.rend(); ++riter)
+            for (const ContainerInfo& ci : allContainers)
             {
-                CDockContainer* pContainerChild = (*riter).pContainer;
+                CDockContainer* pContainerChild = ci.pContainer;
                 if (pContainerChild != pContainerSource)
                 {
                     // Remove child container from pContainerSource.
@@ -2377,9 +2375,9 @@ namespace Win32xx
             pDocker->GetDockBar().SetParent(*GetDockAncestor());
 
             // Insert the containers in reverse order.
-            for (riter = allContainers.rbegin(); riter != allContainers.rend(); ++riter)
+            for (ContainerInfo& ci : allContainers)
             {
-                pContainer->AddContainer( (*riter).pContainer, TRUE, selectPage);
+                pContainer->AddContainer(ci.pContainer, TRUE, selectPage);
             }
         }
 

@@ -239,10 +239,9 @@ void CMainFrame::SetStatusParts()
     partWidths.push_back(GetTextPartWidth(LoadString(IDW_INDICATOR_SCRL)));
 
     int sumWidths = 0;
-    std::vector<int>::iterator iter;
-    for (iter = partWidths.begin(); iter != partWidths.end(); ++iter)
+    for (int i : partWidths)
     {
-        sumWidths += *iter;
+        sumWidths += i;
     }
     sumWidths += gripWidth;
 
@@ -254,10 +253,10 @@ void CMainFrame::SetStatusParts()
     partWidths.insert(begin, width - sumWidths);
 
     // Create or resize the status bar parts.
-    for (iter = partWidths.begin(); iter != partWidths.end(); ++iter)
+    int part = 0;
+    for (int i : partWidths)
     {
-        int part = static_cast<int>(iter - partWidths.begin());
-        GetStatusBar().SetPartWidth(part, *iter);
+        GetStatusBar().SetPartWidth(part++, i);
     }
 
     // Reposition the hyperlink over part 1.

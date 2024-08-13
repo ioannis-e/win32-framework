@@ -76,7 +76,7 @@ InitInstance()                                                              /*
     m_appDir = f.GetFileDirectory();
     m_appName = f.GetFileNameWOExt();
       // locate the archive file
-    m_arcvDir = MakeAppDataPath(L"win32++\\" + m_appName);
+    m_arcvDir = MakeAppDataPath(L"Win32++\\" + m_appName);
       // form the archive file path name
     m_arcvFile  = m_arcvDir + L"\\" + m_appName + m_archiveFileType;
 

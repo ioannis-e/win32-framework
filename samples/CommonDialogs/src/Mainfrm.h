@@ -37,7 +37,7 @@ CMainFrame : public CFrame                                                  /*
 
         AboutBox& GetAboutBox() { return m_aboutBox; }
         void    EmptyMRUList();
-        size_t  GetMRUSize() { return GetMRUEntries().size();}
+        UINT   GetMRUSize() {return static_cast<UINT>(GetMRUEntries().size());}
         COLORREF GetSBBkColor()
                     { return m_colorChoice.GetTableColor(SBBg);}
         void    SetSBBkColor(COLORREF clr)

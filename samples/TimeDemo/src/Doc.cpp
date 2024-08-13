@@ -207,27 +207,21 @@ MakeAppDataPath(const CString & subpath)                                    /*
         an error is encountered, throw a user exception.
 *-----------------------------------------------------------------------------*/
 {
-    CString appdata = GetAppDataPath();
+    CString appDataPath = GetAppDataPath();
 
-    int from, to, next;
-    for (from = 0, to = subpath.GetLength(); from < to; from = ++next)
+    if (!appDataPath.IsEmpty())
     {
-        int nextbk = subpath.Find(L"\\", from);
-        int nextfwd = subpath.Find(L"/", from);
-        next = std::max(nextbk, nextfwd);
-        if (next < 0)
-            next = to;
+        appDataPath += L"\\" + subpath;
+        ::SHCreateDirectory(nullptr, appDataPath);
 
-        CString add = subpath.Mid(from, next - from);
-        appdata += L"\\" + add;
-        if ((::CreateDirectory(appdata, 0) == 0) &&
-            GetLastError() != ERROR_ALREADY_EXISTS)
-        {
-            CString msg = appdata + L"\nDirectory creation error.";
-            throw CUserException(msg);
-        }
+        DWORD attributes = GetFileAttributes(appDataPath);
+        if ((attributes == INVALID_FILE_ATTRIBUTES) || !(attributes & FILE_ATTRIBUTE_DIRECTORY))
+            throw CFileException(appDataPath, L"Failed to access app directory");
     }
-    return appdata;
+    else
+        appDataPath = L".";
+
+    return appDataPath;
 }
 
 /*============================================================================*/

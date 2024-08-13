@@ -110,8 +110,7 @@ RemoveEntry(LPCWSTR entryName)                                              /*
     Remove the entryName entry from the MRU list if it is in the list.
 *-----------------------------------------------------------------------------*/
 {
-    std::vector<CString>::iterator it;
-    for (it = m_MRUEntries.begin(); it != m_MRUEntries.end(); ++it)
+    for (auto it = m_MRUEntries.begin(); it != m_MRUEntries.end(); ++it)
     {
         if ((*it) == entryName)
         {
@@ -236,7 +235,6 @@ ValidateMRU()                                                               /*
 *-----------------------------------------------------------------------------*/
 {
       // search the MRU list in reverse so as not to cause reshuffling
-    std::vector<CString>::iterator it;
     for (int i = static_cast<int>(m_MRUEntries.size()) - 1; i >= 0; --i)
     {
           // check whether the current entry exists, or is gone
@@ -246,7 +244,7 @@ ValidateMRU()                                                               /*
             ::MessageBox(0, s, L"Removing invalid MRU entry.",
                 MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
               // convert index to the proper forward iterator for erase
-            it = m_MRUEntries.begin() + i;
+            auto it = m_MRUEntries.begin() + i;
             m_MRUEntries.erase(it);
         }
     }

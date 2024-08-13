@@ -122,14 +122,13 @@ void CRichView::DoPrint(LPCWSTR docName)
         di.lpszOutput = nullptr;   // Do not print to file.
         printerDC.StartDoc(&di);
 
-        std::vector<int>::iterator i;
-        for (i = pages.begin(); i != pages.end(); ++i)
+        for (int i : pages)
         {
             // Start the page.
             printerDC.StartPage();
 
             // Print the page.
-            PrintPage(printerDC, *i - 1);
+            PrintPage(printerDC, i - 1);
 
             // End the page.
             printerDC.EndPage();

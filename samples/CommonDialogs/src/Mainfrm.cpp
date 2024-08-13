@@ -69,9 +69,8 @@ EmptyMRUList()                                                              /*
       // use a separate list to get the entries
     const std::vector<CString>& MRUEntries = GetMRUEntries();
       // then remove items from the MRU list one by one
-    std::vector<CString>::const_iterator it;
-    for (it = MRUEntries.begin(); it != MRUEntries.end(); ++it)
-        RemoveMRUEntry(*it);
+    for (const CString& str : MRUEntries)
+        RemoveMRUEntry(str);
 }
 
 /*============================================================================*/
@@ -853,8 +852,7 @@ Serialize(CArchive &ar)                                                     /*
         }
           // all successfully read in, so store them LIFO order into
           // the MRU list for proper display
-        std::vector<CString>::reverse_iterator it;
-        for (it = vMRUEntries.rbegin(); it != vMRUEntries.rend(); ++it)
+        for (auto it = vMRUEntries.rbegin(); it != vMRUEntries.rend(); ++it)
         {
             AddMRUEntry(*it);
         }
@@ -1131,7 +1129,7 @@ UpdateMRUMenu()                                                             /*
       // find in the leftmost submenu (i.e., the one with index 0)
     CMenu fileMenu = GetFrameMenu().GetSubMenu(0);
       // compute the index of the last entry in the MRU list
-    int last = static_cast<int>(std::min(static_cast<UINT>(GetMRUSize()), m_maxMRU)) - 1;
+    int last = static_cast<int>(std::min(GetMRUSize(), m_maxMRU)) - 1;
       // if there is no leftmost submenu, or if there are no entries to
       // post, or if we cannot modify the first entry to indicate an empty
       // MRU list, we cannot proceed
@@ -1146,8 +1144,7 @@ UpdateMRUMenu()                                                             /*
     fileMenu.EnableMenuItem(IDW_FILE_MRU_FILE1, MF_BYCOMMAND | MF_GRAYED);
 
       // remove all the other MRU Menu entries
-    for (int i = IDW_FILE_MRU_FILE2; i <= IDW_FILE_MRU_FILE1 +
-        static_cast<int>(m_maxMRU); ++i)
+    for (UINT i = IDW_FILE_MRU_FILE2; i <= IDW_FILE_MRU_FILE1 + m_maxMRU; ++i)
         fileMenu.DeleteMenu(i, MF_BYCOMMAND);
       // if the list is not empty, there's more to do
     if (last >= 0)
@@ -1198,17 +1195,15 @@ ValidateMRU()                                                               /*
       // get a copy of the MRU list entries
     const std::vector<CString> MRUEntries = GetMRUEntries();
       // check them one by one as a valid file path
-    std::vector<CString>::const_iterator it;
-    for (it = MRUEntries.begin(); it != MRUEntries.end(); ++it)
+    for (const CString& str : MRUEntries)
     {
           // check whether the current entry exists
-        CString s = *it;
-        if (_taccess(s, 4) != 0)
+        if (_taccess(str, 4) != 0)
         {
               // for the demo, announce removal
-            ::MessageBox(nullptr, s, L"Removing invalid MRU entry...",
+            ::MessageBox(nullptr, str, L"Removing invalid MRU entry...",
                 MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
-            RemoveMRUEntry(s);
+            RemoveMRUEntry(str);
         }
     }
 }

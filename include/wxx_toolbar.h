@@ -940,11 +940,10 @@ namespace Win32xx
 
         BOOL succeeded = FALSE;
         CString string = text;
-        std::map<CString, int>::iterator m;
         int stringIndex;
 
         // Check to see if the string is already added.
-        m = m_stringMap.find(string);
+        auto m = m_stringMap.find(string);
         if (m_stringMap.end() == m)
         {
             CString str;

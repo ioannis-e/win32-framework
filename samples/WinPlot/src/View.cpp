@@ -46,7 +46,7 @@ void CView::CalcPoints(double xmin, double xmax)
     }
 
     // Find the first valid value.
-    std::vector<PointData>::iterator index = m_points.begin();
+    auto index = m_points.begin();
     while (index != m_points.end() && (*index).status != st_OK)
         index++;
 
@@ -56,12 +56,12 @@ void CView::CalcPoints(double xmin, double xmax)
         double ymin = (*index).y;
         double ymax = (*index).y;
 
-        for (std::vector<PointData>::iterator i = index; i != m_points.end(); ++i)
+        for (auto it = index; it != m_points.end(); ++it)
         {
-            if ((*i).status == st_OK)
+            if ((*it).status == st_OK)
             {
-                ymin = std::min(ymin, (*i).y);
-                ymax = std::max(ymax, (*i).y);
+                ymin = std::min(ymin, (*it).y);
+                ymax = std::max(ymax, (*it).y);
             }
         }
 

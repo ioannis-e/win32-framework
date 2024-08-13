@@ -399,18 +399,13 @@ BOOL CSvrDialog::OnSocketDisconnect(WPARAM wParam)
     AppendText(m_editStatus, L"Client disconnected");
 
     // Iterator for our CWorkerSocket map.
-    std::map< ServerSocketPtr, TCPClientDlgPtr >::iterator iter;
-
-    for (iter = m_connectedClients.begin(); iter != m_connectedClients.end(); ++iter)
+    for (auto it = m_connectedClients.begin(); it != m_connectedClients.end(); ++it)
     {
-        if (iter->first.get() == pClient)
+        if (it->first.get() == pClient)
+        {
+            m_connectedClients.erase(it);
             break;
-    }
-
-    // Delete the CWorkerSocket, and remove its pointer.
-    if (iter != m_connectedClients.end())
-    {
-        m_connectedClients.erase(iter);
+        }
     }
 
     return TRUE;
@@ -428,16 +423,14 @@ BOOL CSvrDialog::OnSocketReceive(WPARAM wparam)
     case SOCK_STREAM:
         {
             // Pass this on to the TCP chat dialog.
-            std::map< ServerSocketPtr, TCPClientDlgPtr >::iterator Iter;
-
-            for (Iter = m_connectedClients.begin(); Iter != m_connectedClients.end(); ++Iter)
+            for (auto it = m_connectedClients.begin(); it != m_connectedClients.end(); ++it)       
             {
-                if (Iter->first.get() == pClient)
-                break;
+                if (it->first.get() == pClient)
+                {
+                    it->second->Receive();
+                    break;
+                }
             }
-
-            if (Iter !=  m_connectedClients.end() )
-                Iter->second->Receive();
         }
         break;
     case SOCK_DGRAM:

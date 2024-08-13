@@ -518,10 +518,9 @@ BOOL CCustomPrintDlg::OnInitDialog()
     UpdateData(m_dx, SENDTOCONTROL);
 
     std::vector<CString> names = FindPrinters();
-    std::vector<CString>::iterator it;
-    for (it = names.begin(); it != names.end(); ++it)
+    for (const CString& str : names)
     {
-        m_comboBox.AddString(*it);
+        m_comboBox.AddString(str);
     }
 
     int item = m_comboBox.FindString(0, GetDeviceName());

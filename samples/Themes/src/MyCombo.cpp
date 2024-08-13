@@ -29,16 +29,15 @@ BOOL CMyCombo::AddItems()
     itemsText.push_back("Item 2");
     itemsText.push_back("Item 3");
 
-    std::vector<CString>::iterator it;
-    for (it = itemsText.begin(); it != itemsText.end(); ++it)
+    int index = 0;
+    for (const CString& str : itemsText)
     {
-        int i = static_cast<int>(it - itemsText.begin());
         COMBOBOXEXITEM cbei = {};
         cbei.mask = CBEIF_TEXT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE;
-        cbei.iItem          = i;
-        cbei.pszText        = const_cast<LPWSTR>(itemsText[i].c_str());
-        cbei.iImage         = i;
-        cbei.iSelectedImage = i;
+        cbei.iItem          = index;
+        cbei.pszText        = const_cast<LPWSTR>(str.c_str());
+        cbei.iImage         = index;
+        cbei.iSelectedImage = index++;
 
         // Add the items to the ComboBox's dropdown list.
         if(-1 == InsertItem(cbei))

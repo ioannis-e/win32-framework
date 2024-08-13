@@ -790,17 +790,16 @@ namespace Win32xx
 
         T ch = 0;
         m_buf.assign(size_t(minBufLength) + 1, ch);
-        typename std::basic_string<T>::iterator it_end;
-
+        typename std::basic_string<T>::iterator it;
         if (m_str.length() >= static_cast<size_t>(minBufLength))
         {
-            it_end = m_str.begin();
-            std::advance(it_end, minBufLength);
+            it = m_str.begin();
+            std::advance(it, minBufLength);
         }
         else
-            it_end = m_str.end();
+            it = m_str.end();
 
-        std::copy(m_str.begin(), it_end, m_buf.begin());
+        std::copy(m_str.begin(), it, m_buf.begin());
 
         return m_buf.data();
     }
@@ -1288,14 +1287,14 @@ namespace Win32xx
     template <>
     inline void CStringA::TrimRight()
     {
-        std::basic_string<CHAR>::reverse_iterator riter;
-        for (riter = m_str.rbegin(); riter != m_str.rend(); ++riter)
+        std::basic_string<CHAR>::reverse_iterator it;
+        for (it = m_str.rbegin(); it != m_str.rend(); ++it)
         {
-            if (!::isspace(static_cast<unsigned char>(*riter)))
+            if (!::isspace(static_cast<unsigned char>(*it)))
                 break;
         }
 
-        m_str.erase(riter.base(), m_str.end());
+        m_str.erase(it.base(), m_str.end());
     }
 
     // Trims trailing whitespace characters from the string.

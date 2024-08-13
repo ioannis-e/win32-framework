@@ -64,12 +64,10 @@ LRESULT CMainFrame::AddCombo()
 void CMainFrame::ArrangeBands()
 {
     // Set the band styles and positions.
-    std::vector<BandData>::iterator it;
-
-    for (it = m_bandData.begin(); it != m_bandData.end(); ++it)
+    for (const BandData& bd : m_bandData)
     {
-        int from = GetReBar().IDToIndex((*it).id);
-        GetReBar().MoveBand(from, (*it).index);
+        int from = GetReBar().IDToIndex(bd.id);
+        GetReBar().MoveBand(from, bd.index);
     }
 
     GetReBar().MoveBandsLeft();
