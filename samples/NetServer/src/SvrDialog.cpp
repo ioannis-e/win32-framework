@@ -111,7 +111,7 @@ void CTCPClientDlg::Receive()
     char* bufArray = bufVector.data(); // char array with 1025 elements initialized to '\0'
     if (m_pSocket->Receive(bufArray, 1024, 0) != SOCKET_ERROR)
     {
-        AppendText(IDC_EDIT_RECEIVE2, AtoT(bufArray));
+        AppendText(IDC_EDIT_RECEIVE2, AtoW(bufArray));
         TRACE("[Received:] "); TRACE(bufArray); TRACE("\n");
     }
     else
@@ -122,7 +122,7 @@ void CTCPClientDlg::Receive()
 void CTCPClientDlg::Send()
 {
     CString text = m_editSend.GetWindowText();
-    if (m_pSocket->Send(TtoA(text), lstrlen(text), 0) == SOCKET_ERROR)
+    if (m_pSocket->Send(WtoA(text), lstrlen(text), 0) == SOCKET_ERROR)
     {
         if (GetLastError() != WSAEWOULDBLOCK)
             TRACE(L"Network error.  Failed to send");
@@ -342,8 +342,8 @@ BOOL CSvrDialog::OnSend()
             break;
         case SOCK_DGRAM:
             {
-                CString sSend = m_editSend.GetWindowText();
-                if (m_mainSocket.SendTo(TtoA(sSend), (int)strlen(TtoA(sSend)), 0, (LPSOCKADDR)&m_saUDPClient, (int)sizeof(m_saUDPClient)) == SOCKET_ERROR)
+            CStringA send(WtoA(m_editSend.GetWindowText()));
+                if (m_mainSocket.SendTo(send, send.GetLength(), 0, (LPSOCKADDR)&m_saUDPClient, (int)sizeof(m_saUDPClient)) == SOCKET_ERROR)
                 {
                     if (GetLastError() != WSAEWOULDBLOCK)
                     {
@@ -423,7 +423,7 @@ BOOL CSvrDialog::OnSocketReceive(WPARAM wparam)
     case SOCK_STREAM:
         {
             // Pass this on to the TCP chat dialog.
-            for (auto it = m_connectedClients.begin(); it != m_connectedClients.end(); ++it)       
+            for (auto it = m_connectedClients.begin(); it != m_connectedClients.end(); ++it)
             {
                 if (it->first.get() == pClient)
                 {
@@ -454,7 +454,7 @@ BOOL CSvrDialog::OnSocketReceive(WPARAM wparam)
         }
         break;
     }
-    AppendText(m_editReceive, AtoT(bufArray));
+    AppendText(m_editReceive, AtoW(bufArray));
 
     return TRUE;
 }

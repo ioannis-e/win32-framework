@@ -667,7 +667,7 @@ namespace Win32xx
 
         case WM_LBUTTONDBLCLK:
             // Perform default action for DblClick on MDI Maxed icon.
-            if (IsMDIChildMaxed() && (0 == HitTest()))
+            if (IsMDIChildMaxed() && (HitTest() == 0))
             {
                 CWnd* pMDIChild = GetActiveMDIChild();
                 assert(pMDIChild);

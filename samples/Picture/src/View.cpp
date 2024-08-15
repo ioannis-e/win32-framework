@@ -83,7 +83,7 @@ BOOL CView::LoadPictureFile(LPCWSTR fileName)
     BOOL IsPictureLoaded;
 
     // Create IPicture from image file
-    if (S_OK == ::OleLoadPicturePath(TtoOLE(fileName), nullptr, 0, 0, IID_IPicture, (LPVOID*)&m_pPicture))
+    if (S_OK == ::OleLoadPicturePath(WtoOLE(fileName), nullptr, 0, 0, IID_IPicture, (LPVOID*)&m_pPicture))
     {
         GetAncestor().SendMessage(UWM_FILELOADED, 0, (LPARAM)fileName);
         Invalidate();
@@ -187,7 +187,7 @@ void CView::SavePicture(LPCWSTR fileName)
     if (SUCCEEDED(m_pPicture->QueryInterface(IID_IPictureDisp,  (void**) &pDisp)))
     {
         // Save the IPicture image as a bitmap
-        OleSavePictureFile(pDisp,  TtoBSTR(fileName));
+        OleSavePictureFile(pDisp,  WtoBSTR(fileName));
         pDisp->Release();
     }
 }

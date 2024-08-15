@@ -265,7 +265,6 @@ namespace Win32xx
     inline CMDIChild* CMDIFrameT<T>::AddMDIChild(CMDIChild* pMDIChild)
     {
         assert(pMDIChild != nullptr); // Cannot add Null MDI Child
-
         return AddMDIChild(MDIChildPtr(pMDIChild));
     }
 
@@ -276,6 +275,8 @@ namespace Win32xx
     {
         CMDIChild* pMDIChild = MDIChild.get();
         assert(pMDIChild != nullptr); // Cannot add Null MDI Child
+        if (pMDIChild == nullptr)
+            return nullptr;
 
         pMDIChild->Create(GetMDIClient());
         m_mdiChildren.push_back(std::move(MDIChild));

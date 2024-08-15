@@ -509,7 +509,7 @@ BOOL CMainFrame::OnOptionsFont()
     {
         // Assign the new font to the rich text document.
         cf = dlg.GetCharFormat();
-        m_view.StyleSetFont(STYLE_DEFAULT, TtoA(cf.szFaceName));     // Put this first.
+        m_view.StyleSetFont(STYLE_DEFAULT, WtoA(cf.szFaceName));     // Put this first.
         m_view.StyleSetSize(STYLE_DEFAULT, (cf.yHeight + 10) / 20);  // Put this next.
         m_view.StyleSetFore(STYLE_DEFAULT, cf.crTextColor);
         m_view.StyleSetBold(STYLE_DEFAULT, cf.dwEffects & CFE_BOLD);

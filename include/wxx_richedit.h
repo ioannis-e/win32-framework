@@ -190,8 +190,7 @@ namespace Win32xx
             throw CNotSupportedException(GetApp()->MsgRichEditDll());
 
         // Load RichEdit version 3.0. This registers the "RICHEDIT20A"
-        // and "RICHEDIT20W" classes. This will be used when UNICODE
-        // isn't defined.
+        // and "RICHEDIT20W" classes. It is used when UNICODE isn't defined.
         m_rich2 = ::LoadLibrary(system + _T("\\riched20.dll"));
         if (m_rich2 == nullptr)
             throw CNotSupportedException(GetApp()->MsgRichEditDll());
@@ -231,9 +230,8 @@ namespace Win32xx
         // For RichEdit version 1.0, 2.0 and 3.0.
         wc.lpszClassName = RICHEDIT_CLASS;
 
-        // For RichEdit version 4.1 (available on XP and above).
-        // Requires Unicode.
-#if defined MSFTEDIT_CLASS && defined UNICODE
+        // For RichEdit version 4.1. Requires Unicode.
+#if defined UNICODE
         if (m_rich4_1 != nullptr)
             wc.lpszClassName = MSFTEDIT_CLASS;
 #else

@@ -224,7 +224,7 @@ void CView::DrawXAxis(CDC& dc, double xnorm, double ynorm, double xoffset, doubl
             CString str;
             str.Format(L"%g", x);
             size = dc.GetTextExtentPoint32(str);  //Determine the size of the text.
-            dc.TextOut((int)(xnorm * (x - xoffset) - size.cx / 2), 
+            dc.TextOut((int)(xnorm * (x - xoffset) - size.cx / 2),
                 (int)(ynorm * (ylinepos - yoffset - 2 * xtickheight)), str);
         }
         x = ++xticknum * xtickgap;

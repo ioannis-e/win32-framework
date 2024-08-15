@@ -63,8 +63,8 @@ void CMainFrame::DialogFromTemplateText()
         resToken = arrayText.Tokenize(L",", curPos);
         while (resToken != L"")
         {
-            long value = strtol(TtoA(resToken), nullptr, 0);
-            array.push_back(static_cast<unsigned char>(value));
+            long value = strtol(WtoA(resToken), nullptr, 0);
+            array.push_back(static_cast<byte>(value));
             resToken = arrayText.Tokenize(L",", curPos);
         };
 

@@ -95,16 +95,15 @@ HWND CContextHelp::CreateHtmlHelp(HWND hwndCaller, LPCWSTR string, UINT command,
     // Create the HtmlHelp window.
     if (pHtmlHelpW)
     {
-        hWnd = pHtmlHelpW(hwndCaller, TtoW(string), command, data);
+        hWnd = pHtmlHelpW(hwndCaller, string, command, data);
+
+        // Throw an exception if the window wasn't created.
+        if (hWnd == nullptr)
+            throw CWinException(L"Failed to initiate Context Help");
 
         // Bind the hWnd to this CWnd object.
-        if (hWnd != nullptr)
-            Attach(hWnd);
+        Attach(hWnd);
     }
-
-    // Throw an exception if the window wasn't created.
-    if (hWnd == nullptr) 
-        throw CWinException(L"Failed to initiate Context Help");
 
     return hWnd;
 }

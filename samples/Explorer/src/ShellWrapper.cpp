@@ -47,8 +47,8 @@ namespace ShellWrapper
     }
 
 
-    ///////////////////////////////////
-    //CContextMenu function definitions
+    ////////////////////////////////////
+    // CContextMenu function definitions
     //
 
     // Constructor.
@@ -79,7 +79,7 @@ namespace ShellWrapper
 
         IContextMenu2* pIContextMenu2 = nullptr;
         result = m_pIContextMenu->QueryInterface(iid, (VOID**)&pIContextMenu2);
-        if (S_OK == result)
+        if (result == S_OK)
             ccm2.Attach(pIContextMenu2);
 
         return result;
@@ -98,8 +98,8 @@ namespace ShellWrapper
     }
 
 
-    ////////////////////////////////////
-    //CContextMenu2 function definitions
+    /////////////////////////////////////
+    // CContextMenu2 function definitions
     //
 
     // Constructor.
@@ -143,8 +143,8 @@ namespace ShellWrapper
     }
 
 
-    ///////////////////////////////////
-    //CShellFolder function definitions
+    ////////////////////////////////////
+    // CShellFolder function definitions
     //
 
     // Constructor.
@@ -308,7 +308,7 @@ namespace ShellWrapper
         if (m_pIShellFolder)
         {
             result = m_pIShellFolder->BindToObject(pidl, nullptr, riid, (VOID**)&ifolder);
-            if (S_OK == result)
+            if (result == S_OK)
                 subFolder.Attach(ifolder);
         }
 
@@ -329,8 +329,8 @@ namespace ShellWrapper
     }
 
 
-    //////////////////////////////////
-    //CEnumIDList function definitions
+    ///////////////////////////////////
+    // CEnumIDList function definitions
     CEnumIDList::CEnumIDList() : m_pEnumIDList(nullptr)
     {
     }
@@ -341,7 +341,7 @@ namespace ShellWrapper
             m_pEnumIDList->Release();
     }
 
-    //Converts a LPENUMIDLIST to a CEnumIDList object.
+    // Converts a LPENUMIDLIST to a CEnumIDList object.
     //  The destructor will release memory allocated for the LPENUMIDLIST
     void CEnumIDList::Attach(LPENUMIDLIST EnumList)
     {
@@ -355,7 +355,7 @@ namespace ShellWrapper
         if (m_pEnumIDList)
         {
             HRESULT result = m_pEnumIDList->Next(Elements, &pidl, &ulFetched);
-            if (NOERROR == result)
+            if (result == NOERROR)
                 cpidl.Attach(pidl);
 
             if ((NOERROR != result) && (S_FALSE != result))
@@ -477,7 +477,7 @@ namespace ShellWrapper
 
         if(nullptr == pidlSource) return;
 
-        //Allocate memory for m_pidl
+        // Allocate memory for m_pidl
         cbSource = GetSize(pidlSource);
         m_pidl = (LPITEMIDLIST)::CoTaskMemAlloc(cbSource);
         if (!m_pidl)
@@ -505,7 +505,7 @@ namespace ShellWrapper
         int cb = pidl->mkid.cb;
 
         // If the size is zero, it is the end of the list.
-        if (0 == cb)
+        if (cb == 0)
             return nullptr;
 
         // Add cb to pidl (casting to increment by bytes).

@@ -89,7 +89,7 @@ int CMainWindow::OnCreate(CREATESTRUCT&)
         {
             // Display the exception and allow the program to continue.
             CString Error = CString(e.GetText()) + "\n" + CString(e.GetErrorString());
-            ::MessageBox(nullptr, Error, AtoT(e.what()), MB_ICONERROR) ;
+            ::MessageBox(nullptr, Error, AtoW(e.what()), MB_ICONERROR) ;
         }
     }
 

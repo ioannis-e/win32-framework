@@ -228,7 +228,7 @@ BOOL CClientDialog::OnSocketReceive()
         return FALSE;
     }
 
-    AppendText( m_editReceive, AtoT(bufArray) );
+    AppendText( m_editReceive, AtoW(bufArray) );
     TRACE("[Received:] "); TRACE(bufArray); TRACE("\n");
 
     return TRUE;
@@ -352,8 +352,8 @@ void CClientDialog::OnSend()
     {
     case SOCK_STREAM:   // for TCP client
         {
-            CString sSend = GetDlgItemText(IDC_EDIT_SEND);
-            if (SOCKET_ERROR == m_client.Send(TtoA(sSend), sSend.GetLength(), 0))
+            CStringA send(WtoA(GetDlgItemText(IDC_EDIT_SEND)));
+            if (SOCKET_ERROR == m_client.Send(send, send.GetLength(), 0))
                 if (WSAGetLastError() != WSAEWOULDBLOCK)
                     AppendText(m_editStatus, L"Send Failed");
         }
@@ -377,7 +377,7 @@ void CClientDialog::OnSend()
                 strAddr = m_ip4Address.GetAddress();
             }
 
-            if (SOCKET_ERROR == m_client.SendTo( TtoA(strSend), strSend.GetLength(), 0, strAddr, port ))
+            if (SOCKET_ERROR == m_client.SendTo(WtoA(strSend), strSend.GetLength(), 0, strAddr, port ))
                 if (WSAGetLastError() != WSAEWOULDBLOCK)
                     AppendText(m_editStatus, L"SendTo Failed");
         }

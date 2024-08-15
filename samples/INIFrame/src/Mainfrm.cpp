@@ -290,7 +290,6 @@ int CMainFrame::WtoI(LPCWSTR string)
 CString CMainFrame::GetINIPath()
 {
     CString appDataPath = GetAppDataPath();
-    CString subfolder = L"Win32++\\INIFrame";
     if (!appDataPath.IsEmpty())
     {
         appDataPath += L"\\Win32++\\INIFrame";

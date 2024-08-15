@@ -542,8 +542,6 @@ namespace Win32xx
     inline CPropertyPage* CPropertySheet::AddPage(CPropertyPage* pPage)
     {
         assert(pPage != nullptr);
-        if (!pPage) return nullptr;
-
         return AddPage(PropertyPagePtr(pPage));
     }
 
@@ -554,7 +552,8 @@ namespace Win32xx
     {
         CPropertyPage* pPage = page.get();
         assert(pPage != nullptr);
-        if (!pPage) return nullptr;
+        if (!pPage)
+            return nullptr;
 
         m_allPages.push_back(std::move(page));
 

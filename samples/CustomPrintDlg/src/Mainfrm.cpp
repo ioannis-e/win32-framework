@@ -109,7 +109,7 @@ void CMainFrame::DetermineEncoding(CFile& file)
         catch (const CFileException& e)
         {
             CString str = CString("Failed to read from ") + e.GetFileName();
-            ::MessageBox(nullptr, str, AtoT(e.what()), MB_ICONWARNING);
+            ::MessageBox(nullptr, str, AtoW(e.what()), MB_ICONWARNING);
         }
     }
 
@@ -902,7 +902,7 @@ BOOL CMainFrame::ReadFile(LPCWSTR fileName)
         str += e.GetFilePath();
         str += "\n";
         str += e.GetText();
-        ::MessageBox(nullptr, str, AtoT(e.what()), MB_ICONWARNING);
+        ::MessageBox(nullptr, str, AtoW(e.what()), MB_ICONWARNING);
         return FALSE;
     }
 

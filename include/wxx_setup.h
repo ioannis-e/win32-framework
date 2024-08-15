@@ -46,7 +46,7 @@
 #ifndef _WIN32XX_SETUP_H_
 #define _WIN32XX_SETUP_H_
 
-// Set the version macros.
+// Set the windows version macros. These must be defined before including windows.h.
 // These values are suitable for Windows 10 and Windows 11.
 #define WINVER            0x0A00
 #undef  _WIN32_WINNT
@@ -57,7 +57,7 @@
 #define NTDDI_VERSION     0x0A000000
 
 #ifndef NOMINMAX
-#define NOMINMAX        // Allow std::min and std::max. Must be defined before windows.h
+#define NOMINMAX        // Allow std::min and std::max. Must be defined before including windows.h.
 #endif
 
 // Support the Winsock functions required for Windows XP.
@@ -112,6 +112,7 @@ using namespace Win32xx;
 // Define our own MIN and MAX macros.
 // This avoids inconsistencies with MinGW and other compilers, and
 // avoids conflicts between typical min/max macros and std::min/std::max
+// Warning: These macros are now deprecated. Use std::min and std::max instead.
 #define MAX(a,b)        (((a) > (b)) ? (a) : (b))
 #define MIN(a,b)        (((a) < (b)) ? (a) : (b))
 
@@ -130,7 +131,7 @@ using namespace Win32xx;
 #endif
 
 // Define the VERIFY macro
-// In debug mode, VERIFY asserts if the expression evaluates to zero
+// In debug mode, VERIFY asserts if the expression evaluates to zero.
 // In release mode, VERIFY evaluates the expression, but doesn't assert.
 #ifndef VERIFY
   #ifdef NDEBUG
@@ -140,7 +141,7 @@ using namespace Win32xx;
   #endif
 #endif
 
-// define useful macros from windowsx.h
+// Define useful macros from windowsx.h.
 #ifndef GET_X_LPARAM
   #define GET_X_LPARAM(lp)  ((int)(short)LOWORD(lp))
 #endif
@@ -148,7 +149,8 @@ using namespace Win32xx;
   #define GET_Y_LPARAM(lp)  ((int)(short)HIWORD(lp))
 #endif
 
-// tString is a TCHAR std::string
+// tString is a TCHAR std::string.
+// tStringStream is a TCHAR std::stringstream.
 typedef std::basic_string<TCHAR> tString;
 typedef std::basic_stringstream<TCHAR> tStringStream;
 

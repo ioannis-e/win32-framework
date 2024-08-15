@@ -211,7 +211,7 @@ ReadFile(LPCWSTR filePath)                                                  /*
     {
         CString msg = "Failed to load:  ";
         msg += e.GetFilePath();
-        ::MessageBox(nullptr, msg, AtoT(e.what()), MB_ICONWARNING);
+        ::MessageBox(nullptr, msg, AtoW(e.what()), MB_ICONWARNING);
         return FALSE;
     }
     return TRUE;

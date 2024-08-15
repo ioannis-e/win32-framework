@@ -3,7 +3,8 @@ Version 10.0
 This version updates the library to utilize features available in C++11 and
 C++14. Win32++ now uses the unique_ptr and shared_ptr smart pointers. These
 smart pointers are used in place of Shared_Ptr when adding new instances of
-CTab, CMDIChild, CPropertySheet and CDocker.
+CTab, CMDIChild, CPropertySheet and CDocker. There is now no requirement to
+use any raw pointers in code that uses the Win32++ library.
 
 The new smart pointers provided by C++11 and C++14 can be used in place of raw
 pointers to improve the safety of memory allocations and improve exception

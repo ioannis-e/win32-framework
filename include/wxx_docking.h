@@ -2076,8 +2076,6 @@ namespace Win32xx
         // even when its parent is subsequently changed.
 
         assert(pDocker);
-        if (!pDocker) return nullptr;
-
         return AddDockedChild(DockPtr(pDocker), dockStyle, dockSize, dockID);
     }
 
@@ -2090,7 +2088,8 @@ namespace Win32xx
 
         CDocker* pDocker = docker.get();
         assert(pDocker);
-        if (!pDocker) return nullptr;
+        if (!pDocker)
+            return nullptr;
 
         // Store the docker's unique pointer in the DockAncestor's vector for later deletion.
         GetAllChildren().push_back(std::move(docker));
@@ -2151,10 +2150,7 @@ namespace Win32xx
     inline CDocker* CDocker::AddUndockedChild(CDocker* pDocker, DWORD dockStyle, int dockSize, const RECT& rc, int dockID /* = 0*/)
     {
         assert(pDocker);
-        if (!pDocker) return nullptr;
-
-        DockPtr docker(pDocker);
-        return AddUndockedChild(std::move(docker), dockStyle, dockSize, rc, dockID);
+        return AddUndockedChild(DockPtr(pDocker), dockStyle, dockSize, rc, dockID);
     }
 
     // This function creates the docker, and adds it to the docker hierarchy as undocked.
@@ -2162,7 +2158,8 @@ namespace Win32xx
     {
         CDocker* pDocker = docker.get();
         assert(pDocker);
-        if (!pDocker) return nullptr;
+        if (!pDocker)
+            return nullptr;
 
         // Store the Docker's unique pointer in the DockAncestor's vector for later deletion.
         GetAllChildren().push_back(std::move(docker));

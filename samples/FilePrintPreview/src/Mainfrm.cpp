@@ -521,7 +521,7 @@ QuickPrint(CPrintDialog& printDlg)                                          /*
     HDC hPrinter = dlg.GetPrinterDC();
     if (hPrinter == nullptr)
     {
-        MessageBox(L"Quick Print requires a printer", 
+        MessageBox(L"Quick Print requires a printer",
             L"No Printer found", MB_ICONWARNING);
         return;
     }

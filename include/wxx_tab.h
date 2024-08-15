@@ -388,36 +388,8 @@ namespace Win32xx
     // Use RemoveTabPage to remove the tab and page added in this manner.
     inline CWnd* CTab::AddTabPage(CWnd* pView, LPCTSTR tabText, HICON icon, int tabID)
     {
-        assert(IsWindow());
         assert(pView);
-        assert(lstrlen(tabText) < WXX_MAX_STRING_SIZE);
-
-        m_tabViews.push_back(WndPtr(pView));
-
-        // Set the TabPageInfo.
-        TabPageInfo tpi;
-        tpi.pView = pView;
-        tpi.tabIcon = icon;
-        tpi.tabID = tabID;
-        tpi.tabText = tabText;
-        if (icon != nullptr)
-            tpi.tabImage = GetImages().Add(icon);
-        else
-            tpi.tabImage = -1;
-
-        int page = static_cast<int>(m_allTabPageInfo.size());
-        m_allTabPageInfo.push_back(tpi);
-
-        // Add the tab to the tab control.
-        TCITEM tie = {};
-        tie.mask = TCIF_TEXT | TCIF_IMAGE;
-        tie.iImage = tpi.tabImage;
-        tie.pszText = const_cast<LPTSTR>(tpi.tabText.c_str());
-        InsertItem(page, &tie);
-        SetTabSize();
-        SelectPage(page);
-
-        return pView;
+        return AddTabPage(WndPtr(pView), tabText, icon, tabID);
     }
 
     // Adds a tab along with the specified view window.
@@ -450,6 +422,8 @@ namespace Win32xx
         CWnd* pView = view.get();
         assert(pView);
         assert(lstrlen(tabText) < WXX_MAX_STRING_SIZE);
+        if (pView == nullptr)
+            return nullptr;
 
         // Set the TabPageInfo.
         TabPageInfo tpi;

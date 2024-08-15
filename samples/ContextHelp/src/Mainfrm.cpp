@@ -107,28 +107,18 @@ HWND CMainFrame::Create(HWND parent)
 // CUserException if the folder creation fails.
 CString CMainFrame::CreateAppDataFolder(const CString& subfolder)
 {
-    ::SetLastError(0);
     CString appDataPath = GetAppDataPath();
-
-    int from = 0;
-    int to = subfolder.GetLength();
-    while (from < to)
+    if (!appDataPath.IsEmpty())
     {
-        int next = subfolder.Find(L"\\", from);
-        if (next < 0)
-            next = to;
+        appDataPath += L"\\" + subfolder;
+        ::SHCreateDirectory(nullptr, appDataPath);
 
-        CString add = subfolder.Mid(from, next - from);
-        appDataPath += L"\\" + add;
-
-        if (!::CreateDirectory(appDataPath, nullptr) && GetLastError() != ERROR_ALREADY_EXISTS)
-        {
-            CString msg = appDataPath + "Directory creation error.";
-            throw CUserException(msg);
-        }
-
-        from = ++next;
+        DWORD attributes = GetFileAttributes(appDataPath);
+        if ((attributes == INVALID_FILE_ATTRIBUTES) || !(attributes & FILE_ATTRIBUTE_DIRECTORY))
+            throw CFileException(appDataPath, L"Failed to access app directory");
     }
+    else
+        appDataPath = L".";
 
     return appDataPath;
 }

@@ -98,9 +98,7 @@ MakeAppDataPath(const CString& subpath) const                               /*
     an error is encountered, throw a user exception.
 *-----------------------------------------------------------------------------*/
 {
-    ::SetLastError(0);
     CString appDataPath = GetAppDataPath();
-
     if (!appDataPath.IsEmpty())
     {
         appDataPath += L"\\" + subpath;
