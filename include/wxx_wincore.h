@@ -192,11 +192,11 @@ namespace Win32xx
         int dpi = GetDeviceCaps(desktopDC, LOGPIXELSX);
 
         // Retrieve the window's dpi if we can.
-        typedef UINT WINAPI GETDPIFORWINDOW(HWND);
+        using GETDPIFORWINDOW = UINT (WINAPI*)(HWND);
         HMODULE user = GetModuleHandle(_T("user32.dll"));
         if (user && ::IsWindow(wnd))
         {
-            GETDPIFORWINDOW* pGetDpiForWindow = reinterpret_cast<GETDPIFORWINDOW*>(
+            GETDPIFORWINDOW pGetDpiForWindow = reinterpret_cast<GETDPIFORWINDOW>(
                 reinterpret_cast<void*>(::GetProcAddress(user, "GetDpiForWindow")));
 
             if (pGetDpiForWindow)
@@ -351,7 +351,7 @@ namespace Win32xx
             parentRect = desktopRect;
 
         HMONITOR hActiveMonitor = MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST);
-        MONITORINFO mi = {};
+        MONITORINFO mi{};
         mi.cbSize = sizeof(mi);
 
         if (GetMonitorInfo(hActiveMonitor, &mi))
@@ -390,7 +390,7 @@ namespace Win32xx
     // are used. A failure to create a window throws an exception.
     inline HWND CWnd::Create(HWND parent /* = nullptr */)
     {
-        WNDCLASS wc = {};
+        WNDCLASS wc{};
 
         // Allow the WNDCLASS parameters to be modified.
         PreRegisterClass(wc);
@@ -400,7 +400,7 @@ namespace Win32xx
             VERIFY(RegisterClass(wc));
 
         // Set the CREATESTUCT parameters to reasonable defaults.
-        CREATESTRUCT cs = {};
+        CREATESTRUCT cs{};
         LONG dwOverlappedStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
         cs.style = WS_VISIBLE | ((parent)? WS_CHILD : dwOverlappedStyle );
         cs.hwndParent = parent;
@@ -476,7 +476,7 @@ namespace Win32xx
         else
             classString = className;
 
-        WNDCLASS wc = {};
+        WNDCLASS wc{};
         wc.lpszClassName = classString;
         wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
         wc.hCursor       = ::LoadCursor(nullptr, IDC_ARROW);
@@ -993,7 +993,7 @@ namespace Win32xx
         assert((wc.lpszClassName != nullptr) && (lstrlen(wc.lpszClassName) <=  WXX_MAX_STRING_SIZE));
 
         // Check to see if this classname is already registered.
-        WNDCLASS wcTest = {};
+        WNDCLASS wcTest{};
         BOOL done = FALSE;
 
         if (::GetClassInfo(GetApp()->GetInstanceHandle(), wc.lpszClassName, &wcTest))
@@ -2455,8 +2455,8 @@ namespace Win32xx
         HMODULE theme = ::GetModuleHandle(_T("uxtheme.dll"));
         if (theme != nullptr)
         {
-            typedef HRESULT WINAPI SETWINDOWTHEME(HWND, LPCWSTR, LPCWSTR);
-            SETWINDOWTHEME* pfn = reinterpret_cast<SETWINDOWTHEME*>(
+            using SETWINDOWTHEME = HRESULT (WINAPI*)(HWND, LPCWSTR, LPCWSTR);
+            SETWINDOWTHEME pfn = reinterpret_cast<SETWINDOWTHEME>(
                 reinterpret_cast<void*>(::GetProcAddress(theme, "SetWindowTheme")));
 
             result = pfn(*this, subAppName, subIdList);

@@ -1455,7 +1455,7 @@ namespace Win32xx
     // information in the m_FR CHOOSEFONT struct.
     inline CHARFORMAT CFontDialog::GetCharFormat() const
     {
-        CHARFORMAT chfmt = {};
+        CHARFORMAT chfmt{};
         chfmt.cbSize = sizeof(chfmt);
 
         if ((m_cf.Flags & CF_NOSTYLESEL) == 0)

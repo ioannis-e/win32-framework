@@ -96,16 +96,16 @@ namespace Win32xx
     const int WXX_MAX_STRING_SIZE = 255;
 
     // Some useful smart pointers
-    typedef std::unique_ptr<CDocker> DockPtr;
-    typedef std::shared_ptr<EnhMetaFileData> EnhMetaDataPtr;
-    typedef std::unique_ptr<CMDIChild> MDIChildPtr;
-    typedef std::unique_ptr<MenuItemData> MenuItemDataPtr;
-    typedef std::shared_ptr<MetaFileData> MetaDataPtr;
-    typedef std::unique_ptr<CPropertyPage> PropertyPagePtr;
-    typedef std::unique_ptr<TLSData> TLSDataPtr;
-    typedef std::unique_ptr<CWinThread> WinThreadPtr;
-    typedef std::unique_ptr<CWorkThread> WorkThreadPtr;
-    typedef std::unique_ptr<CWnd> WndPtr;
+    using DockPtr = std::unique_ptr<CDocker>;
+    using EnhMetaDataPtr = std::shared_ptr<EnhMetaFileData>;
+    using MDIChildPtr = std::unique_ptr<CMDIChild>;
+    using MenuItemDataPtr = std::unique_ptr<MenuItemData>;
+    using MetaDataPtr = std::shared_ptr<MetaFileData>;
+    using PropertyPagePtr = std::unique_ptr<CPropertyPage>;
+    using TLSDataPtr = std::unique_ptr<TLSData>;
+    using WinThreadPtr = std::unique_ptr<CWinThread>;
+    using WorkThreadPtr = std::unique_ptr<CWorkThread>;
+    using WndPtr = std::unique_ptr<CWnd>;
 
     // A structure that contains the data members for CGDIObject.
     struct CGDI_Data

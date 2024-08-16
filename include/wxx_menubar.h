@@ -785,7 +785,7 @@ namespace Win32xx
         VERIFY(ClientToScreen(rc));
 
         // Position popup above toolbar if it won't fit below.
-        TPMPARAMS tpm = {};
+        TPMPARAMS tpm{};
         tpm.cbSize = sizeof(tpm);
         tpm.rcExclude = rc;
 
@@ -1061,7 +1061,7 @@ namespace Win32xx
         {
             // Create an extra button for the MDI child system menu.
             // Later we will custom draw the window icon over this button.
-            TBBUTTON tbb = {};
+            TBBUTTON tbb{};
             tbb.fsState = TBSTATE_ENABLED;
             tbb.fsStyle = TBSTYLE_BUTTON | TBSTYLE_AUTOSIZE ;
             tbb.iString = reinterpret_cast<INT_PTR>(_T(" "));
@@ -1072,7 +1072,7 @@ namespace Win32xx
         for (int i = 0 ; i < ::GetMenuItemCount(menu); ++i)
         {
             // Assign the ToolBar Button struct.
-            TBBUTTON tbb = {};
+            TBBUTTON tbb{};
             tbb.idCommand = i  + maxedOffset;  // Each button needs a unique ID.
             tbb.fsState = TBSTATE_ENABLED;
             tbb.fsStyle = TBSTYLE_BUTTON | TBSTYLE_AUTOSIZE | TBSTYLE_DROPDOWN;

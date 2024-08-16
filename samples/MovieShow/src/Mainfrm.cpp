@@ -782,7 +782,7 @@ LRESULT CMainFrame::OnBoxSetChanged()
 }
 
 // Called when the splitter bar move has completed.
-LRESULT CMainFrame::OnBarEnd(LPDRAGPOS pDragPos)
+LRESULT CMainFrame::OnBarEnd(DragPos* pDragPos)
 {
     GetViewList().SetLastColumnWidth();
     return CDockFrame::OnBarEnd(pDragPos);

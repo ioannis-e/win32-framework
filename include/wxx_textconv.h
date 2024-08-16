@@ -85,36 +85,36 @@ namespace Win32xx
     class CAtoBSTR;
     class CWtoBSTR;
 
-    // typedefs for the well known text conversions
-    typedef CAtoW AtoW;
-    typedef CWtoA WtoA;
-    typedef CWtoBSTR WtoBSTR;
-    typedef CAtoBSTR AtoBSTR;
-    typedef CWtoA BSTRtoA;
-    typedef CWtoW BSTRtoW;
+    // using declarations for the well known text conversions
+    using AtoW = CAtoW;
+    using WtoA = CWtoA;
+    using WtoBSTR  = CWtoBSTR;
+    using AtoBSTR = CAtoBSTR;
+    using BSTRtoA = CWtoA;
+    using BSTRtoW = CWtoW;
 
 #ifdef UNICODE
-    typedef CAtoW AtoT;
-    typedef CWtoA TtoA;
-    typedef CWtoW TtoW;
-    typedef CWtoW WtoT;
-    typedef CWtoBSTR TtoBSTR;
-    typedef BSTRtoW BSTRtoT;
+    using AtoT = CAtoW;
+    using TtoA = CWtoA;
+    using TtoW = CWtoW;
+    using WtoT = CWtoW;
+    using TtoBSTR = CWtoBSTR;
+    using BSTRtoT = BSTRtoW;
 #else
-    typedef CAtoA AtoT;
-    typedef CAtoA TtoA;
-    typedef CAtoW TtoW;
-    typedef CWtoA WtoT;
-    typedef CAtoBSTR TtoBSTR;
-    typedef BSTRtoA BSTRtoT;
+    using AtoT = CAtoA;
+    using TtoA = CAtoA;
+    using TtoW = CAtoW;
+    using WtoT = CWtoA;
+    using TtoBSTR = CAtoBSTR;
+    using BSTRtoT = BSTRtoA;
 #endif
 
-    typedef AtoW  AtoOLE;
-    typedef TtoW  TtoOLE;
-    typedef CWtoW WtoOLE;
-    typedef WtoA  OLEtoA;
-    typedef WtoT  OLEtoT;
-    typedef CWtoW OLEtoW;
+    using AtoOLE = AtoW;
+    using TtoOLE = TtoW;
+    using WtoOLE = CWtoW;
+    using OLEtoA = WtoA;
+    using OLEtoT = WtoT;
+    using OLEtoW = CWtoW;
 
     class CAtoW
     {

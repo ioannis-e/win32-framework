@@ -190,7 +190,7 @@ namespace Win32xx
         int imageWidth  = std::max(static_cast<int>(data.bmHeight), 16);
         int images = data.bmWidth / imageWidth;
 
-        TBADDBITMAP tbab = {};
+        TBADDBITMAP tbab{};
         tbab.hInst = GetApp()->GetResourceHandle();
         tbab.nID   = static_cast<UINT_PTR>(bitmapID);
         WPARAM wparam = static_cast<WPARAM>(images);
@@ -229,7 +229,7 @@ namespace Win32xx
         }
 
         // TBBUTTON structure for each button in the toolbar.
-        TBBUTTON tbb = {};
+        TBBUTTON tbb{};
 
         if (id == 0)
         {
@@ -442,7 +442,7 @@ namespace Win32xx
         assert(IsWindow());
 
         int index = CommandToIndex(buttonID);
-        TBBUTTON tbb = {};
+        TBBUTTON tbb{};
         GetButton(index, tbb);
 
         return tbb.fsStyle;
@@ -473,7 +473,7 @@ namespace Win32xx
     inline UINT CToolBar::GetCommandID(int index) const
     {
         assert(IsWindow());
-        TBBUTTON tbb = {};
+        TBBUTTON tbb{};
         GetButton(index, tbb);
 
         // returns zero if failed
@@ -809,7 +809,7 @@ namespace Win32xx
         int imageWidth  = std::max(static_cast<int>(data.bmHeight), 16);
         int images = data.bmWidth / imageWidth;
 
-        TBREPLACEBITMAP tbrb = {};
+        TBREPLACEBITMAP tbrb{};
         tbrb.hInstNew = GetApp()->GetResourceHandle();
         tbrb.hInstOld = tbrb.hInstNew;
         tbrb.nIDNew = static_cast<UINT_PTR>(newBitmapID);
@@ -861,14 +861,14 @@ namespace Win32xx
     inline void CToolBar::SetButtonInfo(UINT buttonID, UINT buttonNewID, int image, BYTE style /* = 0 */, BYTE state /* = 0 */) const
     {
         // Retrieve existing state and style
-        TBBUTTON tb = {};
+        TBBUTTON tb{};
         int index = CommandToIndex(buttonID);
         BOOL result = GetButton(index, tb);
         assert(result);
 
         if (result)
         {
-            TBBUTTONINFO tbbi = {};
+            TBBUTTONINFO tbbi{};
             tbbi.cbSize = sizeof(tbbi);
             tbbi.dwMask = TBIF_COMMAND | TBIF_IMAGE | TBIF_STYLE | TBIF_STATE;
             tbbi.idCommand = static_cast<int>(buttonNewID);
@@ -919,7 +919,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        TBBUTTONINFO tbbi = {};
+        TBBUTTONINFO tbbi{};
         tbbi.cbSize = sizeof(tbbi);
         tbbi.dwMask = TBIF_STYLE;
         tbbi.fsStyle = style;
@@ -979,7 +979,7 @@ namespace Win32xx
 
         if (succeeded)
         {
-            TBBUTTON tbb = {};
+            TBBUTTON tbb{};
             succeeded = GetButton(index, tbb);
             tbb.iString = stringIndex;
 
@@ -1015,7 +1015,7 @@ namespace Win32xx
         // Note:  TB_SETBUTTONINFO requires comctl32.dll version 4.71 or later
         //        i.e. Win95 with IE4 / NT with IE4   or later
 
-        TBBUTTONINFO tbbi = {};
+        TBBUTTONINFO tbbi{};
         tbbi.cbSize = sizeof(tbbi);
         tbbi.dwMask = TBIF_SIZE;
         tbbi.cx = static_cast<WORD>(width);

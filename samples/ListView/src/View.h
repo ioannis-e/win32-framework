@@ -34,7 +34,7 @@ const int SHOW_NO_ARROW = 1;
 const int SHOW_UP_ARROW = 2;
 const int SHOW_DOWN_ARROW = 3;
 
-typedef std::unique_ptr<ListItemData> ListItemDataPtr;
+using ListItemDataPtr = std::unique_ptr<ListItemData>;
 
 
 //////////////////////////////////////////

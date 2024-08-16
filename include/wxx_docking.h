@@ -253,13 +253,13 @@ namespace Win32xx
         CPoint m_oldMousePos;
     };
 
-    typedef struct DRAGPOS
+    struct DragPos
     {
         NMHDR hdr;
         POINT pos;
         UINT dockZone;
         CDocker* pDocker;
-    } *LPDRAGPOS;
+    };
 
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -311,7 +311,7 @@ namespace Win32xx
             void SendNotify(UINT messageID);
 
             CDocker* m_pDocker;
-            DRAGPOS m_dragPos;
+            DragPos m_dragPos;
             CBrush m_brBackground;
             int m_dockBarWidth;
         };
@@ -427,7 +427,7 @@ namespace Win32xx
             CTargetCentre();
             virtual ~CTargetCentre() override;
 
-            BOOL CheckTarget(LPDRAGPOS pDragPos);
+            BOOL CheckTarget(DragPos* pDragPos);
             BOOL IsOverContainer() const { return m_isOverContainer; }
 
         protected:
@@ -447,7 +447,7 @@ namespace Win32xx
         {
         public:
             CTargetLeft();
-            BOOL CheckTarget(LPDRAGPOS pDragPos);
+            BOOL CheckTarget(DragPos* pDragPos);
 
         private:
             CTargetLeft(const CTargetLeft&) = delete;
@@ -459,7 +459,7 @@ namespace Win32xx
         {
         public:
             CTargetTop();
-            BOOL CheckTarget(LPDRAGPOS pDragPos);
+            BOOL CheckTarget(DragPos* pDragPos);
 
         private:
             CTargetTop(const CTargetTop&) = delete;
@@ -471,7 +471,7 @@ namespace Win32xx
         {
         public:
             CTargetRight();
-            BOOL CheckTarget(LPDRAGPOS pDragPos);
+            BOOL CheckTarget(DragPos* pDragPos);
 
         private:
             CTargetRight(const CTargetRight&) = delete;
@@ -483,7 +483,7 @@ namespace Win32xx
         {
         public:
             CTargetBottom();
-            BOOL CheckTarget(LPDRAGPOS pDragPos);
+            BOOL CheckTarget(DragPos* pDragPos);
 
         private:
             CTargetBottom(const CTargetBottom&) = delete;
@@ -574,12 +574,12 @@ namespace Win32xx
         virtual void OnClose() override;
         virtual int  OnCreate(CREATESTRUCT& cs) override;
         virtual void OnDestroy() override;
-        virtual LRESULT OnBarEnd(LPDRAGPOS pDragPos);
-        virtual LRESULT OnBarMove(LPDRAGPOS pDragPos);
-        virtual LRESULT OnBarStart(LPDRAGPOS pDragPos);
-        virtual LRESULT OnDockEnd(LPDRAGPOS pDragPos);
-        virtual LRESULT OnDockMove(LPDRAGPOS pDragPos);
-        virtual LRESULT OnDockStart(LPDRAGPOS pDragPos);
+        virtual LRESULT OnBarEnd(DragPos* pDragPos);
+        virtual LRESULT OnBarMove(DragPos* pDragPos);
+        virtual LRESULT OnBarStart(DragPos* pDragPos);
+        virtual LRESULT OnDockEnd(DragPos* pDragPos);
+        virtual LRESULT OnDockMove(DragPos* pDragPos);
+        virtual LRESULT OnDockStart(DragPos* pDragPos);
         virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
         virtual void PreCreate(CREATESTRUCT& cs) override;
         virtual void PreRegisterClass(WNDCLASS& wc) override;
@@ -608,7 +608,7 @@ namespace Win32xx
         CDocker& operator=(const CDocker&) = delete;
         std::vector <DockPtr> & GetAllChildren() const {return GetDockAncestor()->m_allDockChildren;}
         virtual CDocker* GetDockUnderDragPoint(POINT pt);
-        void CheckAllTargets(LPDRAGPOS pDragPos) const;
+        void CheckAllTargets(DragPos* pDragPos) const;
         void CloseAllTargets() const;
         void DockOuter(CDocker* pDocker, DWORD dockStyle);
         void DrawAllCaptions() const;
@@ -617,7 +617,7 @@ namespace Win32xx
         int  GetMonitorDpi(HWND wnd);
         void MoveDockChildren(CDocker* pDockTarget);
         void PromoteFirstChild();
-        void ResizeDockers(LPDRAGPOS pDragPos);
+        void ResizeDockers(DragPos* pDragPos);
         CDocker* SeparateFromDock();
         void SendNotify(UINT messageID);
         void SetUndockPosition(CPoint pt, BOOL showUndocked);
@@ -1004,7 +1004,7 @@ namespace Win32xx
     {
         if (!m_isTracking)
         {
-            TRACKMOUSEEVENT TrackMouseEventStruct = {};
+            TRACKMOUSEEVENT TrackMouseEventStruct{};
             TrackMouseEventStruct.cbSize = sizeof(TrackMouseEventStruct);
             TrackMouseEventStruct.dwFlags = TME_LEAVE | TME_NONCLIENT;
             TrackMouseEventStruct.hwndTrack = *this;
@@ -1304,14 +1304,14 @@ namespace Win32xx
     // Sends custom notification messages to the parent window.
     inline void CDocker::CDockClient::SendNotify(UINT messageID)
     {
-        // Fill the DRAGPOS structure with data.
-        DRAGPOS dragPos = {};
+        // Fill the DragPos structure with data.
+        DragPos dragPos{};
         dragPos.hdr.code = messageID;
         dragPos.hdr.hwndFrom = GetHwnd();
         dragPos.pos = GetCursorPos();
         dragPos.pDocker = m_pDocker;
 
-        // Send a DRAGPOS notification to the docker.
+        // Send a DragPos notification to the docker.
         LPARAM lparam = reinterpret_cast<LPARAM>(&dragPos);
         GetParent().SendMessage(WM_NOTIFY, 0, lparam);
     }
@@ -1658,7 +1658,7 @@ namespace Win32xx
         m_image.LoadBitmap(IDW_SDBOTTOM);
     }
 
-    inline BOOL CDocker::CTargetBottom::CheckTarget(LPDRAGPOS pDragPos)
+    inline BOOL CDocker::CTargetBottom::CheckTarget(DragPos* pDragPos)
     {
         CDocker* pDockDrag = pDragPos->pDocker;
         assert(pDockDrag);
@@ -1717,7 +1717,7 @@ namespace Win32xx
     {
     }
 
-    inline BOOL CDocker::CTargetCentre::CheckTarget(LPDRAGPOS pDragPos)
+    inline BOOL CDocker::CTargetCentre::CheckTarget(DragPos* pDragPos)
     {
         CDocker* pDockDrag = pDragPos->pDocker;
         assert(::SendMessage(*pDockDrag, UWM_GETCDOCKER, 0, 0));
@@ -1887,7 +1887,7 @@ namespace Win32xx
         m_image.LoadBitmap(IDW_SDLEFT);
     }
 
-    inline BOOL CDocker::CTargetLeft::CheckTarget(LPDRAGPOS pDragPos)
+    inline BOOL CDocker::CTargetLeft::CheckTarget(DragPos* pDragPos)
     {
         CDocker* pDockDrag = pDragPos->pDocker;
         assert(pDockDrag);
@@ -1942,7 +1942,7 @@ namespace Win32xx
         m_image.LoadBitmap(IDW_SDRIGHT);
     }
 
-    inline BOOL CDocker::CTargetRight::CheckTarget(LPDRAGPOS pDragPos)
+    inline BOOL CDocker::CTargetRight::CheckTarget(DragPos* pDragPos)
     {
         CDocker* pDockDrag = pDragPos->pDocker;
         assert(pDockDrag);
@@ -1997,7 +1997,7 @@ namespace Win32xx
         m_image.LoadBitmap(IDW_SDTOP);
     }
 
-    inline BOOL CDocker::CTargetTop::CheckTarget(LPDRAGPOS pDragPos)
+    inline BOOL CDocker::CTargetTop::CheckTarget(DragPos* pDragPos)
     {
         CDocker* pDockDrag = pDragPos->pDocker;
         assert(pDockDrag);
@@ -2194,7 +2194,7 @@ namespace Win32xx
     }
 
     // Calls CheckTarget for each possible target zone.
-    inline void CDocker::CheckAllTargets(LPDRAGPOS pDragPos) const
+    inline void CDocker::CheckAllTargets(DragPos* pDragPos) const
     {
         if (!GetDockAncestor()->m_targetCentre.CheckTarget(pDragPos))
         {
@@ -2649,11 +2649,11 @@ namespace Win32xx
         int dpi = GetDeviceCaps(clientDC, LOGPIXELSX);
 
         // Retrieve the monitor's dpi if we can.
-        typedef HRESULT WINAPI GETDPIFORMONITOR(HMONITOR hmonitor, int dpiType, UINT* dpiX, UINT* dpiY);
+        using GETDPIFORMONITOR = HRESULT (WINAPI*)(HMONITOR hmonitor, int dpiType, UINT* dpiX, UINT* dpiY);
         HMODULE shcore = GetModuleHandle(_T("shcore"));
         if (shcore)
         {
-            GETDPIFORMONITOR* pGetDpiForMonitor = reinterpret_cast<GETDPIFORMONITOR*>(
+            GETDPIFORMONITOR pGetDpiForMonitor = reinterpret_cast<GETDPIFORMONITOR>(
                 reinterpret_cast<void*>(::GetProcAddress(shcore, "GetDpiForMonitor")));
 
             if (pGetDpiForMonitor)
@@ -3073,7 +3073,7 @@ namespace Win32xx
     }
 
     // Called when splitter bar move has ended.
-    inline LRESULT CDocker::OnBarEnd(LPDRAGPOS pDragPos)
+    inline LRESULT CDocker::OnBarEnd(DragPos* pDragPos)
     {
         POINT pt = pDragPos->pos;
         VERIFY(ScreenToClient(pt));
@@ -3083,7 +3083,7 @@ namespace Win32xx
     }
 
     // Called when the splitter bar is moved.
-    inline LRESULT CDocker::OnBarMove(LPDRAGPOS pDragPos)
+    inline LRESULT CDocker::OnBarMove(DragPos* pDragPos)
     {
         CPoint pt = pDragPos->pos;
         VERIFY(ScreenToClient(pt));
@@ -3098,7 +3098,7 @@ namespace Win32xx
     }
 
     // Begin moving the splitter bar.
-    inline LRESULT CDocker::OnBarStart(LPDRAGPOS pDragPos)
+    inline LRESULT CDocker::OnBarStart(DragPos* pDragPos)
     {
         CPoint pt = pDragPos->pos;
         VERIFY(ScreenToClient(pt));
@@ -3262,7 +3262,7 @@ namespace Win32xx
     }
 
     // Completes the docking. Docks the window on the dock target (if any).
-    inline LRESULT CDocker::OnDockEnd(LPDRAGPOS pDragPos)
+    inline LRESULT CDocker::OnDockEnd(DragPos* pDragPos)
     {
         CDocker* pDocker = pDragPos->pDocker;
         assert(pDocker);
@@ -3317,14 +3317,14 @@ namespace Win32xx
     }
 
     // Performs the docking move.
-    inline LRESULT CDocker::OnDockMove(LPDRAGPOS pDragPos)
+    inline LRESULT CDocker::OnDockMove(DragPos* pDragPos)
     {
         CheckAllTargets(pDragPos);
         return 0;
     }
 
     // Starts the undocking.
-    inline LRESULT CDocker::OnDockStart(LPDRAGPOS pDragPos)
+    inline LRESULT CDocker::OnDockStart(DragPos* pDragPos)
     {
         if (IsDocked() && !(GetDockStyle() & DS_NO_UNDOCK))
         {
@@ -3413,7 +3413,7 @@ namespace Win32xx
     // Process docker notifications,
     inline LRESULT CDocker::OnNotify(WPARAM, LPARAM lparam)
     {
-        LPDRAGPOS pdp = (LPDRAGPOS)lparam;
+        DragPos* pdp = (DragPos*)lparam;
 
         if (IsWindowVisible())
         {
@@ -3780,7 +3780,7 @@ namespace Win32xx
     }
 
     // Called when the docker's splitter bar is dragged.
-    inline void CDocker::ResizeDockers(LPDRAGPOS pDragPos)
+    inline void CDocker::ResizeDockers(DragPos* pDragPos)
     {
         assert(pDragPos);
         if (!pDragPos) return;
@@ -3913,7 +3913,7 @@ namespace Win32xx
                 // Fill the DockInfo vector with the docking information.
                 for (CDocker* pDocker : sortedDockers)
                 {
-                    DockInfo di = {};
+                    DockInfo di{};
                     if (!pDocker->IsWindow())
                         throw CUserException();
 
@@ -3987,7 +3987,7 @@ namespace Win32xx
     // Sends a docking notification to the docker below the cursor.
     inline void CDocker::SendNotify(UINT messageID)
     {
-        DRAGPOS dragPos = {};
+        DragPos dragPos{};
         dragPos.hdr.code = messageID;
         dragPos.hdr.hwndFrom = GetHwnd();
         dragPos.pos = GetCursorPos();
@@ -4141,7 +4141,7 @@ namespace Win32xx
         m_isUndocking = FALSE;
 
         // Send the undock notification to the frame.
-        NMHDR nmhdr = {};
+        NMHDR nmhdr{};
         nmhdr.hwndFrom = GetHwnd();
         nmhdr.code = UWN_UNDOCKED;
         nmhdr.idFrom = static_cast<UINT_PTR>(m_dockID);
@@ -4527,7 +4527,7 @@ namespace Win32xx
 
         if (IsWindow())
         {
-            TCITEM tie = {};
+            TCITEM tie{};
             tie.mask = TCIF_TEXT | TCIF_IMAGE;
             tie.iImage = ci.tabImage;
             size_t newPageIndex = static_cast<size_t>(newPage);
@@ -4800,7 +4800,7 @@ namespace Win32xx
         for (size_t i = 0; i < m_allInfo.size(); ++i)
         {
             // Add tabs for each view.
-            TCITEM tie = {};
+            TCITEM tie{};
             tie.mask = TCIF_TEXT | TCIF_IMAGE;
             tie.iImage = m_allInfo[i].tabImage;
             tie.pszText = const_cast<LPTSTR>(m_allInfo[i].tabText.c_str());
@@ -4828,7 +4828,7 @@ namespace Win32xx
     inline LRESULT CDockContainer::OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         CPoint pt(lparam);
-        TCHITTESTINFO info = {};
+        TCHITTESTINFO info{};
         info.pt = pt;
         m_pressedTab = HitTest(info);
 
@@ -4875,7 +4875,7 @@ namespace Win32xx
 
         if (IsLeftButtonDown())
         {
-            TCHITTESTINFO info = {};
+            TCHITTESTINFO info{};
             info.pt = CPoint(lparam);
             int tab = HitTest(info);
             if (tab >= 0 && m_pressedTab >= 0)
@@ -5322,13 +5322,13 @@ namespace Win32xx
             ContainerInfo info1 = GetContainerParent()->m_allInfo[tab1Index];
             ContainerInfo info2 = GetContainerParent()->m_allInfo[tab2Index];
 
-            TCITEM Item1 = {};
+            TCITEM Item1{};
             Item1.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_RTLREADING | TCIF_STATE | TCIF_TEXT;
             Item1.cchTextMax = info1.tabText.GetLength()+1;
             Item1.pszText = const_cast<LPTSTR>(info1.tabText.c_str());
             GetItem(tab1, &Item1);
 
-            TCITEM Item2 = {};
+            TCITEM Item2{};
              Item2.mask = TCIF_IMAGE | TCIF_PARAM | TCIF_RTLREADING | TCIF_STATE | TCIF_TEXT;
             Item2.cchTextMax = info2.tabText.GetLength()+1;
             Item2.pszText = const_cast<LPTSTR>(info2.tabText.c_str());

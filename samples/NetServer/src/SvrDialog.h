@@ -10,8 +10,8 @@
 class CWorkerSocket;
 class CTCPClientDlg;
 
-typedef std::shared_ptr<CWorkerSocket> ServerSocketPtr;
-typedef std::shared_ptr<CTCPClientDlg> TCPClientDlgPtr;
+using ServerSocketPtr = std::shared_ptr<CWorkerSocket>;
+using TCPClientDlgPtr = std::shared_ptr<CTCPClientDlg>;
 
 
 //////////////////////////////////////////////////////////////

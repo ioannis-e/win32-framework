@@ -271,7 +271,7 @@ namespace Win32xx
         {
             // Retrieve the size of the current DevMode.
             UINT size = 0;
-            DEVMODE tempMode = {};
+            DEVMODE tempMode{};
             m_pServices->GetCurrentDevMode(&tempMode, &size);
 
             // Retrieve the current DevMode.

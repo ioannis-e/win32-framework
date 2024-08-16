@@ -151,26 +151,26 @@ namespace Win32xx
         CSize   m_sizeCheck;            // The size of the image used for menu check boxes and radio boxes.
         CSize   m_sizeSeparator;        // The size of the separator menu item.
 
-        typedef HRESULT WINAPI CLOSETHEMEDATA(HANDLE);
-        typedef HRESULT WINAPI DRAWTHEMEBACKGROUND(HANDLE, HDC, int, int, const RECT*, const RECT*);
-        typedef HRESULT WINAPI DRAWTHEMETEXT(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, LPCRECT);
-        typedef HRESULT WINAPI GETTHEMEPARTSIZE(HANDLE, HDC, int, int, LPCRECT, THEMESIZE, SIZE*);
-        typedef HRESULT WINAPI GETTHEMEINT(HANDLE, int, int, int, int*);
-        typedef HRESULT WINAPI GETTHEMEMARGINS(HANDLE, HDC, int, int, int, LPRECT, Margins*);
-        typedef HRESULT WINAPI GETTHEMETEXTEXTENT(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, LPCRECT, LPCRECT);
-        typedef BOOL    WINAPI ISTHEMEBGPARTTRANSPARENT(HANDLE, int, int);
-        typedef HANDLE  WINAPI OPENTHEMEDATA(HWND, LPCWSTR);
+        using CLOSETHEMEDATA = HRESULT(WINAPI*)(HANDLE);
+        using DRAWTHEMEBACKGROUND = HRESULT (WINAPI*)(HANDLE, HDC, int, int, const RECT*, const RECT*);
+        using DRAWTHEMETEXT = HRESULT (WINAPI*)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, LPCRECT);
+        using GETTHEMEPARTSIZE = HRESULT (WINAPI*)(HANDLE, HDC, int, int, LPCRECT, THEMESIZE, SIZE*);
+        using GETTHEMEINT = HRESULT (WINAPI*)(HANDLE, int, int, int, int*);
+        using GETTHEMEMARGINS = HRESULT (WINAPI*)(HANDLE, HDC, int, int, int, LPRECT, Margins*);
+        using GETTHEMETEXTEXTENT = HRESULT (WINAPI*)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, LPCRECT, LPCRECT);
+        using ISTHEMEBGPARTTRANSPARENT = BOOL (WINAPI*)(HANDLE, int, int);
+        using OPENTHEMEDATA = HANDLE (WINAPI*)(HWND, LPCWSTR);
 
         // Pointers to functions defined in uxTheme.dll
-        CLOSETHEMEDATA*           m_pfnCloseThemeData;
-        DRAWTHEMEBACKGROUND*      m_pfnDrawThemeBackground;
-        DRAWTHEMETEXT*            m_pfnDrawThemeText;
-        GETTHEMEPARTSIZE*         m_pfnGetThemePartSize;
-        GETTHEMEINT*              m_pfnGetThemeInt;
-        GETTHEMEMARGINS*          m_pfnGetThemeMargins;
-        GETTHEMETEXTEXTENT*       m_pfnGetThemeTextExtent;
-        ISTHEMEBGPARTTRANSPARENT* m_pfnIsThemeBGPartTransparent;
-        OPENTHEMEDATA*            m_pfnOpenThemeData;
+        CLOSETHEMEDATA           m_pfnCloseThemeData;
+        DRAWTHEMEBACKGROUND      m_pfnDrawThemeBackground;
+        DRAWTHEMETEXT            m_pfnDrawThemeText;
+        GETTHEMEPARTSIZE         m_pfnGetThemePartSize;
+        GETTHEMEINT              m_pfnGetThemeInt;
+        GETTHEMEMARGINS          m_pfnGetThemeMargins;
+        GETTHEMETEXTEXTENT       m_pfnGetThemeTextExtent;
+        ISTHEMEBGPARTTRANSPARENT m_pfnIsThemeBGPartTransparent;
+        OPENTHEMEDATA            m_pfnOpenThemeData;
     };
 
 }
@@ -400,23 +400,23 @@ namespace Win32xx
 
         if (uxTheme != nullptr)
         {
-            m_pfnCloseThemeData = reinterpret_cast<CLOSETHEMEDATA*>(
+            m_pfnCloseThemeData = reinterpret_cast<CLOSETHEMEDATA>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "CloseThemeData")));
-            m_pfnDrawThemeBackground = reinterpret_cast<DRAWTHEMEBACKGROUND*>(
+            m_pfnDrawThemeBackground = reinterpret_cast<DRAWTHEMEBACKGROUND>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "DrawThemeBackground")));
-            m_pfnDrawThemeText = reinterpret_cast<DRAWTHEMETEXT*>(
+            m_pfnDrawThemeText = reinterpret_cast<DRAWTHEMETEXT>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "DrawThemeText")));
-            m_pfnGetThemePartSize = reinterpret_cast<GETTHEMEPARTSIZE*>(
+            m_pfnGetThemePartSize = reinterpret_cast<GETTHEMEPARTSIZE>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "GetThemePartSize")));
-            m_pfnGetThemeInt = reinterpret_cast<GETTHEMEINT*>(
+            m_pfnGetThemeInt = reinterpret_cast<GETTHEMEINT>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "GetThemeInt")));
-            m_pfnGetThemeMargins = reinterpret_cast<GETTHEMEMARGINS*>(
+            m_pfnGetThemeMargins = reinterpret_cast<GETTHEMEMARGINS>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "GetThemeMargins")));
-            m_pfnGetThemeTextExtent = reinterpret_cast<GETTHEMETEXTEXTENT*>(
+            m_pfnGetThemeTextExtent = reinterpret_cast<GETTHEMETEXTEXTENT>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "GetThemeTextExtent")));
-            m_pfnIsThemeBGPartTransparent = reinterpret_cast<ISTHEMEBGPARTTRANSPARENT*>(
+            m_pfnIsThemeBGPartTransparent = reinterpret_cast<ISTHEMEBGPARTTRANSPARENT>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "IsThemeBackgroundPartiallyTransparent")));
-            m_pfnOpenThemeData = reinterpret_cast<OPENTHEMEDATA*>(
+            m_pfnOpenThemeData = reinterpret_cast<OPENTHEMEDATA>(
                 reinterpret_cast<void*>(::GetProcAddress(uxTheme, "OpenThemeData")));
         }
     }

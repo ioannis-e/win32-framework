@@ -21,8 +21,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
     }
 
     // Create a pointer to MyDLL's ShowDialog function.
-    typedef void WINAPI SHOWDIALOG();
-    SHOWDIALOG* pfnShowDialog = (SHOWDIALOG*)::GetProcAddress(hModule, "ShowDialog");
+    using SHOWDIALOG = void (WINAPI*)();
+    SHOWDIALOG pfnShowDialog = (SHOWDIALOG)::GetProcAddress(hModule, "ShowDialog");
     assert(pfnShowDialog);
 
     if (pfnShowDialog != nullptr)

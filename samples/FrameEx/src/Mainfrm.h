@@ -26,7 +26,7 @@ using std::max;
 #include <memory>   // Required by VS2013 and VS2015 for unique_ptr
 #include "View.h"
 
-typedef std::unique_ptr<Gdiplus::Bitmap> BitmapPtr;
+using BitmapPtr = std::unique_ptr<Gdiplus::Bitmap>;
 
 ///////////////////////////////////////////////////////////
 // CMainFrame manages the application's main window.

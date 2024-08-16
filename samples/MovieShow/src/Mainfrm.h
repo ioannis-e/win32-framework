@@ -88,7 +88,7 @@ private:
 
     // Message handlers
     LRESULT OnBoxSetChanged();
-    LRESULT OnBarEnd(LPDRAGPOS pDragPos);
+    LRESULT OnBarEnd(DragPos* pDragPos);
     LRESULT OnRClickListItem();
     LRESULT OnRClickTreeItem();
     LRESULT OnSelectListItem(const MovieInfo* pmi);

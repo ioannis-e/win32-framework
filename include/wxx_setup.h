@@ -149,13 +149,12 @@ using namespace Win32xx;
   #define GET_Y_LPARAM(lp)  ((int)(short)HIWORD(lp))
 #endif
 
-// tString is a TCHAR std::string.
-// tStringStream is a TCHAR std::stringstream.
-typedef std::basic_string<TCHAR> tString;
-typedef std::basic_stringstream<TCHAR> tStringStream;
-
 namespace Win32xx
 {
+    // tString is a TCHAR std::string.
+    // tStringStream is a TCHAR std::stringstream.
+    using tString = std::basic_string<TCHAR>;
+    using tStringStream = std::basic_stringstream<TCHAR>;
 
     ////////////////////////////////////////
     // Global Functions
@@ -225,14 +224,14 @@ namespace Win32xx
     //  3000     Windows 10 or Windows 11
     inline int GetWinVersion()
     {
-        // Use the modern RtlGetVersion function.
-        typedef NTSTATUS WINAPI RTLGETVERSION(PRTL_OSVERSIONINFOW);
+        // Declare a pointer to the RtlGetVersion function.
+        using RTLGETVERSION = void (WINAPI*)(PRTL_OSVERSIONINFOW);
 
         HMODULE module = ::GetModuleHandleW(L"ntdll.dll");
-        RTL_OSVERSIONINFOW osvi = {};
+        RTL_OSVERSIONINFOW osvi{};
         if (module)
         {
-            RTLGETVERSION* pfn = reinterpret_cast<RTLGETVERSION*>(
+            RTLGETVERSION pfn = reinterpret_cast<RTLGETVERSION>(
                 reinterpret_cast<void*>(::GetProcAddress(module, "RtlGetVersion")));
 
             if (pfn != nullptr)
@@ -254,7 +253,7 @@ namespace Win32xx
     // Refer to NONCLIENTMETRICS in the Windows API documentation for more information.
     inline NONCLIENTMETRICS GetNonClientMetrics()
     {
-        NONCLIENTMETRICS ncm = {};
+        NONCLIENTMETRICS ncm{};
         ncm.cbSize = sizeof(ncm);
 
         // If OS version less than Vista, adjust size to correct value.

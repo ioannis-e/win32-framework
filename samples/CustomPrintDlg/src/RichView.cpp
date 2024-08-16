@@ -107,7 +107,7 @@ void CRichView::DoPrint(LPCWSTR docName)
         }
 
         // Assign values to the FORMATRANGE struct
-        FORMATRANGE fr = {};
+        FORMATRANGE fr{};
         fr.hdc = printerDC;
         fr.hdcTarget = printerDC;
         fr.rcPage = GetPageRect(printerDC);

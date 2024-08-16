@@ -20,6 +20,6 @@ struct MovieInfo
     DWORD   flags;    // for favourites etc.
 };
 
-typedef std::list<MovieInfo> MoviesData;
+using MoviesData = std::list<MovieInfo>;
 
 #endif // _MOVIEINFO_H_

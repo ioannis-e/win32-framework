@@ -101,7 +101,7 @@ namespace Win32xx
     // the various data types to the archive.
     class CArchive
     {
-        typedef std::unique_ptr<CFile> FilePtr;
+        using FilePtr = std::unique_ptr<CFile>;
 
     public:
         // Archive modes

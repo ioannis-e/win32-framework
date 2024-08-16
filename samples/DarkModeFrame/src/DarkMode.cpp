@@ -22,7 +22,7 @@ bool IsDarkMode()
 
 bool IsHighContrast()
 {
-    HIGHCONTRAST info = {};
+    HIGHCONTRAST info{};
     info.cbSize = sizeof(info);
     return (SystemParametersInfo(SPI_GETHIGHCONTRAST, 0, &info, 0) &&
            (info.dwFlags & HCF_HIGHCONTRASTON));
@@ -33,16 +33,16 @@ bool IsHighContrast()
 // version 1903 and codenamed "19H1".
 bool IsPreferredModeSupported()
 {
-    // typedef for the RtlGetVersion function.
-    typedef NTSTATUS WINAPI RTLGETVERSION(PRTL_OSVERSIONINFOW);
+    // using declaration for the RtlGetVersion function.
+    using RTLGETVERSION = NTSTATUS (WINAPI*)(PRTL_OSVERSIONINFOW);
 
-    static RTLGETVERSION* pfn = nullptr;
+    static RTLGETVERSION pfn = nullptr;
     if (pfn == nullptr)
     {
         HMODULE module = ::GetModuleHandleW(L"ntdll.dll");
         if (module)
         {
-            pfn = reinterpret_cast<RTLGETVERSION*>(GetProcAddress(module, "RtlGetVersion"));
+            pfn = reinterpret_cast<RTLGETVERSION>(GetProcAddress(module, "RtlGetVersion"));
         }
     }
 
@@ -67,17 +67,17 @@ bool IsPreferredModeSupported()
 // could change in the future.
 void SetPreferredAppMode(AppMode mode)
 {
-    // typedef for the SetPreferredAppMode function.
-    typedef AppMode WINAPI SETPREFERREDAPPMODE(AppMode);
+    // using declaration for the SetPreferredAppMode function.
+    using SETPREFERREDAPPMODE = AppMode (WINAPI*)(AppMode);
 
-    static SETPREFERREDAPPMODE* pSetPreferredAppMode = nullptr;
+    static SETPREFERREDAPPMODE pSetPreferredAppMode = nullptr;
     if (pSetPreferredAppMode == nullptr && IsPreferredModeSupported())
     {
         HMODULE uxtheme = ::GetModuleHandleW(L"uxtheme.dll");
         if (uxtheme)
         {
             // Acquire the function pointer to SetPreferredAppMode from uxtheme.dll at ordinal 135.
-            pSetPreferredAppMode = reinterpret_cast<SETPREFERREDAPPMODE*>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(135)));
+            pSetPreferredAppMode = reinterpret_cast<SETPREFERREDAPPMODE>(GetProcAddress(uxtheme, MAKEINTRESOURCEA(135)));
         }
     }
 

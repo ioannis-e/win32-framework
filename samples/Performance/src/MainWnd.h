@@ -14,7 +14,7 @@
 #define WM_TESTMESSAGE   WM_USER + 2   // the test message
 
 
-typedef std::unique_ptr<CTestWindow> TestWindowPtr;
+using TestWindowPtr = std::unique_ptr<CTestWindow>;
 
 ///////////////////////////////////////////////////////////
 // CMainWindow manages the main window for the application.

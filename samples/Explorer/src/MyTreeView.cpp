@@ -51,7 +51,7 @@ void CMyTreeView::DoContextMenu(CPoint& point)
 // Displays the appropriate context menu, positioned at the specified point.
 void CMyTreeView::DoItemMenu(HTREEITEM item, CPoint& point)
 {
-    TVITEM itemInfo = {};
+    TVITEM itemInfo{};
     itemInfo.mask = TVIF_PARAM;
     itemInfo.hItem = item;
 
@@ -93,7 +93,7 @@ void CMyTreeView::DoItemMenu(HTREEITEM item, CPoint& point)
 
                         if(idCmd)
                         {
-                            CMINVOKECOMMANDINFO  cmi = {};
+                            CMINVOKECOMMANDINFO cmi{};
                             cmi.cbSize = sizeof(cmi);
                             cmi.hwnd = GetHwnd();
                             cmi.lpVerb = (LPCSTR)(INT_PTR)(idCmd - 1);
@@ -121,8 +121,8 @@ void CMyTreeView::EnumObjects(HTREEITEM parentItem, CShellFolder& parentFolder, 
         // Enumerate the item's PIDLs.
         while(S_OK == (list.Next(1, cpidlRel, fetched)) && fetched)
         {
-            TVITEM         itemInfo = {};
-            ULONG          attribs;
+            TVITEM itemInfo{};
+            ULONG  attribs;
 
             // Fill in the TV_ITEM structure for this item.
             itemInfo.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_CHILDREN;
@@ -153,7 +153,7 @@ void CMyTreeView::EnumObjects(HTREEITEM parentItem, CShellFolder& parentFolder, 
             }
 
             // Fill in the TVINSERTSTRUCT structure for this item.
-            TVINSERTSTRUCT insertInfo = {};
+            TVINSERTSTRUCT insertInfo{};
             insertInfo.item = itemInfo;
             insertInfo.hInsertAfter = TVI_LAST;
             insertInfo.hParent = parentItem;
@@ -167,7 +167,7 @@ void CMyTreeView::EnumObjects(HTREEITEM parentItem, CShellFolder& parentFolder, 
 // Called when a tree view item is expanded.
 BOOL CMyTreeView::GetChildItems(HTREEITEM parentItem)
 {
-    TVITEM itemInfo = {};
+    TVITEM itemInfo{};
     itemInfo.mask = TVIF_PARAM;
     itemInfo.hItem = parentItem;
     if (!GetItem(itemInfo))
@@ -220,7 +220,7 @@ BOOL CMyTreeView::GetRootItems()
     if (cpidlDesk.GetPidl())
     {
         // Fill in the TVITEM structure for this item.
-        TV_ITEM itemInfo = {};
+        TV_ITEM itemInfo{};
         itemInfo.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_CHILDREN;
 
         // Store a pointer to the TreeItemData in the lParam and m_pItems.
@@ -239,7 +239,7 @@ BOOL CMyTreeView::GetRootItems()
         itemInfo.cChildren = TRUE;
 
         // Fill in the TVINSERTSTRUCT structure for this item.
-        TVINSERTSTRUCT   insertInfo = {};
+        TVINSERTSTRUCT insertInfo{};
         insertInfo.item = itemInfo;
         insertInfo.hInsertAfter = TVI_LAST;
         insertInfo.hParent = TVI_ROOT;
@@ -282,7 +282,7 @@ BOOL CMyTreeView::GetRootItems()
 void CMyTreeView::OnAttach()
 {
     // Get a copy of the system image lists
-    SHFILEINFO  sfi = {};
+    SHFILEINFO  sfi{};
     HIMAGELIST hSmall = reinterpret_cast<HIMAGELIST>(::SHGetFileInfo(L"C:\\", 0,
         &sfi, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_SMALLICON));
 
@@ -330,7 +330,7 @@ LRESULT CMyTreeView::OnTVNGetDispInfo(LPNMTVDISPINFO pDI)
     // Add the item text.
     if (pDI->item.mask & TVIF_TEXT)
     {
-        SHFILEINFO sfi = {};
+        SHFILEINFO sfi{};
 
         // Get the display name of the item.
         if (pItem->GetFullCpidl().GetFileInfo(0, sfi, SHGFI_PIDL | SHGFI_DISPLAYNAME))
@@ -340,7 +340,7 @@ LRESULT CMyTreeView::OnTVNGetDispInfo(LPNMTVDISPINFO pDI)
     // Add the unselected image.
     if (pDI->item.mask & TVIF_IMAGE)
     {
-        SHFILEINFO sfi = {};
+        SHFILEINFO sfi{};
 
         // Get the unselected image for this item.
         if (pItem->GetFullCpidl().GetFileInfo(0, sfi, SHGFI_PIDL | SHGFI_SYSICONINDEX | SHGFI_SMALLICON))
@@ -350,7 +350,7 @@ LRESULT CMyTreeView::OnTVNGetDispInfo(LPNMTVDISPINFO pDI)
     // Add the selected image.
     if (pDI->item.mask & TVIF_SELECTEDIMAGE)
     {
-        SHFILEINFO sfi = {};
+        SHFILEINFO sfi{};
 
         // Get the selected image for this item.
         if (pItem->GetFullCpidl().GetFileInfo(0, sfi, SHGFI_PIDL | SHGFI_SYSICONINDEX | SHGFI_SMALLICON | SHGFI_OPENICON))
@@ -403,7 +403,7 @@ BOOL CMyTreeView::SelectFromListView(Cpidl& cpidlFull)
     HTREEITEM item = GetSelection();
 
     // Set parent item's has Children flag.
-    TVITEM itemInfo = {};
+    TVITEM itemInfo{};
     itemInfo.mask = TVIF_CHILDREN;
     itemInfo.cChildren = 1;
     itemInfo.hItem = item;

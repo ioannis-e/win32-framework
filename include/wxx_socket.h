@@ -135,9 +135,6 @@ namespace Win32xx
 {
     const int THREAD_TIMEOUT = 100;
 
-    typedef int  WINAPI GETADDRINFO(LPCSTR, LPCSTR, const struct addrinfo*, struct addrinfo**);
-    typedef void WINAPI FREEADDRINFO(struct addrinfo*);
-
     /////////////////////////////////////////////////////////////
     // CSocket manages a network socket. It can be used to create
     // network connections, and pass data over those connections.
@@ -266,7 +263,7 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFOT hints = {};
+            ADDRINFOT hints{};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFOT *AddrInfo;
             CString portName;
@@ -323,7 +320,7 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFOT hints = {};
+            ADDRINFOT hints{};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFOT *AddrInfo;
 
@@ -420,7 +417,7 @@ namespace Win32xx
         CEvent& stopRequestEvent = pSocket->m_stopRequest;
         SOCKET& clientSocket = pSocket->m_socket;
 
-        WSAEVENT allEvents[2] = {};
+        WSAEVENT allEvents[2]{};
         allEvents[0] = ::WSACreateEvent();
         allEvents[1] = stopRequestEvent.GetHandle();
         long events = FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE;
@@ -641,7 +638,7 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFOT hints = {};
+            ADDRINFOT hints{};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFOT *addrInfo;
             CString portName;

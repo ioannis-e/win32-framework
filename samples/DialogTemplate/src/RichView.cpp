@@ -121,7 +121,7 @@ CRect CRichView::GetPrintRect()
 // OnAttach is called when the rich edit window is created.
 void CRichView::OnAttach()
 {
-    CHARFORMAT cf = {};
+    CHARFORMAT cf{};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_COLOR | CFM_FACE | CFM_EFFECTS;
 

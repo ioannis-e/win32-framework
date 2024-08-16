@@ -77,8 +77,8 @@ HWND CContextHelp::CreateHtmlHelp(HWND hwndCaller, LPCWSTR string, UINT command,
     if (*this != 0)
         Detach();
 
-    typedef HWND WINAPI HTMLHELPW(HWND, LPCWSTR, UINT, DWORD_PTR);
-    HTMLHELPW* pHtmlHelpW = nullptr;
+    using HTMLHELPW = HWND (WINAPI*)(HWND, LPCWSTR, UINT, DWORD_PTR);
+    HTMLHELPW pHtmlHelpW = nullptr;
     HWND hWnd = nullptr;
 
     CString system;
@@ -88,7 +88,7 @@ HWND CContextHelp::CreateHtmlHelp(HWND hwndCaller, LPCWSTR string, UINT command,
     HMODULE module = ::LoadLibrary(system + "\\hhctrl.ocx");
     if (module)
     {
-        pHtmlHelpW = reinterpret_cast<HTMLHELPW*>(
+        pHtmlHelpW = reinterpret_cast<HTMLHELPW>(
             reinterpret_cast<void*>(::GetProcAddress(module, "HtmlHelpW")));
     }
 

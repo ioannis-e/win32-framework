@@ -217,7 +217,7 @@ namespace Win32xx
         CString className = _T("PreviewPane");
 
         // Register the window class for use as a custom control in the dialog.
-        WNDCLASS wc = {};
+        WNDCLASS wc{};
 
         if (!::GetClassInfo(GetApp()->GetInstanceHandle(), className, &wc))
         {

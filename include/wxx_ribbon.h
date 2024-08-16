@@ -138,7 +138,7 @@ namespace Win32xx
             WCHAR m_fullPath[MAX_PATH];
         };
 
-        typedef std::unique_ptr<CRecentFiles> RecentFilesPtr;
+        using RecentFilesPtr = std::unique_ptr<CRecentFiles>;
 
         CRibbonFrameT() {}
         virtual ~CRibbonFrameT() override {}
@@ -508,7 +508,7 @@ namespace Win32xx
     template <class T>
     inline CRibbonFrameT<T>::CRecentFiles::CRecentFiles(PWSTR fullPath) : m_count(0)
     {
-        SHFILEINFOW sfi = {};
+        SHFILEINFOW sfi{};
         DWORD_PTR ptr = 0;
         m_fullPath[0] = L'\0';
         m_displayName[0] = L'\0';

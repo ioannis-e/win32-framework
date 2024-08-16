@@ -1338,7 +1338,7 @@ namespace Win32xx
     inline BITMAP CBitmap::GetBitmapData() const
     {
         assert(GetHandle() != nullptr);
-        BITMAP data = {};
+        BITMAP data{};
         VERIFY(::GetObject(GetHandle(), sizeof(data), &data));
         return data;
     }
@@ -1668,7 +1668,7 @@ namespace Win32xx
     inline LOGBRUSH CBrush::GetLogBrush() const
     {
         assert(GetHandle() != nullptr);
-        LOGBRUSH logBrush = {};
+        LOGBRUSH logBrush{};
         VERIFY(::GetObject (GetHandle(), sizeof(logBrush), &logBrush));
         return logBrush;
     }
@@ -1734,7 +1734,7 @@ namespace Win32xx
     // Refer to CreateFontIndirect in the Windows API documentation for more information.
     inline void CFont::CreatePointFont(int pointSize, LPCTSTR faceName, HDC dc /*= nullptr*/, BOOL isBold /*= FALSE*/, BOOL isItalic /*= FALSE*/)
     {
-        LOGFONT logFont = {};
+        LOGFONT logFont{};
         logFont.lfCharSet = DEFAULT_CHARSET;
         logFont.lfHeight = pointSize;
 
@@ -1795,7 +1795,7 @@ namespace Win32xx
     inline LOGFONT CFont::GetLogFont() const
     {
         assert(GetHandle() != nullptr);
-        LOGFONT logFont = {};
+        LOGFONT logFont{};
         VERIFY(::GetObject(GetHandle(), sizeof(logFont), &logFont));
         return logFont;
     }
@@ -1988,7 +1988,7 @@ namespace Win32xx
     {
         assert(GetHandle() != nullptr);
 
-        LOGPEN logPen = {};
+        LOGPEN logPen{};
         VERIFY(::GetObject(GetHandle(), sizeof(logPen), &logPen));
         return logPen;
     }
@@ -2008,7 +2008,7 @@ namespace Win32xx
     {
         assert(GetHandle() != nullptr);
 
-        EXTLOGPEN exLogPen = {};
+        EXTLOGPEN exLogPen{};
         VERIFY(::GetObject(GetHandle(), sizeof(exLogPen), &exLogPen));
         return exLogPen;
     }
@@ -2467,7 +2467,7 @@ namespace Win32xx
     // Fills the specified rectangle with a color gradient.
     inline void CDC::GradientFill(COLORREF color1, COLORREF color2, const RECT& rc, BOOL isVertical) const
     {
-        typedef UINT WINAPI GRADIENTFILL(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
+        using GRADIENTFILL = UINT (WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
 
         SolidFill(color1, rc);
         CString system;
@@ -2478,12 +2478,12 @@ namespace Win32xx
         static HMODULE msimg32 = ::LoadLibrary(system + _T("\\msimg32.dll"));
         if (msimg32)
         {
-            GRADIENTFILL* pGradientFill = reinterpret_cast<GRADIENTFILL*>(
+            GRADIENTFILL pGradientFill = reinterpret_cast<GRADIENTFILL>(
                 reinterpret_cast<void*>(::GetProcAddress(msimg32, "GradientFill")));
 
             if (pGradientFill)
             {
-                TRIVERTEX vertex[2] = {};
+                TRIVERTEX vertex[2]{};
                 vertex[0].x = rc.left;
                 vertex[0].y = rc.top;
                 vertex[0].Red   = COLOR16(GetRValue(color1) << 8);
@@ -2500,7 +2500,7 @@ namespace Win32xx
 
                 // Create a GRADIENT_RECT structure that
                 // references the TRIVERTEX vertices.
-                GRADIENT_RECT rect = {};
+                GRADIENT_RECT rect{};
                 rect.UpperLeft = 0;
                 rect.LowerRight = 1;
 
@@ -2785,7 +2785,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HBITMAP bitmap = (HBITMAP)::GetCurrentObject(m_pData->dc, OBJ_BITMAP);
-        BITMAP bitmapInfo = {};
+        BITMAP bitmapInfo{};
         VERIFY(::GetObject(bitmap, sizeof(bitmapInfo), &bitmapInfo));
         return bitmapInfo;
     }
@@ -2951,7 +2951,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HBRUSH brush = static_cast<HBRUSH>(::GetCurrentObject(m_pData->dc, OBJ_BRUSH));
-        LOGBRUSH logBrush = {};
+        LOGBRUSH logBrush{};
         VERIFY(::GetObject(brush, sizeof(logBrush), &logBrush));
         return logBrush;
     }
@@ -3077,7 +3077,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HFONT font = static_cast<HFONT>(::GetCurrentObject(m_pData->dc, OBJ_FONT));
-        LOGFONT logFont = {};
+        LOGFONT logFont{};
         VERIFY(::GetObject(font, sizeof(logFont), &logFont));
         return logFont;
     }
@@ -3243,7 +3243,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HPEN pen = static_cast<HPEN>(::GetCurrentObject(m_pData->dc, OBJ_PEN));
-        LOGPEN logPen = {};
+        LOGPEN logPen{};
         VERIFY(::GetObject(pen, sizeof(logPen), &logPen));
         return logPen;
     }
@@ -5157,7 +5157,7 @@ namespace Win32xx
 
     inline CBitmapInfoPtr::CBitmapInfoPtr(HBITMAP bitmap)
     {
-        BITMAP data = {};
+        BITMAP data{};
         VERIFY(::GetObject(bitmap, sizeof(data), &data));
 
         // Convert the color format to a count of bits.

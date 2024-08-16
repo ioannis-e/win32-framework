@@ -102,10 +102,10 @@ namespace Win32xx
     class CStringT;
 
     // CStringA is a CHAR only version of CString.
-    typedef CStringT<CHAR> CStringA;
+    using CStringA = CStringT<CHAR>;
 
     // CStringW is a WCHAR only version of CString.
-    typedef CStringT<WCHAR> CStringW;
+    using CStringW = CStringT<WCHAR>;
 
     /////////////////////////////////////////////////
     // CStringT is a class template used to implement

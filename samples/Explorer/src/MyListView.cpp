@@ -161,7 +161,7 @@ void CMyListView::DoBackgroundMenu(CPoint& point)
 
                     if(idCmd)
                     {
-                        CMINVOKECOMMANDINFO  cmi = {};
+                        CMINVOKECOMMANDINFO  cmi{};
                         cmi.cbSize = sizeof(cmi);
                         cmi.hwnd = GetParent();
                         cmi.lpVerb = (LPCSTR)(INT_PTR)(idCmd - idCmdFirst);
@@ -225,7 +225,7 @@ void CMyListView::DoContextMenu(CPoint& point)
 // Typically that would open a folder or run a file.
 void CMyListView::DoDefault(int item)
 {
-    LVITEM   lvItem = {};
+    LVITEM lvItem{};
     lvItem.mask = LVIF_PARAM;
     lvItem.iItem = item;
 
@@ -269,7 +269,7 @@ void CMyListView::DoDefault(int item)
                             }
                             else
                             {
-                                CMINVOKECOMMANDINFO  cmi = {};
+                                CMINVOKECOMMANDINFO  cmi{};
                                 cmi.cbSize = sizeof(CMINVOKECOMMANDINFO);
                                 cmi.hwnd = GetParent();
                                 cmi.lpVerb = (LPCSTR)(INT_PTR)(idCmd - 1);
@@ -317,7 +317,7 @@ void CMyListView::DoItemMenu(LPINT pItems, UINT items, CPoint& point)
 
     for(UINT i = 0; i < items; ++i)
     {
-        LVITEM lvItem = {};
+        LVITEM lvItem{};
         lvItem.mask = LVIF_PARAM;
         lvItem.iItem = pItems[i];
         if(GetItem(lvItem))
@@ -352,7 +352,7 @@ void CMyListView::DoItemMenu(LPINT pItems, UINT items, CPoint& point)
 
                         if(idCmd)
                         {
-                            CMINVOKECOMMANDINFO  cmi = {};
+                            CMINVOKECOMMANDINFO  cmi{};
                             cmi.cbSize = sizeof(CMINVOKECOMMANDINFO);
                             cmi.hwnd = GetParent();
                             cmi.lpVerb = (LPCSTR)(INT_PTR)(idCmd - 1);
@@ -393,7 +393,7 @@ void CMyListView::EnumObjects(CShellFolder& folder, Cpidl& cpidlParent)
         // Enumerate the item's PIDLs.
         while (S_OK == (list.Next(1, cpidlRel, fetched)) && fetched)
         {
-            LVITEM lvItem = {};
+            LVITEM lvItem{};
 
             // Fill in the TV_ITEM structure for this item.
             lvItem.mask = LVIF_PARAM | LVIF_TEXT | LVIF_IMAGE | LVIF_STATE;
@@ -423,7 +423,7 @@ void CMyListView::EnumObjects(CShellFolder& folder, Cpidl& cpidlParent)
             }
 
             // Retrieve the file type.
-            SHFILEINFO sfi = {};
+            SHFILEINFO sfi{};
             if (pItem->GetFullCpidl().GetFileInfo(0, sfi, SHGFI_PIDL | SHGFI_TYPENAME))
             {
                 pItem->m_fileType = sfi.szTypeName;
@@ -507,9 +507,9 @@ void CMyListView::GetFileSizeText(ULONGLONG fileSize, LPWSTR string)
 // Retrieves the file's last write time and stores the text in string.
 void CMyListView::GetLastWriteTime(FILETIME modified, LPWSTR string)
 {
-    SYSTEMTIME localSysTime = {};
-    SYSTEMTIME utcTime = {};
-    FILETIME localFileTime = {};
+    SYSTEMTIME localSysTime{};
+    SYSTEMTIME utcTime{};
+    FILETIME localFileTime{};
 
     // Convert the last-write time to local time.
     if (GetWinVersion() > 2501)
@@ -545,7 +545,7 @@ void CMyListView::OnAttach()
     SetImageLists();
 
     // Set up the columns for report mode.
-    LVCOLUMN lvc = {};
+    LVCOLUMN lvc{};
     lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
     int columns = 4;   // Number of columns
     int colSizes[4] = {150, 70, 100, 120}; // Width of columns in pixels
@@ -585,7 +585,7 @@ void CMyListView::OnDestroy()
 LRESULT CMyListView::OnLVColumnClick(LPNMITEMACTIVATE pnmitem)
 {
     // Determine the required sort order.
-    HDITEM  hdrItem = {};
+    HDITEM  hdrItem{};
     hdrItem.mask = HDI_FORMAT;
     int column = pnmitem->iSubItem;
     VERIFY(Header_GetItem(GetHeader(), column, &hdrItem));
@@ -611,7 +611,7 @@ LRESULT CMyListView::OnLVNDispInfo(NMLVDISPINFO* pdi)
 
         const int maxLength = 32;
         wchar_t text[maxLength];
-        SHFILEINFO sfi = {};
+        SHFILEINFO sfi{};
         bool isTimeValid = (pItem->m_fileTime.dwHighDateTime != 0 && pItem->m_fileTime.dwLowDateTime != 0);
 
         switch (pdi->item.iSubItem)
@@ -662,7 +662,7 @@ LRESULT CMyListView::OnLVNDispInfo(NMLVDISPINFO* pdi)
     // Add the unselected image.
     if (pdi->item.mask & LVIF_IMAGE)
     {
-        SHFILEINFO sfi = {};
+        SHFILEINFO sfi{};
 
         // Get the unselected image for this item.
         UINT flags = SHGFI_PIDL | SHGFI_SYSICONINDEX | SHGFI_SMALLICON;
@@ -726,7 +726,7 @@ void CMyListView::PreCreate(CREATESTRUCT& cs)
 BOOL CMyListView::SetHeaderSortImage(int  columnIndex, int showArrow)
 {
     HWND    hHeader = 0;
-    HDITEM  hdrItem = {};
+    HDITEM  hdrItem{};
 
     hHeader = GetHeader();
     if (hHeader)
@@ -758,7 +758,7 @@ BOOL CMyListView::SetHeaderSortImage(int  columnIndex, int showArrow)
 // Sets the image lists for the list-view control.
 void CMyListView::SetImageLists()
 {
-    SHFILEINFO  sfi = {};
+    SHFILEINFO  sfi{};
 
     // Get the system image list
     HIMAGELIST hLargeImages = reinterpret_cast<HIMAGELIST>(::SHGetFileInfo(L"C:\\", 0, &sfi,

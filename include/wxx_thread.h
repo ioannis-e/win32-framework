@@ -41,9 +41,7 @@
 
 namespace Win32xx
 {
-    // typedef for _beginthreadex's callback function.
-    typedef UINT WINAPI THREADPROC(LPVOID);
-
+    using THREADPROC = UINT (WINAPI*)(LPVOID);
 
     ////////////////////////////////////////////////////
     // CThreadT is the class template used by CWinThread
@@ -53,7 +51,7 @@ namespace Win32xx
     {
     public:
         CThreadT();
-        CThreadT(THREADPROC* pfnThreadProc, LPVOID pParam);
+        CThreadT(THREADPROC pfnThreadProc, LPVOID pParam);
         virtual ~CThreadT() override;
 
         // Operations
@@ -72,14 +70,14 @@ namespace Win32xx
         CThreadT(const CThreadT&) = delete;
         CThreadT& operator=(const CThreadT&) = delete;
 
-        THREADPROC* m_pfnThreadProc;    // Thread callback function.
+        THREADPROC m_pfnThreadProc;     // Thread callback function.
         LPVOID m_pThreadParams;         // Thread parameter.
         HANDLE m_thread;                // Handle of this thread.
         UINT m_threadID;                // ID of this thread.
     };
 
-    typedef CThreadT<CObject> WorkThread;
-    typedef CThreadT<CMessagePump> WinThread;
+    using WorkThread = CThreadT<CObject>;
+    using WinThread = CThreadT<CMessagePump>;
 
 
     //////////////////////////////////////////////////////////////
@@ -89,7 +87,7 @@ namespace Win32xx
     class CWorkThread : public WorkThread
     {
     public:
-        CWorkThread(THREADPROC* pfnThreadProc, LPVOID pParam)
+        CWorkThread(THREADPROC pfnThreadProc, LPVOID pParam)
               : WorkThread(pfnThreadProc, pParam) {}
         virtual ~CWorkThread() override {}
 
@@ -135,7 +133,7 @@ namespace Win32xx
 
     // CThreadT constructor.
     template <class T>
-    inline CThreadT<T>::CThreadT(THREADPROC* pfnThreadProc, LPVOID pParam) :m_pfnThreadProc(0),
+    inline CThreadT<T>::CThreadT(THREADPROC pfnThreadProc, LPVOID pParam) :m_pfnThreadProc(0),
         m_pThreadParams(0), m_thread(0), m_threadID(0)
     {
         m_pfnThreadProc = pfnThreadProc;

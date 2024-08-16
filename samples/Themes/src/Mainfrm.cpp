@@ -644,8 +644,8 @@ void CMainFrame::SetCaptionColor(COLORREF color)
     HMODULE dwmapi = ::LoadLibrary(L"Dwmapi.dll");
     if (dwmapi != 0)
     {
-        typedef UINT WINAPI DWMSETWINDOWATTRIBUE(HWND, DWORD, LPCVOID, DWORD);
-        DWMSETWINDOWATTRIBUE* pDwmSetWindowAttribute = reinterpret_cast<DWMSETWINDOWATTRIBUE*>(
+        using DWMSETWINDOWATTRIBUE = UINT (WINAPI*)(HWND, DWORD, LPCVOID, DWORD);
+        DWMSETWINDOWATTRIBUE pDwmSetWindowAttribute = reinterpret_cast<DWMSETWINDOWATTRIBUE>(
             reinterpret_cast<void*>(::GetProcAddress(dwmapi, "DwmSetWindowAttribute")));
 
         const int DWMWA_CAPTION_COLOR = 35;
@@ -661,8 +661,8 @@ void CMainFrame::SetCaptionTextColor(COLORREF color)
     HMODULE dwmapi = ::LoadLibrary(L"Dwmapi.dll");
     if (dwmapi != 0)
     {
-        typedef UINT WINAPI DWMSETWINDOWATTRIBUE(HWND, DWORD, LPCVOID, DWORD);
-        DWMSETWINDOWATTRIBUE* pDwmSetWindowAttribute = reinterpret_cast<DWMSETWINDOWATTRIBUE*>(
+        using DWMSETWINDOWATTRIBUE = UINT (WINAPI*)(HWND, DWORD, LPCVOID, DWORD);
+        DWMSETWINDOWATTRIBUE pDwmSetWindowAttribute = reinterpret_cast<DWMSETWINDOWATTRIBUE>(
             reinterpret_cast<void*>(::GetProcAddress(dwmapi, "DwmSetWindowAttribute")));
 
         const int DWMWA_TEXT_COLOR = 36;

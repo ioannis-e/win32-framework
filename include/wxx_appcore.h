@@ -75,8 +75,8 @@ namespace Win32xx
     //
     /////////////////////////////////////////////////////////////////////
 
-    typedef CGlobalLock<DEVMODE>    CDevMode;
-    typedef CGlobalLock<DEVNAMES>   CDevNames;
+    using CDevMode = CGlobalLock<DEVMODE>;
+    using CDevNames = CGlobalLock<DEVNAMES>;
 
     ////////////////////////////////////////
     // Definitions for the CGlobalLock class
@@ -218,7 +218,7 @@ namespace Win32xx
                 SetnGetThis(this);
 
                 // Set the instance handle.
-                MEMORY_BASIC_INFORMATION mbi = {};
+                MEMORY_BASIC_INFORMATION mbi{};
                 static int address = 0;
                 ::VirtualQuery(&address, &mbi, sizeof(mbi));
                 assert(mbi.AllocationBase);
@@ -467,7 +467,7 @@ namespace Win32xx
     // address of CWnd::StaticWindowProc.
     inline void CWinApp::SetCallback()
     {
-        WNDCLASS defaultWC = {};
+        WNDCLASS defaultWC{};
         LPCTSTR className    = _T("Win32++ Temporary Window Class");
         defaultWC.hInstance     = GetInstanceHandle();
         defaultWC.lpfnWndProc   = CWnd::StaticWindowProc;
@@ -568,7 +568,7 @@ namespace Win32xx
         if (m_devNames.Get() == nullptr)
         {
             // Allocate global printer memory by specifying the default printer.
-            PRINTDLG pd = {};
+            PRINTDLG pd{};
             pd.Flags = PD_RETURNDEFAULT;
             pd.lStructSize = sizeof(pd);
             ::PrintDlg(&pd);
@@ -581,7 +581,7 @@ namespace Win32xx
             if (CDevNames(m_devNames).IsDefaultPrinter())
             {
                 // Get current default printer
-                PRINTDLG pd = {};
+                PRINTDLG pd{};
                 pd.lStructSize = sizeof(pd);
                 pd.Flags = PD_RETURNDEFAULT;
                 ::PrintDlg(&pd);

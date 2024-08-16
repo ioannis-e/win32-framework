@@ -9,9 +9,7 @@
 #include "MyThread.h"
 #include "MyEdit.h"
 
-// Note: Modern C++ compilers can use this typedef instead.
-// typedef std::shared_ptr<CMyWinThread> MyThreadPtr;
-typedef std::unique_ptr<CMyWinThread> MyThreadPtr;
+using MyThreadPtr = std::unique_ptr<CMyWinThread>;
 
 
 /////////////////////////////////////////////////////

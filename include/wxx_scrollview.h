@@ -162,7 +162,7 @@ namespace Win32xx
     inline LRESULT CScrollView::OnHScroll(UINT, WPARAM wparam, LPARAM)
     {
         CPoint newPos = m_currentPos;
-        SCROLLINFO si = {};
+        SCROLLINFO si{};
         si.cbSize = sizeof(si);
         si.fMask = SIF_TRACKPOS;
 
@@ -335,7 +335,7 @@ namespace Win32xx
     inline LRESULT CScrollView::OnVScroll(UINT, WPARAM wparam, LPARAM)
     {
         CPoint newPos = m_currentPos;
-        SCROLLINFO si = {};
+        SCROLLINFO si{};
         si.cbSize = sizeof(si);
         si.fMask = SIF_TRACKPOS;
 
@@ -491,7 +491,7 @@ namespace Win32xx
                 // CRect of view, unaffected by scroll bars.
                 CRect viewRect = GetWindowRect();
 
-                SCROLLINFO si = {};
+                SCROLLINFO si{};
                 si.cbSize = sizeof(si);
                 si.fMask = SIF_RANGE | SIF_PAGE | SIF_POS;
                 si.nMin = 0;

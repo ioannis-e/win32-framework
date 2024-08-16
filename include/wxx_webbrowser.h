@@ -1104,21 +1104,21 @@ namespace Win32xx
     inline HRESULT CWebBrowser::Navigate(LPCTSTR URL,   DWORD flags /*= 0*/, LPCTSTR targetFrameName /*= nullptr*/,
                     LPCTSTR headers /*= nullptr*/, LPVOID pPostData /*= nullptr*/,   DWORD postDataLen /*= 0*/) const
     {
-        VARIANT flagsVariant = {};
+        VARIANT flagsVariant{};
         flagsVariant.vt = VT_I4;
         flagsVariant.lVal = static_cast<LONG>(flags);
 
-        VARIANT targetVariant = {};
+        VARIANT targetVariant{};
         targetVariant.vt = VT_BSTR;
         targetVariant.bstrVal = SysAllocString(TtoW(targetFrameName));
 
         SAFEARRAY* psa = SafeArrayCreateVector(VT_UI1, 0, postDataLen);
         CopyMemory(psa->pvData, pPostData, postDataLen);
-        VARIANT dataVariant = {};
+        VARIANT dataVariant{};
         dataVariant.vt = VT_ARRAY|VT_UI1;
         dataVariant.parray = psa;
 
-        VARIANT headersVariant = {};
+        VARIANT headersVariant{};
         headersVariant.vt = VT_BSTR;
         headersVariant.bstrVal = SysAllocString(TtoW(headers));
         BSTR url = SysAllocString(TtoW(URL));
@@ -1140,16 +1140,16 @@ namespace Win32xx
     {
         UINT cb = GetPidlLength(pIDL);
         LPSAFEARRAY pSA = SafeArrayCreateVector(VT_UI1, 0, cb);
-        VARIANT pidlVariant = {};
+        VARIANT pidlVariant{};
         pidlVariant.vt = VT_ARRAY|VT_UI1;
         pidlVariant.parray = pSA;
         CopyMemory(pSA->pvData, pIDL, cb);
 
-        VARIANT flagsVariant = {};
+        VARIANT flagsVariant{};
         flagsVariant.vt = VT_I4;
         flagsVariant.lVal = static_cast<LONG>(flags);
 
-        VARIANT targetVariant = {};
+        VARIANT targetVariant{};
         targetVariant.vt = VT_BSTR;
         targetVariant.bstrVal = SysAllocString(TtoW(targetFrameName));
 
@@ -1166,26 +1166,26 @@ namespace Win32xx
     inline HRESULT CWebBrowser::Navigate2(LPCTSTR URL, DWORD flags /*= 0*/, LPCTSTR targetFrameName /*= nullptr*/,
                      LPCTSTR headers /*= nullptr*/,   LPVOID pPostData /*= nullptr*/, DWORD postDataLen /*= 0*/) const
     {
-        VARIANT urlVariant = {};
+        VARIANT urlVariant{};
         urlVariant.vt = VT_BSTR;
         urlVariant.bstrVal = SysAllocString(TtoW(URL));
 
-        VARIANT flagsVariant = {};
+        VARIANT flagsVariant{};
         flagsVariant.vt = VT_I4;
         flagsVariant.lVal = static_cast<LONG>(flags);
 
-        VARIANT TargetVariant = {};
+        VARIANT TargetVariant{};
         TargetVariant.vt = VT_BSTR;
         TargetVariant.bstrVal = SysAllocString(TtoW(targetFrameName));
 
         // Store the pidl in a SafeArray, and assign the SafeArray to a VARIANT
         SAFEARRAY* psa = SafeArrayCreateVector(VT_UI1, 0, postDataLen);
         CopyMemory(psa->pvData, pPostData, postDataLen);
-        VARIANT dataVariant = {};
+        VARIANT dataVariant{};
         dataVariant.vt = VT_ARRAY|VT_UI1;
         dataVariant.parray = psa;
 
-        VARIANT headersVariant = {};
+        VARIANT headersVariant{};
         headersVariant.vt = VT_BSTR;
         headersVariant.bstrVal = SysAllocString(TtoW(headers));
 
@@ -1209,7 +1209,7 @@ namespace Win32xx
     // Sets the value of a property associated with the object.
     inline HRESULT CWebBrowser::PutProperty(LPCTSTR propertyName, double value) const
     {
-        VARIANT v = {};
+        VARIANT v{};
         v.vt = VT_I4;
         v.dblVal = value;
         HRESULT hr = GetIWebBrowser2()->PutProperty(TtoBSTR(propertyName), v);
@@ -1220,7 +1220,7 @@ namespace Win32xx
     // Sets the value of a property associated with the object.
     inline HRESULT CWebBrowser::PutProperty(LPCTSTR propertyName, long value) const
     {
-        VARIANT v = {};
+        VARIANT v{};
         v.vt = VT_I4;
         v.lVal= value;
         HRESULT hr = GetIWebBrowser2()->PutProperty(TtoBSTR(propertyName), v);
@@ -1231,7 +1231,7 @@ namespace Win32xx
     // Sets the value of a property associated with the object.
     inline HRESULT CWebBrowser::PutProperty(LPCTSTR propertyName, LPCTSTR value) const
     {
-        VARIANT v = {};
+        VARIANT v{};
         v.vt = VT_BSTR;
         v.bstrVal= SysAllocString(TtoW(value));
         HRESULT hr = GetIWebBrowser2()->PutProperty(TtoBSTR(propertyName), v);
@@ -1242,7 +1242,7 @@ namespace Win32xx
     // Sets the value of a property associated with the object.
     inline HRESULT CWebBrowser::PutProperty(LPCTSTR propertyName, short value) const
     {
-        VARIANT v = {};
+        VARIANT v{};
         v.vt = VT_I4;
         v.iVal = value;
         HRESULT hr = GetIWebBrowser2()->PutProperty(TtoBSTR(propertyName), v);
@@ -1259,7 +1259,7 @@ namespace Win32xx
     // Reloads the file that is currently displayed with the specified refresh level.
     inline HRESULT CWebBrowser::Refresh2(int level) const
     {
-        VARIANT v = {};
+        VARIANT v{};
         v.vt = VT_I4;
         v.intVal = level;
         HRESULT hr = GetIWebBrowser2()->Refresh2(&v);
