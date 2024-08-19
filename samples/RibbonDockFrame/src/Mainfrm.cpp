@@ -232,7 +232,7 @@ void CMainFrame::OnFilePrint()
             // Inform the driver that the application is about to begin sending data.
             printDC.StartPage();
 
-            BITMAPINFOHEADER bi = {};
+            BITMAPINFOHEADER bi{};
             bi.biSize = sizeof(bi);
             bi.biHeight = height;
             bi.biWidth = width;

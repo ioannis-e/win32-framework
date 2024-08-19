@@ -39,7 +39,7 @@ CCoverImage::CCoverImage()
     CString className = L"CoverImage";
 
     // Register the window class for the dialog's picture control.
-    WNDCLASS wc = {};
+    WNDCLASS wc{};
     HINSTANCE instance = GetApp()->GetInstanceHandle();
     if (!::GetClassInfo(instance, className, &wc))
     {

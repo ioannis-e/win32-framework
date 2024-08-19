@@ -46,7 +46,7 @@ bool IsPreferredModeSupported()
         }
     }
 
-    RTL_OSVERSIONINFOW osvi = {};
+    RTL_OSVERSIONINFOW osvi{};
     if (pfn != nullptr)
     {
           osvi.dwOSVersionInfoSize = sizeof(osvi);

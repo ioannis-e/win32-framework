@@ -569,7 +569,7 @@ BOOL CCustomPrintDlg::OnPrintProperties()
 
         // Retrieve the printer handle with PRINTER_ALL_ACCESS if we can.
         HANDLE printer;
-        PRINTER_DEFAULTS printerDefaults = {};
+        PRINTER_DEFAULTS printerDefaults{};
         printerDefaults.DesiredAccess = PRINTER_ALL_ACCESS;
         if (::OpenPrinter(deviceName, &printer, &printerDefaults) == FALSE)
             if (::OpenPrinter(deviceName, &printer, nullptr) == FALSE)
@@ -634,7 +634,7 @@ bool CCustomPrintDlg::SetPrinterFromDevMode(LPCWSTR deviceName, LPDEVMODE pDevMo
 
     // Retrieve the printer handle with PRINTER_ALL_ACCESS if we can.
     HANDLE printer;
-    PRINTER_DEFAULTS printerDefaults = {};
+    PRINTER_DEFAULTS printerDefaults{};
     printerDefaults.DesiredAccess = PRINTER_ALL_ACCESS;
     if (::OpenPrinter(const_cast<LPWSTR>(deviceName), &printer, &printerDefaults) == FALSE)
         if (::OpenPrinter(const_cast<LPWSTR>(deviceName), &printer, nullptr) == FALSE)

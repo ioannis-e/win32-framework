@@ -40,7 +40,7 @@ GetNewFont() const                                                          /*
     Bring up the font choice dialog and choose a new font.
 *-----------------------------------------------------------------------------*/
 {     // Retrieve the current character format
-    CHARFORMAT cf = {};
+    CHARFORMAT cf{};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_COLOR | CFM_FACE | CFM_EFFECTS;
     GetDefaultCharFormat(cf);
@@ -117,7 +117,7 @@ PrintDC(UINT page, CDC& dcPrinter, CDC& dcDevice)                          /*
     given dcDevice.
 *-----------------------------------------------------------------------------*/
 {
-    FORMATRANGE fr = {};
+    FORMATRANGE fr{};
     fr.hdcTarget  = dcPrinter;  // format for this
     fr.hdc        = dcDevice;   // render to this
     fr.rcPage     = GetPageRect(dcPrinter);
@@ -141,7 +141,7 @@ PrintPages(CPrintDialog& printDlg)                                          /*
       // get the printer's device context
     CDC dcPrinter = printDlg.GetPrinterDC();
       // assign values to the rich edit control FORMATRANGE struct
-    FORMATRANGE fr = {};
+    FORMATRANGE fr{};
     fr.hdc       = dcPrinter;               // render to this device
     fr.hdcTarget = dcPrinter;               // device to format for
     fr.rcPage    = GetPageRect(dcPrinter);  // entire area of device, twips
@@ -150,7 +150,7 @@ PrintPages(CPrintDialog& printDlg)                                          /*
     fr.chrg.cpMin = 0;
     fr.chrg.cpMax = -1;
       // start the print job
-    DOCINFO di = {};
+    DOCINFO di{};
     di.cbSize      = sizeof(DOCINFO);
     di.lpszDocName = m_docPath;    // name of document to print
     di.lpszOutput  = nullptr;      // nullptr here means output to fr.hdc

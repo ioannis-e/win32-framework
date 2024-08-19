@@ -174,7 +174,7 @@ void CRichView::PrintPage(CDC& dc, int page)
     CDC printerDC = printDlg.GetPrinterDC();
 
     // Assign values to the FORMATRANGE struct
-    FORMATRANGE fr = {};
+    FORMATRANGE fr{};
     fr.hdcTarget = printerDC;
     fr.hdc = dc;
     fr.rcPage = GetPageRect();
@@ -197,7 +197,7 @@ void CRichView::QuickPrint(LPCWSTR docName)
     CDC printerDC = printDlg.GetPrinterDC();
 
     // Assign values to the FORMATRANGE struct
-    FORMATRANGE fr = {};
+    FORMATRANGE fr{};
     fr.hdc = printerDC;
     fr.hdcTarget = printerDC;
 
@@ -209,7 +209,7 @@ void CRichView::QuickPrint(LPCWSTR docName)
     fr.chrg.cpMax = -1;
 
     // Start print job.
-    DOCINFO di = {};
+    DOCINFO di{};
     di.cbSize = sizeof(DOCINFO);
     di.lpszDocName = docName;
     di.lpszOutput = nullptr;   // Do not print to file.

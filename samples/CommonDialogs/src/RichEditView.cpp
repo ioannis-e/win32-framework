@@ -296,7 +296,7 @@ DoPrintView()                                                               /*
         OnBeginPrinting(DC, info);
 
           // Set up the print job
-        DOCINFO di = {};
+        DOCINFO di{};
         di.cbSize       = sizeof(DOCINFO);
         di.lpszDocName  = m_docPath; // the spooler label
         di.lpszOutput   = (m_printPath.IsEmpty() ?

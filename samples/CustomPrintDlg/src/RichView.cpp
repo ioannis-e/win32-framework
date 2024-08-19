@@ -116,7 +116,7 @@ void CRichView::DoPrint(LPCWSTR docName)
         fr.chrg.cpMax = lastChar;
 
         // Start print job.
-        DOCINFO di = {};
+        DOCINFO di{};
         di.cbSize = sizeof(DOCINFO);
         di.lpszDocName = docName;
         di.lpszOutput = nullptr;   // Do not print to file.
@@ -226,7 +226,7 @@ void CRichView::PrintPage(CDC& dc, int page)
     }
 
     // Assign values to the FORMATRANGE struct
-    FORMATRANGE fr = {};
+    FORMATRANGE fr{};
     fr.hdcTarget = printerDC;
     fr.hdc = dc;
     fr.rcPage = GetPageRect(printerDC);
@@ -253,7 +253,7 @@ void CRichView::QuickPrint(LPCWSTR docName)
     CDC printerDC = m_printDialog.GetPrinterDC();
 
     // Start print job.
-    DOCINFO di = {};
+    DOCINFO di{};
     di.cbSize = sizeof(DOCINFO);
     di.lpszDocName = docName;
     di.lpszOutput = nullptr;   // Do not print to file.
@@ -281,7 +281,7 @@ void CRichView::QuickPrint(LPCWSTR docName)
 void CRichView::SetFontDefaults()
 {
     // Set font to Courier New, size 10.
-    CHARFORMAT cf = {};
+    CHARFORMAT cf{};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_SIZE | CFM_FACE | CFM_EFFECTS;
     StrCopy(cf.szFaceName, L"Courier New", 32);

@@ -93,9 +93,9 @@ namespace Win32xx
     struct TLSData;
 
     // Define the maximum size for TCHAR strings
-    const int WXX_MAX_STRING_SIZE = 255;
+    constexpr int WXX_MAX_STRING_SIZE = 255;
 
-    // Some useful smart pointers
+    // Some useful smart pointer aliases
     using DockPtr = std::unique_ptr<CDocker>;
     using EnhMetaDataPtr = std::shared_ptr<EnhMetaFileData>;
     using MDIChildPtr = std::unique_ptr<CMDIChild>;

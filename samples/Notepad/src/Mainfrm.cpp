@@ -693,7 +693,7 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
 BOOL CMainFrame::OnOptionsFont()
 {
     // Retrieve the current character format.
-    CHARFORMAT cf = {};
+    CHARFORMAT cf{};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_COLOR | CFM_FACE | CFM_EFFECTS;
 

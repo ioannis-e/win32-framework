@@ -313,7 +313,7 @@ void CMainFrame::SerializeINI(BOOL isStoring)
         CString fileName = GetINIPath() + "\\Frame.ini";
         CString key("Frame Settings");
 
-        WINDOWPLACEMENT wndpl = {};
+        WINDOWPLACEMENT wndpl{};
         wndpl.length = sizeof(wndpl);
 
         if (isStoring)
@@ -369,7 +369,7 @@ void CMainFrame::SerializeINI(BOOL isStoring)
                 if (monitor == nullptr)
                     throw CUserException();
 
-                MONITORINFO mi = {};
+                MONITORINFO mi{};
                 mi.cbSize = sizeof(mi);
                 ::GetMonitorInfo(monitor, &mi);
                 CRect workArea = mi.rcWork;

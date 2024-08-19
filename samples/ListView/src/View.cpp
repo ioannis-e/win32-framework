@@ -224,7 +224,7 @@ LRESULT CView::OnItemChanged(LPNMLISTVIEW pListView)
 LRESULT CView::OnLVColumnClick(LPNMITEMACTIVATE pnmitem)
 {
     // Determine the required sort order.
-    HDITEM  hdrItem = {};
+    HDITEM  hdrItem{};
     hdrItem.mask = HDI_FORMAT;
     int column = pnmitem->iSubItem;
     VERIFY(Header_GetItem(GetHeader(), column, &hdrItem));
@@ -308,7 +308,7 @@ void CView::SetColumns()
     DeleteAllItems();
 
     // initialize the LV_COLUMN struct
-    LV_COLUMN lvColumn = {};
+    LV_COLUMN lvColumn{};
     lvColumn.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
     lvColumn.fmt = LVCFMT_LEFT;
 
@@ -328,8 +328,8 @@ void CView::SetColumns()
 // Sets the up and down sort arrows in the listview's header.
 void CView::SetHeaderSortImage(int  columnIndex, int showArrow)
 {
-    HWND    hHeader = 0;
-    HDITEM  hdrItem = {};
+    HWND hHeader = 0;
+    HDITEM  hdrItem{};
 
     hHeader = GetHeader();
     if (hHeader)

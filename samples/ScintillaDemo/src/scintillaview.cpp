@@ -286,7 +286,7 @@ void ScintillaView::QuickPrint(LPCWSTR docName)
     CDC printerDC = printDlg.GetPrinterDC();
 
     // Start print job.
-    DOCINFO di = {};
+    DOCINFO di{};
     di.cbSize = sizeof(DOCINFO);
     di.lpszDocName = docName;
     di.lpszOutput = nullptr;   // Do not print to file.

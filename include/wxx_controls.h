@@ -1268,6 +1268,14 @@ namespace Win32xx
     // Definitions for the CHeader class
     //
 
+    // Clears all of the filters for the header control.
+    // Refer to Header_ClearAllFilters in the Windows API documentation for more information.
+    inline int CHeader::ClearAllFilters() const
+    {
+        assert(IsWindow());
+        return Header_ClearAllFilters(*this);
+    }
+
     // Clears the filter for the header control.
     // Refer to Header_ClearFilter in the Windows API documentation for more information.
     inline int CHeader::ClearFilter(int column) const

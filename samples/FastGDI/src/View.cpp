@@ -169,7 +169,7 @@ BOOL CView::SaveFileImage(LPCWSTR fileName)
        VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, pByteArray, pbmi, DIB_RGB_COLORS));
 
        LPBITMAPINFOHEADER pbmih = &pbmi->bmiHeader;
-       BITMAPFILEHEADER hdr = {};
+       BITMAPFILEHEADER hdr{};
        hdr.bfType = 0x4d42;        // 0x42 = "B" 0x4d = "M"
        hdr.bfSize = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof(RGBQUAD) + pbmih->biSizeImage);
        hdr.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof (RGBQUAD));

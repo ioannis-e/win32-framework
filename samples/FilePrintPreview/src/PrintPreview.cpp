@@ -650,7 +650,7 @@ CPreviewPaneEx()                                                            /*
       // resource.rc must match this name.
     CString ClassName = L"PreviewPane";
       // Register the window class for use as a custom control in the dialog
-    WNDCLASS wc = {};
+    WNDCLASS wc{};
     if (!::GetClassInfo(TheApp()->GetInstanceHandle(), ClassName, &wc))
     {
         wc.lpszClassName = ClassName;

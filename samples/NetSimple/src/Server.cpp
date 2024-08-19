@@ -45,7 +45,7 @@ int main()
 {
     // Create the main server socket.
     // It is used to listen for clients
-    CServerSocket server = {};
+    CServerSocket server{};
 
     if (!server.Create(AF_INET, SOCK_DGRAM))
     {

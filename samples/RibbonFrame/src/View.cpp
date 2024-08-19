@@ -173,7 +173,7 @@ void CView::Print()
         // Inform the driver that the application is about to begin sending data.
         printDC.StartPage();
 
-        BITMAPINFOHEADER bih = {};
+        BITMAPINFOHEADER bih{};
         bih.biSize = sizeof(bih);
         bih.biHeight = height;
         bih.biWidth = width;

@@ -385,7 +385,7 @@ BOOL CMainFrame::OnFlatStyle()
 LRESULT CMainFrame::OnGetDpiScaledSize(UINT, WPARAM, LPARAM)
 {
     m_bandData.clear();
-    REBARBANDINFO rbbi = {};
+    REBARBANDINFO rbbi{};
     rbbi.fMask = RBBIM_ID | RBBIM_STYLE | RBBIM_SIZE;
 
     // Store the current band arrangement in m_bandData.
@@ -621,7 +621,7 @@ BOOL CMainFrame::SaveRegistrySettings()
         settingsKey.SetDWORDValue(L"NumBands", bands);
 
         // Save the rebar band settings
-        REBARBANDINFO rbbi = {};
+        REBARBANDINFO rbbi{};
         rbbi.fMask = RBBIM_ID | RBBIM_STYLE | RBBIM_SIZE;
 
         for (int i = 0; i < bands; i++)
