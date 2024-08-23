@@ -168,6 +168,9 @@ void CViewFiles::InsertItems()
 // Called when a window handle (HWND) is attached to the List-View.
 void CViewFiles::OnAttach()
 {
+    // Call the base class function.
+    CListView::OnAttach();
+
     // Set the image lists.
     SetDPIImages();
 
@@ -178,10 +181,6 @@ void CViewFiles::OnAttach()
     SetColumns();
     InsertItems();
     SetDPIColumnWidths();
-
-#ifndef LVS_EX_DOUBLEBUFFER
-  #define LVS_EX_DOUBLEBUFFER     0x00010000
-#endif
 
     // Set the extended style to double buffer.
     SetExtendedStyle(LVS_EX_DOUBLEBUFFER);

@@ -1,5 +1,5 @@
-// Win32++   Version 9.6.1
-// Release Date: 29th July 2024
+// Win32++   Version 10.0.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -144,7 +144,7 @@ namespace Win32xx
         virtual ~CRibbonFrameT() override {}
 
     protected:
-        virtual CRect GetViewRect() const;
+        virtual CRect GetViewRect() const override;
         virtual int  OnCreate(CREATESTRUCT& cs) override;
         virtual void OnDestroy() override;
         virtual STDMETHODIMP OnViewChanged(UINT32 viewId, UI_VIEWTYPE typeId, IUnknown* pView, UI_VIEWVERB verb, INT32 reasonCode) override;

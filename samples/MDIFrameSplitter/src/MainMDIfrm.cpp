@@ -151,10 +151,9 @@ BOOL CMainMDIFrame::OnMDITile()
 LRESULT CMainMDIFrame::OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam)
 {
     // Redraw all MDI children to update docker caption.
-    std::vector<MDIChildPtr>::const_iterator iter;
-    for (iter = GetAllMDIChildren().begin(); iter != GetAllMDIChildren().end(); ++iter)
+    for (const MDIChildPtr& ptr : GetAllMDIChildren())
     {
-        (*iter)->RedrawWindow();
+        ptr->RedrawWindow();
     }
 
     return FinalWindowProc(msg, wparam, lparam);

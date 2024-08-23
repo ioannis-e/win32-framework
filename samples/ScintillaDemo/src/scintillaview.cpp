@@ -6,11 +6,6 @@
 #include "scintilla.h"
 #include "scintillaview.h"
 
-const int blockSize = 128 * 1024;
-const COLORREF black = RGB(0, 0, 0);
-const COLORREF gray  = RGB(159, 159, 159);
-const COLORREF white = RGB(255, 255, 255);
-
 // Constructor.
 ScintillaView::ScintillaView() : m_directFunction(0), m_directPointer(0)
 {
@@ -174,7 +169,7 @@ void ScintillaView::OpenFile(LPCWSTR fullPath)
 
     // Read the file into the Scintilla control.
     size_t totalBytesRead = 0;
-    size_t fileLength = file.GetLength();
+    size_t fileLength = static_cast<size_t>(file.GetLength());
     std::vector<char> buffer(blockSize);
     while (totalBytesRead < fileLength)
     {
@@ -392,17 +387,17 @@ void ScintillaView::Cancel()
 
 bool ScintillaView::CanPaste()
 {
-    return Call(SCI_CANPASTE, 0, 0);
+    return Call(SCI_CANPASTE, 0, 0) != 0;
 }
 
 bool ScintillaView::CanRedo()
 {
-    return Call(SCI_CANREDO, 0, 0);
+    return Call(SCI_CANREDO, 0, 0) != 0;
 }
 
 bool ScintillaView::CanUndo()
 {
-    return Call(SCI_CANUNDO, 0, 0);
+    return Call(SCI_CANUNDO, 0, 0) != 0;
 }
 
 void ScintillaView::Clear()
@@ -437,7 +432,7 @@ Sci_Position ScintillaView::FormatRangeFull(bool draw, Sci_RangeToFormatFull* fr
 
 bool ScintillaView::GetModify()
 {
-    return Call(SCI_GETMODIFY, 0, 0);
+    return Call(SCI_GETMODIFY, 0, 0) != 0;
 }
 
 void ScintillaView::GetRangeFull(Sci_Position start, Sci_Position end, char* text)
@@ -528,7 +523,7 @@ COLORREF ScintillaView::StyleGetBack(int style)
 
 bool ScintillaView::StyleGetBold(int style)
 {
-    return Call(SCI_STYLEGETBOLD, style, 0);
+    return Call(SCI_STYLEGETBOLD, style, 0) != 0;
 }
 
 int ScintillaView::StyleGetFont(int style, char* fontName)
@@ -545,7 +540,7 @@ COLORREF ScintillaView::StyleGetFore(int style)
 
 bool ScintillaView::StyleGetItalic(int style)
 {
-    return Call(SCI_STYLEGETITALIC, style, 0);
+    return Call(SCI_STYLEGETITALIC, style, 0) != 0;
 }
 
 int ScintillaView::StyleGetSize(int style)
@@ -555,12 +550,12 @@ int ScintillaView::StyleGetSize(int style)
 
 bool ScintillaView::StyleGetUnderLine(int style)
 {
-    return Call(SCI_STYLEGETUNDERLINE, style, 0);
+    return Call(SCI_STYLEGETUNDERLINE, style, 0) != 0;
 }
 
 bool ScintillaView::StyleGetWeight(int style)
 {
-    return Call(SCI_STYLEGETWEIGHT, style, 0);
+    return Call(SCI_STYLEGETWEIGHT, style, 0) != 0;
 }
 
 void ScintillaView::StyleSetBack(int style, COLORREF back)

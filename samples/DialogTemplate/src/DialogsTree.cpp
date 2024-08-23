@@ -35,8 +35,7 @@ void CDialogsTree::FillTree(const std::vector<ResourceInfo>& allInfo, LPCWSTR fi
     HTREEITEM currentItem = rootItem;
     HTREEITEM prevItem = rootItem;
 
-    std::vector<ResourceInfo>::const_iterator it;
-    for (it = allInfo.begin(); it != allInfo.end(); ++it)
+    for (const ResourceInfo& ri : allInfo)
     {
         CString prevType;
         ResourceInfo* prevInfo = (ResourceInfo*)GetItemData(prevItem);
@@ -46,16 +45,17 @@ void CDialogsTree::FillTree(const std::vector<ResourceInfo>& allInfo, LPCWSTR fi
         }
 
         CString dialogName("5");
-        if ((*it).typeName == dialogName)
+        if (ri.typeName == dialogName)
         {
             CString itemName;
-            itemName << (*it).resourceName << "   " << (*it).languageID;
+            itemName << ri.resourceName << "   " << ri.languageID;
             currentItem = InsertItem(itemName, 1, 1, rootItem);
-            SetItemData(currentItem, (DWORD_PTR)&(*it));
+            SetItemData(currentItem, (DWORD_PTR)&ri);
         }
 
-        prevItem = currentItem;
-    }
+            prevItem = currentItem;
+        }
+
 
     // Expand some tree-view items
     Expand(rootItem, TVE_EXPAND);

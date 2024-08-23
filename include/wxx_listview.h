@@ -1,5 +1,5 @@
-// Win32++   Version 9.6.1
-// Release Date: 29th July 2024
+// Win32++   Version 10.0.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -55,6 +55,7 @@ namespace Win32xx
     public:
         CListView() {}
         virtual ~CListView() override {}
+        virtual void OnAttach() override;
         virtual void PreCreate(CREATESTRUCT& cs) override;
         virtual void PreRegisterClass(WNDCLASS& wc) override;
 
@@ -671,6 +672,16 @@ namespace Win32xx
         lvi.stateMask = stateMask;
         lvi.lParam = lparam;
         return ListView_InsertItem(*this, &lvi);
+    }
+
+    // This function is called when a list-view window is attached to the CListView.
+    inline void CListView::OnAttach()
+    {
+        // LVS_SHAREIMAGELISTS:
+        // The image list will not be deleted when the control is destroyed.
+        // Allows Win32++ to control the destruction of the image list.
+        DWORD style = GetStyle();
+        SetStyle(style | LVS_SHAREIMAGELISTS);
     }
 
     // Sets the window creation parameters.

@@ -49,6 +49,9 @@ void CViewFiles::InsertItems()
 // Called when a window handle (HWND) is attached to CViewFiles.
 void CViewFiles::OnAttach()
 {
+    // Call the base class function.
+    CListView::OnAttach();
+
     SetDPIImages();
 
     // Set the report style
@@ -57,10 +60,6 @@ void CViewFiles::OnAttach()
 
     SetColumns();
     InsertItems();
-
-#ifndef LVS_EX_DOUBLEBUFFER
-  #define LVS_EX_DOUBLEBUFFER     0x00010000
-#endif
 
     // Set the extended style to double buffer.
     SetExtendedStyle(LVS_EX_DOUBLEBUFFER);

@@ -1,5 +1,5 @@
-// Win32++   Version 9.6.1
-// Release Date: 29th July 2024
+// Win32++   Version 10.0.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -2639,7 +2639,7 @@ namespace Win32xx
     {
         assert(m_pData->dc != nullptr);
         HANDLE rgnType = ::SelectObject(m_pData->dc, rgn);
-        if (rgnType == HGDI_ERROR)
+        if (rgnType == HGDI_ERROR || rgnType == nullptr)
             // throws if an error occurs.
             throw CResourceException(GetApp()->MsgGdiSelObject());
 

@@ -156,6 +156,9 @@ CString CViewList::GetFileTime(FILETIME fileTime)
 // Called when the listview window is attached to CViewList during Create.
 void CViewList::OnAttach()
 {
+    // Call the base class function.
+    CListView::OnAttach();
+
     SetWindowTheme(L"Explorer", nullptr);
 
     // Set the report style

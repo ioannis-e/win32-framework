@@ -92,16 +92,16 @@ Modified CTabbedMDI::NewMDIChildFromID - returns a std::unique_ptr
 
 The type definitions for the smart pointers is in Win32++ have been updated 
 as follows:
-  typedef std::unique_ptr<CDocker> DockPtr;
-  typedef std::shared_ptr<EnhMetaFileData> EnhMetaDataPtr;
-  typedef std::unique_ptr<CMDIChild> MDIChildPtr;
-  typedef std::unique_ptr<MenuItemData> MenuItemDataPtr;
-  typedef std::shared_ptr<MetaFileData> MetaDataPtr;
-  typedef std::unique_ptr<CPropertyPage> PropertyPagePtr;
-  typedef std::unique_ptr<TLSData> TLSDataPtr;
-  typedef std::unique_ptr<CWinThread> WinThreadPtr;
-  typedef std::unique_ptr<CWorkThread> WorkThreadPtr;
-  typedef std::unique_ptr<CWnd> WndPtr;
+  using DockPtr = std::unique_ptr<CDocker>;
+  using EnhMetaDataPtr = std::shared_ptr<EnhMetaFileData>;
+  using MDIChildPtr = std::unique_ptr<CMDIChild>;
+  using MenuItemDataPtr = std::unique_ptr<MenuItemData>;
+  using MetaDataPtr = std::shared_ptr<MetaFileData>;
+  using PropertyPagePtr = std::unique_ptr<CPropertyPage>;
+  using TLSDataPtr = std::unique_ptr<TLSData>;
+  using WinThreadPtr = std::unique_ptr<CWinThread>;
+  using WorkThreadPtr = std::unique_ptr<CWorkThread>;
+  using WndPtr = std::unique_ptr<CWnd>;
 
 
 Deprecated features
@@ -120,6 +120,8 @@ versions of Win32++. Code that uses deprecated features should be updated.
 
 Supported Compilers
 -------------------
+The following compilers are supported by this version of Win32++:
+
 The modern GNU C++ compilers from the following projects:
  * MinGW
  * TDM-GCC    (ships with Code::Blocks and Embarcadero Dev-C++)

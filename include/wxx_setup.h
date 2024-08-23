@@ -1,5 +1,5 @@
-// Win32++   Version 9.6.1
-// Release Date: 29th July 2024
+// Win32++   Version 10.0.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -180,7 +180,7 @@ namespace Win32xx
 
         // Retrieve the Common Controls DLL handle.
         HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == NULL)
+        if (comCtl == nullptr)
             return 0;
 
         DWORD comCtlVer = 600;

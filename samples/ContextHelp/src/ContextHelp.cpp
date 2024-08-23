@@ -58,10 +58,9 @@ void CContextHelp::AddHelpTopic(UINT id, LPCWSTR topic)
 {
     assert(id);
     assert(topic);
-    std::map<UINT, CString>::const_iterator m;
 
     // Ensure this isn't a duplicate entry
-    m = m_helpTopics.find(id);
+    auto m = m_helpTopics.find(id);
     assert(m == m_helpTopics.end());
 
     // Add the topic to the map
@@ -113,10 +112,8 @@ HWND CContextHelp::CreateHtmlHelp(HWND hwndCaller, LPCWSTR string, UINT command,
 // in the guide.
 void CContextHelp::ShowHelpTopic(UINT id)
 {
-    std::map<UINT, CString>::const_iterator m;
-
     // Find the CString mapped to this UINT
-    m = m_helpTopics.find(id);
+    auto m = m_helpTopics.find(id);
     CString topic = (m != m_helpTopics.end()) ? m->second : CString("FeatureNotDescribed");
 
     ShowHelpTopic(topic);

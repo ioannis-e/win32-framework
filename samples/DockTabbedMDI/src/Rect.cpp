@@ -14,7 +14,7 @@
 // Called when the window is created.
 int CViewRect::OnCreate(CREATESTRUCT&)
 {
-    SetTimer (1, 250, nullptr) ;
+    SetTimer(1, 250, nullptr) ;
     return 0;
 }
 
@@ -66,27 +66,29 @@ LRESULT CViewRect::OnTimer(UINT, WPARAM, LPARAM)
     {
         int red, green, blue;
         int left, right, top, bottom;
-        left   = rand () % m_cxClientMax;
-        right  = rand () % m_cxClientMax;
-        top    = rand () % m_cyClientMax;
-        bottom = rand () % m_cyClientMax;
-        red    = rand () & 255;
-        green  = rand () & 255;
-        blue   = rand () & 255;
+        left = rand() % m_cxClientMax;
+        right = rand() % m_cxClientMax;
+        top = rand() % m_cyClientMax;
+        bottom = rand() % m_cyClientMax;
+        red = rand() & 255;
+        green = rand() & 255;
+        blue = rand() & 255;
 
         CClientDC RectDC(*this);
         COLORREF color(RGB(red, green, blue));
-        RectDC.CreateSolidBrush (color);
+        RectDC.CreateSolidBrush(color);
 
-        int rcLeft   = (left < right) ? left : right;
-        int rcTop    = (top < bottom) ? top  : bottom;
-        int rcRight  = (left > right) ? left : right;
-        int rcBottom = (top > bottom) ? top  : bottom;
+        int rcLeft = (left < right) ? left : right;
+        int rcTop = (top < bottom) ? top : bottom;
+        int rcRight = (left > right) ? left : right;
+        int rcBottom = (top > bottom) ? top : bottom;
         RectDC.Rectangle(rcLeft, rcTop, rcRight, rcBottom);
 
         RectData rectData(color, CRect(rcLeft, rcTop, rcRight, rcBottom));
         m_rects.push_back(rectData);
     }
+    else
+        KillTimer(1);
 
     return 0;
 }

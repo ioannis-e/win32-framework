@@ -331,11 +331,9 @@ BOOL CMainFrame::SaveRegistrySettings()
 // Sets the style for all the dockers.
 void CMainFrame::SetDockStyles()
 {
-    std::vector<CDocker*>::const_iterator iter;
-
-    for (iter = GetAllDockers().begin(); iter != GetAllDockers().end(); ++iter)
+    for (CDocker* docker : GetAllDockers())
     {
-        DWORD style = (*iter)->GetDockStyle();
+        DWORD style = docker->GetDockStyle();
 
         // Filter unwanted styles
         style &= 0xF000F;
@@ -348,7 +346,7 @@ void CMainFrame::SetDockStyles()
         if (m_disableDockClose)         style |= DS_NO_CLOSE;
         if (m_disableDockCaption)       style |= DS_NO_CAPTION;
 
-        (*iter)->SetDockStyle(style);
+        docker->SetDockStyle(style);
     }
 }
 

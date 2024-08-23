@@ -84,6 +84,9 @@ void CView::AddAllItems()
 // The window handle (HWND) is attached to CView when it is created.
 void CView::OnAttach()
 {
+    // Call the base class.
+    CListView::OnAttach();
+
     // The extended ListView styles must be set after the window is created.
     // Full row select is required to support the editing of subitems.
     SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);

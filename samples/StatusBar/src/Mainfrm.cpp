@@ -249,7 +249,7 @@ void CMainFrame::SetStatusParts()
     CRect clientRect = GetClientRect();
     const LONG minWidth = 300;
     int width = std::max(minWidth, clientRect.right);
-    std::vector<int>::iterator begin = partWidths.begin();
+    auto begin = partWidths.begin();
     partWidths.insert(begin, width - sumWidths);
 
     // Create or resize the status bar parts.

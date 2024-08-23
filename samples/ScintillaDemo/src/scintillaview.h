@@ -12,6 +12,11 @@
 // ScintillaView manages the application's main window.
 class ScintillaView : public CWnd
 {
+    const int blockSize = 128 * 1024;
+    const COLORREF black = RGB(0, 0, 0);
+    const COLORREF gray = RGB(159, 159, 159);
+    const COLORREF white = RGB(255, 255, 255);
+
 public:
     ScintillaView();
     virtual ~ScintillaView();

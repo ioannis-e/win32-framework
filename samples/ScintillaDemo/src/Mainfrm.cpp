@@ -512,9 +512,9 @@ BOOL CMainFrame::OnOptionsFont()
         m_view.StyleSetFont(STYLE_DEFAULT, WtoA(cf.szFaceName));     // Put this first.
         m_view.StyleSetSize(STYLE_DEFAULT, (cf.yHeight + 10) / 20);  // Put this next.
         m_view.StyleSetFore(STYLE_DEFAULT, cf.crTextColor);
-        m_view.StyleSetBold(STYLE_DEFAULT, cf.dwEffects & CFE_BOLD);
-        m_view.StyleSetItalic(STYLE_DEFAULT, cf.dwEffects & CFE_ITALIC);
-        m_view.StyleSetUnderLine(STYLE_DEFAULT, cf.dwEffects & CFE_UNDERLINE);
+        m_view.StyleSetBold(STYLE_DEFAULT, (cf.dwEffects & CFE_BOLD) != 0);
+        m_view.StyleSetItalic(STYLE_DEFAULT, (cf.dwEffects & CFE_ITALIC) != 0);
+        m_view.StyleSetUnderLine(STYLE_DEFAULT, (cf.dwEffects & CFE_UNDERLINE) != 0);
         m_view.StyleClearAll();                                      // Put this last.
     }
 

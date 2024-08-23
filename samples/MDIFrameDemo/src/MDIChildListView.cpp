@@ -48,6 +48,9 @@ void CViewList::InsertItems()
 // Called when a window handle (HWND) is attached to CViewList.
 void CViewList::OnAttach()
 {
+    // Call the base class function.
+    CListView::OnAttach();
+
     // Set the image lists
     CBitmap bmImage(IDB_FILEVIEW);
     bmImage = DpiScaleUpBitmap(bmImage);

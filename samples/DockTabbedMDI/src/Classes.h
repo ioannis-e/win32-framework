@@ -72,7 +72,7 @@ public:
     virtual ~CDockClasses() override {}
 
 protected:
-    virtual void RecalcDockLayout();
+    virtual void RecalcDockLayout() override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:

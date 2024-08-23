@@ -1,5 +1,5 @@
-// Win32++   Version 9.6.1
-// Release Date: 29th July 2024
+// Win32++   Version 10.0.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1206,7 +1206,7 @@ namespace Win32xx
             {
                 // Draw a gray checkmark over black checkmark.
                 CRect rcCheck(0, 0, cxCheck, cyCheck);
-                const COLORREF gray = RGB(192, 192, 192);
+                constexpr COLORREF gray = RGB(192, 192, 192);
                 memDC.SolidFill(gray, rcCheck);
                 maskDC.BitBlt(0, 0, cxCheck, cyCheck, maskDC, 0, 0, DSTINVERT);
                 memDC.BitBlt(0, 0, cxCheck, cyCheck, maskDC, 0, 0, SRCAND);

@@ -43,6 +43,9 @@ void CViewFiles::InsertItems()
 
 void CViewFiles::OnAttach()
 {
+    // Call the base class function.
+    CListView::OnAttach();
+
     // Set the image lists
     SetDPIImages();
 
