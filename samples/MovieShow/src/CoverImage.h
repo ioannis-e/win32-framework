@@ -19,7 +19,7 @@ public:
     std::vector<BYTE>& SetImageData() { return m_imageData; }
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual LRESULT OnPaint(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 

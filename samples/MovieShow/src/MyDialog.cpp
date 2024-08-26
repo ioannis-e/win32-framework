@@ -6,8 +6,8 @@
 #include "MyDialog.h"
 #include "resource.h"
 
-///////////////////////////////////
-// CViewDialog function definitions
+////////////////////////////////////
+// CViewDialog function definitions.
 //
 
 // Constructor.
@@ -154,17 +154,17 @@ void CViewDialog::SetDialogFonts()
 }
 
 
-///////////////////////////////////
-// CDockDialog function definitions
+////////////////////////////////////
+// CDockDialog function definitions.
 //
 
 // Constructor.
 CDockDialog::CDockDialog() : m_view(IDD_MYDIALOG)
 {
-    // Set the view window to our edit control
+    // Set the view window to our edit control.
     SetView(m_view);
 
-    // Set the width of the splitter bar
+    // Set the width of the splitter bar.
     SetBarWidth(8);
 }
 

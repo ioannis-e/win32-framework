@@ -46,7 +46,7 @@ private:
     LRESULT OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam);
 
     CBrush m_brush;
-    std::vector<PlotPoint> m_points;    // Points of lines to draw  COLORREF m_PenColor;
+    std::vector<PlotPoint> m_points;    // Points of lines to draw  COLORREF m_PenColor.
 };
 
 

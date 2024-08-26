@@ -30,7 +30,7 @@ void CDoc::Serialize(CArchive &ar)
 
     if (ar.IsStoring())
     {
-        // Store the number of points
+        // Store the number of points.
         UINT points = UINT(GetAllPoints().size());
         ar << points;
 
@@ -47,10 +47,10 @@ void CDoc::Serialize(CArchive &ar)
         PlotPoint pp;
         GetAllPoints().clear();
 
-        // Load the number of points
+        // Load the number of points.
         ar >> points;
 
-        // Load the PlotPoint data
+        // Load the PlotPoint data.
         for (UINT u = 0; u < points; ++u)
         {
             ArchiveObject ao( &pp, sizeof(pp) );
@@ -71,5 +71,5 @@ void CDoc::StorePoint(int x, int y, bool isPenDown, COLORREF penColor)
     pp.isPenDown = isPenDown;
     pp.penColor = penColor;
 
-    m_points.push_back(pp); //Add the point to the vector
+    m_points.push_back(pp); // Add the point to the vector.
 }

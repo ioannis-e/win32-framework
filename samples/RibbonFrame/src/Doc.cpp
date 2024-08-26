@@ -26,7 +26,7 @@ void CDoc::FileSave(LPCWSTR filename)
 }
 
 void CDoc::Serialize(CArchive &ar)
-// Uses CArchive to stream data to or from a file
+// Uses CArchive to stream data to or from a file.
 {
 
     if (ar.IsStoring())

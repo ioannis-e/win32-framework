@@ -130,16 +130,16 @@ namespace Win32xx
         HACCEL GetFrameAccel() const                      { return m_accel; }
         const CMenu&  GetFrameMenu() const                { return m_menu; }
         const InitValues& GetInitValues() const           { return m_initValues; }
-        CFont GetMenuFont() const                         { return m_menuFont; }
+        CFont& GetMenuFont()                              { return m_menuFont; }
         const MenuTheme& GetMenuBarTheme() const          { return m_mbTheme; }
         int GetMenuIconHeight() const;
         const CMenuMetrics& GetMenuMetrics() const        { return m_menuMetrics; }
         const std::vector<CString>& GetMRUEntries() const { return m_mruEntries; }
         CString GetMRUEntry(UINT index);
-        size_t GetMRULimit() const                          { return m_maxMRU; }
+        size_t GetMRULimit() const                        { return m_maxMRU; }
         CString GetRegistryKeyName() const                { return m_keyName; }
         const ReBarTheme& GetReBarTheme() const           { return m_rbTheme; }
-        CFont GetStatusBarFont() const                    { return m_statusBarFont; }
+        CFont& GetStatusBarFont()                         { return m_statusBarFont; }
         const StatusBarTheme& GetStatusBarTheme() const   { return m_sbTheme; }
         const std::vector<UINT>& GetToolBarData() const   { return m_toolBarData; }
         const ToolBarTheme& GetToolBarTheme() const       { return m_tbTheme; }

@@ -38,7 +38,7 @@ public:
     void SetCaptionColor(COLORREF color);
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual BOOL    LoadRegistrySettings(LPCWSTR szKeyName) override;
     virtual void    OnClose() override;
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
@@ -86,7 +86,7 @@ private:
     void LoadMovies();
     void OnFilesLoaded();
 
-    // Message handlers
+    // Message handlers.
     LRESULT OnBoxSetChanged();
     LRESULT OnBarEnd(DragPos* pDragPos);
     LRESULT OnRClickListItem();
@@ -97,7 +97,7 @@ private:
     LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT PlayMovie(LPCWSTR path);
 
-    // Command handlers
+    // Command handlers.
     BOOL    OnAddBoxSet();
     BOOL    OnAddFolder();
     BOOL    OnBoxSet(UINT nID);
@@ -112,7 +112,7 @@ private:
     BOOL    OnVideoType(LPCWSTR videoType);
     BOOL    OnWatchList();
 
-    // Member variables
+    // Member variables.
     CCriticalSection m_cs;
     CViewList        m_viewList;
     CWorkThread      m_thread;
@@ -133,7 +133,7 @@ private:
 
     CDockTree*   m_pDockTree;
     CDockDialog* m_pDockDialog;
-    CEvent       m_stopRequest;     // An event to signal the event thread should stop
+    CEvent       m_stopRequest;     // An event to signal the event thread should stop.
     bool         m_isDirty;         // Has m_MoviesData has been modified?
     HTREEITEM    m_boxSetsItem;
     int          m_dialogHeight;

@@ -285,7 +285,8 @@ namespace Win32xx
             // Account for text width and checkmark height.
             CSize sizeText = GetTextSize(pmd, dc);
             size.cx += sizeText.cx;
-            size.cy = m_sizeCheck.cy + m_marCheckBackground.Height() + m_marCheck.Height();
+            size.cy = std::max(sizeText.cy, m_sizeCheck.cy) + m_marCheckBackground.Height() +
+                m_marCheck.Height();
         }
 
         return (size);

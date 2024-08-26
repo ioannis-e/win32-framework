@@ -27,5 +27,5 @@ private:
     CMainFrame m_frame;
 };
 
-#endif //SCRIBBLEAPP_H
+#endif // SCRIBBLEAPP_H
 

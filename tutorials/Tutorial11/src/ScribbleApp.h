@@ -29,4 +29,4 @@ private:
 };
 
 
-#endif //SCRIBBLEAPP_H
+#endif // SCRIBBLEAPP_H

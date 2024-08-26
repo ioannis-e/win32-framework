@@ -9,8 +9,8 @@
 using namespace Gdiplus;
 
 
-//////////////////////////////////
-// CMainFrame function definitions
+///////////////////////////////////
+// CMainFrame function definitions.
 //
 
 // Constructor.
@@ -162,7 +162,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
     // UseThemes(FALSE);             // Don't use themes.
     // UseToolBar(FALSE);            // Don't use a ToolBar.
 
-    // call the base class function
+    // Call the base class function.
     return CFrame::OnCreate(cs);
 }
 
@@ -200,7 +200,7 @@ BOOL CMainFrame::OnFileOpen()
     fileDlg.SetFilter(filter);
     fileDlg.SetDefExt(L".cpp");
 
-    // Bring up the file open dialog retrieve the selected filename
+    // Bring up the file open dialog retrieve the selected filename.
     if (fileDlg.DoModal(*this) == IDOK)
     {
         GetDoc().FileLoad(fileDlg.GetPathName());
@@ -217,7 +217,7 @@ BOOL CMainFrame::OnFileSave()
     fileDlg.SetFilter(filter);
     fileDlg.SetDefExt(L".cpp");
 
-    // Bring up the file save dialog retrieve the selected filename
+    // Bring up the file save dialog retrieve the selected filename.
     if (fileDlg.DoModal(*this) == IDOK)
     {
         GetDoc().FileStore(fileDlg.GetPathName());
@@ -233,7 +233,7 @@ BOOL CMainFrame::OnFilePreview()
     {
         m_isToolbarShown = GetToolBar().IsWindow() && GetToolBar().IsWindowVisible();
 
-        // Get the device contect of the default or currently chosen printer
+        // Get the device context of the default or currently chosen printer.
         CPrintDialog printDlg;
         CDC printerDC = printDlg.GetPrinterDC();
 
@@ -247,11 +247,11 @@ BOOL CMainFrame::OnFilePreview()
         // Swap views
         SetView(m_preview);
 
-        // Hide the menu and toolbar
+        // Hide the menu and toolbar.
         ShowMenu(FALSE);
         ShowToolBar(FALSE);
 
-        // Update status
+        // Update status.
         CString status = L"Printer: " + printDlg.GetDeviceName();
         SetStatusText(status);
     }
@@ -306,10 +306,10 @@ LRESULT CMainFrame::OnNotify(WPARAM wparam, LPARAM lparam)
 // Called when the Print Preview's "Close" button is pressed.
 LRESULT CMainFrame::OnPreviewClose()
 {
-    // Swap the view
+    // Swap the view.
     SetView(m_view);
 
-    // Show the menu and toolbar
+    // Show the menu and toolbar.
     ShowMenu(GetFrameMenu() != nullptr);
     ShowToolBar(m_isToolbarShown);
     UpdateSettings();
@@ -333,7 +333,7 @@ LRESULT CMainFrame::OnPreviewSetup()
     CPrintDialog printDlg(PD_PRINTSETUP);
     try
     {
-        // Display the print dialog
+        // Display the print dialog.
         if (printDlg.DoModal(*this) == IDOK)
         {
             CString status = L"Printer: " + printDlg.GetDeviceName();
@@ -358,12 +358,11 @@ LRESULT CMainFrame::OnPreviewSetup()
 // parameters used before the frame window is created.
 void CMainFrame::PreCreate(CREATESTRUCT& cs)
 {
-    // Call base clase to set defaults
+    // Call base clase to set defaults.
     CFrame::PreCreate(cs);
 
-    // The WS_EX_LAYOUTRTL style requires Windows 2000 or above
     // cs.dwExStyle = WS_EX_LAYOUTRTL;  // Set Right-To-Left Window Layout
-    // cs.style &= ~WS_VISIBLE;         // Remove the WS_VISIBLE style. The frame will be initially hidden.;
+    // cs.style &= ~WS_VISIBLE;         // Remove the WS_VISIBLE style. The frame will be initially hidden.
 }
 
 // Specifies the images for some of the menu items.
@@ -389,9 +388,9 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton( IDM_FILE_SAVE  );
 
     AddToolBarButton( 0 );                      // Separator
-    AddToolBarButton( IDM_EDIT_CUT,   FALSE );  // disabled button
-    AddToolBarButton( IDM_EDIT_COPY,  FALSE );  // disabled button
-    AddToolBarButton( IDM_EDIT_PASTE, FALSE );  // disabled button
+    AddToolBarButton( IDM_EDIT_CUT,   FALSE );  // Disabled button
+    AddToolBarButton( IDM_EDIT_COPY,  FALSE );  // Disabled button
+    AddToolBarButton( IDM_EDIT_PASTE, FALSE );  // Disabled button
 
     AddToolBarButton( 0 );                      // Separator
     AddToolBarButton( IDM_FILE_PRINT );

@@ -9,8 +9,8 @@
 #include "UserMessages.h"
 
 
-/////////////////////////////////
-// CViewTree function definitions
+//////////////////////////////////
+// CViewTree function definitions.
 //
 
 // Constructor.
@@ -48,7 +48,7 @@ bool CViewTree::IsBoxSetUnique(LPCWSTR text, HTREEITEM item)
     return isUnique;
 }
 
-// Allows label editing for Box Set children
+// Allows label editing for Box Set children.
 BOOL CViewTree::OnBeginLabelEdit(LPARAM lparam)
 {
     LPNMTVDISPINFO pTVDispInfo = (LPNMTVDISPINFO)lparam;
@@ -57,7 +57,7 @@ BOOL CViewTree::OnBeginLabelEdit(LPARAM lparam)
     HTREEITEM parentItem = GetParentItem(item);
     if (GetItemText(parentItem) == L"Box Sets")
     {
-        // Permit label editing for Box Set children
+        // Permit label editing for Box Set children.
         return FALSE;
     }
 
@@ -232,7 +232,7 @@ void CViewTree::Swap(HTREEITEM item1, HTREEITEM item2)
     tv1.hItem = item2;
     tv2.hItem = item1;
 
-    // swap the items in the treeview
+    // Swap the items in the treeview.
     SetItem(tv1);
     SetItem(tv2);
 }
@@ -274,8 +274,8 @@ LRESULT CViewTree::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     return 0;
 }
 
-/////////////////////////////////
-// CDockTree function definitions
+//////////////////////////////////
+// CDockTree function definitions.
 //
 
 // Constructor.
@@ -283,7 +283,7 @@ CDockTree::CDockTree()
 {
     SetView(m_treeView);
 
-    // Set the width of the splitter bar
+    // Set the width of the splitter bar.
     SetBarWidth(8);
 }
 

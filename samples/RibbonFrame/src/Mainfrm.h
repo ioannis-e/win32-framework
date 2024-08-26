@@ -21,7 +21,7 @@ public:
     virtual HWND Create(HWND parent = nullptr) override;
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual STDMETHODIMP Execute(UINT32, UI_EXECUTIONVERB, const PROPERTYKEY*, const PROPVARIANT*, IUISimplePropertySet*) override;
     virtual STDMETHODIMP UpdateProperty(UINT32, __in REFPROPERTYKEY, __in_opt const PROPVARIANT*, __out PROPVARIANT*) override;
     virtual STDMETHODIMP OnViewChanged(UINT32, UI_VIEWTYPE typeId, IUnknown*, UI_VIEWVERB verb, INT32) override;
@@ -34,7 +34,7 @@ private:
     CMainFrame(const CMainFrame&) = delete;
     CMainFrame& operator=(const CMainFrame&) = delete;
 
-    // Command handlers
+    // Command handlers.
     LRESULT OnDropFile(WPARAM wparam);
     BOOL OnFileExit();
     BOOL OnFileNew();
@@ -51,12 +51,12 @@ private:
     void MRUFileOpen(UINT mruIndex);
     BOOL SetPenColor(COLORREF clr);
 
-    // Member variables
+    // Member variables.
     CView m_view;
     CString m_pathName;
     IUIRibbon* m_pIUIRibbon;
 };
 
 
-#endif //MAINFRM_H
+#endif // MAINFRM_H
 

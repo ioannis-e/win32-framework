@@ -10,8 +10,8 @@
 #include "UserMessages.h"
 
 
-/////////////////////////////////
-// CViewList function definitions
+//////////////////////////////////
+// CViewList function definitions.
 //
 
 // Constructor
@@ -161,7 +161,7 @@ void CViewList::OnAttach()
 
     SetWindowTheme(L"Explorer", nullptr);
 
-    // Set the report style
+    // Set the report style.
     DWORD dwStyle = GetStyle();
     SetStyle((dwStyle & ~LVS_TYPEMASK) | LVS_REPORT);
 
@@ -197,11 +197,11 @@ LRESULT CViewList::OnCustomDraw(LPNMCUSTOMDRAW pCustomDraw)
         if (pTheme && pTheme->UseThemes && pTheme->clrBand2 != 0)
             color = pTheme->clrBkgnd2;
 
-        // Set the background color of the header
+        // Set the background color of the header.
         CBrush br(color);
         ::FillRect(pCustomDraw->hdc, &pCustomDraw->rc, br);
 
-        // Also set the text background color
+        // Also set the text background color.
         ::SetBkColor(pCustomDraw->hdc, color);
 
         return CDRF_DODEFAULT;
@@ -245,7 +245,7 @@ void CViewList::OnInitialUpdate()
     SetDPIImages();
 }
 
-// Called with a double click left mouse button or press the Enter key
+// Called with a double click left mouse button or press the Enter key.
 // on a list view item.
 LRESULT CViewList::OnItemActivate(LPNMLISTVIEW pListView)
 {

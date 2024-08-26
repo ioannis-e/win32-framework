@@ -32,11 +32,11 @@ public:
     void StorePoint(int x, int y, bool isPenDown, COLORREF penColor);
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     void Serialize(CArchive &ar) override;
 
 private:
-    std::vector<PlotPoint> m_points;    // Points of lines to draw
+    std::vector<PlotPoint> m_points;    // Points of lines to draw.
 };
 
 #endif  // WIN32XX_DOC_H

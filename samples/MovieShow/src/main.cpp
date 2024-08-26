@@ -26,7 +26,7 @@ public:
     {
         if (m_mutex)  // Do not forget to close handles.
         {
-            CloseHandle(m_mutex); // Do as late as possible.
+            CloseHandle(m_mutex);    // Do as late as possible.
             m_mutex = nullptr;       // Good habit to be in.
         }
     }

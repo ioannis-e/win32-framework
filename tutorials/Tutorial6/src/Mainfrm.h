@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////
 // Mainfrm.h
-//  Declaration of the CMainFrame class
+//  Declaration of the CMainFrame class.
 
 #ifndef MAINFRM_H
 #define MAINFRM_H
@@ -39,5 +39,5 @@ private:
     CView m_view;
 };
 
-#endif //MAINFRM_H
+#endif // MAINFRM_H
 

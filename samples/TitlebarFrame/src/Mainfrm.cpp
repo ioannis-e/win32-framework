@@ -39,8 +39,8 @@ void CenterRectInRect(CRect* innerRect, const CRect& outerRect)
 }
 
 
-//////////////////////////////////
-// CMainFrame function definitions
+///////////////////////////////////
+// CMainFrame function definitions.
 //
 
 // Constructor.
@@ -69,7 +69,7 @@ HWND CMainFrame::Create(HWND parent)
     return CFrame::Create(parent);
 }
 
-// Draw title bar background
+// Draw title bar background.
 void CMainFrame::DrawBackground(CDC& dc) const
 {
     CRect titlebarRect = GetTitlebarRect();
@@ -208,7 +208,7 @@ void CMainFrame::DrawTopShadow(CDC& dc) const
 // Draw title bar icon for the system menu.
 void CMainFrame::DrawWindowIcon(CDC& dc) const
 {
-    // Draw title bar icon (system button)
+    // Draw title bar icon (system button).
     HICON icon = GetApp()->LoadIcon(IDW_MAIN);
     if (icon == 0)
     {
@@ -226,7 +226,7 @@ ButtonRects CMainFrame::GetButtonRects() const
 {
     UINT dpi = ::GetDpiForWindow(*this);
     ButtonRects buttonRects;
-    // Sadly SM_CXSIZE does not result in the right size buttons for Win10
+    // Sadly SM_CXSIZE does not result in the right size buttons for Win10.
     int buttonWidth = dpi_scale(47, dpi);
     buttonRects.close = GetTitlebarRect();
     buttonRects.close.top += GetShadowRect().Height();
@@ -464,7 +464,7 @@ BOOL CMainFrame::OnFileOpen()
     fileDlg.SetFilter(filter);
     fileDlg.SetDefExt(L".cpp");
 
-    // Bring up the file open dialog retrieve the selected filename
+    // Bring up the file open dialog retrieve the selected filename.
     if (fileDlg.DoModal(*this) == IDOK)
     {
         GetDoc().FileLoad(fileDlg.GetPathName());
@@ -481,7 +481,7 @@ BOOL CMainFrame::OnFileSave()
     fileDlg.SetFilter(filter);
     fileDlg.SetDefExt(L".cpp");
 
-    // Bring up the file save dialog retrieve the selected filename
+    // Bring up the file save dialog retrieve the selected filename.
     if (fileDlg.DoModal(*this) == IDOK)
     {
         GetDoc().FileStore(fileDlg.GetPathName());
@@ -497,25 +497,25 @@ BOOL CMainFrame::OnFilePreview()
     {
         m_isToolbarShown = GetToolBar().IsWindow() && GetToolBar().IsWindowVisible();
 
-        // Get the device contect of the default or currently chosen printer
+        // Get the device context of the default or currently chosen printer.
         CPrintDialog printDlg;
         CDC printerDC = printDlg.GetPrinterDC();
 
-        // Create the preview window if required
+        // Create the preview window if required.
         if (!m_preview.IsWindow())
             m_preview.Create(*this);
 
-        // Set the preview's owner (for messages)
+        // Set the preview's owner (for messages).
         m_preview.DoPrintPreview(*this);
 
-        // Swap views
+        // Swap views.
         SetView(m_preview);
 
-        // Hide the menu and toolbar
+        // Hide the menu and toolbar.
         ShowMenu(FALSE);
         ShowToolBar(FALSE);
 
-        // Update status
+        // Update status.
         CString status = L"Printer: " + printDlg.GetDeviceName();
         SetStatusText(status);
     }
@@ -670,7 +670,7 @@ LRESULT CMainFrame::OnNCMouseLeave(UINT msg, WPARAM wparam, LPARAM lparam)
 // Repositions the frame's child windows.
 void CMainFrame::RecalcLayout()
 {
-    // Resize the status bar
+    // Resize the status bar.
     if (GetStatusBar().IsWindow() && GetStatusBar().IsWindowVisible())
     {
         VERIFY(GetStatusBar().SetWindowPos(0, 0, 0, 0, 0, SWP_SHOWWINDOW));
@@ -725,7 +725,7 @@ void CMainFrame::RecalcLayout()
 // Returns the hot spot location of the cursor's position.
 LRESULT CMainFrame::OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    // Let the default procedure handle resizing areas
+    // Let the default procedure handle resizing areas.
     LRESULT hit = WndProcDefault(msg, wparam, lparam);
     switch (hit)
     {
@@ -765,7 +765,7 @@ LRESULT CMainFrame::OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam)
         return HTTOP;
     }
 
-    // Since we are drawing our own caption, this needs to be a custom test
+    // Since we are drawing our own caption, this needs to be a custom test.
     if (cursorPoint.y < GetTitlebarRect().bottom)
     {
         return HTCAPTION;
@@ -922,7 +922,7 @@ LRESULT CMainFrame::OnSize(UINT msg, WPARAM wparam, LPARAM lparam)
 // Configure the menu icons.
 void CMainFrame::SetupMenuIcons()
 {
-    // Set the bitmap used for menu icons
+    // Set the bitmap used for menu icons.
     std::vector<UINT> data = GetToolBarData();
     if ((GetMenuIconHeight() >= 24) && (GetWindowDpi(*this) != 192))
         AddMenuIcons(data, RGB(192, 192, 192), IDW_MAIN, 0);
@@ -938,9 +938,9 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton( IDM_FILE_SAVE  );
 
     AddToolBarButton( 0 );                      // Separator
-    AddToolBarButton( IDM_EDIT_CUT,   FALSE );  // disabled button
-    AddToolBarButton( IDM_EDIT_COPY,  FALSE );  // disabled button
-    AddToolBarButton( IDM_EDIT_PASTE, FALSE );  // disabled button
+    AddToolBarButton( IDM_EDIT_CUT,   FALSE );  // Disabled button
+    AddToolBarButton( IDM_EDIT_COPY,  FALSE );  // Disabled button
+    AddToolBarButton( IDM_EDIT_PASTE, FALSE );  // Disabled button
 
     AddToolBarButton( 0 );                      // Separator
     AddToolBarButton( IDM_FILE_PRINT );

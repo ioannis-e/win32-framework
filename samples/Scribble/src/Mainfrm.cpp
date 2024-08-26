@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////
-// Mainfrm.cpp  - definitions for the CMainFrame class
+///////////////////////////////////////////////////////
+// Mainfrm.cpp  - definitions for the CMainFrame class.
 
 #include "stdafx.h"
 #include "Mainfrm.h"
@@ -112,7 +112,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
     // UseThemes(FALSE);             // Don't use themes.
     // UseToolBar(FALSE);            // Don't use a ToolBar.
 
-    // call the base class function
+    // Call the base class function.
     return CFrame::OnCreate(cs);
 }
 
@@ -192,7 +192,7 @@ BOOL CMainFrame::OnFileOpen()
         // Bring up the file open dialog retrieve the selected file name.
         if (fileDlg.DoModal(*this) == IDOK)
         {
-            // Load the file
+            // Load the file.
             LoadFile(fileDlg.GetPathName());
         }
     }
@@ -269,7 +269,7 @@ BOOL CMainFrame::OnFilePreview()
     {
         m_isToolbarShown = GetToolBar().IsWindow() && GetToolBar().IsWindowVisible();
 
-        // Get the device contect of the default or currently chosen printer.
+        // Get the device context of the default or currently chosen printer.
         CPrintDialog printDlg;
         CDC printerDC = printDlg.GetPrinterDC();
 
@@ -304,12 +304,12 @@ BOOL CMainFrame::OnFilePreview()
     return TRUE;
 }
 
-// Sends the bitmap extracted from the View window to a printer of your choice
+// Sends the bitmap extracted from the View window to a printer of your choice.
 BOOL CMainFrame::OnFilePrint()
 {
     try
     {
-        // print the view window
+        // Print the view window.
         m_view.Print(L"Scribble Output");
     }
 
@@ -340,22 +340,23 @@ void CMainFrame::OnInitialUpdate()
 // Initiates the Choose Color dialog.
 BOOL CMainFrame::OnPenColor()
 {
-    // array of custom colors, initialized to white
-    static COLORREF custColors[16] = {  RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255),
-                                        RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255),
-                                        RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255),
-                                        RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255) };
+    // An array of custom colors, initialized to white.
+    constexpr COLORREF white = RGB(255, 255, 255);
+    static COLORREF custColors[16] = { white, white, white, white,
+                                        white, white, white, white,
+                                        white, white, white, white,
+                                        white, white, white, white };
 
     CColorDialog colorDlg;
     colorDlg.SetCustomColors(custColors);
 
-    // Initialize the Choose Color dialog
+    // Initialize the Choose Color dialog.
     if (colorDlg.DoModal(*this) == IDOK)
     {
-        // Store the custom colors in the static array
+        // Store the custom colors in the static array.
         memcpy(custColors, colorDlg.GetCustomColors(), 16*sizeof(COLORREF));
 
-        // Retrieve the chosen color
+        // Retrieve the chosen color.
         m_view.SetPenColor(colorDlg.GetColor());
     }
 
@@ -365,10 +366,10 @@ BOOL CMainFrame::OnPenColor()
 // Called when the Print Preview's "Close" button is pressed.
 LRESULT CMainFrame::OnPreviewClose()
 {
-    // Swap the view
+    // Swap the view.
     SetView(m_view);
 
-    // Show the menu and toolbar
+    // Show the menu and toolbar.
     ShowMenu(GetFrameMenu() != nullptr);
     ShowToolBar(m_isToolbarShown);
     UpdateSettings();
@@ -401,7 +402,7 @@ LRESULT CMainFrame::OnPreviewSetup()
     CPrintDialog printDlg(PD_PRINTSETUP);
     try
     {
-        // Display the print dialog
+        // Display the print dialog.
         if (printDlg.DoModal(*this) == IDOK)
         {
             CString status = L"Printer: " + printDlg.GetDeviceName();
@@ -424,7 +425,7 @@ LRESULT CMainFrame::OnPreviewSetup()
 // Specifies the images used on menu items.
 void CMainFrame::SetupMenuIcons()
 {
-    // Use the MenuIcons bitmap for images in menu items.
+    // Use the appropriately sized bitmap for images in menu items.
     std::vector<UINT> data = GetToolBarData();
     if ((GetMenuIconHeight() >= 24) && (GetWindowDpi(*this) != 192))
         AddMenuIcons(data, RGB(192, 192, 192), IDW_MAIN);
@@ -435,7 +436,7 @@ void CMainFrame::SetupMenuIcons()
 // Configures the ToolBar.
 void CMainFrame::SetupToolBar()
 {
-    // Define our toolbar buttons
+    // Define our toolbar buttons.
     AddToolBarButton( IDM_FILE_NEW   );
     AddToolBarButton( IDM_FILE_OPEN  );
     AddToolBarButton( IDM_FILE_SAVE  );

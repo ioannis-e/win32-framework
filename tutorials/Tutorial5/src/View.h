@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////
 // View.h
-//  Declaration of the CView class
+//  Declaration of the CView class.
 
 #ifndef VIEW_H
 #define VIEW_H
@@ -43,7 +43,7 @@ private:
     LRESULT OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam);
 
-    std::vector<PlotPoint> m_points;    // Points of lines to draw  COLORREF m_PenColor;
+    std::vector<PlotPoint> m_points;    // Points of lines to draw  COLORREF m_PenColor.
 };
 
 

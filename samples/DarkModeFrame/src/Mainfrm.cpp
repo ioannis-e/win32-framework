@@ -88,7 +88,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
     // UseThemes(FALSE);             // Don't use themes.
     // UseToolBar(FALSE);            // Don't use a ToolBar.
 
-    // call the base class function
+    // Call the base class function.
     return CFrame::OnCreate(cs);
 }
 
@@ -101,7 +101,7 @@ BOOL CMainFrame::OnFileExit()
 
 BOOL CMainFrame::OnHelp()
 {
-    // Ensure only one dialog displayed even for multiple hits of the F1 button
+    // Ensure only one dialog displayed even for multiple hits of the F1 button.
     if (!m_helpDialog.IsWindow())
     {
         m_helpDialog.DoModal(*this);
@@ -118,7 +118,7 @@ BOOL CMainFrame::OnFileOpen()
     fileDlg.SetFilter(filter);
     fileDlg.SetDefExt(L".cpp");
 
-    // Bring up the file open dialog retrieve the selected filename
+    // Bring up the file open dialog retrieve the selected filename.
     if (fileDlg.DoModal(*this) == IDOK)
     {
         GetDoc().FileLoad(fileDlg.GetPathName());
@@ -131,11 +131,11 @@ BOOL CMainFrame::OnFileOpen()
 BOOL CMainFrame::OnFileSave()
 {
     CString filter = "Program Files (*.cpp; *.h)|*.cpp; *.h|All Files (*.*)|*.*|";
-    CFileDialog fileDlg(FALSE);    // FALSE for file save
+    CFileDialog fileDlg(FALSE);    // FALSE for file save.
     fileDlg.SetFilter(filter);
     fileDlg.SetDefExt(L".cpp");
 
-    // Bring up the file save dialog retrieve the selected filename
+    // Bring up the file save dialog retrieve the selected filename.
     if (fileDlg.DoModal(*this) == IDOK)
     {
         GetDoc().FileStore(fileDlg.GetPathName());
@@ -151,25 +151,25 @@ BOOL CMainFrame::OnFilePreview()
     {
         m_isToolbarShown = GetToolBar().IsWindow() && GetToolBar().IsWindowVisible();
 
-        // Get the device contect of the default or currently chosen printer
+        // Get the device context of the default or currently chosen printer.
         CPrintDialog printDlg;
         CDC printerDC = printDlg.GetPrinterDC();
 
-        // Create the preview window if required
+        // Create the preview window if required.
         if (!m_preview.IsWindow())
             m_preview.Create(*this);
 
-        // Set the preview's owner (for messages)
+        // Set the preview's owner (for messages).
         m_preview.DoPrintPreview(*this);
 
-        // Swap views
+        // Swap views.
         SetView(m_preview);
 
-        // Hide the menu and toolbar
+        // Hide the menu and toolbar.
         ShowMenu(FALSE);
         ShowToolBar(FALSE);
 
-        // Update status
+        // Update status.
         CString status = L"Printer: " + printDlg.GetDeviceName();
         SetStatusText(status);
     }
@@ -222,10 +222,10 @@ void CMainFrame::OnInitialUpdate()
 // Called when the Print Preview's "Close" button is pressed.
 LRESULT CMainFrame::OnPreviewClose()
 {
-    // Swap the view
+    // Swap the view.
     SetView(m_view);
 
-    // Show the menu and toolbar
+    // Show the menu and toolbar.
     ShowMenu(GetFrameMenu().GetHandle() != 0);
     ShowToolBar(m_isToolbarShown);
     UpdateSettings();
@@ -249,7 +249,7 @@ LRESULT CMainFrame::OnPreviewSetup()
     CPrintDialog printDlg(PD_PRINTSETUP);
     try
     {
-        // Display the print dialog
+        // Display the print dialog.
         if (printDlg.DoModal(*this) == IDOK)
         {
             CString status = L"Printer: " + printDlg.GetDeviceName();
@@ -324,7 +324,7 @@ void CMainFrame::SetTheme()
         if (IsDarkMode())
             SetDarkTheme();
         else
-            CFrame::SetTheme();  // Use the default theme
+            CFrame::SetTheme();  // Use the default theme.
     }
 }
 

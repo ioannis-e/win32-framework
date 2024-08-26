@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////
-// Mainfrm.cpp  - definitions for the CMainFrame class
+///////////////////////////////////////////////////////
+// Mainfrm.cpp  - definitions for the CMainFrame class.
 
 
 #include "Mainfrm.h"
@@ -18,7 +18,7 @@ CMainFrame::~CMainFrame()
 {
 }
 
-// Process the messages from the Menu and Toolbar.
+// Process the messages from the menu and toolbar.
 BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
 {
     switch (LOWORD(wparam))
@@ -98,7 +98,7 @@ BOOL CMainFrame::OnFileSaveAs()
 }
 
 
-// Handle the frame's mmessages.
+// Handle the frame's messages.
 LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
 

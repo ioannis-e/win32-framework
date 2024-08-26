@@ -9,7 +9,7 @@
 #include <vector>
 #include "Doc.h"
 
-// Message - sent to the parent (Frame) window when a file is dropped on the View window
+// Message - sent to the parent (Frame) window when a file is dropped on the View window.
 //   WPARAM: A pointer to the filename (LPCWSTR)
 //   LPARAM: unused
 #define UWM_DROPFILE (WM_APP + 0x0001)

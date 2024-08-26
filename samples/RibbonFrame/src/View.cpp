@@ -38,7 +38,7 @@ std::vector<PlotPoint>& CView::GetAllPoints()
 
 int CView::OnCreate(CREATESTRUCT&)
 {
-    // Support Drag and Drop on this window
+    // Support Drag and Drop on this window.
     DragAcceptFiles(TRUE);
     return 0;
 }
@@ -46,7 +46,7 @@ int CView::OnCreate(CREATESTRUCT&)
 void CView::OnDraw(CDC& dc)
 {
     // Here we use double buffering (drawing to a memory DC) for smoother rendering
-    // Set up our Memory DC and bitmap
+    // Set up our Memory DC and bitmap.
     CMemDC memDC(dc);
     int width = GetClientRect().Width();
     int height = GetClientRect().Height();
@@ -55,7 +55,7 @@ void CView::OnDraw(CDC& dc)
 
     if (GetAllPoints().size() > 0)
     {
-        bool isDrawing = false;  //Start with the pen up
+        bool isDrawing = false;  // Start with the pen up.
         for (size_t i = 0 ; i < GetAllPoints().size(); ++i)
         {
             memDC.CreatePen(PS_SOLID, 1, GetAllPoints()[i].color);
@@ -69,7 +69,7 @@ void CView::OnDraw(CDC& dc)
         }
     }
 
-    // Copy from the memory DC to our painting dc
+    // Copy from the memory DC to our painting dc.
     dc.BitBlt(0, 0, width, height, memDC, 0, 0, SRCCOPY);
 }
 
@@ -84,7 +84,7 @@ LRESULT CView::OnDropFiles(UINT, WPARAM wparam, LPARAM)
         DragQueryFile(hDrop, 0, FileName.GetBuffer(length), length +1);
         FileName.ReleaseBuffer();
 
-        // Send a user defined message to the frame window
+        // Send a user defined message to the frame window.
         GetParent().SendMessage(UWM_DROPFILE, (WPARAM)FileName.c_str(), 0);
     }
 
@@ -102,7 +102,7 @@ LRESULT CView::OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam)
 
 LRESULT CView::OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    //Release the capture on the mouse
+    // Release the capture on the mouse.
     ReleaseCapture();
     GetDoc().StorePoint(GET_X_LPARAM(lparam), GET_Y_LPARAM(lparam), false, m_penColor);
     return FinalWindowProc(msg, wparam, lparam);
@@ -110,7 +110,7 @@ LRESULT CView::OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam)
 
 LRESULT CView::OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    // hold down the left mouse button and move mouse to draw lines.
+    // Hold down the left mouse button and move mouse to draw lines.
     if ( (wparam & MK_LBUTTON) && (GetCapture() == *this) )
     {
         CString str;
@@ -126,13 +126,13 @@ LRESULT CView::OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam)
 
 void CView::PreCreate(CREATESTRUCT& cs)
 {
-    // Set the extra style to provide a sunken effect
+    // Set the extra style to provide a sunken effect.
     cs.dwExStyle = WS_EX_CLIENTEDGE;
 }
 
 void CView::PreRegisterClass(WNDCLASS& wc)
 {
-    // Set the background brush, class name and cursor
+    // Set the background brush, class name and cursor.
     wc.hbrBackground = m_brush;
     wc.lpszClassName = L"Scribble Window";
     wc.hCursor = GetApp()->LoadCursor(IDC_CURSOR1);
@@ -143,12 +143,12 @@ void CView::PreRegisterClass(WNDCLASS& wc)
 // This function throws an exception if unable to print.
 void CView::Print()
 {
-    // Get the dimensions of the View window
+    // Get the dimensions of the View window.
     CRect viewRect = GetClientRect();
     int width = viewRect.Width();
     int height = viewRect.Height();
 
-    // Copy the bitmap from the View window
+    // Copy the bitmap from the View window.
     CClientDC viewDC(*this);
     CMemDC memDC(viewDC);
     memDC.CreateCompatibleBitmap(viewDC, width, height);
@@ -156,8 +156,8 @@ void CView::Print()
     CBitmap bmView = memDC.DetachBitmap();
     CPrintDialog printDlg;
 
-    // Bring up a dialog to choose the printer
-    if (printDlg.DoModal(*this) == IDOK)    // throws exception if there is no default printer
+    // Bring up a dialog to choose the printer.
+    if (printDlg.DoModal(*this) == IDOK)    // Throws exception if there is no default printer.
     {
         // Zero and then initialize the members of a DOCINFO structure.
         DOCINFO di;
@@ -181,13 +181,13 @@ void CView::Print()
         bih.biBitCount = 24;
         bih.biCompression = BI_RGB;
 
-        // Note: BITMAPINFO and BITMAPINFOHEADER are the same for 24 bit bitmaps
+        // Note: BITMAPINFO and BITMAPINFOHEADER are the same for 24 bit bitmaps.
         // Get the size of the image data
         BITMAPINFO* pBI = reinterpret_cast<BITMAPINFO*>(&bih);
         VERIFY(memDC.GetDIBits(bmView, 0, height, nullptr, pBI, DIB_RGB_COLORS));
 
         // Retrieve the image data
-        std::vector<byte> vBits(bih.biSizeImage, 0); // a vector to hold the byte array
+        std::vector<byte> vBits(bih.biSizeImage, 0); // A vector to hold the byte array.
         byte* pByteArray = vBits.data();
         VERIFY(memDC.GetDIBits(bmView, 0, height, pByteArray, pBI, DIB_RGB_COLORS));
 
@@ -202,7 +202,7 @@ void CView::Print()
         int scaledWidth = int(width * scaleX);
         int scaledHeight = int(height * scaleY);
 
-        // Use StretchDIBits to scale the bitmap and maintain its original proportions
+        // Use StretchDIBits to scale the bitmap and maintain its original proportions.
         VERIFY(printDC.StretchDIBits(0, 0, scaledWidth, scaledHeight, 0, 0,
                width, height, pByteArray, pBI, DIB_RGB_COLORS, SRCCOPY));
 

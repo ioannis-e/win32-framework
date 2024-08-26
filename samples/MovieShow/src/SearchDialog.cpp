@@ -6,8 +6,8 @@
 #include "SearchDialog.h"
 #include "resource.h"
 
-/////////////////////////////////////
-// CSearchDialog function definitions
+//////////////////////////////////////
+// CSearchDialog function definitions.
 //
 
 // Constructor.
@@ -103,7 +103,7 @@ BOOL CSearchDialog::OnInitDialog()
     return TRUE;
 }
 
-// Called when the Enter key or OK button is pressed
+// Called when the Enter key or OK button is pressed.
 void CSearchDialog::OnOK()
 {
     if (m_titleButton.GetState() & BST_CHECKED)

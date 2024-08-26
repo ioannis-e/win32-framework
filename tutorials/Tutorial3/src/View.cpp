@@ -26,7 +26,7 @@ void CView::DrawLine(int x, int y)
 // Called when the window is destroyed.
 void CView::OnDestroy()
 {
-    //End the program when window is destroyed
+    // End the program when window is destroyed.
     ::PostQuitMessage(0);
 }
 

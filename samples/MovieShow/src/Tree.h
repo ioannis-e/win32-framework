@@ -22,7 +22,7 @@ public:
     void Swap(HTREEITEM item1, HTREEITEM item2);
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual void    OnInitialUpdate() override;
     virtual LRESULT OnNotifyReflect(WPARAM wparam, LPARAM lparam) override;
     virtual void    PreCreate(CREATESTRUCT& cs) override;
@@ -31,17 +31,17 @@ protected:
 private:
     bool      IsBoxSetUnique(LPCWSTR text, HTREEITEM item);
 
-    // Message handlers
+    // Message handlers.
     LRESULT OnDpiChangedBeforeParent(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnRButtonDown(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnRButtonUp(UINT msg, WPARAM wparam, LPARAM lparam);
 
-    // Notification message handlers
+    // Notification message handlers.
     BOOL OnBeginLabelEdit(LPARAM lparam);
     BOOL OnEndLabelEdit(LPARAM lparam);
     BOOL OnSelChanged();
 
-    // Member variables
+    // Member variables.
     CString m_itemText;
 };
 

@@ -6,8 +6,8 @@
 #include "Splash.h"
 #include "resource.h"
 
-///////////////////////////////
-// CSplash function definitions
+////////////////////////////////
+// CSplash function definitions.
 //
 
 // Constructor.
@@ -41,7 +41,7 @@ void CSplash::AddBar()
     m_progress.SetStep(1);
 }
 
-// Hides the splash screen
+// Hides the splash screen.
 void CSplash::Hide()
 {
     ShowWindow(SW_HIDE);
@@ -81,7 +81,7 @@ void CSplash::LoadFont()
     }
 }
 
-// Perform the drawing on the splash window
+// Perform the drawing on the splash window.
 void CSplash::OnDraw(CDC& dc)
 {
     CMemDC dcMem(dc);
@@ -106,8 +106,8 @@ void CSplash::OnDraw(CDC& dc)
 // Sets the CREATESTRUCT struct prior to window creation.
 void CSplash::PreCreate(CREATESTRUCT& cs)
 {
-    cs.style = WS_POPUP;           // Initially hidden
-    cs.dwExStyle = WS_EX_TOPMOST | WS_EX_NOACTIVATE; // Topmost and hidden from taskbar
+    cs.style = WS_POPUP;           // Initially hidden.
+    cs.dwExStyle = WS_EX_TOPMOST | WS_EX_NOACTIVATE; // Topmost and hidden from taskbar.
 
     cs.cx = DpiScaleInt(256);
     cs.cy = DpiScaleInt(256);

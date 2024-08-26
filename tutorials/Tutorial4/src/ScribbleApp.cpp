@@ -4,7 +4,7 @@
 #include "ScribbleApp.h"
 
 
-// Constructor
+// Constructor.
 CScribbleApp::CScribbleApp()
 {
 }

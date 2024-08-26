@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////
 // Mainfrm.h
-//  Declaration of the CMainFrame class
+//  Declaration of the CMainFrame class.
 
 #ifndef MAINFRM_H
 #define MAINFRM_H
@@ -50,10 +50,10 @@ private:
     LRESULT OnPreviewSetup();
 
     CView m_view;
-    CPrintPreview<CView> m_preview;   // CView is the source of the PrintPage function
+    CPrintPreview<CView> m_preview;   // CView is the source of the PrintPage function.
     CString m_pathName;
     bool m_isToolbarShown;
 };
 
-#endif //MAINFRM_H
+#endif // MAINFRM_H
 

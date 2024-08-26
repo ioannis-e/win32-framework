@@ -47,5 +47,5 @@ private:
     CString m_pathName;
 };
 
-#endif //MAINFRM_H
+#endif // MAINFRM_H
 

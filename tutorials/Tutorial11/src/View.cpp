@@ -1,6 +1,6 @@
 //////////////////////////////////////////////
 // View.cpp
-//  Definitions for the CView class
+//  Definitions for the CView class.
 
 #include "stdafx.h"
 #include "View.h"
@@ -18,7 +18,7 @@ CView::~CView()
 {
 }
 
-// Draws a line in the window's client area
+// Draws a line in the window's client area.
 void CView::DrawLine(int x, int y)
 {
     CClientDC clientDC(*this);
@@ -62,7 +62,7 @@ CMemDC CView::Draw()
     // Draw the lines on the memory DC.
     if (GetAllPoints().size() > 0)
     {
-        bool isDrawing = false;  // Start with the pen up
+        bool isDrawing = false;  // Start with the pen up.
         for (size_t i = 0 ; i < GetAllPoints().size(); ++i)
         {
             memDC.CreatePen(PS_SOLID, 1, GetAllPoints()[i].penColor);
@@ -86,7 +86,7 @@ void CView::OnDraw(CDC& dc)
     int width = GetClientRect().Width();
     int height = GetClientRect().Height();
 
-    // Copy from the memory DC to our painting dc
+    // Copy from the memory DC to our painting dc.
     CMemDC memDC = Draw();
     dc.BitBlt(0, 0, width, height, memDC, 0, 0, SRCCOPY);
 }
@@ -123,7 +123,7 @@ LRESULT CView::OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam)
 // Called when the left mouse button is released.
 LRESULT CView::OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    //Release the capture on the mouse
+    // Release the capture on the mouse.
     ReleaseCapture();
     GetDoc().StorePoint(GET_X_LPARAM(lparam), GET_Y_LPARAM(lparam), false, m_penColor);
     return FinalWindowProc(msg, wparam, lparam);
@@ -132,7 +132,7 @@ LRESULT CView::OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam)
 // Called when the mouse is moved while it is captured.
 LRESULT CView::OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    // hold down the left mouse button and move mouse to draw lines.
+    // Hold down the left mouse button and move mouse to draw lines.
     if ( (wparam & MK_LBUTTON) && (GetCapture() == *this) )
     {
         CString str;
@@ -146,17 +146,17 @@ LRESULT CView::OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam)
     return FinalWindowProc(msg, wparam, lparam);
 }
 
-// Called before window creation to update the window's CREATESTRUCT
+// Called before window creation to update the window's CREATESTRUCT.
 void CView::PreCreate(CREATESTRUCT& cs)
 {
     // Set the extra style to provide a sunken effect.
     cs.dwExStyle = WS_EX_CLIENTEDGE;
 }
 
-// Called before the window is registered to update the window's WNDCLASS
+// Called before the window is registered to update the window's WNDCLASS.
 void CView::PreRegisterClass(WNDCLASS& wc)
 {
-    // Set the background brush, class name and cursor
+    // Set the background brush, class name and cursor.
     wc.hbrBackground = m_brush;
     wc.lpszClassName = L"Scribble Window";
     wc.hCursor = GetApp()->LoadCursor(IDC_CURSOR1);
@@ -168,7 +168,7 @@ void CView::Print(LPCWSTR docName)
     CPrintDialog printDlg;
 
     // Bring up a dialog to choose the printer.
-    if (printDlg.DoModal(*this) == IDOK)    // throws exception if there is no default printer
+    if (printDlg.DoModal(*this) == IDOK)    // Throws exception if there is no default printer.
     {
         QuickPrint(docName);
     }
@@ -204,7 +204,7 @@ void CView::PrintPage(CDC& dc, int)
         byte* pByteArray = byteArray.data();
         memDC.GetDIBits(bmView, 0, height, pByteArray, pbmi, DIB_RGB_COLORS);
 
-        // Get the device context of the default or currently chosen printer
+        // Get the device context of the default or currently chosen printer.
         CPrintDialog printDlg;
         CDC printDC = printDlg.GetPrinterDC();
 

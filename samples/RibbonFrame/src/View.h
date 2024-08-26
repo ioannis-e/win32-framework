@@ -7,9 +7,9 @@
 
 #include "Doc.h"
 
-// Message - sent to the parent (Frame) window when a file is dropped on the View window
-//   WPARAM: A pointer to the filename (LPCWSTR)
-//   LPARAM: unused
+// Message - sent to the parent (Frame) window when a file is dropped on the View window.
+//   WPARAM: A pointer to the filename (LPCWSTR).
+//   LPARAM: unused.
 #define UWM_DROPFILE (WM_APP + 0x0001)
 
 
@@ -27,7 +27,7 @@ public:
     void SetPenColor(COLORREF color) { m_penColor = color; }
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual int OnCreate(CREATESTRUCT&) override;
     virtual void OnDraw(CDC& dc) override;
     virtual void PreCreate(CREATESTRUCT& cs) override;
@@ -38,7 +38,7 @@ private:
     CView(const CView&) = delete;
     CView& operator=(const CView&) = delete;
 
-    // Message handlers
+    // Message handlers.
     LRESULT OnDropFiles(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -46,7 +46,7 @@ private:
 
     void DrawLine(int x, int y);
 
-    // Member variables
+    // Member variables.
     CDoc m_doc;
     CBrush m_brush;
     COLORREF m_penColor;

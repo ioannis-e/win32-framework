@@ -28,14 +28,14 @@ public:
     CDoc() {}
     virtual ~CDoc() override {}
 
-    std::vector<PlotPoint>& GetAllPoints() {return m_points;}   // returns a vector of PlotPoint data
+    std::vector<PlotPoint>& GetAllPoints() {return m_points;}   // Returns a vector of PlotPoint data.
     void FileOpen(LPCWSTR filename);
     void FileSave(LPCWSTR filename);
     void Serialize(CArchive &ar);
     void StorePoint(int x, int y, bool isPenDown, COLORREF PenColor);
 
 private:
-    std::vector<PlotPoint> m_points;    // Points of lines to draw
+    std::vector<PlotPoint> m_points;    // Points of lines to draw.
 };
 
 

@@ -1,5 +1,5 @@
-////////////////////////////////////////////////////
-// Mainfrm.cpp  - definitions for the CMainFrame class
+///////////////////////////////////////////////////////
+// Mainfrm.cpp  - definitions for the CMainFrame class.
 
 
 #include "Mainfrm.h"
@@ -23,7 +23,7 @@ void CMainFrame::LoadFile(LPCWSTR fileName)
 {
     try
     {
-        // Retrieve the PlotPoint data
+        // Retrieve the PlotPoint data.
         GetDoc().FileOpen(fileName);
         m_pathName = fileName;
         GetView().Invalidate();
@@ -48,7 +48,7 @@ void CMainFrame::OnClose()
     CFrame::OnClose();
 }
 
-// Process the messages from the Menu and Tool Bar.
+// Process the messages from the menu and toolbar.
 BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
 {
     switch (LOWORD(wparam))
@@ -87,20 +87,20 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
     // UseThemes(FALSE);             // Don't use themes.
     // UseToolBar(FALSE);            // Don't use a ToolBar.
 
-    // call the base class function
+    // Call the base class function.
     return CFrame::OnCreate(cs);
 }
 
-// Called in response to the UWM_DROPFILE user defined message
+// Called in response to the UWM_DROPFILE user defined message.
 LRESULT CMainFrame::OnDropFile(WPARAM wparam)
 {
     try
     {
-        // wparam is a pointer (LPCWSTR) to the filename
+        // wparam is a pointer (LPCWSTR) to the filename.
         LPCWSTR fileName = reinterpret_cast<LPCWSTR>(wparam);
         assert(fileName);
 
-        // Load the file
+        // Load the file.
         LoadFile(fileName);
     }
 
@@ -115,14 +115,14 @@ LRESULT CMainFrame::OnDropFile(WPARAM wparam)
     return 0;
 }
 
-// Issue a close request to the frame
+// Issue a close request to the frame.
 BOOL CMainFrame::OnFileExit()
 {
     Close();
     return TRUE;
 }
 
-// Create a new scribble screen
+// Create a new scribble screen.
 BOOL CMainFrame::OnFileNew()
 {
     GetDoc().GetAllPoints().clear();
@@ -143,7 +143,7 @@ BOOL CMainFrame::OnFileOpen()
         // Bring up the file open dialog retrieve the selected file name.
         if (fileDlg.DoModal(*this) == IDOK)
         {
-            // Load the file
+            // Load the file.
             LoadFile(fileDlg.GetPathName());
         }
     }
@@ -193,7 +193,7 @@ BOOL CMainFrame::OnFileSaveAs()
         {
             CString fileName = fileDlg.GetPathName();
 
-            // Save the file
+            // Save the file.
             GetDoc().FileSave(fileName);
             m_pathName = fileName;
             AddMRUEntry(m_pathName);
@@ -216,25 +216,25 @@ BOOL CMainFrame::OnFilePreview()
     {
         m_isToolbarShown = GetToolBar().IsWindow() && GetToolBar().IsWindowVisible();
 
-        // Get the device contect of the default or currently chosen printer
+        // Get the device context of the default or currently chosen printer.
         CPrintDialog printDlg;
         CDC printerDC = printDlg.GetPrinterDC();
 
-        // Create the preview window if required
+        // Create the preview window if required.
         if (!m_preview.IsWindow())
             m_preview.Create(*this);
 
-        // Set the preview's owner (for notification messages)
+        // Set the preview's owner (for notification messages).
         m_preview.DoPrintPreview(*this);
 
-        // Swap views
+        // Swap views.
         SetView(m_preview);
 
-        // Hide the menu and toolbar
+        // Hide the menu and toolbar.
         ShowMenu(FALSE);
         ShowToolBar(FALSE);
 
-        // Update status
+        // Update status.
         CString status = L"Printer: " + printDlg.GetDeviceName();
         SetStatusText(status);
     }
@@ -256,7 +256,7 @@ BOOL CMainFrame::OnFilePrint()
 {
     try
     {
-        // print the view window
+        // Print the view window.
         m_view.Print(L"Scribble Output");
     }
 
@@ -278,22 +278,23 @@ void CMainFrame::OnInitialUpdate()
 // Initiates the Choose Color dialog.
 BOOL CMainFrame::OnPenColor()
 {
-    // array of custom colors, initialized to white
-    static COLORREF custColors[16] = {  RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255),
-                                        RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255),
-                                        RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255),
-                                        RGB(255,255,255), RGB(255,255,255), RGB(255,255,255), RGB(255,255,255) };
+    // An array of custom colors, initialized to white.
+    constexpr COLORREF white = RGB(255, 255, 255);
+    static COLORREF custColors[16] = { white, white, white, white,
+                                        white, white, white, white,
+                                        white, white, white, white,
+                                        white, white, white, white };
 
     CColorDialog colorDlg;
     colorDlg.SetCustomColors(custColors);
 
-    // Initialize the Choose Color dialog
+    // Initialize the Choose Color dialog.
     if (colorDlg.DoModal(*this) == IDOK)
     {
-        // Store the custom colors in the static array
+        // Store the custom colors in the static array.
         memcpy(custColors, colorDlg.GetCustomColors(), 16*sizeof(COLORREF));
 
-        // Retrieve the chosen color
+        // Retrieve the chosen color.
         m_view.SetPenColor(colorDlg.GetColor());
     }
 
@@ -303,10 +304,10 @@ BOOL CMainFrame::OnPenColor()
 // Called when the Print Preview's "Close" button is pressed.
 LRESULT CMainFrame::OnPreviewClose()
 {
-    // Swap the view
+    // Swap the view.
     SetView(m_view);
 
-    // Show the menu and toolbar
+    // Show the menu and toolbar.
     ShowMenu(GetFrameMenu() != nullptr);
     ShowToolBar(m_isToolbarShown);
     UpdateSettings();
@@ -339,7 +340,7 @@ LRESULT CMainFrame::OnPreviewSetup()
     CPrintDialog printDlg(PD_PRINTSETUP);
     try
     {
-        // Display the print dialog
+        // Display the print dialog.
         if (printDlg.DoModal(*this) == IDOK)
         {
             CString status = L"Printer: " + printDlg.GetDeviceName();
@@ -363,7 +364,7 @@ LRESULT CMainFrame::OnPreviewSetup()
 // Configures the ToolBar.
 void CMainFrame::SetupToolBar()
 {
-    // Define our toolbar buttons
+    // Define our toolbar buttons.
     AddToolBarButton( IDM_FILE_NEW   );
     AddToolBarButton( IDM_FILE_OPEN  );
     AddToolBarButton( IDM_FILE_SAVE  );
@@ -382,7 +383,7 @@ void CMainFrame::SetupToolBar()
     //       The color mask is a color used for transparency.
 }
 
-// Called to handle the window's messages;
+// Called to handle the window's messages.
 LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch (msg)

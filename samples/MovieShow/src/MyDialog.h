@@ -29,7 +29,7 @@ public:
     CCoverImage& SetPicture() { return m_picture; }
 
 protected:
-    // Virtual functions that override base class functions
+    // Virtual functions that override base class functions.
     virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual void    OnCancel() override {} // Suppress closing the dialog with esc key.
     virtual void    OnClose() override {}  // Suppress closing the dialog with return key on rich edit.
@@ -37,7 +37,7 @@ protected:
     virtual void    OnOK() override {}     // Suppress closing the dialog with return key.
 
 private:
-    // Message handlers
+    // Message handlers.
     virtual LRESULT OnDpiChangedBeforeParent(UINT msg, WPARAM wparam, LPARAM lparam);
     virtual LRESULT OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam);
 
@@ -76,4 +76,4 @@ private:
     CViewDialog m_view;
 };
 
-#endif //MYDIALOG_H
+#endif // MYDIALOG_H

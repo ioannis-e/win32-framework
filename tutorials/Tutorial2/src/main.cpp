@@ -2,7 +2,7 @@
 // main.cpp
 
 // Note:
-//  * Add the Win32++\include  directory to project's additional include directories
+//  * Add the Win32++\include  directory to project's additional include directories.
 
 #include "wxx_wincore.h"
 
@@ -13,7 +13,7 @@ class CView : public CWnd
 {
 public:
     CView() {}
-    virtual void OnDestroy() override { PostQuitMessage(0); } // Ends the program
+    virtual void OnDestroy() override { PostQuitMessage(0); } // End the program.
     virtual ~CView() override {}
 };
 
