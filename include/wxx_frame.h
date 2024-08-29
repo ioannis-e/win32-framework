@@ -130,7 +130,7 @@ namespace Win32xx
         HACCEL GetFrameAccel() const                      { return m_accel; }
         const CMenu&  GetFrameMenu() const                { return m_menu; }
         const InitValues& GetInitValues() const           { return m_initValues; }
-        CFont& GetMenuFont()                              { return m_menuFont; }
+        const CFont& GetMenuFont() const                  { return m_menuFont; }
         const MenuTheme& GetMenuBarTheme() const          { return m_mbTheme; }
         int GetMenuIconHeight() const;
         const CMenuMetrics& GetMenuMetrics() const        { return m_menuMetrics; }
@@ -139,7 +139,7 @@ namespace Win32xx
         size_t GetMRULimit() const                        { return m_maxMRU; }
         CString GetRegistryKeyName() const                { return m_keyName; }
         const ReBarTheme& GetReBarTheme() const           { return m_rbTheme; }
-        CFont& GetStatusBarFont()                         { return m_statusBarFont; }
+        const CFont& GetStatusBarFont() const             { return m_statusBarFont; }
         const StatusBarTheme& GetStatusBarTheme() const   { return m_sbTheme; }
         const std::vector<UINT>& GetToolBarData() const   { return m_toolBarData; }
         const ToolBarTheme& GetToolBarTheme() const       { return m_tbTheme; }
@@ -155,9 +155,11 @@ namespace Win32xx
         void SetFrameMenu(CMenu menu);
         void SetInitValues(const InitValues& values);
         void SetKbdHook();
+        void SetMenuFont(HFONT font);
         void SetMenuTheme(const MenuTheme& mt);
         void SetMRULimit(UINT MRULimit);
         void SetReBarTheme(const ReBarTheme& rbt);
+        void SetStatusBarFont(HFONT font);
         void SetStatusBarTheme(const StatusBarTheme& sbt);
         void SetStatusText(LPCTSTR text);
         void SetTitle(LPCTSTR text)                       { T::SetWindowText(text); }
@@ -231,7 +233,6 @@ namespace Win32xx
         virtual void RemoveMRUEntry(LPCTSTR MRUEntry);
         virtual BOOL SaveRegistryMRUSettings();
         virtual BOOL SaveRegistrySettings();
-        virtual void SetMenuBarBandSize();
         virtual UINT SetMenuIcons(const std::vector<UINT>& menuData, COLORREF mask, UINT toolBarID, UINT toolBarDisabledID = 0);
         virtual void SetStatusIndicators();
         virtual void SetStatusParts();
@@ -278,6 +279,7 @@ namespace Win32xx
         CFrameT(const CFrameT&) = delete;
         CFrameT& operator=(const CFrameT&) = delete;
         CSize GetTBImageSize(CBitmap* pBitmap) const;
+        void SetMenuBarBandSize();
         void UpdateMenuBarBandSize();
         static LRESULT CALLBACK StaticKeyboardProc(int code, WPARAM wparam, LPARAM lparam);
 
@@ -308,7 +310,7 @@ namespace Win32xx
         ToolBarTheme m_tbTheme;             // struct of theme info for the ToolBar
         HACCEL m_accel;                     // handle to the frame's accelerator table (used by MDI without MDI child)
         CWnd* m_pView;                      // pointer to the View CWnd object
-        size_t m_maxMRU;                      // maximum number of MRU entries
+        size_t m_maxMRU;                    // maximum number of MRU entries
         HWND m_oldFocus;                    // The window that had focus prior to the app's deactivation
         HHOOK m_kbdHook;                    // Keyboard hook.
 
@@ -2924,6 +2926,21 @@ namespace Win32xx
         }
     }
 
+    // Sets the font used by the menubar and popup menu items.
+    template <class T>
+    inline void CFrameT<T>::SetMenuFont(HFONT font)
+    {
+        m_menuFont = font;
+
+        if (GetMenuBar().IsWindow())
+        {
+            GetMenuBar().SetFont(font);
+
+            SetFrameMenu(GetFrameMenu());
+            UpdateMenuBarBandSize();
+        }
+    }
+
     // Sets the theme colors for the MenuBar and the popup Menu items.
     // Note: If Aero Themes are supported, they are used for popup menu items instead.
     template <class T>
@@ -2954,6 +2971,16 @@ namespace Win32xx
     inline void CFrameT<T>::SetReBarTheme(const ReBarTheme& rbt)
     {
         m_rbTheme = rbt;
+    }
+
+    // Sets the font used by the status bar.
+    template <class T>
+    inline void CFrameT<T>::SetStatusBarFont(HFONT font)
+    {
+        m_statusBarFont = font;
+
+        if (GetStatusBar().IsWindow())
+            GetStatusBar().SetFont(font);
     }
 
     // Stores the statusbar's theme colors.
@@ -3609,35 +3636,13 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::UpdateSettings()
     {
-        // Honour theme color changes.
-        if (GetReBar().IsWindow())
-        {
-            for (int band = 0; band < GetReBar().GetBandCount(); ++band)
-            {
-                GetReBar().SetBandColor(band, GetSysColor(COLOR_BTNTEXT), GetSysColor(COLOR_BTNFACE));
-            }
-        }
-
         // Create the menubar and statusbar fonts.
         int dpi = GetWindowDpi(*this);
-        NONCLIENTMETRICS info = GetNonClientMetrics();
-        info.lfMenuFont.lfHeight = -MulDiv(9, dpi, POINTS_PER_INCH);
-        info.lfStatusFont.lfHeight = -MulDiv(9, dpi, POINTS_PER_INCH);
-        m_menuFont.CreateFontIndirect(info.lfMenuFont);
-        m_statusBarFont.CreateFontIndirect(info.lfStatusFont);
-
-        if (GetMenuBar().IsWindow())
-            GetMenuBar().SetFont(m_menuFont);
-
-        if (GetStatusBar().IsWindow())
-            GetStatusBar().SetFont(m_statusBarFont);
-
-        // Update the menubar.
-        if (GetMenuBar().IsWindow() && GetMenuBar().IsWindowVisible())
-        {
-            SetFrameMenu(GetFrameMenu());
-            UpdateMenuBarBandSize();
-        }
+        NONCLIENTMETRICS metrics = GetNonClientMetrics();
+        metrics.lfMenuFont.lfHeight = -MulDiv(9, dpi, POINTS_PER_INCH);
+        metrics.lfStatusFont.lfHeight = -MulDiv(9, dpi, POINTS_PER_INCH);
+        SetMenuFont(CFont(metrics.lfMenuFont));
+        SetStatusBarFont(CFont(metrics.lfStatusFont));
     }
 
     // Provides default processing of the frame window's messages.

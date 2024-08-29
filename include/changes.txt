@@ -81,12 +81,16 @@ Other changes include:
 
 Changes in detail
 -----------------
+Added CFrameT::SetMenuFont
+Added CFrameT::SetStatusBarFont
+
 Added CDocker::AddDockedChild    - additional override for std::unique_ptr
 Added CDocker::AddUndockedChild  - additional override for std::unique_ptr
-Added CMDIFrameT::AddMDIChild    - additional override for std::uniqe_ptr
+Added CMDIFrameT::AddMDIChild    - additional override for std::unique_ptr
 Added CPropertySheet::AddPage    - additional override for std::unique_ptr
-Added CTab::AddTabPage           - additional override for std::uniqe_ptr
-Added CTabbedMDI::AddMDIChild    - additional override for std::uniqe_ptr
+Added CTab::AddTabPage           - additional override for std::unique_ptr
+Added CTabbedMDI::AddMDIChild    - additional override for std::unique_ptr
+
 Modified CDocker::NewDockFromID  - returns a std::unique_ptr
 Modified CTabbedMDI::NewMDIChildFromID - returns a std::unique_ptr
 
@@ -136,9 +140,11 @@ Embarcadero C++ Community Edition (Rad Studio 11)
 
 Code for Windows XP can be compiled with Visual Studio Community 2015 and the GNU compilers.
 
+
 Version 9.6.1
 =============
 This version contains minor updates to CDocker and the docking samples.
+
 
 Version 9.6
 ===========

@@ -532,7 +532,7 @@ namespace Win32xx
         CRect rc;
         WPARAM wparam = static_cast<WPARAM>(index);
         LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
-        VERIFY(SendMessage(TB_GETITEMRECT, wparam, lparam));
+        SendMessage(TB_GETITEMRECT, wparam, lparam);
 
         return rc;
     }
