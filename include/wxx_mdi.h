@@ -692,7 +692,7 @@ namespace Win32xx
     template <class T>
     inline BOOL CMDIFrameT<T>::RemoveAllMDIChildren()
     {
-        // Collect the CMDIChild pointers.
+        // Collect the CMDIChild pointers in reverse order.
         std::vector<CMDIChild*> mdiChildren;
         for (auto it = m_mdiChildren.rbegin(); it != m_mdiChildren.rend(); ++it)
         {

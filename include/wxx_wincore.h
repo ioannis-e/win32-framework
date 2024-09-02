@@ -661,7 +661,7 @@ namespace Win32xx
     }
 
     // The GetAncestor function retrieves the ancestor (root parent)
-    // of the window. Supports Win95.
+    // of the window.
     inline CWnd CWnd::GetAncestor(UINT flags /*= GA_ROOTOWNER*/) const
     {
         assert(IsWindow());
@@ -1001,8 +1001,7 @@ namespace Win32xx
             wc = wcTest;
             done = TRUE;
         }
-
-        if (!done)
+        else
         {
             // Set defaults.
             wc.hInstance    = GetApp()->GetInstanceHandle();

@@ -124,8 +124,8 @@ LRESULT CViewFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         switch (msg)
         {
-        case WM_MOUSEACTIVATE:      return OnMouseActivate(msg, wparam, lparam);
-        case WM_DPICHANGED_BEFOREPARENT:   return OnDpiChangedBeforeParent(msg, wparam, lparam);
+        case WM_MOUSEACTIVATE:           return OnMouseActivate(msg, wparam, lparam);
+        case WM_DPICHANGED_BEFOREPARENT: return OnDpiChangedBeforeParent(msg, wparam, lparam);
         }
 
         return WndProcDefault(msg, wparam, lparam);

@@ -49,7 +49,7 @@ void CView::OnInitialUpdate()
 // take more precise control over the window we create.
 void CView::PreCreate(CREATESTRUCT& cs)
 {
-    // Set the extended style
+    // Set the extended style.
     cs.dwExStyle = WS_EX_CLIENTEDGE;
 }
 
@@ -60,13 +60,13 @@ void CView::PreCreate(CREATESTRUCT& cs)
 // take more precise control over the type of window we create.
 void CView::PreRegisterClass(WNDCLASS& wc)
 {
-    // Set the Window Class name
+    // Set the Window Class name.
     wc.lpszClassName = L"Win32++ View";
 
-    // Set a background brush to white
+    // Set a background brush to white.
     wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
 
-    // Set the default cursor
+    // Set the default cursor.
     wc.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 
     // Set the class style (not to be confused with the window styles set in PreCreate)
@@ -81,7 +81,7 @@ void CView::PrintPage(CDC& dc, int)
 {
     try
     {
-        // Get the device context of the default or currently chosen printer
+        // Get the device context of the default or currently chosen printer.
         CPrintDialog printDlg;
         CDC printDC = printDlg.GetPrinterDC();
 
@@ -97,7 +97,7 @@ void CView::PrintPage(CDC& dc, int)
         memDC.CreateCompatibleBitmap(viewDC, cxView, cyView);
         OnDraw(memDC);
 
-        // Now we convert the bitmap from DDB to DIB
+        // Now we convert the bitmap from DDB to DIB.
         CBitmap bmView = memDC.DetachBitmap();
         CBitmapInfoPtr pbmi(bmView);
 
@@ -109,7 +109,7 @@ void CView::PrintPage(CDC& dc, int)
         byte* pByteArray = byteArray.data();
         memDC.GetDIBits(bmView, 0, scanLines, pByteArray, pbmi, DIB_RGB_COLORS);
 
-        // Copy the DI bits to the specified dc
+        // Copy the DI bits to the specified dc.
         dc.StretchDIBits(0, 0, cxPage, cyPage, 0, 0,
             cxView, cyView, pByteArray, pbmi, DIB_RGB_COLORS, SRCCOPY);
     }
@@ -142,7 +142,7 @@ void CView::QuickPrint(LPCWSTR docName)
         // Inform the driver that the application is about to begin sending data.
         printDC.StartPage();
 
-        // Print the page on the printer DC
+        // Print the page on the printer DC.
         PrintPage(printDC);
 
         // Inform the driver that the page is finished.

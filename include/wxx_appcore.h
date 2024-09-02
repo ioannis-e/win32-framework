@@ -846,7 +846,8 @@ namespace Win32xx
         Empty();
 
         // Increase the size of our array in a loop until we load the entire string
-        // The ANSI and _UNICODE versions of LoadString behave differently. This technique works for both.
+        // The ANSI and UNICODE versions of LoadString behave differently. 
+        // This less efficient technique works for both.
         while (startSize - 1 <= chars)
         {
             startSize = startSize * 4;
@@ -868,28 +869,18 @@ namespace Win32xx
     {
         assert(GetApp());
 
-        int startSize = 64;
-        WCHAR* pTCharArray = nullptr;
-        std::vector<WCHAR> vString;
-        int chars = startSize;
-
         Empty();
 
-        // Increase the size of our array in a loop until we load the entire string
-        // The ANSI and _UNICODE versions of LoadString behave differently.
-        // This technique works for both.
-        while (startSize - 1 <= chars)
-        {
-            startSize = startSize * 4;
-            vString.assign(size_t(startSize) + 1, 0);
-            pTCharArray = vString.data();
-            chars = ::LoadStringW(GetApp()->GetResourceHandle(), id, pTCharArray, startSize);
-        }
+        // The ANSI and UNICODE versions of LoadString behave differently.
+        // This technique only works for LoadStringW.
+        LPCWSTR pString;
+        int charCount = ::LoadStringW(GetApp()->GetResourceHandle(), id, 
+            reinterpret_cast<LPWSTR>(&pString), 0);
 
-        if (chars > 0)
-            m_str.assign(pTCharArray);
+        if (charCount > 0)
+            m_str.assign(pString, charCount);
 
-        return (chars != 0);
+        return (charCount != 0);
     }
 
     // Returns a CString containing the specified string resource.

@@ -1087,7 +1087,7 @@ namespace Win32xx
         int dpi = GetWindowDpi(m_parent);
         double scale = static_cast<double>(dpi) / static_cast<double>(m_initDpi);
 
-        // Allocates memory for a multiple-window- position structure.
+        // Allocates memory for the multiple-window-position structure.
         HDWP hdwp = ::BeginDeferWindowPos(static_cast<int>(m_resizeData.size()));
 
         for (const ResizeData& rd : m_resizeData)

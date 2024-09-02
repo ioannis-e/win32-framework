@@ -985,7 +985,7 @@ SetupMenuIcons()                                                             /*
     data.push_back(IDW_ABOUT);
 
     // Specify the bitmap and mask for the menu icons.
-    if ((GetMenuIconHeight() >= 24) && (GetWindowDpi(*this) != 192))
+    if (GetMenuIconHeight() >= 24)
         SetMenuIcons(data, RGB(255, 0, 255), IDW_MAIN);
     else
         SetMenuIcons(data, RGB(192, 192, 192), IDB_MENUICONS);

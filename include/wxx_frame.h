@@ -233,6 +233,7 @@ namespace Win32xx
         virtual void RemoveMRUEntry(LPCTSTR MRUEntry);
         virtual BOOL SaveRegistryMRUSettings();
         virtual BOOL SaveRegistrySettings();
+        virtual void SetMenuBarBandSize();
         virtual UINT SetMenuIcons(const std::vector<UINT>& menuData, COLORREF mask, UINT toolBarID, UINT toolBarDisabledID = 0);
         virtual void SetStatusIndicators();
         virtual void SetStatusParts();
@@ -279,7 +280,6 @@ namespace Win32xx
         CFrameT(const CFrameT&) = delete;
         CFrameT& operator=(const CFrameT&) = delete;
         CSize GetTBImageSize(CBitmap* pBitmap) const;
-        void SetMenuBarBandSize();
         void UpdateMenuBarBandSize();
         static LRESULT CALLBACK StaticKeyboardProc(int code, WPARAM wparam, LPARAM lparam);
 
@@ -1186,7 +1186,6 @@ namespace Win32xx
         int yoffset = 0;
 
         // Draw a white or black check mark as required.
-        // Unfortunately MaskBlt isn't supported on Win95, 98 or ME, so we do it the hard way.
         CMemDC memDC(drawDC);
         memDC.CreateCompatibleBitmap(drawDC, cxCheck, cyCheck);
         memDC.BitBlt(0, 0, cxCheck, cyCheck, memDC, 0, 0, WHITENESS);
@@ -2935,7 +2934,6 @@ namespace Win32xx
         if (GetMenuBar().IsWindow())
         {
             GetMenuBar().SetFont(font);
-
             SetFrameMenu(GetFrameMenu());
             UpdateMenuBarBandSize();
         }
@@ -3120,7 +3118,7 @@ namespace Win32xx
 
             switch (theme)
             {
-            case Win8:  // A pale blue scheme without gradients, suitable for Windows 8, 8.1, and 10.
+            case Win8:  // A pale blue scheme without gradients, suitable for Windows 8, 8.1, 10 and 11.
                 {
                     MenuTheme mt = {t, RGB(180, 250, 255), RGB(140, 190, 255), RGB(240, 250, 255), RGB(120, 170, 220), RGB(127, 127, 255), RGB(0, 0, 0) };
                     ReBarTheme rbt = {t, RGB(235, 237, 250), RGB(235, 237, 250), RGB(235, 237, 250), RGB(235, 237, 250), f, t, t, f, t, f };

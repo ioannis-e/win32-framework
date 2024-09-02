@@ -99,7 +99,7 @@ void CCoverImage::DrawImage(CDC& dc)
     }
 }
 
-// Calls OnDraw to preform painting for this custom control.
+// Calls OnDraw to perform painting for this custom control.
 LRESULT CCoverImage::OnPaint(UINT, WPARAM, LPARAM)
 {
     CPaintDC dc(*this);
