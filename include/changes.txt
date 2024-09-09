@@ -3,29 +3,21 @@ Version 10.0
 This version updates the library to utilize features available in C++11 and
 C++14. Win32++ now uses the unique_ptr and shared_ptr smart pointers. These
 smart pointers are used in place of Shared_Ptr when adding new instances of
-CTab, CMDIChild, CPropertySheet and CDocker. There is now no requirement to
-use any raw pointers in code that uses the Win32++ library.
+CTab, CMDIChild, CPropertySheet and CDocker.
 
-The new smart pointers provided by C++11 and C++14 can be used in place of raw
-pointers to improve the safety of memory allocations and improve exception
-safety. They automatically delete the allocated memory for us. This removes
-the need for us to call delete for dynamically allocated memory, removing one
-of the common causes of memory leaks.
-
-When these new smart pointers are created using make_shared or make_unique,
-they also eliminate the need to use the 'new' keyword to allocate the new
-memory. This improves exception safety in the event that the attempt to
-allocate the memory with new fails.
+There is now no requirement to use any raw pointers when allocating memory in
+code that uses the Win32++ library. Users of Win32++ are now free to avoid 
+the use of both new and delete, and instead wrap all memory allocations in
+smart pointers. This helps to avoid memory leaks and improve exception safety
+in code that uses Win32++.
 
 The C++ compilers that Win32++ supports have changed. Older compilers that
-don't support C++14 are now longer supported.
+don't support C++14 are no longer supported.
 
-The newer C++ compilers that support C++14 don't support the Window 2000 or
-older operating systems. As a result, Win32++ version 10.0 only supports the
-Windows XP and later operating systems. 
-
-Win32++ version 9.6.1 is the latest version to support the older operating
-systems. Win32++ version 9.6.1 supports Win95 through to Windows 11.
+Win32++ version 10.0 only supports the Windows XP and later operating systems. 
+Win32++ version 9.6.1 is the latest version to support the operating systems
+older than Windows XP. Win32++ version 9.6.1 supports Win95 through to
+Windows 11.
 
 
 Incompatibilities with previous versions
@@ -59,7 +51,7 @@ For example:
 New Features and Enhancements
 -----------------------------
 Users can now add new instances of the following classes as smart pointers instead
-of raw pointers: CDocker, CMDIChild, CPropertySheet and CTab.
+of raw pointers for CDocker, CMDIChild, CPropertySheet and CTab.
 
 Other changes include:
  * Updated CDocker. Each new CDocker object is stored as a unique_ptr.

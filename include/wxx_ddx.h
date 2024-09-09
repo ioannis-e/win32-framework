@@ -1,5 +1,5 @@
 // Win32++   Version 10.0.0
-// Release Date: TBA
+// Release Date: 9th September 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -179,7 +179,7 @@ namespace Win32xx
 
 namespace Win32xx
 {
-    // Provide operater overload for BYTE.
+    // Provide operator overload for BYTE.
     inline tStringStream& operator>>(tStringStream& ts, BYTE& value)
     {
         UINT u = 0;

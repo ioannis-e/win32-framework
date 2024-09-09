@@ -1,5 +1,5 @@
 // Win32++   Version 10.0.0
-// Release Date: TBA
+// Release Date: 9th September 2024
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -184,7 +184,7 @@ namespace Win32xx
 
     // Retrieves the DPI of the window if the specified handle is a valid
     // window, or the DPI of the desktop window otherwise.
-    // Use GetWindowDPI(HWND_DESKTOP) to retrieve the DPI of the desktop window.
+    // Use GetWindowDpi(HWND_DESKTOP) to retrieve the DPI of the desktop window.
     inline int GetWindowDpi(HWND wnd)
     {
         // Retrieve desktop's dpi as a fallback.
@@ -600,7 +600,7 @@ namespace Win32xx
         // dx.DDX_Check(IDC_CHECK_C,        m_checkC);
     }
 
-    // Scales the specified font to the DPI reported by GetWindowDPI.
+    // Scales the specified font to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
     inline CFont CWnd::DpiScaleFont(CFont font, int pointSize) const
     {
         int dpi = GetWindowDpi(*this);
@@ -611,7 +611,7 @@ namespace Win32xx
         return dpiFont;
     }
 
-    // Scales the specified int to the DPI reported by GetWindowDPI.
+    // Scales the specified int to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
     inline int CWnd::DpiScaleInt(int value) const
     {
         int dpi = GetWindowDpi(*this);
@@ -620,7 +620,7 @@ namespace Win32xx
         return dpiValue;
     }
 
-   // Scales the specified logfont to the DPI reported by GetWindowDPI.
+   // Scales the specified logfont to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
    inline LOGFONT CWnd::DpiScaleLogfont(LOGFONT logfont, int pointSize) const
     {
         int dpi = GetWindowDpi(*this);
@@ -629,7 +629,7 @@ namespace Win32xx
         return logfont;
     }
 
-    // Scales the specified rect to the DPI reported by GetWindowDPI.
+    // Scales the specified rect to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
     inline CRect CWnd::DpiScaleRect(RECT rc) const
     {
         int dpi = GetWindowDpi(*this);
@@ -641,7 +641,7 @@ namespace Win32xx
         return CRect(left, top, right, bottom);
     }
 
-    // Scales up the specified bitmap to the DPI reported by GetWindowDPI.
+    // Scales up the specified bitmap to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
     inline CBitmap CWnd::DpiScaleUpBitmap(CBitmap bitmap) const
     {
         int dpi = GetWindowDpi(*this);
