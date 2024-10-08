@@ -202,11 +202,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\src\Resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <CustomBuild Include="Export.def" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Export.def" />
+    <ResourceCompile Include="..\src\ResourceDLL.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

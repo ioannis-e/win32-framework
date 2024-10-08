@@ -205,7 +205,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\src\Resource.rc">
+    <ResourceCompile Include="..\src\ResourceDLL.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

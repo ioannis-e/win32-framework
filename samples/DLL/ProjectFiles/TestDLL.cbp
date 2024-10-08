@@ -69,6 +69,12 @@
 		<Unit filename="../src/ResourceTest.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="../src/StdAfx.cpp" />
+		<Unit filename="../src/StdAfx.h" />
+		<Unit filename="../src/TestApp.cpp" />
+		<Unit filename="../src/TestApp.h" />
+		<Unit filename="../src/TestWindow.cpp" />
+		<Unit filename="../src/TestWindow.h" />
 		<Unit filename="../src/main.cpp" />
 		<Extensions />
 	</Project>

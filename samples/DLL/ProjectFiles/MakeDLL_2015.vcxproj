@@ -139,12 +139,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\src\Resource.rc">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">\Users\David\Documents\Visual Studio Projects\Win32++\DLL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">\Users\David\Documents\Visual Studio Projects\Win32++\DLL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\..\include\default_resource.h" />
     <ClInclude Include="..\..\..\include\wxx_appcore.h" />
     <ClInclude Include="..\..\..\include\wxx_appcore0.h" />
@@ -203,6 +197,9 @@
     <ClInclude Include="..\src\MyDialog.h" />
     <ClInclude Include="..\src\resource.h" />
     <ClInclude Include="..\src\StdAfx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\ResourceDLL.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

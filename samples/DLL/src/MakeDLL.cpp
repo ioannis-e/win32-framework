@@ -11,10 +11,10 @@
 
 
 // Start Win32++ for the DLL
-CWinApp App;
+CWinApp myApp;
 
 // MyDialog is global for the DLL
-CMyDialog MyDialog(IDD_DIALOG1);
+CMyDialog myDialog(IDD_DIALOG1);
 
 // The entry point for the dll.
 BOOL WINAPI DllMain( HANDLE, DWORD  ul_reason_for_call, LPVOID )
@@ -38,19 +38,18 @@ BOOL WINAPI DllMain( HANDLE, DWORD  ul_reason_for_call, LPVOID )
     return TRUE;
 }
 
-void __declspec(dllexport) ShowDialog()
+HWND __declspec(dllexport) ShowDialog()
 {
-    //NOTE: This function doesn't return until the dialog is closed.
-    //      CThread can be used to put the dialog creation and message loop in
-    //      a separate thread if you wish the function to return immediately.
+    TRACE("ShowDialog called by the DLL.\n");
 
-    // Create the dialog
-    TRACE("Creating a dialog inside the DLL:\n");
-    MyDialog.Create();
-    TRACE("Dialog inside DLL created\n");
+    // Create the dialog.
+    if (!myDialog.IsWindow())
+    {
+        myDialog.Create();
+        TRACE("Dialog inside DLL created.\n");
+    }
+    else
+        TRACE("Dialog is already shown!\n");
 
-    // Run the message loop
-    App.Run();
+    return myDialog.GetHwnd();
 }
-
-

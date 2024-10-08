@@ -9,5 +9,5 @@ Features demonstrated in this example
 * Running Win32++ from inside a DLL.
 * Exporting functions from a DLL.
 * Creating pointers to functions exported by a DLL.
-* Using a DLL to display a dialog created by Win32++.
+* Using a DLL to display a modeless dialog created by Win32++.
 * Using TRACE within a DLL to send text to the Output window of the IDE.
