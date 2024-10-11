@@ -370,7 +370,7 @@ namespace Win32xx
     // Note: CFrame set's itself as the main window of its thread.
     inline HWND CWinApp::GetMainWnd() const
     {
-        TLSData* pTLSData = GetApp()->GetTlsData();
+        TLSData* pTLSData = GetTlsData();
 
         // Will assert if the thread doesn't have TLSData assigned.
         // TLSData is assigned when the first window in the thread is created.
@@ -520,7 +520,7 @@ namespace Win32xx
     // Sets the main window for this thread.
     inline void CWinApp::SetMainWnd(HWND wnd) const
     {
-        TLSData* pTLSData = GetApp()->GetTlsData();
+        TLSData* pTLSData = GetTlsData();
         pTLSData->mainWnd = wnd;
     }
 
@@ -563,7 +563,7 @@ namespace Win32xx
     // and the default printer has changed.
     inline void CWinApp::UpdateDefaultPrinter()
     {
-        CThreadLock lock(GetApp()->m_printLock);
+        CThreadLock lock(m_printLock);
 
         if (m_devNames.Get() == nullptr)
         {
@@ -795,6 +795,10 @@ namespace Win32xx
     inline CString CWinApp::MsgDDV_StringSize() const
     { return _T("%s\n is too long.\nPlease enter no more than %ld characters."); }
 
+    // CTime messages
+    inline CString CWinApp::MsgTimeValid() const
+    { return _T("Invalid time."); }
+
 
     /////////////////////////////////////////////////////////
     // Definitions of CString functions that require CWinApp
@@ -846,7 +850,7 @@ namespace Win32xx
         Empty();
 
         // Increase the size of our array in a loop until we load the entire string
-        // The ANSI and UNICODE versions of LoadString behave differently. 
+        // The ANSI and UNICODE versions of LoadString behave differently.
         // This less efficient technique works for both.
         while (startSize - 1 <= chars)
         {
@@ -874,7 +878,7 @@ namespace Win32xx
         // The ANSI and UNICODE versions of LoadString behave differently.
         // This technique only works for LoadStringW.
         LPCWSTR pString;
-        int charCount = ::LoadStringW(GetApp()->GetResourceHandle(), id, 
+        int charCount = ::LoadStringW(GetApp()->GetResourceHandle(), id,
             reinterpret_cast<LPWSTR>(&pString), 0);
 
         if (charCount > 0)

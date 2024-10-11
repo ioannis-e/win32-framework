@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -240,6 +240,9 @@ namespace Win32xx
             ptm = nullptr;
 #endif
 
+        if (ptm == nullptr)
+            throw CNotSupportedException(GetApp()->MsgTimeValid());
+
         // Note: ptm points to atm (not a local variable) or nullptr.
         return ptm;
     }
@@ -258,6 +261,9 @@ namespace Win32xx
         if (::localtime_s(&atm, &t) != 0)
             ptm = nullptr;
 #endif
+
+        if (ptm == nullptr)
+            throw CNotSupportedException(GetApp()->MsgTimeValid());
 
         // Note: ptm points to atm (not a local variable) or nullptr.
         return ptm;
@@ -528,9 +534,8 @@ namespace Win32xx
     inline tm* CTime::GetGmtTm(tm* ptm) const
     {
         assert (ptm != nullptr);    // nullptr argument not supported.
-        if (ptm)
-            ptm = GMTime(*ptm, m_time);
 
+        ptm = GMTime(*ptm, m_time);
         return ptm;
     }
 
@@ -540,9 +545,8 @@ namespace Win32xx
     inline tm* CTime::GetLocalTm(tm* ptm) const
     {
         assert(ptm != nullptr);    // nullptr argument not supported.
-        if (ptm)
-            ptm = LocalTime(*ptm, m_time);
 
+        ptm = LocalTime(*ptm, m_time);
         return  ptm;
     }
 

@@ -30,7 +30,6 @@ CMainFrame::CMainFrame() : m_preview(m_richView),
                            m_isWrapped(false), m_isRTF(false), m_oldFocus(nullptr)
 
 {
-    SetView(m_richView);
 }
 
 // Destructor.
@@ -71,6 +70,9 @@ void CMainFrame::ClearContents()
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {
+    // Set m_richView as the view window for the frame.
+    SetView(m_richView);
+
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
     LoadRegistrySettings(L"Win32++\\Notepad Sample");

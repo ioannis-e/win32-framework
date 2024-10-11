@@ -34,6 +34,7 @@ CMainFrame : public CFrame                                                  /*
     public:
         CMainFrame();
         virtual ~CMainFrame() override {}
+        virtual HWND Create(HWND parent = nullptr) override;
 
         AboutBox& GetAboutBox() { return m_aboutBox; }
         void    EmptyMRUList();

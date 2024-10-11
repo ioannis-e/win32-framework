@@ -41,16 +41,26 @@ CMainFrame()                                                                /*
     m_cxWin = 800;
     m_cyWin = 700;
     m_plWnd = {};
+}
 
+/*============================================================================*/
+    HWND CMainFrame::
+        Create(HWND parent)                                                 /*
+
+    Create the frame window.
+*-----------------------------------------------------------------------------*/
+{
       // Set m_view as the view window of the frame.
     SetView(m_view);
+
+    return CFrame::Create(parent);
 }
 
 /*============================================================================*/
     void CMainFrame::
 OnColorChoice()                                                             /*
 
-        Select the view's backbround color.
+    Select the view's backbround color.
 *-----------------------------------------------------------------------------*/
 {
     CColorDialog ColorDlg(m_view.GetBkgndColor(), CC_RGBINIT | CC_ANYCOLOR);

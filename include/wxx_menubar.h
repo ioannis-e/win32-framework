@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1177,7 +1177,7 @@ namespace Win32xx
         case WM_INITMENUPOPUP:      return OnInitMenuPopup(msg, wparam, lparam);
         case WM_KEYDOWN:            return OnKeyDown(msg, wparam, lparam);
         case WM_KILLFOCUS:          return OnKillFocus(msg, wparam, lparam);
-        case WM_LBUTTONDBLCLK:      return OnLButtonDown(msg, wparam, lparam);
+        case WM_LBUTTONDBLCLK:      // Intentionally blank
         case WM_LBUTTONDOWN:        return OnLButtonDown(msg, wparam, lparam);
         case WM_LBUTTONUP:          return OnLButtonUp(msg, wparam, lparam);
         case WM_MEASUREITEM:        return OnMeasureItem(msg, wparam, lparam);
@@ -1187,7 +1187,7 @@ namespace Win32xx
         case WM_SYSKEYUP:           return OnSysKeyUp(msg, wparam, lparam);
         case WM_WINDOWPOSCHANGED:   return OnWindowPosChanged(msg, wparam, lparam);
         case WM_WINDOWPOSCHANGING:  return OnWindowPosChanging(msg, wparam, lparam);
-        case WM_UNINITMENUPOPUP:    return GetAncestor().SendMessage(msg, wparam, lparam);
+        case WM_UNINITMENUPOPUP:    // Intentionally blank
         case WM_MENURBUTTONUP:      return GetAncestor().SendMessage(msg, wparam, lparam);
 
         // Messages defined by Win32++.

@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -805,8 +805,8 @@ namespace Win32xx
     ////////////////////////////////////////////////////////////////
     // Definitions for the CDockClient class nested within CDocker
     //
-    inline CDocker::CDockClient::CDockClient() : m_pDocker(nullptr), m_pView(nullptr), m_isClosePressed(FALSE),
-                        m_isCaptionPressed(FALSE), m_isTracking(FALSE)
+    inline CDocker::CDockClient::CDockClient() : m_pDocker(nullptr), m_pView(nullptr),
+                        m_isClosePressed(FALSE), m_isCaptionPressed(FALSE), m_isTracking(FALSE)
     {
         m_foregnd1 = RGB(32,32,32);
         m_backgnd1 = RGB(190,207,227);
@@ -1044,7 +1044,7 @@ namespace Win32xx
                     m_pDocker->GetDockAncestor()->UndockContainerGroup();
 
                 // Update the close button.
-                if ((m_pDocker != nullptr) && !(m_pDocker->GetDockStyle() & DS_NO_CLOSE))
+                if (!(m_pDocker->GetDockStyle() & DS_NO_CLOSE))
                 {
                     CWindowDC dc(*this);
                     DrawCloseButton(dc);
@@ -2627,7 +2627,8 @@ namespace Win32xx
                 if (dockTest == dockParent) break;
             }
 
-            CDocker* pDockParent = reinterpret_cast<CDocker*>(::SendMessage(dockParent, UWM_GETCDOCKER, 0, 0));
+            CDocker* pDockParent = reinterpret_cast<CDocker*>
+                (::SendMessage(dockParent, UWM_GETCDOCKER, 0, 0));
             assert(pDockParent);
 
             CRect rc = pDockParent->GetDockClient().GetWindowRect();
@@ -3153,7 +3154,8 @@ namespace Win32xx
             COLORREF rgbColour = GetSysColor(COLOR_BTNFACE);
             HWND frame = GetDockAncestor()->GetAncestor();
 
-            ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>(::SendMessage(frame, UWM_GETRBTHEME, 0, 0));
+            ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>
+                (::SendMessage(frame, UWM_GETRBTHEME, 0, 0));
 
             if (pTheme && pTheme->UseThemes && pTheme->clrBkgnd2 != 0)
                 rgbColour = pTheme->clrBkgnd2;
@@ -3287,15 +3289,20 @@ namespace Win32xx
         {
             CDockContainer* pContainer = GetContainer();
             assert(pContainer);
-            CDockContainer* pActive = nullptr;
-            if (pDocker->GetContainer())
-                pActive = pDocker->GetContainer()->GetActiveContainer();
-
-            DockInContainer(pDocker, pDocker->GetDockStyle() | dockZone, FALSE);
-            if (pActive)
-                pContainer->SetActiveContainer(pActive);
-            else
-                pContainer->SelectPage(0);
+            if (pContainer)
+            {
+                CDockContainer* pCurrent = pDocker->GetContainer();
+                assert(pCurrent);
+                if (pCurrent)
+                {
+                    CDockContainer* pActive = pCurrent->GetActiveContainer();
+                    DockInContainer(pDocker, pDocker->GetDockStyle() | dockZone, FALSE);
+                    if (pActive)
+                        pContainer->SetActiveContainer(pActive);
+                    else
+                        pContainer->SelectPage(0);
+                }
+            }
         }
         break;
         case DS_DOCKED_LEFTMOST:
@@ -4194,16 +4201,19 @@ namespace Win32xx
         for (CDocker* pDocker : vDockContainers)
         {
             CDockContainer* pContainer = pDocker->GetContainer();
-
-            for (size_t i = 0; i < pContainer->GetAllContainers().size(); ++i)
+            assert(pContainer);
+            if (pContainer != nullptr)
             {
-                CDockContainer* pChild = pContainer->GetContainerFromIndex(i);
-
-                if (pChild != pContainer)
+                for (size_t i = 0; i < pContainer->GetAllContainers().size(); ++i)
                 {
-                    CDocker* pDocker1 = GetDockFromView(pChild);
-                    assert(pDocker1);
-                    vSorted.push_back(pDocker1);
+                    CDockContainer* pChild = pContainer->GetContainerFromIndex(i);
+
+                    if (pChild != pContainer)
+                    {
+                        CDocker* pDocker1 = GetDockFromView(pChild);
+                        assert(pDocker1);
+                        vSorted.push_back(pDocker1);
+                    }
                 }
             }
         }
@@ -4286,19 +4296,22 @@ namespace Win32xx
                 pDockNew->m_isUndocking = TRUE;  // IsUndocked will report FALSE.
                 CDockContainer* pContainerNew = pDockNew->GetContainer();
                 assert(pContainerNew);
-                for (const ContainerInfo& ci : AllContainers)
+                if (pContainerNew)
                 {
-                    if (ci.pContainer != pContainer)
+                    for (const ContainerInfo& ci : AllContainers)
                     {
-                        CDockContainer* pChildContainer = ci.pContainer;
-                        pContainer->RemoveContainer(pChildContainer);
-                        if (pContainerNew != pChildContainer)
+                        if (ci.pContainer != pContainer)
                         {
-                            pContainerNew->AddContainer(pChildContainer);
-                            CDocker* pDocker = GetDockFromView(pChildContainer);
-                            assert(pDocker);
-                            pDocker->SetParent(*pDockNew);
-                            pDocker->m_pDockParent = pDockNew;
+                            CDockContainer* pChildContainer = ci.pContainer;
+                            pContainer->RemoveContainer(pChildContainer);
+                            if (pContainerNew != pChildContainer)
+                            {
+                                pContainerNew->AddContainer(pChildContainer);
+                                CDocker* pDocker = GetDockFromView(pChildContainer);
+                                assert(pDocker);
+                                pDocker->SetParent(*pDockNew);
+                                pDocker->m_pDockParent = pDockNew;
+                            }
                         }
                     }
                 }
@@ -5144,7 +5157,8 @@ namespace Win32xx
             {
                 // Set the icons for the container parent.
                 CDockContainer* pContainer = GetContainerFromIndex(i);
-                v[i].tabImage = GetImages().Add(pContainer->GetTabIcon());
+                if (pContainer)
+                    v[i].tabImage = GetImages().Add(pContainer->GetTabIcon());
             }
         }
         else
@@ -5393,8 +5407,13 @@ namespace Win32xx
     inline BOOL CDockContainer::CViewPage::OnCommand(WPARAM wparam, LPARAM lparam)
     {
         BOOL isHandled = FALSE;
-        if (GetContainer()->GetActiveContainer() && GetContainer()->GetActiveContainer()->IsWindow())
-            isHandled = GetContainer()->GetActiveContainer()->SendMessage(WM_COMMAND, wparam, lparam) ? TRUE : FALSE;
+        CDockContainer* pContainer = GetContainer();
+        if (pContainer)
+        {
+            CDockContainer* pActiveContainer = pContainer->GetActiveContainer();
+            if (pActiveContainer && pActiveContainer->IsWindow())
+                isHandled = pActiveContainer->SendMessage(WM_COMMAND, wparam, lparam) ? TRUE : FALSE;
+        }
 
         return isHandled;
     }

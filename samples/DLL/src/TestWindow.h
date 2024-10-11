@@ -19,7 +19,6 @@ protected:
     virtual void OnDestroy() override;
     virtual void OnDraw(CDC& dc) override;
     virtual void OnInitialUpdate() override;
-    virtual void OnMenuUpdate(UINT id) override;
     virtual void PreCreate(CREATESTRUCT& cs) override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
@@ -28,7 +27,6 @@ private:
     CTestWindow& operator=(const CTestWindow&) = delete;
 
     // Message handlers
-    LRESULT OnInitMenuPopup(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnSize(UINT msg, WPARAM wparam, LPARAM lparam);
 
     BOOL OnFileExit();

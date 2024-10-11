@@ -13,8 +13,6 @@
 // Constructor.
 CMainFrame::CMainFrame()  : m_pLeftPane(0), m_showHidden(FALSE)
 {
-    // Set m_MainView as the view window of the frame.
-    SetView(m_rightPane);
 }
 
 // Destructor.
@@ -25,6 +23,9 @@ CMainFrame::~CMainFrame()
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {
+    // Set m_rightPane as the view window of the frame.
+    SetView(m_rightPane);
+
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
     LoadRegistrySettings(L"Win32++\\Explorer Sample");

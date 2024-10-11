@@ -36,6 +36,7 @@ CMainFrame : public CFrame                      /*
     public:
                     CMainFrame();
         virtual     ~CMainFrame() override {}
+        virtual HWND Create(HWND parent = nullptr) override;
         void        SetAppName(const CString& appName)
                                     { m_appName = appName; }
         void        SetArcFileName(const CString& arcName)

@@ -32,6 +32,8 @@ CMainFrame : public CFrame                                                  /*
     public:
         CMainFrame(void);
         virtual     ~CMainFrame() override {}
+        virtual HWND Create(HWND parent = nullptr) override;
+
         CDoc&       TheDoc()      {return m_view.TheDoc();}
 
         AboutBox&   GetAboutBox()   { return m_aboutDialog; }
@@ -42,7 +44,6 @@ CMainFrame : public CFrame                                                  /*
 
     protected:
         virtual void OnClose() override;
-
         virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam) override;
         virtual int  OnCreate(CREATESTRUCT& cs) override;
         virtual BOOL OnHelp() override;

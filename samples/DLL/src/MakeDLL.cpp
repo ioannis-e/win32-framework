@@ -2,21 +2,20 @@
 // MakeDLL.cpp
 //
 
-// Defines the entry point for the DLL application.
-
 #include "StdAfx.h"
 #include "MyDialog.h"
 #include "MakeDLL.h"
+#include "MyWinThread.h"
 #include "resource.h"
 
 
-// Start Win32++ for the DLL
-CWinApp myApp;
+// Start Win32++ for this DLL.
+CWinApp dllApp;
 
-// MyDialog is global for the DLL
-CMyDialog myDialog(IDD_DIALOG1);
+using ThreadPtr = std::unique_ptr<CMyWinThread>;
+std::vector<ThreadPtr> allThreads;
 
-// The entry point for the dll.
+// DllMain defines the entry point for this DLL.
 BOOL WINAPI DllMain( HANDLE, DWORD  ul_reason_for_call, LPVOID )
 {
     switch( ul_reason_for_call )
@@ -38,18 +37,11 @@ BOOL WINAPI DllMain( HANDLE, DWORD  ul_reason_for_call, LPVOID )
     return TRUE;
 }
 
-HWND __declspec(dllexport) ShowDialog()
+// Define the ShowDialog function exported by this DLL.
+__declspec(dllexport) void ShowDialog()
 {
     TRACE("ShowDialog called by the DLL.\n");
 
-    // Create the dialog.
-    if (!myDialog.IsWindow())
-    {
-        myDialog.Create();
-        TRACE("Dialog inside DLL created.\n");
-    }
-    else
-        TRACE("Dialog is already shown!\n");
-
-    return myDialog.GetHwnd();
+    allThreads.push_back(std::make_unique<CMyWinThread>());
+    allThreads.back()->CreateThread();
 }

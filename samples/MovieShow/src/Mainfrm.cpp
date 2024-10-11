@@ -92,8 +92,6 @@ CMainFrame::CMainFrame() : m_thread(ThreadProc, this), m_searchItem(nullptr), m_
                            m_pDockDialog(nullptr), m_isDirty(false), m_boxSetsItem(0),
                            m_dialogHeight(0), m_treeWidth(0)
 {
-    // Set m_view as the view window of the frame.
-    SetView(m_viewList);
 }
 
 // Destructor.
@@ -121,6 +119,9 @@ void CMainFrame::ClearList()
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {
+    // Set m_view as the view window of the frame.
+    SetView(m_viewList);
+
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
     LoadRegistrySettings(L"Win32++\\MovieShow");

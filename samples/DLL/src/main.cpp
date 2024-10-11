@@ -3,6 +3,7 @@
 //
 
 #include "StdAfx.h"
+#include "TestWindow.h"
 #include "TestApp.h"
 
 #if defined (_MSC_VER) && (_MSC_VER >= 1920)      // VS2019 or higher

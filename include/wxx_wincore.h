@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -516,9 +516,6 @@ namespace Win32xx
                 OnAttach();
             }
         }
-
-        // Clear the CWnd pointer from TLS.
-        pTLSData->pWnd = nullptr;
 
         // Post a message to trigger a call of OnInitialUpdate.
         PostMessage(UWM_WINDOWCREATED);

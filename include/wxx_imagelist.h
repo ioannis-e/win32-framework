@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -81,10 +81,10 @@ namespace Win32xx
         virtual ~CImageList();
 
         // Initialization
-        BOOL Create(int cx, int cy, UINT flags, int initial, int grow);
-        BOOL Create(int bitmapID, int cx, int grow, COLORREF mask);
-        BOOL Create(LPCTSTR resourceName, int cx, int grow, COLORREF mask);
-        BOOL Create(HIMAGELIST images);
+        void Create(int cx, int cy, UINT flags, int initial, int grow);
+        void Create(int bitmapID, int cx, int grow, COLORREF mask);
+        void Create(LPCTSTR resourceName, int cx, int grow, COLORREF mask);
+        void Create(HIMAGELIST images);
         BOOL CreateDisabledImageList(HIMAGELIST normalImages);
         void CreateDragImage(HWND header, int index);
         void CreateDragImage(HWND listView, int item, CPoint& pt);
@@ -309,7 +309,7 @@ namespace Win32xx
     // ILC_MASK     Use a mask. The image list contains two bitmaps, one of which is a monochrome bitmap used as a mask.
     //              If this value is not included, the image list contains only one bitmap.
     // Refer to ImageList_Create in the Windows API documentation for more information.
-    inline BOOL CImageList::Create(int cx, int cy, UINT flags, int initial, int grow)
+    inline void CImageList::Create(int cx, int cy, UINT flags, int initial, int grow)
     {
         assert(m_pData);
 
@@ -319,8 +319,6 @@ namespace Win32xx
             throw CResourceException(GetApp()->MsgImageList());
 
         Assign(images);
-
-        return (images != nullptr) ? TRUE : FALSE;
     }
 
     // Creates a new image list.
@@ -329,12 +327,12 @@ namespace Win32xx
     // crMask   The color used to generate a mask. Each pixel of this color in the specified bitmap is changed to black,
     //          and the corresponding bit in the mask is set to 1. If this parameter is the CLR_NONE value, no mask is generated.
     // Refer to ImageList_Create in the Windows API documentation for more information.
-    inline BOOL CImageList::Create(int bitmapID, int cx, int grow, COLORREF mask)
+    inline void CImageList::Create(int bitmapID, int cx, int grow, COLORREF mask)
     {
         assert(m_pData);
 
         LPCTSTR bitmapName = MAKEINTRESOURCE (bitmapID);
-        return Create(bitmapName, cx, grow, mask);
+        Create(bitmapName, cx, grow, mask);
     }
 
     // Creates a new image list.
@@ -344,7 +342,7 @@ namespace Win32xx
     // crMask   The color used to generate a mask. Each pixel of this color in the specified bitmap is changed to black,
     //          and the corresponding bit in the mask is set to 1. If this parameter is the CLR_NONE value, no mask is generated.
     // Refer to ImageList_LoadBitmap in the Windows API documentation for more information.
-    inline BOOL CImageList::Create(LPCTSTR resourceName, int cx, int grow, COLORREF mask)
+    inline void CImageList::Create(LPCTSTR resourceName, int cx, int grow, COLORREF mask)
     {
         assert(m_pData);
 
@@ -353,13 +351,11 @@ namespace Win32xx
             throw CResourceException(GetApp()->MsgImageList());
 
         Assign(images);
-
-        return (images != nullptr) ? TRUE : FALSE;
     }
 
     // Creates a duplicate ImageList
     // Refer to ImageList_Duplicate in the Windows API documentation for more information.
-    inline BOOL CImageList::Create(HIMAGELIST images)
+    inline void CImageList::Create(HIMAGELIST images)
     {
         assert(m_pData);
 
@@ -368,8 +364,6 @@ namespace Win32xx
             throw CResourceException(GetApp()->MsgImageList());
 
         Assign(copyImages);
-
-        return (copyImages != nullptr) ? TRUE : FALSE;
     }
 
     // Creates a transparent version of an item image within the header control.

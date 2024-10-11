@@ -48,6 +48,7 @@ private:
     BOOL OnFileOpen();
     BOOL OnFilePrint();
     BOOL OnFileSave();
+    BOOL OnFileSaveAs();
     BOOL OnFilePreview();
 
     // Message handlers

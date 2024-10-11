@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -334,6 +334,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
+        // As per the Microsoft's recommendation for handling TVM_GETITEMRECT.
         *reinterpret_cast<HTREEITEM*>(&rc) = item;
         WPARAM wparam = static_cast<WPARAM>(isTextOnly);
         LPARAM lparam = reinterpret_cast<LPARAM>(&rc);

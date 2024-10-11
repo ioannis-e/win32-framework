@@ -3,6 +3,7 @@
 //
 
 #include "StdAfx.h"
+#include "TestWindow.h"
 #include "TestApp.h"
 #include "resource.h"
 
@@ -11,11 +12,9 @@
 // CTestWindow function definitions.
 //
 
-// Handle menu input.
+// OnCommand responds to menu and and toolbar input.
 BOOL CTestWindow::OnCommand(WPARAM wparam, LPARAM)
 {
-    // OnCommand responds to menu and and toolbar input
-
     UINT id = LOWORD(wparam);
 
     switch (id)
@@ -65,7 +64,7 @@ void CTestWindow::OnDraw(CDC& dc)
 
     // Centre some text in our view window.
     CRect rc = GetClientRect();
-    CString cs = LoadString(IDW_MAIN);
+    CString cs("Create additional dialogs from the menu");
     dc.DrawText(cs, cs.GetLength(), rc, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
 }
 
@@ -84,35 +83,6 @@ void CTestWindow::OnInitialUpdate()
     TRACE("OnInitialUpdate\n");
 }
 
-// Called when a popup menu is about to be displayed.
-LRESULT CTestWindow::OnInitMenuPopup(UINT msg, WPARAM wparam, LPARAM lparam)
-{
-    CMenu menu = reinterpret_cast<HMENU>(wparam);
-    for (int i = 0; i < menu.GetMenuItemCount(); ++i)
-    {
-        UINT menuItem = menu.GetMenuItemID(i);
-        SendMessage(UWM_UPDATECOMMAND, menuItem, 0);
-    }
-
-    return FinalWindowProc(msg, wparam, lparam);
-}
-
-// Update the check state of the various menu items.
-void CTestWindow::OnMenuUpdate(UINT id)
-{
-    switch (id)
-    {
-    case IDM_VIEW_DIALOG:
-    {
-        // Disable this menu item if the dialog is already shown.
-        CTestApp* pApp = static_cast<CTestApp*>(GetApp());
-        UINT enabled = ::IsWindow(pApp->GetDialog()) ? MF_DISABLED : MF_ENABLED;
-        m_menu.EnableMenuItem(id, enabled);
-        break;
-    }
-    }
-}
-
 // Called when the window is resized.
 LRESULT CTestWindow::OnSize(UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -126,7 +96,7 @@ LRESULT CTestWindow::OnSize(UINT msg, WPARAM wparam, LPARAM lparam)
 BOOL CTestWindow::OnViewDialog()
 {
     CTestApp* pApp = static_cast<CTestApp*>(GetApp());
-    pApp->ShowDialog();
+    pApp->ShowDllDialog();
     return TRUE;
 }
 
@@ -151,7 +121,6 @@ LRESULT CTestWindow::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
     switch(msg)
     {
-    case WM_INITMENUPOPUP:  return OnInitMenuPopup(msg, wparam, lparam);
     case WM_SIZE:           return OnSize(msg, wparam, lparam);
     }
 

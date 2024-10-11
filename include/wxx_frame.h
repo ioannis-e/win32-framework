@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1870,7 +1870,7 @@ namespace Win32xx
     inline LRESULT CFrameT<T>::OnActivate(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Perform default processing first
-        CWnd::WndProcDefault(msg, wparam, lparam);
+        T::FinalWindowProc(msg, wparam, lparam);
 
         if (LOWORD(wparam) == WA_INACTIVE)
         {
@@ -2678,7 +2678,9 @@ namespace Win32xx
             // Delete Old MRUs
             const CString appKeyName = _T("Software\\") + m_keyName;
             CRegKey appKey;
-            appKey.Open(HKEY_CURRENT_USER, appKeyName);
+            if (ERROR_SUCCESS != appKey.Open(HKEY_CURRENT_USER, appKeyName))
+                throw CUserException();
+
             appKey.DeleteSubKey(_T("Recent Files"));
 
             if (m_maxMRU > 0)
@@ -3637,8 +3639,9 @@ namespace Win32xx
         // Create the menubar and statusbar fonts.
         int dpi = GetWindowDpi(*this);
         NONCLIENTMETRICS metrics = GetNonClientMetrics();
-        metrics.lfMenuFont.lfHeight = -MulDiv(9, dpi, POINTS_PER_INCH);
-        metrics.lfStatusFont.lfHeight = -MulDiv(9, dpi, POINTS_PER_INCH);
+        int fontHeight = -MulDiv(9, dpi, POINTS_PER_INCH);
+        metrics.lfMenuFont.lfHeight = fontHeight;
+        metrics.lfStatusFont.lfHeight = fontHeight;
         SetMenuFont(CFont(metrics.lfMenuFont));
         SetStatusBarFont(CFont(metrics.lfStatusFont));
     }

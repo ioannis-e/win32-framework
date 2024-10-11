@@ -38,8 +38,19 @@ CMainFrame()                                                                /*
     :   m_view(IDD_MAIN_DIALOG), m_maxMRU(0), m_isTextWrap(TRUE),
         m_frameXY(100, 100), m_frameSize(700, 600)
 {
-      // Set m_view as the view window of the frame.
+}
+
+/*============================================================================*/
+    HWND CMainFrame::
+        Create(HWND parent)                                                 /*
+
+    Create the frame window.
+*-----------------------------------------------------------------------------*/
+{
+    // Set m_view as the view window of the frame.
     SetView(m_view);
+
+    return CFrame::Create(parent);
 }
 
 /*============================================================================*/

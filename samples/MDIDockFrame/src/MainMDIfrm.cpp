@@ -117,7 +117,6 @@ BOOL CMainMDIFrame::OnCommand(WPARAM wparam, LPARAM lparam)
     case IDM_FILE_MDICLOSE:     return OnFileMDIClose();
     case IDM_FILE_OPEN:         return OnFileOpen();
     case IDM_FILE_SAVE:         return OnFileSave();
-    case IDM_FILE_SAVEAS:       return OnFileSave();
     case IDM_FILE_PRINT:        return OnFilePrint();
     case IDW_VIEW_STATUSBAR:    return OnViewStatusBar();
     case IDW_VIEW_TOOLBAR:      return OnViewToolBar();

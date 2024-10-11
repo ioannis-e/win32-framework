@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -161,6 +161,7 @@ namespace Win32xx
 
         CPreviewPane& GetPreviewPane() const { return *m_pPreviewPane; }
         void SetPreviewPane(CPreviewPane& previewPane) { m_pPreviewPane = &previewPane; }
+        void SetSource(T& source) { m_pSource = &source; }
 
         virtual void DoPrintPreview(HWND ownerWindow, int maxPage = 1);
         virtual BOOL OnCloseButton();
@@ -169,7 +170,6 @@ namespace Win32xx
         virtual BOOL OnPrintButton();
         virtual BOOL OnPrintSetup();
         virtual void PreviewPage(int page);
-        virtual void SetSource(T& source) { m_pSource = &source; }
         virtual void UpdateButtons();
 
     protected:

@@ -20,8 +20,9 @@ class CMainFrame : public CFrame
 public:
     CMainFrame();
     virtual ~CMainFrame() override;
-    CDoc& GetDoc() { return m_view.GetDoc(); }
+    virtual HWND Create(HWND parent = nullptr) override;
 
+    CDoc& GetDoc() { return m_view.GetDoc(); }
     void LoadFile(LPCWSTR fileName);
 
 protected:

@@ -25,6 +25,7 @@ CMyDialog::~CMyDialog()
 void CMyDialog::OnDestroy()
 {
     TRACE("Destroyed the dialog created by the DLL.\n");
+    PostQuitMessage(0);
 }
 
 // Process the dialog's window messages.

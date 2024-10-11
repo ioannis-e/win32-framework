@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1467,27 +1467,30 @@ namespace Win32xx
     {
         if (pView != m_pActiveView)
         {
-            // Hide the old view.
-            if (GetActiveView() && (GetActiveView()->IsWindow()))
-                GetActiveView()->ShowWindow(SW_HIDE);
-
-            // Assign the view window.
-            m_pActiveView = pView;
-
-            if (m_pActiveView && *this)
+            if (GetActiveView())
             {
-                if (!m_pActiveView->IsWindow())
-                {
-                    // The tab control is already created, so create the new view too.
-                    GetActiveView()->Create( GetParent() );
-                }
+                // Hide the old view.
+                if (GetActiveView()->IsWindow())
+                    GetActiveView()->ShowWindow(SW_HIDE);
 
-                // Position the view window over the tab control's display area
-                CRect rc = GetClientRect();
-                AdjustRect(FALSE, &rc);
-                MapWindowPoints(GetParent(), rc);
-                VERIFY(GetActiveView()->SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW));
-                GetActiveView()->SetFocus();
+                // Assign the view window.
+                m_pActiveView = pView;
+
+                if (m_pActiveView && *this)
+                {
+                    if (!m_pActiveView->IsWindow())
+                    {
+                        // The tab control is already created, so create the new view too.
+                        GetActiveView()->Create(GetParent());
+                    }
+
+                    // Position the view window over the tab control's display area
+                    CRect rc = GetClientRect();
+                    AdjustRect(FALSE, &rc);
+                    MapWindowPoints(GetParent(), rc);
+                    VERIFY(GetActiveView()->SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW));
+                    GetActiveView()->SetFocus();
+                }
             }
         }
     }

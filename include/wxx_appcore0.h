@@ -334,7 +334,7 @@ namespace Win32xx
         virtual CString MsgMenu() const;
         virtual CString MsgPrintFound() const;
 
-        // DDX anomaly prompting message strings
+        // DDX anomaly prompting message strings.
         virtual CString MsgDDX_Byte() const;
         virtual CString MsgDDX_Int() const;
         virtual CString MsgDDX_Long() const;
@@ -343,11 +343,14 @@ namespace Win32xx
         virtual CString MsgDDX_UINT() const;
         virtual CString MsgDDX_ULONG() const;
 
-        // DDV formats and prompts
+        // DDV formats and prompts.
         virtual CString MsgDDV_IntRange() const;
         virtual CString MsgDDV_UINTRange() const;
         virtual CString MsgDDV_RealRange() const;
         virtual CString MsgDDV_StringSize() const;
+
+        // Message string used for time.
+        virtual CString MsgTimeValid() const;
     };
 
     // Returns a pointer to the CWinApp derived class.

@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -830,17 +830,11 @@ namespace Win32xx
         switch (msg)
         {
         case WM_DPICHANGED:
-            OnAfterDpiChange();
-            break;
-
         case WM_DPICHANGED_AFTERPARENT:
             OnAfterDpiChange();
             break;
 
         case WM_DPICHANGED_BEFOREPARENT:
-            OnBeforeDpiChange();
-            break;
-
         case WM_GETDPISCALEDSIZE:
             OnBeforeDpiChange();
             break;
@@ -955,10 +949,7 @@ namespace Win32xx
                 break;
 
             case SB_THUMBPOSITION: // User has dragged the scroll box.
-                xNewPos = HIWORD(wparam);
-                break;
-
-            case SB_THUMBTRACK: // User is dragging the scroll box.
+            case SB_THUMBTRACK:    // User is dragging the scroll box.
                 xNewPos = HIWORD(wparam);
                 break;
 
@@ -1015,10 +1006,7 @@ namespace Win32xx
                 break;
 
             case SB_THUMBPOSITION: // User has dragged the scroll box.
-                yNewPos = HIWORD(wparam);
-                break;
-
-            case SB_THUMBTRACK: // User is dragging the scroll box.
+            case SB_THUMBTRACK:    // User is dragging the scroll box.
                 yNewPos = HIWORD(wparam);
                 break;
 

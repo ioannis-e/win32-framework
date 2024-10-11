@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1168,8 +1168,11 @@ namespace Win32xx
     {
         assert(pBstr);
 
-        if ( !::SysReAllocStringLen(pBstr, m_str.c_str(), static_cast<UINT>(m_str.length())) )
-            throw std::bad_alloc();
+        if ((pBstr) != nullptr)
+        {
+            if (!::SysReAllocStringLen(pBstr, m_str.c_str(), static_cast<UINT>(m_str.length())))
+                throw std::bad_alloc();
+        }
 
         return pBstr ? *pBstr : 0;
     }

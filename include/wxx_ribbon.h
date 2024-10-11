@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -441,13 +441,11 @@ namespace Win32xx
             switch (verb)
             {
             case UI_VIEWVERB_CREATE:    // The view was newly created.
+            case UI_VIEWVERB_DESTROY:   // The view was destroyed.
                 result = S_OK;
                 break;
             case UI_VIEWVERB_SIZE:      // Ribbon size has changed.
                 T::RecalcLayout();
-                break;
-            case UI_VIEWVERB_DESTROY:   // The view was destroyed.
-                result = S_OK;
                 break;
             case UI_VIEWVERB_ERROR:
                 result = E_FAIL;

@@ -45,7 +45,7 @@ private:
     BOOL OnFileMRU(WPARAM wparam);
     BOOL OnFileNew();
     BOOL OnFileOpen();
-    BOOL OnFileSaveAs();
+    BOOL OnFileSave();
 
     // Member variables
     CView m_view;
