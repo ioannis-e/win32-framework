@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -396,7 +396,7 @@ namespace Win32xx
         //  unexpected results due to recursion.
 
         // Retrieve the future size of the window
-        LPWINDOWPOS pWinPos = (LPWINDOWPOS)lparam;
+        LPWINDOWPOS pWinPos = reinterpret_cast<LPWINDOWPOS>(lparam);
         assert(pWinPos);
         if (!pWinPos) return 0;
 

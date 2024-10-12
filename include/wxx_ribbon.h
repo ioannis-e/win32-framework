@@ -474,9 +474,9 @@ namespace Win32xx
                 WCHAR curFileName[MAX_PATH] = {0};
                 StrCopyW(curFileName, TtoW(fileName), MAX_PATH);
 
-                RecentFilesPtr recentFiles(std::make_unique<CRecentFiles>(curFileName));
-                result = SafeArrayPutElement(psa, &currentFile, static_cast<void*>(recentFiles.get()));
-                m_recentFiles.push_back(std::move(recentFiles));
+                m_recentFiles.push_back(std::make_unique<CRecentFiles>(curFileName));
+                result = SafeArrayPutElement(psa, &currentFile, 
+                    static_cast<void*>(m_recentFiles.back().get()));
                 ++currentFile;
             }
 

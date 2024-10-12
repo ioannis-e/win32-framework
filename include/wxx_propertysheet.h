@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -306,7 +306,7 @@ namespace Win32xx
     // Handles the WM_NOTIFY message and call the appropriate functions.
     inline LRESULT CPropertyPage::OnNotify(WPARAM, LPARAM lparam)
     {
-        LPPSHNOTIFY pNotify = (LPPSHNOTIFY)lparam;
+        LPPSHNOTIFY pNotify = reinterpret_cast<LPPSHNOTIFY>(lparam);
         assert(pNotify);
         if (!pNotify) return 0;
 
@@ -590,7 +590,7 @@ namespace Win32xx
         // wnd = nullptr, and lparam points to dialog resource.
         case PSCB_PRECREATE:
             {
-                LPDLGTEMPLATE  lpTemplate = (LPDLGTEMPLATE)lparam;
+                LPDLGTEMPLATE lpTemplate = reinterpret_cast<LPDLGTEMPLATE>(lparam);
 
                 if (!(lpTemplate->style & WS_SYSMENU))
                 {

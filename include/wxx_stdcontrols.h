@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -1064,7 +1064,7 @@ namespace Win32xx
         {
         case WM_COMPAREITEM:
         {
-            LPCOMPAREITEMSTRUCT pCompareItemStruct = (LPCOMPAREITEMSTRUCT)lparam;
+            LPCOMPAREITEMSTRUCT pCompareItemStruct = reinterpret_cast<LPCOMPAREITEMSTRUCT>(lparam);
             return CompareItem(pCompareItemStruct);
         }
         }

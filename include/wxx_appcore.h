@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -553,9 +553,8 @@ namespace Win32xx
         TLSData* pTLSData = GetTlsData();
         if (pTLSData == nullptr)
         {
-            TLSDataPtr dataPtr = std::make_unique<TLSData>();
-            VERIFY(::TlsSetValue(m_tlsData, dataPtr.get()));
-            m_allTLSData.push_back(std::move(dataPtr));
+            m_allTLSData.push_back(std::make_unique<TLSData>());
+            VERIFY(::TlsSetValue(m_tlsData, m_allTLSData.back().get()));
         }
     }
 

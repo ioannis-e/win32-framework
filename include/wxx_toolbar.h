@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -765,7 +765,7 @@ namespace Win32xx
         //  Used by ReBar controls to adjust ToolBar window size
         if ( GetParent().SendMessage(UWM_TBWINPOSCHANGING, reinterpret_cast<WPARAM>(GetHwnd()), lparam) )
         {
-            LPWINDOWPOS pWinPos = (LPWINDOWPOS)lparam;
+            LPWINDOWPOS pWinPos = reinterpret_cast<LPWINDOWPOS>(lparam);
             pWinPos->cx = GetMaxSize().cx;
             pWinPos->cy = GetMaxSize().cy;
         }

@@ -7,13 +7,14 @@
 #include "MakeDLL.h"
 #include "MyWinThread.h"
 #include "resource.h"
+#include <list>
 
 
 // Start Win32++ for this DLL.
 CWinApp dllApp;
 
 using ThreadPtr = std::unique_ptr<CMyWinThread>;
-std::vector<ThreadPtr> allThreads;
+std::list<ThreadPtr> allThreads;
 
 // DllMain defines the entry point for this DLL.
 BOOL WINAPI DllMain( HANDLE, DWORD  ul_reason_for_call, LPVOID )
@@ -42,6 +43,17 @@ __declspec(dllexport) void ShowDialog()
 {
     TRACE("ShowDialog called by the DLL.\n");
 
+    // Remove finished threads from allThreads.
+    for (auto it = allThreads.begin(); it != allThreads.end();)
+    {
+        if (!(*it)->IsRunning())
+            it = allThreads.erase(it);
+        else 
+            ++it;
+    }
+
     allThreads.push_back(std::make_unique<CMyWinThread>());
+    
+    // The dialog is created when the thread starts.
     allThreads.back()->CreateThread();
 }

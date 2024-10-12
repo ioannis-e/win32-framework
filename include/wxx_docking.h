@@ -1145,7 +1145,7 @@ namespace Win32xx
         {
             if (m_pDocker->IsUndockable())
             {
-                LPRECT rc = (LPRECT)lparam;
+                LPRECT rc = reinterpret_cast<LPRECT>(lparam);
                 rc->top += m_pDocker->m_ncHeight;
             }
         }
@@ -4908,7 +4908,7 @@ namespace Win32xx
     // Process notifications (WM_NOTIFY) reflected back from the parent.
     inline LRESULT CDockContainer::OnNotifyReflect(WPARAM, LPARAM lparam)
     {
-        LPNMHDR pHeader = (LPNMHDR)lparam;
+        LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
         switch (pHeader->code)
         {
         case TCN_SELCHANGE: return OnTCNSelChange(pHeader);
@@ -5438,7 +5438,7 @@ namespace Win32xx
         case TTN_GETDISPINFO:
             {
                 int index =  GetToolBar().HitTest();
-                LPNMTTDISPINFO lpDispInfo = (LPNMTTDISPINFO)lparam;
+                LPNMTTDISPINFO lpDispInfo = reinterpret_cast<LPNMTTDISPINFO>(lparam);
                 if (index >= 0)
                 {
                     UINT id = GetToolBar().GetCommandID(index);

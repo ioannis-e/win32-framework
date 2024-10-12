@@ -749,8 +749,8 @@ namespace Win32xx
         LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
         switch (pHeader->code)
         {
-        case TBN_DROPDOWN:      return OnTBNDropDown((LPNMTOOLBAR) lparam);
-        case TBN_HOTITEMCHANGE: return OnTBNHotItemChange((LPNMTBHOTITEM) lparam);
+        case TBN_DROPDOWN:      return OnTBNDropDown(reinterpret_cast<LPNMTOOLBAR>(lparam));
+        case TBN_HOTITEMCHANGE: return OnTBNHotItemChange(reinterpret_cast<LPNMTBHOTITEM>(lparam));
         }
 
         return 0;

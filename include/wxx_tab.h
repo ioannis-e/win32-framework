@@ -1070,7 +1070,7 @@ namespace Win32xx
     // Handle the notifications we send.
     inline LRESULT CTab::OnNotifyReflect(WPARAM, LPARAM lparam)
     {
-        LPNMHDR pHeader = (LPNMHDR)lparam;
+        LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
         switch (pHeader->code)
         {
         case TCN_SELCHANGE: return OnTCNSelChange(pHeader);
@@ -1166,7 +1166,7 @@ namespace Win32xx
         // A little hack to reduce tab flicker.
         if (IsWindowVisible() && (GetStyle() & TCS_OWNERDRAWFIXED))
         {
-            LPWINDOWPOS pWinPos = (LPWINDOWPOS)lparam;
+            LPWINDOWPOS pWinPos = reinterpret_cast<LPWINDOWPOS>(lparam);
             pWinPos->flags |= SWP_NOREDRAW;
 
             // Do a manual paint when OnDraw isn't called.

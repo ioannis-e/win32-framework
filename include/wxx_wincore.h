@@ -689,10 +689,15 @@ namespace Win32xx
         assert(IsWindow());
 
         int dlgItem = static_cast<int>(dlgItemID);
+
+        // Returns text length NOT including NULL character.
         int length = ::GetWindowTextLength(::GetDlgItem(*this, dlgItem));
         CString str;
-        VERIFY(::GetDlgItemText(*this, dlgItem, str.GetBuffer(length), length+1));
-        str.ReleaseBuffer();
+        if (length > 0)
+        {
+            VERIFY(::GetDlgItemText(*this, dlgItem, str.GetBuffer(length + 1), length + 1));
+            str.ReleaseBuffer();
+        }
         return str;
     }
 
@@ -1370,7 +1375,8 @@ namespace Win32xx
     inline BOOL CWnd::ClientToScreen(RECT& rect) const
     {
         assert(IsWindow());
-        return static_cast<BOOL>(::MapWindowPoints(*this, HWND_DESKTOP, (LPPOINT)&rect, 2));
+        return static_cast<BOOL>(::MapWindowPoints(*this, HWND_DESKTOP,
+            reinterpret_cast<LPPOINT>(&rect), 2));
     }
 
     // The Close function issues a close requests to the window. The OnClose function is called
@@ -1989,7 +1995,7 @@ namespace Win32xx
     inline int CWnd::MapWindowPoints(HWND to, RECT& rect) const
     {
         assert(IsWindow());
-        return ::MapWindowPoints(*this, to, (LPPOINT)&rect, 2);
+        return ::MapWindowPoints(*this, to, reinterpret_cast<LPPOINT>(&rect), 2);
     }
 
     // The MapWindowPoints function converts (maps) a set of points from a coordinate space relative to one
@@ -1998,7 +2004,7 @@ namespace Win32xx
     inline int CWnd::MapWindowPoints(HWND to, LPPOINT pointsArray, UINT count) const
     {
         assert(IsWindow());
-        return ::MapWindowPoints(*this, to, (LPPOINT)pointsArray, count);
+        return ::MapWindowPoints(*this, to, reinterpret_cast<LPPOINT>(pointsArray), count);
     }
 
     // The MessageBox function creates, displays, and operates a message box.
@@ -2115,7 +2121,8 @@ namespace Win32xx
     inline BOOL CWnd::ScreenToClient(RECT& rect) const
     {
         assert(IsWindow());
-        return static_cast<BOOL>(::MapWindowPoints(HWND_DESKTOP, *this, (LPPOINT)&rect, 2));
+        return static_cast<BOOL>(::MapWindowPoints(HWND_DESKTOP, *this,
+            reinterpret_cast<LPPOINT>(&rect), 2));
     }
 
     // The ScrollWindow function scrolls the contents of the window's client area.

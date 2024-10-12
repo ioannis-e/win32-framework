@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -4064,7 +4064,7 @@ namespace Win32xx
     inline BOOL CDC::DrawEdge(const RECT& rc, UINT edge, UINT flags) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DrawEdge(m_pData->dc, (LPRECT)&rc, edge, flags);
+        return ::DrawEdge(m_pData->dc, const_cast<LPRECT>(&rc), edge, flags);
     }
 
     // Draws a frame control of the specified type and style.
@@ -4072,7 +4072,7 @@ namespace Win32xx
     inline BOOL CDC::DrawFrameControl(const RECT& rc, UINT type, UINT state) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DrawFrameControl(m_pData->dc, (LPRECT)&rc, type, state);
+        return ::DrawFrameControl(m_pData->dc, const_cast<LPRECT>(&rc), type, state);
     }
 
     // Fills a region by using the specified brush.
@@ -4308,7 +4308,7 @@ namespace Win32xx
     inline BOOL CDC::DPtoLP(RECT& rc) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DPtoLP(m_pData->dc, (LPPOINT)&rc, 2);
+        return ::DPtoLP(m_pData->dc, reinterpret_cast<LPPOINT>(&rc), 2);
     }
 
     // Converts logical coordinates into device coordinates.
@@ -4324,7 +4324,7 @@ namespace Win32xx
     inline BOOL CDC::LPtoDP(RECT& rc) const
     {
         assert(m_pData->dc != nullptr);
-        return ::LPtoDP(m_pData->dc, (LPPOINT)&rc, 2);
+        return ::LPtoDP(m_pData->dc, reinterpret_cast<LPPOINT>(&rc), 2);
     }
 
 
@@ -4592,7 +4592,7 @@ namespace Win32xx
     inline int CDC::DrawText(LPCTSTR string, int count, const RECT& rc, UINT format) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DrawText(m_pData->dc, string, count, (LPRECT)&rc, format );
+        return ::DrawText(m_pData->dc, string, count, const_cast<LPRECT>(&rc), format );
     }
 
     // Retrieves the text-alignment setting.
@@ -4682,7 +4682,7 @@ namespace Win32xx
     inline int CDC::DrawTextEx(LPTSTR string, int count, const RECT& rc, UINT format, LPDRAWTEXTPARAMS pDTParams) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DrawTextEx(m_pData->dc, string, count, (LPRECT)&rc, format, pDTParams);
+        return ::DrawTextEx(m_pData->dc, string, count, const_cast<LPRECT>(&rc), format, pDTParams);
     }
 
     // Retrieves the widths, in logical units, of consecutive characters in a specified range from the
@@ -5172,7 +5172,7 @@ namespace Win32xx
         // Allocate memory for the BITMAPINFO structure.
         UINT uQuadSize = (cClrBits >= 24) ? 0 : UINT(sizeof(RGBQUAD)) * (1 << cClrBits);
         m_bmi.assign(sizeof(BITMAPINFOHEADER) + uQuadSize, 0);
-        m_pbmiArray = (LPBITMAPINFO)m_bmi.data();
+        m_pbmiArray = reinterpret_cast<LPBITMAPINFO>(m_bmi.data());
 
         m_pbmiArray->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
         m_pbmiArray->bmiHeader.biHeight = data.bmHeight;

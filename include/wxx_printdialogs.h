@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -694,7 +694,7 @@ namespace Win32xx
             {
                 assert(lparam);
                 if (lparam == 0) return 0;
-                PAGESETUPDLG psd = *((LPPAGESETUPDLG)lparam);
+                PAGESETUPDLG psd = *(reinterpret_cast<LPPAGESETUPDLG>(lparam));
                 return static_cast<INT_PTR>(pDlg->OnPreDrawPage(LOWORD(wparam), HIWORD(wparam), psd));
             }
 
@@ -707,7 +707,7 @@ namespace Win32xx
             {
                 assert(lparam);
                 if (lparam == 0) return 0;
-                RECT rc = *((LPRECT)lparam);
+                RECT rc = *(reinterpret_cast<LPRECT>(lparam));
                 return static_cast<INT_PTR>(pDlg->OnDrawPage(reinterpret_cast<HDC>(wparam), message, rc));
             }
         }

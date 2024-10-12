@@ -755,7 +755,7 @@ namespace Win32xx
         if (format)
         {
             DWORD result = ::FormatMessageW(FORMAT_MESSAGE_FROM_STRING|FORMAT_MESSAGE_ALLOCATE_BUFFER,
-                                  format, 0, 0, (LPWSTR)&temp, 0, &args);
+                                  format, 0, 0, reinterpret_cast<LPWSTR>(&temp), 0, &args);
 
             if ( result == 0 || temp == 0 )
                 throw std::bad_alloc();
@@ -811,12 +811,12 @@ namespace Win32xx
         assert(var);
         Empty();
 
+        // Returns text length including NULL character.
         DWORD length = ::GetEnvironmentVariableA(var, nullptr, 0);
         if (length > 0)
         {
-            std::vector<CHAR> buffer(size_t(length) +1, 0 );
-            ::GetEnvironmentVariableA(var, buffer.data(), length);
-            m_str = buffer.data();
+            ::GetEnvironmentVariableA(var, GetBuffer(length), length);
+            ReleaseBuffer();
         }
 
         return (length != 0);
@@ -829,12 +829,12 @@ namespace Win32xx
         assert(var);
         Empty();
 
+        // Returns text length including NULL character.
         DWORD length = ::GetEnvironmentVariableW(var, nullptr, 0);
         if (length > 0)
         {
-            std::vector<WCHAR> buffer(static_cast<size_t>(length) +1, 0);
-            ::GetEnvironmentVariableW(var, buffer.data(), length);
-            m_str = buffer.data();
+            ::GetEnvironmentVariableW(var, GetBuffer(length), length);
+            ReleaseBuffer();
         }
 
         return (length != 0);
@@ -845,12 +845,13 @@ namespace Win32xx
     inline void CStringA::GetWindowText(HWND wnd)
     {
         Empty();
+
+        // Returns text length NOT including NULL character.
         int length = ::GetWindowTextLengthA(wnd);
         if (length > 0)
         {
-            std::vector<CHAR> buffer(size_t(length) +1, 0 );
-            ::GetWindowTextA(wnd, buffer.data(), length +1);
-            m_str = buffer.data();
+            ::GetWindowTextA(wnd, GetBuffer(length + 1), length + 1);
+            ReleaseBuffer();
         }
     }
 
@@ -859,12 +860,13 @@ namespace Win32xx
     inline void CStringT<T>::GetWindowText(HWND wnd)
     {
         Empty();
+
+        // Returns text length NOT including NULL character.
         int length = ::GetWindowTextLengthW(wnd);
         if (length > 0)
         {
-            std::vector<WCHAR> buffer(size_t(length) +1, 0 );
-            ::GetWindowTextW(wnd, buffer.data(), length +1);
-            m_str = buffer.data();
+            ::GetWindowTextW(wnd, GetBuffer(length +1), length + 1);
+            ReleaseBuffer();
         }
     }
 

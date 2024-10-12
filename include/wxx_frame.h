@@ -2084,7 +2084,7 @@ namespace Win32xx
     template <class T>
     inline LRESULT CFrameT<T>::OnDrawItem(UINT, WPARAM, LPARAM lparam)
     {
-        LPDRAWITEMSTRUCT pDrawItem = (LPDRAWITEMSTRUCT)lparam;
+        LPDRAWITEMSTRUCT pDrawItem = reinterpret_cast<LPDRAWITEMSTRUCT>(lparam);
 
         if (pDrawItem != nullptr)
         {
@@ -2277,7 +2277,7 @@ namespace Win32xx
     template <class T>
     inline LRESULT CFrameT<T>::OnMeasureItem(UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        LPMEASUREITEMSTRUCT pmis = (LPMEASUREITEMSTRUCT) lparam;
+        LPMEASUREITEMSTRUCT pmis = reinterpret_cast<LPMEASUREITEMSTRUCT>(lparam);
         if (pmis->CtlType != ODT_MENU)
             return CWnd::WndProcDefault(msg, wparam, lparam);
 
@@ -2372,7 +2372,7 @@ namespace Win32xx
         case RBN_HEIGHTCHANGE:    return OnRBNHeightChange(pHeader);
         case RBN_LAYOUTCHANGED:   return OnRBNLayoutChanged(pHeader);
         case RBN_MINMAX:          return OnRBNMinMax(pHeader);
-        case TTN_GETDISPINFO:     return OnTTNGetDispInfo((LPNMTTDISPINFO)lparam);
+        case TTN_GETDISPINFO:     return OnTTNGetDispInfo(reinterpret_cast<LPNMTTDISPINFO>(lparam));
         case UWN_UNDOCKED:        return OnUndocked();
         }
 

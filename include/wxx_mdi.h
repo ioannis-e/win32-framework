@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -358,7 +358,7 @@ namespace Win32xx
         LRESULT result = T::CustomDrawMenuBar(pNMHDR);
 
         // Retrieve the pointer to the CMenuBar
-        LPNMTBCUSTOMDRAW lpNMCustomDraw = (LPNMTBCUSTOMDRAW)pNMHDR;
+        LPNMTBCUSTOMDRAW lpNMCustomDraw = reinterpret_cast<LPNMTBCUSTOMDRAW>(pNMHDR);
         CMenuBar* pMenubar = reinterpret_cast<CMenuBar*>
             (::SendMessage(pNMHDR->hwndFrom, UWM_GETCMENUBAR, 0, 0));
 
@@ -805,7 +805,7 @@ namespace Win32xx
             {
                 if (wparam && lparam)
                 {
-                    LPBOOL pIsMDIChildMax = (LPBOOL)lparam;
+                    LPBOOL pIsMDIChildMax = reinterpret_cast<LPBOOL>(lparam);
                     OnMDIMaximized(*pIsMDIChildMax);
                 }
                 break;
