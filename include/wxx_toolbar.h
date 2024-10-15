@@ -94,7 +94,7 @@ namespace Win32xx
         HWND  GetToolTips() const;
         BOOL  HasText() const;
         BOOL  HideButton(UINT buttonID, BOOL show) const;
-        int   HitTest(const POINT& pt) const;
+        int   HitTest(POINT pt) const;
         int   HitTest() const;
         BOOL  Indeterminate(UINT buttonID, BOOL isIndeterminate) const;
         BOOL  InsertButton(int index, const TBBUTTON& buttonInfo) const;
@@ -650,7 +650,7 @@ namespace Win32xx
 
     // Returns the button that's positioned at the specified point.
     // Refer to TB_HITTEST in the Windows API documentation for more information.
-    inline int CToolBar::HitTest(const POINT& pt) const
+    inline int CToolBar::HitTest(POINT pt) const
     {
         assert(IsWindow());
         LPARAM lparam = reinterpret_cast<LPARAM>(&pt);
@@ -965,7 +965,7 @@ namespace Win32xx
             if (stringIndex != -1)
             {
                 // Save the string its index in our map.
-                m_stringMap.insert(std::make_pair(string, stringIndex));
+                m_stringMap.emplace(std::make_pair(string, stringIndex));
 
                 succeeded = TRUE;
             }

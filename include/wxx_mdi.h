@@ -372,13 +372,11 @@ namespace Win32xx
             // An item is about to be drawn.
             case CDDS_ITEMPREPAINT:
             {
-                CRect rc = lpNMCustomDraw->nmcd.rc;
                 DWORD item = static_cast<DWORD>(lpNMCustomDraw->nmcd.dwItemSpec);
 
                 // Draw over MDI Max button.
                 if (IsMDIChildMaxed() && (item == 0))
                 {
-                    CDC drawDC(lpNMCustomDraw->nmcd.hdc);
                     CWnd* pActiveChild = GetActiveMDIChild();
                     assert(pActiveChild);
                     if (pActiveChild)
@@ -387,10 +385,13 @@ namespace Win32xx
                         if (icon == 0)
                             icon = GetApp()->LoadStandardIcon(IDI_APPLICATION);
 
+                        CRect rc = lpNMCustomDraw->nmcd.rc;
                         int cx = ::GetSystemMetrics(SM_CXSMICON) * GetWindowDpi(*this) / GetWindowDpi(HWND_DESKTOP);
                         int cy = ::GetSystemMetrics(SM_CYSMICON) * GetWindowDpi(*this) / GetWindowDpi(HWND_DESKTOP);
                         int y = 1 + (pMenubar->GetWindowRect().Height() - cy) / 2;
                         int x = (rc.Width() - cx) / 2;
+
+                        CDC drawDC(lpNMCustomDraw->nmcd.hdc);
                         drawDC.DrawIconEx(x, y, icon, cx, cy, 0, 0, DI_NORMAL);
                     }
                     return CDRF_SKIPDEFAULT;  // No further drawing

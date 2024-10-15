@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -282,11 +282,12 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_wndLock);
 
             // Erase the CMenu data pointer in the map.
-            auto m = GetApp()->m_mapCMenuData.find(m_pData->menu);
-            if (m != GetApp()->m_mapCMenuData.end())
+            auto& map = GetApp()->m_mapCMenuData;
+            auto m = map.find(m_pData->menu);
+            if (m != map.end())
             {
                 // Erase the CMenu data pointer from the map.
-                GetApp()->m_mapCMenuData.erase(m);
+                map.erase(m);
                 success = TRUE;
             }
         }

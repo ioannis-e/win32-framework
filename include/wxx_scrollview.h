@@ -83,7 +83,7 @@ namespace Win32xx
         BOOL IsVScrollVisible() const    { return (GetStyle() &  WS_VSCROLL) != FALSE; }
         void SetScrollPosition(POINT pt);
         void SetScrollSizes(CSize totalSize = CSize(0,0), CSize pageSize = CSize(0,0), CSize lineSize = CSize(0,0));
-        void SetScrollBkgnd(CBrush bkgndBrush) { m_bkgndBrush = bkgndBrush; }
+        void SetScrollBkgnd(const CBrush& bkgndBrush) { m_bkgndBrush = bkgndBrush; }
 
     protected:
         virtual void    FillOutsideRect(CDC& dc, HBRUSH brush);

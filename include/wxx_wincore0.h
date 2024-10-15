@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -157,7 +157,7 @@ namespace Win32xx
                               DWORD style, int x, int y, int width, int height, HWND parent,
                               HMENU idOrMenu, LPVOID lparam = nullptr);
         virtual HWND CreateEx(DWORD exStyle, LPCTSTR className, LPCTSTR windowName,
-                              DWORD style, const RECT& rectc, HWND parent, UINT id, LPVOID lparam = nullptr);
+                              DWORD style, RECT rectc, HWND parent, UINT id, LPVOID lparam = nullptr);
         virtual void Destroy();
         virtual HWND Detach();
         static  CWnd* GetCWndPtr(HWND wnd);
@@ -185,19 +185,19 @@ namespace Win32xx
         void    Close() const;
         BOOL    CloseWindow() const;
         HDWP    DeferWindowPos(HDWP winPosInfo, HWND insertAfter, int x, int y, int cx, int cy, UINT flags) const;
-        HDWP    DeferWindowPos(HDWP winPosInfo, HWND insertAfter, const RECT& rect, UINT flags) const;
+        HDWP    DeferWindowPos(HDWP winPosInfo, HWND insertAfter, RECT rect, UINT flags) const;
         LRESULT DefWindowProc(UINT msg, WPARAM wparam, LPARAM lparam) const;
         int     DlgDirList(LPTSTR pathSpec, UINT listBoxID, UINT staticPathID, UINT fileType) const;
         int     DlgDirListComboBox(LPTSTR pathSpec, UINT comboBoxID, UINT staticPathID, UINT filetype) const;
         BOOL    DlgDirSelectEx(LPTSTR string, int count, UINT listBoxID) const;
         BOOL    DlgDirSelectComboBoxEx(LPTSTR string, int count, UINT comboBoxID) const;
-        CFont   DpiScaleFont(CFont font, int pointSize) const;
+        CFont   DpiScaleFont(const CFont& font, int pointSize) const;
         int     DpiScaleInt(int value) const;
         LOGFONT DpiScaleLogfont(LOGFONT logfont, int pointSize) const;
         CRect   DpiScaleRect(RECT rc) const;
-        CBitmap DpiScaleUpBitmap(CBitmap bitmap) const;
-        BOOL    DrawAnimatedRects(UINT aniID, const RECT& from, const RECT& to) const;
-        BOOL    DrawCaption(HDC dc, const RECT& rect, UINT flags) const;
+        CBitmap DpiScaleUpBitmap(const CBitmap& bitmap) const;
+        BOOL    DrawAnimatedRects(UINT aniID, RECT from, RECT to) const;
+        BOOL    DrawCaption(HDC dc, RECT rect, UINT flags) const;
         BOOL    DrawMenuBar() const;
         BOOL    EnableScrollBar(UINT flags, UINT arrows) const;
         BOOL    EnableWindow(BOOL Enable = TRUE) const;
@@ -242,7 +242,7 @@ namespace Win32xx
         int     GetWindowTextLength() const;
         BOOL    HiliteMenuItem(HMENU menu, UINT itemID, UINT hilite) const;
         void    Invalidate(BOOL erase = TRUE) const;
-        BOOL    InvalidateRect(const RECT& rect, BOOL erase = TRUE) const;
+        BOOL    InvalidateRect(RECT rect, BOOL erase = TRUE) const;
         BOOL    InvalidateRect(BOOL erase = TRUE) const;
         BOOL    InvalidateRgn(HRGN rgn, BOOL erase = TRUE) const;
         BOOL    IsChild(HWND child) const;
@@ -260,18 +260,18 @@ namespace Win32xx
         int     MapWindowPoints(HWND to, LPPOINT pointsArray, UINT count) const;
         int     MessageBox(LPCTSTR text, LPCTSTR caption, UINT type) const;
         BOOL    MoveWindow(int x, int y, int width, int height, BOOL repaint = TRUE) const;
-        BOOL    MoveWindow(const RECT& rect, BOOL repaint = TRUE) const;
+        BOOL    MoveWindow(RECT rect, BOOL repaint = TRUE) const;
         BOOL    OpenIcon() const;
         BOOL    PostMessage(UINT msg, WPARAM wparam = 0, LPARAM lparam = 0) const;
         BOOL    PostMessage(HWND wnd, UINT msg, WPARAM wparam, LPARAM lparam) const;
         void    Print(HDC dc, DWORD flags) const;
-        BOOL    RedrawWindow(const RECT& updateRect, UINT flags = RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_ALLCHILDREN) const;
+        BOOL    RedrawWindow(RECT updateRect, UINT flags = RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_ALLCHILDREN) const;
         BOOL    RedrawWindow(HRGN rgn, UINT flags = RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_ALLCHILDREN) const;
         BOOL    RedrawWindow(UINT flags = RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_ALLCHILDREN) const;
         int     ReleaseDC(HDC dc) const;
         BOOL    ScreenToClient(POINT& point) const;
         BOOL    ScreenToClient(RECT& rect) const;
-        BOOL    ScrollWindow(int xAmount, int yAmount, const RECT& scrollRect, LPCRECT pClipRect = nullptr) const;
+        BOOL    ScrollWindow(int xAmount, int yAmount, RECT scrollRect, LPCRECT pClipRect = nullptr) const;
         BOOL    ScrollWindow(int xAmount, int yAmount, LPCRECT pClipRect = nullptr) const;
         int     ScrollWindowEx(int dx, int dy, LPCRECT pScrollRect, LPCRECT pClipRect, HRGN updateRgn, LPRECT updateRect, UINT flags) const;
         LRESULT SendDlgItemMessage(UINT dlgItemID, UINT msg, WPARAM wparam, LPARAM lparam) const;
@@ -300,7 +300,7 @@ namespace Win32xx
         LONG_PTR SetWindowLongPtr(int index, LONG_PTR newLong) const;
         BOOL    SetWindowPlacement(const WINDOWPLACEMENT& wndpl) const;
         BOOL    SetWindowPos(HWND insertAfter, int x, int y, int cx, int cy, UINT flags) const;
-        BOOL    SetWindowPos(HWND insertAfter, const RECT& rect, UINT flags) const;
+        BOOL    SetWindowPos(HWND insertAfter, RECT rect, UINT flags) const;
         int     SetWindowRgn(HRGN rgn, BOOL redraw = TRUE) const;
         BOOL    SetWindowText(LPCTSTR text) const;
         HRESULT SetWindowTheme(LPCWSTR subAppName, LPCWSTR subIdList) const;
@@ -310,7 +310,7 @@ namespace Win32xx
         BOOL    ShowWindowAsync(int showCmd) const;
         BOOL    UnlockWindowUpdate() const;
         BOOL    UpdateWindow() const;
-        BOOL    ValidateRect(const RECT& rect) const;
+        BOOL    ValidateRect(RECT rect) const;
         BOOL    ValidateRect() const;
         BOOL    ValidateRgn(HRGN rgn) const;
         CWnd    WindowFromDC(HDC dc) const;

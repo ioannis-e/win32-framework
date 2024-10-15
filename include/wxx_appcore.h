@@ -272,28 +272,28 @@ namespace Win32xx
     inline void CWinApp::AddCDCData(HDC dc, std::weak_ptr<CDC_Data> pData)
     {
         CThreadLock mapLock(m_gdiLock);
-        m_mapCDCData.insert(std::make_pair(dc, pData));
+        m_mapCDCData.emplace(std::make_pair(dc, pData));
     }
 
     // Adds a HGDIOBJ and CGDI_Data* pair to the map.
     inline void CWinApp::AddCGDIData(HGDIOBJ gdi, std::weak_ptr<CGDI_Data> pData)
     {
         CThreadLock mapLock(m_gdiLock);
-        m_mapCGDIData.insert(std::make_pair(gdi, pData));
+        m_mapCGDIData.emplace(std::make_pair(gdi, pData));
     }
 
     // Adds a HIMAGELIST and CIml_Data* pair to the map.
     inline void CWinApp::AddCImlData(HIMAGELIST images, std::weak_ptr<CIml_Data> pData)
     {
         CThreadLock mapLock(m_wndLock);
-        m_mapCImlData.insert(std::make_pair(images, pData));
+        m_mapCImlData.emplace(std::make_pair(images, pData));
     }
 
     // Adds a HMENU and CMenu_Data* to the map.
     inline void CWinApp::AddCMenuData(HMENU menu, std::weak_ptr<CMenu_Data> pData)
     {
         CThreadLock mapLock(m_wndLock);
-        m_mapCMenuData.insert(std::make_pair(menu, pData));
+        m_mapCMenuData.emplace(std::make_pair(menu, pData));
     }
 
     // Retrieves a pointer to CDC_Data from the map.

@@ -325,7 +325,7 @@ namespace Win32xx
             CDockClient();
             virtual ~CDockClient() override {}
 
-            void Draw3DBorder(const RECT& rect);
+            void Draw3DBorder(RECT rect);
             void DrawCaption();
             void DrawCloseButton(CDC& drawDC);
             CRect GetCloseRect() const;
@@ -507,8 +507,8 @@ namespace Win32xx
         virtual CDocker* AddDockedChild(CDocker* pDocker, DWORD dockStyle, int dockSize, int dockID = 0);
         virtual CDocker* AddDockedChild(DockPtr docker, DWORD dockStyle, int dockSize, int dockID = 0);
         virtual CDocker* AddUndockedChild(CDocker* pDocker, DWORD dockStyle,
-                                          int dockSize, const RECT& rc, int dockID = 0);
-        virtual CDocker* AddUndockedChild(DockPtr docker, DWORD dockStyle, int dockSize, const RECT& rc, int dockID = 0);
+                                          int dockSize, RECT rc, int dockID = 0);
+        virtual CDocker* AddUndockedChild(DockPtr docker, DWORD dockStyle, int dockSize, RECT rc, int dockID = 0);
         virtual void CloseAllDockers();
         virtual void Dock(CDocker* pDocker, UINT dockSide);
         virtual void DockInContainer(CDocker* pDocker, DWORD dockStyle, BOOL selectPage = TRUE);
@@ -613,7 +613,7 @@ namespace Win32xx
         void DockOuter(CDocker* pDocker, DWORD dockStyle);
         void DrawAllCaptions() const;
         void ConvertToChild(HWND parent) const;
-        void ConvertToPopup(const RECT& rc, BOOL showUndocked);
+        void ConvertToPopup(RECT rc, BOOL showUndocked);
         int  GetMonitorDpi(HWND wnd);
         void MoveDockChildren(CDocker* pDockTarget);
         void PromoteFirstChild();
@@ -815,7 +815,7 @@ namespace Win32xx
         m_penColor = RGB(160, 150, 140);
     }
 
-    inline void CDocker::CDockClient::Draw3DBorder(const RECT& rect)
+    inline void CDocker::CDockClient::Draw3DBorder(RECT rect)
     {
         // Imitates the drawing of the WS_EX_CLIENTEDGE extended style.
         // This draws a 2 pixel border around the specified RECT.
@@ -1244,9 +1244,11 @@ namespace Win32xx
     inline LRESULT CDocker::CDockClient::OnNCMouseLeave(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         m_isTracking = FALSE;
-        CWindowDC dc(*this);
-        if ((0 != m_pDocker) && !(m_pDocker->GetDockStyle() & (DS_NO_CAPTION|DS_NO_CLOSE)) && m_pDocker->IsUndockable())
+        if ((0 != m_pDocker) && !(m_pDocker->GetDockStyle() & (DS_NO_CAPTION | DS_NO_CLOSE)) && m_pDocker->IsUndockable())
+        {
+            CWindowDC dc(*this);
             DrawCloseButton(dc);
+        }
 
         m_isTracking = FALSE;
 
@@ -2147,14 +2149,14 @@ namespace Win32xx
     }
 
     // This function creates the docker, and adds it to the docker hierarchy as undocked.
-    inline CDocker* CDocker::AddUndockedChild(CDocker* pDocker, DWORD dockStyle, int dockSize, const RECT& rc, int dockID /* = 0*/)
+    inline CDocker* CDocker::AddUndockedChild(CDocker* pDocker, DWORD dockStyle, int dockSize, RECT rc, int dockID /* = 0*/)
     {
         assert(pDocker);
         return AddUndockedChild(DockPtr(pDocker), dockStyle, dockSize, rc, dockID);
     }
 
     // This function creates the docker, and adds it to the docker hierarchy as undocked.
-    inline CDocker* CDocker::AddUndockedChild(DockPtr docker, DWORD dockStyle, int dockSize, const RECT& rc, int dockID /* = 0*/)
+    inline CDocker* CDocker::AddUndockedChild(DockPtr docker, DWORD dockStyle, int dockSize, RECT rc, int dockID /* = 0*/)
     {
         CDocker* pDocker = docker.get();
         assert(pDocker);
@@ -2267,7 +2269,7 @@ namespace Win32xx
     }
 
     // Change the window to an "undocked" style.
-    inline void CDocker::ConvertToPopup(const RECT& rc, BOOL showUndocked)
+    inline void CDocker::ConvertToPopup(RECT rc, BOOL showUndocked)
     {
         ShowWindow(SW_HIDE);
         DWORD style = WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME;
@@ -2487,6 +2489,7 @@ namespace Win32xx
             top = pThis->GetDockAncestor()->GetHwnd();
 
         // Assign this docker's m_dockUnderPoint.
+        pThis->m_dockUnderPoint = nullptr;
         if (pThis->IsRelated(top) && top != pThis->GetHwnd())
         {
             CRect rc;
@@ -2606,7 +2609,6 @@ namespace Win32xx
         // Step 1: Find the top level Docker under the point.
         // EnumWindows assigns the Docker under the point to m_dockUnderPoint.
 
-        m_dockUnderPoint = nullptr;
         m_dockPoint = pt;
         EnumWindows(EnumWindowsProc, reinterpret_cast<LPARAM>(this));
 
@@ -4398,16 +4400,17 @@ namespace Win32xx
         {
             CDockContainer* pParent = pContainer->GetContainerParent();
             CDockContainer* pActive = pContainer->GetActiveContainer();
+            auto& pAllContainers = pParent->GetAllContainers();
             if (pActive)
             {
-                assert(pParent->GetAllContainers().size() > 0);
-                size_t lastTab = pParent->GetAllContainers().size() - 1;
+                assert(pAllContainers.size() > 0);
+                size_t lastTab = pAllContainers.size() - 1;
                 CDockContainer* pContainerLast = pContainer->GetContainerFromIndex(lastTab);
                 GetDockAncestor()->UndockContainer(pContainerLast, GetCursorPos(), FALSE);
 
-                while (pParent->GetAllContainers().size() > 0)
+                while (pAllContainers.size() > 0)
                 {
-                    lastTab = pParent->GetAllContainers().size() - 1;
+                    lastTab = pAllContainers.size() - 1;
                     CDockContainer* pContainerNext = pContainer->GetContainerFromIndex(lastTab);
 
                     CDocker* pDocker = pContainerNext->GetDocker();
@@ -4978,11 +4981,11 @@ namespace Win32xx
         {
             size_t pageIndex = static_cast<size_t>(parent->m_currentPage);
             CDockContainer* pContainer = parent->m_allInfo[pageIndex].pContainer;
-
-            if (pContainer->GetViewPage().IsWindow())
+            auto& viewPage = pContainer->GetViewPage();
+            if (viewPage.IsWindow())
             {
-                VERIFY(pContainer->GetViewPage().SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW));
-                pContainer->GetViewPage().RecalcLayout();
+                VERIFY(viewPage.SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW));
+                viewPage.RecalcLayout();
             }
         }
 

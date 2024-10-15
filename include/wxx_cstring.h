@@ -1639,16 +1639,14 @@ namespace Win32xx
     // Assign CString from a CHAR character.
     inline CString& CString::operator=(CHAR ch)
     {
-        AtoT tch(&ch, CP_ACP, 1);
-        m_str.assign(1, tch.c_str()[0]);
+        m_str.assign(1, CString(&ch, 1).GetAt(0));
         return *this;
     }
 
     // Assign CString from a WCHAR character.
     inline CString& CString::operator=(WCHAR ch)
     {
-        WtoT tch(&ch, CP_ACP, 1);
-        m_str.assign(1, tch.c_str()[0]);
+        m_str.assign(1, CString(&ch, 1).GetAt(0));
         return *this;
     }
 
@@ -1704,16 +1702,14 @@ namespace Win32xx
     // Append and assign from a CHAR character.
     inline CString& CString::operator+=(CHAR ch)
     {
-        AtoT tch(&ch, CP_ACP, 1);
-        m_str.append(1, tch.c_str()[0]);
+        m_str.append(1, CString(&ch, 1).GetAt(0));
         return *this;
     }
 
     // Append and assign from a WCHAR character.
     inline CString& CString::operator+=(WCHAR ch)
     {
-        WtoT tch(&ch, CP_ACP, 1);
-        m_str.append(1, tch.c_str()[0]);
+        m_str.append(1, CString(&ch, 1).GetAt(0));
         return *this;
     }
 
@@ -1766,8 +1762,7 @@ namespace Win32xx
     inline CString operator+(const CString& string1, CHAR ch)
     {
         CString str(string1);
-        AtoT tch(&ch, CP_ACP, 1);
-        str.m_str.append(1, tch.c_str()[0]);
+        str.m_str.append(1, CString(&ch, 1).GetAt(0));
         return str;
     }
 
@@ -1775,8 +1770,7 @@ namespace Win32xx
     inline CString operator+(const CString& string1, WCHAR ch)
     {
         CString str(string1);
-        WtoT tch(&ch, CP_ACP, 1);
-        str.m_str.append(1, tch.c_str()[0]);
+        str.m_str.append(1, CString(&ch, 1).GetAt(0));
         return str;
     }
 

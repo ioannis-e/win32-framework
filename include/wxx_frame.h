@@ -176,7 +176,7 @@ namespace Win32xx
         virtual void AddMRUEntry(LPCTSTR MRUEntry);
         virtual void AddToolBarBand(CToolBar& tb, DWORD bandStyle, UINT id);
         virtual void AddToolBarButton(UINT id, BOOL isEnabled = TRUE, LPCTSTR text = nullptr, int image = -1);
-        virtual void AdjustFrameRect(const RECT& viewRect);
+        virtual void AdjustFrameRect(RECT viewRect);
         virtual void ClearMenuIcons();
         virtual void CreateToolBar();
         virtual LRESULT CustomDrawMenuBar(NMHDR* pNMHDR);
@@ -629,7 +629,7 @@ namespace Win32xx
 
     // Adjust the size of the frame to accommodate the View window's dimensions.
     template <class T>
-    inline void CFrameT<T>::AdjustFrameRect(const RECT& viewRect)
+    inline void CFrameT<T>::AdjustFrameRect(RECT viewRect)
     {
         // Adjust for the view styles.
         CRect rc = viewRect;
@@ -718,12 +718,13 @@ namespace Win32xx
         // An item is about to be drawn
         case CDDS_ITEMPREPAINT:
             {
-                CRect rc = lpNMCustomDraw->nmcd.rc;
                 UINT state = lpNMCustomDraw->nmcd.uItemState;
                 DWORD item = static_cast<DWORD>(lpNMCustomDraw->nmcd.dwItemSpec);
 
                 if (GetMenuBarTheme().UseThemes)
                 {
+                    CRect rc = lpNMCustomDraw->nmcd.rc;
+
                     // Leave a pixel gap above and below the drawn rectangle.
                     if (IsUsingVistaMenu())
                         rc.InflateRect(0, -2);
@@ -2903,20 +2904,20 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::SetMenuBarBandSize()
     {
-        CRect rcClient = T::GetClientRect();
         CReBar& rb = GetReBar();
         int band = rb.GetBand(GetMenuBar());
         if (band >= 0)
         {
-            CRect rcBorder = rb.GetBandBorders(band);
-
             REBARBANDINFO rbbi{};
             rbbi.fMask = RBBIM_CHILDSIZE | RBBIM_SIZE;
             rb.GetBandInfo(band, rbbi);
-
             int width;
             if ((GetReBarTheme().UseThemes) && (GetReBarTheme().LockMenuBand))
+            {
+                CRect rcClient = T::GetClientRect();
+                CRect rcBorder = rb.GetBandBorders(band);
                 width = rcClient.Width() - rcBorder.Width() - 2;
+            }
             else
                 width = GetMenuBar().GetMaxSize().cx;
 
@@ -3089,9 +3090,6 @@ namespace Win32xx
 
         if (IsUsingThemes())
         {
-            // Retrieve the XP theme name.
-            CString xpThemeName = GetXPThemeName();
-
             // Predifined themes.
             enum Themetype{ Win8, Win7, XP_Blue, XP_Silver, XP_Olive, gray };
 
@@ -3100,6 +3098,9 @@ namespace Win32xx
 
             if (GetWinVersion() < 2600) // For Windows XP.
             {
+                // Retrieve the XP theme name.
+                CString xpThemeName = GetXPThemeName();
+
                 if (xpThemeName == _T("NormalColor"))
                     theme = XP_Blue;
                 if (xpThemeName == _T("Metallic"))

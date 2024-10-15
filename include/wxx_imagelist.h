@@ -616,11 +616,12 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_wndLock);
 
             // Find the CImageList data entry in the map.
-            auto it = GetApp()->m_mapCImlData.find(m_pData->images);
-            if (it != GetApp()->m_mapCImlData.end())
+            auto& map = GetApp()->m_mapCImlData;
+            auto it = map.find(m_pData->images);
+            if (it != map.end())
             {
                 // Erase the CImageList data entry from the map
-                GetApp()->m_mapCImlData.erase(it);
+                map.erase(it);
                 success = TRUE;
             }
         }

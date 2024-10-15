@@ -178,8 +178,8 @@ namespace Win32xx
 
         virtual void AddChild(HWND wnd, Alignment corner, DWORD style);
         virtual void HandleMessage(UINT msg, WPARAM wparam, LPARAM lparam);
-        virtual void Initialize(HWND parent, const RECT& minRect,
-                                const RECT& maxRect = CRect(0, 0, 0, 0));
+        virtual void Initialize(HWND parent, RECT minRect,
+                                RECT maxRect = CRect(0, 0, 0, 0));
         virtual void OnAfterDpiChange();
         virtual void OnBeforeDpiChange();
         virtual void OnHScroll(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -187,8 +187,8 @@ namespace Win32xx
         virtual void RecalcLayout();
         CRect GetMinRect() const { return m_minRect; }
         CRect GetMaxRect() const { return m_maxRect; }
-        void  SetMinRect(const RECT& minRect) { m_minRect = minRect; }
-        void  SetMaxRect(const RECT& rcMaxRect) { m_maxRect = rcMaxRect; }
+        void  SetMinRect(RECT minRect) { m_minRect = minRect; }
+        void  SetMaxRect(RECT rcMaxRect) { m_maxRect = rcMaxRect; }
 
         struct ResizeData
         {
@@ -858,7 +858,7 @@ namespace Win32xx
     // Sets up the Resizer by specifying the parent window (usually a dialog),
     // and the minimum and maximum allowed rectangle sizes.
     // Note: parent can either be a CWnd or a window handle (HWND)
-    inline void CResizer::Initialize(HWND parent, const RECT& minRect, const RECT& maxRect)
+    inline void CResizer::Initialize(HWND parent, RECT minRect, RECT maxRect)
     {
         assert (::IsWindow(parent));
 

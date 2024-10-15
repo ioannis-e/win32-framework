@@ -167,7 +167,7 @@ namespace Win32xx
     protected:
         // Override these functions as required.
         virtual INT_PTR DialogProc(UINT, WPARAM, LPARAM) override;
-        virtual UINT    OnDrawPage(HDC, UINT, const RECT&);
+        virtual UINT    OnDrawPage(HDC, UINT, RECT);
         virtual UINT    OnPreDrawPage(WORD paper, WORD flags, const PAGESETUPDLG& psd);
 
         // Not intended to be overridden.
@@ -717,7 +717,7 @@ namespace Win32xx
     // Override this function to customize drawing of the sample page in the Page Setup dialog box.
     // It is called in response to the following messages: WM_PSD_FULLPAGERECT; WM_PSD_MINMARGINRECT;
     // WM_PSD_MARGINRECT; WM_PSD_GREEKTEXTRECT; WM_PSD_ENVSTAMPRECT; and WM_PSD_YAFULLPAGERECT.
-    inline UINT CPageSetupDialog::OnDrawPage(HDC, UINT, const RECT&)
+    inline UINT CPageSetupDialog::OnDrawPage(HDC, UINT, RECT)
     {
         return 0; // do the default
     }

@@ -48,12 +48,12 @@ __declspec(dllexport) void ShowDialog()
     {
         if (!(*it)->IsRunning())
             it = allThreads.erase(it);
-        else 
+        else
             ++it;
     }
 
     allThreads.push_back(std::make_unique<CMyWinThread>());
-    
+
     // The dialog is created when the thread starts.
     allThreads.back()->CreateThread();
 }

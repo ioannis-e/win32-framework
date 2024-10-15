@@ -1,3 +1,22 @@
+Version 10.1
+============
+
+New Features and Enhancements
+-----------------------------
+* Updated the DLL sample.
+   The DLL sample now demonstrates how to create modeless dialogs in 
+   separate threads. The thread stops running when the dialog is closed.
+
+* The Win32xx::Shared_Ptr class has been removed.
+   The deprecated Win32xx::Shared_Ptr class has been removed from Win32++.
+   Either std::unique_ptr or std::shared_ptr can be used in place of
+   Win32xx::Shared_Ptr. 
+
+
+Changes in detail
+-----------------
+ - Removed Shared_Ptr          class    - use unique_ptr or shared_ptr instead.
+
 Version 10.0
 ============
 This version updates the library to utilize features available in C++11 and

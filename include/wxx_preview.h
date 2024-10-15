@@ -133,7 +133,7 @@ namespace Win32xx
         virtual ~CPreviewPane() override {}
 
         void Render(CDC& dc);
-        void SetBitmap(CBitmap bitmap) { m_bitmap = bitmap; }
+        void SetBitmap(const CBitmap& bitmap) { m_bitmap = bitmap; }
 
     protected:
         virtual void OnDraw(CDC& dc) override;
@@ -339,7 +339,7 @@ namespace Win32xx
 
     // Constructor.
     template <typename T>
-    inline CPrintPreview<T>::CPrintPreview() : 
+    inline CPrintPreview<T>::CPrintPreview() :
         CDialog(reinterpret_cast<LPCDLGTEMPLATE>(previewTemplate)),
         m_pSource(0), m_currentPage(0), m_maxPage(1), m_ownerWindow(0)
     {

@@ -211,7 +211,7 @@ namespace Win32xx
     // Scales the specified bitmap up by the specified scale factor.
     // Bitmap sizes can usually be multiplied by an integer value without
     // losing visual quality.
-    inline CBitmap ScaleUpBitmap(CBitmap bitmap, int scale)
+    inline CBitmap ScaleUpBitmap(const CBitmap& bitmap, int scale)
     {
         assert(bitmap.GetHandle() != nullptr);
         assert(scale != 0);
@@ -304,7 +304,7 @@ namespace Win32xx
         RemoveFromMap();
 
         // Add the (HWND, CWnd*) pair to the map
-        GetApp()->m_mapHWND.insert(std::make_pair(GetHwnd(), this));
+        GetApp()->m_mapHWND.emplace(std::make_pair(GetHwnd(), this));
     }
 
     // Attaches a CWnd object to an existing window and calls the OnAttach virtual function.
@@ -444,7 +444,7 @@ namespace Win32xx
     //  be a predefined class name or registered with RegisterClass. A failure
     //  to create a window throws an exception.
     inline HWND CWnd::CreateEx(DWORD exStyle, LPCTSTR className, LPCTSTR windowName,
-                               DWORD style, const RECT& rc, HWND parent, UINT id,
+                               DWORD style, RECT rc, HWND parent, UINT id,
                                LPVOID lparam /*= nullptr*/)
     {
         int x = rc.left;
@@ -598,7 +598,7 @@ namespace Win32xx
     }
 
     // Scales the specified font to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
-    inline CFont CWnd::DpiScaleFont(CFont font, int pointSize) const
+    inline CFont CWnd::DpiScaleFont(const CFont& font, int pointSize) const
     {
         int dpi = GetWindowDpi(*this);
         LOGFONT logfont = font.GetLogFont();
@@ -639,7 +639,7 @@ namespace Win32xx
     }
 
     // Scales up the specified bitmap to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
-    inline CBitmap CWnd::DpiScaleUpBitmap(CBitmap bitmap) const
+    inline CBitmap CWnd::DpiScaleUpBitmap(const CBitmap& bitmap) const
     {
         int dpi = GetWindowDpi(*this);
         int scale = std::max(1, dpi / USER_DEFAULT_SCREEN_DPI);
@@ -1026,11 +1026,12 @@ namespace Win32xx
             CThreadLock mapLock(GetApp()->m_wndLock);
 
             // Erase the CWnd pointer entry from the map.
-            for (auto it = GetApp()->m_mapHWND.begin(); it != GetApp()->m_mapHWND.end(); ++it)
+            auto& map = GetApp()->m_mapHWND;
+            for (auto it = map.begin(); it != map.end(); ++it)
             {
                 if (this == it->second)
                 {
-                    GetApp()->m_mapHWND.erase(it);
+                    map.erase(it);
                     success = TRUE;
                     break;
                 }
@@ -1410,7 +1411,7 @@ namespace Win32xx
     // The DeferWindowPos function updates the specified multiple window position structure for the window.
     // The insertAfter can one of:  HWND_BOTTOM, HWND_NOTOPMOST, HWND_TOP, or HWND_TOPMOST.
     // Refer to DeferWindowPos in the Windows API documentation for more information.
-    inline HDWP CWnd::DeferWindowPos(HDWP winPosInfo, HWND insertAfter, const RECT& rect, UINT flags) const
+    inline HDWP CWnd::DeferWindowPos(HDWP winPosInfo, HWND insertAfter, RECT rect, UINT flags) const
     {
         assert(IsWindow());
         return ::DeferWindowPos(winPosInfo, *this, insertAfter, rect.left,
@@ -1467,7 +1468,7 @@ namespace Win32xx
     // The DrawAnimatedRects function draws a wire-frame rectangle and animates it to indicate the opening of
     // an icon or the minimizing or maximizing of a window.
     // Refer to DrawAnimatedRects in the Windows API documentation for more information.
-    inline BOOL CWnd::DrawAnimatedRects(UINT aniID, const RECT& from, const RECT& to) const
+    inline BOOL CWnd::DrawAnimatedRects(UINT aniID, RECT from, RECT to) const
     {
         assert(IsWindow());
         return ::DrawAnimatedRects(*this, static_cast<int>(aniID), &from, &to);
@@ -1475,7 +1476,7 @@ namespace Win32xx
 
     // The DrawCaption function draws a window caption.
     // Refer to DrawCaption in the Windows API documentation for more information.
-    inline BOOL CWnd::DrawCaption(HDC dc, const RECT& rect, UINT flags) const
+    inline BOOL CWnd::DrawCaption(HDC dc, RECT rect, UINT flags) const
     {
         assert(IsWindow());
         return ::DrawCaption(*this, dc, &rect, flags);
@@ -1860,7 +1861,7 @@ namespace Win32xx
     // The InvalidateRect function adds a rectangle to the window's update region.
     // The update region represents the portion of the window's client area that must be redrawn.
     // Refer to InvalidateRect in the Windows API documentation for more information.
-    inline BOOL CWnd::InvalidateRect(const RECT& rect, BOOL erase /*= TRUE*/) const
+    inline BOOL CWnd::InvalidateRect(RECT rect, BOOL erase /*= TRUE*/) const
     {
         assert(IsWindow());
         return ::InvalidateRect(*this, &rect, erase);
@@ -2027,7 +2028,7 @@ namespace Win32xx
 
     // The MoveWindow function changes the position and dimensions of the window.
     // Refer to MoveWindow in the Windows API documentation for more information.
-    inline BOOL CWnd::MoveWindow(const RECT& rect, BOOL repaint /* = TRUE*/) const
+    inline BOOL CWnd::MoveWindow(RECT rect, BOOL repaint /* = TRUE*/) const
     {
         assert(IsWindow());
         return ::MoveWindow(*this, rect.left, rect.top, rect.right - rect.left,
@@ -2075,7 +2076,7 @@ namespace Win32xx
 
     // The RedrawWindow function updates the specified rectangle in a window's client area.
     // Refer to RedrawWindow in the Windows API documentation for more information.
-    inline BOOL CWnd::RedrawWindow(const RECT& updateRect, UINT flags) const
+    inline BOOL CWnd::RedrawWindow(RECT updateRect, UINT flags) const
     {
         assert(IsWindow());
         return ::RedrawWindow(*this, &updateRect, nullptr, flags);
@@ -2130,7 +2131,7 @@ namespace Win32xx
     // pClipRect points to the clipping rectangle to scroll. Only bits inside this rectangle are scrolled.
     // If prcClip is nullptr, no clipping is performed on the scroll rectangle.
     // Refer to ScrollWindow in the Windows API documentation for more information.
-    inline BOOL CWnd::ScrollWindow(int xAmount, int yAmount, const RECT& scrollRect, LPCRECT pClipRect) const
+    inline BOOL CWnd::ScrollWindow(int xAmount, int yAmount, RECT scrollRect, LPCRECT pClipRect) const
     {
         assert(IsWindow());
         return ::ScrollWindow(*this, xAmount, yAmount, &scrollRect, pClipRect);
@@ -2414,7 +2415,7 @@ namespace Win32xx
     // or top-level window.
     // The insertAfter can one of:  HWND_TOP, HWND_TOPMOST, HWND_BOTTOM, or HWND_NOTOPMOST.
     // Refer to SetWindowPos in the Windows API documentation for more information.
-    inline BOOL CWnd::SetWindowPos(HWND insertAfter, const RECT& rect, UINT flags) const
+    inline BOOL CWnd::SetWindowPos(HWND insertAfter, RECT rect, UINT flags) const
     {
         assert(IsWindow());
         return ::SetWindowPos(*this, insertAfter, rect.left, rect.top, rect.right - rect.left,
@@ -2431,9 +2432,11 @@ namespace Win32xx
         int iResult = ::SetWindowRgn(*this, rgn, redraw);
         if (rgn != nullptr)
         {
-            CRgn region(rgn);
             if (iResult != 0)
+            {
+                CRgn region(rgn);
                 region.Detach();   // The system owns the region now.
+            }
         }
 
         return iResult;
@@ -2522,7 +2525,7 @@ namespace Win32xx
     // The ValidateRect function validates the client area within a rectangle by
     // removing the rectangle from the update region of the window.
     // Refer to ValidateRect in the Windows API documentation for more information.
-    inline BOOL CWnd::ValidateRect(const RECT& rect) const
+    inline BOOL CWnd::ValidateRect(RECT rect) const
     {
         assert(IsWindow());
         return ::ValidateRect(*this, &rect);
