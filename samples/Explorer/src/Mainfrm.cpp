@@ -15,11 +15,6 @@ CMainFrame::CMainFrame()  : m_pLeftPane(0), m_showHidden(FALSE)
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

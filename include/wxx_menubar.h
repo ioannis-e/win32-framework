@@ -54,7 +54,7 @@ namespace Win32xx
 
     public:
         CMenuBar();
-        virtual ~CMenuBar() override;
+        virtual ~CMenuBar() override = default;
 
         void    DrawAllMDIButtons(CDC& drawDC);
         HMENU   GetBarMenu() const {return m_topMenu;}
@@ -150,10 +150,6 @@ namespace Win32xx
     inline CMenuBar::CMenuBar() : m_msgHook(nullptr), m_popupMenu(nullptr), m_selectedMenu(nullptr),
         m_topMenu(nullptr), m_prevFocus(nullptr), m_hotItem(-1), m_isAltMode(FALSE), m_isExitAfter(FALSE),
         m_isKeyMode(FALSE), m_isMenuActive(FALSE), m_isSelectedPopup(FALSE)
-    {
-    }
-
-    inline CMenuBar::~CMenuBar()
     {
     }
 

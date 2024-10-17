@@ -13,7 +13,7 @@ class CView : public CWnd
 {
 public:
     CView() : m_menu(IDW_MAIN), m_isMinimized(false) {}
-    virtual ~CView() override {}
+    virtual ~CView() override = default;
 
 protected:
     // Virtual functions that override base class functions

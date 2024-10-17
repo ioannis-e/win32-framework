@@ -29,7 +29,7 @@ CView   : public CScrollView                                            /*
 {
 public:
     CView();
-    virtual ~CView() override {}
+    virtual ~CView() override = default;
 
     // Attributes
     COLORREF  GetBkgndColor() const      { return m_bkgndColor; }

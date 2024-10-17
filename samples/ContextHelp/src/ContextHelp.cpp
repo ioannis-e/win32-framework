@@ -42,16 +42,6 @@
 // CContextHelp function definitions
 //
 
-// Constructor.
-CContextHelp::CContextHelp()
-{
-}
-
-// Destructor
-CContextHelp::~CContextHelp()
-{
-}
-
 // Add the (control-id, string topic) pair to the help topic table.
 // Assert if a duplicate id entered.
 void CContextHelp::AddHelpTopic(UINT id, LPCWSTR topic)

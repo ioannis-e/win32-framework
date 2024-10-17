@@ -26,7 +26,7 @@ CApp : public CWinApp                                                       /*
 {
     public:
         CApp();
-        virtual ~CApp() override {}
+        virtual ~CApp() override = default;
 
         CMainFrame&  GetFrame() { return m_frame;}
 

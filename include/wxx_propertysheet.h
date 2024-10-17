@@ -73,7 +73,7 @@ namespace Win32xx
     {
     public:
         CPropertyPage (UINT templateID, LPCTSTR title = nullptr);
-        virtual ~CPropertyPage() override {}
+        virtual ~CPropertyPage() override = default;
         virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual BOOL OnApply();
         virtual void OnCancel() override;
@@ -121,7 +121,7 @@ namespace Win32xx
     public:
         CPropertySheet(UINT captionID, HWND parent = nullptr);
         CPropertySheet(LPCTSTR caption = nullptr, HWND parent = nullptr);
-        virtual ~CPropertySheet() override {}
+        virtual ~CPropertySheet() override = default;
 
         // Operations
         virtual CPropertyPage* AddPage(CPropertyPage* pPage);

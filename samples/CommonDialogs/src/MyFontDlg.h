@@ -27,7 +27,7 @@ MyFontDialog : public CFontDialog                                       /*
 {
     public:
         MyFontDialog(DWORD dwFlags = 0, HDC hdcPrinter = nullptr);
-        virtual ~MyFontDialog() override {}
+        virtual ~MyFontDialog() override = default;
 
         SIZE    GetAvgSize() const { return m_fontSize;}
         CFont   GetChoiceFont() const { return m_font;}

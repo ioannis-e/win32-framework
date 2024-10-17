@@ -27,7 +27,7 @@ MyPrintDialog : public CPrintDialog                                         /*
         MyPrintDialog(DWORD dwFlags = PD_ALLPAGES | PD_USEDEVMODECOPIES |
             PD_NOPAGENUMS | PD_HIDEPRINTTOFILE | PD_NOSELECTION | PD_ENABLEPRINTHOOK)
             :   CPrintDialog(dwFlags) {}
-        virtual ~MyPrintDialog() override {}
+        virtual ~MyPrintDialog() override = default;
 
         void    SetBoxTitle (LPCWSTR title) {m_sPDTitle  = title;}
         void    SetWindowTitle() const { SetWindowText(m_sPDTitle); }
@@ -67,8 +67,8 @@ MyPageSetup : public CPageSetupDialog                                   /*
 {
     public:
         MyPageSetup(DWORD dwFlags = PSD_MARGINS)
-            :   CPageSetupDialog(dwFlags) { }
-        virtual ~MyPageSetup() override {}
+            :   CPageSetupDialog(dwFlags) {}
+        virtual ~MyPageSetup() override = default;
 
           // Record the title of the page setup dialog box after an object
           // of this class is constructed, but before DoModal() is invoked.

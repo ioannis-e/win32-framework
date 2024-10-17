@@ -145,12 +145,12 @@ namespace Win32xx
         //  CStringW& operator<<(CStringW& str, WCHAR ch);
 
         public:
-        CStringT();
+        CStringT() = default;
         CStringT(const CStringT& str);
         CStringT(const T * text);
         CStringT(const T * text, int length);
         CStringT(T ch, int repeat = 1);
-        virtual ~CStringT();
+        virtual ~CStringT() = default;
 
         CStringT& operator=(const CStringT& str);
         CStringT& operator=(T ch);
@@ -234,8 +234,8 @@ namespace Win32xx
         std::vector<T> m_buf;
 
     private:
-        int     lstrlenT(const CHAR* text) const  { return ::lstrlenA(text); }
-        int     lstrlenT(const WCHAR* text) const { return ::lstrlenW(text); }
+        size_t strlenT(const CHAR* text) const  { return strlen(text); }
+        size_t strlenT(const WCHAR* text) const { return wcslen(text); }
 
         // These functions return CHAR instead of int.
         static CHAR ToLower(CHAR c) { return static_cast<CHAR>(::tolower(static_cast<unsigned char>(c)) & 0xFF); }
@@ -284,7 +284,7 @@ namespace Win32xx
         CString(LPCWSTR text, int length)      : CStringT<TCHAR>(WtoT(text, CP_ACP, length), length) {}
         CString(CHAR ch, int repeat = 1);
         CString(WCHAR ch, int repeat = 1);
-        virtual ~CString() {}
+        virtual ~CString() = default;
 
         CString& operator=(const CString& str);
         CString& operator=(const CStringA& str);
@@ -314,18 +314,6 @@ namespace Win32xx
     /////////////////////////////////////////////
     // Definition of the CStringT class template.
     //
-
-    // Constructor.
-    template <class T>
-    inline CStringT<T>::CStringT()
-    {
-    }
-
-    // Destructor.
-    template <class T>
-    inline CStringT<T>::~CStringT()
-    {
-    }
 
     // Constructor. Assigns from a CStringT<T>.
     template <class T>
@@ -1007,11 +995,11 @@ namespace Win32xx
     // The default length of -1 copies from the buffer until a null terminator is reached.
     // If the buffer doesn't contain a null terminator, you must specify the buffer's length.
     template <class T>
-    inline void CStringT<T>::ReleaseBuffer( int newLength /*= -1*/ )
+    inline void CStringT<T>::ReleaseBuffer(int newLength /*= -1*/ )
     {
         if (newLength == -1)
         {
-            newLength = lstrlenT(m_buf.data());
+            newLength = static_cast<int>(strlenT(m_buf.data()));
         }
 
         assert(m_buf.size() > 0);
@@ -1036,7 +1024,7 @@ namespace Win32xx
 
         int count = 0;
         size_t pos = 0;
-        size_t len = lstrlenT(text);
+        size_t len = strlenT(text);
         if (len > 0)
         {
             while ((pos = m_str.find(text, pos)) != std::string::npos)
@@ -1092,8 +1080,8 @@ namespace Win32xx
 
         int count = 0;
         size_t pos = 0;
-        size_t lenOld = static_cast<size_t>(lstrlenT(oldText));
-        size_t lenNew = static_cast<size_t>(lstrlenT(newText));
+        size_t lenOld = strlenT(oldText);
+        size_t lenNew = strlenT(newText);
         if (lenOld > 0 && lenNew > 0)
         {
             while ((pos = m_str.find(oldText, pos)) != std::string::npos)
@@ -1121,7 +1109,7 @@ namespace Win32xx
         assert(text != nullptr);
         if (!text) return -1;
 
-        if (lstrlenT(text) == 1)
+        if (strlenT(text) == 1)
             return ReverseFind(text[0], end);
         else
             return static_cast<int>(m_str.rfind(text, static_cast<size_t>(end)));

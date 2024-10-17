@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -101,7 +101,7 @@ namespace Win32xx
                                    | PD_NOSELECTION | PD_NOCURRENTPAGE);
 
         // Destructor
-        virtual ~CPrintDialogEx() override {}
+        virtual ~CPrintDialogEx() override = default;
 
         virtual void OnApply() {}             // Apply then cancel button pressed.
         virtual void OnCancel() override {}   // Cancel button pressed or closed.

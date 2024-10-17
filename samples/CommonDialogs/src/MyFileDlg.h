@@ -35,6 +35,8 @@ MyFileDialog : public CFileDialog
         )   : CFileDialog(bOpenFileDialog, sDefExt, sFileName,
                 dwFlags, sFilter) {}
 
+        virtual ~MyFileDialog() override = default;
+
           // Record the title of the read/saveas dialog box after an object
           // of this class is constructed, but before DoModal() is invoked.
         void SetBoxTitle(LPCWSTR title)

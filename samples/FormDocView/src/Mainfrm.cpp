@@ -14,11 +14,6 @@ CMainFrame::CMainFrame() : m_formView(IDD_DIALOG1)
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

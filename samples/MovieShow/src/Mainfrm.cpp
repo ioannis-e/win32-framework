@@ -94,11 +94,6 @@ CMainFrame::CMainFrame() : m_thread(ThreadProc, this), m_searchItem(nullptr), m_
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Clears the contents of the movie info dialog.
 void CMainFrame::ClearDisplay()
 {

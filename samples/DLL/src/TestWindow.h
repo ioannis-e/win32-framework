@@ -10,7 +10,7 @@ class CTestWindow : public CWnd
 {
 public:
     CTestWindow() : m_menu(IDW_MAIN) {}
-    virtual ~CTestWindow() override {}
+    virtual ~CTestWindow() override = default;
 
 protected:
     // Virtual functions that override base class functions

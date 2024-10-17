@@ -106,7 +106,7 @@ namespace Win32xx
     public:
         CPrintDialog(DWORD flags = PD_ALLPAGES | PD_USEDEVMODECOPIES | PD_NOPAGENUMS |
                                         PD_HIDEPRINTTOFILE | PD_NOSELECTION );
-        virtual ~CPrintDialog() override;
+        virtual ~CPrintDialog() override = default;
 
         virtual INT_PTR DoModal(HWND owner = nullptr) override;
         int     GetCopies() const;
@@ -154,7 +154,7 @@ namespace Win32xx
     {
     public:
         CPageSetupDialog( DWORD flags = PSD_MARGINS );
-        virtual ~CPageSetupDialog() override {}
+        virtual ~CPageSetupDialog() override = default;
 
         virtual INT_PTR DoModal(HWND owner = nullptr) override;
         CDevMode GetDevMode() const;
@@ -207,10 +207,6 @@ namespace Win32xx
             m_pd.Flags |= PD_ENABLEPRINTHOOK;
 
         SetParameters(m_pd);
-    }
-
-    inline CPrintDialog::~CPrintDialog()
-    {
     }
 
     // Returns the device context of the default or currently chosen printer.

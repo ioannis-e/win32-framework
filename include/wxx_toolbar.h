@@ -52,7 +52,7 @@ namespace Win32xx
     {
     public:
         CToolBar();
-        virtual ~CToolBar() override;
+        virtual ~CToolBar() override = default;
 
         // Operations
         virtual int  AddBitmap(UINT bitmapID);
@@ -166,10 +166,6 @@ namespace Win32xx
     //
 
     inline CToolBar::CToolBar() : m_oldBitmapID(0)
-    {
-    }
-
-    inline CToolBar::~CToolBar()
     {
     }
 

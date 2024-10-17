@@ -17,11 +17,6 @@ CMainFrame::CMainFrame() : m_preview(m_view), m_isToolbarShown(true), m_oldFocus
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Adjusts the specified value for the current DPI.
 int CMainFrame::AdjustForDPI(int value) const
 {

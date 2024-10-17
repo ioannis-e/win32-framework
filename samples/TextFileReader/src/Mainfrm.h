@@ -31,7 +31,7 @@ CMainFrame : public CFrame                                                  /*
 {
     public:
         CMainFrame(void);
-        virtual     ~CMainFrame() override {}
+        virtual     ~CMainFrame() override = default;
         virtual HWND Create(HWND parent = nullptr) override;
 
         CDoc&       TheDoc()      {return m_view.TheDoc();}

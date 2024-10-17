@@ -23,7 +23,7 @@ public:
     void SetDarkTheme();
 
     // Virtual functions that override public base class functions
-    virtual ~CMainFrame() override;
+    virtual ~CMainFrame() override = default;
     virtual HWND Create(HWND parent = nullptr) override;
 
 protected:

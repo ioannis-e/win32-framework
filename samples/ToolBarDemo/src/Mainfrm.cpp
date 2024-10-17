@@ -15,11 +15,6 @@ CMainFrame::CMainFrame() : m_useBigIcons(true)
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

@@ -83,7 +83,7 @@ CPreviewPaneEx : public CScrollView                                       /*
 {
     public:
         CPreviewPaneEx();
-        virtual ~CPreviewPaneEx() override {}
+        virtual ~CPreviewPaneEx() override = default;
 
         void    SetBitmap(CBitmap Bitmap) { m_bitmap = Bitmap; }
         void    SetPaneZoomState(int val)
@@ -129,7 +129,7 @@ CPrintPreviewEx : public CDialog                                         /*
 {
     public:
         CPrintPreviewEx(DWORD flags = HIDE_HELP);
-        virtual ~CPrintPreviewEx() {}
+        virtual ~CPrintPreviewEx() = default;
 
         BOOL    OnPreview(const CString&);
 

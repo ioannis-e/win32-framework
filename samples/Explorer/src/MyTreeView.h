@@ -16,8 +16,8 @@ using namespace ShellWrapper;
 class CMyTreeView : public CTreeView
 {
 public:
-    CMyTreeView();
-    virtual ~CMyTreeView() override;
+    CMyTreeView() = default;
+    virtual ~CMyTreeView() override = default;
     BOOL GetRootItems();
     BOOL SelectFromListView(Cpidl& cpidlFull);
 

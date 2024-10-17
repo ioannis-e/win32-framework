@@ -16,11 +16,6 @@ CMainFrame::CMainFrame() : m_isDPIChanging(false)
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

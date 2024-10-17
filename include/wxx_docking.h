@@ -63,6 +63,7 @@
 #include "wxx_regkey.h"
 #include "wxx_themes.h"
 #include "default_resource.h"
+#include <deque>
 
 
 namespace Win32xx
@@ -134,7 +135,7 @@ namespace Win32xx
         {
         public:
             CViewPage();
-            virtual ~CViewPage() override {}
+            virtual ~CViewPage() override = default;
 
             CDockContainer* GetContainer() const;
             CWnd* GetTabCtrl() const { return m_pTab; }
@@ -166,7 +167,7 @@ namespace Win32xx
 
     public:
         CDockContainer();
-        virtual ~CDockContainer() override;
+        virtual ~CDockContainer() override = default;
 
         virtual void AddContainer(CDockContainer* pContainer, BOOL insert = FALSE, BOOL selectPage = TRUE);
         virtual void AddToolBarButton(UINT id, BOOL isEnabled = TRUE);
@@ -285,7 +286,7 @@ namespace Win32xx
         {
         public:
             CDockBar();
-            virtual ~CDockBar() override;
+            virtual ~CDockBar() override = default;
 
             CBrush GetBrushBkgnd() const     {return m_brBackground;}
             CDocker& GetDocker() const       {assert (m_pDocker); return *m_pDocker;}
@@ -323,7 +324,7 @@ namespace Win32xx
         {
         public:
             CDockClient();
-            virtual ~CDockClient() override {}
+            virtual ~CDockClient() override = default;
 
             void Draw3DBorder(RECT rect);
             void DrawCaption();
@@ -343,7 +344,6 @@ namespace Win32xx
             virtual LRESULT OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam);
             virtual LRESULT OnNCCalcSize(UINT msg, WPARAM wparam, LPARAM lparam);
             virtual LRESULT OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam);
-            virtual LRESULT OnNCLButtonDblClk(UINT msg, WPARAM wparam, LPARAM lparam);
             virtual LRESULT OnNCLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam);
             virtual LRESULT OnNCMouseLeave(UINT msg, WPARAM wparam, LPARAM lparam);
             virtual LRESULT OnNCMouseMove(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -380,7 +380,7 @@ namespace Win32xx
         {
         public:
             CDockHint();
-            virtual ~CDockHint() override;
+            virtual ~CDockHint() override = default;
 
             RECT CalcHintRectContainer(CDocker* pDockTarget);
             RECT CalcHintRectInner(CDocker* pDockTarget, CDocker* pDockDrag, UINT dockSide);
@@ -403,8 +403,8 @@ namespace Win32xx
         class CTarget : public CWnd
         {
         public:
-            CTarget() {}
-            virtual ~CTarget() override {}
+            CTarget() = default;
+            virtual ~CTarget() override = default;
 
         protected:
             virtual void OnDraw(CDC& dc) override;
@@ -425,7 +425,7 @@ namespace Win32xx
         {
         public:
             CTargetCentre();
-            virtual ~CTargetCentre() override;
+            virtual ~CTargetCentre() override = default;
 
             BOOL CheckTarget(DragPos* pDragPos);
             BOOL IsOverContainer() const { return m_isOverContainer; }
@@ -447,6 +447,7 @@ namespace Win32xx
         {
         public:
             CTargetLeft();
+            virtual ~CTargetLeft() override = default;
             BOOL CheckTarget(DragPos* pDragPos);
 
         private:
@@ -459,6 +460,7 @@ namespace Win32xx
         {
         public:
             CTargetTop();
+            virtual ~CTargetTop() override = default;
             BOOL CheckTarget(DragPos* pDragPos);
 
         private:
@@ -471,6 +473,7 @@ namespace Win32xx
         {
         public:
             CTargetRight();
+            virtual ~CTargetRight() override = default;
             BOOL CheckTarget(DragPos* pDragPos);
 
         private:
@@ -483,6 +486,7 @@ namespace Win32xx
         {
         public:
             CTargetBottom();
+            virtual ~CTargetBottom() override = default;
             BOOL CheckTarget(DragPos* pDragPos);
 
         private:
@@ -501,7 +505,7 @@ namespace Win32xx
 
     public:
         CDocker();
-        virtual ~CDocker();
+        virtual ~CDocker() = default;
 
         // Operations
         virtual CDocker* AddDockedChild(CDocker* pDocker, DWORD dockStyle, int dockSize, int dockID = 0);
@@ -527,9 +531,9 @@ namespace Win32xx
         virtual BOOL VerifyDockers();
 
         // Accessors and mutators
-        const std::vector<DockPtr>& GetAllDockChildren() const    {return GetDockAncestor()->m_allDockChildren;}
-        const std::vector<CDocker*>& GetDockChildren() const      {return m_dockChildren;}
-        const std::vector<CDocker*>& GetAllDockers()  const       {return m_allDockers;}
+        const std::deque<DockPtr>& GetAllDockChildren() const    {return GetDockAncestor()->m_allDockChildren;}
+        const std::deque<CDocker*>& GetDockChildren() const      {return m_dockChildren;}
+        const std::deque<CDocker*>& GetAllDockers()  const       {return m_allDockers;}
 
         CDocker* GetActiveDocker() const;
         CWnd*    GetActiveView() const;
@@ -606,7 +610,7 @@ namespace Win32xx
     private:
         CDocker(const CDocker&) = delete;
         CDocker& operator=(const CDocker&) = delete;
-        std::vector <DockPtr> & GetAllChildren() const {return GetDockAncestor()->m_allDockChildren;}
+        std::deque <DockPtr> & GetAllChildren() const {return GetDockAncestor()->m_allDockChildren;}
         virtual CDocker* GetDockUnderDragPoint(POINT pt);
         void CheckAllTargets(DragPos* pDragPos) const;
         void CloseAllTargets() const;
@@ -640,9 +644,9 @@ namespace Win32xx
         CDocker*        m_pDockParent;
         CDocker*        m_pDockAncestor;
 
-        std::vector <CDocker*> m_dockChildren;     // Docker's immediate children
-        std::vector <DockPtr> m_allDockChildren;   // All descendants of the DockAncestor (only used by the DockAncestor)
-        std::vector <CDocker*> m_allDockers;       // DockAncestor + all descendants (only used by the DockAncestor)
+        std::deque <CDocker*> m_dockChildren;     // Docker's immediate children
+        std::deque <DockPtr> m_allDockChildren;   // All descendants of the DockAncestor (only used by the DockAncestor)
+        std::deque <CDocker*> m_allDockers;       // DockAncestor + all descendants (only used by the DockAncestor)
 
         CRect m_barRect;
         CRect m_childRect;
@@ -684,10 +688,6 @@ namespace Win32xx
     inline CDocker::CDockBar::CDockBar() : m_pDocker(nullptr), m_dockBarWidth(4)
     {
         m_dragPos = {};
-    }
-
-    inline CDocker::CDockBar::~CDockBar()
-    {
     }
 
     inline void CDocker::CDockBar::OnDraw(CDC& dc)
@@ -1176,38 +1176,6 @@ namespace Win32xx
         return CWnd::WndProcDefault(msg, wparam, lparam);
     }
 
-    inline LRESULT CDocker::CDockClient::OnNCLButtonDblClk(UINT msg, WPARAM wparam, LPARAM lparam)
-    {
-        if ((m_pDocker != nullptr) && !(m_pDocker->GetDockStyle() & DS_NO_CAPTION))
-        {
-            if ((HTCLOSE == wparam) && !(m_pDocker->GetDockStyle() & DS_NO_CLOSE))
-            {
-                m_isClosePressed = TRUE;
-                SetCapture();
-            }
-
-            m_isCaptionPressed = TRUE;
-            m_oldPoint.x = GET_X_LPARAM(lparam);
-            m_oldPoint.y = GET_Y_LPARAM(lparam);
-            if (m_pDocker->IsUndockable())
-            {
-                // Give the view window focus unless its child already has it.
-                if (!GetView().IsChild(GetFocus()))
-                    m_pDocker->GetView().SetFocus();
-
-                // Update the close button.
-                if (!(m_pDocker->GetDockStyle() & DS_NO_CLOSE))
-                {
-                    CWindowDC dc(*this);
-                    DrawCloseButton(dc);
-                }
-
-                return 0;
-            }
-        }
-        return CWnd::WndProcDefault(msg, wparam, lparam);
-    }
-
     inline LRESULT CDocker::CDockClient::OnNCLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         if ((m_pDocker != nullptr) && !(m_pDocker->GetDockStyle() & DS_NO_CAPTION))
@@ -1375,7 +1343,7 @@ namespace Win32xx
         case WM_MOUSEMOVE:          return OnMouseMove(msg, wparam, lparam);
         case WM_NCCALCSIZE:         return OnNCCalcSize(msg, wparam, lparam);
         case WM_NCHITTEST:          return OnNCHitTest(msg, wparam, lparam);
-        case WM_NCLBUTTONDBLCLK:    return OnNCLButtonDblClk(msg, wparam, lparam);
+        case WM_NCLBUTTONDBLCLK:    // Intentionally blank.
         case WM_NCLBUTTONDOWN:      return OnNCLButtonDown(msg, wparam, lparam);
         case WM_NCMOUSEMOVE:        return OnNCMouseMove(msg, wparam, lparam);
         case WM_NCPAINT:            return OnNCPaint(msg, wparam, lparam);
@@ -1404,10 +1372,6 @@ namespace Win32xx
     inline CDocker::CDockHint::CDockHint()
     {
         m_brush.CreateSolidBrush(RGB(0, 150, 255));
-    }
-
-    inline CDocker::CDockHint::~CDockHint()
-    {
     }
 
     inline RECT CDocker::CDockHint::CalcHintRectContainer(CDocker* pDockTarget)
@@ -1713,10 +1677,6 @@ namespace Win32xx
     inline CDocker::CTargetCentre::CTargetCentre() : m_isOverContainer(FALSE), m_pOldDockTarget(0)
     {
         m_image.LoadBitmap(IDW_SDCENTER);
-    }
-
-    inline CDocker::CTargetCentre::~CTargetCentre()
-    {
     }
 
     inline BOOL CDocker::CTargetCentre::CheckTarget(DragPos* pDragPos)
@@ -2065,10 +2025,6 @@ namespace Win32xx
         GetDockClient().SetDocker(this);
     }
 
-    // Destructor.
-    inline CDocker::~CDocker()
-    {
-    }
 
     // This function creates the docker, and adds it to the docker hierarchy as docked.
     inline CDocker* CDocker::AddDockedChild(CDocker* pDocker, DWORD dockStyle, int dockSize, int dockID /* = 0*/)
@@ -2449,7 +2405,7 @@ namespace Win32xx
     // Call this when the DPI changes.
     inline void CDocker::DpiUpdateDockerSizes()
     {
-        std::vector<CDocker*> v = GetAllDockers();
+        std::vector<CDocker*> v(m_allDockers.begin(), m_allDockers.end());
         for (CDocker* docker : v)
         {
             if (docker->IsWindow() && (docker->GetTopmostDocker() == this))
@@ -2909,7 +2865,7 @@ namespace Win32xx
 
         if (registryKeyName)
         {
-            std::vector<DockInfo> dockList;
+            std::deque<DockInfo> dockList;
             const CString dockSettings = _T("\\Dock Settings");
             const CString dockKeyName = _T("Software\\") + CString(registryKeyName) + dockSettings;
             CRegKey settingsKey;
@@ -3252,7 +3208,7 @@ namespace Win32xx
             }
         }
 
-        std::vector<CDocker*>& dockers = GetDockAncestor()->m_allDockers;
+        std::deque<CDocker*>& dockers = GetDockAncestor()->m_allDockers;
         for (auto it = dockers.begin(); it != dockers.end(); ++it)
         {
             if ((*it) == pDocker)
@@ -3598,7 +3554,7 @@ namespace Win32xx
         // Promote our first child to replace ourself.
         if (m_pDockParent)
         {
-            std::vector<CDocker*>& children = m_pDockParent->m_dockChildren;
+            std::deque<CDocker*>& children = m_pDockParent->m_dockChildren;
 
             for (auto it = children.begin(); it != children.end(); ++it)
             {
@@ -4346,7 +4302,7 @@ namespace Win32xx
                 // Insert pDockNew into its DockParent's DockChildren vector.
                 if (pDockNew->m_pDockParent)
                 {
-                    std::vector<CDocker*>& children = pDockNew->m_pDockParent->m_dockChildren;
+                    std::deque<CDocker*>& children = pDockNew->m_pDockParent->m_dockChildren;
                     for (auto p = children.begin(); p != children.end(); ++p)
                     {
                         if (*p == this)
@@ -4511,11 +4467,6 @@ namespace Win32xx
         m_pViewPage = &m_viewPage;
         m_pContainerParent = this;
         m_viewPage.SetContainer(this);
-    }
-
-    // Destructor.
-    inline CDockContainer::~CDockContainer()
-    {
     }
 
     // Adds a container to the group. Set Insert to TRUE to insert the container

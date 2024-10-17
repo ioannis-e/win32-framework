@@ -35,7 +35,7 @@ CMRU : public CObject                                                   /*
     public:
           // construction/destruction
         CMRU();
-        virtual ~CMRU() override {}
+        virtual ~CMRU() override = default;
 
         void    AddEntry(LPCWSTR entryName);
         void    AssignMenu(CMenu frameMenu, size_t maxMRU = 0);

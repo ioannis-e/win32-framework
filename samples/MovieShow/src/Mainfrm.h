@@ -30,7 +30,7 @@ public:
     };
 
     CMainFrame();
-    virtual ~CMainFrame() override;
+    virtual ~CMainFrame() override = default;
     CMainFrame(const CMainFrame&) = delete;
     CMainFrame& operator=(const CMainFrame&) = delete;
 

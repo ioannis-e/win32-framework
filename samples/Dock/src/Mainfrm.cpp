@@ -18,11 +18,6 @@ CMainFrame::CMainFrame()
     SetDockStylesToDefault();
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

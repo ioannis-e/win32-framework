@@ -16,11 +16,6 @@ CMainFrame::CMainFrame() : m_view(IDD_DIALOG1), m_isChoosing(FALSE)
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Enables choose topic mode
 BOOL CMainFrame::ChooseHelpTopic()
 {

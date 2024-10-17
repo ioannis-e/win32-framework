@@ -41,7 +41,7 @@ CDoc                                                                        /*
     public:
 
         CDoc();
-        virtual ~CDoc() {}
+        virtual ~CDoc() = default;
 
         void        AddRecord(const CStringW& entry);
         UINT        GetLength();

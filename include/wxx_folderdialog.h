@@ -218,8 +218,7 @@ namespace Win32xx
     // Displays the folder browser dialog.
     inline INT_PTR CFolderDialog::DoModal(HWND parent)
     {
-        if (m_fullPidl != nullptr)
-            CoTaskMemFree(m_fullPidl);
+        CoTaskMemFree(m_fullPidl);
         m_fullPidl = nullptr;
         m_bi.lpszTitle = m_title.c_str();
         m_bi.pszDisplayName = m_displayName.GetBuffer(MAX_PATH);

@@ -10,16 +10,6 @@
 // CMainFrame function definitions.
 //
 
-// Constructor for CMainFrame. Its called after CFrame's constructor.
-CMainFrame::CMainFrame()
-{
-}
-
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

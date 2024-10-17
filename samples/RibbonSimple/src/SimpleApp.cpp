@@ -9,16 +9,6 @@
 // CSimpleRibbonApp function definitions.
 //
 
-// Constructor for CSimpleRibbonApp.
-CSimpleRibbonApp::CSimpleRibbonApp()
-{
-}
-
-// Destructor for CSimpleRibbonApp.
-CSimpleRibbonApp::~CSimpleRibbonApp()
-{
-}
-
 // This function is called automatically when the application starts.
 BOOL CSimpleRibbonApp::InitInstance()
 {

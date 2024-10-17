@@ -103,7 +103,7 @@ namespace Win32xx
 
     public:
         CDataExchange();
-        virtual ~CDataExchange();
+        virtual ~CDataExchange() = default;
 
         // Dialog Data Validation (DDV) functions
         virtual void DDV_MaxChars(const CString& value, int count) const;
@@ -213,11 +213,6 @@ namespace Win32xx
         m_parent = nullptr;
     }
 
-
-    // Destructor.
-    inline CDataExchange::~CDataExchange()
-    {
-    }
 
     ////////////////////////////////////////////////////////////////
     //

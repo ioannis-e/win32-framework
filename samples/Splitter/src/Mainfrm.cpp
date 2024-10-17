@@ -15,10 +15,6 @@ CMainFrame::CMainFrame() : m_pDockText(nullptr), m_pDockTree(nullptr), m_pDockLi
 {
 }
 
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

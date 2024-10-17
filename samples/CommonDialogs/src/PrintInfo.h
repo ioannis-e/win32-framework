@@ -30,7 +30,7 @@ CPrintInfo                                                              /*
 {
     public:
             CPrintInfo();
-            ~CPrintInfo() {}
+            ~CPrintInfo() = default;
 
         UINT    GetFromPage() const { return m_nFromPage;}
         UINT    GetMaxPage() const  { return m_nMaxPage; }

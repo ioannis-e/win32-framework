@@ -38,7 +38,7 @@ CColorChoice   : public CColorDialog                                        /*
 {
     public:
         CColorChoice();
-        virtual ~CColorChoice() override {}
+        virtual ~CColorChoice() override = default;
 
         void    AddColorChoice(UINT, LPCWSTR, COLORREF);
         void    ClearColorTable(){m_colorTable.clear();}

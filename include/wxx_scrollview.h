@@ -72,7 +72,7 @@ namespace Win32xx
     {
     public:
         CScrollView();
-        virtual ~CScrollView() override;
+        virtual ~CScrollView() override = default;
 
         CBrush GetScrollBkgnd() const    { return m_bkgndBrush; }
         CPoint GetScrollPosition() const { return m_currentPos; }
@@ -126,10 +126,6 @@ namespace Win32xx
     inline CScrollView::CScrollView()
     {
         m_bkgndBrush.CreateSolidBrush(RGB(255, 255, 255));
-    }
-
-    inline CScrollView::~CScrollView()
-    {
     }
 
     // Fills the area of the view that appears outside of the scrolling area.

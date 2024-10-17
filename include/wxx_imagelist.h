@@ -259,7 +259,7 @@ namespace Win32xx
                 std::shared_ptr<CIml_Data> pCImlData = GetApp()->GetCImlData(images).lock();
                 if (pCImlData)
                 {
-                    m_pData = pCImlData;
+                    m_pData = std::move(pCImlData);
                 }
                 else
                 {

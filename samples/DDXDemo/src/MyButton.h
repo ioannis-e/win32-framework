@@ -31,8 +31,8 @@ CMyButton : public CButton                                                  /*
 *-----------------------------------------------------------------------------*/
 {
     public:
-        CMyButton() {}
-        virtual ~CMyButton() override {}
+        CMyButton() = default;
+        virtual ~CMyButton() override = default;
 
         void DrawItem(LPDRAWITEMSTRUCT);
 

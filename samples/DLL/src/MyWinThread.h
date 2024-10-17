@@ -12,6 +12,7 @@ class CMyWinThread : public CWinThread
 {
 public:
     CMyWinThread();
+    virtual ~CMyWinThread() override = default;
 
 protected:
     // Virtual functions that override base class functions.

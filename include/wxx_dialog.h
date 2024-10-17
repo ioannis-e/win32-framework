@@ -174,7 +174,7 @@ namespace Win32xx
                      m_initDpi(USER_DEFAULT_SCREEN_DPI),
                      m_isDpiChanging(false)
                      {}
-        virtual ~CResizer() {}
+        virtual ~CResizer() = default;
 
         virtual void AddChild(HWND wnd, Alignment corner, DWORD style);
         virtual void HandleMessage(UINT msg, WPARAM wparam, LPARAM lparam);

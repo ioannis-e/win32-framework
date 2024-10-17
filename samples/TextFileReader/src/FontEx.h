@@ -31,7 +31,7 @@ CFontExDialog : public CFontDialog                                          /*
         CFontExDialog(DWORD flags = 0, HDC printer = nullptr)
             : CFontDialog(flags | CF_ENABLEHOOK, printer)
                 { SetBoxTitle(L"Font..."); }
-        virtual ~CFontExDialog() override {}
+        virtual ~CFontExDialog() override = default;
 
         void    SetBoxTitle(const CString& title)
                     { m_dlgBoxTitle = title; }
@@ -60,7 +60,7 @@ CFontEx : public CObject                                                       /
         CFontEx();
         CFontEx(COLORREF txtcolor, DWORD options)
                     { m_txcolor = txtcolor; m_flags = options; }
-        virtual ~CFontEx() override {}
+        virtual ~CFontEx() override = default;
 
         void    Choose(LPCWSTR wintitle = nullptr);
         void    SetDefault();

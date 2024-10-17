@@ -13,11 +13,6 @@
 // CViewTree function definitions.
 //
 
-// Constructor.
-CViewTree::CViewTree()
-{
-}
-
 // Destructor.
 CViewTree::~CViewTree()
 {

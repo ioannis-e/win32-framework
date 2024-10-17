@@ -30,8 +30,8 @@ const int SHOW_DOWN_ARROW = 3;
 class CMyListView : public CListView
 {
 public:
-    CMyListView();
-    virtual ~CMyListView() override;
+    CMyListView() = default;
+    virtual ~CMyListView() override = default;
     void DisplayFolder(CShellFolder& parentFolder, Cpidl& cpidlParent, Cpidl& cpidlRel);
     void DoDisplay();
     CHeader& GetListHeader() { return m_header; }

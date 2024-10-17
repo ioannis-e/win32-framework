@@ -31,7 +31,7 @@ CMyScrollBar : public CScrollBar                                         /*
 {
     public:
         CMyScrollBar();
-        virtual ~CMyScrollBar() override {}
+        virtual ~CMyScrollBar() override = default;
 
         int     GetHScrollPos(UINT, WPARAM, LPARAM);
         void    SetScrollInfo(int lo, int hi, int pos, int page);

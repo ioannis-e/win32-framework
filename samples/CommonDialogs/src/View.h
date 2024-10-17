@@ -43,7 +43,7 @@ CView : public CDialog                                                      /*
 {
     public:
         CView(UINT id);
-        virtual ~CView() override {}
+        virtual ~CView() override = default;
 
         virtual HWND   Create(HWND) override;
         CRichEditView& GetRichView() { return m_richView;}

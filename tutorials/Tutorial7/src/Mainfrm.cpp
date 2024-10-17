@@ -5,16 +5,6 @@
 #include "resource.h"
 
 
-// Constructor.
-CMainFrame::CMainFrame()
-{
-}
-
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

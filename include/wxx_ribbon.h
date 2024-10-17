@@ -71,7 +71,7 @@ namespace Win32xx
     {
     public:
         CRibbon();
-        virtual ~CRibbon();
+        virtual ~CRibbon() = default;
 
         // IUIApplication methods
         virtual STDMETHODIMP OnCreateUICommand(UINT32 nCmdID, __in UI_COMMANDTYPE typeID,
@@ -122,7 +122,7 @@ namespace Win32xx
         {
         public:
             CRecentFiles(PWSTR pFullPath);
-            virtual ~CRecentFiles() {}
+            virtual ~CRecentFiles() = default;
 
             // IUnknown methods.
             STDMETHODIMP_(ULONG) AddRef() override;
@@ -140,8 +140,8 @@ namespace Win32xx
 
         using RecentFilesPtr = std::unique_ptr<CRecentFiles>;
 
-        CRibbonFrameT() {}
-        virtual ~CRibbonFrameT() override {}
+        CRibbonFrameT() = default;
+        virtual ~CRibbonFrameT() override = default;
 
     protected:
         virtual CRect GetViewRect() const override;
@@ -163,8 +163,8 @@ namespace Win32xx
     class CRibbonFrame : public CRibbonFrameT<CFrame>
     {
     public:
-        CRibbonFrame() {}
-        virtual ~CRibbonFrame() override {}
+        CRibbonFrame() = default;
+        virtual ~CRibbonFrame() override = default;
 
     private:
         CRibbonFrame(const CRibbonFrame&) = delete;
@@ -177,8 +177,8 @@ namespace Win32xx
     class CRibbonDockFrame : public CRibbonFrameT<CDockFrame>
     {
     public:
-        CRibbonDockFrame() {}
-        virtual ~CRibbonDockFrame() override {}
+        CRibbonDockFrame() = default;
+        virtual ~CRibbonDockFrame() override = default;
 
     private:
         CRibbonDockFrame(const CRibbonDockFrame&) = delete;
@@ -191,8 +191,8 @@ namespace Win32xx
     class CRibbonMDIFrame : public CRibbonFrameT<CMDIFrame>
     {
     public:
-        CRibbonMDIFrame() {}
-        virtual ~CRibbonMDIFrame() override {}
+        CRibbonMDIFrame() = default;
+        virtual ~CRibbonMDIFrame() override = default;
 
     private:
         CRibbonMDIFrame(const CRibbonMDIFrame&) = delete;
@@ -206,8 +206,8 @@ namespace Win32xx
     class CRibbonMDIDockFrame : public CRibbonFrameT<CMDIDockFrame>
     {
     public:
-        CRibbonMDIDockFrame() {}
-        virtual ~CRibbonMDIDockFrame() override {}
+        CRibbonMDIDockFrame() = default;
+        virtual ~CRibbonMDIDockFrame() override = default;
 
     private:
         CRibbonMDIDockFrame(const CRibbonMDIDockFrame&) = delete;
@@ -230,9 +230,6 @@ namespace Win32xx
     {
     }
 
-    inline CRibbon::~CRibbon()
-    {
-    }
 
     //////////////////////////////////
     // IUnknown method implementations.

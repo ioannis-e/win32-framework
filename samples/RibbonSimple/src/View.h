@@ -13,7 +13,7 @@ class CView : public CWnd, public CRibbon
 {
 public:
     CView() : m_pIUIRibbon(nullptr) {}
-    virtual ~CView() override {}
+    virtual ~CView() override = default;
 
 protected:
     // Virtual functions that override base class functions

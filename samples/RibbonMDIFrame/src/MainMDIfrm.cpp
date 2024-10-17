@@ -19,11 +19,6 @@ CMainMDIFrame::CMainMDIFrame() : m_pIUIRibbon(nullptr)
 {
 }
 
-// Destructor for CMainMDIFrame.
-CMainMDIFrame::~CMainMDIFrame()
-{
-}
-
 // Create the MDI frame window.
 HWND CMainMDIFrame::Create(HWND parent)
 {

@@ -22,10 +22,6 @@ CHyperlink::CHyperlink() : m_isUrlVisited(false), m_isClicked(false),
         m_hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 }
 
-CHyperlink::~CHyperlink()
-{
-}
-
 void CHyperlink::OnAttach()
 {
     NONCLIENTMETRICS ncm = GetNonClientMetrics();

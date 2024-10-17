@@ -32,11 +32,6 @@ CMainFrame::CMainFrame() : m_preview(m_richView),
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Adjusts the specified value for the current DPI.
 int CMainFrame::AdjustForDPI(int value) const
 {

@@ -35,7 +35,7 @@ CMainFrame : public CFrame                      /*
 {
     public:
                     CMainFrame();
-        virtual     ~CMainFrame() override {}
+        virtual     ~CMainFrame() override = default;
         virtual HWND Create(HWND parent = nullptr) override;
         void        SetAppName(const CString& appName)
                                     { m_appName = appName; }

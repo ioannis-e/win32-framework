@@ -17,16 +17,6 @@
 // CRichView function definitions
 //
 
-// Constructor.
-CRichView::CRichView()
-{
-}
-
-// Destructor.
-CRichView::~CRichView()
-{
-}
-
 // Calculates the character position of the page breaks, and returns
 // the number of pages.
 int CRichView::CollatePages(const CDC& printerDC)

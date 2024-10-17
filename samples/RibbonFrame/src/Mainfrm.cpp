@@ -18,11 +18,6 @@ CMainFrame::CMainFrame() : m_pIUIRibbon(0)
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

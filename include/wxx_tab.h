@@ -84,7 +84,7 @@ namespace Win32xx
         {
         public:
             CSelectDialog(LPCDLGTEMPLATE pDlgTemplate);
-            virtual ~CSelectDialog() override {}
+            virtual ~CSelectDialog() override = default;
             void AddItem(LPCTSTR string);
 
         protected:
@@ -102,7 +102,7 @@ namespace Win32xx
 
     public:
         CTab();
-        virtual ~CTab() override;
+        virtual ~CTab() override = default;
         virtual CWnd*  AddTabPage(CWnd* pView, LPCTSTR tabText, HICON icon, int tabID);
         virtual CWnd*  AddTabPage(CWnd* pView, LPCTSTR tabText, UINT iconID, int tabID = 0);
         virtual CWnd*  AddTabPage(CWnd* pView, LPCTSTR tabText);
@@ -245,7 +245,7 @@ namespace Win32xx
     {
     public:
         CTabbedMDI();
-        virtual ~CTabbedMDI() override;
+        virtual ~CTabbedMDI() override = default;
 
         virtual CWnd* AddMDIChild(CWnd* pView, LPCTSTR tabText, int mdiChildID = 0);
         virtual CWnd* AddMDIChild(WndPtr view, LPCTSTR tabText, int mdiChildID = 0);
@@ -375,10 +375,6 @@ namespace Win32xx
 
         m_blankPageColor = GetSysColor(COLOR_BTNFACE);
         SetListDialog(reinterpret_cast<LPCDLGTEMPLATE>(dlgTemplate));
-    }
-
-    inline CTab::~CTab()
-    {
     }
 
     // Adds a tab along with the specified view window.
@@ -1468,8 +1464,8 @@ namespace Win32xx
         if (pView != m_pActiveView)
         {
             // Hide the old view.
-            if (GetActiveView() && (GetActiveView()->IsWindow()))
-                GetActiveView()->ShowWindow(SW_HIDE);
+            if (m_pActiveView && (m_pActiveView->IsWindow()))
+                m_pActiveView->ShowWindow(SW_HIDE);
 
             // Assign the view window.
             m_pActiveView = pView;
@@ -1479,15 +1475,15 @@ namespace Win32xx
                 if (!m_pActiveView->IsWindow())
                 {
                     // The tab control is already created, so create the new view too.
-                    GetActiveView()->Create( GetParent() );
+                    m_pActiveView->Create( GetParent() );
                 }
 
                 // Position the view window over the tab control's display area
                 CRect rc = GetClientRect();
                 AdjustRect(FALSE, &rc);
                 MapWindowPoints(GetParent(), rc);
-                VERIFY(GetActiveView()->SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW));
-                GetActiveView()->SetFocus();
+                VERIFY(m_pActiveView->SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW));
+                m_pActiveView->SetFocus();
             }
         }
     }
@@ -1875,10 +1871,6 @@ namespace Win32xx
     inline CTabbedMDI::CTabbedMDI()
     {
         SetTab(m_tab);
-    }
-
-    inline CTabbedMDI::~CTabbedMDI()
-    {
     }
 
     // Adds a MDI tab, given a pointer to the view window, and the tab's text.

@@ -16,11 +16,6 @@ CMainFrame::CMainFrame() : m_colored("Colored text")
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

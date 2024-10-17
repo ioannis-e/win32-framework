@@ -980,7 +980,7 @@ namespace Win32xx
                 std::shared_ptr<CGDI_Data> pCGDIData = GetApp()->GetCGDIData(object).lock();
                 if (pCGDIData)
                 {
-                    m_pData = pCGDIData;
+                    m_pData = std::move(pCGDIData);
                 }
                 else
                 {
@@ -2358,7 +2358,7 @@ namespace Win32xx
                 std::shared_ptr<CDC_Data> pCDCData = GetApp()->GetCDCData(dc).lock();
                 if (pCDCData)
                 {
-                    m_pData = pCDCData;
+                    m_pData = std::move(pCDCData);
                 }
                 else
                 {
@@ -5168,7 +5168,7 @@ namespace Win32xx
 
         // Convert the color format to a count of bits.
         WORD cClrBits = static_cast<WORD>(data.bmPlanes * data.bmBitsPixel);
-        if (cClrBits == 1)       cClrBits = 1;
+        if (cClrBits <= 1)       cClrBits = 1;
         else if (cClrBits <= 4)  cClrBits = 4;
         else if (cClrBits <= 8)  cClrBits = 8;
         else if (cClrBits <= 16) cClrBits = 16;

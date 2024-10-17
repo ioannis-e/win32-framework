@@ -16,11 +16,6 @@ CMainFrame::CMainFrame() : m_eventCookie(0)
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Adds a ComboBoxEx control to the rebar.
 void CMainFrame::AddComboBoxBand()
 {

@@ -15,8 +15,8 @@
 class CSimpleRibbonApp : public CWinApp
 {
 public:
-    CSimpleRibbonApp();
-    virtual ~CSimpleRibbonApp() override;
+    CSimpleRibbonApp() = default;
+    virtual ~CSimpleRibbonApp() override = default;
 
 protected:
     // Virtual functions that override base class functions

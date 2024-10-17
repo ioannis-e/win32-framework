@@ -27,7 +27,7 @@ CListBoxDlg : public CDialog                                                  /*
 {
     public:
         CListBoxDlg();
-        virtual ~CListBoxDlg() override {}
+        virtual ~CListBoxDlg() override = default;
 
         void   AddListItem(LPCWSTR s)
                    { m_listContent.push_back(s);}

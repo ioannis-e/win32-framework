@@ -22,11 +22,6 @@ CMainFrame::CMainFrame() : m_color(IDM_BLUE), m_useThemes(true), m_useBandColors
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Adds a comboBoxEx to the toolbar.
 LRESULT CMainFrame::AddCombo()
 {

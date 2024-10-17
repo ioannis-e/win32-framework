@@ -344,7 +344,7 @@ namespace Win32xx
                 std::shared_ptr<CMenu_Data> pCMenuData = GetApp()->GetCMenuData(menu).lock();
                 if (pCMenuData)
                 {
-                    m_pData = pCMenuData;
+                    m_pData = std::move(pCMenuData);
                 }
                 else
                 {

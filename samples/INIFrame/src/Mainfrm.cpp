@@ -19,11 +19,6 @@ CMainFrame::CMainFrame() : m_preview(m_view), m_isToolbarShown(true)
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

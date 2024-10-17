@@ -38,7 +38,7 @@ CView : public CDialog                                                      /*
 {
     public:
         CView(UINT nResID);
-        virtual ~CView() override {}
+        virtual ~CView() override = default;
 
         void    AdjustStatus();
         BOOL    GetCheckA() const       { return m_checkVal[0]; }

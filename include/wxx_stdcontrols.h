@@ -63,8 +63,8 @@ namespace Win32xx
     class CButton : public CWnd
     {
     public:
-        CButton() {}
-        virtual ~CButton() {}
+        CButton() = default;
+        virtual ~CButton() = default;
 
         // Accessors and mutators
         HBITMAP GetBitmap() const;
@@ -98,8 +98,8 @@ namespace Win32xx
     {
     public:
         // Construction
-        CEdit() {}
-        virtual ~CEdit() override {}
+        CEdit() = default;
+        virtual ~CEdit() override = default;
 
         // Attributes
         void   AppendText(LPCTSTR text) const;
@@ -167,8 +167,8 @@ namespace Win32xx
     class CListBox : public CWnd
     {
     public:
-        CListBox() {}
-        virtual ~CListBox() override {}
+        CListBox() = default;
+        virtual ~CListBox() override = default;
 
         // Virtual functions
         virtual int CompareItem(LPCOMPAREITEMSTRUCT pCompareItemStruct);
@@ -239,8 +239,8 @@ namespace Win32xx
     class CStatic : public CWnd
     {
     public:
-        CStatic() {}
-        virtual ~CStatic() override {}
+        CStatic() = default;
+        virtual ~CStatic() override = default;
 
         // Operations
         HBITMAP  GetBitmap() const;

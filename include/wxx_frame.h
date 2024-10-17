@@ -337,8 +337,8 @@ namespace Win32xx
     class CFrame : public CFrameT<CWnd>
     {
     public:
-        CFrame() {}
-        virtual ~CFrame() override {}
+        CFrame() = default;
+        virtual ~CFrame() override = default;
 
     private:
         CFrame(const CFrame&) = delete;
@@ -1741,7 +1741,7 @@ namespace Win32xx
             }
 
             // successfully loaded all MRU values, so store them.
-            m_mruEntries = mruEntries;
+            m_mruEntries = std::move(mruEntries);
             loaded = TRUE;
         }
 

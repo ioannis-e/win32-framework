@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -53,7 +53,7 @@ namespace Win32xx
     {
     public:
         CReBar();
-        virtual ~CReBar() override;
+        virtual ~CReBar() override = default;
 
         // Operations
         BOOL DeleteBand(int band) const;
@@ -126,10 +126,6 @@ namespace Win32xx
     // Definitions for the CReBar class
     //
     inline CReBar::CReBar() : m_isDragging(FALSE), m_menuBar(nullptr), m_oldParam(0)
-    {
-    }
-
-    inline CReBar::~CReBar()
     {
     }
 

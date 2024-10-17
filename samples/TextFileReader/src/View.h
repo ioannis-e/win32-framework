@@ -31,7 +31,7 @@ CColorExDialog : public CColorDialog                                      /*
         CColorExDialog(COLORREF init = 0, DWORD flags = 0)
             : CColorDialog(init, flags | CC_ENABLEHOOK | CC_RGBINIT | CC_ANYCOLOR)
                 { SetBoxTitle(L"Color...");}
-        virtual ~CColorExDialog() override {}
+        virtual ~CColorExDialog() override = default;
 
         void    SetBoxTitle(const CString& title) { m_boxTitle = title;}
 
@@ -59,7 +59,7 @@ CView : public CScrollView                                                  /*
 {
     public:
         CView();
-        virtual ~CView() override {}
+        virtual ~CView() override = default;
 
         COLORREF GetWndBkColor() const
                     { return GetScrollBkgnd().GetLogBrush().lbColor; }

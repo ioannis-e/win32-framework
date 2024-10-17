@@ -130,7 +130,7 @@ namespace Win32xx
     {
     public:
         CPreviewPane();
-        virtual ~CPreviewPane() override {}
+        virtual ~CPreviewPane() override = default;
 
         void Render(CDC& dc);
         void SetBitmap(const CBitmap& bitmap) { m_bitmap = bitmap; }
@@ -157,7 +157,7 @@ namespace Win32xx
     public:
         CPrintPreview();
         CPrintPreview(T& source);
-        virtual ~CPrintPreview() override;
+        virtual ~CPrintPreview() override = default;
 
         CPreviewPane& GetPreviewPane() const { return *m_pPreviewPane; }
         void SetPreviewPane(CPreviewPane& previewPane) { m_pPreviewPane = &previewPane; }
@@ -353,12 +353,6 @@ namespace Win32xx
     {
         m_pPreviewPane = &m_previewPane;
         SetSource(source);
-    }
-
-    // Destructor.
-    template <typename T>
-    inline CPrintPreview<T>::~CPrintPreview()
-    {
     }
 
     // The dialog's window procdure. It handles the dialog's window messages.

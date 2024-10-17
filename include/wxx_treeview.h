@@ -57,8 +57,8 @@ namespace Win32xx
     class CTreeView : public CWnd
     {
     public:
-        CTreeView() {}
-        virtual ~CTreeView() override {}
+        CTreeView() = default;
+        virtual ~CTreeView() override = default;
         virtual void PreRegisterClass(WNDCLASS& wc) override;
 
         // Accessors and mutators

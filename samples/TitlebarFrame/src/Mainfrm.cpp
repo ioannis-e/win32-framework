@@ -52,11 +52,6 @@ CMainFrame::CMainFrame() : m_preview(m_view),
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

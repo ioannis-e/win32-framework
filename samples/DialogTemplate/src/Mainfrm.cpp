@@ -19,11 +19,6 @@ CMainFrame::CMainFrame() : m_preview(m_richView), m_pDockDialogsTree(nullptr),
 {
 }
 
-// Destructor.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

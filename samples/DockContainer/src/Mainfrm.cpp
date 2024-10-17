@@ -21,11 +21,6 @@ CMainFrame::CMainFrame() : m_isContainerTabsAtTop(false), m_hideSingleTab(true)
 {
 }
 
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

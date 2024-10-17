@@ -11,16 +11,6 @@
 // CMainFrame function definitions
 //
 
-// Constructor for CMainFrame.
-CMainFrame::CMainFrame()
-{
-}
-
-// Destructor for CMainFrame.
-CMainFrame::~CMainFrame()
-{
-}
-
 // Adds a ComboBoxEx control to the rebar.
 void CMainFrame::AddComboBoxBand()
 {

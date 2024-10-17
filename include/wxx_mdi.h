@@ -134,8 +134,8 @@ namespace Win32xx
     class CMDIClient : public T     // The template parameter T is either CWnd, or CDocker::CDockClient.
     {
     public:
-        CMDIClient() {}
-        virtual ~CMDIClient() override {}
+        CMDIClient() = default;
+        virtual ~CMDIClient() override = default;
 
     protected:
         // Overridable virtual functions
@@ -158,7 +158,7 @@ namespace Win32xx
     {
     public:
         CMDIFrameT();
-        virtual ~CMDIFrameT() override {}
+        virtual ~CMDIFrameT() override = default;
 
         // Override these functions as required.
         virtual CMDIChild* AddMDIChild(CMDIChild* pMDIChild);
@@ -221,8 +221,8 @@ namespace Win32xx
     class CMDIFrame : public CMDIFrameT<CFrame>
     {
     public:
-        CMDIFrame() {}
-        virtual ~CMDIFrame() override {}
+        CMDIFrame() = default;
+        virtual ~CMDIFrame() override = default;
 
     private:
         CMDIFrame(const CMDIFrame&) = delete;

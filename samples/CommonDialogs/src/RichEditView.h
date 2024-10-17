@@ -30,7 +30,7 @@ CRichEditView : public CRichEdit                                            /*
 {
     public:
         CRichEditView();
-        virtual ~CRichEditView() override {}
+        virtual ~CRichEditView() override = default;
 
         void    Clean();
         void    DoPrintRichView(LPCWSTR);

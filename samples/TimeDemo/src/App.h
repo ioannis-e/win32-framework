@@ -29,7 +29,7 @@ CApp : public CWinApp                                                   /*
 {
     public:
         CApp();
-        virtual ~CApp() override {}
+        virtual ~CApp() override = default;
 
         const CString&  GetAppName() const { return m_appName; }
         const CString&  GetArcFileName() const { return m_arcvFile; }

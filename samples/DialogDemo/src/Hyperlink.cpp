@@ -21,11 +21,6 @@ CHyperlink::CHyperlink() : m_isUrlVisited(false), m_isClicked(false), m_crVisite
         m_cursor = ::LoadCursor(nullptr, IDC_ARROW);
 }
 
-// Destructor.
-CHyperlink::~CHyperlink()
-{
-}
-
 // Called when the left mouse button is clicked.
 LRESULT CHyperlink::OnLButtonDown()
 {

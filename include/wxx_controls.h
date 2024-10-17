@@ -64,8 +64,8 @@ namespace Win32xx
     class CAnimation : public CWnd
     {
     public:
-        CAnimation() {}
-        virtual ~CAnimation() {}
+        CAnimation() = default;
+        virtual ~CAnimation() = default;
 
         BOOL Close() const;
         BOOL Open(LPCTSTR pathName) const;
@@ -90,8 +90,8 @@ namespace Win32xx
     class CComboBox : public CWnd
     {
     public:
-        CComboBox() {}
-        virtual ~CComboBox()  override {}
+        CComboBox() = default;
+        virtual ~CComboBox()  override = default;
 
         virtual int CompareItem(LPCOMPAREITEMSTRUCT pCompareItemStruct);
 
@@ -155,8 +155,8 @@ namespace Win32xx
     class CComboBoxEx : public CComboBox
     {
     public:
-        CComboBoxEx() {}
-        virtual ~CComboBoxEx() {}
+        CComboBoxEx() = default;
+        virtual ~CComboBoxEx() = default;
 
         int     DeleteItem(int index ) const;
         HWND    GetComboBoxCtrl() const;
@@ -190,8 +190,8 @@ namespace Win32xx
     class CHeader : public CWnd
     {
     public:
-        CHeader() {}
-        virtual ~CHeader() override {}
+        CHeader() = default;
+        virtual ~CHeader() override = default;
 
         // Accessors and mutators
         CImageList GetImageList() const;
@@ -237,8 +237,8 @@ namespace Win32xx
     class CHotKey : public CWnd
     {
     public:
-        CHotKey() {}
-        virtual ~CHotKey() override {}
+        CHotKey() = default;
+        virtual ~CHotKey() override = default;
 
         DWORD GetHotKey() const;
         CString GetKeyName(UINT keyCode, BOOL isExtended) const;
@@ -262,8 +262,8 @@ namespace Win32xx
     class CIPAddress : public CWnd
     {
     public:
-        CIPAddress();
-        virtual ~CIPAddress() override {}
+        CIPAddress() = default;
+        virtual ~CIPAddress() override = default;
 
         void ClearAddress() const;
         int GetAddress(BYTE& field0, BYTE& field1, BYTE& field2, BYTE& field3) const;
@@ -292,8 +292,8 @@ namespace Win32xx
     class CMonthCalendar : public CWnd
     {
     public:
-        CMonthCalendar();
-        virtual ~CMonthCalendar() override {}
+        CMonthCalendar() = default;
+        virtual ~CMonthCalendar() override = default;
 
         // Accessors and mutators
         COLORREF GetColor(int region) const;
@@ -336,8 +336,8 @@ namespace Win32xx
     class CDateTime : public CWnd
     {
     public:
-        CDateTime();
-        virtual ~CDateTime() override {}
+        CDateTime() = default;
+        virtual ~CDateTime() override = default;
 
         COLORREF GetMonthCalColor(int region) const;
         HWND GetMonthCalCtrl() const;
@@ -368,8 +368,8 @@ namespace Win32xx
     class CProgressBar : public CWnd
     {
     public:
-        CProgressBar() {}
-        virtual ~CProgressBar() override {}
+        CProgressBar() = default;
+        virtual ~CProgressBar() override = default;
 
         int  GetPos() const;
         int  GetRange(BOOL whichLimit, PBRANGE range) const;
@@ -399,8 +399,8 @@ namespace Win32xx
     class CScrollBar : public CWnd
     {
     public:
-        CScrollBar() {}
-        virtual ~CScrollBar() override {}
+        CScrollBar() = default;
+        virtual ~CScrollBar() override = default;
 
         BOOL EnableScrollBar( UINT arrowFlags = ESB_ENABLE_BOTH )  const;
         BOOL GetScrollInfo(SCROLLINFO& si)  const;
@@ -429,8 +429,8 @@ namespace Win32xx
     class CSlider : public CWnd
     {
     public:
-        CSlider() {}
-        virtual ~CSlider() override {}
+        CSlider() = default;
+        virtual ~CSlider() override = default;
 
         void ClearSel() const;
         void ClearTics(BOOL redraw = FALSE ) const;
@@ -479,8 +479,8 @@ namespace Win32xx
     class CSpinButton : public CWnd
     {
     public:
-        CSpinButton() {}
-        virtual ~CSpinButton() override {}
+        CSpinButton() = default;
+        virtual ~CSpinButton() override = default;
 
         int  GetAccel(int accels, LPUDACCEL pAccels) const;
         int  GetBase() const;
@@ -510,8 +510,8 @@ namespace Win32xx
     class CToolTip : public CWnd
     {
     public:
-        CToolTip();
-        virtual ~CToolTip() override;
+        CToolTip() = default;
+        virtual ~CToolTip() override = default;
 
         // Accessors and mutators
         CSize    GetBubbleSize(HWND control, UINT id = -1) const;
@@ -1148,10 +1148,6 @@ namespace Win32xx
     // Definitions for the CDateTime class
     //
 
-    inline CDateTime::CDateTime()
-    {
-    }
-
     // Retrieves the color for a given portion of the month calendar within the date and time picker (DTP) control.
     // Refer to DateTime_GetMonthCalColor in the Windows API documentation for more information.
     inline COLORREF CDateTime::GetMonthCalColor(int region) const
@@ -1513,15 +1509,6 @@ namespace Win32xx
     // Definitions for the CIPAddress class
     //
 
-    inline CIPAddress::CIPAddress()
-    {
-        // Call InitCommonControlsEx.
-        INITCOMMONCONTROLSEX initStruct{};
-        initStruct.dwSize = sizeof(initStruct);
-        initStruct.dwICC = ICC_INTERNET_CLASSES;
-        InitCommonControlsEx(&initStruct);
-    }
-
     // Clears the contents of the IP address control.
     // Refer to IPM_CLEARADDRESS in the Windows API documentation for more information.
     inline void CIPAddress::ClearAddress() const
@@ -1615,10 +1602,6 @@ namespace Win32xx
     ///////////////////////////////////////////
     // Definitions for the CMonthCalendar class
     //
-
-    inline CMonthCalendar::CMonthCalendar()
-    {
-    }
 
     // Retrieves the color for a given portion of the month calendar control.
     // Refer to MonthCal_GetColor in the Windows API documentation for more information.
@@ -2335,14 +2318,6 @@ namespace Win32xx
     ////////////////////////////////////////
     // Definitions for the CToolTip class
     //
-
-    inline CToolTip::CToolTip()
-    {
-    }
-
-    inline CToolTip::~CToolTip()
-    {
-    }
 
     // Activates or deactivates a ToolTip control.
     // Refer to TTM_ACTIVATE in the Windows API documentation for more information.

@@ -30,7 +30,7 @@ CDoc    : public CObject                                                    /*
 {
     public:
         CDoc();
-        virtual ~CDoc(){}
+        virtual ~CDoc() = default;
 
         CString GetDocDir()  const
                     { CFile f; f.SetFilePath(m_docPath);
