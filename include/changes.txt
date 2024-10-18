@@ -10,7 +10,10 @@ New Features and Enhancements
 * The Win32xx::Shared_Ptr class has been removed.
    The deprecated Win32xx::Shared_Ptr class has been removed from Win32++.
    Either std::unique_ptr or std::shared_ptr can be used in place of
-   Win32xx::Shared_Ptr. 
+   Win32xx::Shared_Ptr.
+
+* Updated CString and CStringT
+   Added move constructors and move assignments to CString and CStringT.
 
 
 Changes in detail

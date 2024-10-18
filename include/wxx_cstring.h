@@ -360,7 +360,9 @@ namespace Win32xx
     template <class T>
     inline CStringT<T>& CStringT<T>::operator=(const CStringT<T>& str)
     {
-        m_str.assign(str.m_str);
+        if (this != &str)
+            m_str.assign(str.m_str);
+        
         return *this;
     }
 
@@ -370,6 +372,7 @@ namespace Win32xx
     {
         if (this != &str)
         {
+            m_buf = std::move(str.m_buf);
             m_str = std::move(str.m_str);
         }
         return *this;
@@ -1635,7 +1638,9 @@ namespace Win32xx
     // Assignment operator.
     inline CString& CString::operator=(const CString& str)
     {
-        m_str.assign(str.GetString());
+        if (this != &str)
+            m_str.assign(str.GetString());
+        
         return *this;
     }
 
@@ -1644,6 +1649,7 @@ namespace Win32xx
     {
         if (this != &str)
         {
+            m_buf = std::move(str.m_buf);
             m_str = std::move(str.m_str);
         }
         return *this;
