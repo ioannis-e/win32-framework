@@ -1,5 +1,5 @@
-// Win32++   Version 10.0.0
-// Release Date: 9th September 2024
+// Win32++   Version 10.1.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -159,54 +159,6 @@ namespace Win32xx
     ////////////////////////////////////////
     // Global Functions
     //
-
-    // Retrieves the version of common control dll used.
-    // return values and DLL versions
-    // 400  dll ver 4.00    Windows 95/Windows NT 4.0
-    // 470  dll ver 4.70    Internet Explorer 3.x
-    // 471  dll ver 4.71    Internet Explorer 4.0
-    // 472  dll ver 4.72    Internet Explorer 4.01 and Windows 98
-    // 580  dll ver 5.80    Internet Explorer 5
-    // 581  dll ver 5.81    Windows 2000 and Windows ME
-    // 582  dll ver 5.82    Windows XP, Vista, Windows 7 etc. without XP themes
-    // 600  dll ver 6.00    Windows XP with XP themes
-    // 610  dll ver 6.10    Windows Vista with XP themes
-    // 616  dll ver 6.16    Windows Vista SP1 or above with XP themes
-    inline int GetComCtlVersion()
-    {
-#ifndef NDEBUG
-        OutputDebugString(_T("*** Warning: GetComCtlVersion is deprecated. ***\n"));
-#endif
-
-        // Retrieve the Common Controls DLL handle.
-        HMODULE comCtl = ::GetModuleHandle(_T("comctl32.dll"));
-        if (comCtl == nullptr)
-            return 0;
-
-        DWORD comCtlVer = 600;
-
-        if (::GetProcAddress(comCtl, "DllGetVersion"))
-        {
-            DLLGETVERSIONPROC pfnDLLGetVersion;
-
-            pfnDLLGetVersion = reinterpret_cast<DLLGETVERSIONPROC>(
-                reinterpret_cast<void*>(::GetProcAddress(comCtl, "DllGetVersion")));
-            if (pfnDLLGetVersion)
-            {
-                DLLVERSIONINFO dvi;
-                ZeroMemory(&dvi, sizeof(dvi));
-                dvi.cbSize = sizeof dvi;
-                if (NOERROR == pfnDLLGetVersion(&dvi))
-                {
-                    DWORD verMajor = dvi.dwMajorVersion;
-                    DWORD verMinor = dvi.dwMinorVersion;
-                    comCtlVer = 100 * verMajor + verMinor;
-                }
-            }
-        }
-
-        return static_cast<int>(comCtlVer);
-    }
 
     // Retrieves the window version
     // Return values and window versions:

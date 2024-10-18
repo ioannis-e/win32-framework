@@ -93,8 +93,8 @@
 #define UWM_POPUPMENU         (WM_APP + 0x3F17) // Message - creates the menubar popup menu.
 #define UWM_TBRESIZE          (WM_APP + 0x3F18) // Message - sent by toolbar to parent. Used by the rebar.
 #define UWM_TBWINPOSCHANGING  (WM_APP + 0x3F19) // Message - sent to parent. Toolbar is resizing.
-#define UWM_UPDATECOMMAND     (WM_APP + 0x3F1A) // Message - sent before a menu is displayed. Used by OnMenuUpdate.
 
+// Dock and tab messages.
 #define UWN_BARSTART          (WM_APP + 0x3F20) // Notification - sent by CDocker when the docker bar selected for move.
 #define UWN_BARMOVE           (WM_APP + 0x3F21) // Notification - sent by CDocker when the docker bar is moved.
 #define UWN_BAREND            (WM_APP + 0x3F22) // Notification - sent by CDocker when moving the docker bar has ended.
@@ -106,7 +106,7 @@
 #define UWN_TABCLOSE          (WM_APP + 0x3F28) // Notification - sent by CTab when a tab is about to be closed.
 #define UWN_UNDOCKED          (WM_APP + 0x3F29) // Notification - sent by docker when undocked.
 
-// print preview messages
+// Print preview messages.
 #define UWM_PREVIEWCLOSE      (WM_APP + 0x3F2A) // Message - sent by CPrintPreview when the 'Close' button is pressed.
 #define UWM_PREVIEWPRINT      (WM_APP + 0x3F2B) // Message - sent by CPrintPreview when the 'Print Now' button is pressed.
 #define UWM_PREVIEWSETUP      (WM_APP + 0x3F2C) // Message - sent by CPrintPreview when the 'Print Setup' is button pressed.

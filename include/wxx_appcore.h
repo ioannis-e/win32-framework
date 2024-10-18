@@ -55,6 +55,7 @@
 #include "wxx_cstring.h"
 #include "wxx_messagepump.h"
 
+extern "C" IMAGE_DOS_HEADER __ImageBase;
 
 namespace Win32xx
 {
@@ -197,8 +198,7 @@ namespace Win32xx
     // Constructor.
     inline CWinApp::CWinApp() : m_callback(nullptr)
     {
-        static CCriticalSection cs;
-        CThreadLock appLock(cs);
+        CThreadLock appLock(m_appLock);
 
         // This assert fails if Win32++ has already been started.
         // There should only be one instance of CWinApp running at a time.
@@ -208,21 +208,15 @@ namespace Win32xx
         {
             m_tlsData = ::TlsAlloc();
 
-            // This assert fails if all TLS indexes are already allocated by this app.
+            // An exception is thrown if all TLS indexes are already allocated by this app.
             // At least 64 TLS indexes per process are allowed.
             // Win32++ requires only one TLS index.
-            assert(m_tlsData != TLS_OUT_OF_INDEXES);
-
             if (m_tlsData != TLS_OUT_OF_INDEXES)
             {
                 SetnGetThis(this);
 
                 // Set the instance handle.
-                MEMORY_BASIC_INFORMATION mbi{};
-                static int address = 0;
-                ::VirtualQuery(&address, &mbi, sizeof(mbi));
-                assert(mbi.AllocationBase);
-                m_instance = (HINSTANCE)mbi.AllocationBase;
+                m_instance = reinterpret_cast<HINSTANCE>(&__ImageBase);
 
                 m_resource = m_instance;
                 SetTlsData();
@@ -236,6 +230,8 @@ namespace Win32xx
                 //       for other OLE functionality.
                 VERIFY(SUCCEEDED(OleInitialize(nullptr)));
             }
+            else
+                throw CNotSupportedException(MsgTlsIndexes());
         }
     }
 
@@ -797,6 +793,10 @@ namespace Win32xx
     // CTime messages
     inline CString CWinApp::MsgTimeValid() const
     { return _T("Invalid time."); }
+    
+    // CWinApp messages
+    inline CString CWinApp::MsgTlsIndexes() const
+    { return _T("No availabe Thread Local Storage Indexes."); }
 
 
     /////////////////////////////////////////////////////////

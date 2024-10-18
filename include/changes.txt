@@ -15,7 +15,20 @@ New Features and Enhancements
 
 Changes in detail
 -----------------
- - Removed Shared_Ptr          class    - use unique_ptr or shared_ptr instead.
+ - Added CString::CString(CString&& str)             CString move constructor
+ - Added CString::operator=(CString&& str)           CString move assignment
+ - Added CStringT::CStringT(CStringT&& str)          CStringT move constructor
+ - Added CStringT::operator=(CStringT&& str)         CStringT move assignment
+
+Removed the following deprecated classes and functions: 
+ - Shared_Ptr                  class    - use unique_ptr or shared_ptr instead.
+ - CFrameT::IsRebarSupported   function - not required, always TRUE.
+ - CSocket::StartAsync         function - use CSocket::StartEvents instead.
+ - CToolBar::AddBitmap         function - use CToolBar::SetImageList instead.
+ - CToolBar::AddReplaceBitmap  function - use CToolBar::SetImageList instead.
+ - ::GetSizeofMenuItemInfo     function - use sizeof(MENUITEMINFO) instead.
+ - ::GetComCtlVersion          function - not required for Windows XP and later.
+ 
 
 Version 10.0
 ============

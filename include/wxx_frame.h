@@ -253,7 +253,6 @@ namespace Win32xx
 
         // Not intended to be overridden
         CRect ExcludeChildRect(const CRect& clientRect, HWND child) const;
-        BOOL IsReBarSupported() const;
         BOOL IsUsingDarkMenu() const { return m_useDarkMenu; }
         BOOL IsUsingIndicatorStatus() const { return m_useIndicatorStatus; }
         BOOL IsUsingMenuStatus() const { return m_useMenuStatus; }
@@ -1659,13 +1658,6 @@ namespace Win32xx
         return CString(themeName);
     }
 
-    template <class T>
-    BOOL CFrameT<T>::IsReBarSupported() const
-    {
-        TRACE("*** Warning: CFrameT::IsReBarSupported is deprecated. ***\n");
-        return TRUE;
-    }
-
     // Returns a reference to the view window.
     template <>
     inline CWnd& CFrameT<CDocker>::GetView() const
@@ -2193,10 +2185,6 @@ namespace Win32xx
                 mii.dwTypeData = itemDataPtr->itemText.GetBuffer(WXX_MAX_STRING_SIZE);
                 mii.cch = WXX_MAX_STRING_SIZE;
 
-                // Send message for menu updates.
-                UINT menuItem = menu.GetMenuItemID(i);
-                T::SendMessage(UWM_UPDATECOMMAND, menuItem, 0);
-
                 // Specify owner-draw for the menu item type.
                 UINT position = static_cast<UINT>(i);
                 if (menu.GetMenuItemInfo(position, mii, TRUE))
@@ -2236,7 +2224,7 @@ namespace Win32xx
                 m_menusData.push_back(std::move(menuData));
         }
 
-        return 0;
+        return CWnd::WndProcDefault(msg, wparam, lparam);
     }
 
     // Called by the keyboard hook procedure whenever a key is pressed.

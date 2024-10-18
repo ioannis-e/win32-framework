@@ -171,20 +171,9 @@ namespace Win32xx
 namespace Win32xx
 {
     ////////////////////////////////////////
-    // Global function
-    //
-
-    // Returns the correct size of the MENUITEMINFO struct.
-    // The size of the MENUIEMINFO struct varies according to the window version.
-    inline UINT GetSizeofMenuItemInfo()
-    {
-        TRACE("*** Warning: GetSizeofMenuItemInfo is deprecated. ***\n");
-        return sizeof(MENUITEMINFO);
-    }
-
-    ////////////////////////////////////////
     // Definitions of CMenu
     //
+
     inline CMenu::CMenu()
     {
         m_pData = std::make_shared<CMenu_Data>();

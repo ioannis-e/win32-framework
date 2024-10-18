@@ -793,8 +793,8 @@ namespace Win32xx
         rd.childRect = childRect;
         rd.wnd = wnd;
 
-        std::vector<ResizeData>::iterator it;
-        for (it = m_resizeData.begin(); it != m_resizeData.end(); ++ it)
+        auto it = m_resizeData.begin();
+        while (it != m_resizeData.end())
         {
             if ( it->wnd == wnd)
             {
@@ -802,6 +802,8 @@ namespace Win32xx
                 *it = rd;
                 break;
             }
+
+            ++it;
         }
 
         // Add the value.

@@ -1200,71 +1200,80 @@ namespace Win32xx
         switch (msg)
         {
         case WM_CLOSE:
-            {
-                OnClose();
-                return 0;
-            }
+        {
+            OnClose();
+            return 0;
+        }
         case WM_COMMAND:
-            {
-                // Reflect this message if it's from a control.
-                CWnd* pWnd = GetCWndPtr(reinterpret_cast<HWND>(lparam));
-                if (pWnd != nullptr)
-                    result = pWnd->OnCommand(wparam, lparam);
+        {
+            // Reflect this message if it's from a control.
+            CWnd* pWnd = GetCWndPtr(reinterpret_cast<HWND>(lparam));
+            if (pWnd != nullptr)
+                result = pWnd->OnCommand(wparam, lparam);
 
-                // Handle user commands.
-                if (result == 0)
-                    result =  OnCommand(wparam, lparam);
+            // Handle user commands.
+            if (result == 0)
+                result =  OnCommand(wparam, lparam);
 
-                if (result != 0) return 0;
-            }
-            break;  // Note: Some MDI commands require default processing.
+            if (result != 0) return 0;
+        }
+        break;  // Note: Some MDI commands require default processing.
         case WM_CREATE:
-            {
-                LPCREATESTRUCT pcs = reinterpret_cast<LPCREATESTRUCT>(lparam);
-                if (pcs == nullptr)
-                    throw CWinException(_T("WM_CREATE failed"));
+        {
+            LPCREATESTRUCT pcs = reinterpret_cast<LPCREATESTRUCT>(lparam);
+            if (pcs == nullptr)
+                throw CWinException(_T("WM_CREATE failed"));
 
-                return OnCreate(*pcs);
-            }
+            return OnCreate(*pcs);
+        }
         case WM_DESTROY:
             OnDestroy();
             break;  // Note: Some controls require default processing.
-        case WM_NOTIFY:
+        case WM_INITMENUPOPUP:
+        {
+            // Call OnMenuUpdate for each menu item.
+            CMenu menu = reinterpret_cast<HMENU>(wparam);
+            for (int i = 0; i < menu.GetMenuItemCount(); ++i)
             {
-                // Do notification reflection if message came from a child window.
-                // Restricting OnNotifyReflect to child windows avoids double handling.
-                LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
-                HWND from = pHeader->hwndFrom;
-                CWnd* pWndFrom = GetApp()->GetCWndFromMap(from);
-
-                if (pWndFrom != nullptr)
-                    if (::GetParent(from) == m_wnd)
-                        result = pWndFrom->OnNotifyReflect(wparam, lparam);
-
-                // Handle user notifications.
-                if (result == 0) result = OnNotify(wparam, lparam);
-                if (result != 0) return result;
-                break;
+                UINT menuItem = menu.GetMenuItemID(i);
+                OnMenuUpdate(menuItem);
             }
+            return 0;
+        }
+        case WM_NOTIFY:
+        {
+            // Do notification reflection if message came from a child window.
+            // Restricting OnNotifyReflect to child windows avoids double handling.
+            LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
+            HWND from = pHeader->hwndFrom;
+            CWnd* pWndFrom = GetApp()->GetCWndFromMap(from);
+
+            if (pWndFrom != nullptr)
+                if (::GetParent(from) == m_wnd)
+                    result = pWndFrom->OnNotifyReflect(wparam, lparam);
+
+            // Handle user notifications.
+            if (result == 0) result = OnNotify(wparam, lparam);
+            if (result != 0) return result;
+            break;
+        }
 
         case WM_PAINT:
-            {
-                // OnPaint calls OnDraw when appropriate.
-                OnPaint(msg, wparam, lparam);
-            }
-
+        {
+            // OnPaint calls OnDraw when appropriate.
+            OnPaint(msg, wparam, lparam);
             return 0;
-
+        }
         case WM_ERASEBKGND:
-            {
-                CDC dc(reinterpret_cast<HDC>(wparam));
-                BOOL preventErasure;
+        {
+            CDC dc(reinterpret_cast<HDC>(wparam));
+            BOOL preventErasure;
 
-                preventErasure = OnEraseBkgnd(dc);
-                if (preventErasure) return TRUE;
-            }
+            preventErasure = OnEraseBkgnd(dc);
+            if (preventErasure) return TRUE;
             break;
-
+        }
+        
         // A set of messages to be reflected back to the control that generated them.
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:
@@ -1281,21 +1290,17 @@ namespace Win32xx
         case WM_HSCROLL:
         case WM_VSCROLL:
         case WM_PARENTNOTIFY:
-            {
-                result = MessageReflect(msg, wparam, lparam);
-                if (result != 0) return result;    // Message processed so return.
-            }
-            break;              // Do default processing when message not already processed.
-
-        case UWM_UPDATECOMMAND:
-            OnMenuUpdate(static_cast<UINT>(wparam)); // Perform menu updates.
-            break;
+        {
+            result = MessageReflect(msg, wparam, lparam);
+            if (result != 0) return result;    // Message processed so return.
+            break;    // Do default processing when message not already processed.
+        }
 
         case UWM_GETCWND:
-            {
-                assert(this == GetCWndPtr(m_wnd));
-                return reinterpret_cast<LRESULT>(this);
-            }
+        {
+            assert(this == GetCWndPtr(m_wnd));
+            return reinterpret_cast<LRESULT>(this);
+        }
 
         } // switch (msg)
 
