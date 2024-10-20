@@ -1,4 +1,4 @@
-/* (12-Jun-2015) [Tab/Indent: 8/8][Line/Box: 80/74]              (MainFrm.cpp) *
+/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]              (MainFrm.cpp) *
 ********************************************************************************
 |                                                                              |
 |                      Author: Robert C. Tausworthe, 2020                      |
@@ -221,9 +221,6 @@ OnCreate(CREATESTRUCT& cs)                                                  /*
       // call the base class function
     int rtn = CFrame::OnCreate(cs);
 
-      //Set our theme colors
-    SetThemeColors();
-
       // show the initial document and status
     UpdateDialog(SENDTOCONTROL);
     return rtn;
@@ -379,56 +376,6 @@ PreCreate(CREATESTRUCT& cs)                                                 /*
         | WS_THICKFRAME     // enables resizing
         ;
     cs.dwExStyle = WS_EX_CLIENTEDGE;
-}
-
-/*============================================================================*/
-    void CMainFrame::
-SetReBarColors(COLORREF clrBkGnd1, COLORREF clrBkGnd2, COLORREF clrBand1,
-    COLORREF clrBand2)                                                      /*
-
-    Set the colors to be used in the rebar theme.
-*-----------------------------------------------------------------------------*/
-{
-    ReBarTheme rt{};
-    rt.UseThemes    = TRUE;
-    rt.clrBkgnd1    = clrBkGnd1;
-    rt.clrBkgnd2    = clrBkGnd2;
-    rt.clrBand1     = clrBand1;
-    rt.clrBand2     = clrBand2;
-    rt.FlatStyle    = FALSE;
-    rt.BandsLeft    = TRUE;
-    rt.LockMenuBand = TRUE;
-    rt.RoundBorders = TRUE;
-    rt.ShortBands   = TRUE;
-    rt.UseLines     = TRUE;
-
-    SetReBarTheme(rt);
-}
-
-/*============================================================================*/
-    BOOL CMainFrame::
-SetThemeColors()                                                            /*
-
-    Set the colors of each rebar in the frame, i.e., the theme colors.
-    These were taken from the Win32++ Themes sample program recommended
-    colors for Windows XP, case IDM_BLUE.
-*-----------------------------------------------------------------------------*/
-{
-    SetReBarColors(RGB(150,190,245), RGB(196,215,250), RGB(220,230,250),
-        RGB( 70,130,220));
-
-    StatusBarTheme sbt = {TRUE, RGB(150,190,245), RGB(196,215,250)};
-    SetStatusBarTheme (sbt);
-
-    ToolBarTheme tbt = {TRUE, RGB(255, 230, 190), RGB(255, 190, 100),
-        RGB(255, 140, 40), RGB(255, 180, 80), RGB(128, 128, 255)};
-    SetToolBarTheme(tbt);
-
-    MenuTheme mt = {TRUE, RGB(255, 230, 190), RGB(255, 190, 100),
-        RGB(150,190,245), RGB(220,230,250), RGB(128, 128, 200)};
-    SetMenuTheme(mt);
-    RecalcLayout();
-    return TRUE;
 }
 
 /*============================================================================*/

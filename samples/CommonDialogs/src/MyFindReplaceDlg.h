@@ -1,4 +1,4 @@
-/* (08-Feb-2016)                                          (MyFindReplaceDlg.h) *
+/* (20-Oct-2024)                                          (MyFindReplaceDlg.h) *
 ********************************************************************************
 |                                                                              |
 |                    Authors: Robert Tausworthe, David Nash                    |

@@ -1,4 +1,4 @@
-/* (06-May-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                   (View.h) *
+/* (20-Oct-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                   (View.h) *
 ********************************************************************************
 |                                                                              |
 |               Authors: Robert C. Tausworthe, David Nash, 2020                |
@@ -55,7 +55,6 @@ protected:
     virtual void    OnDraw(CDC& dc) override;
     virtual LRESULT OnPaint(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual void    PreCreate(CREATESTRUCT &cs) override;
-    virtual void    Serialize(CArchive &ar) override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:

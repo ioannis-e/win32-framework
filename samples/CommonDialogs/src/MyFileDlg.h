@@ -1,4 +1,4 @@
-/* (08-Feb-2016)                                                 (MyFileDlg.h) *
+/* (20-Oct-2024)                                                 (MyFileDlg.h) *
 ********************************************************************************
 |                                                                              |
 |                    Authors: Robert Tausworthe, David Nash                    |

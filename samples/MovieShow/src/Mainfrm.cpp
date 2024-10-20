@@ -472,7 +472,7 @@ std::vector<CString> CMainFrame::GetBoxSets()
     HTREEITEM item = GetViewTree().GetChild(m_boxSetsItem);
     while (item != 0)
     {
-        boxSets.push_back(GetViewTree().GetItemText(item));
+        boxSets.emplace_back(GetViewTree().GetItemText(item));
         item = GetViewTree().GetNextSibling(item);
     };
 
@@ -579,18 +579,18 @@ void CMainFrame::LoadMovies()
 {
     // Information about MediaInfo.
     MediaInfo MI;
-
     CString DataPath = GetDataPath();
     CString DataFile = GetDataPath() + L"\\" + L"MovieData.bin";
     SHCreateDirectoryEx(nullptr, DataPath.c_str(), nullptr);
+    CSplash* pSplash = m_splashThread.GetSplash();
 
     if (PathFileExists(DataFile))
     {
         try
         {
-            // Display the splash screen.
-            m_splashThread.GetSplash()->ShowText(L"", this);
-            m_splashThread.GetSplash()->ShowText(L"Loading Library", this);
+            // Display the splash screen.        
+            pSplash->ShowText(L"", this);
+            pSplash->ShowText(L"Loading Library", this);
 
             // Lock this code for thread safety.
             CThreadLock lock(m_cs);
@@ -640,7 +640,7 @@ void CMainFrame::LoadMovies()
         }
         catch (const CFileException& e)
         {
-            m_splashThread.GetSplash()->Hide();
+            pSplash->Hide();
             Trace(e.GetErrorString()); Trace("\n");
             ::MessageBox(nullptr, L"Failed to load Movie Library", L"Error", MB_OK);
             m_moviesData.clear();
@@ -1236,7 +1236,7 @@ BOOL CMainFrame::OnRemoveFile()
                 break;
             }
             else
-                it++;
+                ++it;
         }
     }
 
@@ -1642,8 +1642,9 @@ UINT WINAPI CMainFrame::ThreadProc(void* pVoid)
 
         pFrame->GetToolBar().CheckButton(IDM_ADD_FOLDER, TRUE);
         splash->ShowText(L"Updating Library", pFrame);
-        splash->GetBar().ShowWindow(SW_SHOW);
-        splash->GetBar().SetRange(0, (short)pFrame->m_filesToAdd.size());
+        const CProgressBar& progressBar = splash->GetBar();
+        progressBar.ShowWindow(SW_SHOW);
+        progressBar.SetRange(0, (short)pFrame->m_filesToAdd.size());
 
         unsigned short barPos = 0;
         for (size_t i = 0; i < pFrame->m_filesToAdd.size(); i++)
@@ -1659,7 +1660,7 @@ UINT WINAPI CMainFrame::ThreadProc(void* pVoid)
             barPos++;
 
             // Update the splash screen's progress bar.
-            splash->GetBar().SetPos(barPos);
+            progressBar.SetPos(barPos);
 
             CString fullName = pFrame->m_filesToAdd[i].fileName;
             bool isFileInLibrary = false;
@@ -1710,8 +1711,6 @@ UINT WINAPI CMainFrame::ThreadProc(void* pVoid)
         // Report the error in a message  box.
         ::MessageBox(nullptr, MI.Inform().c_str(), L"Error", MB_OK);
     }
-
-
 
     pFrame->OnFilesLoaded();
     pFrame->GetToolBar().CheckButton(IDM_ADD_FOLDER, FALSE);

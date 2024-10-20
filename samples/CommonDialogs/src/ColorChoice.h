@@ -1,4 +1,4 @@
-/* (28-Aug-2016) [Tab/Indent: 8/8][Line/Box: 80/74]            (ColorChoice.h) *
+/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]            (ColorChoice.h) *
 ********************************************************************************
 |                                                                              |
 |                    Authors: Robert Tausworthe, David Nash                    |
@@ -56,8 +56,6 @@ CColorChoice   : public CColorDialog                                        /*
 
     protected:
         virtual BOOL    OnInitDialog() override;
-        virtual void    SetWindowTitle() const {SetWindowText(m_boxTitle);}
-        virtual void    Serialize(CArchive &ar) override;
 
     private:
         CColorChoice(const CColorChoice&) = delete;

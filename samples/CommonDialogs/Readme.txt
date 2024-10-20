@@ -19,10 +19,6 @@ Features demonstrated in this example
 
 * Use of CFrame to provide a frame window (docking not supported).
 
-* Extension of CMainFrame to add serialization of the MRU list and display of
-  items that exceed the set maximum length using the  ellipsis "..." in the 
-  middle of the truncated string, rather than at its beginning, as in Win32++.
-
 * Generation of the basic set of string variables in CApp::InitInstance(), 
   such as the application title, file name with extension, version number, 
   full path name and the directory part of that path, the data archive file 
@@ -31,16 +27,6 @@ Features demonstrated in this example
   extension, file dialog filter, and candidate information that will appear 
   in the AboutBox when activated. It also provides the size of the maximum 
   Most Recently Used (MRU) file list.
-
-* Use of the Win32++ CArchive class to store and retrieve the frame settings 
-  (including MRU list, status and toolbar display switches, and window
-  placement), as well as perhaps some document status data. The frame's 
-  persistent data is  stored in the path named 
-
-    <app_data_path>\win32++\CommonDialogs.arc
-
-  where <the app_data_path> is found using the Win32++ GetAppDataPath() 
-  function.  
 
 * Use of the entire Win32++ common dialog classes (CFontDialog, CColorDialog,
   CFileDialog, CFindReplace, CPrintDialog, and CPageSetupDialog) for selection 
@@ -66,11 +52,6 @@ Features demonstrated in this example
 * Display of program title, executable name, program version number, Win32++ 
   version number, compiler name, and most recent compilation date in the 
   AboutBox dialog.
-
-* MRU strings that are recovered from serialization that are not valid file 
-  paths are discarded at program startup by the CMainFrame::ValidateMRU() 
-  method. In this way, files that may have been deleted between executions
-  do not adversely affect operations.
 
 * Use of a CRichEdit control as a file view window with extensive editing
   and access capabilities, including cut, copy, paste, undo, redo, save, 

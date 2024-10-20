@@ -72,8 +72,6 @@
 		<Unit filename="../src/App.h" />
 		<Unit filename="../src/Doc.cpp" />
 		<Unit filename="../src/Doc.h" />
-		<Unit filename="../src/MRU.cpp" />
-		<Unit filename="../src/MRU.h" />
 		<Unit filename="../src/Mainfrm.cpp" />
 		<Unit filename="../src/Mainfrm.h" />
 		<Unit filename="../src/Resource.rc">

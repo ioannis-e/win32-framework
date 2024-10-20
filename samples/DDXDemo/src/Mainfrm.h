@@ -1,4 +1,4 @@
-/* (12-Jun-2015) [Tab/Indent: 8/8][Line/Box: 80/74]                (MainFrm.h) *
+/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]                (MainFrm.h) *
 ********************************************************************************
 |                                                                              |
 |                      Author: Robert C. Tausworthe, 2020                      |
@@ -63,13 +63,8 @@ CMainFrame : public CFrame                                                  /*
         BOOL    OnFilePrint();
         BOOL    OnFileSave();
         BOOL    OnFileSaveAs();
-        void    SetReBarColors(COLORREF, COLORREF, COLORREF, COLORREF);
-        BOOL    SetThemeColors();
 
-        CView             m_view;
-        std::vector<UINT> m_bandIDs;
-        std::vector<UINT> m_bandStyles;
-        std::vector<UINT> m_bandSizes;
+        CView   m_view;
 };
 /*----------------------------------------------------------------------------*/
 #endif //MAINFRM_H

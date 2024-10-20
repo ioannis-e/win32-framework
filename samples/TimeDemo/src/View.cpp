@@ -1,4 +1,4 @@
-/* (06-May-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                 (View.cpp) *
+/* (20-Oct-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                 (View.cpp) *
 ********************************************************************************
 |                                                                              |
 |               Authors: Robert C. Tausworthe, David Nash, 2020                |
@@ -132,43 +132,6 @@ PreCreate(CREATESTRUCT &cs)                                                 /*
       // Set extended style to include a 3-D look with border and sunken edge
     cs.dwExStyle = WS_EX_CLIENTEDGE;
     CScrollView::PreCreate(cs);
-}
-
-/*============================================================================*/
-    void CView::
-Serialize(CArchive& ar)                                                     /*
-
-    Called to serialize or deserialize the view to and  from the archive ar,
-    depending on the sense of IsStoring().
-*-----------------------------------------------------------------------------*/
-{
-      // perform loading or storing
-    if (ar.IsStoring())
-    {
-           // save m_hfFont
-        LOGFONT lf = m_font.GetLogFont();
-        ArchiveObject f(&lf, sizeof(LOGFONT));
-        ar << f;
-        // save m_rgbTxColor
-        ar << m_textColor;
-        // save m_rgbBkColor
-        ar << m_bkgndColor;
-    }
-    else    // recovering
-    {
-          // recover m_hfFont
-        LOGFONT lf{};
-        ArchiveObject f(&lf, sizeof(LOGFONT));
-        ar >> f;
-        // recover view colors
-        COLORREF rgbTxColor, rgbBkColor;
-        ar >> rgbTxColor;
-        ar >> rgbBkColor;
-        // no exception having been raised, set the view parameters
-        m_font.CreateFontIndirect(lf);
-        m_textColor = rgbTxColor;
-        m_bkgndColor = rgbBkColor;
-    }
 }
 
 /*============================================================================*/

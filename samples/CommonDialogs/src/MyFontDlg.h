@@ -1,4 +1,4 @@
-/* (28-Aug-2016) [Tab/Indent: 8/8][Line/Box: 80/74]              (MyFontDlg.h) *
+/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]              (MyFontDlg.h) *
 ********************************************************************************
 |                                                                              |
 |                    Authors: Robert Tausworthe, David Nash                    |
@@ -41,7 +41,6 @@ MyFontDialog : public CFontDialog                                       /*
             SetChoiceLogFont(lf);
         }
         void    RecordFontMetrics();
-        void    Serialize(CArchive& ar) override;
         void    SetChoiceLogFont(LOGFONT& lf)
         {
             SetFontIndirect(lf);
@@ -49,7 +48,6 @@ MyFontDialog : public CFontDialog                                       /*
         }
         void    SetFontIndirect(const LOGFONT& lf);
         void    SetTextMetric(const TEXTMETRIC& tm) { m_tm = tm; }
-        void    SetWindowTitle() const { SetWindowText(m_boxTitle); }
 
     protected:
         virtual BOOL    OnInitDialog() override;

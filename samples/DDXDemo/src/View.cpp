@@ -1,4 +1,4 @@
-/* (10-May-2024) [Tab/Indent: 8/8][Line/Box: 80/74]                 (View.cpp) *
+/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]                 (View.cpp) *
 ********************************************************************************
 |                                                                              |
 |                      Author: Robert C. Tausworthe, 2020                      |
@@ -125,7 +125,7 @@ CView(UINT nResID)                                                          /*
       // the dialog box
     m_dialogFgClr   = COLOR_WHITE;
     m_dialogBgClr   = COLOR_BLUE;
-    m_dialogBgBrush.CreateSolidBrush(COLOR_LT_BLUE);
+    m_dialogBgBrush.CreateSolidBrush(COLOR_LILAC);
       // list boxes
     m_listBoxFgClr  = COLOR_BLACK;
     m_listBoxBgClr  = COLOR_GREEN;

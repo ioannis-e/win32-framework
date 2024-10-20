@@ -1,4 +1,4 @@
-/* (10-May-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                  (Doc.cpp) *
+/* (20-Oct-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                  (Doc.cpp) *
 ********************************************************************************
 |                                                                              |
 |                Authors: Robert Tausworthe, David Nash, 2020                  |
@@ -222,7 +222,7 @@ OpenDoc(LPCWSTR filename)                                                   /*
           // resize the file buffer to fit content
         m_buffer.resize(doclen);
           // read the entire file contents into the buffer
-        UINT n = m_file.Read((void*)&m_buffer[0], doclen);
+        UINT n = m_file.Read(m_buffer.data(), doclen);
         if (n != doclen)
             throw CFileException(L"Reading the file failed.");
 

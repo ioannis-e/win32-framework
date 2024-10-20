@@ -1,4 +1,4 @@
-/* (01-Nov-2016) [Tab/Indent: 8/8][Line/Box: 80/74]               (AboutBox.h) *
+/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]               (AboutBox.h) *
 ********************************************************************************
 |                                                                              |
 |                    Authors: Robert Tausworthe, David Nash                    |

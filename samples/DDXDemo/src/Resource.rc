@@ -1,4 +1,4 @@
-/* (04-Aug-2014) [Tab/Indent: 8/8][Line/Box: 80/74]              (Resource.rc) *
+/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]              (Resource.rc) *
 ********************************************************************************
 |                                                                              |
 |                      Author: Robert C. Tausworthe, 2020                      |
@@ -43,7 +43,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // RT_MANIFEST
 //
 
-1                      RT_MANIFEST            "../src/res/SystemDPI.manifest"
+1                      RT_MANIFEST            "../src/res/PerMonitorV2.manifest"
 
 
 /////////////////////////////////////////////////////////////////////////////

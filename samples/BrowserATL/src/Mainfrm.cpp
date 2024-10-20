@@ -1,7 +1,3 @@
-/////////////////////////////
-// Mainfrm.cpp
-//
-
 #include "stdafx.h"
 #include "resource.h"
 #include "Mainfrm.h"
@@ -273,13 +269,12 @@ void CMainFrame::OnInitialUpdate()
 
 void CMainFrame::OnNavigateComplete2(DISPPARAMS* pDispParams)
 {
-    CString str = L"NavigateComplete2: ";
-
     if (pDispParams->rgvarg[0].vt == (VT_BYREF|VT_VARIANT))
     {
         CComVariant vtURL(*pDispParams->rgvarg[0].pvarVal);
         vtURL.ChangeType(VT_BSTR);
 
+        CString str = L"NavigateComplete2: ";
         str += vtURL.bstrVal;
         str += L"\n";
         TRACE(str);
