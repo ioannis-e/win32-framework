@@ -47,7 +47,6 @@ CMainFrame : public CFrame                                                  /*
        virtual int     OnCreate(CREATESTRUCT& cs) override;
        virtual void    OnInitialUpdate() override;
        virtual void    OnMenuUpdate(UINT id) override;
-       virtual void    PreCreate(CREATESTRUCT& cs) override;
        virtual void    SetupMenuIcons() override;
        virtual void    SetupToolBar() override;
        virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
@@ -56,13 +55,15 @@ CMainFrame : public CFrame                                                  /*
         CMainFrame(const CMainFrame&) = delete;
         CMainFrame& operator=(const CMainFrame&) = delete;
 
-        void    FeatureNotImplemented();
+        BOOL    OnCheckButton(UINT id);
+        BOOL    OnEditCopy();
+        BOOL    OnEditCut();
+        BOOL    OnEditDelete();
+        BOOL    OnEditPaste();
+        BOOL    OnEditRedo();
+        BOOL    OnEditUndo();
         BOOL    OnFileExit();
-        BOOL    OnFileNew();
-        BOOL    OnFileOpen();
-        BOOL    OnFilePrint();
-        BOOL    OnFileSave();
-        BOOL    OnFileSaveAs();
+        BOOL    OnRadioButton(UINT id);
 
         CView   m_view;
 };

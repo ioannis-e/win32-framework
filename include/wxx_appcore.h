@@ -793,7 +793,7 @@ namespace Win32xx
     // CTime messages
     inline CString CWinApp::MsgTimeValid() const
     { return _T("Invalid time."); }
-    
+
     // CWinApp messages
     inline CString CWinApp::MsgTlsIndexes() const
     { return _T("No availabe Thread Local Storage Indexes."); }

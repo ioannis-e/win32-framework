@@ -76,7 +76,7 @@ MyPageSetup : public CPageSetupDialog                                   /*
     protected:
           //  Override this member method to perform special processing
           //  when the printer box is initialized. Return TRUE.
-        virtual BOOL OnInitDialog() override 
+        virtual BOOL OnInitDialog() override
         { SetWindowText(m_PSDTitle); return TRUE;}
 
           // Override this member to perform any special processing to reset

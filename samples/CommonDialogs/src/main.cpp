@@ -19,7 +19,7 @@
 #include "StdApp.h"
 
 #if defined (_MSC_VER) && (_MSC_VER >= 1920)      // VS2019 or higher
-#pragma warning( disable : 28251 )  // do not require annotation of WinMain()
+#pragma warning( disable : 28251 )  // disable annotation warnings for wWinMain()
 #endif
 
 /*******************************************************************************
@@ -37,21 +37,7 @@ wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)                                   /*
 {
       // set default return value
     int rtn = -1;
-      // Create and check the semaphore that limits the number of
-      // simultaneously executing instances of this application
-      // to m_nInstances.
 
-    const LPCWSTR semaphoreName = L"Win32++_CommonDialogsDemo";
-    const int instances = 1; // number of allowed instances
-    HANDLE semaphore = CreateSemaphore(nullptr, instances, instances, semaphoreName);
-    if (WaitForSingleObject(semaphore, 0) == WAIT_TIMEOUT)
-    {
-        ::MessageBox(nullptr, L"The allowed number of instances of this\n"
-        L"application are already running.", L"Stop", MB_OK |
-        MB_ICONSTOP | MB_TASKMODAL);
-        CloseHandle(semaphore);
-        return 0;  // before entering the message loop
-    }
       // Run the application
     CApp thisApp;
     try
@@ -72,8 +58,5 @@ wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)                                   /*
         ::MessageBox(nullptr, msg, L"Unknown Exception", MB_OK |
             MB_ICONSTOP | MB_TASKMODAL);
     }
-      // release the semaphore
-    ReleaseSemaphore(semaphore, 1, nullptr);
-    CloseHandle(semaphore);
     return rtn;
 }

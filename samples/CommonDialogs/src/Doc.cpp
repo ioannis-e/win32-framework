@@ -112,7 +112,7 @@ IsSelected() const                                                          /*
 /*============================================================================*/
     BOOL CDoc::
 CanPaste() const                                                            /*
-    
+
     Returns TRUE if text can be pasted.
 *-----------------------------------------------------------------------------*/
 {
@@ -366,7 +366,7 @@ OnSaveDoc()                                                                 /*
     BOOL CDoc::
 OpenDoc(LPCWSTR docPath)                                                    /*
 
-    Open the document from the given path. 
+    Open the document from the given path.
     Return TRUE if file is open on return, FALSE if not.
 *-----------------------------------------------------------------------------*/
 {

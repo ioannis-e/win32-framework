@@ -3,13 +3,15 @@ CommonDialogs Example
 
 This sample program has a frame window which includes a menu bar, tool bar,
 and status bar, with a modeless dialog as the client window of the frame. 
-It is meant to serve as the template for applications that require a full 
-range of features, including AboutBox help, full color selection of frame, 
-controls, and client area, font selection for text display, standard file 
-open and save-as dialogs, selection and use of printers, and serialization 
-of the program's persistent parameters and the most-recently used list (MRU) 
-data relegated to CArchive files located in the user's Application Data 
-folder.
+
+The program demonstrates the use of the following common dialogs classes:
+* CColorDialog
+* CFileDialog
+* CFindReplaceDialog
+* CFontDialog
+* CPageSetupDialog
+* CPrintDialog
+
 
 Features demonstrated in this example
 =====================================
@@ -29,22 +31,17 @@ Features demonstrated in this example
   Most Recently Used (MRU) file list.
 
 * Use of the entire Win32++ common dialog classes (CFontDialog, CColorDialog,
-  CFileDialog, CFindReplace, CPrintDialog, and CPageSetupDialog) for selection 
-  of fonts, colors, files, text for find/replace purposes, and printer 
-  parameters.
+  CFileDialog, CFindReplaceDialog, CPrintDialog, and CPageSetupDialog) for the
+  selection of fonts, colors, files, text for find/replace purposes, and
+  printer parameters.
 
 * Reusable classes CColorChoice and CListBoxDlg that, with CView, implement 
   the selection and display of the font foreground, font background, and 
-  control colors for the RichEdit control, as well as the colors of the dialog
-  and status bar backgrounds.
+  control colors for the RichEdit control, the backfrond color of the dialog.
 
 * Reusable derived classes MyFileDlg, MyFindReplaceDlg, MyFontDlg, MyPrintDialog,
   and MyPrintSetup that customize the appearance of their respective common
   dialog base classes and bring context help functions to these dialogs.
-
-* Programmer-selectable menu, tool bar, and status bar themes, as well as
-  user-selectable foreground and background colors of the dialog controls,
-  client area, and status bar.
 
 * Tool tips that appear when the mouse hovers over tool bar, dialog controls,
   and the dialog client area.

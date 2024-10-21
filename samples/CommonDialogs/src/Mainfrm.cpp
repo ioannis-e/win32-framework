@@ -19,9 +19,6 @@
 #include "StdApp.h"
 #include <io.h>
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1920)      // VS2019 or higher
-#pragma warning (disable : 26812 )  // allow unscoped enums
-#endif
 
 /*============================================================================*/
     CMainFrame::
@@ -31,8 +28,7 @@ CMainFrame()                                                                /*
     resource defined in resource.rc. Note that the initial window location and
     size are set here.
 *-----------------------------------------------------------------------------*/
-    :   m_view(IDD_MAIN_DIALOG), m_isTextWrap(TRUE),
-        m_frameXY(100, 100), m_frameSize(700, 600)
+    :   m_view(IDD_MAIN_DIALOG), m_isTextWrap(TRUE)
 {
 }
 
@@ -359,7 +355,6 @@ OnInitialUpdate()                                                           /*
 OnMenuUpdate(UINT id)                                                       /*
 
     Update the enable and chack status of menu items.
-
 *-----------------------------------------------------------------------------*/
 {
     UINT enabled;
@@ -501,11 +496,11 @@ SetRichEditColor()                                                           /*
 
 /*============================================================================*/
 void CMainFrame::
-    OnPrint()                                                                  /*
+    OnPrint()                                                                /*
 
-        Invoke a MyPrintDialog dialog to get printing parameters and then print
-        the contents of the rich view control.
-    *-----------------------------------------------------------------------------*/
+    Invoke a MyPrintDialog dialog to get printing parameters and then print
+    the contents of the rich view control.
+*-----------------------------------------------------------------------------*/
 {
     m_view.OnPrintDocument(m_doc.GetDocPath());
 }
@@ -514,8 +509,8 @@ void CMainFrame::
 void CMainFrame::
     OnSave()                                                                  /*
 
-        Save the current document.
-    *-----------------------------------------------------------------------------*/
+    Save the current document.
+*-----------------------------------------------------------------------------*/
 {
     m_doc.OnSaveDoc();
 }
@@ -586,7 +581,7 @@ OnSaveAs()                                                                  /*
     void CMainFrame::
 OnWrapText()                                                                /*
 
-    Toggle the word wrapping in the rich edit control.
+    Toggle the word wrapping mode in the rich edit control.
 *-----------------------------------------------------------------------------*/
 {
     m_isTextWrap = !m_isTextWrap;
@@ -697,6 +692,16 @@ SetupToolBar()                                                              /*
     AddToolBarButton(IDM_FONT_CHOICE,   TRUE, 0, 10);
       // Set the toolbar image list: use defaults for hot and disabled
     SetToolBarImages(RGB(255, 0, 255), IDW_MAIN, 0, 0);
+}
+
+/*============================================================================*/
+void CMainFrame::
+    SetViewBgColor()                                                        /*
+
+    Sets the background color of the dialog used as the view window.
+*-----------------------------------------------------------------------------*/
+{
+    m_view.SetBgColor(m_colorChoice.GetBrush(DlgBg));
 }
 
 /*============================================================================*/

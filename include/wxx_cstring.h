@@ -362,7 +362,7 @@ namespace Win32xx
     {
         if (this != &str)
             m_str.assign(str.m_str);
-        
+
         return *this;
     }
 
@@ -823,7 +823,7 @@ namespace Win32xx
         assert(var);
         Empty();
 
-        // Returns text length including NULL character.
+        // Returns text length including the null character.
         DWORD length = ::GetEnvironmentVariableA(var, nullptr, 0);
         if (length > 0)
         {
@@ -841,7 +841,7 @@ namespace Win32xx
         assert(var);
         Empty();
 
-        // Returns text length including NULL character.
+        // Returns text length including the null character.
         DWORD length = ::GetEnvironmentVariableW(var, nullptr, 0);
         if (length > 0)
         {
@@ -858,7 +858,7 @@ namespace Win32xx
     {
         Empty();
 
-        // Returns text length NOT including NULL character.
+        // Returns text length NOT including the null character.
         int length = ::GetWindowTextLengthA(wnd);
         if (length > 0)
         {
@@ -873,7 +873,7 @@ namespace Win32xx
     {
         Empty();
 
-        // Returns text length NOT including NULL character.
+        // Returns text length NOT including the null character.
         int length = ::GetWindowTextLengthW(wnd);
         if (length > 0)
         {
@@ -1640,7 +1640,7 @@ namespace Win32xx
     {
         if (this != &str)
             m_str.assign(str.GetString());
-        
+
         return *this;
     }
 

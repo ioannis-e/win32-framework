@@ -59,11 +59,8 @@
 #define IDM_COLOR_CHOICE                121
 #define IDC_ABOUT_MSG                   130
 #define IDS_APP_VERSION                 140
-#define IDS_ARCHIVE_FILE_EXT            141
-#define IDS_DATAPATH_SUBDIR             142
-#define IDS_DOC_DEFAULT_EXT             143
-#define IDS_FILE_FILTER                 144
-#define IDS_MAX_MRU_ENTRIES             145
+#define IDS_FILE_FILTER                 141
+#define IDS_DOC_DEFAULT_EXT             142
   // resource IDs for client area controls (IDOK has its own, so not given here)
 #define IDC_RICHEDITBOX                 150
 #define IDM_RICHEDWRAP                  151

@@ -35,15 +35,12 @@ CMyScrollBar()                                                              /*
 
 /*============================================================================*/
     int CMyScrollBar::
-GetHScrollPos(UINT msg, WPARAM wparam, LPARAM lparam)                       /*
+GetHScrollPos(UINT, WPARAM wparam, LPARAM)                       /*
 
     Respond to WM_HSCROLL messages and return the current position of the
     scroll bar.
 *-----------------------------------------------------------------------------*/
 {
-    UNREFERENCED_PARAMETER(msg);
-    UNREFERENCED_PARAMETER(lparam);
-
     GetScrollInfo(m_scrollInfo);
     switch (LOWORD (wparam))
     {

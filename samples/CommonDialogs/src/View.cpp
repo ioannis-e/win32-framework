@@ -190,6 +190,7 @@ OnInitDialog()                                                              /*
     m_richView.SetFont(m_editFont, TRUE);
       // put some arbitrary text in the edit control just for this demo
     NoDocOpen();
+
     return TRUE;
 }
 

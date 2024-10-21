@@ -18,8 +18,6 @@
 #ifndef SDI_MAINFRM_H
 #define SDI_MAINFRM_H
 
-  // designation of where a control id appears, used when enabling/disabling
-enum ControlBars {toolbar, mainmenu, both};
 
 /*============================================================================*/
     class
@@ -50,6 +48,7 @@ CMainFrame : public CFrame                                                  /*
     private:
         CMainFrame(const CMainFrame&) = delete;
         CMainFrame& operator=(const CMainFrame&) = delete;
+
         BOOL    DropFiles(LPARAM lparam);
         CRichEditView& GetRichView() { return m_view.GetRichView();}
         void    InitCtlColors();
@@ -72,8 +71,7 @@ CMainFrame : public CFrame                                                  /*
         BOOL    SetRichEditColor();
         void    SetupMenuIcons();
         void    SetupToolBar();
-        void    SetViewBgColor()
-                     {m_view.SetBgColor(m_colorChoice.GetBrush(DlgBg));}
+        void    SetViewBgColor();                  
 
         CDoc         m_doc;         // the document
         CView        m_view;        // the view
@@ -85,8 +83,6 @@ CMainFrame : public CFrame                                                  /*
         BOOL         m_isTextWrap;  // wrap text in rich edit if true
         CColorChoice m_colorChoice; // the control color choice
         MyFontDialog m_fontChoice;  // edit control font
-        CPoint       m_frameXY;     // frame top-left coordinates
-        CSize        m_frameSize;   // frame dimensions
         MyFindReplaceDialog m_findReplaceDlg;  // find-replace dialog
 };
 /*------------------------------------------------------------------------------*/

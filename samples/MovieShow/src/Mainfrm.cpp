@@ -588,7 +588,7 @@ void CMainFrame::LoadMovies()
     {
         try
         {
-            // Display the splash screen.        
+            // Display the splash screen.
             pSplash->ShowText(L"", this);
             pSplash->ShowText(L"Loading Library", this);
 

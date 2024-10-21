@@ -690,7 +690,7 @@ namespace Win32xx
 
         int dlgItem = static_cast<int>(dlgItemID);
 
-        // Returns text length NOT including NULL character.
+        // Returns text length NOT including the null character.
         int length = ::GetWindowTextLength(::GetDlgItem(*this, dlgItem));
         CString str;
         if (length > 0)
@@ -1273,7 +1273,7 @@ namespace Win32xx
             if (preventErasure) return TRUE;
             break;
         }
-        
+
         // A set of messages to be reflected back to the control that generated them.
         case WM_CTLCOLORBTN:
         case WM_CTLCOLOREDIT:

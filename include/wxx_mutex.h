@@ -125,7 +125,7 @@ namespace Win32xx
     {
     public:
         CSemaphore(LONG initialCount, LONG maxCount, LPCTSTR name,
-            LPSECURITY_ATTRIBUTES attributes);
+            LPSECURITY_ATTRIBUTES attributes = nullptr);
 
         HANDLE GetHandle() const { return m_semaphore; }
         operator HANDLE() const  { return m_semaphore; }

@@ -537,14 +537,13 @@ OnButton()                                                                  /*
 
 /*============================================================================*/
     BOOL CView::
-OnCommand(WPARAM wparam, LPARAM lparam)                                  /*
+OnCommand(WPARAM wparam, LPARAM)                                  /*
 
     The framework calls this member function when the user selects an item
     from a menu, when a child control sends a notification message, or when
     an accelerator keystroke is translated.
 *-----------------------------------------------------------------------------*/
 {
-    UNREFERENCED_PARAMETER(lparam);
     WORD id  = LOWORD(wparam);
     WORD ctl = HIWORD(wparam);
     switch (id)
