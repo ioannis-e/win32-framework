@@ -1,4 +1,4 @@
-/* (10-May-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                 (FontEx.h) *
+/* (22-Oct-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                 (FontEx.h) *
 ********************************************************************************
 |                                                                              |
 |                Authors: Robert Tausworthe, David Nash, 2020                  |
@@ -72,9 +72,6 @@ CFontEx : public CObject                                                       /
         void    SetFlags(DWORD f)       { m_flags = f; }
         void    SetFont(CFont f)        { m_font = f; SaveFontSize(); }
         void    SetTxColor(COLORREF c)  { m_txcolor = c; }
-
-    protected:
-        virtual void Serialize(CArchive &ar) override;
 
     private:
         CFontEx(const CFontEx&) = delete;

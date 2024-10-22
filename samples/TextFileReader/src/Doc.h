@@ -1,4 +1,4 @@
-/* (10-May-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                    (Doc.h) *
+/* (22-Oct-2024) [Tab/Indent: 4/4][Line/Box: 80/74]                    (Doc.h) *
 ********************************************************************************
 |                                                                              |
 |                Authors: Robert Tausworthe, David Nash, 2020                  |
@@ -34,8 +34,7 @@ enum Encoding
 CDoc                                                                        /*
 
     This class is the interface between the file to be displayed and the CView
-    class, which displays it. Parameters of this class deemed to be persistent
-    may be serialized.
+    class, which displays it.
 *-----------------------------------------------------------------------------*/
 {
     public:

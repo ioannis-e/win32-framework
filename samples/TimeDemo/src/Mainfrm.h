@@ -1,4 +1,4 @@
-/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]                (MainFrm.h) *
+/* (21-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]                (MainFrm.h) *
 ********************************************************************************
 |                                                                              |
 |               Authors: Robert C. Tausworthe, David Nash, 2020                |
@@ -38,8 +38,6 @@ CMainFrame : public CFrame                      /*
         virtual HWND Create(HWND parent = nullptr) override;
         void        SetAppName(const CString& appName)
                                     { m_appName = appName; }
-        void        SetArcFileName(const CString& arcName)
-                                    { m_arcName = arcName; }
         void        SetWindowTitle(const CString &title = L"");
         CView&      TheView()       {return m_view;}
         CDoc&       ThisDoc()       {return m_view.TheDoc();}
