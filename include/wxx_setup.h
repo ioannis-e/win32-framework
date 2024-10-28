@@ -162,11 +162,6 @@ namespace Win32xx
 
     // Retrieves the window version
     // Return values and window versions:
-    //  1400     Windows 95
-    //  1410     Windows 98
-    //  1490     Windows ME
-    //  2400     Windows NT
-    //  2500     Windows 2000
     //  2501     Windows XP
     //  2502     Windows Server 2003
     //  2600     Windows Vista and Windows Server 2008

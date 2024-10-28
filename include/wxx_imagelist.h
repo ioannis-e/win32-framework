@@ -67,7 +67,7 @@ namespace Win32xx
     // The CImageList class that provides the functionality of image lists.
     // An image list is a collection of images of the same size, each of
     // which can be referred to by its index.
-    class CImageList
+    class CImageList final
     {
         friend class CWinApp;
 
@@ -78,7 +78,7 @@ namespace Win32xx
         CImageList(const CImageList& rhs);
         CImageList& operator=(const CImageList& rhs);
         CImageList& operator=(HIMAGELIST rhs);
-        virtual ~CImageList();
+        ~CImageList();
 
         // Initialization
         void Create(int cx, int cy, UINT flags, int initial, int grow);

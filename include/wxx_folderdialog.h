@@ -47,33 +47,7 @@
 
 ////////////////////////////////////////////////////////
 //
-//  Coding example for Win2000 and below.
-//
-//      CFolderDialog fd;
-//
-//      // Set the root folder to list the computer's drives (or C:).
-//      ITEMIDLIST* pidlRoot = nullptr;
-//      SHGetSpecialFolderLocation(nullptr, CSIDL_DRIVES, &pidlRoot);
-//      fd.SetRoot(pidlRoot);
-//
-//      // Set the title for the dialog.
-//      fd.SetTitle(_T("Choose a folder"));
-//
-//      // Display the dialog
-//      if (fd.DoModal() == IDOK)
-//      {
-//          // Do something with the folder found
-//          MessageBox(fd.GetFolderPath(), _T("Folder Chosen"), MB_OK);
-//      }
-//
-//      // Release the memory allocated for our pidlRoot.
-//      CoTaskMemFree(pidlRoot);
-//
-////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////
-//
-//  Coding example for WinXP and above.
+//  Coding example.
 //
 //      CFolderDialog fd;
 //

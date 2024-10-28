@@ -152,9 +152,7 @@ namespace Win32xx
         CRichEdit(const CRichEdit&) = delete;
         CRichEdit& operator=(const CRichEdit&) = delete;
 
-        HMODULE m_rich1;
-        HMODULE m_rich2;
-        HMODULE m_rich4_1;
+        HMODULE m_richedit;
     };
 
 }
@@ -172,33 +170,12 @@ namespace Win32xx
 
     inline CRichEdit::CRichEdit()
     {
-        // History of the Rich Edit control
-        // --------------------------------
-        // Windows 95   Includes only Rich Edit 1.0.
-        // Windows 98   Includes Rich Edit 1.0 and 2.0.
-        // Windows 2000 Includes Rich Edit 3.0 with a Rich Edit 1.0 emulator.
-        // Windows XP   Includes Rich Edit 4.1, and Rich Edit 3.0 with a Rich Edit 1.0 emulator.
-
         CString system;
         ::GetSystemDirectory(system.GetBuffer(MAX_PATH), MAX_PATH);
         system.ReleaseBuffer();
 
-        // Load RichEdit version 1.0. This registers the "RICHEDIT" class.
-        // The "RICHEDIT" class is often used in dialogs.
-        m_rich1 = ::LoadLibrary(system + _T("\\riched32.dll"));
-        if (m_rich1 == nullptr)
-            throw CNotSupportedException(GetApp()->MsgRichEditDll());
-
-        // Load RichEdit version 3.0. This registers the "RICHEDIT20A"
-        // and "RICHEDIT20W" classes. It is used when UNICODE isn't defined.
-        m_rich2 = ::LoadLibrary(system + _T("\\riched20.dll"));
-        if (m_rich2 == nullptr)
-            throw CNotSupportedException(GetApp()->MsgRichEditDll());
-
-        // Load RichEdit version 4.1. This registers the "RICHEDIT50W" class.
-        // RichEdit version 4.1 requires Unicode.
-        m_rich4_1 = ::LoadLibrary(system + _T("\\Msftedit.dll"));
-        if (m_rich4_1 == nullptr)
+        m_richedit = ::LoadLibrary(system + _T("\\Msftedit.dll"));
+        if (m_richedit == nullptr)
             throw CNotSupportedException(GetApp()->MsgRichEditDll());
     }
 
@@ -208,12 +185,8 @@ namespace Win32xx
         if (IsWindow())
             ::DestroyWindow(*this);
 
-        ::FreeLibrary(m_rich1);
-        if (m_rich2)
-            ::FreeLibrary(m_rich2);
-
-        if (m_rich4_1)
-            ::FreeLibrary(m_rich4_1);
+        if (m_richedit)
+            ::FreeLibrary(m_richedit);
     }
 
     // Set the default window styles.
@@ -225,19 +198,7 @@ namespace Win32xx
     // Set the window class
     inline void CRichEdit::PreRegisterClass(WNDCLASS& wc)
     {
-        // Use the latest version of RichEdit available.
-
-        // For RichEdit version 1.0, 2.0 and 3.0.
-        wc.lpszClassName = RICHEDIT_CLASS;
-
-        // For RichEdit version 4.1. Requires Unicode.
-#if defined UNICODE
-        if (m_rich4_1 != nullptr)
-            wc.lpszClassName = MSFTEDIT_CLASS;
-#else
-        TRACE("\n*** WARNING: Using an old version of the RichEdit control ***\n\n");
-#endif
-
+        wc.lpszClassName = _T("RICHEDIT50W");
     }
 
     // Adds text to the end of the document.

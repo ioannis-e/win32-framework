@@ -92,7 +92,7 @@ namespace Win32xx
 
     // This class provides support for menus. It provides member functions for creating,
     // tracking, updating, and destroying a menu.
-    class CMenu
+    class CMenu final
     {
     public:
         // Construction
@@ -102,7 +102,7 @@ namespace Win32xx
         CMenu(const CMenu& rhs);
         CMenu& operator=(const CMenu& rhs);
         CMenu& operator=(HMENU menu);
-        virtual ~CMenu();
+        ~CMenu();
 
         // Initialization
         void Attach(HMENU menu);

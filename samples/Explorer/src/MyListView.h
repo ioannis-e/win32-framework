@@ -81,7 +81,7 @@ private:
         CShellFolder m_parentFolder;  // Parent IShellFolder
     };  // class ListItemData (nested class)
 
-    typedef std::unique_ptr<ListItemData> ListItemDataPtr;
+    using ListItemDataPtr = std::unique_ptr<ListItemData>;
 
     static int CALLBACK CompareFunction(LPARAM param1, LPARAM param2, LPARAM pSortViewItems);
     static ULONGLONG FileTimeToULL(FILETIME ft);

@@ -3079,9 +3079,9 @@ namespace Win32xx
         if (IsUsingThemes())
         {
             // Predifined themes.
-            enum Themetype{ Win8, Win7, XP_Blue, XP_Silver, XP_Olive, gray };
+            enum Themetype{ Win10, Win7, XP_Blue, XP_Silver, XP_Olive, gray };
 
-            // For Win2000 and below.
+            // Default theme.
             int theme = gray;
 
             if (GetWinVersion() < 2600) // For Windows XP.
@@ -3103,13 +3103,13 @@ namespace Win32xx
             }
             else
             {
-                // For Windows 8 and above.
-                theme = Win8;
+                // For Windows 8, 8.1, 10 and 11.
+                theme = Win10;
             }
 
             switch (theme)
             {
-            case Win8:  // A pale blue scheme without gradients, suitable for Windows 8, 8.1, 10 and 11.
+            case Win10:  // A pale blue scheme without gradients, suitable for Windows 8, 8.1, 10 and 11.
                 {
                     MenuTheme mt = {t, RGB(180, 250, 255), RGB(140, 190, 255), RGB(240, 250, 255), RGB(120, 170, 220), RGB(127, 127, 255), RGB(0, 0, 0) };
                     ReBarTheme rbt = {t, RGB(235, 237, 250), RGB(235, 237, 250), RGB(235, 237, 250), RGB(235, 237, 250), f, t, t, f, t, f };
@@ -3200,7 +3200,6 @@ namespace Win32xx
         else
         {
             // Set a default menu theme. This allows the menu to display icons.
-            // The colors specified here are used for Windows 2000 and below.
             MenuTheme mt = {FALSE, RGB(182, 189, 210), RGB( 182, 189, 210), RGB(200, 196, 190), RGB(200, 196, 190), RGB(100, 100, 100), RGB(0, 0, 0)};
             SetMenuTheme(mt);  // Sets the theme for popup menus and MenuBar.
         }

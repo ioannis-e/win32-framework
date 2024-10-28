@@ -80,14 +80,14 @@ namespace Win32xx
     // copied. CMetatFile automatically deletes the HMETAFILE when the last copy of
     // the CMetaFile object goes out of scope. The CMetaFileDC::Close function
     // returns a CMetaFile object.
-    class CMetaFile
+    class CMetaFile final
     {
         friend class CMetaFileDC;
 
     public:
         CMetaFile();
         CMetaFile(const CMetaFile& rhs);
-        virtual ~CMetaFile();
+        ~CMetaFile();
         CMetaFile& operator=(const CMetaFile& rhs);
         operator HMETAFILE() { return m_pData->metaFile; }
 
@@ -106,7 +106,7 @@ namespace Win32xx
     // HENHMETAFILE when the last copy of the CEnhMetaFile object goes out of
     // scope. The CMetaFileDC::CloseEnhanced function returns a CEnhMetaFile
     // object.
-    class CEnhMetaFile
+    class CEnhMetaFile final
     {
         friend class CEnhMetaFileDC;
 

@@ -104,9 +104,8 @@ namespace Win32xx
     // Global Functions
     //
 
-    // Returns the path to the AppData folder. Returns an empty CString if
-    // the Operating System doesn't support the use of an AppData folder.
-    // The AppData folder is available in Windows 2000 and above.
+    // Returns the path to the AppData folder. Returns the MyDocuments
+    // folder on failure.
     inline CString GetAppDataPath()
     {
         CString appData;
@@ -192,14 +191,14 @@ namespace Win32xx
         int dpi = GetDeviceCaps(desktopDC, LOGPIXELSX);
 
         // Retrieve the window's dpi if we can.
-        using GETDPIFORWINDOW = UINT (WINAPI*)(HWND);
+        using PGETDPIFORWINDOW = UINT (WINAPI*)(HWND);
         HMODULE user = GetModuleHandle(_T("user32.dll"));
         if (user && ::IsWindow(wnd))
         {
-            GETDPIFORWINDOW pGetDpiForWindow = reinterpret_cast<GETDPIFORWINDOW>(
+            PGETDPIFORWINDOW pGetDpiForWindow = reinterpret_cast<PGETDPIFORWINDOW>(
                 reinterpret_cast<void*>(::GetProcAddress(user, "GetDpiForWindow")));
 
-            if (pGetDpiForWindow)
+            if (pGetDpiForWindow != nullptr)
             {
                 dpi = static_cast<int>(pGetDpiForWindow(wnd));
             }

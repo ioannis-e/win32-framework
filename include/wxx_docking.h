@@ -2608,11 +2608,11 @@ namespace Win32xx
         int dpi = GetDeviceCaps(clientDC, LOGPIXELSX);
 
         // Retrieve the monitor's dpi if we can.
-        using GETDPIFORMONITOR = HRESULT (WINAPI*)(HMONITOR hmonitor, int dpiType, UINT* dpiX, UINT* dpiY);
+        using PGETDPIFORMONITOR = HRESULT (WINAPI*)(HMONITOR hmonitor, int dpiType, UINT* dpiX, UINT* dpiY);
         HMODULE shcore = GetModuleHandle(_T("shcore"));
         if (shcore)
         {
-            GETDPIFORMONITOR pGetDpiForMonitor = reinterpret_cast<GETDPIFORMONITOR>(
+            PGETDPIFORMONITOR pGetDpiForMonitor = reinterpret_cast<PGETDPIFORMONITOR>(
                 reinterpret_cast<void*>(::GetProcAddress(shcore, "GetDpiForMonitor")));
 
             if (pGetDpiForMonitor)

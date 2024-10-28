@@ -579,12 +579,12 @@ void CMainFrame::LoadMovies()
 {
     // Information about MediaInfo.
     MediaInfo MI;
-    CString DataPath = GetDataPath();
-    CString DataFile = GetDataPath() + L"\\" + L"MovieData.bin";
-    SHCreateDirectoryEx(nullptr, DataPath.c_str(), nullptr);
+    CString dataPath = GetDataPath();
+    CString dataFile = GetDataPath() + L"\\" + L"MovieData.bin";
+    SHCreateDirectoryEx(nullptr, dataPath.c_str(), nullptr);
     CSplash* pSplash = m_splashThread.GetSplash();
 
-    if (PathFileExists(DataFile))
+    if (PathFileExists(dataFile))
     {
         try
         {
@@ -598,7 +598,7 @@ void CMainFrame::LoadMovies()
             m_moviesData.clear();
             TRACE("Loading Movies Data\n");
 
-            CArchive ar(DataFile, CArchive::load);
+            CArchive ar(dataFile, CArchive::load);
             UINT nBoxSets;
             ar >> nBoxSets;
             for (UINT i = 0; i < nBoxSets; ++i)
@@ -716,25 +716,19 @@ BOOL CMainFrame::OnAddFolder()
         fd.SetTitle(L"Choose a folder to add to the video library.");
         if (fd.DoModal(*this) == IDOK)
         {
-            CString DataPath = GetDataPath();
-            CString DataFile = GetDataPath() + L"\\" + L"MovieData.bin";
-            ::SHCreateDirectoryEx(nullptr, DataPath.c_str(), nullptr);
+            // Lock this code for thread safety.
+            CThreadLock lock(m_cs);
 
+            // Remove entries from the library if the file has been removed.
+            for (auto it = m_moviesData.begin(); it != m_moviesData.end();)
             {
-                // Lock this code for thread safety.
-                CThreadLock lock(m_cs);
-
-                // Remove entries from the library if the file has been removed.
-                for (auto it = m_moviesData.begin(); it != m_moviesData.end();)
+                if (!::PathFileExists((*it).fileName))
                 {
-                    if (!::PathFileExists((*it).fileName))
-                    {
-                        TRACE((*it).fileName); TRACE("  removed from library\n");
-                        it = m_moviesData.erase(it);
-                    }
-                    else
-                        ++it;
+                    TRACE((*it).fileName); TRACE("  removed from library\n");
+                    it = m_moviesData.erase(it);
                 }
+                else
+                    ++it;
             }
 
             CString searchString = fd.GetFolderPath() + L"\\*.m??";
@@ -843,13 +837,13 @@ void CMainFrame::OnClose()
         // The splash window is destroyed when splash goes out of scope.
         m_splashThread.GetSplash()->ShowText(L"Saving Library", this);
 
-        CString DataPath = GetDataPath();
-        CString DataFile = GetDataPath() + L"\\" + L"MovieData.bin";
-        ::SHCreateDirectoryEx(nullptr, DataPath.c_str(), nullptr);
+        CString dataPath = GetDataPath();
+        CString dataFile = GetDataPath() + L"\\" + L"MovieData.bin";
+        ::SHCreateDirectoryEx(nullptr, dataPath.c_str(), nullptr);
 
         try
         {
-            CArchive ar(DataFile, CArchive::store);
+            CArchive ar(dataFile, CArchive::store);
             std::vector<CString> boxSets = GetBoxSets();
             ar << UINT(boxSets.size());
             for (size_t i = 0; i < boxSets.size(); ++i)
@@ -1562,12 +1556,15 @@ void CMainFrame::SetCaptionColor(COLORREF color)
     HMODULE dwmapi = ::LoadLibrary(L"Dwmapi.dll");
     if (dwmapi != 0)
     {
-        typedef UINT WINAPI DWMSETWINDOWATTRIBUE(HWND, DWORD, LPCVOID, DWORD);
-        DWMSETWINDOWATTRIBUE* pDwmSetWindowAttribute = reinterpret_cast<DWMSETWINDOWATTRIBUE*>(
+        using PDWMSETWINDOWATTRIBUE = UINT (WINAPI*)(HWND, DWORD, LPCVOID, DWORD);
+        PDWMSETWINDOWATTRIBUE pDwmSetWindowAttribute = reinterpret_cast<PDWMSETWINDOWATTRIBUE>(
             reinterpret_cast<void*>(::GetProcAddress(dwmapi, "DwmSetWindowAttribute")));
 
-        const int DWMWA_CAPTION_COLOR = 35;
-        pDwmSetWindowAttribute(*this, DWMWA_CAPTION_COLOR, &color, sizeof(color));
+        if (pDwmSetWindowAttribute != nullptr)
+        {
+            const int DWMWA_CAPTION_COLOR = 35;
+            pDwmSetWindowAttribute(*this, DWMWA_CAPTION_COLOR, &color, sizeof(color));
+        }
         ::FreeLibrary(dwmapi);
     }
 }

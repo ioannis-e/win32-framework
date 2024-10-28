@@ -1,8 +1,34 @@
 Version 10.1
 ============
+This version updates the library and samples to make better use of the new
+features in C++14. Some deprecated classes and functions have been removed.
+Dialogs with RichEdit controls might need to be updated to be compatible
+with this version.
+ 
+
+Incompatibilities with previous versions
+----------------------------------------
+* Support for RichEdit controls in dialogs have changed. Dialogs which have a
+  RichEdit control now need to specify "RichEdit50W" as the control's class
+  name in the dialog's resource script (resource.rc) if they depend on the
+  RichEdit dll loaded by CRichEdit.
+
+  The relevant entry for the richedit control might look something like this:
+  CONTROL     "",IDC_RICHEDIT1,"RichEdit50W" ,ES_MULTILINE | ES_WANTRETURN |
+              ES_AUTOHSCROLL | WS_BORDER | WS_TABSTOP, 120, 142, 84, 35
+
+  The dialog won't be created if an incorrect class name is specified for
+  the richedit control. The "RichEdit50W" class name supports both ANSI
+  and UNICODE builds.
+
 
 New Features and Enhancements
 -----------------------------
+* Updated CRichedEdit.
+  The CRichEdit class has been updated and now only loads the latest version
+  of the rich edit control (Msftedit.dll). The class name of the RichEdit
+  control loaded by CRichEdit is "RichEdit50W".
+
 * Updated the DLL sample.
    The DLL sample now demonstrates how to create modeless dialogs in 
    separate threads. The thread stops running when the dialog is closed.

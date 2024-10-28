@@ -219,7 +219,7 @@ namespace Win32xx
 
     ///////////////////////////////////////
     // CBitmap manages a bitmap GDI object.
-    class CBitmap : public CGDIObject
+    class CBitmap final : public CGDIObject
     {
       public:
         CBitmap();
@@ -261,7 +261,7 @@ namespace Win32xx
 
     /////////////////////////////////////
     // CBrush manages a brush GDI object.
-    class CBrush : public CGDIObject
+    class CBrush final : public CGDIObject
     {
       public:
         CBrush();
@@ -284,7 +284,7 @@ namespace Win32xx
 
     ///////////////////////////////////
     // CFont manages a font GDI object.
-    class CFont : public CGDIObject
+    class CFont final : public CGDIObject
     {
     public:
         CFont();
@@ -313,7 +313,7 @@ namespace Win32xx
 
     /////////////////////////////////////////
     // CPalette manages a palette GDI object.
-    class CPalette : public CGDIObject
+    class CPalette final : public CGDIObject
     {
       public:
         CPalette();
@@ -341,7 +341,7 @@ namespace Win32xx
 
     /////////////////////////////////
     // CPen manages a pen GDI object.
-    class CPen : public CGDIObject
+    class CPen final : public CGDIObject
     {
     public:
         CPen();
@@ -365,7 +365,7 @@ namespace Win32xx
 
     ////////////////////////////////////
     // CRgn manages a region GDI object.
-    class CRgn : public CGDIObject
+    class CRgn final : public CGDIObject
     {
       public:
         CRgn();
@@ -774,7 +774,7 @@ namespace Win32xx
     /////////////////////////////////////////////////////////////
     // CClientDC manages a GDI device context for the client area
     // of a window.
-    class CClientDC : public CDC
+    class CClientDC final : public CDC
     {
     public:
         CClientDC(HWND wnd);
@@ -790,7 +790,7 @@ namespace Win32xx
     // such as DCX_WINDOW, DCX_CACHE, DCX_PARENTCLIP, DCX_CLIPSIBLINGS,
     // DCX_CLIPCHILDREN, DCX_NORESETATTRS, DCX_LOCKWINDOWUPDATE,
     // DCX_EXCLUDERGN, DCX_INTERSECTRGN and DCX_VALIDATE.
-    class CClientDCEx : public CDC
+    class CClientDCEx final : public CDC
     {
     public:
         CClientDCEx(HWND wnd, HRGN clip, DWORD flags);
@@ -804,7 +804,7 @@ namespace Win32xx
     // CMemDC manage a memory device context that is compatible with the
     // specified device context. If this device context 0, the memory DC
     // is compatible with the application's current screen.
-    class CMemDC : public CDC
+    class CMemDC final : public CDC
     {
     public:
         explicit CMemDC(HDC dc);
@@ -817,7 +817,7 @@ namespace Win32xx
     ///////////////////////////////////////////////////////////////
     // CPaintDC manages a GDI device used for painting via WM_PAINT
     // on the specified window.
-    class CPaintDC : public CDC
+    class CPaintDC final : public CDC
     {
     public:
         CPaintDC(HWND wnd);
@@ -830,7 +830,7 @@ namespace Win32xx
     ///////////////////////////////////////////////////////////////////
     // CWindowDC manages a GDI device context for the specified window,
     // including its client and non-client areas.
-    class CWindowDC : public CDC
+    class CWindowDC final : public CDC
     {
     public:
         CWindowDC(HWND wnd);
@@ -843,7 +843,7 @@ namespace Win32xx
     ///////////////////////////////////////////////
     // CMetaFileDC manages a GDI device context for
     // a Windows-format metafile.
-    class CMetaFileDC : public CDC
+    class CMetaFileDC final : public CDC
     {
     public:
         CMetaFileDC();
@@ -859,7 +859,7 @@ namespace Win32xx
     ///////////////////////////////////////////////////////////////////
     // CEnhMetaFileDC manages a GDI device context for a Windows-format
     // enhanced metafile.
-    class CEnhMetaFileDC : public CDC
+    class CEnhMetaFileDC final : public CDC
     {
     public:
         CEnhMetaFileDC();
@@ -2472,7 +2472,7 @@ namespace Win32xx
     // Fills the specified rectangle with a color gradient.
     inline void CDC::GradientFill(COLORREF color1, COLORREF color2, RECT rc, BOOL isVertical) const
     {
-        using GRADIENTFILL = UINT (WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
+        using PGRADIENTFILL = UINT (WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
 
         SolidFill(color1, rc);
         CString system;
@@ -2483,7 +2483,7 @@ namespace Win32xx
         static HMODULE msimg32 = ::LoadLibrary(system + _T("\\msimg32.dll"));
         if (msimg32)
         {
-            GRADIENTFILL pGradientFill = reinterpret_cast<GRADIENTFILL>(
+            PGRADIENTFILL pGradientFill = reinterpret_cast<PGRADIENTFILL>(
                 reinterpret_cast<void*>(::GetProcAddress(msimg32, "GradientFill")));
 
             if (pGradientFill)
