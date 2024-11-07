@@ -112,7 +112,7 @@ namespace Win32xx
     //
 
     // The CRibbonFrameT is the base class for frames that support the Ribbon Framework.
-    // The T parameter can be either CWnd or CDocker.
+    // The T parameter can be either CFrame, CDockFrame, CMDIFrame or CMDIDockFrame.
     template <class T>
     class CRibbonFrameT : public T, public CRibbon
     {
@@ -158,8 +158,9 @@ namespace Win32xx
         std::vector<RecentFilesPtr> m_recentFiles;
     };
 
-
-    // This class provides an SDI frame with a Ribbon Framework
+    ////////////////////////////////////////////////////
+    // This class provides an SDI frame with a Ribbon
+    // Framework.
     class CRibbonFrame : public CRibbonFrameT<CFrame>
     {
     public:

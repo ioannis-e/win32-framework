@@ -181,44 +181,6 @@ SetAppSize(BOOL keepPos)                                                    /*
 
 /*============================================================================*/
     void CView::
-SetDefaultFont()                                                            /*
-
-    Create the default app font.
-*-----------------------------------------------------------------------------*/
-{
-      // compute the logical font height for the nDefaultFontSize
-    CClientDC dc(HWND_DESKTOP);
-      // define default size and face
-    int nDefaultFontSize = 10;
-    wchar_t lpszFaceDefault[] = L"Courier New";
-      // compute the character height
-    long lfHeight = -MulDiv(nDefaultFontSize,
-        dc.GetDeviceCaps(LOGPIXELSY), POINTS_PER_INCH);
-      // set default font characteristics
-    int nHeight = lfHeight;         // logical height of font
-    int nWidth = 0;                 // logical average character width
-    int nEscapement = 0;            // angle of escapement
-    int nOrientation = 0;           // base-line orientation angle
-    int fnWeight = FW_REGULAR;      // font weight
-    DWORD fdwItalic = 0;            // italic attribute flag
-    DWORD fdwUnderline = 0;         // underline attribute flag
-    DWORD fdwStrikeOut = 0;         // strikeout attribute flag
-    DWORD fdwCharSet = 0;           // character set identifier
-    DWORD fdwOutputPrecision = 0;   // output precision
-    DWORD fdwClipPrecision = 0;     // clipping precision
-    DWORD fdwQuality = 0;           // output quality
-    DWORD fdwPitchAndFamily = 0;    // pitch and  family
-    LPCWSTR lpszFace = lpszFaceDefault; // pointer to typeface name string
-
-      // create the default font
-    m_font.CreateFont(nHeight, nWidth, nEscapement, nOrientation,
-        fnWeight, fdwItalic, fdwUnderline, fdwStrikeOut, fdwCharSet,
-        fdwOutputPrecision, fdwClipPrecision, fdwQuality, fdwPitchAndFamily,
-        lpszFace);
-}
-
-/*============================================================================*/
-    void CView::
 SetDefaults()                                                               /*
 
     Sets the member variables to their default values.
@@ -229,7 +191,10 @@ SetDefaults()                                                               /*
     for (int i = 0; i < 16; i++)
         m_colors[i] = RGB(0, 0, 0);
 
-    SetDefaultFont();
+      // Create the default font.
+    constexpr int fontSize = 10;
+    constexpr int tenthsOfPoint = 10;
+    m_font.CreatePointFont(fontSize * tenthsOfPoint, L"Courier New");
 }
 
 /*============================================================================*/

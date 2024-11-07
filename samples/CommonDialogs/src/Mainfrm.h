@@ -71,7 +71,7 @@ CMainFrame : public CFrame                                                  /*
         BOOL    SetRichEditColor();
         void    SetupMenuIcons();
         void    SetupToolBar();
-        void    SetViewBgColor();                  
+        void    SetViewBgColor();
 
         CDoc         m_doc;         // the document
         CView        m_view;        // the view

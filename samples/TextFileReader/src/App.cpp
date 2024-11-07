@@ -32,14 +32,14 @@ CApp()                                                                      /*
     the CAppGlobal m_AppGlobal object in App.h.
 *-----------------------------------------------------------------------------*/
 {
-      // Retrieve the application's filename. 
+      // Retrieve the application's filename.
     CString appName;
     CString appPath = GetCommandLineArgs().front();
     int index = appPath.ReverseFind(L"\\");
     if (index >= 0)
         appName = appPath.Mid(index + 1);
 
-      // make Win32++ version string 
+      // make Win32++ version string
     CString win32Version;
     UINT ver = _WIN32XX_VER;
     win32Version.Format(L"Win32++ Version %d.%d.%d", ver / 0x100,

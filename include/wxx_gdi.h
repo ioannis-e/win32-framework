@@ -2475,47 +2475,33 @@ namespace Win32xx
         using PGRADIENTFILL = UINT (WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
 
         SolidFill(color1, rc);
-        CString system;
-        ::GetSystemDirectory(system.GetBuffer(MAX_PATH), MAX_PATH);
-        system.ReleaseBuffer();
 
-        // Use runtime dynamic linking. Avoids the need to explicitly link Msimg32.lib.
-        static HMODULE msimg32 = ::LoadLibrary(system + _T("\\msimg32.dll"));
-        if (msimg32)
-        {
-            PGRADIENTFILL pGradientFill = reinterpret_cast<PGRADIENTFILL>(
-                reinterpret_cast<void*>(::GetProcAddress(msimg32, "GradientFill")));
+        TRIVERTEX vertex[2]{};
+        vertex[0].x = rc.left;
+        vertex[0].y = rc.top;
+        vertex[0].Red   = COLOR16(GetRValue(color1) << 8);
+        vertex[0].Green = COLOR16(GetGValue(color1) << 8);
+        vertex[0].Blue  = COLOR16(GetBValue(color1) << 8);
+        vertex[0].Alpha = 0;
 
-            if (pGradientFill)
-            {
-                TRIVERTEX vertex[2]{};
-                vertex[0].x = rc.left;
-                vertex[0].y = rc.top;
-                vertex[0].Red   = COLOR16(GetRValue(color1) << 8);
-                vertex[0].Green = COLOR16(GetGValue(color1) << 8);
-                vertex[0].Blue  = COLOR16(GetBValue(color1) << 8);
-                vertex[0].Alpha = 0;
+        vertex[1].x = rc.right;
+        vertex[1].y = rc.bottom;
+        vertex[1].Red   = COLOR16(GetRValue(color2) << 8);
+        vertex[1].Green = COLOR16(GetGValue(color2) << 8);
+        vertex[1].Blue  = COLOR16(GetBValue(color2) << 8);
+        vertex[1].Alpha = 0;
 
-                vertex[1].x = rc.right;
-                vertex[1].y = rc.bottom;
-                vertex[1].Red   = COLOR16(GetRValue(color2) << 8);
-                vertex[1].Green = COLOR16(GetGValue(color2) << 8);
-                vertex[1].Blue  = COLOR16(GetBValue(color2) << 8);
-                vertex[1].Alpha = 0;
+        // Create a GRADIENT_RECT structure that
+        // references the TRIVERTEX vertices.
+        GRADIENT_RECT rect{};
+        rect.UpperLeft = 0;
+        rect.LowerRight = 1;
 
-                // Create a GRADIENT_RECT structure that
-                // references the TRIVERTEX vertices.
-                GRADIENT_RECT rect{};
-                rect.UpperLeft = 0;
-                rect.LowerRight = 1;
-
-                // Draw a gradient filled rectangle.
-                const ULONG GradientFillRectH = 0x00000000;
-                const ULONG GradientFillRectV = 0x00000001;
-                ULONG mode = isVertical ? GradientFillRectV : GradientFillRectH;
-                pGradientFill(*this, vertex, 2, &rect, 1, mode);
-            }
-        }
+        // Draw a gradient filled rectangle.
+        const ULONG GradientFillRectH = 0x00000000;
+        const ULONG GradientFillRectV = 0x00000001;
+        ULONG mode = isVertical ? GradientFillRectV : GradientFillRectH;
+        GradientFill(vertex, 2, &rect, 1, mode);
     }
 
     // Decrements the reference count.
@@ -4094,7 +4080,25 @@ namespace Win32xx
     inline BOOL CDC::GradientFill(PTRIVERTEX pVertex, ULONG vertex, PVOID pMesh, ULONG mesh, ULONG mode) const
     {
         assert(m_pData->dc != nullptr);
-        return ::GradientFill(m_pData->dc, pVertex, vertex, pMesh, mesh, mode);
+
+        CString system;
+        ::GetSystemDirectory(system.GetBuffer(MAX_PATH), MAX_PATH);
+        system.ReleaseBuffer();
+
+        // Use runtime dynamic linking. Avoids the need to explicitly link Msimg32.lib.
+        static HMODULE msimg32 = ::LoadLibrary(system + _T("\\msimg32.dll"));
+        if (msimg32)
+        {
+            using PGRADIENTFILL = UINT(WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
+
+            PGRADIENTFILL pGradientFill = reinterpret_cast<PGRADIENTFILL>(
+                reinterpret_cast<void*>(::GetProcAddress(msimg32, "GradientFill")));
+
+            if (pGradientFill)
+                return pGradientFill(m_pData->dc, pVertex, vertex, pMesh, mesh, mode);
+        }
+
+        return FALSE;
     }
 
     // Draws an icon or cursor.

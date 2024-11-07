@@ -84,10 +84,11 @@ SetDefault()                                                                /*
     Create the default view font. Throw an exception if it cannot be created.
 *-----------------------------------------------------------------------------*/
 {
-    const int fontSize = 10;
+    m_txcolor = RGB(0, 0, 0);
+    constexpr int fontSize = 10;
+    constexpr int tenthsOfPoint = 10;
     LPCWSTR fontName   = L"Courier New";
-    m_txcolor          = RGB(0, 0, 0);
-    m_font.CreatePointFont(10 * fontSize, fontName);
+    m_font.CreatePointFont(tenthsOfPoint * fontSize, fontName);
     SaveFontSize();
 }
 /*----------------------------------------------------------------------------*/

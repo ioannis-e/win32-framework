@@ -670,7 +670,6 @@ namespace Win32xx
         if (GetToolBarData().size() > 0)
         {
             // Load the default images if no images are loaded.
-            // A mask of 192,192,192 is compatible with AddBitmap (for Win95).
             if (!GetToolBar().SendMessage(TB_GETIMAGELIST, 0, 0))
                 SetToolBarImages(RGB(192, 192, 192), IDW_MAIN, 0, 0);
 

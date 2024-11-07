@@ -148,9 +148,7 @@ The sample applications include:
 Getting Started
 ---------------
 Each file download includes the project files for Dev-C++, CodeBlocks and the
-various compilers from Microsoft. CodeBlocks is an IDE (Integrated Development
-Environment) that supports GNU GCC, Borland Developer Studio 2006 and Microsoft
-C++ Toolkit 2003.
+various compilers from Microsoft.
 
 You  can start with one of the sample programs, and add your code. Alternatively
 you can start with the projects and sample code provided in the "new projects"

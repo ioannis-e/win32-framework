@@ -124,6 +124,9 @@ void CRichView::OnAttach()
     GetDefaultCharFormat(cf);
     cf.dwEffects = 0;
     StrCopy(cf.szFaceName, L"Consolas", LF_FACESIZE);
+    constexpr int twipsPerPoint = 20;
+    constexpr int fontSize = 10;
+    cf.yHeight = fontSize * twipsPerPoint;
     SetDefaultCharFormat(cf);
 
     // Support Drag and Drop on this window

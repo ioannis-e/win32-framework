@@ -131,7 +131,7 @@ namespace Win32xx
     // CMDIClient manages the MDI frame's MDI client window.
     // The MDI client window manages the arrangement of the MDI child windows.
     template <class T>
-    class CMDIClient : public T     // The template parameter T is either CWnd, or CDocker::CDockClient.
+    class CMDIClient : public T     // T is either CWnd, or CDocker::CDockClient.
     {
     public:
         CMDIClient() = default;
@@ -151,8 +151,9 @@ namespace Win32xx
     };
 
     /////////////////////////////////////
-    // The CMDIFrameT class is the base class for all MDI frames. MDI Frames can hold
-    // one or more MDI children. The template parameter T is typically either CWnd or CDocker.
+    // The CMDIFrameT class is the base class for all MDI frames. MDI Frames
+    // can hold one or more MDI children. The template parameter T is typically
+    // either CFrame or CDockFrame.
     template <class T>
     class CMDIFrameT : public T
     {

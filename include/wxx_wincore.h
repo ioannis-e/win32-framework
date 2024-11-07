@@ -353,7 +353,7 @@ namespace Win32xx
         MONITORINFO mi{};
         mi.cbSize = sizeof(mi);
 
-        if (GetMonitorInfo(hActiveMonitor, &mi))
+        if (::GetMonitorInfo(hActiveMonitor, &mi))
         {
             desktopRect = mi.rcWork;
             if (GetParent().GetHwnd() == nullptr)

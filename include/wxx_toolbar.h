@@ -57,7 +57,6 @@ namespace Win32xx
         // Operations
         virtual BOOL AddButton(UINT buttonID, BOOL isEnabled = TRUE, int image = -1);
         virtual void Destroy() override;
-        virtual BOOL ReplaceBitmap(UINT newBitmapID);
         virtual BOOL SetButtonText(UINT buttonID, LPCTSTR text);
 
         // Wrappers for Win32 API functions
@@ -727,36 +726,6 @@ namespace Win32xx
         assert(IsWindow());
         WPARAM wparam = static_cast<WPARAM>(buttonID);
         return static_cast<BOOL>(SendMessage(TB_PRESSBUTTON, wparam, MAKELONG(press, 0)));
-    }
-
-    // Replaces an existing bitmap with a new bitmap.
-    // Note: ReplaceBitmap supports a maximum color depth of 8 bits (256 colors)
-    //       This is an obsolete functioned retained for Win95 support.
-    //       Unless Win95 support is required, use SetImageList instead.
-    // Refer to TB_REPLACEBITMAP in the Windows API documentation for more information.
-    inline BOOL CToolBar::ReplaceBitmap(UINT newBitmapID)
-    {
-        assert(IsWindow());
-
-        CBitmap Bitmap(newBitmapID);
-        assert (Bitmap.GetHandle());
-        BITMAP data = Bitmap.GetBitmapData();
-        int imageWidth  = std::max(static_cast<int>(data.bmHeight), 16);
-        int images = data.bmWidth / imageWidth;
-
-        TBREPLACEBITMAP tbrb{};
-        tbrb.hInstNew = GetApp()->GetResourceHandle();
-        tbrb.hInstOld = tbrb.hInstNew;
-        tbrb.nIDNew = static_cast<UINT_PTR>(newBitmapID);
-        tbrb.nIDOld = static_cast<UINT_PTR>(m_oldBitmapID);
-        tbrb.nButtons  = images;
-
-        LPARAM lparam = reinterpret_cast<LPARAM>(&tbrb);
-        BOOL result = static_cast<BOOL>(SendMessage(TB_REPLACEBITMAP, 0, lparam));
-        if (result)
-            m_oldBitmapID = newBitmapID;
-
-        return result;
     }
 
     // Saves or restores the toolbar state in the registry. Parameter values:

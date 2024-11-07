@@ -65,7 +65,7 @@ InitInstance()                                                              /*
     file name are generated and saved as public data members of this object.
 *-----------------------------------------------------------------------------*/
 {
-      // Retrieve the application's filename. 
+      // Retrieve the application's filename.
     CString appPath = GetCommandLineArgs().front();
     int index = appPath.ReverseFind(L"\\");
     if (index >= 0)

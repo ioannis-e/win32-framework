@@ -44,7 +44,6 @@ public:
     // Operations
     CSize   GetFontSize() const;
     void    SetAppSize(BOOL keepPos = FALSE);
-    void    SetDefaultFont();
     void    SetDefaults();
     void    TextLineOut(CDC&, UINT, UINT, LPCWSTR) const;
 

@@ -218,8 +218,10 @@ void CRichView::SetFontDefaults()
     CHARFORMAT cf{};
     cf.cbSize = sizeof(cf);
     cf.dwMask = CFM_SIZE | CFM_FACE | CFM_EFFECTS;
-    StrCopy(cf.szFaceName, L"Courier New", 32);
-    cf.yHeight = 204;
+    StrCopy(cf.szFaceName, L"Courier New", LF_FACESIZE);
+    constexpr int twipsPerPoint = 20;
+    constexpr int fontSize = 10;
+    cf.yHeight = fontSize * twipsPerPoint;
     SetDefaultCharFormat(cf);
 
     // Prevent Unicode characters from changing the font.

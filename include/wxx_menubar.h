@@ -51,7 +51,6 @@ namespace Win32xx
     // CMenuBar inherits from CToolBar.
     class CMenuBar : public CToolBar
     {
-
     public:
         CMenuBar();
         virtual ~CMenuBar() override = default;

@@ -30,7 +30,7 @@ Win32++ supports the following:
 * CodeBlocks
 
 * Embarcadero Dev-C++
-* Embarcadero Rad Studio 11 Community Edition
+* Embarcadero Rad Studio 12 Community Edition
 * MinGW GCC Compiler
 * MinGW GCC x64 Compiler
 * Visual Studio 2015
