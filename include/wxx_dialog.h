@@ -744,9 +744,7 @@ namespace Win32xx
                         if (pDialog->PreTranslateMessage(*pMsg))
                             return 1; // Eat the message.
 
-                        // The HHOOK parameter is used in CallNextHookEx for Win95, Win98 and WinME.
-                        // The HHOOK parameter is ignored for Windows NT and above.
-                        return ::CallNextHookEx(pDialog->m_msgHook, code, wparam, lparam);
+                        return ::CallNextHookEx(0, code, wparam, lparam);
                     }
                 }
             }

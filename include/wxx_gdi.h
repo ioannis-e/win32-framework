@@ -2472,8 +2472,6 @@ namespace Win32xx
     // Fills the specified rectangle with a color gradient.
     inline void CDC::GradientFill(COLORREF color1, COLORREF color2, RECT rc, BOOL isVertical) const
     {
-        using PGRADIENTFILL = UINT (WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
-
         SolidFill(color1, rc);
 
         TRIVERTEX vertex[2]{};

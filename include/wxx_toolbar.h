@@ -828,8 +828,6 @@ namespace Win32xx
         tbbi.dwMask = TBIF_STYLE;
         tbbi.fsStyle = style;
 
-        // Note:  TB_SETBUTTONINFO requires comctl32.dll version 4.71 or later.
-        //        i.e. Win95 with IE4 / NT with IE4   or later.
         return SetButtonInfo(buttonID, tbbi);
     }
 
@@ -915,9 +913,6 @@ namespace Win32xx
     inline BOOL CToolBar::SetButtonWidth(UINT buttonID, int width) const
     {
         assert(IsWindow());
-
-        // Note:  TB_SETBUTTONINFO requires comctl32.dll version 4.71 or later
-        //        i.e. Win95 with IE4 / NT with IE4   or later
 
         TBBUTTONINFO tbbi{};
         tbbi.cbSize = sizeof(tbbi);

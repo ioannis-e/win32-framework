@@ -1026,6 +1026,11 @@ namespace Win32xx
     {
         MenuItemData* pmid = reinterpret_cast<MenuItemData*>(pDrawItem->itemData);
 
+        // Update status text when the menu item is deselected.
+        if (!(pDrawItem->itemState & ODS_SELECTED))
+            if (IsUsingMenuStatus() && GetStatusBar().IsWindow())
+                GetStatusBar().SetPartText(0, m_statusText, SBT_OWNERDRAW);
+
         // Create and configure the memory DC.
         CDC drawDC = pDrawItem->hDC;
         CRect itemRect = pDrawItem->rcItem;
@@ -2178,8 +2183,6 @@ namespace Win32xx
                 MenuItemDataPtr itemDataPtr(std::make_unique<MenuItemData>());
                 MENUITEMINFO mii{};
                 mii.cbSize = sizeof(mii);
-
-                // Use old fashioned MIIM_TYPE instead of MIIM_FTYPE for Win95 compatibility.
                 mii.fMask = MIIM_TYPE | MIIM_DATA;
                 mii.dwTypeData = itemDataPtr->itemText.GetBuffer(WXX_MAX_STRING_SIZE);
                 mii.cch = WXX_MAX_STRING_SIZE;
@@ -2517,7 +2520,6 @@ namespace Win32xx
     }
 
     // Called when the drop-down menu or submenu has been destroyed.
-    // Win95 & WinNT don't support the WM_UNINITMENUPOPUP message.
     template <class T>
     inline LRESULT CFrameT<T>::OnUnInitMenuPopup(UINT, WPARAM wparam, LPARAM)
     {
@@ -3508,13 +3510,7 @@ namespace Win32xx
         assert(dynamic_cast<CFrameT<T>*>(pFrame) != nullptr);
 
         if (pFrame != nullptr)
-        {
             pFrame->OnKeyboardHook(code, wparam, lparam);
-
-            // The HHOOK parameter is used in CallNextHookEx for Win95, Win98 and WinME.
-            // The HHOOK parameter is ignored for Windows NT and above.
-            return ::CallNextHookEx(pFrame->m_kbdHook, code, wparam, lparam);
-        }
 
         return ::CallNextHookEx(0, code, wparam, lparam);
     }

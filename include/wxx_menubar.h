@@ -1099,9 +1099,7 @@ namespace Win32xx
         if (MSGF_MENU == code)
             pMenuBar->OnMenuInput(pMsg->message, pMsg->wParam, pMsg->lParam);
 
-        // The HHOOK parameter in CallNextHookEx should be supplied for Win95, Win98 and WinME.
-        // The HHOOK parameter is ignored for Windows NT and above.
-        return ::CallNextHookEx(pMenuBar->m_msgHook, code, wparam, lparam);
+        return ::CallNextHookEx(0, code, wparam, lparam);
     }
 
     inline LRESULT CMenuBar::SysCommand(UINT msg, WPARAM wparam, LPARAM lparam)

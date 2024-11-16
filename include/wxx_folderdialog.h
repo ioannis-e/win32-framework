@@ -145,10 +145,10 @@ namespace Win32xx
         m_bi.lParam = reinterpret_cast<LPARAM>(this);
 
         // Set the default flags.
-        //  BIF_NEWDIALOGSTYLE    - Only return file system directories.
+        //  BIF_RETURNONLYFSDIRS  - Only return file system directories.
         //  BIF_NEWDIALOGSTYLE    - Provides a resizable dialog without an edit box.
         //  BIF_NONEWFOLDERBUTTON - Do not include the New Folder button in the browse dialog box.
-        m_flags = BIF_RETURNONLYFSDIRS |BIF_NEWDIALOGSTYLE | BIF_NONEWFOLDERBUTTON;
+        m_flags = BIF_RETURNONLYFSDIRS | BIF_NEWDIALOGSTYLE | BIF_NONEWFOLDERBUTTON;
     }
 
     inline CFolderDialog::~CFolderDialog()

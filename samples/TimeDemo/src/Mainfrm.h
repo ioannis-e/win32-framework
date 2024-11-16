@@ -72,7 +72,6 @@ CMainFrame : public CFrame                      /*
         CView      m_view;         // the view object
 
         CString    m_appName;      // application name
-        CString    m_arcName;      // archive file name
 };
 /*----------------------------------------------------------------------------*/
 #endif // SDI_MAINFRM_H

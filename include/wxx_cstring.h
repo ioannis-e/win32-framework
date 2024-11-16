@@ -352,7 +352,7 @@ namespace Win32xx
     // Move constructor.
     template <class T>
     inline CStringT<T>::CStringT(CStringT&& str) noexcept
-        : m_str(std::move(str.m_str))
+        : m_str(std::move(str.m_str)), m_buf(std::move(str.m_buf))
     {
     }
 
