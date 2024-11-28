@@ -166,6 +166,7 @@ STDMETHODIMP CView::OnViewChanged(UINT32, UI_VIEWTYPE typeId, IUnknown* pView, U
             result = S_OK;
             break;
         case UI_VIEWVERB_DESTROY:   // The ribbon has been destroyed.
+            m_pIUIRibbon = nullptr;
             result = S_OK;
             break;
         case UI_VIEWVERB_ERROR:
