@@ -9,5 +9,5 @@ The 64bit Scintilla dll file was extracted from https://www.scintilla.org/wscite
 
 The version of these files is 5.5.3.
 
-32 bit programs requires the 32 bit scintilla.dll, and 64 bit programs require
-the 64 bit scintilla.dll.
+32 bit programs requires the 32 bit Scintilla.dll, and 64 bit programs require
+the 64 bit Scintilla.dll.
