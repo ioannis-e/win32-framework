@@ -10,6 +10,9 @@
     <ClCompile Include="..\src\StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\MyWinThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\default_resource.h">
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\wxx_messagepump.h">
       <Filter>Win32++</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\MyWinThread.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

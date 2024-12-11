@@ -75,6 +75,8 @@
 		<Unit filename="../src/MakeDLL.h" />
 		<Unit filename="../src/MyDialog.cpp" />
 		<Unit filename="../src/MyDialog.h" />
+		<Unit filename="../src/MyWinThread.cpp" />
+		<Unit filename="../src/MyWinThread.h" />
 		<Unit filename="../src/ResourceDLL.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

@@ -123,10 +123,10 @@ The sample applications include:
  * Picture - A simple picture rendering application.
  * PropertySheets - A demonstration of property sheets.
  * RebarDemo - Demonstrates the how to add a second ReBar to a frame application.
+ * Ribbon - Demonstrates how to use the Windows 7 ribbon with a simple window.
  * RibbonDockFrame - Demonstrates how to use a ribbon with a Docking Frame.
  * RibbonFrame - Demonstrates how to use the Windows 7 ribbon with a frame.
  * RibbonMDIFrame - Demonstrates how to use the Windows 7 ribbon with a MDI frame.
- * RibbonSimple - Demonstrates how to use the Windows 7 ribbon with a simple window.
  * RoundWindow - Demonstrates how to use Win32++ to create a round window.
  * ScintillaDemo - Demonstrates how to use a Scintilla control with Win32++.
  * Scribble - A simple drawing application.

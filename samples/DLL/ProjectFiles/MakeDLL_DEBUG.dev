@@ -1,7 +1,7 @@
 [Project]
 FileName=MakeDLL_DEBUG.dev
 Name=MyDLL
-UnitCount=8
+UnitCount=10
 Type=3
 Ver=2
 ObjFiles=
@@ -102,9 +102,9 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit10]
-FileName=MakeDLL.cpp
+FileName=..\src\MyWinThread.h
 CompileCpp=1
-Folder=Source
+Folder=Header
 Compile=1
 Link=1
 Priority=1000
@@ -182,6 +182,16 @@ SyncProduct=0
 
 [Unit1]
 FileName=..\src\MakeDLL.cpp
+CompileCpp=1
+Folder=Source
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=..\src\MyWinThread.cpp
 CompileCpp=1
 Folder=Source
 Compile=1
