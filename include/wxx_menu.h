@@ -235,7 +235,7 @@ namespace Win32xx
         GetApp()->AddCMenuData(m_pData->menu, m_pData);
     }
 
-    // Destroys m_pData if the reference count is zero.
+    // Destroys m_pData if this is the only copy of the CMenu.
     inline void CMenu::Release()
     {
         assert(m_pData);
@@ -249,7 +249,7 @@ namespace Win32xx
             {
                 if (m_pData->isManagedMenu)
                 {
-                    // Menu will already be destroyed if assigned to a destroyed window.
+                    // The menu will already be destroyed if assigned to a destroyed window.
                     if (IsMenu(m_pData->menu))
                         ::DestroyMenu(m_pData->menu);
                 }

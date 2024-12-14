@@ -1046,8 +1046,7 @@ namespace Win32xx
         return m_pData ? ::GetObject(m_pData->hGDIObject, count, pObject) : 0;
     }
 
-    // Decrements the reference count.
-    // Destroys m_pData if the reference count is zero.
+    // Destroys m_pData if this is the only copy of the CGDIObject.
     inline void CGDIObject::Release()
     {
         if (CWinApp::SetnGetThis())
@@ -2502,8 +2501,7 @@ namespace Win32xx
         GradientFill(vertex, 2, &rect, 1, mode);
     }
 
-    // Decrements the reference count.
-    // Destroys m_pData if the reference count is zero.
+    // Destroys m_pData if this is the only copy of the CDC object.
     inline void CDC::Release()
     {
         if (CWinApp::SetnGetThis())

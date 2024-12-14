@@ -678,8 +678,7 @@ namespace Win32xx
         return m_pData->images;
     }
 
-    // Decrements the reference count.
-    // Destroys m_pData if the reference count is zero.
+    // Destroys m_pData if this is the only copy of the CImageList.
     inline void CImageList::Release()
     {
         if (CWinApp::SetnGetThis())
