@@ -7,7 +7,7 @@
 //           https://github.com/DavidNash2024/Win32xx
 //
 //
-// Copyright (c) 2005-2024  David Nash
+// Copyright (c) 2005-2025  David Nash
 //
 // Permission is hereby granted, free of charge, to
 // any person obtaining a copy of this software and
@@ -575,7 +575,7 @@ namespace Win32xx
     {
         m_allSheetPages.clear();
         for (const PropertyPagePtr& ptr : m_allPages)
-            m_allSheetPages.push_back(ptr->GetPSP());
+            m_allSheetPages.emplace_back(ptr->GetPSP());
 
         PROPSHEETPAGE* pPSPArray = m_allSheetPages.data(); // Array of PROPSHEETPAGE
         m_psh.ppsp = pPSPArray;

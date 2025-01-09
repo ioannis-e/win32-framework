@@ -7,7 +7,7 @@
 //           https://github.com/DavidNash2024/Win32xx
 //
 //
-// Copyright (c) 2005-2024  David Nash
+// Copyright (c) 2005-2025  David Nash
 //
 // Permission is hereby granted, free of charge, to
 // any person obtaining a copy of this software and
@@ -174,14 +174,12 @@ namespace Win32xx
     // Definitions of CMenu
     //
 
-    inline CMenu::CMenu()
+    inline CMenu::CMenu() : m_pData(std::make_shared<CMenu_Data>())
     {
-        m_pData = std::make_shared<CMenu_Data>();
     }
 
-    inline CMenu::CMenu(UINT id)
+    inline CMenu::CMenu(UINT id) : m_pData(std::make_shared<CMenu_Data>())
     {
-        m_pData = std::make_shared<CMenu_Data>();
         HMENU menu = ::LoadMenu(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(id));
         if (menu != nullptr)
         {
@@ -189,9 +187,8 @@ namespace Win32xx
         }
     }
 
-    inline CMenu::CMenu(HMENU menu)
+    inline CMenu::CMenu(HMENU menu) : m_pData(std::make_shared<CMenu_Data>())
     {
-        m_pData = std::make_shared<CMenu_Data>();
         if (menu != nullptr)
             Attach(menu);
     }

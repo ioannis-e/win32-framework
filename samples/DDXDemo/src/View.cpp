@@ -811,7 +811,6 @@ SetCheckAStatus()                                                           /*
 *-----------------------------------------------------------------------------*/
 {
     UpdateData(m_dx, READFROMCONTROL);
-    m_statusBoxVal;
     m_statusBoxVal << "Check A set " << (m_checkVal[0] ? "ON." : "OFF.");
     UpdateData(m_dx, SENDTOCONTROL);
 }
@@ -825,7 +824,6 @@ SetCheckBStatus()                                                           /*
 *-----------------------------------------------------------------------------*/
 {
     UpdateData(m_dx, READFROMCONTROL);
-    m_statusBoxVal;
     m_statusBoxVal << "Check B set " << (m_checkVal[1] ? "ON." : "OFF.");
     UpdateData(m_dx, SENDTOCONTROL);
 }
@@ -838,7 +836,6 @@ SetCheckCStatus()                                                           /*
 *-----------------------------------------------------------------------------*/
 {
     UpdateData(m_dx, READFROMCONTROL);
-    m_statusBoxVal;
     m_statusBoxVal << "Check C set " << (m_checkVal[2] ? "ON." : "OFF.");
     UpdateData(m_dx, SENDTOCONTROL);
 }

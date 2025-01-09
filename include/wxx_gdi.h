@@ -7,7 +7,7 @@
 //           https://github.com/DavidNash2024/Win32xx
 //
 //
-// Copyright (c) 2005-2024  David Nash
+// Copyright (c) 2005-2025  David Nash
 //
 // Permission is hereby granted, free of charge, to
 // any person obtaining a copy of this software and
@@ -907,9 +907,8 @@ namespace Win32xx
     //
 
     // Constructs the CGDIObject.
-    inline CGDIObject::CGDIObject()
+    inline CGDIObject::CGDIObject() : m_pData(std::make_shared<CGDI_Data>())
     {
-        m_pData = std::make_shared<CGDI_Data>();
     }
 
     // Note: A copy of a CGDIObject is a clone of the original.
@@ -2263,19 +2262,16 @@ namespace Win32xx
     // Definitions of the CDC class
     //
 
-    inline CDC::CDC()
+    inline CDC::CDC() : m_pData(std::make_shared<CDC_Data>())
     {
-        // Allocate memory for our data members.
-        m_pData = std::make_shared<CDC_Data>();
     }
 
     // This constructor assigns a pre-existing HDC to the CDC.
     // The HDC will NOT be released or deleted when the CDC object is destroyed.
     // Note: this constructor permits a call like this:
     // CDC MyCDC = SomeHDC;
-    inline CDC::CDC(HDC dc)
+    inline CDC::CDC(HDC dc) : m_pData(std::make_shared<CDC_Data>())
     {
-        m_pData = std::make_shared<CDC_Data>();
         Attach(dc);
     }
 

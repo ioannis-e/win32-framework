@@ -7,7 +7,7 @@
 //           https://github.com/DavidNash2024/Win32xx
 //
 //
-// Copyright (c) 2005-2024  David Nash
+// Copyright (c) 2005-2025  David Nash
 //
 // Permission is hereby granted, free of charge, to
 // any person obtaining a copy of this software and
@@ -144,12 +144,11 @@ namespace Win32xx
     // Definitions for the CImageList class
     //
 
-    inline CImageList::CImageList()
+    inline CImageList::CImageList() : m_pData(std::make_shared<CIml_Data>())
     {
-        m_pData = std::make_shared<CIml_Data>();
     }
 
-    inline CImageList::CImageList(HIMAGELIST images)
+    inline CImageList::CImageList(HIMAGELIST images) : m_pData(std::make_shared<CIml_Data>())
     {
         m_pData = std::make_shared<CIml_Data>();
         Attach(images);
