@@ -24,7 +24,7 @@ Incompatibilities with previous versions
 
 New Features and Enhancements
 -----------------------------
-* Updated CRichedEdit.
+* Updated CRichEdit.
   The CRichEdit class has been updated and now only loads the latest version
   of the rich edit control (Msftedit.dll). The class name of the RichEdit
   control loaded by CRichEdit is "RichEdit50W".
@@ -35,11 +35,17 @@ New Features and Enhancements
 
 * The Win32xx::Shared_Ptr class has been removed.
    The deprecated Win32xx::Shared_Ptr class has been removed from Win32++.
-   Either std::unique_ptr or std::shared_ptr can be used in place of
+   Use either std::unique_ptr or std::shared_ptr instead of
    Win32xx::Shared_Ptr.
 
-* Updated CString and CStringT
+* Updated CString and CStringT.
    Added move constructors and move assignments to CString and CStringT.
+
+* Updated CPrintDialog.
+   CPrintDialog now displays the classic print dialog by default. To display
+   the modern print dialog available on Windows 10 and 11, remove the 
+   PD_ENABLEPRINTHOOK flag. This can be done as follows:
+   CPrintDialog PrintDialog(0);
 
 
 Changes in detail

@@ -1,5 +1,5 @@
 // Win32++   Version 10.1.0
-// Release Date: TBA
+// Release Date: 17th Feb 2025
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -100,12 +100,17 @@ namespace Win32xx
     // This class encapsulates the Windows API PrintDlg function.
     // The PrintDlg function displays a Print Dialog. The Print dialog
     // enables the user to specify the properties of a particular print job.
-    // NOTE: DoModal throws an exception if there is no default printer
+    // NOTE: DoModal throws an exception if there is no default printer.
+    // NOTE: Setting the PD_ENABLEPRINTHOOK displays the classic print dialog.
     class CPrintDialog : public CCommonDialog
     {
     public:
-        CPrintDialog(DWORD flags = PD_ALLPAGES | PD_USEDEVMODECOPIES | PD_NOPAGENUMS |
-                                        PD_HIDEPRINTTOFILE | PD_NOSELECTION );
+        CPrintDialog(DWORD flags = PD_ALLPAGES |             // The All radio button is initially selected.
+                                   PD_USEDEVMODECOPIES |     // Supports multiple copies and collation.
+                                   PD_NOPAGENUMS |           // Disables the Pages radio button and the associated edit controls.
+                                   PD_HIDEPRINTTOFILE |      // Hides the Print to File check box.
+                                   PD_NOSELECTION |          // Disables the Selection radio button.
+                                   PD_ENABLEPRINTHOOK);      // Enables the hook procedure specified in the lpfnPrintHook member.
         virtual ~CPrintDialog() override = default;
 
         virtual INT_PTR DoModal(HWND owner = nullptr) override;

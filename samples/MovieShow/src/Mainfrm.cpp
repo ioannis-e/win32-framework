@@ -1006,6 +1006,18 @@ void CMainFrame::OnFilesLoaded()
     GetViewTree().SelectItem(item);
 }
 
+// Call when the Help button or F1 is pressed.
+BOOL CMainFrame::OnHelp()
+{
+    // Ensure only one dialog displayed even for multiple hits of the F1 button
+    if (!m_aboutDialog.IsWindow())
+    {
+        m_aboutDialog.DoModal(*this);
+    }
+
+    return TRUE;
+}
+
 // Called after the frame is created, but before it is displayed.
 void CMainFrame::OnInitialUpdate()
 {

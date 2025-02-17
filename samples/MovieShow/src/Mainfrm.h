@@ -10,6 +10,7 @@
 #include "CoverImage.h"
 #include "SplashThread.h"
 #include "MovieInfo.h"
+#include "AboutDialog.h"
 
 // Support older compilers.
 #ifndef WM_DPICHANGED
@@ -43,6 +44,7 @@ protected:
     virtual void    OnClose() override;
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int     OnCreate(CREATESTRUCT& cs) override;
+    virtual BOOL    OnHelp() override;
     virtual void    OnInitialUpdate() override;
     virtual void    OnMenuUpdate(UINT nID) override;
     virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
@@ -113,6 +115,7 @@ private:
     BOOL    OnWatchList();
 
     // Member variables.
+    CAboutDialog     m_aboutDialog;
     CCriticalSection m_cs;
     CViewList        m_viewList;
     CWorkThread      m_thread;

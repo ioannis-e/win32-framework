@@ -5,7 +5,7 @@
 		<Option title="MakeDLL" />
 		<Option pch_mode="0" />
 		<Option default_target="Release MinGW GNU compiler" />
-		<Option compiler="bcc" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug MinGW GNU compiler">
 				<Option output="GNU/Debug/MyDLL.dll" prefix_auto="0" extension_auto="0" />
