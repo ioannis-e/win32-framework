@@ -694,10 +694,10 @@ namespace Win32xx
             {
                 buffer.assign( size_t(length)+1, 0 );
 
-#if defined(__BORLANDC__)  // For Embacadero support
-                result = _vsnprintf(buffer.data(), length, format, args);
+#if defined(_MSC_VER)  // For Microsoft compilers.
+                result = _vsnprintf_s(buffer.data(), length, length - 1, format, args);
 #else
-                result = _vsnprintf_s(buffer.data(), length, length -1, format, args);
+                result = _vsnprintf(buffer.data(), length, format, args);
 #endif
                 length *= 2;
             }
@@ -721,10 +721,10 @@ namespace Win32xx
             {
                 buffer.assign( size_t(length)+1, 0 );
 
-#if defined(__BORLANDC__)  // For Embacadero support
-                result = _vsnwprintf(buffer.data(), length, format, args);
+#if defined(_MSC_VER)  // For Microsoft compilers.
+                result = _vsnwprintf_s(buffer.data(), length, length - 1, format, args);
 #else
-                result = _vsnwprintf_s(buffer.data(), length, length -1, format, args);
+                result = _vsnwprintf(buffer.data(), length, format, args);
 #endif
                 length *= 2;
             }
