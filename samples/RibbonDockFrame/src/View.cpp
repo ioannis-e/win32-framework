@@ -49,22 +49,18 @@ void CView::OnDraw(CDC& dc)
     memDC.CreateCompatibleBitmap(dc, width, height);
     memDC.FillRect(GetClientRect(), m_brush);
 
-    std::vector<PlotPoint>& pp = *GetAllPoints();
+    // Start with the pen up.
+    bool isPenDown = false;
 
-    if (pp.size() > 0)
+    // Draw the lines.
+    for (const PlotPoint& p : *GetAllPoints())
     {
-        bool isDrawing = false;  //Start with the pen up
-        for (UINT i = 0 ; i < pp.size(); ++i)
-        {
-            memDC.CreatePen(PS_SOLID, 1, pp[i].color);
+        if (isPenDown)
+            dc.LineTo(p.x, p.y);
+        else
+            dc.MoveTo(p.x, p.y);
 
-            if (isDrawing)
-                memDC.LineTo(pp[i].x, pp[i].y);
-            else
-                memDC.MoveTo(pp[i].x, pp[i].y);
-
-            isDrawing = pp[i].isPenDown;
-        }
+        isPenDown = p.isPenDown;
     }
 
     // Copy from the memory DC to our painting dc

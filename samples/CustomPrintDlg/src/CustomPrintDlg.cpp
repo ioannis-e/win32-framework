@@ -19,6 +19,7 @@ CCustomPrintDlg::CCustomPrintDlg()
 }
 
 // Creates and assigns the hDevMode and hDevNames global memory for the specified printer.
+// Refer to Microsoft's Knowledge Base Article Q166129.
 bool CCustomPrintDlg::CreateGlobalHandles(LPCWSTR printerName, HGLOBAL* pHDevMode, HGLOBAL* pHDevNames)
 {
     // HGLOBAL pHdevMode and pHDevNames are required.

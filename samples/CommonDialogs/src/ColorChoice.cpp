@@ -84,7 +84,9 @@ DoModal(HWND owner /* = nullptr */)                                             
       // prepare the list box dialog: load the color table choice items
     m_LBDlg.ClearList();
     for (UINT i = 0; i < static_cast<UINT>(m_colorTable.size()); i++)
+    {
         m_LBDlg.AddListItem(m_colorTable[i].usage);
+    }
       // Make the control be modal so the choice is returned at
       // termination.
     m_selection = static_cast<UINT>(-1);
@@ -147,8 +149,10 @@ GetTableIndex(UINT id) const                                               /*
       // ignore the invocation if the table is empty
     UINT n = static_cast<UINT>(m_colorTable.size());
     for (UINT idx = 0; idx < n; ++idx)
+    {
         if (m_colorTable[idx].id == id)
             return idx;
+    }
 
      return static_cast<UINT>(-1); // default value
 }

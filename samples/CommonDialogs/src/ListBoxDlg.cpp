@@ -105,7 +105,9 @@ OnInitDialog()                                                              /*
     m_listBox.AttachDlgItem(IDC_LIST_BOX, *this);
     m_listBox.ResetContent();
     for (UINT i = 0; i < m_listContent.size(); i++)
+    {
         m_listBox.AddString(m_listContent[i]);
+    }
     return TRUE;
 }
 /*----------------------------------------------------------------------------*/
