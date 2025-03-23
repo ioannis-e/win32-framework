@@ -142,7 +142,6 @@ namespace Win32xx
 
         std::map<CString, int> m_stringMap;     // A map of strings used in SetButtonText.
 
-        UINT m_oldBitmapID;                     // Bitmap Resource ID, used in AddBitmap/ReplaceBitmap.
         CImageList m_normalImages;              // Image-list for normal buttons.
         CImageList m_hotImages;                 // Image-list for hot buttons.
         CImageList m_disabledImages;            // Image-list for disabled buttons.
@@ -162,7 +161,7 @@ namespace Win32xx
     // Definitions for the CToolBar class.
     //
 
-    inline CToolBar::CToolBar() : m_oldBitmapID(0)
+    inline CToolBar::CToolBar()
     {
     }
 

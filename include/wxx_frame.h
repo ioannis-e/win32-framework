@@ -92,6 +92,11 @@
 
 namespace Win32xx
 {
+// Disable false override warnings for Clang compilers
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winconsistent-missing-override"
+#endif
 
     //////////////////////////////////
     // CFrameT is the base class for all frames in Win32++.
@@ -226,6 +231,7 @@ namespace Win32xx
         virtual LRESULT OnUnInitMenuPopup(UINT, WPARAM wparam, LPARAM lparam);
         virtual BOOL    OnViewStatusBar();
         virtual BOOL    OnViewToolBar();
+        virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
         virtual void PreCreate(CREATESTRUCT& cs) override;
         virtual void PreRegisterClass(WNDCLASS& wc) override;
         virtual void RecalcLayout();
@@ -251,7 +257,7 @@ namespace Win32xx
         virtual void UpdateMRUMenu();
         virtual void UpdateSettings();
 
-        // Not intended to be overridden
+        // Not intended to be overridden.
         CRect ExcludeChildRect(const CRect& clientRect, HWND child) const;
         BOOL IsUsingDarkMenu() const { return m_useDarkMenu; }
         BOOL IsUsingIndicatorStatus() const { return m_useIndicatorStatus; }
@@ -328,6 +334,9 @@ namespace Win32xx
 
     };  // class CFrameT
 
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
     /////////////////////////////////////////
     // CFrame manages the frame window. CFrame also manages the
@@ -2569,6 +2578,13 @@ namespace Win32xx
         BOOL show = !(GetToolBar().IsWindow() && GetToolBar().IsWindowVisible());
         ShowToolBar(show);
         return TRUE;
+    }
+
+    // Called when the window's size or position has changed.
+    template <class T>
+    LRESULT CFrameT<T>::OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam)
+    {
+        return T::FinalWindowProc(msg, wparam, lparam);
     }
 
     // Sets frame window creation parameters prior to the frame window's creation.

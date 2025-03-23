@@ -23,13 +23,13 @@ public:
     void SaveFile(CString& fileName);
 
 protected:
-    // Virtual functions that override base class functions
     virtual void OnClose() override;
     virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int  OnCreate(CREATESTRUCT& cs) override;
-    virtual LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam);
+    virtual LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual void OnInitialUpdate() override;
     virtual void OnMenuUpdate(UINT id) override;
+    virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual void SetupMenuIcons() override;
     virtual void SetupToolBar() override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
@@ -53,7 +53,7 @@ private:
     LRESULT OnPreviewClose();
     LRESULT OnPreviewPrint();
     LRESULT OnPreviewSetup();
-    LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
+
 
     void ModifyBitmap(int cRed, int cGreen, int cBlue, BOOL isGray);
 

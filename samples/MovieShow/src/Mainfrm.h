@@ -39,9 +39,9 @@ public:
     void SetCaptionColor(COLORREF color);
 
 protected:
-    // Virtual functions that override base class functions.
     virtual BOOL    LoadRegistrySettings(LPCWSTR szKeyName) override;
     virtual void    OnClose() override;
+    virtual LRESULT OnBarEnd(DragPos* pDragPos) override;
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int     OnCreate(CREATESTRUCT& cs) override;
     virtual BOOL    OnHelp() override;
@@ -52,6 +52,7 @@ protected:
     virtual BOOL    SaveRegistrySettings() override;
     virtual void    SetupMenuIcons() override;
     virtual void    SetupToolBar() override;
+    virtual LRESULT OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
@@ -90,12 +91,10 @@ private:
 
     // Message handlers.
     LRESULT OnBoxSetChanged();
-    LRESULT OnBarEnd(DragPos* pDragPos);
-    LRESULT OnRClickListItem();
+     LRESULT OnRClickListItem();
     LRESULT OnRClickTreeItem();
     LRESULT OnSelectListItem(const MovieInfo* pmi);
     LRESULT OnSelectTreeItem();
-    LRESULT OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT PlayMovie(LPCWSTR path);
 

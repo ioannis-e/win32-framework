@@ -23,7 +23,6 @@ public:
     BOOL     SaveFileImage(LPCWSTR filename);
 
 protected:
-    // Virtual functions that override base class functions
     virtual void    OnDraw(CDC& dc) override;
     virtual LRESULT OnDropFiles(UINT msg, WPARAM wparam, LPARAM lparam);
     virtual void    OnInitialUpdate() override;

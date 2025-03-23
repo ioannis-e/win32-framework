@@ -19,9 +19,8 @@ public:
     virtual ~ScintillaApp() = default;
 
 protected:
-    // Virtual functions that override base class functions.
-    virtual BOOL InitInstance();
-    virtual BOOL OnIdle(LONG);
+    virtual BOOL InitInstance() override;
+    virtual BOOL OnIdle(LONG) override;
 
 private:
     ScintillaApp(const ScintillaApp&) = delete;

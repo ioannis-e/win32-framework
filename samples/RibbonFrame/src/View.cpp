@@ -48,7 +48,7 @@ void CView::OnDraw(CDC& dc)
     int height = GetClientRect().Height();
     memDC.CreateCompatibleBitmap(dc, width, height);
     memDC.FillRect(GetClientRect(), m_brush);
-    
+
     // Start with the pen up.
     bool isDrawing = false;
 

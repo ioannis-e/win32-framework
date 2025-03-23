@@ -195,7 +195,7 @@ namespace Win32xx
         virtual void    OnMenuUpdate(UINT id) override;
         virtual BOOL    OnViewStatusBar() override;
         virtual BOOL    OnViewToolBar() override;
-        virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
+        virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual BOOL    PreTranslateMessage(MSG& msg) override;
         virtual void    RecalcLayout() override;
         virtual void    UpdateFrameMenu(CMenu menu);

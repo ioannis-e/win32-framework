@@ -43,7 +43,7 @@ CColorChoice   : public CColorDialog                                        /*
         void    AddColorChoice(UINT, LPCWSTR, COLORREF);
         void    ClearColorTable(){m_colorTable.clear();}
         void    InitCustomColors();
-        INT_PTR DoModal(HWND owner = 0);
+        virtual INT_PTR DoModal(HWND owner = 0) override;
         CBrush  GetBrush(UINT) const;
         CListBoxDlg& GetListBoxDlg() {return m_LBDlg;}
         UINT    GetSelectedColorID() const {return m_selection;}

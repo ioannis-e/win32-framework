@@ -23,11 +23,11 @@ public:
     void UpdateToolbar();
 
 protected:
-    // Virtual functions that override base class functions
     virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int  OnCreate(CREATESTRUCT& cs) override;
     virtual LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual void OnMenuUpdate(UINT id) override;
+    virtual LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam) override;
     virtual void SetupMenuIcons() override;
     virtual void SetupToolBar() override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
@@ -38,7 +38,6 @@ private:
 
     // Message handlers
     LRESULT OnFileLoaded(LPCWSTR fileName);
-    LRESULT OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam);
 
     // Command handlers
     BOOL OnFileExit();

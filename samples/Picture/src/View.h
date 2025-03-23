@@ -24,7 +24,6 @@ public:
     void SavePicture(LPCWSTR fileName);
 
 protected:
-    // Virtual functions that override base class functions
     virtual void    OnDraw(CDC& dc) override;
     virtual int     OnCreate(CREATESTRUCT& cs) override;
     virtual void    PreCreate(CREATESTRUCT& cs) override;

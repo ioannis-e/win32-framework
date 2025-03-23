@@ -41,8 +41,11 @@ CMainFrame : public CFrame                                                  /*
         virtual void    OnMenuUpdate(UINT id) override;
         virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
         virtual int     OnCreate(CREATESTRUCT& rcs) override;
+        virtual         BOOL    OnHelp() override;
         virtual void    OnInitialUpdate() override;
         virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
+        virtual void    SetupMenuIcons() override;
+        virtual void    SetupToolBar() override;
         virtual LRESULT WndProc(UINT msg, WPARAM, LPARAM) override;
 
     private:
@@ -59,7 +62,6 @@ CMainFrame : public CFrame                                                  /*
         void    OnExit();
         BOOL    OnFileMRU(WPARAM wparam);
         void    OnFontChoice();
-        BOOL    OnHelp();
         void    OnNewDoc();
         void    OnOpenDoc();
         void    OnPrint();
@@ -69,8 +71,6 @@ CMainFrame : public CFrame                                                  /*
         BOOL    OpenDoc(LPCWSTR);
         void    SetReBarColors(COLORREF, COLORREF, COLORREF, COLORREF);
         BOOL    SetRichEditColor();
-        void    SetupMenuIcons();
-        void    SetupToolBar();
         void    SetViewBgColor();
 
         CDoc         m_doc;         // the document

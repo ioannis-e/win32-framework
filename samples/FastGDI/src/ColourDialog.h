@@ -19,7 +19,6 @@ public:
     BOOL IsGray() const    { return m_isGray; }
 
 protected:
-    // Virtual functions that override base class functions
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual BOOL    OnInitDialog() override;
     virtual LRESULT OnPaint(UINT msg, WPARAM wparam, LPARAM lparam) override;

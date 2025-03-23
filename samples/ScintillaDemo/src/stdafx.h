@@ -78,9 +78,9 @@
   #include <wxx_printdialogs.h>   // Add CPageSetupDialog, CPrintDialog
   #include <wxx_printdialogex.h>  // Add CPrintDialogEx
 
-  // Visual Studio or Clang compiler
-  #if defined (_MSC_VER) || defined(__clang_major__)
-    #include <wxx_ribbon.h>         // Add CRibbon, CRibbonFrame
+  // Visual Studio
+  #if defined (_MSC_VER)
+    #include <wxx_ribbon.h>       // Add CRibbon, CRibbonFrame
   #endif
 
   #include <wxx_taskdialog.h>     // Add CTaskDialog

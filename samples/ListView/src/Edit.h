@@ -15,7 +15,6 @@ public:
     virtual ~CMyEdit() = default;
 
 protected:
-    // Virtual functions that override base class functions.
     virtual void    PreCreate(CREATESTRUCT& cs);
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam);
 

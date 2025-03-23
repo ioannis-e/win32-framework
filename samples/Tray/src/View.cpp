@@ -43,16 +43,12 @@ int CView::OnCreate(CREATESTRUCT&)
     // Tasks such as setting the icon, creating child windows, or anything
     // associated with creating windows are normally performed here.
 
-    // Set the window's icon
+    // Set the window's icon.
     SetIconSmall(IDW_MAIN);
     SetIconLarge(IDW_MAIN);
 
-    SetWindowText(LoadString(IDW_MAIN));        // Window title
-
-    // Load the accelerator table
- //   HACCEL accel = LoadAccelerators(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(IDW_MAIN));
- //   if (accel)
- //       GetApp()->SetAccelerators(accel, *this);
+    // Set the window's title.
+    SetWindowText(LoadString(IDW_MAIN));
 
     TRACE("OnCreate\n");
 
@@ -61,7 +57,7 @@ int CView::OnCreate(CREATESTRUCT&)
 
 BOOL CView::OnCommand(WPARAM wparam, LPARAM)
 {
-    // OnCommand responds to menu and and toolbar input
+    // OnCommand responds to menu and and toolbar input.
 
     UINT id = LOWORD(wparam);
 
@@ -77,7 +73,7 @@ BOOL CView::OnCommand(WPARAM wparam, LPARAM)
 
 void CView::OnDestroy()
 {
-    // End the application when the window is destroyed
+    // End the application when the window is destroyed.
     ::PostQuitMessage(0);
 }
 
@@ -102,7 +98,7 @@ void CView::OnDraw(CDC& dc)
         dc.CreateFontIndirect(lf);
     }
 
-    // Centre some text in our view window
+    // Centre some text in our view window.
     CRect rc = GetClientRect();
     CString text = LoadString(IDS_DRAWTEXT);
     dc.DrawText(text, text.GetLength(), rc, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
@@ -110,7 +106,7 @@ void CView::OnDraw(CDC& dc)
 
 BOOL CView::OnFileExit()
 {
-    // End the application
+    // End the application.
     Close();
     return TRUE;
 }
@@ -132,7 +128,7 @@ LRESULT CView::OnSize(UINT, WPARAM, LPARAM)
 
 LRESULT CView::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    // Maximize and Minimuze requests end up here
+    // Maximize and Minimuze requests end up here.
 
     if (wparam == SC_MINIMIZE)  // User pressed minimize button
     {

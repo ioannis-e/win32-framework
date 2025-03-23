@@ -232,7 +232,8 @@ namespace Win32xx
     {
         tm* ptm = &atm;
 
-#if defined(__BORLANDC__)  // For Embacadero support
+#if (defined(__BORLANDC__) && !defined(__MINGW64__))
+        // For older Embarcadero compilers.
         if (::gmtime_s(&t, &atm) == 0)
             ptm = nullptr;
 #else
@@ -254,7 +255,8 @@ namespace Win32xx
     {
         tm* ptm = &atm;
 
-#if defined(__BORLANDC__)  // For Embacadero support
+#if (defined(__BORLANDC__) && !defined(__MINGW64__))
+        // For older Embarcadero compilers.
         if (::localtime_s(&t, &atm) == 0)
             ptm = nullptr;
 #else

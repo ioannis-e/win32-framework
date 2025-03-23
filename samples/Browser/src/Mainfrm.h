@@ -33,7 +33,6 @@ public:
     const CEdit* GetCBEdit() const { return m_combo.GetCBEdit(); }
 
 protected:
-    // Virtual functions that override base class functions
     virtual void OnClose() override;
     virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int  OnCreate(CREATESTRUCT& cs) override;

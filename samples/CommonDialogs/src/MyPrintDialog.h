@@ -49,7 +49,7 @@ MyPrintDialog : public CPrintDialog                                         /*
         }
           // override this method to provide the needed preparation to
           // print the document upon user approval
-        virtual void    OnOK() {}
+        virtual void    OnOK() override {}
 
     private:
         MyPrintDialog(const MyPrintDialog&) = delete;

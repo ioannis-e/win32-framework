@@ -25,7 +25,6 @@ public:
     void StorePoint(PlotPoint& pp);
 
 protected:
-    // Virtual functions that override base class functions
     void Serialize(CArchive &ar) override;
 
 private:
