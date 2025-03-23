@@ -96,19 +96,6 @@ using namespace Win32xx;
 #endif
 
 
-// Ensure UNICODE and _UNICODE definitions are consistent.
-#ifdef _UNICODE
-  #ifndef UNICODE
-    #define UNICODE
-  #endif
-#endif
-
-#ifdef UNICODE
-  #ifndef _UNICODE
-    #define _UNICODE
-  #endif
-#endif
-
 // Define our own MIN and MAX macros.
 // This avoids inconsistencies with MinGW and other compilers, and
 // avoids conflicts between typical min/max macros and std::min/std::max

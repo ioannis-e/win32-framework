@@ -114,7 +114,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
-        <ILINK_LibraryPath>C:\Program Files (x86)\Embarcadero\Studio\23.0\lib\win64\release\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_PCHName_Clang>..\src\stdafx.h</BCC_PCHName_Clang>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
