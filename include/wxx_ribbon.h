@@ -103,8 +103,6 @@ namespace Win32xx
         CRibbon& operator=(const CRibbon&) = delete;
 
         IUIFramework* m_pRibbonFramework;
-        LONG m_count;                         // Reference count.
-
     };
 
     ///////////////////////////////////////////////////
@@ -133,7 +131,6 @@ namespace Win32xx
             STDMETHODIMP GetValue(__in REFPROPERTYKEY key, __out PROPVARIANT* value) override;
 
         private:
-            LONG m_count;                        // Reference count.
             WCHAR m_displayName[MAX_PATH];
             WCHAR m_fullPath[MAX_PATH];
         };
@@ -227,7 +224,7 @@ namespace Win32xx
     // Definitions for the CRibbon class
     //
 
-    inline CRibbon::CRibbon() : m_pRibbonFramework(nullptr), m_count(0)
+    inline CRibbon::CRibbon() : m_pRibbonFramework(nullptr)
     {
     }
 
@@ -238,12 +235,14 @@ namespace Win32xx
 
     inline STDMETHODIMP_(ULONG) CRibbon::AddRef()
     {
-        return static_cast<ULONG>(InterlockedIncrement(&m_count));
+        // Automatic deletion is not required.
+        return 1;
     }
 
     inline STDMETHODIMP_(ULONG) CRibbon::Release()
     {
-        return static_cast<ULONG>(InterlockedDecrement(&m_count));
+        // Automatic deletion is not required.
+        return 1;
     }
 
     // Responds to execute events on Commands bound to the Command handler.
@@ -273,7 +272,6 @@ namespace Win32xx
             return E_NOINTERFACE;
         }
 
-        AddRef();
         return S_OK;
     }
 
@@ -502,7 +500,7 @@ namespace Win32xx
     // Declaration of the nested CRecentFiles class
     //
     template <class T>
-    inline CRibbonFrameT<T>::CRecentFiles::CRecentFiles(PWSTR fullPath) : m_count(0)
+    inline CRibbonFrameT<T>::CRecentFiles::CRecentFiles(PWSTR fullPath)
     {
         SHFILEINFOW sfi{};
         DWORD_PTR ptr = 0;
@@ -525,13 +523,15 @@ namespace Win32xx
     template <class T>
     inline STDMETHODIMP_(ULONG) CRibbonFrameT<T>::CRecentFiles::AddRef()
     {
-        return static_cast<ULONG>(InterlockedIncrement(&m_count));
+        // Automatic deletion is not required.
+        return 1;
     }
 
     template <class T>
     inline STDMETHODIMP_(ULONG) CRibbonFrameT<T>::CRecentFiles::Release()
     {
-        return static_cast<ULONG>(InterlockedDecrement(&m_count));
+        // Automatic deletion is not required.
+        return 1;
     }
 
     template <class T>
@@ -556,7 +556,6 @@ namespace Win32xx
             return E_NOINTERFACE;
         }
 
-        AddRef();
         return S_OK;
     }
 

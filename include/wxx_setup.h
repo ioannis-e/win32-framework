@@ -229,8 +229,10 @@ namespace Win32xx
           VERIFY(InitCommonControlsEx(&initStruct));
     }
 
-    // The following functions perform string copies. The size of the dst buffer
-    // is specified, much like strcpy_s. The dst buffer is always null terminated.
+    // The following functions perform string copies. A string of characters is
+    // copied from the src array to the dst array.
+    // The dst_size parameter specifies the number characters to be copied.
+    // The dst array filled by these functions is always null terminated.
     // Null or zero arguments cause an assert.
 
     // Copies an ANSI string from src to dst.
