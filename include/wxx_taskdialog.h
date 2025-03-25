@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -89,7 +89,8 @@ namespace Win32xx
         void SetDefaultButton(int buttonID);
         void SetDefaultRadioButton(int radioButtonID);
         void SetDialogWidth(UINT width = 0);
-        void SetExpansionArea(LPCWSTR expandedInfo, LPCWSTR expandedLabel = L"", LPCWSTR collapsedLabel = L"");
+        void SetExpansionArea(LPCWSTR expandedInfo,
+            LPCWSTR expandedLabel = L"", LPCWSTR collapsedLabel = L"");
         void SetFooterIcon(HICON icon);
         void SetFooterIcon(LPCWSTR footerIcon);
         void SetFooterText(LPCWSTR text);
@@ -137,7 +138,8 @@ namespace Win32xx
         CTaskDialog& operator=(const CTaskDialog&) = delete;
 
         CStringW FillString(LPCWSTR text);
-        static HRESULT CALLBACK StaticTaskDialogProc(HWND wnd, UINT notification, WPARAM wparam, LPARAM lparam, LONG_PTR refData);
+        static HRESULT CALLBACK StaticTaskDialogProc(HWND wnd,
+            UINT notification, WPARAM wparam, LPARAM lparam, LONG_PTR refData);
 
         std::vector<TaskButton> m_buttons;
         std::vector<TaskButton> m_radioButtons;
@@ -166,7 +168,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    inline CTaskDialog::CTaskDialog() : m_selectedButtonID(0), m_selectedRadioButtonID(0), m_verificationCheckboxState(FALSE)
+    inline CTaskDialog::CTaskDialog() : m_selectedButtonID(0),
+        m_selectedRadioButtonID(0), m_verificationCheckboxState(FALSE)
     {
         m_tc = {};
         m_tc.cbSize = sizeof(m_tc);
@@ -193,7 +196,8 @@ namespace Win32xx
 
     // Adds a range of radio buttons to the Task Dialog.
     // Assumes the resource ID of the button and it's string match.
-    inline void CTaskDialog::AddRadioButtonGroup(int firstRadioButtonID, int lastRadioButtonID)
+    inline void CTaskDialog::AddRadioButtonGroup(int firstRadioButtonID,
+        int lastRadioButtonID)
     {
         assert (GetHwnd() == nullptr);
         assert(firstRadioButtonID > 0);
@@ -269,7 +273,8 @@ namespace Win32xx
         pTLSData->pWnd = this;
 
         // Create the task dialog.
-        HRESULT result = TaskDialogIndirect(&m_tc, &m_selectedButtonID, &m_selectedRadioButtonID, &m_verificationCheckboxState);
+        HRESULT result = TaskDialogIndirect(&m_tc, &m_selectedButtonID,
+            &m_selectedRadioButtonID, &m_verificationCheckboxState);
 
         pTLSData->pWnd = nullptr;
         Cleanup();
@@ -283,7 +288,8 @@ namespace Win32xx
         return result;
     }
 
-    // Adds a shield icon to indicate that the button's action requires elevated privileges.
+    // Adds a shield icon to indicate that the button's action requires
+    // elevated privileges.
     // Refer to TDM_SET_BUTTON_ELEVATION_REQUIRED_STATE in the Windows API documentation for more information.
     inline void CTaskDialog::ElevateButton(int buttonID, BOOL isElevated) const
     {
@@ -335,10 +341,13 @@ namespace Win32xx
     }
 
     // Returns the Task Dialog's options. These are a combination of:
-    //  TDF_ENABLE_HYPERLINKS, TDF_USE_HICON_MAIN, TDF_USE_HICON_FOOTER, TDF_ALLOW_DIALOG_CANCELLATION,
-    //  TDF_USE_COMMAND_LINKS, TDF_USE_COMMAND_LINKS_NO_ICON, TDF_EXPAND_FOOTER_AREA, TDF_EXPANDED_BY_DEFAULT,
-    //  TDF_VERIFICATION_FLAG_CHECKED, TDF_SHOW_PROGRESS_BAR, TDF_SHOW_MARQUEE_PROGRESS_BAR, TDF_CALLBACK_TIMER,
-    //  TDF_POSITION_RELATIVE_TO_WINDOW, TDF_RTL_LAYOUT, TDF_NO_DEFAULT_RADIO_BUTTON, TDF_CAN_BE_MINIMIZED.
+    //  TDF_ENABLE_HYPERLINKS, TDF_USE_HICON_MAIN, TDF_USE_HICON_FOOTER,
+    //  TDF_ALLOW_DIALOG_CANCELLATION, TDF_USE_COMMAND_LINKS,
+    //  TDF_USE_COMMAND_LINKS_NO_ICON, TDF_EXPAND_FOOTER_AREA,
+    //  TDF_EXPANDED_BY_DEFAULT, TDF_VERIFICATION_FLAG_CHECKED,
+    //  TDF_SHOW_PROGRESS_BAR, TDF_SHOW_MARQUEE_PROGRESS_BAR,
+    //  TDF_CALLBACK_TIMER, TDF_POSITION_RELATIVE_TO_WINDOW,
+    //  TDF_RTL_LAYOUT, TDF_NO_DEFAULT_RADIO_BUTTON, TDF_CAN_BE_MINIMIZED.
     inline TASKDIALOG_FLAGS CTaskDialog::GetOptions() const
     {
         return m_tc.dwFlags;
@@ -429,7 +438,8 @@ namespace Win32xx
         return TRUE;
     }
 
-    // Called approximately every 200 milliseconds when the TDF_CALLBACK_TIMER flag is set.
+    // Called approximately every 200 milliseconds when the TDF_CALLBACK_TIMER
+    // flag is set.
     inline BOOL CTaskDialog::OnTDTimer(DWORD)
     {
         // Return TRUE to reset the tick count.
@@ -492,7 +502,8 @@ namespace Win32xx
 
     // Sets the text in the expandable area of the Task Dialog.
     // Refer to TDM_SET_ELEMENT_TEXT in the Windows API documentation for more information.
-    inline void CTaskDialog::SetExpansionArea(LPCWSTR expandedInfo, LPCWSTR expandedLabel, LPCWSTR collapsedLabel)
+    inline void CTaskDialog::SetExpansionArea(LPCWSTR expandedInfo,
+        LPCWSTR expandedLabel, LPCWSTR collapsedLabel)
     {
         m_expandedInformation = FillString(expandedInfo);
         m_tc.pszExpandedInformation = m_expandedInformation;
@@ -595,19 +606,24 @@ namespace Win32xx
     }
 
     // Sets the Task Dialog's options. These are a combination of:
-    //  TDF_ENABLE_HYPERLINKS, TDF_USE_HICON_MAIN, TDF_USE_HICON_FOOTER, TDF_ALLOW_DIALOG_CANCELLATION,
-    //  TDF_USE_COMMAND_LINKS, TDF_USE_COMMAND_LINKS_NO_ICON, TDF_EXPAND_FOOTER_AREA, TDF_EXPANDED_BY_DEFAULT,
-    //  TDF_VERIFICATION_FLAG_CHECKED, TDF_SHOW_PROGRESS_BAR, TDF_SHOW_MARQUEE_PROGRESS_BAR, TDF_CALLBACK_TIMER,
-    //  TDF_POSITION_RELATIVE_TO_WINDOW, TDF_RTL_LAYOUT, TDF_NO_DEFAULT_RADIO_BUTTON, TDF_CAN_BE_MINIMIZED.
+    //  TDF_ENABLE_HYPERLINKS, TDF_USE_HICON_MAIN, TDF_USE_HICON_FOOTER,
+    //  TDF_ALLOW_DIALOG_CANCELLATION, TDF_USE_COMMAND_LINKS,
+    //  TDF_USE_COMMAND_LINKS_NO_ICON, TDF_EXPAND_FOOTER_AREA,
+    //  TDF_EXPANDED_BY_DEFAULT, TDF_VERIFICATION_FLAG_CHECKED,
+    //  TDF_SHOW_PROGRESS_BAR, TDF_SHOW_MARQUEE_PROGRESS_BAR,
+    //  TDF_CALLBACK_TIMER, TDF_POSITION_RELATIVE_TO_WINDOW, TDF_RTL_LAYOUT,
+    //  TDF_NO_DEFAULT_RADIO_BUTTON, TDF_CAN_BE_MINIMIZED.
     inline void CTaskDialog::SetOptions(TASKDIALOG_FLAGS flags)
     {
         assert (GetHwnd() == nullptr);
         m_tc.dwFlags = flags;
     }
 
-    // Starts and stops the marquee display of the progress bar, and sets the speed of the marquee.
+    // Starts and stops the marquee display of the progress bar, and sets the
+    // speed of the marquee.
     // Refer to TDM_SET_PROGRESS_BAR_MARQUEE in the Windows API documentation for more information.
-    inline void CTaskDialog::SetProgressBarMarquee(BOOL isEnabled /* = TRUE*/, int marqueeSpeed /* = 0*/) const
+    inline void CTaskDialog::SetProgressBarMarquee(BOOL isEnabled /* = TRUE*/,
+        int marqueeSpeed /* = 0*/) const
     {
         assert(GetHwnd());
         WPARAM wparam = static_cast<WPARAM>(isEnabled);
@@ -669,7 +685,8 @@ namespace Win32xx
     }
 
     // TaskDialogs direct their messages here.
-    inline HRESULT CALLBACK CTaskDialog::StaticTaskDialogProc(HWND wnd, UINT notification, WPARAM wparam, LPARAM lparam, LONG_PTR)
+    inline HRESULT CALLBACK CTaskDialog::StaticTaskDialogProc(HWND wnd,
+        UINT notification, WPARAM wparam, LPARAM lparam, LONG_PTR)
     {
         CTaskDialog* t = static_cast<CTaskDialog*>(GetCWndPtr(wnd));
         if (t == nullptr)
@@ -707,7 +724,8 @@ namespace Win32xx
     } // LRESULT CALLBACK StaticTaskDialogProc(...)
 
     // Provides default handling of Task Dialog's messages.
-    inline LRESULT CTaskDialog::TaskDialogProcDefault(UINT msg, WPARAM wparam, LPARAM lparam)
+    inline LRESULT CTaskDialog::TaskDialogProcDefault(UINT msg, WPARAM wparam,
+        LPARAM lparam)
     {
         int button = static_cast<int>(wparam);
         BOOL isClicked = static_cast<BOOL>(wparam);
@@ -773,12 +791,13 @@ namespace Win32xx
         return TaskDialogProcDefault(msg, wparam, lparam);
     }
 
-    // Updates a text element on the TaskDialog after it is created. The size of the TaskDialog
-    // is not adjusted to accommodate the new text.
+    // Updates a text element on the TaskDialog after it is created. The size
+    // of the TaskDialog is not adjusted to accommodate the new text.
     // Possible element values are:
     // TDE_CONTENT, TDE_EXPANDED_INFORMATION, TDE_FOOTER, TDE_MAIN_INSTRUCTION.
     // Refer to TDM_UPDATE_ELEMENT_TEXT in the Windows API documentation for more information.
-    inline void CTaskDialog::UpdateElementText(TASKDIALOG_ELEMENTS element, LPCWSTR newText) const
+    inline void CTaskDialog::UpdateElementText(TASKDIALOG_ELEMENTS element,
+        LPCWSTR newText) const
     {
         assert(GetHwnd());
         WPARAM wparam = static_cast<WPARAM>(element);

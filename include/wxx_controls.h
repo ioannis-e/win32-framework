@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -2530,7 +2530,7 @@ namespace Win32xx
 
         info.hwnd = ::GetParent(*this);  // pass notifications to the parent window
         info.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
-        info.uId = (UINT_PTR)control;
+        info.uId = reinterpret_cast<UINT_PTR>(control);
     }
 
     // Fills the TOOLINFO structure. Used by AddTool.

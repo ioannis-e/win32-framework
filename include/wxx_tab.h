@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -304,7 +304,7 @@ namespace Win32xx
     // Definitions for the CSelectDialog class nested within CTab.
     //
     inline CTab::CSelectDialog::CSelectDialog(LPCDLGTEMPLATE pDlgTemplate) :
-                    CDialog(pDlgTemplate), IDC_LIST(122)
+        CDialog(pDlgTemplate), IDC_LIST(122)
     {
     }
 
@@ -339,7 +339,7 @@ namespace Win32xx
     //
 
     inline CTab::CTab() : m_pActiveView(nullptr), m_isShowingButtons(FALSE), m_isTracking(FALSE),
-                          m_isClosePressed(FALSE), m_isListPressed(FALSE), m_isListMenuActive(FALSE)
+        m_isClosePressed(FALSE), m_isListPressed(FALSE), m_isListMenuActive(FALSE)
     {
         /*
         103 DIALOGEX 0, 0, 208, 202
@@ -1139,9 +1139,9 @@ namespace Win32xx
         }
     }
 
-    // Called in response to a WM_DPICHANGED_AFTERPARENT message that is sent to child
-    // windows after a DPI change. A WM_DPICHANGED_AFTERPARENT is only received when the
-    // application is DPI_AWARENESS_PER_MONITOR_AWARE.
+    // Called in response to a WM_DPICHANGED_AFTERPARENT message that is sent
+    // to child windows after a DPI change. A WM_DPICHANGED_AFTERPARENT is only
+    // received when the application is DPI_AWARENESS_PER_MONITOR_AWARE.
     inline LRESULT CTab::OnDpiChangedAfterParent(UINT, WPARAM, LPARAM)
     {
         UpdateTabs();

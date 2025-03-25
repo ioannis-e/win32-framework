@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -382,11 +382,13 @@ namespace Win32xx
         m_prevWindowProc = nullptr;
     }
 
-    // Creates the window with default parameters. The PreRegisterClass and PreCreate
-    // functions are called when the Create function is used. Override PreRegisterClass
-    // to register a new window class for the window, otherwise a default window class is used.
-    // Override PreCreate to specify the CREATESTRUCT parameters, otherwise default parameters
-    // are used. A failure to create a window throws an exception.
+    // Creates the window with default parameters. The PreRegisterClass and
+    // PreCreate functions are called when the Create function is used.
+    // Override PreRegisterClass to register a new window class for the
+    // window, otherwise a default window class is used.
+    // Override PreCreate to specify the CREATESTRUCT parameters, otherwise
+    // default parameters are used.
+    // A failure to create a window throws an exception.
     inline HWND CWnd::Create(HWND parent /* = nullptr */)
     {
         WNDCLASS wc{};
@@ -400,7 +402,8 @@ namespace Win32xx
 
         // Set the CREATESTUCT parameters to reasonable defaults.
         CREATESTRUCT cs{};
-        LONG dwOverlappedStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+        LONG dwOverlappedStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU
+            | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
         cs.style = WS_VISIBLE | ((parent)? WS_CHILD : dwOverlappedStyle );
         cs.hwndParent = parent;
 
@@ -442,9 +445,9 @@ namespace Win32xx
     // Creates the window by specifying each parameter. The lpszClassName must
     //  be a predefined class name or registered with RegisterClass. A failure
     //  to create a window throws an exception.
-    inline HWND CWnd::CreateEx(DWORD exStyle, LPCTSTR className, LPCTSTR windowName,
-                               DWORD style, RECT rc, HWND parent, UINT id,
-                               LPVOID lparam /*= nullptr*/)
+    inline HWND CWnd::CreateEx(DWORD exStyle, LPCTSTR className,
+        LPCTSTR windowName, DWORD style, RECT rc, HWND parent, UINT id,
+        LPVOID lparam /*= nullptr*/)
     {
         int x = rc.left;
         int y = rc.top;
@@ -453,17 +456,18 @@ namespace Win32xx
 
         INT_PTR idMenu = static_cast<INT_PTR>(id);
         HMENU menu = parent ? reinterpret_cast<HMENU>(idMenu) :
-                              ::LoadMenu(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(id));
+            ::LoadMenu(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(id));
 
-        return CreateEx(exStyle, className, windowName, style, x, y, cx, cy, parent, menu, lparam);
+        return CreateEx(exStyle, className, windowName, style, x, y, cx, cy,
+            parent, menu, lparam);
     }
 
     // Creates the window by specifying each parameter. The lpszClassName must
     //  be a predefined class name or registered with RegisterClass. A failure
     //  to create a window throws an exception.
-    inline HWND CWnd::CreateEx(DWORD exStyle, LPCTSTR className, LPCTSTR windowName,
-                               DWORD style, int x, int y, int width, int height, HWND parent,
-                               HMENU idOrMenu, LPVOID lparam /*= nullptr*/)
+    inline HWND CWnd::CreateEx(DWORD exStyle, LPCTSTR className,
+        LPCTSTR windowName, DWORD style, int x, int y, int width, int height,
+        HWND parent, HMENU idOrMenu, LPVOID lparam /*= nullptr*/)
     {
         assert( !IsWindow() );     // Only one window per CWnd instance allowed.
         Cleanup();
@@ -491,8 +495,9 @@ namespace Win32xx
         m_wnd = nullptr;
 
         // Create the window.
-        HWND wnd = ::CreateWindowEx(exStyle, classString, windowName, style, x, y, width, height,
-                                parent, idOrMenu, GetApp()->GetInstanceHandle(), lparam);
+        HWND wnd = ::CreateWindowEx(exStyle, classString, windowName, style, x,
+            y, width, height, parent, idOrMenu, GetApp()->GetInstanceHandle(),
+            lparam);
 
         // Tidy up
         pTLSData->pWnd = nullptr;
@@ -596,7 +601,8 @@ namespace Win32xx
         // dx.DDX_Check(IDC_CHECK_C,        m_checkC);
     }
 
-    // Scales the specified font to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
+    // Scales the specified font to the Dots Per Inch (DPI) scaling
+    // reported by GetWindowDpi.
     inline CFont CWnd::DpiScaleFont(const CFont& font, int pointSize) const
     {
         int dpi = GetWindowDpi(*this);
@@ -607,7 +613,8 @@ namespace Win32xx
         return dpiFont;
     }
 
-    // Scales the specified int to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
+    // Scales the specified int to the Dots Per Inch (DPI) scaling
+    // reported by GetWindowDpi.
     inline int CWnd::DpiScaleInt(int value) const
     {
         int dpi = GetWindowDpi(*this);
@@ -616,7 +623,8 @@ namespace Win32xx
         return dpiValue;
     }
 
-   // Scales the specified logfont to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
+   // Scales the specified logfont to the Dots Per Inch (DPI) scaling
+   // reported by GetWindowDpi.
    inline LOGFONT CWnd::DpiScaleLogfont(LOGFONT logfont, int pointSize) const
     {
         int dpi = GetWindowDpi(*this);
@@ -625,7 +633,8 @@ namespace Win32xx
         return logfont;
     }
 
-    // Scales the specified rect to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
+    // Scales the specified rect to the Dots Per Inch (DPI) scaling
+    // reported by GetWindowDpi.
     inline CRect CWnd::DpiScaleRect(RECT rc) const
     {
         int dpi = GetWindowDpi(*this);
@@ -637,7 +646,8 @@ namespace Win32xx
         return CRect(left, top, right, bottom);
     }
 
-    // Scales up the specified bitmap to the Dots Per Inch (DPI) scaling reported by GetWindowDpi.
+    // Scales up the specified bitmap to the Dots Per Inch (DPI) scaling
+    // reported by GetWindowDpi.
     inline CBitmap CWnd::DpiScaleUpBitmap(const CBitmap& bitmap) const
     {
         int dpi = GetWindowDpi(*this);
@@ -710,7 +720,8 @@ namespace Win32xx
         return str;
     }
 
-    // A function used internally to call OnMessageReflect. Don't call or override this function.
+    // A function used internally to call OnMessageReflect. Don't call or
+    // override this function.
     inline LRESULT CWnd::MessageReflect(UINT msg, WPARAM wparam, LPARAM lparam) const
     {
         HWND wnd = nullptr;

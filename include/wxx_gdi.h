@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -235,12 +235,16 @@ namespace Win32xx
         void CopyImage(HBITMAP origBitmap, int cxDesired = 0, int cyDesired = 0, UINT flags = 0);
         void CreateBitmap(int width, int height, UINT planes, UINT bitsPerPixel, LPCVOID pBits);
         void CreateCompatibleBitmap(HDC dc, int width, int height);
-        void CreateDIBSection(HDC dc, const LPBITMAPINFO pBMI, UINT colorUse, LPVOID* ppBits, HANDLE section, DWORD offset);
-        void CreateDIBitmap(HDC dc, const BITMAPINFOHEADER* pBMIH, DWORD init, LPCVOID pInit, const LPBITMAPINFO pBMI, UINT colorUse);
-        void CreateMappedBitmap(UINT bitmapID, UINT flags = 0, LPCOLORMAP pColorMap = nullptr, int mapSize = 0);
+        void CreateDIBSection(HDC dc, const LPBITMAPINFO pBMI, UINT colorUse, LPVOID* ppBits,
+                HANDLE section, DWORD offset);
+        void CreateDIBitmap(HDC dc, const BITMAPINFOHEADER* pBMIH, DWORD init, LPCVOID pInit,
+                const LPBITMAPINFO pBMI, UINT colorUse);
+        void CreateMappedBitmap(UINT bitmapID, UINT flags = 0, LPCOLORMAP pColorMap = nullptr,
+                int mapSize = 0);
         void CreateBitmapIndirect(const BITMAP& bitmap);
         CSize GetBitmapDimensionEx() const;
-        int  GetDIBits(HDC dc, UINT startScan, UINT scanLines,  LPVOID pBits, LPBITMAPINFO pBMI, UINT colorUse) const;
+        int  GetDIBits(HDC dc, UINT startScan, UINT scanLines,  LPVOID pBits, LPBITMAPINFO pBMI,
+                UINT colorUse) const;
         void GrayScaleBitmap() const;
         BOOL LoadBitmap(LPCTSTR resourceName);
         BOOL LoadBitmap(UINT id);
@@ -249,7 +253,8 @@ namespace Win32xx
         BOOL LoadImage(LPCTSTR resourceName, int cxDesired, int cyDesired, UINT flags);
         BOOL LoadImage(UINT id, int cxDesired, int cyDesired, UINT flags);
         BOOL LoadOEMBitmap(UINT bitmapID);
-        int  SetDIBits(HDC dc, UINT startScan, UINT scanLines, LPCVOID pBits, const LPBITMAPINFO pBMI, UINT colorUse) const;
+        int  SetDIBits(HDC dc, UINT startScan, UINT scanLines, LPCVOID pBits,
+                const LPBITMAPINFO pBMI, UINT colorUse) const;
         CSize SetBitmapDimensionEx(int width, int height) const;
         void TintBitmap (int red, int green, int blue) const;
 
@@ -297,9 +302,9 @@ namespace Win32xx
 
         // Create methods
         void CreateFontIndirect(const LOGFONT& logFont);
-        void CreatePointFont(int pointSize, LPCTSTR faceName, HDC dc = nullptr, BOOL isBold = FALSE, BOOL isItalic = FALSE);
+        void CreatePointFont(int pointSize, LPCTSTR faceName, HDC dc = nullptr,
+                BOOL isBold = FALSE, BOOL isItalic = FALSE);
         void CreatePointFontIndirect(const LOGFONT& logFont, HDC dc = nullptr);
-
         void CreateFont(int height, int width, int escapement,
                 int orientation, int weight, DWORD italic, DWORD underline,
                 DWORD strikeOut, DWORD charSet, DWORD outPrecision,
@@ -473,7 +478,7 @@ namespace Win32xx
         void CreateBitmap(int cx, int cy, UINT planes, UINT bitsPerPixel, LPCVOID pColors) const;
         void CreateCompatibleBitmap(HDC dc, int cx, int cy) const;
         void CreateDIBSection(HDC dc, const LPBITMAPINFO pBMI, UINT usage, LPVOID* ppBits,
-                              HANDLE section, DWORD offset) const;
+            HANDLE section, DWORD offset) const;
         CBitmap DetachBitmap() const;
 
         BOOL LoadBitmap(UINT id) const;
@@ -485,10 +490,10 @@ namespace Win32xx
         BOOL LoadOEMBitmap(UINT bitmapID) const; // for OBM_/OCR_/OIC
 
         void CreateBitmapIndirect(const BITMAP& bitmap) const;
-        void CreateDIBitmap(HDC dc, const BITMAPINFOHEADER& pBMIH, DWORD init, LPCVOID pInit,
-                            const LPBITMAPINFO pBMI, UINT usage) const;
-        void CreateMappedBitmap(UINT bitmapID, UINT flags /*= 0*/, LPCOLORMAP pColorMap /*= nullptr*/,
-                                int mapSize /*= 0*/) const;
+        void CreateDIBitmap(HDC dc, const BITMAPINFOHEADER& pBMIH, DWORD init,
+            LPCVOID pInit, const LPBITMAPINFO pBMI, UINT usage) const;
+        void CreateMappedBitmap(UINT bitmapID, UINT flags /*= 0*/,
+            LPCOLORMAP pColorMap /*= nullptr*/, int mapSize /*= 0*/) const;
 
         // Create Brushes
         void CreateBrushIndirect(LOGBRUSH logBrush) const;
@@ -501,13 +506,13 @@ namespace Win32xx
         // Create Fonts
         void CreateFontIndirect(const LOGFONT& lf) const;
         void CreatePointFont(int pointSize, LPCTSTR faceName, HDC dc = nullptr,
-                             BOOL isBold = FALSE, BOOL isItalic = FALSE) const;
+            BOOL isBold = FALSE, BOOL isItalic = FALSE) const;
         void CreatePointFontIndirect(const LOGFONT& logFont, HDC dc = nullptr) const;
 
-        void CreateFont(int height, int width, int escapement, int orientation, int weight,
-                            DWORD italic, DWORD underline, DWORD strikeOut, DWORD charSet,
-                            DWORD outputPrecision, DWORD clipPrecision, DWORD quality,
-                            DWORD pitchAndFamily, LPCTSTR faceName) const;
+        void CreateFont(int height, int width, int escapement, int orientation,
+            int weight, DWORD italic, DWORD underline, DWORD strikeOut,
+            DWORD charSet, DWORD outputPrecision, DWORD clipPrecision,
+            DWORD quality, DWORD pitchAndFamily, LPCTSTR faceName) const;
 
         // Create Palettes
         void CreatePalette(LPLOGPALETTE pLogPalette, BOOL forceBkgnd) const;
@@ -517,7 +522,7 @@ namespace Win32xx
         void CreatePen(int style, int width, COLORREF color) const;
         void CreatePenIndirect(LOGPEN logPen) const;
         void ExtCreatePen(int penStyle, int width, LOGBRUSH logBrush,
-                          int styleCount, const DWORD* pStyle) const;
+            int styleCount, const DWORD* pStyle) const;
 
         // Retrieve and Select Stock Objects
         HGDIOBJ GetStockObject(int index) const;
@@ -527,7 +532,8 @@ namespace Win32xx
         int CreateEllipticRgn(int left, int top, int right, int bottom) const;
         int CreateEllipticRgnIndirect(RECT rc) const;
         int CreatePolygonRgn(LPPOINT pPointArray, int points, int polyFillMode) const;
-        int CreatePolyPolygonRgn(LPPOINT pPointArray, LPINT pPolyCounts, int count, int polyFillMode) const;
+        int CreatePolyPolygonRgn(LPPOINT pPointArray, LPINT pPolyCounts,
+            int count, int polyFillMode) const;
         int CreateRectRgn(int left, int top, int right, int bottom) const;
         int CreateRectRgnIndirect(RECT rc) const;
         int CreateRgnFromData(const XFORM* pXform, int count, const RGNDATA* pRgnData) const;
@@ -594,7 +600,8 @@ namespace Win32xx
         BOOL FrameRect(RECT rc, HBRUSH brush) const;
         BOOL FrameRgn(HRGN rgn, HBRUSH brush, int width, int height) const;
         int  GetPolyFillMode() const;
-        BOOL GradientFill(PTRIVERTEX pVertex, ULONG vertex, PVOID pMesh, ULONG mesh, ULONG mode) const;
+        BOOL GradientFill(PTRIVERTEX pVertex, ULONG vertex, PVOID pMesh,
+            ULONG mesh, ULONG mode) const;
         void GradientFill(COLORREF color1, COLORREF color2, RECT rc, BOOL isVertical) const;
         BOOL InvertRect(RECT rc) const;
         BOOL PaintRgn(HRGN rgn) const;
@@ -602,31 +609,31 @@ namespace Win32xx
         void SolidFill(COLORREF color, RECT rc) const;
 
         // Bitmap Functions
-        BOOL BitBlt(int x, int y, int width, int height, HDC hSrc, int xSrc, int ySrc, DWORD rop) const;
+        BOOL BitBlt(int x, int y, int width, int height, HDC hSrc, int xSrc,
+            int ySrc, DWORD rop) const;
         void DrawBitmap(int x, int y, int cx, int cy, HBITMAP image, COLORREF mask) const;
         BOOL ExtFloodFill(int x, int y, COLORREF color, UINT fillType) const;
         BOOL FloodFill(int x, int y, COLORREF color) const;
         int  GetDIBits(HBITMAP bitmap, UINT startScan, UINT scanLines, LPVOID pBits,
-                        LPBITMAPINFO pBMI, UINT usage) const;
+            LPBITMAPINFO pBMI, UINT usage) const;
         BITMAP  GetBitmapData() const;
         CBitmap GetCurrentBitmap() const;
         int  GetStretchBltMode() const;
         BOOL MaskBlt(int xDest, int yDest, int width, int height, HDC hSrc,
-                           int xSrc, int ySrc, HBITMAP mask, int xMask, int yMask,
-                           DWORD rop) const;
+            int xSrc, int ySrc, HBITMAP mask, int xMask, int yMask,
+            DWORD rop) const;
         BOOL PatBlt(int x, int y, int width, int height, DWORD rop) const;
-        int  SetDIBits(HBITMAP bitmap, UINT startScan, UINT scanLines, LPCVOID pBits,
-                        LPBITMAPINFO pBMI, UINT colorUse) const;
-        int  StretchDIBits(int xDest, int yDest, int destWidth, int destHeight,
-                           int xSrc, int ySrc, int srcWidth, int srcHeight,
-                           LPCVOID pBits, const LPBITMAPINFO pBMI, UINT usage, DWORD rop) const;
+        int  SetDIBits(HBITMAP bitmap, UINT startScan, UINT scanLines,
+            LPCVOID pBits, LPBITMAPINFO pBMI, UINT colorUse) const;
+        int  StretchDIBits(int xDest, int yDest, int destWidth,
+            int destHeight, int xSrc, int ySrc, int srcWidth, int srcHeight,
+            LPCVOID pBits, const LPBITMAPINFO pBMI, UINT usage, DWORD rop) const;
         BOOL StretchBlt(int x, int y, int width, int height, HDC src,
-                           int xSrc, int ySrc, int srcWidth, int srcHeight,
-                           DWORD rop) const;
+            int xSrc, int ySrc, int srcWidth, int srcHeight, DWORD rop) const;
         int  SetStretchBltMode(int stretchMode) const;
         BOOL TransparentBlt(int x, int y, int width, int height, HDC hSrc,
-                           int xSrc, int ySrc, int widthSrc, int heightSrc,
-                           UINT transparent) const;
+            int xSrc, int ySrc, int widthSrc, int heightSrc,
+            UINT transparent) const;
 
         // Brush Functions
         CPoint   GetBrushOrgEx() const;
@@ -640,9 +647,8 @@ namespace Win32xx
         CFont GetCurrentFont() const;
         DWORD GetFontData(DWORD table, DWORD offset, LPVOID buffer,  DWORD data) const;
         DWORD GetFontLanguageInfo() const;
-        DWORD GetGlyphOutline(UINT query, UINT format, LPGLYPHMETRICS pGM, DWORD bufferSize,
-                              LPVOID buffer, const MAT2* pMAT2) const;
-
+        DWORD GetGlyphOutline(UINT query, UINT format, LPGLYPHMETRICS pGM,
+            DWORD bufferSize, LPVOID buffer, const MAT2* pMAT2) const;
         DWORD GetKerningPairs(DWORD numPairs, LPKERNINGPAIR pKrnPair) const;
         LOGFONT GetLogFont() const;
         DWORD SetMapperFlags(DWORD flag) const;
@@ -701,8 +707,10 @@ namespace Win32xx
         BOOL GetWindowOrgEx(LPPOINT pPoint)  const;
         BOOL OffsetViewportOrgEx(int width, int height, LPPOINT pPoint = nullptr) const;
         BOOL OffsetWindowOrgEx(int width, int height, LPPOINT pPoint = nullptr) const;
-        BOOL ScaleViewportExtEx(int xNum, int xDenom, int yNum, int yDenom, LPSIZE pSize = nullptr) const;
-        BOOL ScaleWindowExtEx(int xNum, int xDenom, int yNum, int yDenom, LPSIZE pSize = nullptr) const;
+        BOOL ScaleViewportExtEx(int xNum, int xDenom, int yNum, int yDenom,
+            LPSIZE pSize = nullptr) const;
+        BOOL ScaleWindowExtEx(int xNum, int xDenom, int yNum, int yDenom,
+            LPSIZE pSize = nullptr) const;
         int  SetMapMode(int mapMode) const;
         BOOL SetViewportExtEx(int x, int y, LPSIZE pSize = nullptr) const;
         BOOL SetViewportExtEx(SIZE size, LPSIZE pSizeRet = nullptr) const;
@@ -727,7 +735,8 @@ namespace Win32xx
 
         // Text Functions
         int   DrawText(LPCTSTR string, int count, RECT rc, UINT format) const;
-        BOOL  ExtTextOut(int x, int y, UINT options, RECT rc, LPCTSTR string, int count = -1, LPINT pDxWidths = nullptr) const;
+        BOOL  ExtTextOut(int x, int y, UINT options, RECT rc, LPCTSTR string,
+            int count = -1, LPINT pDxWidths = nullptr) const;
         COLORREF GetBkColor() const;
         int   GetBkMode() const;
         UINT  GetTextAlign() const;
@@ -738,22 +747,26 @@ namespace Win32xx
         int   SetBkMode(int bkMode) const;
         UINT  SetTextAlign(UINT flags) const;
         COLORREF SetTextColor(COLORREF color) const;
-        int   DrawTextEx(LPTSTR string, int count, RECT rc, UINT format, LPDRAWTEXTPARAMS pDTParams) const;
+        int   DrawTextEx(LPTSTR string, int count, RECT rc, UINT format,
+            LPDRAWTEXTPARAMS pDTParams) const;
         BOOL  GetCharABCWidths(UINT firstChar, UINT lastChar, LPABC pABC) const;
         BOOL  GetCharABCWidthsI(UINT first, UINT cgi, LPWORD pGI, LPABC pABC) const;
         BOOL  GetCharWidthI(UINT first, UINT cgi, LPWORD pGI, int* buffer) const;
         DWORD GetCharacterPlacement(LPCTSTR string, int count, int maxExtent,
-                                    LPGCP_RESULTS results, DWORD flags) const;
+            LPGCP_RESULTS results, DWORD flags) const;
         BOOL  GetCharWidth(UINT firstChar, UINT lastChar, int* buffer) const;
         BOOL  GetCharWidthFloat(UINT firstChar, UINT lastChar, float* buffer) const;
-        CSize GetTabbedTextExtent(LPCTSTR string, int count, int tabPositions, LPINT pTabStopPositions) const;
+        CSize GetTabbedTextExtent(LPCTSTR string, int count, int tabPositions,
+            LPINT pTabStopPositions) const;
         int   GetTextCharacterExtra() const;
         CSize GetTextExtentPoint32(LPCTSTR string, int count) const;
         CSize GetTextExtentPoint32(LPCTSTR string) const;
-        BOOL  GrayString(HBRUSH brush, GRAYSTRINGPROC pOutputFunc, LPARAM pData, int count, int x, int y, int width, int height) const;
+        BOOL  GrayString(HBRUSH brush, GRAYSTRINGPROC pOutputFunc, LPARAM pData,
+            int count, int x, int y, int width, int height) const;
         int   SetTextCharacterExtra(int charExtra) const;
         int   SetTextJustification(int breakExtra, int breakCount) const;
-        CSize TabbedTextOut(int x, int y, LPCTSTR string, int count, int tabPositions, LPINT pTabStopPositions, int tabOrigin) const;
+        CSize TabbedTextOut(int x, int y, LPCTSTR string, int count,
+            int tabPositions, LPINT pTabStopPositions, int tabOrigin) const;
         BOOL  TextOut(int x, int y, LPCTSTR string, int count = -1) const;
 
     protected:
@@ -868,7 +881,8 @@ namespace Win32xx
         virtual ~CEnhMetaFileDC() override;
 
         CEnhMetaFile CloseEnhanced();
-        void CreateEnhanced(HDC ref, LPCTSTR fileName, const RECT* pBounds, LPCTSTR description);
+        void CreateEnhanced(HDC ref, LPCTSTR fileName, const RECT* pBounds,
+                LPCTSTR description);
     };
 
 
@@ -1145,7 +1159,8 @@ namespace Win32xx
     // Refer to LoadImage in the Windows API documentation for more information.
     inline BOOL CBitmap::LoadBitmap(LPCTSTR resourceName)
     {
-        HBITMAP bitmap = static_cast<HBITMAP>(::LoadImage(GetApp()->GetResourceHandle(), resourceName, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR));
+        HBITMAP bitmap = static_cast<HBITMAP>(::LoadImage(GetApp()->GetResourceHandle(),
+                         resourceName, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR));
         if (bitmap != nullptr)
         {
             Assign(bitmap);
@@ -1171,7 +1186,8 @@ namespace Win32xx
     // Refer to LoadImage in the Windows API documentation for more information.
     inline BOOL CBitmap::LoadImage(LPCTSTR resourceName, UINT flags)
     {
-        HBITMAP bitmap = static_cast<HBITMAP>(::LoadImage(GetApp()->GetResourceHandle(), resourceName, IMAGE_BITMAP, 0, 0, flags));
+        HBITMAP bitmap = static_cast<HBITMAP>(::LoadImage(GetApp()->GetResourceHandle(),
+                         resourceName, IMAGE_BITMAP, 0, 0, flags));
         if (bitmap != nullptr)
         {
             Assign(bitmap);
@@ -1184,7 +1200,7 @@ namespace Win32xx
     inline BOOL CBitmap::LoadImage(LPCTSTR resourceName, int cxDesired, int cyDesired, UINT flags)
     {
         HBITMAP bitmap = static_cast<HBITMAP>(::LoadImage(GetApp()->GetResourceHandle(),
-                                       resourceName, IMAGE_BITMAP, cxDesired, cyDesired, flags));
+                         resourceName, IMAGE_BITMAP, cxDesired, cyDesired, flags));
         if (bitmap != nullptr)
         {
             Assign(bitmap);
@@ -1252,7 +1268,8 @@ namespace Win32xx
                     (bits[index + 1] != GetGValue(mask)) ||
                     (bits[index + 2] != GetBValue(mask)))
                 {
-                    BYTE byGray = BYTE(110 + (bits[index + 2] * 3 + bits[index + 1] * 6 + bits[index + 0]) / 20);
+                    BYTE byGray = BYTE(110 + (bits[index + 2] * 3 + bits[index + 1] *
+                                  6 + bits[index + 0]) / 20);
                     bits[index] = byGray;
                     bits[index + 1] = byGray;
                     bits[index + 2] = byGray;
@@ -1278,7 +1295,8 @@ namespace Win32xx
         assert(origBitmap);
         CBitmap orig(origBitmap);
 
-        HBITMAP bitmap = (HBITMAP)::CopyImage(origBitmap, IMAGE_BITMAP, cxDesired, cyDesired, flags);
+        HBITMAP bitmap = (HBITMAP)::CopyImage(origBitmap, IMAGE_BITMAP,
+                         cxDesired, cyDesired, flags);
         if (bitmap == nullptr)
             throw CResourceException(GetApp()->MsgGdiBitmap());
 
@@ -1289,12 +1307,14 @@ namespace Win32xx
         }
     }
 
-    // Creates a new bitmap using the bitmap data and colors specified by the bitmap resource and the color mapping information.
+    // Creates a new bitmap using the bitmap data and colors specified by the
+    //bitmap resource and the color mapping information.
     // Refer to CreateMappedBitmap in the Windows API documentation for more information.
-    inline void CBitmap::CreateMappedBitmap(UINT bitmapID, UINT flags /*= 0*/, LPCOLORMAP pColorMap /*= nullptr*/, int mapSize /*= 0*/)
+    inline void CBitmap::CreateMappedBitmap(UINT bitmapID, UINT flags /*= 0*/,
+                LPCOLORMAP pColorMap /*= nullptr*/, int mapSize /*= 0*/)
     {
         HBITMAP bitmap = ::CreateMappedBitmap(GetApp()->GetResourceHandle(), bitmapID,
-                                              static_cast<WORD>(flags), pColorMap, mapSize);
+                         static_cast<WORD>(flags), pColorMap, mapSize);
         if (bitmap == nullptr)
             throw CResourceException(GetApp()->MsgGdiBitmap());
 
@@ -1369,7 +1389,8 @@ namespace Win32xx
     // Creates a compatible bitmap (DDB) from a DIB and, optionally, sets the bitmap bits.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to CreateDIBitmap in the Windows API documentation for more information.
-    inline void CBitmap::CreateDIBitmap(HDC dc, const BITMAPINFOHEADER* pBMIH, DWORD init, LPCVOID pInit, const LPBITMAPINFO pBMI, UINT colorUse)
+    inline void CBitmap::CreateDIBitmap(HDC dc, const BITMAPINFOHEADER* pBMIH,
+                DWORD init, LPCVOID pInit, const LPBITMAPINFO pBMI, UINT colorUse)
     {
         HBITMAP bitmap = ::CreateDIBitmap(dc, pBMIH, init, pInit, pBMI, colorUse);
         Assign(bitmap);
@@ -1422,7 +1443,8 @@ namespace Win32xx
                 // Calculate index
                 index = size_t(yOffset) + size_t(xOffset);
 
-                int gray = (pByteArray[index] + pByteArray[index + 1] * 6 + pByteArray[index + 2] * 3) / 10;
+                int gray = (pByteArray[index] + pByteArray[index + 1] * 6 +
+                           pByteArray[index + 2] * 3) / 10;
                 BYTE byGray = static_cast<BYTE>(gray);
                 pByteArray[index]   = byGray;
                 pByteArray[index +1] = byGray;
@@ -1526,7 +1548,8 @@ namespace Win32xx
     // a file-mapping object that the function will use to create the bitmap,
     // or you can let the system allocate the memory for the bitmap.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
-    inline void CBitmap::CreateDIBSection(HDC dc, const LPBITMAPINFO pBMI, UINT colorUse, LPVOID* pBits, HANDLE hSection, DWORD offset)
+    inline void CBitmap::CreateDIBSection(HDC dc, const LPBITMAPINFO pBMI,
+        UINT colorUse, LPVOID* pBits, HANDLE hSection, DWORD offset)
     {
         HBITMAP bitmap = ::CreateDIBSection(dc, pBMI, colorUse, pBits, hSection, offset);
         Assign(bitmap);
@@ -1536,19 +1559,23 @@ namespace Win32xx
     // into a buffer as a DIB using the specified format.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to GetDIBits in the Windows API documentation for more information.
-    inline int CBitmap::GetDIBits(HDC dc, UINT startScan, UINT scanLines,  LPVOID pBits, LPBITMAPINFO pBMI, UINT colorUse) const
+    inline int CBitmap::GetDIBits(HDC dc, UINT startScan, UINT scanLines,
+        LPVOID pBits, LPBITMAPINFO pBMI, UINT colorUse) const
     {
         assert(GetHandle() != nullptr);
-        return ::GetDIBits(dc, static_cast<HBITMAP>(GetHandle()), startScan, scanLines,  pBits, pBMI, colorUse);
+        return ::GetDIBits(dc, static_cast<HBITMAP>(GetHandle()), startScan,
+            scanLines,  pBits, pBMI, colorUse);
     }
 
     // Sets the pixels in a compatible bitmap (DDB) using the color data found in the specified DIB.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to SetDIBits in the Windows API documentation for more information.
-    inline int CBitmap::SetDIBits(HDC dc, UINT startScan, UINT scanLines, LPCVOID pBits, const LPBITMAPINFO pBMI, UINT colorUse) const
+    inline int CBitmap::SetDIBits(HDC dc, UINT startScan, UINT scanLines,
+        LPCVOID pBits, const LPBITMAPINFO pBMI, UINT colorUse) const
     {
         assert(GetHandle() != nullptr);
-        return ::SetDIBits(dc, static_cast<HBITMAP>(GetHandle()), startScan, scanLines, pBits, pBMI, colorUse);
+        return ::SetDIBits(dc, static_cast<HBITMAP>(GetHandle()), startScan,
+            scanLines, pBits, pBMI, colorUse);
     }
 
 
@@ -1630,7 +1657,8 @@ namespace Win32xx
         Assign(brush);
     }
 
-    // Creates a logical brush that has the pattern specified by the specified device-independent bitmap (DIB).
+    // Creates a logical brush that has the pattern specified by the specified
+    // device-independent bitmap (DIB).
     // Refer to CreateDIBPatternBrush in the Windows API documentation for more information.
     inline void CBrush::CreateDIBPatternBrush(HGLOBAL hDIBPacked, UINT colorSpec)
     {
@@ -1641,7 +1669,8 @@ namespace Win32xx
         Assign(brush);
     }
 
-    // Creates a logical brush that has the pattern specified by the device-independent bitmap (DIB).
+    // Creates a logical brush that has the pattern specified by the device-independent
+    // bitmap (DIB).
     // Refer to CreateDIBPatternBrushPt in the Windows API documentation for more information.
     inline void CBrush::CreateDIBPatternBrushPt(LPCVOID pPackedDIB, UINT usage)
     {
@@ -1652,8 +1681,9 @@ namespace Win32xx
         Assign(brush);
     }
 
-    // Creates a logical brush with the specified bitmap pattern. The bitmap can be a DIB section bitmap,
-    // which is created by the CreateDIBSection function, or it can be a device-dependent bitmap.
+    // Creates a logical brush with the specified bitmap pattern. The bitmap
+    // can be a DIB section bitmap, which is created by the CreateDIBSection
+    // function, or it can be a device-dependent bitmap.
     // Refer to CreatePatternBrush in the Windows API documentation for more information.
     inline void CBrush::CreatePatternBrush(HBITMAP bitmap)
     {
@@ -1664,7 +1694,8 @@ namespace Win32xx
         Assign(brush);
     }
 
-    // Retrieves the LOGBRUSH structure that defines the style, color, and pattern of a physical brush.
+    // Retrieves the LOGBRUSH structure that defines the style, color, and pattern
+    // of a physical brush.
     // Refer to GetObject in the Windows API documentation for more information.
     inline LOGBRUSH CBrush::GetLogBrush() const
     {
@@ -1733,7 +1764,8 @@ namespace Win32xx
 
     // Creates a font of a specified typeface and point size.
     // Refer to CreateFontIndirect in the Windows API documentation for more information.
-    inline void CFont::CreatePointFont(int pointSize, LPCTSTR faceName, HDC dc /*= nullptr*/, BOOL isBold /*= FALSE*/, BOOL isItalic /*= FALSE*/)
+    inline void CFont::CreatePointFont(int pointSize, LPCTSTR faceName,
+        HDC dc /*= nullptr*/, BOOL isBold /*= FALSE*/, BOOL isItalic /*= FALSE*/)
     {
         LOGFONT logFont{};
         logFont.lfCharSet = DEFAULT_CHARSET;
@@ -1759,10 +1791,10 @@ namespace Win32xx
         CDC fontDC = (dc == nullptr) ? desktopDC : CDC(dc);
 
         // Set the new logfont's font size to logical units using the device context.
+        // 72 points/inch, 10 decipoints/point.
         LOGFONT newLogFont = logFont;
-
         POINT pt = { 0, 0 };
-        pt.y = ::MulDiv(fontDC.GetDeviceCaps(LOGPIXELSY), logFont.lfHeight, 720);   // 72 points/inch, 10 decipoints/point
+        pt.y = ::MulDiv(fontDC.GetDeviceCaps(LOGPIXELSY), logFont.lfHeight, 720);
         VERIFY(fontDC.DPtoLP(&pt, 1));
 
         POINT ptOrg = { 0, 0 };
@@ -1775,10 +1807,10 @@ namespace Win32xx
     // Creates a logical font with the specified characteristics.
     // Refer to CreateFont in the Windows API documentation for more information.
     inline void CFont::CreateFont(int height, int width, int escapement,
-            int orientation, int weight, DWORD italic, DWORD underline,
-            DWORD strikeOut, DWORD charSet, DWORD outPrecision,
-            DWORD clipPrecision, DWORD quality, DWORD pitchAndFamily,
-            LPCTSTR faceName)
+        int orientation, int weight, DWORD italic, DWORD underline,
+        DWORD strikeOut, DWORD charSet, DWORD outPrecision,
+        DWORD clipPrecision, DWORD quality, DWORD pitchAndFamily,
+        LPCTSTR faceName)
     {
         HFONT font = ::CreateFont(height, width, escapement,
             orientation, weight, italic, underline, strikeOut,
@@ -1868,26 +1900,32 @@ namespace Win32xx
 
     // Retrieves a specified range of palette entries from the palette.
     // Refer to GetPaletteEntries in the Windows API documentation for more information.
-    inline UINT CPalette::GetPaletteEntries(UINT startIndex, UINT entries, LPPALETTEENTRY pPaletteColors) const
+    inline UINT CPalette::GetPaletteEntries(UINT startIndex, UINT entries,
+        LPPALETTEENTRY pPaletteColors) const
     {
         assert(GetHandle() != nullptr);
-        return ::GetPaletteEntries(static_cast<HPALETTE>(GetHandle()), startIndex, entries, pPaletteColors);
+        return ::GetPaletteEntries(static_cast<HPALETTE>(GetHandle()),
+            startIndex, entries, pPaletteColors);
     }
 
     // Sets RGB (red, green, blue) color values and flags in a range of entries in the palette.
     // Refer to SetPaletteEntries in the Windows API documentation for more information.
-    inline UINT CPalette::SetPaletteEntries(UINT startIndex, UINT entries, LPPALETTEENTRY pPaletteColors) const
+    inline UINT CPalette::SetPaletteEntries(UINT startIndex, UINT entries,
+        LPPALETTEENTRY pPaletteColors) const
     {
         assert(GetHandle() != nullptr);
-        return ::SetPaletteEntries(static_cast<HPALETTE>(GetHandle()), startIndex, entries, pPaletteColors);
+        return ::SetPaletteEntries(static_cast<HPALETTE>(GetHandle()),
+            startIndex, entries, pPaletteColors);
     }
 
     // Replaces entries in the palette.
     // Refer to AnimatePalette in the Windows API documentation for more information.
-    inline BOOL CPalette::AnimatePalette(UINT startIndex, UINT entries, LPPALETTEENTRY pPaletteColors) const
+    inline BOOL CPalette::AnimatePalette(UINT startIndex, UINT entries,
+        LPPALETTEENTRY pPaletteColors) const
     {
         assert(GetHandle() != nullptr);
-        return ::AnimatePalette(static_cast<HPALETTE>(GetHandle()), startIndex, entries, pPaletteColors);
+        return ::AnimatePalette(static_cast<HPALETTE>(GetHandle()), startIndex,
+            entries, pPaletteColors);
     }
 
     //  Increases or decreases the size of the palette based on the specified value.
@@ -1898,7 +1936,8 @@ namespace Win32xx
         return ::ResizePalette(static_cast<HPALETTE>(GetHandle()), entries);
     }
 
-    // Retrieves the index for the entry in the palette most closely matching a specified color value.
+    // Retrieves the index for the entry in the palette most closely matching a
+    // specified color value.
     // Refer to GetNearestPaletteIndex in the Windows API documentation for more information.
     inline UINT CPalette::GetNearestPaletteIndex(COLORREF color) const
     {
@@ -1938,8 +1977,9 @@ namespace Win32xx
     {
         try
         {
-            Attach(::ExtCreatePen(static_cast<DWORD>(penStyle), static_cast<DWORD>(width), &logBrush,
-                                  static_cast<DWORD>(styleCount), pStyle));
+            Attach(::ExtCreatePen(static_cast<DWORD>(penStyle),
+                static_cast<DWORD>(width), &logBrush,
+                static_cast<DWORD>(styleCount), pStyle));
         }
 
         catch(...)
@@ -1995,17 +2035,20 @@ namespace Win32xx
         return logPen;
     }
 
-    // Creates a logical cosmetic or geometric pen that has the specified style, width, and brush attributes.
+    // Creates a logical cosmetic or geometric pen that has the specified
+    // style, width, and brush attributes.
     // Refer to ExtCreatePen in the Windows API documentation for more information.
     inline void CPen::ExtCreatePen(int penStyle, int width, LOGBRUSH logBrush,
         int styleCount /* = 0*/, const DWORD* pStyle /*= nullptr*/)
     {
-        HPEN pen = ::ExtCreatePen(static_cast<DWORD>(penStyle), static_cast<DWORD>(width),
-                                  &logBrush, static_cast<DWORD>(styleCount), pStyle);
+        HPEN pen = ::ExtCreatePen(static_cast<DWORD>(penStyle),
+            static_cast<DWORD>(width),  &logBrush,
+            static_cast<DWORD>(styleCount), pStyle);
         Assign(pen);
     }
 
-    // Retrieves the EXTLOGPEN struct that specifies the pen's style, width, color and brush attributes.
+    // Retrieves the EXTLOGPEN struct that specifies the pen's style, width,
+    // color and brush attributes.
     // Refer to GetObject in the Windows API documentation for more information.
     inline EXTLOGPEN CPen::GetExtLogPen() const
     {
@@ -2125,8 +2168,8 @@ namespace Win32xx
         Assign(rgn);
     }
 
-    // Creates a region from the path that is selected into the specified device context.
-    // The resulting region uses device coordinates.
+    // Creates a region from the path that is selected into the specified
+    // device context. The resulting region uses device coordinates.
     // Refer to PathToRegion in the Windows API documentation for more information.
     inline void CRgn::CreateFromPath(HDC dc)
     {
@@ -2179,7 +2222,8 @@ namespace Win32xx
     inline int CRgn::CombineRgn(HRGN hSrc, int combineMode) const
     {
         assert(GetHandle() != nullptr);
-        return ::CombineRgn(static_cast<HRGN>(GetHandle()), (HRGN)GetHandle(), hSrc, combineMode);
+        return ::CombineRgn(static_cast<HRGN>(GetHandle()), (HRGN)GetHandle(),
+            hSrc, combineMode);
     }
 
     // Assigns the specified region to the current region.
@@ -2216,7 +2260,8 @@ namespace Win32xx
     }
 
     // Retrieves the bounding rectangle of the region, and stores it in the specified RECT.
-    // The return value indicates the region's complexity: NULLREGION;SIMPLEREGION; or COMPLEXREGION.
+    // The return value indicates the region's complexity: NULLREGION;
+    // SIMPLEREGION; or COMPLEXREGION.
     // Refer to GetRgnBox in the Windows API documentation for more information.
     inline int CRgn::GetRgnBox(RECT& rc) const
     {
@@ -2230,7 +2275,7 @@ namespace Win32xx
     {
         assert(GetHandle() != nullptr);
         return static_cast<int>(::GetRegionData(static_cast<HRGN>(GetHandle()),
-                                                static_cast<DWORD>(dataSize), pRgnData));
+            static_cast<DWORD>(dataSize), pRgnData));
     }
 
     // Determines whether the specified point is inside the specified region.
@@ -2284,9 +2329,9 @@ namespace Win32xx
         return *this;
     }
 
-    // The copy constructor is called when a temporary copy of the CDC needs to be created.
-    // This can happen when a CDC is passed by value in a function call. Each CDC copy manages
-    // the same Device Context and GDI objects.
+    // The copy constructor is called when a temporary copy of the CDC needs to
+    // be created. This can happen when a CDC is passed by value in a function
+    // call. Each CDC copy manages the same Device Context and GDI object.
     inline CDC::CDC(const CDC& rhs) // Copy constructor
     {
         m_pData = rhs.m_pData;
@@ -2393,11 +2438,12 @@ namespace Win32xx
         return dc;
     }
 
-    // Enumerates the pens or brushes available for the device context. This function calls
-    // the application-defined callback function once for each available object, supplying
-    // data describing that object.
+    // Enumerates the pens or brushes available for the device context. This
+    // function calls the application-defined callback function once for each
+    // available object, supplying data describing that object.
     // Refer to EnumObjects in the Windows API documentation for more information.
-    inline int CDC::EnumObjects(int objectType, GOBJENUMPROC pObjectFunc, LPARAM lparam) const
+    inline int CDC::EnumObjects(int objectType, GOBJENUMPROC pObjectFunc,
+        LPARAM lparam) const
     {
         assert(m_pData->dc != nullptr);
         return ::EnumObjects(m_pData->dc, objectType, pObjectFunc, lparam);
@@ -2418,7 +2464,8 @@ namespace Win32xx
 
     // Creates a device context (DC) for a device using the specified name.
     // Refer to CreateDC in the Windows API documentation for more information.
-    inline void CDC::CreateDC(LPCTSTR driver, LPCTSTR device, LPCTSTR output, const DEVMODE* pInitData)
+    inline void CDC::CreateDC(LPCTSTR driver, LPCTSTR device, LPCTSTR output,
+                const DEVMODE* pInitData)
     {
         assert(m_pData->dc == nullptr);
         HDC dc = ::CreateDC(driver, device, output, pInitData);
@@ -2429,11 +2476,13 @@ namespace Win32xx
         Assign(dc);
     }
 
-    // Creates an information context for the specified device. The information context
-    // provides a fast way to get information about the device without creating a device context (DC).
-    // However, GDI drawing functions cannot accept a handle to an information context.
+    // Creates an information context for the specified device. The information
+    // context provides a fast way to get information about the device without
+    // creating a device context (DC). The GDI drawing functions however, cannot
+    // accept a handle to an information context.
     // Refer to CreateIC in the Windows API documentation for more information.
-    inline void CDC::CreateIC(LPCTSTR driver, LPCTSTR device, LPCTSTR output, const DEVMODE* pInitData)
+    inline void CDC::CreateIC(LPCTSTR driver, LPCTSTR device, LPCTSTR output,
+        const DEVMODE* pInitData)
     {
         assert(m_pData->dc == nullptr);
         HDC dc = ::CreateIC(driver, device, output, pInitData);
@@ -2444,9 +2493,11 @@ namespace Win32xx
         Assign(dc);
     }
 
-    // Draws the specified bitmap to the specified DC using the mask color provided as the transparent colour.
+    // Draws the specified bitmap to the specified DC using the mask color
+    // provided as the transparent colour.
     // Suitable for use with a Window DC or a memory DC.
-    inline void CDC::DrawBitmap(int x, int y, int cx, int cy, HBITMAP bitmap, COLORREF mask) const
+    inline void CDC::DrawBitmap(int x, int y, int cx, int cy, HBITMAP bitmap,
+        COLORREF mask) const
     {
         // Create the Image memory DC
         CMemDC imageDC(*this);
@@ -2465,7 +2516,8 @@ namespace Win32xx
     }
 
     // Fills the specified rectangle with a color gradient.
-    inline void CDC::GradientFill(COLORREF color1, COLORREF color2, RECT rc, BOOL isVertical) const
+    inline void CDC::GradientFill(COLORREF color1, COLORREF color2, RECT rc,
+        BOOL isVertical) const
     {
         SolidFill(color1, rc);
 
@@ -2516,7 +2568,7 @@ namespace Win32xx
     {
         BOOL success = FALSE;
 
-        if (CWinApp::SetnGetThis() != nullptr)          // Is the CWinApp object still valid?
+        if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
         {
             CThreadLock mapLock(GetApp()->m_gdiLock);
 
@@ -2615,9 +2667,9 @@ namespace Win32xx
     }
 
     // Select a region into the device context.
-    // The return value indicates the region's complexity: NULLREGION; SIMPLEREGION; or COMPLEXREGION.
-    // There is no need to select the old object back into the device context
-    // when SelectObject is used.
+    // The return value indicates the region's complexity: NULLREGION;
+    // SIMPLEREGION; or COMPLEXREGION. There is no need to select the old
+    // object back into the device context when SelectObject is used.
     // Refer to SelectObject in the Windows API documentation for more information.
     inline int CDC::SelectObject(HRGN rgn) const
     {
@@ -2671,7 +2723,8 @@ namespace Win32xx
 
     // Creates a bitmap and selects it into the device context.
     // Refer to CreateBitmap in the Windows API documentation for more information.
-    inline void CDC::CreateBitmap(int cx, int cy, UINT planes, UINT bitsPerPixel, LPCVOID pColors) const
+    inline void CDC::CreateBitmap(int cx, int cy, UINT planes, UINT bitsPerPixel,
+                LPCVOID pColors) const
     {
         assert(m_pData->dc != nullptr);
 
@@ -2694,8 +2747,8 @@ namespace Win32xx
     // Creates a bitmap and selects it into the device context.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to CreateDIBitmap in the Windows API documentation for more information.
-    inline void CDC::CreateDIBitmap(HDC dc, const BITMAPINFOHEADER& bmih, DWORD init, LPCVOID pInit,
-                                        const LPBITMAPINFO pBMI,  UINT flags) const
+    inline void CDC::CreateDIBitmap(HDC dc, const BITMAPINFOHEADER& bmih, DWORD init,
+        LPCVOID pInit, const LPBITMAPINFO pBMI,  UINT flags) const
     {
         assert(m_pData->dc != nullptr);
 
@@ -2707,8 +2760,8 @@ namespace Win32xx
     // Creates a bitmap and selects it into the device context.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to CreateDIBSection in the Windows API documentation for more information.
-    inline void CDC::CreateDIBSection(HDC dc, const LPBITMAPINFO pBMI, UINT usage, LPVOID* pBits,
-                                        HANDLE hSection, DWORD offset) const
+    inline void CDC::CreateDIBSection(HDC dc, const LPBITMAPINFO pBMI, UINT usage,
+        LPVOID* pBits, HANDLE hSection, DWORD offset) const
     {
         assert(m_pData->dc != nullptr);
 
@@ -2847,7 +2900,8 @@ namespace Win32xx
 
     // Loads a bitmap from a resource using the resource string.
     // Refer to LoadImage in the Windows API documentation for more information.
-    inline BOOL CDC::LoadImage(LPCTSTR resourceName, int cxDesired, int cyDesired, UINT flags) const
+    inline BOOL CDC::LoadImage(LPCTSTR resourceName, int cxDesired,
+                int cyDesired, UINT flags) const
     {
         {
             assert(m_pData->dc != nullptr);
@@ -2951,7 +3005,8 @@ namespace Win32xx
         SelectObject(brush);
     }
 
-    // Creates a brush with the specified hatch pattern and color, and selects it into the device context.
+    // Creates a brush with the specified hatch pattern and color, and selects
+    // it into the device context.
     // Refer to CreateHatchBrush in the Windows API documentation for more information.
     inline void CDC::CreateHatchBrush(int style, COLORREF color) const
     {
@@ -2962,7 +3017,8 @@ namespace Win32xx
         SelectObject(brush);
     }
 
-    // Creates a logical from the specified device-independent bitmap (DIB), and selects it into the device context.
+    // Creates a logical from the specified device-independent bitmap (DIB),
+    // and selects it into the device context.
     // Refer to CreateDIBPatternBrush in the Windows API documentation for more information.
     inline void CDC::CreateDIBPatternBrush(HGLOBAL hDIBPacked, UINT colorSpec) const
     {
@@ -2973,7 +3029,8 @@ namespace Win32xx
         SelectObject(brush);
     }
 
-    // Creates a logical from the specified device-independent bitmap (DIB), and selects it into the device context.
+    // Creates a logical from the specified device-independent bitmap (DIB),
+    // and selects it into the device context.
     // Refer to CreateDIBPatternBrushPt in the Windows API documentation for more information.
     inline void CDC::CreateDIBPatternBrushPt(LPCVOID pPackedDIB, UINT usage) const
     {
@@ -3021,7 +3078,8 @@ namespace Win32xx
         SelectObject(font);
     }
 
-    // Creates a font of a specified typeface and point size and selects it into the device context.
+    // Creates a font of a specified typeface and point size and selects it
+    // into the device context.
     // Refer to CreateFontIndirect in the Windows API documentation for more information.
     inline void CDC::CreatePointFont(int pointSize, LPCTSTR faceName, HDC dc /*= nullptr*/,
         BOOL isBold /*= FALSE*/, BOOL isItalic /*= FALSE*/) const
@@ -3069,21 +3127,21 @@ namespace Win32xx
     // Creates a logical font with the specified characteristics.
     // Refer to CreateFont in the Windows API documentation for more information.
     inline void CDC::CreateFont (
-                    int height,               // height of font
-                    int width,                // average character width
-                    int escapement,           // angle of escapement
-                    int orientation,          // base-line orientation angle
-                    int weight,               // font weight
-                    DWORD italic,             // italic attribute option
-                    DWORD underline,          // underline attribute option
-                    DWORD strikeOut,          // strikeout attribute option
-                    DWORD charSet,            // character set identifier
-                    DWORD outputPrecision,    // output precision
-                    DWORD clipPrecision,      // clipping precision
-                    DWORD quality,            // output quality
-                    DWORD pitchAndFamily,     // pitch and family
-                    LPCTSTR faceName          // typeface name
-                    ) const
+        int height,               // height of font
+        int width,                // average character width
+        int escapement,           // angle of escapement
+        int orientation,          // base-line orientation angle
+        int weight,               // font weight
+        DWORD italic,             // italic attribute option
+        DWORD underline,          // underline attribute option
+        DWORD strikeOut,          // strikeout attribute option
+        DWORD charSet,            // character set identifier
+        DWORD outputPrecision,    // output precision
+        DWORD clipPrecision,      // clipping precision
+        DWORD quality,            // output quality
+        DWORD pitchAndFamily,     // pitch and family
+        LPCTSTR faceName          // typeface name
+        ) const
 
     {
         assert(m_pData->dc != nullptr);
@@ -3120,8 +3178,8 @@ namespace Win32xx
         return static_cast<HPALETTE>(::GetCurrentObject(m_pData->dc, OBJ_PAL));
     }
 
-    // Retrieves a color value identifying a color from the system palette that will be
-    // displayed when the specified color value is used.
+    // Retrieves a color value identifying a color from the system palette that
+    // will be displayed when the specified color value is used.
     // Refer to GetNearestColor in the Windows API documentation for more information.
     inline COLORREF CDC::GetNearestColor(COLORREF color) const
     {
@@ -3165,8 +3223,8 @@ namespace Win32xx
         return ::SetColorAdjustment(m_pData->dc, pCA);
     }
 
-    // Updates the client area of the specified device context by remapping the current
-    // colors in the client area to the currently realized logical palette.
+    // Updates the client area of the specified device context by remapping the
+    // current colors in the client area to the currently realized logical palette.
     // Refer to UpdateColors in the Windows API documentation for more information.
     inline BOOL CDC::UpdateColors() const
     {
@@ -3200,7 +3258,8 @@ namespace Win32xx
         SelectObject(pen);
     }
 
-    // Creates a logical cosmetic or geometric pen that has the specified style, width, and brush attributes.
+    // Creates a logical cosmetic or geometric pen that has the specified
+    // style, width, and brush attributes.
     // Refer to ExtCreatePen in the Windows API documentation for more information.
     inline void CDC::ExtCreatePen(int penStyle, int width, LOGBRUSH logBrush,
         int styleCount , const DWORD* pStyle) const
@@ -3236,9 +3295,11 @@ namespace Win32xx
     // Retrieve and Select Stock Objects
 
     // Retrieves a stock brush, pen, or font.
-    // index values:  BLACK_BRUSH, DKGRAY_BRUSH, DC_BRUSH, HOLLOW_BRUSH, LTGRAY_BRUSH, NULL_BRUSH,
-    //                WHITE_BRUSH, BLACK_PEN, DC_PEN, ANSI_FIXED_FONT, ANSI_VAR_FONT, DEVICE_DEFAULT_FONT,
-    //                DEFAULT_GUI_FONT, OEM_FIXED_FONT, SYSTEM_FONT, or SYSTEM_FIXED_FONT.
+    // index values:  BLACK_BRUSH, DKGRAY_BRUSH, DC_BRUSH, HOLLOW_BRUSH,
+    //                LTGRAY_BRUSH, NULL_BRUSH, WHITE_BRUSH, BLACK_PEN, DC_PEN,
+    //                ANSI_FIXED_FONT, ANSI_VAR_FONT, DEVICE_DEFAULT_FONT,
+    //                DEFAULT_GUI_FONT, OEM_FIXED_FONT, SYSTEM_FONT,
+    //                or SYSTEM_FIXED_FONT.
     // Refer to GetStockObject in the Windows API documentation for more information.
     inline HGDIOBJ CDC::GetStockObject(int index) const
     {
@@ -3246,9 +3307,11 @@ namespace Win32xx
     }
 
     // Selects a stock brush, pen, or font into the device context.
-    // index values:  BLACK_BRUSH, DKGRAY_BRUSH, DC_BRUSH, HOLLOW_BRUSH, LTGRAY_BRUSH, NULL_BRUSH,
-    //                WHITE_BRUSH, BLACK_PEN, DC_PEN, ANSI_FIXED_FONT, ANSI_VAR_FONT, DEVICE_DEFAULT_FONT,
-    //                DEFAULT_GUI_FONT, OEM_FIXED_FONT, SYSTEM_FONT, or SYSTEM_FIXED_FONT.
+    // index values:  BLACK_BRUSH, DKGRAY_BRUSH, DC_BRUSH, HOLLOW_BRUSH,
+    //                LTGRAY_BRUSH, NULL_BRUSH, WHITE_BRUSH, BLACK_PEN, DC_PEN,
+    //                ANSI_FIXED_FONT, ANSI_VAR_FONT, DEVICE_DEFAULT_FONT,
+    //                DEFAULT_GUI_FONT, OEM_FIXED_FONT, SYSTEM_FONT,
+    //                or SYSTEM_FIXED_FONT.
     // Refer to GetStockObject in the Windows API documentation for more information.
     inline HGDIOBJ CDC::SelectStockObject(int index) const
     {
@@ -3267,7 +3330,8 @@ namespace Win32xx
     // Region functions
 
     // Creates a rectangular region from the rectangle co-ordinates.
-    // The return value specifies the region's complexity: NULLREGION;SIMPLEREGION;COMPLEXREGION;ERROR.
+    // The return value specifies the region's complexity: NULLREGION;
+    // SIMPLEREGION; COMPLEXREGION; or ERROR.
     // Refer to CreateRectRgn in the Windows API documentation for more information.
     inline int CDC::CreateRectRgn(int left, int top, int right, int bottom) const
     {
@@ -3280,7 +3344,8 @@ namespace Win32xx
     }
 
     // Creates a rectangular region from the rectangle co-ordinates.
-    // The return value specifies the region's complexity: NULLREGION;SIMPLEREGION;COMPLEXREGION;ERROR.
+    // The return value specifies the region's complexity: NULLREGION;
+    // SIMPLEREGION; COMPLEXREGION; or ERROR.
     // Refer to CreateRectRgnIndirect in the Windows API documentation for more information.
     inline int CDC::CreateRectRgnIndirect(RECT rc) const
     {
@@ -3293,8 +3358,9 @@ namespace Win32xx
     }
 
     // Creates a region from the specified region data and transformation data.
-    // The return value specifies the region's complexity: NULLREGION;SIMPLEREGION;COMPLEXREGION;ERROR.
-    // Notes: GetRegionData can be used to get a region's data
+    // The return value specifies the region's complexity: NULLREGION;S
+    // IMPLEREGION; COMPLEXREGION; or ERROR.
+    // Notes: GetRegionData can be used to get a region's data.
     //        If the XFROM pointer is nullptr, the identity transformation is used.
     // Refer to ExtCreateRegion in the Windows API documentation for more information.
     inline int CDC::CreateRgnFromData(const XFORM* pXform, int count, const RGNDATA* pRgnData) const
@@ -3309,7 +3375,8 @@ namespace Win32xx
 
     // Creates the elliptical region from the bounding rectangle co-ordinates,
     // and selects it into the device context.
-    // The return value specifies the region's complexity: NULLREGION;SIMPLEREGION;COMPLEXREGION;ERROR.
+    // The return value specifies the region's complexity: NULLREGION;
+    // SIMPLEREGION; COMPLEXREGION; or ERROR.
     // Refer to CreateEllipticRgn in the Windows API documentation for more information.
     inline int CDC::CreateEllipticRgn(int left, int top, int right, int bottom) const
     {
@@ -3323,7 +3390,8 @@ namespace Win32xx
 
     // Creates the elliptical region from the bounding rectangle co-ordinates.
     // and selects it into the device context.
-    // The return value specifies the region's complexity: NULLREGION;SIMPLEREGION;COMPLEXREGION;ERROR.
+    // The return value specifies the region's complexity: NULLREGION;
+    // SIMPLEREGION; COMPLEXREGION; or ERROR.
     // Refer to CreateEllipticRgnIndirect in the Windows API documentation for more information.
     inline int CDC::CreateEllipticRgnIndirect(RECT rc) const
     {
@@ -3338,7 +3406,8 @@ namespace Win32xx
 
     // Creates the polygon region from the array of points and selects it into
     // the device context. The polygon is presumed closed.
-    // The return value specifies the region's complexity: NULLREGION;SIMPLEREGION;COMPLEXREGION;ERROR.
+    // The return value specifies the region's complexity: NULLREGION;
+    // SIMPLEREGION; COMPLEXREGION; or ERROR.
     // Refer to CreatePolygonRgn in the Windows API documentation for more information.
     inline int CDC::CreatePolygonRgn(LPPOINT pPointArray, int points, int polyFillMode) const
     {
@@ -3351,7 +3420,8 @@ namespace Win32xx
     }
 
     // Creates the polygon region from a series of polygons.The polygons can overlap.
-    // The return value specifies the region's complexity: NULLREGION;SIMPLEREGION;COMPLEXREGION;ERROR.
+    // The return value specifies the region's complexity: NULLREGION;
+    // SIMPLEREGION; COMPLEXREGION; or ERROR.
     // Refer to CreatePolyPolygonRgn in the Windows API documentation for more information.
     inline int CDC::CreatePolyPolygonRgn(LPPOINT pPointArray, LPINT pCount, int count, int polyFillMode) const
     {
@@ -3364,8 +3434,8 @@ namespace Win32xx
         return Complexity;
     }
 
-    // Creates a region from the path that is selected into the specified device context.
-    // The resulting region uses device coordinates.
+    // Creates a region from the path that is selected into the specified
+    // device context. The resulting region uses device coordinates.
     // Refer to PathToRegion in the Windows API documentation for more information.
     inline int CDC::CreateRgnFromPath(HDC dc) const
     {
@@ -3442,16 +3512,19 @@ namespace Win32xx
         return ::GetFontLanguageInfo(m_pData->dc);
     }
 
-    // Retrieves the outline or bitmap for a character in the TrueType font that is selected into the device context.
+    // Retrieves the outline or bitmap for a character in the TrueType font
+    // that is selected into the device context.
     // Refer to GetGlyphOutline in the Windows API documentation for more information.
-    inline DWORD CDC::GetGlyphOutline(UINT query, UINT format, LPGLYPHMETRICS pGM, DWORD bufSize,
-                              LPVOID buffer, const MAT2* pMAT2) const
+    inline DWORD CDC::GetGlyphOutline(UINT query, UINT format,
+        LPGLYPHMETRICS pGM, DWORD bufSize,LPVOID buffer,
+        const MAT2* pMAT2) const
     {
         assert(m_pData->dc != nullptr);
         return ::GetGlyphOutline(m_pData->dc, query, format, pGM, bufSize, buffer, pMAT2);
     }
 
-    // retrieves the character-kerning pairs for the currently selected font for the device context.
+    // Retrieves the character-kerning pairs for the currently selected font
+    // for the device context.
     // Refer to GetKerningPairs in the Windows API documentation for more information.
     inline DWORD CDC::GetKerningPairs(DWORD numPairs, LPKERNINGPAIR pKrnPair) const
     {
@@ -3459,7 +3532,8 @@ namespace Win32xx
         return ::GetKerningPairs(m_pData->dc, numPairs, pKrnPair);
     }
 
-    // Alters the algorithm the font mapper uses when it maps logical fonts to physical fonts.
+    // Alters the algorithm the font mapper uses when it maps logical fonts
+    // to physical fonts.
     // Refer to SetMapperFlags in the Windows API documentation for more information.
     inline DWORD CDC::SetMapperFlags(DWORD flag) const
     {
@@ -3467,8 +3541,8 @@ namespace Win32xx
         return ::SetMapperFlags(m_pData->dc, flag);
     }
 
-    // Retrieves the miter limit for the device context. The miter limit is used when
-    // drawing geometric lines that have miter joins.
+    // Retrieves the miter limit for the device context. The miter limit is
+    // used when drawing geometric lines that have miter joins.
     // Refer to GetMiterLimit in the Windows API documentation for more information.
     inline BOOL CDC::GetMiterLimit(PFLOAT pLimit) const
     {
@@ -3489,8 +3563,8 @@ namespace Win32xx
     // Clipping functions
 
 
-    // Creates a new clipping region that consists of the existing clipping region minus
-    // the specified rectangle.
+    // Creates a new clipping region that consists of the existing clipping
+    // region minus the specified rectangle.
     // Refer to ExcludeClipRect in the Windows API documentation for more information.
     inline int CDC::ExcludeClipRect(int left, int top, int right, int bottom) const
     {
@@ -3498,8 +3572,8 @@ namespace Win32xx
         return ::ExcludeClipRect(m_pData->dc, left, top, right, bottom);
     }
 
-    // Creates a new clipping region that consists of the existing clipping region minus
-    // the specified rectangle.
+    // Creates a new clipping region that consists of the existing clipping
+    // region minus the specified rectangle.
     // Refer to ExcludeClipRect in the Windows API documentation for more information.
     inline int CDC::ExcludeClipRect(RECT rc) const
     {
@@ -3507,8 +3581,8 @@ namespace Win32xx
         return ::ExcludeClipRect(m_pData->dc, rc.left, rc.top, rc.right, rc.bottom);
     }
 
-    // Retrieves the dimensions of the tightest bounding rectangle that can be drawn around
-    // the current visible area on the device.
+    // Retrieves the dimensions of the tightest bounding rectangle that can be
+    // drawn around the current visible area on the device.
     // Refer to GetClipBox in the Windows API documentation for more information.
     inline int CDC::GetClipBox (RECT& rc) const
     {
@@ -3516,8 +3590,8 @@ namespace Win32xx
         return ::GetClipBox(m_pData->dc, &rc);
     }
 
-    // Creates a new clipping region from the intersection of the current clipping region and
-    // the specified rectangle.
+    // Creates a new clipping region from the intersection of the current
+    // clipping region and the specified rectangle.
     // Refer to IntersectClipRect in the Windows API documentation for more information.
     inline int CDC::IntersectClipRect(int left, int top, int right, int bottom) const
     {
@@ -3525,8 +3599,8 @@ namespace Win32xx
         return ::IntersectClipRect(m_pData->dc, left, top, right, bottom);
     }
 
-    // Creates a new clipping region from the intersection of the current clipping region
-    // and the specified rectangle.
+    // Creates a new clipping region from the intersection of the current
+    // clipping region and the specified rectangle.
     // Refer to IntersectClipRect in the Windows API documentation for more information.
     inline int CDC::IntersectClipRect(RECT rc) const
     {
@@ -3543,9 +3617,11 @@ namespace Win32xx
         return ::RectVisible (m_pData->dc, &rc);
     }
 
-    // Selects a region as the current clipping region for the specified device context.
+    // Selects a region as the current clipping region for the specified device
+    // context.
     // Note: Only a copy of the selected region is used.
-    //       To remove a device-context's clipping region, specify a nullptr region handle.
+    //       To remove a device-context's clipping region, specify a nullptr
+    //       region handle.
     // Refer to SelectClipRgn in the Windows API documentation for more information.
     inline int CDC::SelectClipRgn(HRGN rgn) const
     {
@@ -3558,7 +3634,8 @@ namespace Win32xx
         return rgnType;
     }
 
-    // The AbortPath function closes and discards any paths in the specified device context.
+    // The AbortPath function closes and discards any paths in the specified
+    // device context.
     // Refer to AbortPath in the Windows API documentation for more information.
     inline BOOL CDC::AbortPath() const
     {
@@ -3574,7 +3651,8 @@ namespace Win32xx
         return ::BeginPath(m_pData->dc);
     }
 
-    // Closes a path bracket and selects the path defined by the bracket into the device context.
+    // Closes a path bracket and selects the path defined by the bracket into
+    // the device context.
     // Refer to EndPath in the Windows API documentation for more information.
     inline BOOL CDC::EndPath() const
     {
@@ -3582,7 +3660,8 @@ namespace Win32xx
         return ::EndPath(m_pData->dc);
     }
 
-    // Combines the specified region with the current clipping region using the specified mode.
+    // Combines the specified region with the current clipping region using the
+    // specified mode.
     // Refer to ExtSelectClipRgn in the Windows API documentation for more information.
     inline int CDC::ExtSelectClipRgn(HRGN rgn, int mode) const
     {
@@ -3595,8 +3674,8 @@ namespace Win32xx
         return rgnType;
     }
 
-    // Transforms any curves in the path that is selected into the device context, turning each
-    // curve into a sequence of lines.
+    // Transforms any curves in the path that is selected into the device
+    // context, turning each curve into a sequence of lines.
     // Refer to FlattenPath in the Windows API documentation for more information.
     inline BOOL CDC::FlattenPath() const
     {
@@ -3604,11 +3683,15 @@ namespace Win32xx
         return ::FlattenPath(m_pData->dc);
     }
 
-    // Retrieves the coordinates defining the endpoints of lines and the control points of curves found in the path
-    // that is selected into the device context.
-    // pointArray: An array of POINT structures that receives the line endpoints and curve control points, in logical coordinates.
-    // types: Pointer to an array of bytes that receives the vertex types (PT_MOVETO, PT_LINETO or PT_BEZIERTO).
-    // count: The total number of POINT structures that can be stored in the array pointed to by pPoints.
+    // Retrieves the coordinates defining the endpoints of lines and the
+    // control points of curves found in the path that is selected into
+    // the device context.
+    // pointArray: An array of POINT structures that receives the line
+    //     endpoints and curve control points, in logical coordinates.
+    // types: Pointer to an array of bytes that receives the vertex types
+    //     (PT_MOVETO, PT_LINETO or PT_BEZIERTO).
+    // count: The total number of POINT structures that can be stored in the
+    //     array pointed to by pPoints.
     // Refer to GetPath in the Windows API documentation for more information.
     inline int CDC::GetPath(POINT* pointArray, BYTE* types, int count) const
     {
@@ -3616,7 +3699,8 @@ namespace Win32xx
         return ::GetPath(m_pData->dc, pointArray, types, count);
     }
 
-    // Determines whether the specified point is within the clipping region of a device context.
+    // Determines whether the specified point is within the clipping region of
+    // a device context.
     // Refer to PtVisible in the Windows API documentation for more information.
     inline BOOL CDC::PtVisible(int x, int y) const
     {
@@ -3632,8 +3716,9 @@ namespace Win32xx
         return ::OffsetClipRgn (m_pData->dc, xOffset, yOffset);
     }
 
-    // Selects the current path as a clipping region for the device context, combining
-    // the new region with any existing clipping region using the specified mode.
+    // Selects the current path as a clipping region for the device context,
+    // combining the new region with any existing clipping region using the
+    // specified mode.
     // Refer to SelectClipPath in the Windows API documentation for more information.
     inline BOOL CDC::SelectClipPath(int mode) const
     {
@@ -3651,7 +3736,8 @@ namespace Win32xx
         return ::StrokeAndFillPath(m_pData->dc);
     }
 
-    // The StrokePath function renders the specified path by using the current pen.
+    // The StrokePath function renders the specified path by using the current
+    // pen.
     // Refer to StrokePath in the Windows API documentation for more information.
     inline BOOL CDC::StrokePath() const
     {
@@ -3659,8 +3745,8 @@ namespace Win32xx
         return ::StrokePath(m_pData->dc);
     }
 
-    // Redefines the current path as the area that would be painted if the path were
-    // stroked using the pen currently selected into the device context.
+    // Redefines the current path as the area that would be painted if the path
+    // were stroked using the pen currently selected into the device context.
     // Refer to WidenPath in the Windows API documentation for more information.
     inline BOOL CDC::WidenPath() const
     {
@@ -3683,7 +3769,8 @@ namespace Win32xx
         return pt;
     }
 
-    // Retrieves the red, green, blue (RGB) color value of the pixel at the specified coordinates.
+    // Retrieves the red, green, blue (RGB) color value of the pixel at the
+    // specified coordinates.
     // Refer to GetPixel in the Windows API documentation for more information.
     inline COLORREF CDC::GetPixel(int x, int y) const
     {
@@ -3691,7 +3778,8 @@ namespace Win32xx
         return ::GetPixel(m_pData->dc, x, y);
     }
 
-    // Retrieves the red, green, blue (RGB) color value of the pixel at the specified coordinates.
+    // Retrieves the red, green, blue (RGB) color value of the pixel at the
+    // specified coordinates.
     // Refer to GetPixel in the Windows API documentation for more information.
     inline COLORREF CDC::GetPixel(POINT pt) const
     {
@@ -3719,7 +3807,8 @@ namespace Win32xx
         return previous;
     }
 
-    // Draws a line from the current position up to, but not including, the specified point.
+    // Draws a line from the current position up to, but not including, the
+    // specified point.
     // Refer to LineTo in the Windows API documentation for more information.
     inline BOOL CDC::LineTo(int x, int y) const
     {
@@ -3727,7 +3816,8 @@ namespace Win32xx
         return ::LineTo(m_pData->dc, x, y);
     }
 
-    // Draws a line from the current position up to, but not including, the specified point.
+    // Draws a line from the current position up to, but not including, the
+    // specified point.
     // Refer to LineTo in the Windows API documentation for more information.
     inline BOOL CDC::LineTo(POINT pt) const
     {
@@ -3735,8 +3825,9 @@ namespace Win32xx
         return ::LineTo(m_pData->dc, pt.x, pt.y);
     }
 
-    // Sets the current foreground mix mode. GDI uses the foreground mix mode to
-    // combine pens and interiors of filled objects with the colors already on the screen.
+    // Sets the current foreground mix mode. GDI uses the foreground mix mode
+    // to combine pens and interiors of filled objects with the colors already
+    // on the screen.
     // Refer to SetROP2 in the Windows API documentation for more information.
     inline int CDC::SetROP2(int drawMode) const
     {
@@ -3754,7 +3845,8 @@ namespace Win32xx
 
     // Draws an elliptical arc.
     // Refer to Arc in the Windows API documentation for more information.
-    inline BOOL CDC::Arc(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) const
+    inline BOOL CDC::Arc(int x1, int y1, int x2, int y2, int x3, int y3,
+        int x4, int y4) const
     {
         assert(m_pData->dc != nullptr);
         return ::Arc(m_pData->dc, x1, y1, x2, y2, x3, y3, x4, y4);
@@ -3771,7 +3863,8 @@ namespace Win32xx
 
     // Draws an elliptical arc.
     // Refer to ArcTo in the Windows API documentation for more information.
-    inline BOOL CDC::ArcTo(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) const
+    inline BOOL CDC::ArcTo(int x1, int y1, int x2, int y2, int x3, int y3,
+        int x4, int y4) const
     {
         assert(m_pData->dc != nullptr);
         return ::ArcTo(m_pData->dc, x1, y1, x2, y2, x3, y3, x4, y4);
@@ -3788,13 +3881,16 @@ namespace Win32xx
 
     // Draws a line segment and an arc.
     // Refer to AngleArc in the Windows API documentation for more information.
-    inline BOOL CDC::AngleArc(int x, int y, int radius, float startAngle, float sweepAngle) const
+    inline BOOL CDC::AngleArc(int x, int y, int radius, float startAngle,
+        float sweepAngle) const
     {
         assert(m_pData->dc != nullptr);
-        return ::AngleArc(m_pData->dc, x, y, static_cast<DWORD>(radius), startAngle, sweepAngle);
+        return ::AngleArc(m_pData->dc, x, y, static_cast<DWORD>(radius),
+            startAngle, sweepAngle);
     }
 
-    // Closes the figure by drawing a line from the current position to the first point of the figure.
+    // Closes the figure by drawing a line from the current position to the
+    // first point of the figure.
     // Refer to CloseFigure in the Windows API documentation for more information.
     inline BOOL CDC::CloseFigure() const
     {
@@ -3802,8 +3898,9 @@ namespace Win32xx
         return ::CloseFigure(m_pData->dc);
     }
 
-    // Retrieves the foreground mix mode of the specified device context. The mix mode specifies how
-    // the pen or interior color and the color already on the screen are combined to yield a new color.
+    // Retrieves the foreground mix mode of the specified device context. The
+    // mix mode specifies how the pen or interior color and the color already
+    // on the screen are combined to yield a new color.
     // Refer to GetROP2 in the Windows API documentation for more information.
     inline int CDC::GetROP2() const
     {
@@ -3829,7 +3926,8 @@ namespace Win32xx
 
     // Draws a set of line segments and Bezier curves.
     // Refer to PolyDraw in the Windows API documentation for more information.
-    inline BOOL CDC::PolyDraw(const POINT* pPointArray, const BYTE* pTypes, int count) const
+    inline BOOL CDC::PolyDraw(const POINT* pPointArray, const BYTE* pTypes,
+        int count) const
     {
         assert(m_pData->dc != nullptr);
         return ::PolyDraw(m_pData->dc, pPointArray, pTypes, count);
@@ -3845,10 +3943,12 @@ namespace Win32xx
 
     // Draws multiple series of connected line segments.
     // Refer to PolyPolyline in the Windows API documentation for more information.
-    inline BOOL CDC::PolyPolyline(const POINT* pPointArray, const DWORD* pPolyPoints, int count) const
+    inline BOOL CDC::PolyPolyline(const POINT* pPointArray,
+        const DWORD* pPolyPoints, int count) const
     {
         assert(m_pData->dc != nullptr);
-        return ::PolyPolyline(m_pData->dc, pPointArray, pPolyPoints, static_cast<DWORD>(count));
+        return ::PolyPolyline(m_pData->dc, pPointArray, pPolyPoints,
+            static_cast<DWORD>(count));
     }
 
     // Draws one or more straight lines.
@@ -3883,7 +3983,8 @@ namespace Win32xx
         return ::SetPixel(m_pData->dc, pt.x, pt.y, color);
     }
 
-    // Sets the pixel at the specified coordinates to the closest approximation of the specified color.
+    // Sets the pixel at the specified coordinates to the closest approximation
+    // of the specified color.
     // Refer to SetPixelV in the Windows API documentation for more information.
     inline BOOL CDC::SetPixelV(int x, int y, COLORREF color) const
     {
@@ -3891,7 +3992,8 @@ namespace Win32xx
         return ::SetPixelV(m_pData->dc, x, y, color);
     }
 
-    // Sets the pixel at the specified coordinates to the closest approximation of the specified color.
+    // Sets the pixel at the specified coordinates to the closest approximation
+    // of the specified color.
     // Refer to SetPixelV in the Windows API documentation for more information.
     inline BOOL CDC::SetPixelV(POINT pt, COLORREF color) const
     {
@@ -3904,7 +4006,8 @@ namespace Win32xx
     // Shape Drawing Functions
 
 
-    // Draws a rectangle in the style used to indicate that the rectangle has the focus.
+    // Draws a rectangle in the style used to indicate that the rectangle has
+    // the focus.
     // Refer to DrawFocusRect in the Windows API documentation for more information.
     inline BOOL CDC::DrawFocusRect(RECT rc) const
     {
@@ -3912,7 +4015,8 @@ namespace Win32xx
         return ::DrawFocusRect(m_pData->dc, &rc);
     }
 
-    // Draws an ellipse. The center of the ellipse is the center of the specified bounding rectangle.
+    // Draws an ellipse. The center of the ellipse is the center of the
+    // specified bounding rectangle.
     // Refer to Ellipse in the Windows API documentation for more information.
     inline BOOL CDC::Ellipse(int x1, int y1, int x2, int y2) const
     {
@@ -3920,7 +4024,8 @@ namespace Win32xx
         return ::Ellipse(m_pData->dc, x1, y1, x2, y2);
     }
 
-    // Draws an ellipse. The center of the ellipse is the center of the specified bounding rectangle.
+    // Draws an ellipse. The center of the ellipse is the center of the
+    // specified bounding rectangle.
     // Refer to Ellipse in the Windows API documentation for more information.
     inline BOOL CDC::Ellipse(RECT rc) const
     {
@@ -3928,7 +4033,8 @@ namespace Win32xx
         return ::Ellipse(m_pData->dc, rc.left, rc.top, rc.right, rc.bottom);
     }
 
-    // Draws a polygon consisting of two or more vertices connected by straight lines.
+    // Draws a polygon consisting of two or more vertices connected by straight
+    // lines.
     // Refer to Polygon in the Windows API documentation for more information.
     inline BOOL CDC::Polygon(LPPOINT pPointArray, int count) const
     {
@@ -3936,8 +4042,8 @@ namespace Win32xx
         return ::Polygon(m_pData->dc, pPointArray, count);
     }
 
-    // Draws a rectangle. The rectangle is outlined by using the current pen and filled
-    // by using the current brush.
+    // Draws a rectangle. The rectangle is outlined by using the current pen
+    // and filled by using the current brush.
     // Refer to Rectangle in the Windows API documentation for more information.
     inline BOOL CDC::Rectangle(int x1, int y1, int x2, int y2) const
     {
@@ -3945,8 +4051,8 @@ namespace Win32xx
         return ::Rectangle(m_pData->dc, x1, y1, x2, y2);
     }
 
-    // Draws a rectangle. The rectangle is outlined by using the current pen and filled
-    //  by using the current brush.
+    // Draws a rectangle. The rectangle is outlined by using the current pen
+    // and filled by using the current brush.
     // Refer to Rectangle in the Windows API documentation for more information.
     inline BOOL CDC::Rectangle(RECT rc) const
     {
@@ -3956,7 +4062,8 @@ namespace Win32xx
 
     // Draws a rectangle with rounded corners.
     // Refer to RoundRect in the Windows API documentation for more information.
-    inline BOOL CDC::RoundRect(int x1, int y1, int x2, int y2, int width, int height) const
+    inline BOOL CDC::RoundRect(int x1, int y1, int x2, int y2, int width,
+        int height) const
     {
         assert(m_pData->dc != nullptr);
         return ::RoundRect(m_pData->dc, x1, y1, x2, y2, width, height);
@@ -3967,18 +4074,22 @@ namespace Win32xx
     inline BOOL CDC::RoundRect(RECT rc, int width, int height) const
     {
         assert(m_pData->dc != nullptr);
-        return ::RoundRect(m_pData->dc, rc.left, rc.top, rc.right, rc.bottom, width, height );
+        return ::RoundRect(m_pData->dc, rc.left, rc.top, rc.right, rc.bottom,
+            width, height );
     }
 
-    // Draws a chord (a region bounded by the intersection of an ellipse and a line segment, called a secant).
+    // Draws a chord (a region bounded by the intersection of an ellipse and a
+    // line segment, called a secant).
     // Refer to Chord in the Windows API documentation for more information.
-    inline BOOL CDC::Chord(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) const
+    inline BOOL CDC::Chord(int x1, int y1, int x2, int y2, int x3, int y3,
+        int x4, int y4) const
     {
         assert(m_pData->dc != nullptr);
         return ::Chord(m_pData->dc, x1, y1, x2, y2, x3, y3, x4, y4);
     }
 
-    // Draws a chord (a region bounded by the intersection of an ellipse and a line segment, called a secant).
+    // Draws a chord (a region bounded by the intersection of an ellipse and a
+    // line segment, called a secant).
     // Refer to Chord in the Windows API documentation for more information.
     inline BOOL CDC::Chord(RECT rc, POINT start, POINT end) const
     {
@@ -3987,15 +4098,18 @@ namespace Win32xx
             start.x, start.y, end.x, end.y);
     }
 
-    // Draws a pie-shaped wedge bounded by the intersection of an ellipse and two radials.
+    // Draws a pie-shaped wedge bounded by the intersection of an ellipse and
+    // two radials.
     // Refer to Pie in the Windows API documentation for more information.
-    inline BOOL CDC::Pie(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) const
+    inline BOOL CDC::Pie(int x1, int y1, int x2, int y2, int x3, int y3,
+        int x4, int y4) const
     {
         assert(m_pData->dc != nullptr);
         return ::Pie(m_pData->dc, x1, y1, x2, y2, x3, y3, x4, y4);
     }
 
-    // Draws a pie-shaped wedge bounded by the intersection of an ellipse and two radials.
+    // Draws a pie-shaped wedge bounded by the intersection of an ellipse and
+    // two radials.
     // Refer to Pie in the Windows API documentation for more information.
     inline BOOL CDC::Pie(RECT rc, POINT start, POINT end) const
     {
@@ -4006,7 +4120,8 @@ namespace Win32xx
 
     // Draws a series of closed polygons.
     // Refer to PolyPolygon in the Windows API documentation for more information.
-    inline BOOL CDC::PolyPolygon(LPPOINT pPointArray, LPINT pPolyCounts, int count) const
+    inline BOOL CDC::PolyPolygon(LPPOINT pPointArray, LPINT pPolyCounts,
+        int count) const
     {
         assert(m_pData->dc != nullptr);
         return ::PolyPolygon(m_pData->dc, pPointArray, pPolyCounts, count);
@@ -4025,8 +4140,8 @@ namespace Win32xx
         return (::FillRect(m_pData->dc, &rc, brush) ? TRUE : FALSE);
     }
 
-    // Inverts a rectangle in a window by performing a logical NOT operation on the color
-    // values for each pixel in the rectangle's interior.
+    // Inverts a rectangle in a window by performing a logical NOT operation on
+    // the color values for each pixel in the rectangle's interior.
     // Refer to InvertRect in the Windows API documentation for more information.
     inline BOOL CDC::InvertRect(RECT rc) const
     {
@@ -4034,13 +4149,15 @@ namespace Win32xx
         return ::InvertRect( m_pData->dc, &rc);
     }
 
-    // draws an icon or cursor, performing the specified raster operations, and stretching
-    // or compressing the icon or cursor as specified.
+    // Draws an icon or cursor, performing the specified raster operations, and
+    // stretching or compressing the icon or cursor as specified.
     // Refer to DrawIconEx in the Windows API documentation for more information.
-    inline BOOL CDC::DrawIconEx(int xLeft, int yTop, HICON icon, int cxWidth, int cyWidth, UINT index, HBRUSH flickerFreeDraw, UINT flags) const
+    inline BOOL CDC::DrawIconEx(int xLeft, int yTop, HICON icon, int cxWidth,
+        int cyWidth, UINT index, HBRUSH flickerFreeDraw, UINT flags) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DrawIconEx(m_pData->dc, xLeft, yTop, icon, cxWidth, cyWidth, index, flickerFreeDraw, flags);
+        return ::DrawIconEx(m_pData->dc, xLeft, yTop, icon, cxWidth, cyWidth,
+            index, flickerFreeDraw, flags);
     }
 
     // Draws one or more edges of rectangle.
@@ -4069,7 +4186,8 @@ namespace Win32xx
 
     // Fills rectangle and triangle structures.
     // Refer to GradientFill in the Windows API documentation for more information.
-    inline BOOL CDC::GradientFill(PTRIVERTEX pVertex, ULONG vertex, PVOID pMesh, ULONG mesh, ULONG mode) const
+    inline BOOL CDC::GradientFill(PTRIVERTEX pVertex, ULONG vertex,
+        PVOID pMesh, ULONG mesh, ULONG mode) const
     {
         assert(m_pData->dc != nullptr);
 
@@ -4081,7 +4199,8 @@ namespace Win32xx
         static HMODULE msimg32 = ::LoadLibrary(system + _T("\\msimg32.dll"));
         if (msimg32)
         {
-            using PGRADIENTFILL = UINT(WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
+            using PGRADIENTFILL = UINT(WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID,
+                ULONG, ULONG);
 
             PGRADIENTFILL pGradientFill = reinterpret_cast<PGRADIENTFILL>(
                 reinterpret_cast<void*>(::GetProcAddress(msimg32, "GradientFill")));
@@ -4133,7 +4252,8 @@ namespace Win32xx
         return ::GetPolyFillMode(m_pData->dc);
     }
 
-    // Paints the specified region by using the brush currently selected into the device context.
+    // Paints the specified region by using the brush currently selected into
+    // the device context.
     // Refer to PaintRgn in the Windows API documentation for more information.
     inline BOOL CDC::PaintRgn(HRGN rgn) const
     {
@@ -4153,17 +4273,22 @@ namespace Win32xx
     ///////////////////
     // Bitmap Functions
 
-    // Copies the color data for a rectangle of pixels in a DIB to the specified destination rectangle.
+    // Copies the color data for a rectangle of pixels in a DIB to the
+    // specified destination rectangle.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to StretchDIBits in the Windows API documentation for more information.
-    inline int CDC::StretchDIBits(int xDest, int yDest, int destWidth, int destHeight, int xSrc, int ySrc, int srcWidth,
-                   int srcHeight, LPCVOID pBits, const LPBITMAPINFO pBMI, UINT usage, DWORD rop) const
+    inline int CDC::StretchDIBits(int xDest, int yDest, int destWidth,
+        int destHeight, int xSrc, int ySrc, int srcWidth, int srcHeight,
+        LPCVOID pBits, const LPBITMAPINFO pBMI, UINT usage, DWORD rop) const
     {
         assert(m_pData->dc != nullptr);
-        return ::StretchDIBits(m_pData->dc, xDest, yDest, destWidth, destHeight, xSrc, ySrc, srcWidth, srcHeight, pBits, pBMI, usage, rop);
+        return ::StretchDIBits(m_pData->dc, xDest, yDest, destWidth,
+            destHeight, xSrc, ySrc, srcWidth, srcHeight, pBits, pBMI, usage,
+            rop);
     }
 
-    // Paints the specified rectangle using the brush that is currently selected into the device context.
+    // Paints the specified rectangle using the brush that is currently
+    // selected into the device context.
     // Refer to PatBlt in the Windows API documentation for more information.
     inline BOOL CDC::PatBlt(int x, int y, int width, int height, DWORD rop) const
     {
@@ -4171,16 +4296,19 @@ namespace Win32xx
         return ::PatBlt(m_pData->dc, x, y, width, height, rop);
     }
 
-    // Performs a bit-block transfer of the color data corresponding to a rectangle of pixels
-    // from the specified source device context into a destination device context.
+    // Performs a bit-block transfer of the color data corresponding to a
+    // rectangle of pixels from the specified source device context into a
+    // destination device context.
     // Refer to BitBlt in the Windows API documentation for more information.
-    inline BOOL CDC::BitBlt(int x, int y, int width, int height, HDC hSrc, int xSrc, int ySrc, DWORD rop) const
+    inline BOOL CDC::BitBlt(int x, int y, int width, int height, HDC hSrc,
+        int xSrc, int ySrc, DWORD rop) const
     {
         assert(m_pData->dc != nullptr);
         return ::BitBlt(m_pData->dc, x, y, width, height, hSrc, xSrc, ySrc, rop);
     }
 
-    // Combines the color data for the source and destination bitmaps using the specified mask and raster operation.
+    // Combines the color data for the source and destination bitmaps using the
+    // specified mask and raster operation.
     //  xDest     x coordinate of destination upper-left corner
     //  yDest     y coordinate of destination upper-left corner
     //  width     width of source and destination
@@ -4193,14 +4321,18 @@ namespace Win32xx
     //  yMask     vertical offset into mask bitmap
     //  rop       raster operation code
     // Refer to MaskBlt in the Windows API documentation for more information.
-    inline BOOL CDC::MaskBlt(int xDest, int yDest, int width, int height, HDC hSrc, int xSrc, int ySrc, HBITMAP mask, int xMask, int yMask, DWORD rop) const
+    inline BOOL CDC::MaskBlt(int xDest, int yDest, int width, int height,
+        HDC hSrc, int xSrc, int ySrc, HBITMAP mask, int xMask, int yMask,
+        DWORD rop) const
     {
         assert(m_pData->dc != nullptr);
-        return ::MaskBlt(m_pData->dc, xDest, yDest, width, height, hSrc, xSrc, ySrc, mask, xMask, yMask, rop);
+        return ::MaskBlt(m_pData->dc, xDest, yDest, width, height, hSrc, xSrc,
+            ySrc, mask, xMask, yMask, rop);
     }
 
-    // Copies a bitmap from a source rectangle into a destination rectangle, stretching or compressing
-    // the bitmap to fit the dimensions of the destination rectangle, if necessary.
+    // Copies a bitmap from a source rectangle into a destination rectangle,
+    // stretching or compressing the bitmap to fit the dimensions of the
+    // destination rectangle, if necessary.
     //  x            x coordinate of destination upper-left corner
     //  y            y coordinate of destination upper-left corner
     //  width        width of destination rectangle
@@ -4212,22 +4344,28 @@ namespace Win32xx
     //  srcHeight    height of source rectangle
     //  rop          raster operation code
     // Refer to StretchBlt in the Windows API documentation for more information.
-    inline BOOL CDC::StretchBlt(int x, int y, int width, int height, HDC src, int xSrc, int ySrc, int srcWidth, int srcHeight, DWORD rop) const
+    inline BOOL CDC::StretchBlt(int x, int y, int width, int height, HDC src,
+        int xSrc, int ySrc, int srcWidth, int srcHeight, DWORD rop) const
     {
         assert(m_pData->dc != nullptr);
-        return ::StretchBlt(m_pData->dc, x, y, width, height, src, xSrc, ySrc, srcWidth, srcHeight, rop);
+        return ::StretchBlt(m_pData->dc, x, y, width, height, src, xSrc, ySrc,
+            srcWidth, srcHeight, rop);
     }
 
-    // Retrieves the bits of the specified compatible bitmap and copies them into a buffer as a DIB using the specified format.
+    // Retrieves the bits of the specified compatible bitmap and copies them
+    // into a buffer as a DIB using the specified format.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to GetDIBits in the Windows API documentation for more information.
-    inline int CDC::GetDIBits(HBITMAP bitmap, UINT startScan, UINT scanLines, LPVOID pBits, LPBITMAPINFO pBMI, UINT usage) const
+    inline int CDC::GetDIBits(HBITMAP bitmap, UINT startScan, UINT scanLines,
+        LPVOID pBits, LPBITMAPINFO pBMI, UINT usage) const
     {
         assert(m_pData->dc != nullptr);
-        return ::GetDIBits(m_pData->dc, bitmap, startScan, scanLines, pBits, pBMI, usage);
+        return ::GetDIBits(m_pData->dc, bitmap, startScan, scanLines, pBits,
+            pBMI, usage);
     }
 
-    // Sets the pixels in a compatible bitmap (DDB) using the color data found in the specified DIB.
+    // Sets the pixels in a compatible bitmap (DDB) using the color data found
+    // in the specified DIB.
     // A CBitmapInfoPtr object can be used for the LPBITMAPINFO parameter.
     // Refer to SetDIBits in the Windows API documentation for more information.
     inline int CDC::SetDIBits(HBITMAP bitmap, UINT startScan, UINT scanLines, LPCVOID pBits, LPBITMAPINFO pBMI, UINT colorUse) const
@@ -4237,8 +4375,9 @@ namespace Win32xx
     }
 
     // Retrieves the current stretching mode.
-    // Possible modes: BLACKONWHITE, COLORONCOLOR, HALFTONE, STRETCH_ANDSCANS, STRETCH_DELETESCANS,
-    //                 STRETCH_HALFTONE, STRETCH_ORSCANS, WHITEONBLACK
+    // Possible modes: BLACKONWHITE, COLORONCOLOR, HALFTONE, STRETCH_ANDSCANS,
+    //                 STRETCH_DELETESCANS, STRETCH_HALFTONE, STRETCH_ORSCANS,
+    //                 WHITEONBLACK.
     // Refer to GetStretchBltMode in the Windows API documentation for more information.
     inline int CDC::GetStretchBltMode() const
     {
@@ -4247,8 +4386,9 @@ namespace Win32xx
     }
 
     // Sets the stretching mode.
-    // Possible modes: BLACKONWHITE, COLORONCOLOR, HALFTONE, STRETCH_ANDSCANS, STRETCH_DELETESCANS,
-    //                 STRETCH_HALFTONE, STRETCH_ORSCANS, WHITEONBLACK
+    // Possible modes: BLACKONWHITE, COLORONCOLOR, HALFTONE, STRETCH_ANDSCANS,
+    //                 STRETCH_DELETESCANS, STRETCH_HALFTONE, STRETCH_ORSCANS,
+    //                 WHITEONBLACK.
     // Refer to SetStretchBltMode in the Windows API documentation for more information.
     inline int CDC::SetStretchBltMode(int stretchMode) const
     {
@@ -4256,8 +4396,9 @@ namespace Win32xx
         return ::SetStretchBltMode(m_pData->dc, stretchMode);
     }
 
-    // Performs a bit-block transfer of the color data corresponding to a rectangle
-    // of pixels from the specified source device context into a destination device context.
+    // Performs a bit-block transfer of the color data corresponding to a
+    // rectangle of pixels from the specified source device context into a
+    // destination device context.
     //  x             x coordinate of destination upper-left corner
     //  y             y coordinate of destination upper-left corner
     //  width         width of destination rectangle
@@ -4269,11 +4410,13 @@ namespace Win32xx
     //  heightSrc     height of source rectangle
     //  transparent   color to make transparent
     // Refer to TransparentBlt in the Windows API documentation for more information.
-    inline BOOL CDC::TransparentBlt(int x, int y, int width, int height, HDC hSrc, int xSrc, int ySrc,
-                                     int widthSrc, int heightSrc, UINT transparent) const
+    inline BOOL CDC::TransparentBlt(int x, int y, int width, int height,
+        HDC hSrc, int xSrc, int ySrc, int widthSrc, int heightSrc,
+        UINT transparent) const
     {
         assert(m_pData->dc != nullptr);
-        return ::TransparentBlt(m_pData->dc, x, y, width, height, hSrc, xSrc, ySrc, widthSrc, heightSrc, transparent);
+        return ::TransparentBlt(m_pData->dc, x, y, width, height, hSrc, xSrc,
+            ySrc, widthSrc, heightSrc, transparent);
     }
 
     // Fills an area of the display surface with the current brush.
@@ -4333,7 +4476,8 @@ namespace Win32xx
     ///////////////////
     // Layout Functions
 
-    // Returns the layout of a device context (LAYOUT_RTL and LAYOUT_BITMAPORIENTATIONPRESERVED).
+    // Returns the layout of a device context (LAYOUT_RTL and
+    // LAYOUT_BITMAPORIENTATIONPRESERVED).
     // Refer to GetLayout in the Windows API documentation for more information.
     inline DWORD CDC::GetLayout() const
     {
@@ -4355,7 +4499,8 @@ namespace Win32xx
 
 
     // Retrieves the current mapping mode.
-    // Possible modes: MM_ANISOTROPIC, MM_HIENGLISH, MM_HIMETRIC, MM_ISOTROPIC, MM_LOENGLISH, MM_LOMETRIC, MM_TEXT, and MM_TWIPS.
+    // Possible modes: MM_ANISOTROPIC, MM_HIENGLISH, MM_HIMETRIC, MM_ISOTROPIC,
+    //                 MM_LOENGLISH, MM_LOMETRIC, MM_TEXT, and MM_TWIPS.
     // Refer to GetMapMode in the Windows API documentation for more information.
     inline int CDC::GetMapMode()  const
     {
@@ -4363,7 +4508,8 @@ namespace Win32xx
         return ::GetMapMode(m_pData->dc);
     }
 
-    // Retrieves the x-coordinates and y-coordinates of the viewport origin for the device context.
+    // Retrieves the x-coordinates and y-coordinates of the viewport origin
+    // for the device context.
     // Refer to GetViewportOrgEx in the Windows API documentation for more information.
     inline BOOL CDC::GetViewportOrgEx(LPPOINT pPoint)  const
     {
@@ -4395,7 +4541,8 @@ namespace Win32xx
         return SetViewportOrgEx(point.x, point.y, pPointRet);
     }
 
-    // Modifies the viewport origin for the device context using the specified horizontal and vertical offsets.
+    // Modifies the viewport origin for the device context using the specified
+    // horizontal and vertical offsets.
     // Refer to OffsetViewportOrgEx in the Windows API documentation for more information.
     inline BOOL CDC::OffsetViewportOrgEx(int width, int height, LPPOINT pPoint /* = nullptr */) const
     {
@@ -4403,7 +4550,8 @@ namespace Win32xx
         return ::OffsetViewportOrgEx(m_pData->dc, width, height, pPoint);
     }
 
-    // Retrieves the x-extent and y-extent of the current viewport for the device context.
+    // Retrieves the x-extent and y-extent of the current viewport for the
+    // device context.
     // Refer to GetViewportExtEx in the Windows API documentation for more information.
     inline BOOL CDC::GetViewportExtEx(LPSIZE pSize)  const
     {
@@ -4411,7 +4559,8 @@ namespace Win32xx
         return ::GetViewportExtEx(m_pData->dc, pSize);
     }
 
-    // Sets the horizontal and vertical extents of the viewport for the device context by using the specified values.
+    // Sets the horizontal and vertical extents of the viewport for the device
+    // context by using the specified values.
     // Refer to SetViewportExtEx in the Windows API documentation for more information.
     inline BOOL CDC::SetViewportExtEx(int x, int y, LPSIZE pSize ) const
     {
@@ -4419,7 +4568,8 @@ namespace Win32xx
         return ::SetViewportExtEx(m_pData->dc, x, y, pSize);
     }
 
-    // Sets the horizontal and vertical extents of the viewport for the device context by using the specified values.
+    // Sets the horizontal and vertical extents of the viewport for the device
+    // context by using the specified values.
     // Refer to SetViewportExtEx in the Windows API documentation for more information.
     inline BOOL CDC::SetViewportExtEx(SIZE size, LPSIZE pSizeRet ) const
     {
@@ -4427,15 +4577,18 @@ namespace Win32xx
         return SetViewportExtEx(size.cx, size.cy, pSizeRet);
     }
 
-    // Modifies the viewport for the device context using the ratios formed by the specified multiplicands and divisors.
+    // Modifies the viewport for the device context using the ratios formed by
+    // the specified multiplicands and divisors.
     // Refer to ScaleViewportExtEx in the Windows API documentation for more information.
-    inline BOOL CDC::ScaleViewportExtEx(int xNum, int xDenom, int yNum, int yDenom, LPSIZE pSize ) const
+    inline BOOL CDC::ScaleViewportExtEx(int xNum, int xDenom, int yNum,
+        int yDenom, LPSIZE pSize ) const
     {
         assert(m_pData->dc != nullptr);
         return ::ScaleViewportExtEx(m_pData->dc, xNum, xDenom, yNum, yDenom, pSize);
     }
 
-    // Retrieves the x-coordinates and y-coordinates of the window origin for the device context.
+    // Retrieves the x-coordinates and y-coordinates of the window origin for
+    // the device context.
     // Refer to GetWindowOrgEx in the Windows API documentation for more information.
     inline BOOL CDC::GetWindowOrgEx(LPPOINT pPoint) const
     {
@@ -4459,7 +4612,8 @@ namespace Win32xx
         return SetWindowOrgEx(point.x, point.y, pPointRet);
     }
 
-    // Modifies the window origin for the device context using the specified horizontal and vertical offsets.
+    // Modifies the window origin for the device context using the specified
+    // horizontal and vertical offsets.
     // Refer to OffsetWindowOrgEx in the Windows API documentation for more information.
     inline BOOL CDC::OffsetWindowOrgEx(int width, int height, LPPOINT pPoint ) const
     {
@@ -4475,7 +4629,8 @@ namespace Win32xx
         return ::GetWindowExtEx(m_pData->dc, pSize);
     }
 
-    // Sets the horizontal and vertical extents of the window for the device context by using the specified values.
+    // Sets the horizontal and vertical extents of the window for the device
+    // context by using the specified values.
     // Refer to SetWindowExtEx in the Windows API documentation for more information.
     inline BOOL CDC::SetWindowExtEx(int x, int y, LPSIZE pSize ) const
     {
@@ -4483,7 +4638,8 @@ namespace Win32xx
         return ::SetWindowExtEx(m_pData->dc, x, y, pSize);
     }
 
-    // Sets the horizontal and vertical extents of the window for the device context by using the specified values.
+    // Sets the horizontal and vertical extents of the window for the device
+    // context by using the specified values.
     // Refer to SetWindowExtEx in the Windows API documentation for more information.
     inline BOOL CDC::SetWindowExtEx(SIZE size, LPSIZE pSizeRet) const
     {
@@ -4491,9 +4647,11 @@ namespace Win32xx
         return SetWindowExtEx(size.cx, size.cy, pSizeRet);
     }
 
-    // Modifies the window for the device context using the ratios formed by the specified multiplicands and divisors.
+    // Modifies the window for the device context using the ratios formed by
+    // the specified multiplicands and divisors.
     // Refer to ScaleWindowExtEx in the Windows API documentation for more information.
-    inline BOOL CDC::ScaleWindowExtEx(int xNum, int xDenom, int yNum, int yDenom, LPSIZE pSize) const
+    inline BOOL CDC::ScaleWindowExtEx(int xNum, int xDenom, int yNum,
+        int yDenom, LPSIZE pSize) const
     {
         assert(m_pData->dc != nullptr);
         return ::ScaleWindowExtEx(m_pData->dc, xNum, xDenom, yNum, yDenom, pSize);
@@ -4557,7 +4715,8 @@ namespace Win32xx
         return ::EndPage(m_pData->dc);
     }
 
-    // Stops the current print job and erases everything drawn since the last call to the StartDoc function.
+    // Stops the current print job and erases everything drawn since the last
+    // call to the StartDoc function.
     // Refer to AbortDoc in the Windows API documentation for more information.
     inline int CDC::AbortDoc() const
     {
@@ -4565,7 +4724,8 @@ namespace Win32xx
         return ::AbortDoc(m_pData->dc);
     }
 
-    // Sets the application-defined abort function that allows a print job to be cancelled during spooling.
+    // Sets the application-defined abort function that allows a print job to
+    // be cancelled during spooling.
     // Refer to SetAbortProc in the Windows API documentation for more information.
     inline int CDC::SetAbortProc(BOOL (CALLBACK* pfn)(HDC, int)) const
     {
@@ -4577,16 +4737,19 @@ namespace Win32xx
     /////////////////
     // Text Functions
 
-    // Draws text using the currently selected font, background color, and text color.
+    // Draws text using the currently selected font, background color, and text
+    // color.
     // Refer to ExtTextOut in the Windows API documentation for more information.
-    inline BOOL CDC::ExtTextOut(int x, int y, UINT options, RECT rc, LPCTSTR string, int count /*= -1*/, LPINT pDxWidths /*=nullptr*/) const
+    inline BOOL CDC::ExtTextOut(int x, int y, UINT options, RECT rc,
+        LPCTSTR string, int count /*= -1*/, LPINT pDxWidths /*=nullptr*/) const
     {
         assert(m_pData->dc != nullptr);
 
         if (count == -1)
             count = lstrlen (string);
 
-        return ::ExtTextOut(m_pData->dc, x, y, options, &rc, string, static_cast<UINT>(count), pDxWidths);
+        return ::ExtTextOut(m_pData->dc, x, y, options, &rc, string,
+               static_cast<UINT>(count), pDxWidths);
     }
 
     // Draws formatted text in the specified rectangle.
@@ -4594,11 +4757,13 @@ namespace Win32xx
     inline int CDC::DrawText(LPCTSTR string, int count, RECT rc, UINT format) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DrawText(m_pData->dc, string, count, const_cast<LPRECT>(&rc), format );
+        return ::DrawText(m_pData->dc, string, count, const_cast<LPRECT>(&rc),
+            format );
     }
 
     // Retrieves the text-alignment setting.
-    // Return values: TA_BASELINE, TA_BOTTOM, TA_TOP, TA_CENTER, TA_LEFT, TA_RIGHT, TA_RTLREADING, TA_NOUPDATECP, TA_UPDATECP.
+    // Return values: TA_BASELINE, TA_BOTTOM, TA_TOP, TA_CENTER, TA_LEFT,
+    //                TA_RIGHT, TA_RTLREADING, TA_NOUPDATECP, TA_UPDATECP.
     // Refer to GetTextAlign in the Windows API documentation for more information.
     inline UINT CDC::GetTextAlign() const
     {
@@ -4607,7 +4772,8 @@ namespace Win32xx
     }
 
     // Sets the text-alignment setting.
-    // Return values: TA_BASELINE, TA_BOTTOM, TA_TOP, TA_CENTER, TA_LEFT, TA_RIGHT, TA_RTLREADING, TA_NOUPDATECP, TA_UPDATECP.
+    // Return values: TA_BASELINE, TA_BOTTOM, TA_TOP, TA_CENTER, TA_LEFT,
+    //                TA_RIGHT, TA_RTLREADING, TA_NOUPDATECP, TA_UPDATECP.
     // Refer to SetTextAlign in the Windows API documentation for more information.
     inline UINT CDC::SetTextAlign(UINT flags) const
     {
@@ -4615,7 +4781,8 @@ namespace Win32xx
         return ::SetTextAlign(m_pData->dc, flags);
     }
 
-    // Retrieves the typeface name of the font that is selected into the device context.
+    // Retrieves the typeface name of the font that is selected into the device
+    // context.
     // Refer to GetTextFace in the Windows API documentation for more information.
     inline int CDC::GetTextFace(int count, LPTSTR faceName) const
     {
@@ -4623,7 +4790,8 @@ namespace Win32xx
         return ::GetTextFace(m_pData->dc, count, faceName);
     }
 
-    // Fills the specified buffer with the metrics for the currently selected font.
+    // Fills the specified buffer with the metrics for the currently selected
+    // font.
     // Refer to GetTextMetrics in the Windows API documentation for more information.
     inline BOOL CDC::GetTextMetrics(TEXTMETRIC& metrics) const
     {
@@ -4663,7 +4831,7 @@ namespace Win32xx
         return ::SetTextColor(m_pData->dc, color);
     }
 
-    // returns the current background mix mode (OPAQUE or TRANSPARENT).
+    // Returns the current background mix mode (OPAQUE or TRANSPARENT).
     // Refer to GetBkMode in the Windows API documentation for more information.
     inline int CDC::GetBkMode() const
     {
@@ -4681,14 +4849,17 @@ namespace Win32xx
 
     // Draws formatted text in the specified rectangle with more formatting options.
     // Refer to DrawTextEx in the Windows API documentation for more information.
-    inline int CDC::DrawTextEx(LPTSTR string, int count, RECT rc, UINT format, LPDRAWTEXTPARAMS pDTParams) const
+    inline int CDC::DrawTextEx(LPTSTR string, int count, RECT rc, UINT format,
+        LPDRAWTEXTPARAMS pDTParams) const
     {
         assert(m_pData->dc != nullptr);
-        return ::DrawTextEx(m_pData->dc, string, count, const_cast<LPRECT>(&rc), format, pDTParams);
+        return ::DrawTextEx(m_pData->dc, string, count, const_cast<LPRECT>(&rc),
+            format, pDTParams);
     }
 
-    // Retrieves the widths, in logical units, of consecutive characters in a specified range from the
-    // current TrueType font. This function succeeds only with TrueType fonts.
+    // Retrieves the widths, in logical units, of consecutive characters in a
+    // specified range from the current TrueType font. This function succeeds
+    // only with TrueType fonts.
     // Refer to GetCharABCWidths in the Windows API documentation for more information.
     inline BOOL CDC::GetCharABCWidths(UINT firstChar, UINT lastChar, LPABC pABC) const
     {
@@ -4696,17 +4867,20 @@ namespace Win32xx
         return::GetCharABCWidths(m_pData->dc, firstChar, lastChar, pABC);
     }
 
-    // Retrieves information about a character string, such as character widths, caret positioning,
-    // ordering within the string, and glyph rendering.
+    // Retrieves information about a character string, such as character
+    // widths, caret positioning, ordering within the string, and glyph
+    // rendering.
     // Refer to GetCharacterPlacement in the Windows API documentation for more information.
-    inline DWORD CDC::GetCharacterPlacement(LPCTSTR string, int count, int maxExtent, LPGCP_RESULTS results, DWORD flags) const
+    inline DWORD CDC::GetCharacterPlacement(LPCTSTR string, int count,
+        int maxExtent, LPGCP_RESULTS results, DWORD flags) const
     {
         assert(m_pData->dc != nullptr);
-        return ::GetCharacterPlacement(m_pData->dc, string, count, maxExtent, results, flags);
+        return ::GetCharacterPlacement(m_pData->dc, string, count, maxExtent,
+            results, flags);
     }
 
-    // Retrieves the widths, in logical coordinates, of consecutive characters in a specified range
-    // from the current font.
+    // Retrieves the widths, in logical coordinates, of consecutive characters
+    // in a specified range from the current font.
     // Refer to GetCharWidth in the Windows API documentation for more information.
     inline BOOL CDC::GetCharWidth(UINT firstChar, UINT lastChar, int* buffer) const
     {
@@ -4714,7 +4888,8 @@ namespace Win32xx
         return ::GetCharWidth(m_pData->dc, firstChar, lastChar, buffer);
     }
 
-    // Retrieves the fractional widths of consecutive characters in a specified range from the current font.
+    // Retrieves the fractional widths of consecutive characters in a specified
+    // range from the current font.
     // Refer to GetCharWidthFloat in the Windows API documentation for more information.
     inline BOOL CDC::GetCharWidthFloat(UINT firstChar, UINT lastChar, float* buffer) const
     {
@@ -4744,23 +4919,28 @@ namespace Win32xx
 
     // Computes the width and height of a character string.
     // Refer to GetTabbedTextExtent in the Windows API documentation for more information.
-    inline CSize CDC::GetTabbedTextExtent(LPCTSTR string, int count, int tabPositions, LPINT pTabStopPositions) const
+    inline CSize CDC::GetTabbedTextExtent(LPCTSTR string, int count,
+        int tabPositions, LPINT pTabStopPositions) const
     {
         assert(m_pData->dc != nullptr);
-        DWORD size = ::GetTabbedTextExtent(m_pData->dc, string, count, tabPositions, pTabStopPositions);
+        DWORD size = ::GetTabbedTextExtent(m_pData->dc, string, count,
+            tabPositions, pTabStopPositions);
         CSize sz(size);
         return sz;
     }
 
     // Draws gray text at the specified location.
     // Refer to GrayString in the Windows API documentation for more information.
-    inline BOOL CDC::GrayString(HBRUSH brush, GRAYSTRINGPROC pOutputFunc, LPARAM pData, int count, int x, int y, int width, int height) const
+    inline BOOL CDC::GrayString(HBRUSH brush, GRAYSTRINGPROC pOutputFunc,
+        LPARAM pData, int count, int x, int y, int width, int height) const
     {
         assert(m_pData->dc != nullptr);
-        return ::GrayString(m_pData->dc, brush, pOutputFunc, pData, count, x, y, width, height);
+        return ::GrayString(m_pData->dc, brush, pOutputFunc, pData, count, x,
+            y, width, height);
     }
 
-    // Specifies the amount of space the system should add to the break characters in a string of text.
+    // Specifies the amount of space the system should add to the break
+    // characters in a string of text.
     // Refer to SetTextJustification in the Windows API documentation for more information.
     inline int CDC::SetTextJustification(int breakExtra, int breakCount) const
     {
@@ -4784,13 +4964,15 @@ namespace Win32xx
         return ::SetTextCharacterExtra(m_pData->dc, charExtra);
     }
 
-    // Writes a character string at a specified location, expanding tabs to the values.
-    // specified in an array of tab-stop positions.
+    // Writes a character string at a specified location, expanding tabs to the
+    // values specified in an array of tab-stop positions.
     // Refer to TabbedTextOut in the Windows API documentation for more information.
-    inline CSize CDC::TabbedTextOut(int x, int y, LPCTSTR string, int count, int tabPositions, LPINT pTabStopPositions, int tabOrigin) const
+    inline CSize CDC::TabbedTextOut(int x, int y, LPCTSTR string, int count,
+        int tabPositions, LPINT pTabStopPositions, int tabOrigin) const
     {
         assert(m_pData->dc != nullptr);
-        LONG size = ::TabbedTextOut(m_pData->dc, x, y, string, count, tabPositions, pTabStopPositions, tabOrigin);
+        LONG size = ::TabbedTextOut(m_pData->dc, x, y, string, count,
+            tabPositions, pTabStopPositions, tabOrigin);
         CSize sz(static_cast<DWORD>(size));
         return sz;
     }
@@ -4806,8 +4988,9 @@ namespace Win32xx
         return ::TextOut(m_pData->dc, x, y, string, count);
     }
 
-    // Retrieves the widths, in logical units, of consecutive glyph indices in a specified range from the
-    // current TrueType font. This function succeeds only with TrueType fonts.
+    // Retrieves the widths, in logical units, of consecutive glyph indices in
+    // a specified range from the current TrueType font. This function succeeds
+    // only with TrueType fonts.
     // Refer to GetCharABCWidthsI in the Windows API documentation for more information.
     inline BOOL CDC::GetCharABCWidthsI(UINT giFirst, UINT cgi, LPWORD pGI, LPABC pABC) const
     {
@@ -4815,7 +4998,8 @@ namespace Win32xx
         return ::GetCharABCWidthsI(m_pData->dc, giFirst, cgi, pGI, pABC);
     }
 
-    // Retrieves the widths, in logical coordinates, of consecutive glyph indices in a specified range from the current font.
+    // Retrieves the widths, in logical coordinates, of consecutive glyph
+    // indices in a specified range from the current font.
     // Refer to GetCharWidthI in the Windows API documentation for more information.
     inline BOOL CDC::GetCharWidthI(UINT giFirst, UINT cgi, LPWORD pGI, int* buffer) const
     {
@@ -5060,8 +5244,8 @@ namespace Win32xx
     }
 
     // Closes the metafile and returns a CMetaFile object.
-    // The CMetaFile object automatically deletes the HMETAFILE when the last copy
-    // of the CMetaFile goes out of scope.
+    // The CMetaFile object automatically deletes the HMETAFILE when the last
+    // copy of the CMetaFile goes out of scope.
     inline CMetaFile CMetaFileDC::Close()
     {
         assert(GetHDC());
@@ -5123,8 +5307,8 @@ namespace Win32xx
     }
 
     // Closes the enhanced metafile and returns a CEnhMetaFile object.
-    // The CEnhMetaFile object automatically deletes the HENHMETAFILE when the last copy
-    // of the CEnhMetaFile goes out of scope.
+    // The CEnhMetaFile object automatically deletes the HENHMETAFILE when the
+    // last copy of the CEnhMetaFile goes out of scope.
     inline CEnhMetaFile CEnhMetaFileDC::CloseEnhanced()
     {
         assert(GetHDC());
@@ -5134,7 +5318,8 @@ namespace Win32xx
         return CEnhMetaFile(enhMeta);
     }
 
-    inline void CEnhMetaFileDC::CreateEnhanced(HDC ref, LPCTSTR fileName, const RECT* pBounds, LPCTSTR description)
+    inline void CEnhMetaFileDC::CreateEnhanced(HDC ref, LPCTSTR fileName,
+        const RECT* pBounds, LPCTSTR description)
     {
         try
         {

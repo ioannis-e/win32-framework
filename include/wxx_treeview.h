@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -97,7 +97,8 @@ namespace Win32xx
         BOOL    SetInsertMark(HTREEITEM item, BOOL after = TRUE) const;
         COLORREF SetInsertMarkColor(COLORREF color) const;
         BOOL    SetItem(TVITEM& itemInfo) const;
-        BOOL    SetItem(HTREEITEM item, UINT mask, LPCTSTR text, int image, int selectedImage, UINT state, UINT stateMask, LPARAM lparam) const;
+        BOOL    SetItem(HTREEITEM item, UINT mask, LPCTSTR text, int image,
+            int selectedImage, UINT state, UINT stateMask, LPARAM lparam) const;
         BOOL    SetItemData(HTREEITEM item, DWORD_PTR data) const;
         int     SetItemHeight(SHORT cy) const;
         BOOL    SetItemImage(HTREEITEM item, int image, int selectedImage) const;
@@ -117,14 +118,12 @@ namespace Win32xx
         HTREEITEM HitTest(TVHITTESTINFO& hitInfo) const;
         HTREEITEM InsertItem(TVINSERTSTRUCT& insertInfo) const;
         HTREEITEM InsertItem(UINT mask, LPCTSTR text, int image,
-                             int selectedImage, UINT state, UINT stateMask,
-                             LPARAM lparam, HTREEITEM parent,
-                             HTREEITEM insertAfter) const;
+            int selectedImage, UINT state, UINT stateMask, LPARAM lparam,
+            HTREEITEM parent, HTREEITEM insertAfter) const;
         HTREEITEM InsertItem(LPCTSTR text, HTREEITEM parent = TVI_ROOT,
-                             HTREEITEM insertAfter = TVI_LAST) const;
+            HTREEITEM insertAfter = TVI_LAST) const;
         HTREEITEM InsertItem(LPCTSTR text, int image, int selectedImage,
-                             HTREEITEM parent = TVI_ROOT,
-                             HTREEITEM insertAfter = TVI_LAST) const;
+            HTREEITEM parent = TVI_ROOT, HTREEITEM insertAfter = TVI_LAST) const;
         BOOL    Select(HTREEITEM item, UINT flag) const;
         BOOL    SelectDropTarget(HTREEITEM item) const;
         BOOL    SelectItem(HTREEITEM item) const;
@@ -148,7 +147,8 @@ namespace Win32xx
 {
 
     // Creates a dragging bitmap for the specified item in a tree-view control.
-    // It also creates an image list for the bitmap and adds the bitmap to the image list.
+    // It also creates an image list for the bitmap and adds the bitmap to the
+    // image list.
     // Refer to TreeView_CreateDragImage in the Windows API documentation for more information.
     inline CImageList CTreeView::CreateDragImage(HTREEITEM item) const
     {
@@ -174,9 +174,9 @@ namespace Win32xx
         return TreeView_DeleteItem(*this, item);
     }
 
-    // Begins in-place editing of the specified item's text, replacing the text of the item
-    // with a single-line edit control containing the text.
-    // The specified item  is implicitly selected and focused.
+    // Begins in-place editing of the specified item's text, replacing the text
+    // of the item  with a single-line edit control containing the text.
+    // The specified item is implicitly selected and focused.
     // Refer to TreeView_EditLabel in the Windows API documentation for more information.
     inline HWND CTreeView::EditLabel(HTREEITEM item) const
     {
@@ -201,8 +201,8 @@ namespace Win32xx
         return TreeView_EnsureVisible(*this, item);
     }
 
-    // The TreeView_Expand macro expands or collapses the list of child items associated
-    // with the specified parent item, if any.
+    // The TreeView_Expand macro expands or collapses the list of child items
+    // associated with the specified parent item, if any.
     // Refer to TreeView_Expand in the Windows API documentation for more information.
     inline BOOL CTreeView::Expand(HTREEITEM item, UINT code) const
     {
@@ -234,7 +234,8 @@ namespace Win32xx
         return TreeView_GetCount( *this );
     }
 
-    // Retrieves the tree-view item that is the target of a drag-and-drop operation.
+    // Retrieves the tree-view item that is the target of a drag-and-drop
+    // operation.
     // Refer to TreeView_GetDropHilight in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::GetDropHiLightItem() const
     {
@@ -242,7 +243,8 @@ namespace Win32xx
         return TreeView_GetDropHilight(*this);
     }
 
-    // Retrieves the handle to the edit control being used to edit a tree-view item's text.
+    // Retrieves the handle to the edit control being used to edit a tree-view
+    // item's text.
     // Refer to TreeView_GetEditControl in the Windows API documentation for more information.
     inline HWND CTreeView::GetEditControl() const
     {
@@ -258,7 +260,8 @@ namespace Win32xx
         return TreeView_GetFirstVisible(*this);
     }
 
-    // Retrieves the handle to the normal or state image list associated with a tree-view control.
+    // Retrieves the handle to the normal or state image list associated with
+    // a tree-view control.
     // Refer to TreeView_GetImageList in the Windows API documentation for more information.
     inline CImageList CTreeView::GetImageList(int imageType) const
     {
@@ -268,7 +271,8 @@ namespace Win32xx
         return CImageList(images);
     }
 
-    // Retrieves the amount, in pixels, that child items are indented relative to their parent items.
+    // Retrieves the amount, in pixels, that child items are indented relative
+    // to their parent items.
     // Refer to TreeView_GetIndent in the Windows API documentation for more information.
     inline UINT CTreeView::GetIndent() const
     {
@@ -328,7 +332,8 @@ namespace Win32xx
         return result;
     }
 
-    // Retrieves the bounding rectangle for a tree-view item and indicates whether the item is visible.
+    // Retrieves the bounding rectangle for a tree-view item and indicates
+    // whether the item is visible.
     // Refer to TreeView_GetItemRect in the Windows API documentation for more information.
     inline BOOL CTreeView::GetItemRect(HTREEITEM item, RECT& rc, BOOL isTextOnly) const
     {
@@ -341,7 +346,6 @@ namespace Win32xx
         return static_cast<BOOL>(SendMessage(TVM_GETITEMRECT, wparam, lparam));
     }
 
-    // Retrieves the text for a tree-view item.
     // Retrieves the text for a tree-view item.
     // Note: Although the tree-view control allows any length string to be stored
     //       as item text, only the first 260 characters are displayed.
@@ -373,7 +377,8 @@ namespace Win32xx
         return TreeView_GetLastVisible(*this);
     }
 
-    // Retrieves the tree-view item that bears the specified relationship to a specified item.
+    // Retrieves the tree-view item that bears the specified relationship to a
+    // specified item.
     // Refer to TreeView_GetNextItem in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::GetNextItem(HTREEITEM item, UINT code) const
     {
@@ -381,7 +386,8 @@ namespace Win32xx
         return TreeView_GetNextItem( *this, item, code);
     }
 
-    // Retrieves the next sibling item of a specified item in a tree-view control.
+    // Retrieves the next sibling item of a specified item in a tree-view
+    // control.
     // Refer to TreeView_GetNextSibling in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::GetNextSibling(HTREEITEM item) const
     {
@@ -389,7 +395,8 @@ namespace Win32xx
         return TreeView_GetNextSibling(*this, item);
     }
 
-    // Retrieves the next visible item that follows a specified item in a tree-view control.
+    // Retrieves the next visible item that follows a specified item in a
+    // tree-view control.
     // Refer to TreeView_GetNextVisible in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::GetNextVisible(HTREEITEM item) const
     {
@@ -405,7 +412,8 @@ namespace Win32xx
         return TreeView_GetParent(*this, item);
     }
 
-    // Retrieves the previous sibling item of a specified item in a tree-view control.
+    // Retrieves the previous sibling item of a specified item in a tree-view
+    // control.
     // Refer to TreeView_GetPrevSibling in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::GetPrevSibling(HTREEITEM item) const
     {
@@ -413,7 +421,8 @@ namespace Win32xx
         return TreeView_GetPrevSibling(*this, item);
     }
 
-    // Retrieves the first visible item that precedes a specified item in a tree-view control.
+    // Retrieves the first visible item that precedes a specified item in a
+    // tree-view control.
     // Refer to TreeView_GetPrevVisible in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::GetPrevVisible(HTREEITEM item) const
     {
@@ -453,7 +462,8 @@ namespace Win32xx
         return TreeView_GetTextColor( *this );
     }
 
-    // Retrieves the handle to the child ToolTip control used by a tree-view control.
+    // Retrieves the handle to the child ToolTip control used by a tree-view
+    // control.
     // Refer to TreeView_GetToolTips in the Windows API documentation for more information.
     inline HWND CTreeView::GetToolTips() const
     {
@@ -461,7 +471,8 @@ namespace Win32xx
         return TreeView_GetToolTips(*this);
     }
 
-    // Obtains the number of items that can be fully visible in the client window of a tree-view control.
+    // Obtains the number of items that can be fully visible in the client
+    // window of a tree-view control.
     // Refer to TreeView_GetVisibleCount in the Windows API documentation for more information.
     inline UINT CTreeView::GetVisibleCount() const
     {
@@ -469,7 +480,8 @@ namespace Win32xx
         return TreeView_GetVisibleCount( *this );
     }
 
-    // Determines the location of the specified point relative to the client area of a tree-view control.
+    // Determines the location of the specified point relative to the client
+    // area of a tree-view control.
     // Refer to TreeView_HitTest in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::HitTest(TVHITTESTINFO& hitInfo) const
     {
@@ -488,9 +500,8 @@ namespace Win32xx
     // Inserts a new item in a tree-view control.
     // Refer to TreeView_InsertItem in the Windows API documentation for more information.
     inline HTREEITEM CTreeView::InsertItem(UINT mask, LPCTSTR text, int image,
-        int selectedImage, UINT state, UINT stateMask,
-        LPARAM lparam, HTREEITEM parent,
-        HTREEITEM insertAfter) const
+        int selectedImage, UINT state, UINT stateMask, LPARAM lparam,
+        HTREEITEM parent, HTREEITEM insertAfter) const
     {
         TVITEM tvi{};
         tvi.mask = mask;
@@ -674,7 +685,8 @@ namespace Win32xx
 
     // Sets some or all of a tree-view item's attributes.
     // Refer to TreeView_SetItem in the Windows API documentation for more information.
-    inline BOOL CTreeView::SetItem(HTREEITEM item, UINT mask, LPCTSTR text, int image, int selectedImage, UINT state, UINT stateMask, LPARAM lparam) const
+    inline BOOL CTreeView::SetItem(HTREEITEM item, UINT mask, LPCTSTR text,
+        int image, int selectedImage, UINT state, UINT stateMask, LPARAM lparam) const
     {
         assert(IsWindow());
 

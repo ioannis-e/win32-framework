@@ -682,7 +682,7 @@ OnCtlColor(HDC dc, HWND hWnd, UINT nCtlColor)                               /*
       // Keep changes to the device context
     dcCtl.Detach();
       // return the brush handle
-    return (INT_PTR)(HBRUSH)br;
+    return (INT_PTR)br.GetHandle();
 }
 
 /*============================================================================*/

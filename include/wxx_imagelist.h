@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -106,7 +106,8 @@ namespace Win32xx
         BOOL DragMove(CPoint point) const;
         BOOL DragShowNolock(BOOL show) const;
         BOOL Draw(HDC dc, int image, POINT point, UINT style) const;
-        BOOL DrawEx(HDC dc, int image, POINT pt, SIZE sz, COLORREF bckgnd, COLORREF frgnd, UINT style) const;
+        BOOL DrawEx(HDC dc, int image, POINT pt, SIZE sz, COLORREF bckgnd,
+            COLORREF frgnd, UINT style) const;
         BOOL DrawIndirect(IMAGELISTDRAWPARAMS* pILDParams) const;
         void EndDrag() const;
         HICON ExtractIcon(int index) const;
@@ -299,14 +300,17 @@ namespace Win32xx
     // Creates a new image list.
     // Possible flag values:
     // ILC_COLOR    Use the default behavior if none of the other ILC_COLOR* flags is specified.
-    // ILC_COLOR4   Use a 4-bit (16-color) device-independent bitmap (DIB) section as the bitmap for the image list.
-    // ILC_COLOR8   Use an 8-bit DIB section. The colors used for the color table are the same colors as the halftone palette.
+    // ILC_COLOR4   Use a 4-bit (16-color) device-independent bitmap (DIB) section as the bitmap
+    //              for the image list.
+    // ILC_COLOR8   Use an 8-bit DIB section. The colors used for the color table are the same
+    //              colors as the halftone palette.
     // ILC_COLOR16  Use a 16-bit (32/64k-color) DIB section.
     // ILC_COLOR24  Use a 24-bit DIB section.
     // ILC_COLOR32  Use a 32-bit DIB section.
     // ILC_COLORDDB Use a device-dependent bitmap.
-    // ILC_MASK     Use a mask. The image list contains two bitmaps, one of which is a monochrome bitmap used as a mask.
-    //              If this value is not included, the image list contains only one bitmap.
+    // ILC_MASK     Use a mask. The image list contains two bitmaps, one of which is a
+    //              monochrome bitmap used as a mask. If this value is not included,
+    //              the image list contains only one bitmap.
     // Refer to ImageList_Create in the Windows API documentation for more information.
     inline void CImageList::Create(int cx, int cy, UINT flags, int initial, int grow)
     {
@@ -322,9 +326,12 @@ namespace Win32xx
 
     // Creates a new image list.
     // cx       The width of each image.
-    // nGrow    The number of images by which the image list can grow when the system needs to make room for new images.
-    // crMask   The color used to generate a mask. Each pixel of this color in the specified bitmap is changed to black,
-    //          and the corresponding bit in the mask is set to 1. If this parameter is the CLR_NONE value, no mask is generated.
+    // nGrow    The number of images by which the image list can grow when the
+    //          system needs to make room for new images.
+    // crMask   The color used to generate a mask. Each pixel of this color in
+    //          the specified bitmap is changed to black, and the corresponding
+    //          bit in the mask is set to 1. If this parameter is the CLR_NONE
+    //          value, no mask is generated.
     // Refer to ImageList_Create in the Windows API documentation for more information.
     inline void CImageList::Create(int bitmapID, int cx, int grow, COLORREF mask)
     {
@@ -337,9 +344,12 @@ namespace Win32xx
     // Creates a new image list.
     //
     // cx       The width of each image.
-    // nGrow    The number of images by which the image list can grow when the system needs to make room for new images.
-    // crMask   The color used to generate a mask. Each pixel of this color in the specified bitmap is changed to black,
-    //          and the corresponding bit in the mask is set to 1. If this parameter is the CLR_NONE value, no mask is generated.
+    // nGrow    The number of images by which the image list can grow when the
+    //          system needs to make room for new images.
+    // crMask   The color used to generate a mask. Each pixel of this color in
+    //          the specified bitmap is changed to black, and the corresponding
+    //          bit in the mask is set to 1. If this parameter is the CLR_NONE
+    // value, no mask is generated.
     // Refer to ImageList_LoadBitmap in the Windows API documentation for more information.
     inline void CImageList::Create(LPCTSTR resourceName, int cx, int grow, COLORREF mask)
     {
@@ -479,8 +489,8 @@ namespace Win32xx
         return ImageList_Draw(m_pData->images, image, dc , point.x, point.y, style);
     }
 
-    // Draws an image list item in the specified device context. The function uses the specified drawing style
-    // and blends the image with the specified color.
+    // Draws an image list item in the specified device context. The function
+    // uses the specified drawing style and blends the image with the specified color.
     // nStyle can have the following values:
     // ILD_BLEND25, ILD_FOCUS
     //   Draws the image, blending 25 percent with the blend color specified by rgbFg.
@@ -489,17 +499,22 @@ namespace Win32xx
     //   Draws the image, blending 50 percent with the blend color specified by rgbFg.
     //   This value has no effect if the image list does not contain a mask.
     // ILD_MASK     Draws the mask.
-    // ILD_NORMAL   Draws the image using the background color for the image list. If the
-    //              background color is the CLR_NONE value, the image is drawn transparently using the mask.
-    // ILD_TRANSPARENT  Draws the image transparently using the mask, regardless of the background color.
-    //                  This value has no effect if the image list does not contain a mask.
-    // ILD_IMAGE    If the overlay does not require a mask to be drawn set the ILD_IMAGE flag.
-    //              This causes ImageList_DrawEx to just draw the image, ignoring the mask.
+    // ILD_NORMAL   Draws the image using the background color for the image list. If
+    //              the background color is the CLR_NONE value, the image is drawn
+    //              transparently using the mask.
+    // ILD_TRANSPARENT  Draws the image transparently using the mask, regardless of
+    //              the background color. This value has no effect if the image list
+    //              does not contain a mask.
+    // ILD_IMAGE    If the overlay does not require a mask to be drawn set the
+    //              ILD_IMAGE flag. This causes ImageList_DrawEx to just draw the
+    //              image, ignoring the mask.
     // Refer to ImageList_Draw in the Windows API documentation for more information.
-    inline BOOL CImageList::DrawEx(HDC dc, int image, POINT pt, SIZE sz, COLORREF bckgnd, COLORREF frgnd, UINT style) const
+    inline BOOL CImageList::DrawEx(HDC dc, int image, POINT pt, SIZE sz,
+        COLORREF bckgnd, COLORREF frgnd, UINT style) const
     {
         assert(m_pData->images);
-        return ImageList_DrawEx(m_pData->images, image, dc, pt.x, pt.y, sz.cx, sz.cy, bckgnd, frgnd, style);
+        return ImageList_DrawEx(m_pData->images, image, dc, pt.x, pt.y, sz.cx,
+            sz.cy, bckgnd, frgnd, style);
     }
 
     // Draws an image list image based on an IMAGELISTDRAWPARAMS structure.
@@ -652,9 +667,10 @@ namespace Win32xx
         return ImageList_Write(*this, pStream);
     }
 
-    // Sets the background color for an image list.This function only works if you add an icon
-    // or use ImageList_AddMasked with a black and white bitmap. Without a mask, the entire image
-    // is drawn; hence the background color is not visible.
+    // Sets the background color for an image list.This function only works if
+    // you add an icon or use ImageList_AddMasked with a black and white bitmap.
+    // Without a mask, the entire image is drawn; hence the background color is
+    // not visible.
     // Refer to ImageList_SetBkColor in the Windows API documentation for more information.
     inline COLORREF CImageList::SetBkColor(COLORREF bckgnd) const
     {
@@ -662,8 +678,8 @@ namespace Win32xx
         return ImageList_SetBkColor(*this, bckgnd);
     }
 
-    // Creates a new drag image by combining the specified image (typically a mouse cursor image)
-    // with the current drag image.
+    // Creates a new drag image by combining the specified image (typically a
+    // mouse cursor image) with the current drag image.
     // Refer to ImageList_SetDragCursorImage in the Windows API documentation for more information.
     inline BOOL CImageList::SetDragCursorImage(int drag, int dxHotspot, int dyHotspot) const
     {

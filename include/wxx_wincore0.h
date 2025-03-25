@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -273,7 +273,7 @@ namespace Win32xx
         BOOL    ScreenToClient(RECT& rect) const;
         BOOL    ScrollWindow(int xAmount, int yAmount, RECT scrollRect, LPCRECT pClipRect = nullptr) const;
         BOOL    ScrollWindow(int xAmount, int yAmount, LPCRECT pClipRect = nullptr) const;
-        int     ScrollWindowEx(int dx, int dy, LPCRECT pScrollRect, LPCRECT pClipRect, 
+        int     ScrollWindowEx(int dx, int dy, LPCRECT pScrollRect, LPCRECT pClipRect,
                                HRGN updateRgn, LPRECT updateRect, UINT flags) const;
         LRESULT SendDlgItemMessage(UINT dlgItemID, UINT msg, WPARAM wparam, LPARAM lparam) const;
         LRESULT SendMessage(UINT msg, WPARAM wparam = 0, LPARAM lparam = 0) const;

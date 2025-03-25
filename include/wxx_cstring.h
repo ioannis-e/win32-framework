@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -50,16 +50,16 @@
 
 // Differences between this class and the MFC/ATL CString class
 // ------------------------------------------------------------
-// 1) The constructors for this class accepts both ANSI and Unicode characters and
-//    automatically converts these to TCHAR as required.
+// 1) The constructors for this class accepts both ANSI and Unicode characters
+//    and automatically converts these to TCHAR as required.
 //
-// 2) This class is not reference counted, so these CStrings should be passed as
-//    references or const references when used as function arguments. As a result there
-//    is no need for functions like LockBuffer and UnLockBuffer.
+// 2) This class is not reference counted, so these CStrings should be passed
+//    as references or const references when used as function arguments. As a
+//    result there is no need for functions like LockBuffer and UnLockBuffer.
 //
-// 3) The Format functions only accepts POD (Plain Old Data) arguments. It does not
-//    accept arguments that are class or struct objects. In particular it does not
-//    accept CString objects, unless these are cast to LPCTSTR.
+// 3) The Format functions only accepts POD (Plain Old Data) arguments. It does
+//    not accept arguments that are class or struct objects. In particular it
+//    does not accept CString objects, unless these are cast to LPCTSTR.
 //    This is demonstrates valid and invalid usage:
 //      CString string1(_T("Hello World"));
 //      CString string2;
@@ -73,16 +73,19 @@
 //      // This is better. It doesn't use casting
 //      string2.Format(_T("String1 is: %s"), string1.c_str());  // This is correct too
 //
-//    Note: The MFC/ATL CString class uses a non portable hack to make its CString class
-//          behave like a POD. Other compilers (such as the MinGW compiler) specifically
-//          prohibit the use of non POD types for functions with variable argument lists.
+//    Note: The MFC/ATL CString class uses a non portable hack to make its
+//          CString class behave like a POD. Other compilers (such as the
+//          MinGW compiler) specifically prohibit the use of non POD types for
+//          functions with variable argument lists.
 //
 // 4) This class provides a few additional functions:
-//       c_str          Returns a const TCHAR string. This is an alternative for casting to LPCTSTR.
-//       GetErrorString Assigns CString to the error string for the specified System Error Code
-//                      (from ::GetLastError() for example).
-//       GetString      Returns a reference to the underlying std::basic_string<TCHAR>. This
-//                      reference can be used to modify the string directly.
+//       c_str          Returns a const TCHAR string. This is an alternative
+//                      for casting to LPCTSTR.
+//       GetErrorString Assigns CString to the error string for the specified
+//                      System Error Code (from ::GetLastError() for example).
+//       GetString      Returns a reference to the underlying
+//                      std::basic_string<TCHAR>. This reference can be used to
+//                      modify the string directly.
 
 
 #ifndef _WIN32XX_CSTRING_H_
@@ -114,7 +117,8 @@ namespace Win32xx
     template <class T>
     class CStringT
     {
-        // Friend functions allow the left hand side to be something other than CStringT
+        // Friend functions allow the left hand side to be something other than
+        // CStringT.
         friend CStringA operator+(const CStringA& string1, const CStringA& string2);
         friend CStringA operator+(const CStringA& string1, const CHAR* text);
         friend CStringA operator+(const CStringA& string1, CHAR ch);
@@ -240,8 +244,10 @@ namespace Win32xx
         size_t strlenT(const WCHAR* text) const { return wcslen(text); }
 
         // These functions return CHAR instead of int.
-        static CHAR ToLower(CHAR c) { return static_cast<CHAR>(::tolower(static_cast<unsigned char>(c)) & 0xFF); }
-        static CHAR ToUpper(CHAR c) { return static_cast<CHAR>(::toupper(static_cast<unsigned char>(c)) & 0xFF); }
+        static CHAR ToLower(CHAR c) { return static_cast<CHAR>(::tolower(
+            static_cast<unsigned char>(c)) & 0xFF); }
+        static CHAR ToUpper(CHAR c) { return static_cast<CHAR>(::toupper(
+            static_cast<unsigned char>(c)) & 0xFF); }
     };
 
 
@@ -476,7 +482,8 @@ namespace Win32xx
     }
 
     // Allocates a BSTR from the CStringT content.
-    // Note: Ensure the returned BSTR is freed later with SysFreeString to avoid a memory leak.
+    // Note: Ensure the returned BSTR is freed later with SysFreeString to
+    // avoid a memory leak.
     template <>
     inline BSTR CStringA::AllocSysString() const
     {
@@ -488,7 +495,8 @@ namespace Win32xx
     }
 
     // Allocates a BSTR from the CStringT content.
-    // Note: Free the returned string later with SysFreeString to avoid a memory leak.
+    // Note: Free the returned string later with SysFreeString to avoid a
+    // memory leak.
     template <class T>
     inline BSTR CStringT<T>::AllocSysString() const
     {
@@ -528,7 +536,8 @@ namespace Win32xx
         m_str.assign(text, static_cast<size_t>(count));
     }
 
-    // Performs a case sensitive comparison of the two strings using locale-specific information.
+    // Performs a case sensitive comparison of the two strings using
+    // locale-specific information.
     template <>
     inline int CStringA::Collate(const CHAR* text) const
     {
@@ -542,7 +551,8 @@ namespace Win32xx
         return 0;
     }
 
-    // Performs a case sensitive comparison of the two strings using locale-specific information.
+    // Performs a case sensitive comparison of the two strings using
+    // locale-specific information.
     template <class T>
     inline int CStringT<T>::Collate(const T* text) const
     {
@@ -556,7 +566,8 @@ namespace Win32xx
         return 0;
     }
 
-    // Performs a case insensitive comparison of the two strings using locale-specific information.
+    // Performs a case insensitive comparison of the two strings using
+    // locale-specific information.
     template <>
     inline int CStringA::CollateNoCase(const CHAR* text) const
     {
@@ -570,7 +581,8 @@ namespace Win32xx
         return 0;
     }
 
-    // Performs a case insensitive comparison of the two strings using locale-specific information.
+    // Performs a case insensitive comparison of the two strings using
+    // locale-specific information.
     template <class T>
     inline int CStringT<T>::CollateNoCase(const T* text) const
     {
@@ -792,10 +804,11 @@ namespace Win32xx
         return ch;
     }
 
-    // Creates a buffer of minBufLength characters (+1 extra for null termination) and returns
-    // a pointer to this buffer. This buffer can be used by any function that accepts a LPTSTR.
-    // Care must be taken not to exceed the length of the buffer. Use ReleaseBuffer to safely
-    // copy this buffer back to the CStringT object.
+    // Creates a buffer of minBufLength characters (+1 extra for null
+    // termination) and returns a pointer to this buffer. This buffer can be
+    // used by any function that accepts a LPTSTR.
+    // Care must be taken not to exceed the length of the buffer. Use
+    // ReleaseBuffer to safely copy this buffer back to the CStringT object.
     template <class T>
     inline T* CStringT<T>::GetBuffer(int minBufLength)
     {
@@ -882,7 +895,8 @@ namespace Win32xx
         }
     }
 
-    // Returns the error string for the specified System Error Code (e.g from GetLastError).
+    // Returns the error string for the specified System Error Code from
+    // GetLastError.
     template <>
     inline void CStringA::GetErrorString(DWORD error)
     {
@@ -897,7 +911,8 @@ namespace Win32xx
         }
     }
 
-    // Returns the error string for the specified System Error Code (e.g from GetLastError).
+    // Returns the error string for the specified System Error Code from
+    // GetLastError.
     template <class T>
     inline void CStringT<T>::GetErrorString(DWORD error)
     {
@@ -1015,9 +1030,10 @@ namespace Win32xx
         return str;
     }
 
-    // This copies the contents of the buffer (acquired by GetBuffer) to this CStringT.
-    // The default length of -1 copies from the buffer until a null terminator is reached.
-    // If the buffer doesn't contain a null terminator, you must specify the buffer's length.
+    // This copies the contents of the buffer (acquired by GetBuffer) to this
+    // CStringT. The default length of -1 copies from the buffer until a null
+    // terminator is reached. If the buffer doesn't contain a null terminator,
+    // you must specify the buffer's length.
     template <class T>
     inline void CStringT<T>::ReleaseBuffer(int newLength /*= -1*/ )
     {
@@ -1164,7 +1180,8 @@ namespace Win32xx
     }
 
     // Sets an existing BSTR object to the string.
-    // Note: Ensure the returned BSTR is freed later with SysFreeString to avoid a memory leak.
+    // Note: Ensure the returned BSTR is freed later with SysFreeString to
+    // avoid a memory leak.
     template <>
     inline BSTR CStringA::SetSysString(BSTR* pBstr) const
     {

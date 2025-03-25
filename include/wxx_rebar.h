@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -425,7 +425,9 @@ namespace Win32xx
     // Called when the left button is released.
     inline LRESULT CReBar::OnLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>(GetParent().SendMessage(UWM_GETRBTHEME, 0, 0));
+        ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>(
+            GetParent().SendMessage(UWM_GETRBTHEME, 0, 0));
+
         if (pTheme && pTheme->UseThemes && pTheme->LockMenuBand)
         {
             // Use move messages to limit the resizing of bands.
@@ -447,7 +449,9 @@ namespace Win32xx
     {
         if (m_isDragging)
         {
-            ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>(GetParent().SendMessage(UWM_GETRBTHEME, 0, 0));
+            ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>(
+                GetParent().SendMessage(UWM_GETRBTHEME, 0, 0));
+
             if (pTheme && pTheme->UseThemes && pTheme->LockMenuBand)
             {
                 // We want to lock the first row in place, but allow other bands to move!
@@ -478,7 +482,8 @@ namespace Win32xx
     inline LRESULT CReBar::OnTBWinPosChanging(UINT, WPARAM, LPARAM)
     {
         // Adjust size for toolbars inside a rebar.
-        ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>(GetParent().SendMessage(UWM_GETRBTHEME, 0, 0));
+        ReBarTheme* pTheme = reinterpret_cast<ReBarTheme*>(
+            GetParent().SendMessage(UWM_GETRBTHEME, 0, 0));
 
         return (pTheme && pTheme->UseThemes && pTheme->ShortBands) ? TRUE : FALSE;
     }
@@ -523,7 +528,8 @@ namespace Win32xx
     // Sets the band's color.
     // Note:    No effect with XP themes enabled
     //          No effect if a bitmap has been set
-    inline BOOL CReBar::SetBandColor(int band, COLORREF foreground, COLORREF background) const
+    inline BOOL CReBar::SetBandColor(int band, COLORREF foreground,
+        COLORREF background) const
     {
         assert(IsWindow());
 

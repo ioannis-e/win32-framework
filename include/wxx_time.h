@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -108,7 +108,8 @@ namespace Win32xx
         CTime(const CTime& t);
         CTime(time_t t);
         CTime(tm atm);
-        CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
+        CTime(int year, int month, int day, int hour, int min, int sec,
+            int isDST = -1);
         CTime(WORD dosDate, WORD dosTime, int isDST = -1);
         CTime(SYSTEMTIME st, int isDST = -1);
         CTime(FILETIME ft,  int isDST = -1);
@@ -429,7 +430,9 @@ namespace Win32xx
         if (ptm != nullptr)
         {
             const size_t  bufferSize = 128;
-            VERIFY((::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize, format, &atm)) != 0);
+            VERIFY((::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize,
+                format, &atm)) != 0);
+
             formatString.ReleaseBuffer();
         }
 
@@ -466,16 +469,18 @@ namespace Win32xx
         if (ptm != nullptr)
         {
             const size_t  bufferSize = 128;
-            VERIFY(::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize, fmt0.c_str(), ptm) != 0);
+            VERIFY(::_tcsftime(formatString.GetBuffer(bufferSize), bufferSize,
+                fmt0.c_str(), ptm) != 0);
+
             formatString.ReleaseBuffer();
         }
 
         return formatString;
     }
 
-    // Returns a CString that contains formatted time as a UTC time. The FormatID
-    // parameter specifies a resource containing the formatting string which is
-    // similar to the printf formatting string.
+    // Returns a CString that contains formatted time as a UTC time. The
+    // formatID parameter specifies a resource containing the formatting string
+    // which is similar to the printf formatting string.
     inline CString CTime::FormatGmt(UINT formatID) const
     {
         CString strFormat;
@@ -494,8 +499,9 @@ namespace Win32xx
 
         if (ptm)
         {
-            SYSTEMTIME st = {static_cast<WORD>(1900 + ptm->tm_year), static_cast<WORD>(1 + ptm->tm_mon),
-                static_cast<WORD>(ptm->tm_wday), static_cast<WORD>(ptm->tm_mday), static_cast<WORD>(ptm->tm_hour),
+            SYSTEMTIME st = {static_cast<WORD>(1900 + ptm->tm_year),
+                static_cast<WORD>(1 + ptm->tm_mon),    static_cast<WORD>(ptm->tm_wday),
+                static_cast<WORD>(ptm->tm_mday), static_cast<WORD>(ptm->tm_hour),
                 static_cast<WORD>(ptm->tm_min), static_cast<WORD>(ptm->tm_sec), 0};
             SystemTimeToFileTime(&st, &ft);
             rval = true;

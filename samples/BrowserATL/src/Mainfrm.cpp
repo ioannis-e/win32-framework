@@ -104,7 +104,7 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM lparam)
     }
 
     // Handle notification WM_COMMAND from ComboboxEx.
-    if((HWND)lparam == m_combo.GetHwnd())
+    if(reinterpret_cast<HWND>(lparam) == m_combo.GetHwnd())
     {
         switch(HIWORD(wparam))
         {
@@ -119,7 +119,7 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM lparam)
                 // Set focus to web page
                 LONG_PTR hWeb;
                 GetBrowser()->get_HWND(&hWeb);
-                ::SetFocus((HWND)hWeb);
+                ::SetFocus(reinterpret_cast<HWND>(hWeb));
             }
             return TRUE;
         }

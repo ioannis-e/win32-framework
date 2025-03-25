@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -187,10 +187,10 @@ namespace Win32xx
         HRESULT GoHome() const;
         HRESULT GoSearch() const;
         HRESULT Navigate(LPCTSTR URL, DWORD flags = 0, LPCTSTR targetFrameName = nullptr,
-                        LPCTSTR headers = nullptr, LPVOID pPostData = nullptr, DWORD postDataLen = 0) const;
+            LPCTSTR headers = nullptr, LPVOID pPostData = nullptr, DWORD postDataLen = 0) const;
         HRESULT Navigate2(LPITEMIDLIST pIDL, DWORD flags = 0, LPCTSTR targetFrameName = nullptr) const;
         HRESULT Navigate2(LPCTSTR URL, DWORD flags = 0, LPCTSTR targetFrameName = nullptr,
-                         LPCTSTR headers = nullptr, LPVOID pPostData = nullptr, DWORD postDataLen = 0) const;
+            LPCTSTR headers = nullptr, LPVOID pPostData = nullptr, DWORD postDataLen = 0) const;
         HRESULT PutProperty(LPCTSTR propertyName, const VARIANT& value) const;
         HRESULT PutProperty(LPCTSTR propertyName, double value) const;
         HRESULT PutProperty(LPCTSTR propertyName, long value) const;
@@ -248,10 +248,14 @@ namespace Win32xx
         if (m_pUnk)
         {
             IOleObject* pObject = nullptr;
-            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject, reinterpret_cast<void**>(&pObject))));
+            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject,
+                reinterpret_cast<void**>(&pObject))));
+
             if (pObject)
             {
-                VERIFY(SUCCEEDED(hr = pObject->DoVerb(OLEIVERB_UIACTIVATE, nullptr, this, 0, m_hwnd, &m_controlRect)));
+                VERIFY(SUCCEEDED(hr = pObject->DoVerb(OLEIVERB_UIACTIVATE,
+                    nullptr, this, 0, m_hwnd, &m_controlRect)));
+
                 pObject->Release();
             }
         }
@@ -277,19 +281,22 @@ namespace Win32xx
     {
         HRESULT hr = E_FAIL;
 
-        VERIFY(SUCCEEDED(hr = CoCreateInstance(clsid, nullptr, CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, IID_IUnknown, ppUnk)));
+        VERIFY(SUCCEEDED(hr = CoCreateInstance(clsid, nullptr,
+            CLSCTX_INPROC_SERVER | CLSCTX_LOCAL_SERVER, IID_IUnknown, ppUnk)));
         m_pUnk = reinterpret_cast<IUnknown*>(*ppUnk);
         if (m_pUnk)
         {
             IOleObject* pObject = nullptr;
-            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject, reinterpret_cast<void**>(&pObject))));
+            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject,
+                reinterpret_cast<void**>(&pObject))));
             if (pObject)
             {
                 VERIFY(SUCCEEDED(hr = pObject->SetClientSite(this)));
                 pObject->Release();
 
                 IPersistStreamInit* ppsi = nullptr;
-                VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IPersistStreamInit, reinterpret_cast<void**>(&ppsi))));
+                VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(
+                    IID_IPersistStreamInit, reinterpret_cast<void**>(&ppsi))));
                 if (ppsi)
                 {
                     VERIFY(SUCCEEDED(hr = ppsi->InitNew()));
@@ -371,7 +378,8 @@ namespace Win32xx
     // Maps a single member and an optional set of argument names to
     // a corresponding set of integer DISPIDs, that can be used on
     // subsequent calls to IDispatch::Invoke.
-    inline STDMETHODIMP CAXHost::GetIDsOfNames(REFIID, OLECHAR**, unsigned int, LCID, DISPID* pID)
+    inline STDMETHODIMP CAXHost::GetIDsOfNames(REFIID, OLECHAR**, unsigned int,
+        LCID, DISPID* pID)
     {
         *pID = DISPID_UNKNOWN;
         return DISP_E_UNKNOWNNAME;
@@ -412,8 +420,9 @@ namespace Win32xx
     // form the window object hierarchy, and the position in the parent
     // window where the object's in-place activation window should be placed.
     // Call Release on ppFrame when it is no longer required.
-    inline STDMETHODIMP CAXHost::GetWindowContext (IOleInPlaceFrame** ppFrame, IOleInPlaceUIWindow** ppIIPUIWin,
-                                      LPRECT pRect, LPRECT pClipRect, LPOLEINPLACEFRAMEINFO pFrameInfo)
+    inline STDMETHODIMP CAXHost::GetWindowContext (IOleInPlaceFrame** ppFrame,
+        IOleInPlaceUIWindow** ppIIPUIWin, LPRECT pRect, LPRECT pClipRect,
+        LPOLEINPLACEFRAMEINFO pFrameInfo)
     {
         *ppFrame = (IOleInPlaceFrame*)this;
         *ppIIPUIWin = nullptr;
@@ -445,7 +454,8 @@ namespace Win32xx
     }
 
     // Provides access to properties and methods exposed by the container.
-    inline STDMETHODIMP CAXHost::Invoke(DISPID, REFIID, LCID, WORD, DISPPARAMS*, VARIANT*, EXCEPINFO*, unsigned int*)
+    inline STDMETHODIMP CAXHost::Invoke(DISPID, REFIID, LCID,
+        WORD, DISPPARAMS*, VARIANT*, EXCEPINFO*, unsigned int*)
     {
         return DISP_E_MEMBERNOTFOUND;
     }
@@ -557,7 +567,9 @@ namespace Win32xx
         if (m_pUnk)
         {
             IOleInPlaceObject* pipo = nullptr;
-            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleInPlaceObject, reinterpret_cast<void**>(&pipo))));
+            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleInPlaceObject,
+                reinterpret_cast<void**>(&pipo))));
+
             if (pipo)
             {
                 VERIFY(SUCCEEDED(hr = pipo->UIDeactivate()));
@@ -566,7 +578,9 @@ namespace Win32xx
             }
 
             IOleObject* pObject = nullptr;
-            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject, reinterpret_cast<void**>(&pObject))));
+            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject,
+            reinterpret_cast<void**>(&pObject))));
+
             if (pObject)
             {
                 VERIFY(SUCCEEDED(hr = pObject->Close(OLECLOSE_NOSAVE)));
@@ -635,7 +649,9 @@ namespace Win32xx
         if (m_pUnk)
         {
             IOleInPlaceObject* pipo = nullptr;
-            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleInPlaceObject, reinterpret_cast<void**>(&pipo))));
+            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleInPlaceObject,
+                reinterpret_cast<void**>(&pipo))));
+
             if (pipo)
             {
                 VERIFY(SUCCEEDED(hr = pipo->SetObjectRects(&m_controlRect, &m_controlRect)));
@@ -677,16 +693,22 @@ namespace Win32xx
         if (m_pUnk)
         {
             IOleObject* pObject = nullptr;
-            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject, reinterpret_cast<void**>(&pObject))));
+            VERIFY(SUCCEEDED(hr = m_pUnk->QueryInterface(IID_IOleObject,
+                reinterpret_cast<void**>(&pObject))));
+
             if (pObject)
             {
                 if (isVisible)
                 {
-                    VERIFY(SUCCEEDED(hr = pObject->DoVerb(OLEIVERB_INPLACEACTIVATE, nullptr, this, 0, m_hwnd, &m_controlRect)));
-                    VERIFY(SUCCEEDED(hr = pObject->DoVerb(OLEIVERB_SHOW, nullptr, this, 0, m_hwnd, &m_controlRect)));
+                    VERIFY(SUCCEEDED(hr = pObject->DoVerb(
+                        OLEIVERB_INPLACEACTIVATE, nullptr, this, 0, m_hwnd,
+                        &m_controlRect)));
+                    VERIFY(SUCCEEDED(hr = pObject->DoVerb(OLEIVERB_SHOW,
+                        nullptr, this, 0, m_hwnd, &m_controlRect)));
                 }
                 else
-                    VERIFY(SUCCEEDED(hr = pObject->DoVerb(OLEIVERB_HIDE, nullptr, this, 0, m_hwnd, nullptr)));
+                    VERIFY(SUCCEEDED(hr = pObject->DoVerb(OLEIVERB_HIDE,
+                        nullptr, this, 0, m_hwnd, nullptr)));
 
                 pObject->Release();
             }
@@ -761,7 +783,8 @@ namespace Win32xx
         if (pUnk)
         {
             // Store the pointer to the WebBrowser control
-            VERIFY(SUCCEEDED(hr = pUnk->QueryInterface(IID_IWebBrowser2, reinterpret_cast<void**>(&m_pIWebBrowser2))));
+            VERIFY(SUCCEEDED(hr = pUnk->QueryInterface(IID_IWebBrowser2,
+                reinterpret_cast<void**>(&m_pIWebBrowser2))));
 
             // Navigate to an empty page
             VERIFY(SUCCEEDED(hr = Navigate(_T("about:blank"))));
@@ -821,7 +844,8 @@ namespace Win32xx
     //////////////////////////////////////////////////
     // Wrappers for the IWebBrowser2 interface
 
-    // Retrieves a pointer to the IDispatch interface for the the application that is hosting the WebBrowser Control.
+    // Retrieves a pointer to the IDispatch interface for the the application
+    // that is hosting the WebBrowser Control.
     inline LPDISPATCH CWebBrowser::GetApplication() const
     {
         LPDISPATCH pDispatch = nullptr;
@@ -829,7 +853,8 @@ namespace Win32xx
         return pDispatch;
     }
 
-    // Retrieves a value that indicates whether the object is engaged in a navigation or downloading operation.
+    // Retrieves a value that indicates whether the object is engaged in a
+    // navigation or downloading operation.
     inline BOOL CWebBrowser::GetBusy() const
     {
         VARIANT_BOOL isBusy = VARIANT_FALSE;
@@ -837,8 +862,8 @@ namespace Win32xx
         return static_cast<BOOL>(isBusy);
     }
 
-    // Retrieves a pointer to the IDispatch interface to a container. This property returns the same pointer
-    // as GetParent.
+    // Retrieves a pointer to the IDispatch interface to a container. This
+    // property returns the same pointer as GetParent.
     inline LPDISPATCH CWebBrowser::GetContainer() const
     {
         LPDISPATCH pDispatch = nullptr;
@@ -846,8 +871,9 @@ namespace Win32xx
         return pDispatch;
     }
 
-    // Retrieves a pointer to the IDispatch interface of the active document object. Call QueryInterface on the
-    // IDispatch received from this property get the Component Object Model (COM) interfaces IHTMLDocument,
+    // Retrieves a pointer to the IDispatch interface of the active document
+    // object. Call QueryInterface on the IDispatch received from this property
+    // get the Component Object Model (COM) interfaces IHTMLDocument,
     // IHTMLDocument2, and IHTMLDocument3.
     inline LPDISPATCH CWebBrowser::GetDocument() const
     {
@@ -856,7 +882,8 @@ namespace Win32xx
         return Value;
     }
 
-    // Retrieves a value that indicates whether Internet Explorer is in full-screen mode or normal window mode.
+    // Retrieves a value that indicates whether Internet Explorer is in
+    // full-screen mode or normal window mode.
     inline BOOL CWebBrowser::GetFullScreen() const
     {
         VARIANT_BOOL value = VARIANT_FALSE;
@@ -900,7 +927,8 @@ namespace Win32xx
         return str;
     }
 
-    // Retrieves a value that indicates whether the object is operating in offline mode.
+    // Retrieves a value that indicates whether the object is operating in
+    // offline mode.
     inline BOOL CWebBrowser::GetOffline() const
     {
         VARIANT_BOOL isOffLine = VARIANT_FALSE;
@@ -909,9 +937,10 @@ namespace Win32xx
     }
 
     // Retrieves a pointer to the IDispatch interface of the object that is the
-    // container of the WebBrowser control. If the WebBrowser control is in a frame,
-    // this method returns the automation interface of the document object in the
-    // containing window. Otherwise, it delegates to the top-level control, if there is one.
+    // container of the WebBrowser control. If the WebBrowser control is in a
+    // frame, this method returns the automation interface of the document
+    // object in the containing window. Otherwise, it delegates to the
+    // top-level control, if there is one.
     inline LPDISPATCH CWebBrowser::GetParent() const
     {
         LPDISPATCH pDispatch = nullptr;
@@ -945,7 +974,8 @@ namespace Win32xx
         return rs;
     }
 
-    // Retrieves a value that indicates whether the object is registered as a top-level browser window.
+    // Retrieves a value that indicates whether the object is registered as a
+    // top-level browser window.
     inline BOOL CWebBrowser::GetRegisterAsBrowser() const
     {
         VARIANT_BOOL isTopLevel = VARIANT_FALSE;
@@ -987,7 +1017,8 @@ namespace Win32xx
         return str;
     }
 
-    // Retrieves a value that indicates whether the object is visible or hidden.
+    // Retrieves a value that indicates whether the object is visible or
+    // hidden.
     inline BOOL CWebBrowser::GetVisible() const
     {
         VARIANT_BOOL isVisible = VARIANT_FALSE;
@@ -1003,7 +1034,8 @@ namespace Win32xx
         return width;
     }
 
-    // Sets a value that indicates whether Internet Explorer is in full-screen mode or normal window mode.
+    // Sets a value that indicates whether Internet Explorer is in
+    // full-screen mode or normal window mode.
     inline HRESULT CWebBrowser::SetFullScreen(BOOL isFullScreen) const
     {
         VARIANT_BOOL isFS = isFullScreen ? VARIANT_TRUE : VARIANT_FALSE;
@@ -1022,14 +1054,16 @@ namespace Win32xx
         return GetIWebBrowser2()->put_Left(leftEdge);
     }
 
-    // Sets a value that indicates whether the object is operating in offline mode.
+    // Sets a value that indicates whether the object is operating in offline
+    // mode.
     inline HRESULT CWebBrowser::SetOffline(BOOL isOffline) const
     {
         VARIANT_BOOL isOL = isOffline ? VARIANT_TRUE : VARIANT_FALSE;
         return GetIWebBrowser2()->put_Offline(isOL);
     }
 
-    // Sets a value that indicates whether the object is registered as a top-level browser window.
+    // Sets a value that indicates whether the object is registered as a
+    // top-level browser window.
     inline HRESULT CWebBrowser::SetRegisterAsBrowser(BOOL isBrowser) const
     {
         VARIANT_BOOL isB = isBrowser ? VARIANT_TRUE : VARIANT_FALSE;
@@ -1063,7 +1097,8 @@ namespace Win32xx
     }
 
     // Executes a command using the IOleCommandTarget interface.
-    inline HRESULT CWebBrowser::ExecWB(OLECMDID cmdID, OLECMDEXECOPT cmdExecOpt, VARIANT* in, VARIANT* out) const
+    inline HRESULT CWebBrowser::ExecWB(OLECMDID cmdID, OLECMDEXECOPT cmdExecOpt,
+        VARIANT* in, VARIANT* out) const
     {
         return GetIWebBrowser2()->ExecWB(cmdID, cmdExecOpt, in, out);
     }
@@ -1100,9 +1135,11 @@ namespace Win32xx
         return GetIWebBrowser2()->GoSearch();
     }
 
-    // Navigates to a resource identified by a URL or to a file identified by a full path.
-    inline HRESULT CWebBrowser::Navigate(LPCTSTR URL,   DWORD flags /*= 0*/, LPCTSTR targetFrameName /*= nullptr*/,
-                    LPCTSTR headers /*= nullptr*/, LPVOID pPostData /*= nullptr*/,   DWORD postDataLen /*= 0*/) const
+    // Navigates to a resource identified by a URL or to a file identified by a
+    // full path.
+    inline HRESULT CWebBrowser::Navigate(LPCTSTR URL,   DWORD flags /*= 0*/,
+        LPCTSTR targetFrameName /*= nullptr*/, LPCTSTR headers /*= nullptr*/,
+        LPVOID pPostData /*= nullptr*/,   DWORD postDataLen /*= 0*/) const
     {
         VARIANT flagsVariant{};
         flagsVariant.vt = VT_I4;
@@ -1135,8 +1172,10 @@ namespace Win32xx
     }
 
     // Navigates the browser to a location specified by a pointer to an item
-    // identifier list (PIDL) for an entity in the Microsoft Windows Shell namespace.
-    inline HRESULT CWebBrowser::Navigate2(LPITEMIDLIST pIDL, DWORD flags /*= 0*/, LPCTSTR targetFrameName /*= nullptr*/) const
+    // identifier list (PIDL) for an entity in the Microsoft Windows Shell
+    // namespace.
+    inline HRESULT CWebBrowser::Navigate2(LPITEMIDLIST pIDL, DWORD flags /*= 0*/,
+        LPCTSTR targetFrameName /*= nullptr*/) const
     {
         UINT cb = GetPidlLength(pIDL);
         LPSAFEARRAY pSA = SafeArrayCreateVector(VT_UI1, 0, cb);
@@ -1163,8 +1202,9 @@ namespace Win32xx
     }
 
     // Navigates the browser to a location that is expressed as a URL.
-    inline HRESULT CWebBrowser::Navigate2(LPCTSTR URL, DWORD flags /*= 0*/, LPCTSTR targetFrameName /*= nullptr*/,
-                     LPCTSTR headers /*= nullptr*/,   LPVOID pPostData /*= nullptr*/, DWORD postDataLen /*= 0*/) const
+    inline HRESULT CWebBrowser::Navigate2(LPCTSTR URL, DWORD flags /*= 0*/,
+        LPCTSTR targetFrameName /*= nullptr*/, LPCTSTR headers /*= nullptr*/,
+        LPVOID pPostData /*= nullptr*/, DWORD postDataLen /*= 0*/) const
     {
         VARIANT urlVariant{};
         urlVariant.vt = VT_BSTR;
@@ -1189,7 +1229,8 @@ namespace Win32xx
         headersVariant.vt = VT_BSTR;
         headersVariant.bstrVal = SysAllocString(TtoW(headers));
 
-        HRESULT hr = GetIWebBrowser2()->Navigate2(&urlVariant, &flagsVariant, &TargetVariant, &dataVariant, &headersVariant);
+        HRESULT hr = GetIWebBrowser2()->Navigate2(&urlVariant, &flagsVariant,
+            &TargetVariant, &dataVariant, &headersVariant);
 
         VariantClear(&urlVariant);
         VariantClear(&flagsVariant);

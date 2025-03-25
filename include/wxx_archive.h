@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -212,7 +212,8 @@ namespace Win32xx
     // Constructs a CArchive object.
     // A file with the specified name is created for storing (if required), and
     // also opened. A failure to open the file will throw an exception.
-    inline CArchive::CArchive(LPCTSTR fileName, Mode mode) : m_pFile(0), m_schema(static_cast<UINT>(-1))
+    inline CArchive::CArchive(LPCTSTR fileName, Mode mode) : m_pFile(0),
+        m_schema(static_cast<UINT>(-1))
     {
 
         if (mode == load)

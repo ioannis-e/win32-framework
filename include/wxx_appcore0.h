@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -235,8 +235,10 @@ namespace Win32xx
         HCURSOR   LoadCursor(UINT cursorID) const;
         HICON     LoadIcon(LPCTSTR resourceName) const;
         HICON     LoadIcon(UINT iconID) const;
-        HANDLE    LoadImage(LPCTSTR resourceName, UINT type, int cx, int  cy, UINT flags = LR_DEFAULTCOLOR) const;
-        HANDLE    LoadImage(UINT imageID, UINT type, int cx, int cy, UINT flags = LR_DEFAULTCOLOR) const;
+        HANDLE    LoadImage(LPCTSTR resourceName, UINT type, int cx, int  cy,
+            UINT flags = LR_DEFAULTCOLOR) const;
+        HANDLE    LoadImage(UINT imageID, UINT type, int cx, int cy,
+            UINT flags = LR_DEFAULTCOLOR) const;
         HCURSOR   LoadStandardCursor(LPCTSTR cursorName) const;
         HICON     LoadStandardIcon(LPCTSTR iconName) const;
         void      ResetPrinterMemory();

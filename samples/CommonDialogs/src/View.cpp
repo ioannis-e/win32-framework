@@ -155,7 +155,7 @@ OnCtlColor(UINT msg, WPARAM wparam, LPARAM lparam)                            /*
     switch (nCtlColor)
     {
         case CTLCOLOR_DLG:
-            return (UINT_PTR)(HBRUSH)m_bgBrush; // preset by the frame
+            return (UINT_PTR)m_bgBrush.GetHandle(); // preset by the frame
 
         case CTLCOLOR_MSGBOX:
         case CTLCOLOR_EDIT:

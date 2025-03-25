@@ -185,7 +185,7 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM lparam)
             // Set focus to web page
             LONG_PTR hWeb;
             GetIWebBrowser2()->get_HWND(&hWeb);
-            ::SetFocus((HWND)hWeb);
+            ::SetFocus(reinterpret_cast<HWND>(hWeb));
         }
         return TRUE;
         }

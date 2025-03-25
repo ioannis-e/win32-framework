@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -74,12 +74,12 @@ namespace Win32xx
         HENHMETAFILE enhMetaFile;
     };
 
-    ///////////////////////////////////////////////////////////////////////////////
-    // CMetaFile wraps a HMETAFILE. CMetaFile can be used anywhere a HMETAFILE can
-    // be used. CMetaFile objects are reference counted, so they can be safely
-    // copied. CMetatFile automatically deletes the HMETAFILE when the last copy of
-    // the CMetaFile object goes out of scope. The CMetaFileDC::Close function
-    // returns a CMetaFile object.
+    //////////////////////////////////////////////////////////////////////////
+    // CMetaFile wraps a HMETAFILE. CMetaFile can be used anywhere a HMETAFILE
+    // can be used. CMetaFile objects are reference counted, so they can be
+    // safely copied. CMetatFile automatically deletes the HMETAFILE when the
+    // last copy of the CMetaFile object goes out of scope. The
+    // CMetaFileDC::Close function returns a CMetaFile object.
     class CMetaFile final
     {
         friend class CMetaFileDC;

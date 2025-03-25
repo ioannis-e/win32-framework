@@ -76,7 +76,7 @@ inline LRESULT CDarkPreview<T>::OnCtlColors(UINT, WPARAM wparam, LPARAM)
 {
     if (m_isDarkMode)
     {
-        HDC dc = (HDC)wparam;
+        HDC dc = reinterpret_cast<HDC>(wparam);
         ::SetBkMode(dc, TRANSPARENT);
         ::SetTextColor(dc, RGB(255, 255, 255));
 

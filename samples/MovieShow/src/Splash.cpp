@@ -112,7 +112,7 @@ void CSplash::PreCreate(CREATESTRUCT& cs)
 void CSplash::PreRegisterClass(WNDCLASS& wc)
 {
     wc.lpszClassName = L"Splash Screen";
-    wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
+    wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(NULL_BRUSH));
     wc.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 }
 

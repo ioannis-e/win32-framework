@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -153,7 +153,7 @@ namespace Win32xx
 
     // Creates the specified registry key.
     inline LONG CRegKey::Create(HKEY keyParent, LPCTSTR keyName, LPTSTR className, DWORD options,
-                   REGSAM samDesired, LPSECURITY_ATTRIBUTES secAttr, LPDWORD disposition)
+        REGSAM samDesired, LPSECURITY_ATTRIBUTES secAttr, LPDWORD disposition)
     {
         HKEY key = nullptr;
         LONG result =  ::RegCreateKeyEx(keyParent, keyName, 0, className, options, samDesired, secAttr, &key, disposition);

@@ -1,5 +1,5 @@
-// Win32++   Version 10.1.0
-// Release Date: 17th Feb 2025
+// Win32++   Version 10.2.0
+// Release Date: TBA
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -70,12 +70,25 @@
 
 namespace Win32xx
 {
-    // registered message used by common dialogs
-    const UINT UWM_HELPMSGSTRING = ::RegisterWindowMessage(HELPMSGSTRING);      // Used by common dialogs. Sent when the user clicks the Help button.
-    const UINT UWM_FILEOKSTRING  = ::RegisterWindowMessage(FILEOKSTRING);       // Used by common dialogs. Sent when the user specifies a file name and clicks the OK button.
-    const UINT UWM_LBSELCHSTRING = ::RegisterWindowMessage(LBSELCHSTRING);      // Used by the File common dialog. Sent when the selection changes in any of the list boxes or combo boxes.
-    const UINT UWM_SHAREVISTRING = ::RegisterWindowMessage(SHAREVISTRING);      // Used by the File common dialog. Sent if a sharing violation occurs for the selected file when the user clicks the OK button.
-    const UINT UWM_FINDMSGSTRING = ::RegisterWindowMessage(FINDMSGSTRING);      // Used by the Find/Replace common dialog. Sent when the user clicks the Find Next, Replace, or Replace All button, or closes the dialog box.
+    // Registered message used by common dialogs
+    // Used by common dialogs. Sent when the user clicks the Help button.
+    const UINT UWM_HELPMSGSTRING = ::RegisterWindowMessage(HELPMSGSTRING);
+
+    // Used by common dialogs. Sent when the user specifies a file name and
+    // clicks the OK button.
+    const UINT UWM_FILEOKSTRING  = ::RegisterWindowMessage(FILEOKSTRING);
+
+    // Used by the File common dialog. Sent when the selection changes in
+    // any of the list boxes or combo boxes.
+    const UINT UWM_LBSELCHSTRING = ::RegisterWindowMessage(LBSELCHSTRING);
+
+    // Used by the File common dialog. Sent if a sharing violation occurs for
+    // the selected file when the user clicks the OK button.
+    const UINT UWM_SHAREVISTRING = ::RegisterWindowMessage(SHAREVISTRING);
+
+    // Used by the Find/Replace common dialog. Sent when the user clicks the
+    // Find Next, Replace, or Replace All button, or closes the dialog box.
+    const UINT UWM_FINDMSGSTRING = ::RegisterWindowMessage(FINDMSGSTRING);
 
 
     //////////////////////////////////////////////////////////
@@ -710,9 +723,10 @@ namespace Win32xx
     }
 
     // Returns the next file path name from a group of files selected. The
-    // OFN_ALLOWMULTISELECT flag allows multiple files to be selected. Use pos = 0
-    // to retrieve the first file. The pos parameter is updated to point to the
-    // next file name. The pos parameter is set to -1 when the last file is retrieved.
+    // OFN_ALLOWMULTISELECT flag allows multiple files to be selected. Use
+    // pos = 0 to retrieve the first file. The pos parameter is updated to
+    // point to the next file name. The pos parameter is set to -1 when the
+    // last file is retrieved.
     inline CString CFileDialog::GetNextPathName(int& pos) const
     {
         assert(pos >= 0);
@@ -721,7 +735,7 @@ namespace Win32xx
         TCHAR delimiter = (isExplorer ? _T('\0') : _T(' '));
         int maxFileSize = static_cast<int>(m_ofn.nMaxFile);
         int bufferSize = std::min(MAX_PATH, maxFileSize - pos);
-        CString fileNames(m_ofn.lpstrFile + pos, bufferSize); // strFile can contain NULLs
+        CString fileNames(m_ofn.lpstrFile + pos, bufferSize);
         int index = 0;
         if (pos == 0)
         {
@@ -729,15 +743,16 @@ namespace Win32xx
 
             if ( (index < 0) || (fileNames.GetAt(++index) == _T('\0')))
             {
-                // Only one file selected. m_OFN.lpstrFile contains a single string
-                // consisting of the path and file name.
+                // Only one file selected. m_OFN.lpstrFile contains a single
+                // string consisting of the path and file name.
                 pos = -1;
                 return m_ofn.lpstrFile;
             }
         }
 
-        // Multiple files selected. m_OFN.lpstrFile contains a set of substrings separated
-        // by delimiters. The first substring is the path, the following ones are file names.
+        // Multiple files selected. m_OFN.lpstrFile contains a set of
+        // substrings separated by delimiters. The first substring is the path,
+        // the following ones are file names.
         CString pathName = m_ofn.lpstrFile; // strPath is terminated by first null
         if (!isExplorer)
         {
@@ -1049,8 +1064,8 @@ namespace Win32xx
     // Definitions for the CFindReplaceDialog class
     //
 
-    // Constructor for CCFindReplaceDialog. Refer to the Windows API documentation
-    // for information of the FINDREPLACE structure.
+    // Constructor for CCFindReplaceDialog.
+    // Refer to the Windows API documentation  for information of the FINDREPLACE structure.
     inline CFindReplaceDialog::CFindReplaceDialog(BOOL isFindDialogOnly /* = TRUE */)
     {
         m_fr = {};
