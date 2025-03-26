@@ -1,4 +1,4 @@
-/* (20-Oct-2024) [Tab/Indent: 8/8][Line/Box: 80/74]            (PrintInfo.cpp) *
+/* (26-Mar-2025)                                               (PrintInfo.cpp) *
 ********************************************************************************
 |                                                                              |
 |                    Authors: Robert Tausworthe, David Nash                    |
@@ -37,20 +37,12 @@
     of CPrintInfo to FALSE; this informs the base class to stop the print
     loop.
 
-    Programming Notes: The programming style roughly follows that established
-    by the 1995-1999 Jet Propulsion Laboratory Deep Space Network Planning and
-    Preparation Subsystem project for C++ programming.
-
 *******************************************************************************/
 
 #include "stdafx.h"
 #include "PrintInfo.h"
 
-/*============================================================================*/
-    CPrintInfo::
-CPrintInfo()                                                            /*
-
-*-----------------------------------------------------------------------------*/
+CPrintInfo::CPrintInfo()
 {
     m_pPD = nullptr;
     m_bPreview   = FALSE;       // initialize to not preview
@@ -75,15 +67,9 @@ CPrintInfo()                                                            /*
     m_nMargin     = 0;              // page margin, in twips
 }
 
-/*============================================================================*/
-    void CPrintInfo::
-InitInfo(CPrintDialog* pPD, UINT fromPage, UINT toPage, UINT minPage,
-    UINT maxPage, UINT nCopies)                     /*
-
-        Set initial values for the CPrintInfo object. This member must be
-    invoked with a valid CPrintDialog pPD before a DoModal operation using
-    the object for other uses.
-*-----------------------------------------------------------------------------*/
+// Set initial values for the CPrintInfo object.
+void CPrintInfo::InitInfo(CPrintDialog* pPD, UINT fromPage, UINT toPage,
+    UINT minPage, UINT maxPage, UINT nCopies)
 {
     assert(pPD);
     m_pPD        = pPD;
@@ -95,4 +81,4 @@ InitInfo(CPrintDialog* pPD, UINT fromPage, UINT toPage, UINT minPage,
     pd.nMaxPage  = (WORD)maxPage;
     m_pPD->SetParameters(pd);
 }
-/*----------------------------------------------------------------------------*/
+

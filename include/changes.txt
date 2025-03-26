@@ -1,3 +1,18 @@
+Version 10.2
+============
+This version updates support for Embarcadero's C++ Builder, and updates
+support for modern Clang compilers.
+
+New Features and Enhancements
+-----------------------------
+* Updated the support for Embarcadero's C++ Builder.
+  Support for modern Windows 64-bit compiler has been added to the C++ Builder
+  project files. These project files now support the Win32, Win64 and Win64x
+  platforms.
+
+* Updated the support for the modern Clang compilers.
+  Win32++ now supports Clang 19.
+
 Version 10.1
 ============
 This version updates the library and samples to make better use of the new

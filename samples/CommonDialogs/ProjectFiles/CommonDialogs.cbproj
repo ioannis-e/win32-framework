@@ -126,6 +126,7 @@
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
+        <BCC_PCHName_Clang>..\src\stdafx.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -399,6 +400,9 @@
         <None Include="..\src\MyFileDlg.h">
             <BuildOrder>14</BuildOrder>
         </None>
+        <CppCompile Include="..\src\MyFindReplaceDlg.cpp">
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
         <None Include="..\src\MyFindReplaceDlg.h">
             <BuildOrder>15</BuildOrder>
         </None>
@@ -408,6 +412,9 @@
         <None Include="..\src\MyFontDlg.h">
             <BuildOrder>17</BuildOrder>
         </None>
+        <CppCompile Include="..\src\MyPrintDialog.cpp">
+            <BuildOrder>86</BuildOrder>
+        </CppCompile>
         <None Include="..\src\MyPrintDialog.h">
             <BuildOrder>18</BuildOrder>
         </None>
@@ -604,14 +611,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Embarcadero\Win32\Debug\CommonDialogs.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>CommonDialogs.tds</RemoteName>
+                <DeployFile LocalName=".\Embarcadero\Win64\Debug\CommonDialogs.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>CommonDialogs.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Embarcadero\Win64\Debug\CommonDialogs.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win64">
+                <DeployFile LocalName=".\Embarcadero\Win64x\Release\CommonDialogs.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64x">
                         <RemoteName>CommonDialogs.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

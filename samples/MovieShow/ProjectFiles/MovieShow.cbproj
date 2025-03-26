@@ -4,7 +4,7 @@
         <ProjectVersion>20.1</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win64x</Platform>
         <TargetedPlatforms>1048579</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -124,6 +124,7 @@
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
+        <BCC_PCHName_Clang>..\src\stdafx.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -425,9 +426,10 @@
         <CppCompile Include="..\src\StdAfx.cpp">
             <BuildOrder>77</BuildOrder>
         </CppCompile>
-        <None Include="..\src\stdafx.h">
+        <PCHCompile Include="..\src\stdafx.h">
             <BuildOrder>78</BuildOrder>
-        </None>
+            <PCH>true</PCH>
+        </PCHCompile>
         <CppCompile Include="..\src\Tree.cpp">
             <BuildOrder>79</BuildOrder>
         </CppCompile>

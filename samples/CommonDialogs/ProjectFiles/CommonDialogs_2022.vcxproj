@@ -26,7 +26,9 @@
     <ClCompile Include="..\src\ListBoxDlg.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Mainfrm.cpp" />
+    <ClCompile Include="..\src\MyFindReplaceDlg.cpp" />
     <ClCompile Include="..\src\MyFontDlg.cpp" />
+    <ClCompile Include="..\src\MyPrintDialog.cpp" />
     <ClCompile Include="..\src\PrintInfo.cpp" />
     <ClCompile Include="..\src\RichEditView.cpp" />
     <ClCompile Include="..\src\StdAfx.cpp">
