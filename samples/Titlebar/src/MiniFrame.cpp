@@ -142,7 +142,8 @@ void CMiniFrame::DrawTitleText(CDC& dc) const
     titlebarTextRect.right = buttonRects.minimize.left;
 
     // Draw the title bar text.
-    DTTOPTS drawThemeOptions = { sizeof(drawThemeOptions) };
+    DTTOPTS drawThemeOptions = {};
+    drawThemeOptions.dwSize = sizeof(drawThemeOptions);
     drawThemeOptions.dwFlags = DTT_TEXTCOLOR;
     COLORREF itemColor = IsActive() ? m_colors.activeItem : m_colors.inactiveItem;
     drawThemeOptions.crText = itemColor;
@@ -292,7 +293,7 @@ CRect CMiniFrame::GetViewRect() const
 // Returns true of the window is maximized, false otherwise.
 bool CMiniFrame::IsMaximized() const
 {
-    WINDOWPLACEMENT placement = { 0 };
+    WINDOWPLACEMENT placement = {};
     placement.length = sizeof(WINDOWPLACEMENT);
     if (GetWindowPlacement(placement))
     {
@@ -472,6 +473,7 @@ LRESULT CMiniFrame::OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam)
     case TitlebarButton::Minimize:    return HTMINBUTTON;
     case TitlebarButton::Maximize:    return HTMAXBUTTON;
     case TitlebarButton::Close:       return HTCLOSE;
+    case TitlebarButton::None:        return 0;
     }
 
     // Looks like adjustment happening in NCCALCSIZE is messing with the detection

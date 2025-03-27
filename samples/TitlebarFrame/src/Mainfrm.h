@@ -90,7 +90,7 @@ private:
     BOOL OnMiniMode();
 
     // Message handlers.
-    LRESULT OnActivate(UINT msg, WPARAM wparam, LPARAM lparam);
+    LRESULT OnActivate(UINT msg, WPARAM wparam, LPARAM lparam) override;
     LRESULT OnGetMinMaxInfo(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnNCCalcSize(UINT, WPARAM wparam, LPARAM lparam);
     LRESULT OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam);
@@ -99,8 +99,8 @@ private:
     LRESULT OnNCLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnNCLButtonUp(UINT msg, WPARAM wparam, LPARAM lparam);
     LRESULT OnNCRButtonDown(UINT msg, WPARAM wparam, LPARAM lparam);
-    LRESULT OnPaint(UINT, WPARAM, LPARAM);
-    LRESULT OnSize(UINT msg, WPARAM wparam, LPARAM lparam);
+    LRESULT OnPaint(UINT, WPARAM, LPARAM) override;
+    LRESULT OnSize(UINT msg, WPARAM wparam, LPARAM lparam) override;
     LRESULT OnPreviewClose();
     LRESULT OnPreviewPrint();
     LRESULT OnPreviewSetup();

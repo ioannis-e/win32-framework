@@ -576,7 +576,7 @@ namespace Win32xx
             if (CDevNames(m_devNames).IsDefaultPrinter())
             {
                 // Get current default printer
-                PRINTDLG pd{};
+                PRINTDLG pd = {};
                 pd.lStructSize = sizeof(pd);
                 pd.Flags = PD_RETURNDEFAULT;
                 ::PrintDlg(&pd);
@@ -590,9 +590,11 @@ namespace Win32xx
                 else
                 {
                     // Compare current default printer to the one in global memory
-                    if (CDevNames(m_devNames).GetDeviceName() != CDevNames(pd.hDevNames).GetDeviceName() ||
-                        CDevNames(m_devNames).GetDriverName() != CDevNames(pd.hDevNames).GetDriverName() ||
-                        CDevNames(m_devNames).GetPortName()   != CDevNames(pd.hDevNames).GetPortName())
+                    CDevNames mNames(m_devNames);
+                    CDevNames hNames(pd.hDevNames);
+                    if (mNames.GetDeviceName() != hNames.GetDeviceName() ||
+                        mNames.GetDriverName() != hNames.GetDriverName() ||
+                        mNames.GetPortName()   != hNames.GetPortName())
                     {
                         // Default printer has changed. Reset the global memory.
                         m_devMode.Free();

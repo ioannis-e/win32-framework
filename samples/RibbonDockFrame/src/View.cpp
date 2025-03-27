@@ -20,7 +20,7 @@ void CView::DrawLine(int x, int y)
     CClientDC clientDC(*this);
     std::vector<PlotPoint>& pp = *GetAllPoints();
 
-    clientDC.CreatePen(PS_SOLID, 1, pp.back().color);
+    clientDC.CreatePen(PS_SOLID, 1, pp.back().penColor);
     clientDC.MoveTo(pp.back().x, pp.back().y);
     clientDC.LineTo(x, y);
 }
@@ -147,7 +147,7 @@ void CView::SendPoint(int x, int y, bool PenDown)
     pp.x = x;
     pp.y = y;
     pp.isPenDown = PenDown;
-    pp.color = m_penColor;
+    pp.penColor = m_penColor;
     GetAncestor().SendMessage(UWM_SENDPOINT, (WPARAM)&pp, 0);
 }
 

@@ -89,7 +89,7 @@ DWORD CALLBACK CMainFrame::MyStreamOutCallback(DWORD cookie, LPBYTE pBuffer, LON
 {
     // Required for StreamOut
     if (!cb)
-        return (1);
+        return 1;
 
     HANDLE file = reinterpret_cast<HANDLE>(static_cast<DWORD_PTR>(cookie));
     LPDWORD bytesWritten = reinterpret_cast<LPDWORD>(pcb);

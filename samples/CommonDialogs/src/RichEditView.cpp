@@ -117,10 +117,6 @@ BOOL CRichEditView::StreamOutFile(const CFile& file)
 DWORD CALLBACK CRichEditView::StreamInCallback(DWORD dwCookie, LPBYTE pbBuff,
     LONG cb, LONG *pcb)
 {
-    // Required for StreamIn termination.
-    if (!cb)
-        return (1);
-
     *pcb = 0;
     if (!::ReadFile((HANDLE)(DWORD_PTR) dwCookie, pbBuff, cb, (LPDWORD)pcb,
       nullptr))
@@ -135,10 +131,6 @@ DWORD CALLBACK CRichEditView::StreamInCallback(DWORD dwCookie, LPBYTE pbBuff,
 DWORD CALLBACK CRichEditView::StreamOutCallback(DWORD dwCookie, LPBYTE pbBuff,
     LONG cb, LONG *pcb)
 {
-    // Required for StreamOut termination.
-    if(!cb)
-        return (1);
-
     *pcb = 0;
     if (!::WriteFile((HANDLE)(DWORD_PTR)dwCookie, pbBuff, cb, (LPDWORD)pcb,
         nullptr))
@@ -380,7 +372,9 @@ void CRichEditView::OnPrepareDC(CDC&, CPrintInfo&info /* = nullptr */)
 BOOL CRichEditView::OnPreparePrinting(CPrintInfo& info)
 {
     // Set up the dialog to choose the printer and printing parameters.
-    MyPrintDialog PrintDlg(PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC);
+    // The PD_ENABLEPRINTHOOK parameter displays the classic dialog.
+    MyPrintDialog PrintDlg(PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC |
+        PD_ENABLEPRINTHOOK);
 
     PrintDlg.SetBoxTitle(L"Print contents of rich edit box.");
     info.InitInfo(&PrintDlg, 1, 0xffff, 1, 0xffff, 1);

@@ -23,7 +23,6 @@ CMainFrame::CMainFrame() : m_view(IDD_MAIN_DIALOG), m_isTextWrap(TRUE)
 {
 }
 
-
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {

@@ -7,12 +7,6 @@
 #include "UserMessages.h"
 
 
-// Required for Dev-C++
-#ifndef IMF_AUTOFONT
-  #define IMF_AUTOFONT          0x0002
-#endif
-
-
 /////////////////////////////////
 // CRichView function definitions
 //

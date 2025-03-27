@@ -79,8 +79,6 @@ void MyFontDialog::SetFontIndirect(const LOGFONT& lf)
     try
     {
         m_font.CreateFontIndirect(lf);
-
-        // if it worked, put it in this object
         m_logFont = lf;
         CHOOSEFONT cf = GetParameters();
         cf.lpLogFont = &m_logFont;

@@ -5,17 +5,7 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-
-////////////////////////////////////////////////////////////
-// Declaration of the PlotPoint struct.
-// This struct holds the drawing information for each point.
-struct PlotPoint
-{
-    int x;
-    int y;
-    bool isPenDown;
-    COLORREF color;
-};
+#include "Doc.h"
 
 
 //////////////////////////////////////////

@@ -54,12 +54,10 @@ void CColorChoice::AddColorChoice(UINT id, LPCWSTR usage, COLORREF color)
 
 // Show the CListBoxDlg dialog box with the list of candidate control
 // categories and, if a one is selected, show the CColorDialog box to select a
-// color for that control category.If no category or color is selected, return
-// IDCANCEL.Otherwise, return IDOK.On exit, the indes of the selected color can
-// be accessed via GetSelectedColorID().
+// color for that control category.
 INT_PTR CColorChoice::DoModal(HWND owner /* = nullptr */)
 {
-      // determine a common owner for the two dialog boxes
+    // Determine a common owner for the two dialog boxes.
     if (owner == nullptr)
         owner = GetParameters().hwndOwner;
     if (owner == nullptr)

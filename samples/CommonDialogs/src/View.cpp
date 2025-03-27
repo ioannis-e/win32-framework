@@ -50,7 +50,7 @@ BOOL CView::AddToolTip(HWND parent, UINT id, LPCWSTR toolTip)
 // Assign tool tips to controls in the client area.
 void CView::AssignToolTips()
 {
-    HWND client = HWND((CWnd &)(*this));
+    HWND client = *this;
     if (!m_toolTip.Create(client))
     {
         TRACE("unable to create tool tips\n");

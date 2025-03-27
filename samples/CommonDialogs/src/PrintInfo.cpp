@@ -74,11 +74,11 @@ void CPrintInfo::InitInfo(CPrintDialog* pPD, UINT fromPage, UINT toPage,
     assert(pPD);
     m_pPD        = pPD;
     PRINTDLG pd  = m_pPD->GetParameters();
-    pd.nCopies   = (WORD)nCopies;
-    pd.nFromPage = (WORD)fromPage;
-    pd.nToPage   = (WORD)toPage;
-    pd.nMinPage  = (WORD)minPage;
-    pd.nMaxPage  = (WORD)maxPage;
+    pd.nCopies   = static_cast<WORD>(nCopies);
+    pd.nFromPage = static_cast<WORD>(fromPage);
+    pd.nToPage   = static_cast<WORD>(toPage);
+    pd.nMinPage  = static_cast<WORD>(minPage);
+    pd.nMaxPage  = static_cast<WORD>(maxPage);
     m_pPD->SetParameters(pd);
 }
 

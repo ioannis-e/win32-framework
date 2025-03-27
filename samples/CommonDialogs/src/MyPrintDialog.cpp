@@ -34,7 +34,8 @@ void MyPrintDialog::OnCancel()
 // box is initialized. Return TRUE.
 BOOL MyPageSetup::OnInitDialog()
 {
-    SetWindowText(m_PSDTitle); return TRUE;
+    SetWindowText(m_PSDTitle);
+    return TRUE;
 }
 
 // Override this member to perform any special processing to reset the printer
