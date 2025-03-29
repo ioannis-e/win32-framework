@@ -5,6 +5,10 @@ support for modern Clang compilers.
 
 New Features and Enhancements
 -----------------------------
+* Added the IFileDialog sample. This sample demonstrates how to use and
+  customise IFileOpenDialog and IFileSaveDialog. These dialogs can in place of
+  GetOpenFileName, GetSaveFileName and SHBrowseForFolder.
+  
 * Updated the support for Embarcadero's C++ Builder.
   Support for modern Windows 64-bit compiler has been added to the C++ Builder
   project files. These project files now support the Win32, Win64 and Win64x
@@ -12,6 +16,9 @@ New Features and Enhancements
 
 * Updated the support for the modern Clang compilers.
   Win32++ now supports Clang 19.
+
+* Updated the CommonDialogs and TaskDialog samples.
+
 
 Version 10.1
 ============

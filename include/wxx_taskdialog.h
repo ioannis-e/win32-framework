@@ -248,7 +248,7 @@ namespace Win32xx
 
         // Build a vector of radio button info. This will be used later as an array.
         std::vector<TASKDIALOG_BUTTON> radioButtons;
-        for (const TaskButton& button : m_buttons)
+        for (const TaskButton& button : m_radioButtons)
         {
             TASKDIALOG_BUTTON tb{};
             tb.nButtonID = button.buttonID;
@@ -527,6 +527,7 @@ namespace Win32xx
         m_tc.hFooterIcon = footerIcon;
         WPARAM wparam = static_cast<WPARAM>(TDIE_ICON_FOOTER);
         LPARAM lparam = reinterpret_cast<LPARAM>(footerIcon);
+        SetOptions(GetOptions() | TDF_USE_HICON_FOOTER);
 
         if (IsWindow())
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
@@ -545,6 +546,8 @@ namespace Win32xx
         m_tc.pszFooterIcon = const_cast<LPCWSTR>(footerIcon);
         WPARAM wparam = static_cast<WPARAM>(TDIE_ICON_FOOTER);
         LPARAM lparam = reinterpret_cast<LPARAM>(footerIcon);
+        TASKDIALOG_FLAGS flags = GetOptions();
+        SetOptions(flags &= ~TDF_USE_HICON_FOOTER);
 
         if (IsWindow())
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
@@ -570,6 +573,7 @@ namespace Win32xx
         m_tc.hMainIcon = mainIcon;
         WPARAM wparam = static_cast<WPARAM>(TDIE_ICON_MAIN);
         LPARAM lparam = reinterpret_cast<LPARAM>(mainIcon);
+        SetOptions(GetOptions() | TDF_USE_HICON_MAIN);
 
         if (IsWindow())
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
@@ -587,6 +591,8 @@ namespace Win32xx
         m_tc.pszMainIcon = const_cast<LPCWSTR>(mainIcon);
         WPARAM wparam = static_cast<WPARAM>(TDIE_ICON_MAIN);
         LPARAM lparam = reinterpret_cast<LPARAM>(mainIcon);
+        TASKDIALOG_FLAGS flags = GetOptions();
+        SetOptions(flags &= ~TDF_USE_HICON_MAIN);
 
         if (IsWindow())
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
