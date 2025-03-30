@@ -2,42 +2,51 @@
 // File Dialog Event Handler
 
 // This sample is based on the CommonFileDialogSDKSample that ships with the
-// Windows 7 SDK. The original sample can be downloaded from :
+// Windows 7 SDK. The original sample can be downloaded from:
 // https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/commonfiledialog
 
 #ifndef _FILE_DIALOG_EVENT_HANDLER_
 #define _FILE_DIALOG_EVENT_HANDLER_
 
-#if defined(_MSC_VER)
-#pragma warning(suppress:4838)
-#endif
-
 class CDialogEventHandler : public IFileDialogEvents,
                             public IFileDialogControlEvents
 {
 public:
+    CDialogEventHandler() {}
+    ~CDialogEventHandler() {}
+
     // IUnknown methods
     IFACEMETHODIMP QueryInterface(REFIID riid, void** ppv)
     {
+
+#if defined (_MSC_VER) && (_MSC_VER <= 1900) // For VS2015 and earlier.
+#pragma warning( push )
+#pragma warning(disable:4838)
+#endif
+
         static const QITAB qit[] = {
             QITABENT(CDialogEventHandler, IFileDialogEvents),
             QITABENT(CDialogEventHandler, IFileDialogControlEvents),
             { 0 },
         };
         return QISearch(this, qit, riid, ppv);
+
+#if defined (_MSC_VER) && (_MSC_VER < 1900)
+#pragma warning( pop )
+#endif
+
     }
 
     IFACEMETHODIMP_(ULONG) AddRef()
     {
-        return InterlockedIncrement(&_cRef);
+        // Automatic deletion is not required.
+        return 1;
     }
 
     IFACEMETHODIMP_(ULONG) Release()
     {
-        long cRef = InterlockedDecrement(&_cRef);
-        if (!cRef)
-            delete this;
-        return cRef;
+        // Automatic deletion is not required.
+        return 1;
     }
 
     // IFileDialogEvents methods
@@ -55,13 +64,7 @@ public:
     IFACEMETHODIMP OnButtonClicked(IFileDialogCustomize *, DWORD) { return S_OK; };
     IFACEMETHODIMP OnCheckButtonToggled(IFileDialogCustomize *, DWORD, BOOL) { return S_OK; };
     IFACEMETHODIMP OnControlActivating(IFileDialogCustomize *, DWORD) { return S_OK; };
-
-    CDialogEventHandler() : _cRef(1) { };
-private:
-    ~CDialogEventHandler() { };
-    long _cRef;
 };
 
-HRESULT CDialogEventHandler_CreateInstance(REFIID riid, void** ppv);
 
 #endif // _FILE_DIALOG_EVENT_HANDLER_

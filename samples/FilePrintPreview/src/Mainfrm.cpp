@@ -316,7 +316,8 @@ OnFilePrint(HWND parent)                                                    /*
 *-----------------------------------------------------------------------------*/
 {
       // initialize the current print dialog
-    CPrintDialog printDlg(PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC);
+    CPrintDialog printDlg(PD_USEDEVMODECOPIESANDCOLLATE | PD_RETURNDC |
+        PD_ENABLEPRINTHOOK);
     PRINTDLG pd = printDlg.GetParameters();
     pd.nCopies   = 1;
     pd.nFromPage = 0xFFFF;

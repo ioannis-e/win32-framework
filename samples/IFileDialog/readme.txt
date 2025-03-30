@@ -32,3 +32,6 @@ The first two options demonstrate a comparatively simple use of IFileOpenDialog
 and IFileSaveDialog for choosing folders or files. The methods demonstrated
 there would be sufficient for most purposes.
 
+To use the "Write Properties Using Handlers" option place a jpg image called
+Flower.jpg in the "%PUBLIC%\Pictures\Sample Pictures" folder. This folder is
+usually "C:\Users\Public\Pictures\Sample Pictures".
