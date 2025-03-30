@@ -4,7 +4,6 @@
 
 #include "stdafx.h"
 #include "IFileDialogApp.h"
-#include "IFileDialog.h"
 #include "resource.h"
 
 
@@ -15,10 +14,10 @@
 // Called when the application starts.
 BOOL CIFileDialogApp::InitInstance()
 {
+    // Display the main taskdialg.
     myTaskDialog.DoModal();
 
+    // Ask the application to quit.
     ::PostQuitMessage(0);
     return TRUE;
 }
-
-

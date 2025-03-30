@@ -1,29 +1,15 @@
+/////////////////////////////
+// DialogEventHandler.cpp
+//
 
 #include "stdafx.h"
-#include <shlobj.h>
-#include <objbase.h>      // For COM headers
-#include <shobjidl.h>     // for IFileDialogEvents and IFileDialogControlEvents
-#include <shlwapi.h>
+
 #include <knownfolders.h> // for KnownFolder APIs/datatypes/function headers
 #include <propvarutil.h>  // for PROPVAR-related functions
 #include <propkey.h>      // for the Property key APIs/datatypes
-#include <propidl.h>      // for the Property System APIs
-#include <strsafe.h>      // for StringCchPrintfW
-#include <shtypes.h>      // for COMDLG_FILTERSPEC
 
 #include "DialogEventHandler.h"
-
-// Indices of file types
-#define INDEX_WORDDOC 1
-#define INDEX_WEBPAGE 2
-#define INDEX_TEXTDOC 3
-
-// Controls
-#define CONTROL_GROUP           2000
-#define CONTROL_RADIOBUTTONLIST 2
-#define CONTROL_RADIOBUTTON1    1
-#define CONTROL_RADIOBUTTON2    2       // It is OK for this to have the same ID as CONTROL_RADIOBUTTONLIST,
-                                        // because it is a child control under CONTROL_RADIOBUTTONLIST
+#include "resource.h"
 
 
 // IFileDialogEvents methods

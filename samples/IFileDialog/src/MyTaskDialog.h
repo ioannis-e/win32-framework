@@ -6,7 +6,6 @@
 #define _MY_TASKDIALOG_H_
 
 #include "IFileDialog.h"
-#include "resource.h"
 
 
 /////////////////////////////////////////////

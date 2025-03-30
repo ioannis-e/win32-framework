@@ -5,6 +5,8 @@
 #include "stdafx.h"
 #include "MyTaskDialog.h"
 #include "IFileDialog.h"
+#include "resource.h"
+
 
 //////////////////////////////////////
 // CMyTaskDialog function definitions.

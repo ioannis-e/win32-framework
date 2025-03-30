@@ -6,6 +6,17 @@
 // include the Resource IDs defined by Win32++
 #include "default_resource.h"
 
+// Indices of file types
+#define INDEX_WORDDOC 1
+#define INDEX_WEBPAGE 2
+#define INDEX_TEXTDOC 3
+
+// Controls
+#define CONTROL_GROUP           2000
+#define CONTROL_RADIOBUTTONLIST 1
+#define CONTROL_RADIOBUTTON1    2
+#define CONTROL_RADIOBUTTON2    3
+
 // IDs for the Task Dialog Buttons
 #define IDC_BASICCHOOSEFOLDER                   120
 #define IDC_BASICCHOOSEFILE                     121
