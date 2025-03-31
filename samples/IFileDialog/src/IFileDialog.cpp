@@ -12,9 +12,12 @@
 #include <knownfolders.h> // for KnownFolder APIs/datatypes/function headers
 #include <propvarutil.h>  // for PROPVAR-related functions
 #include <propkey.h>      // for the Property key APIs/datatypes
+#include <wrl.h>          // for Microsoft::WRL::ComPtr
 
 #include "DialogEventHandler.h"
 #include "resource.h"
+
+using Microsoft::WRL::ComPtr;
 
 const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 {
@@ -28,6 +31,19 @@ const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 
 //////////////////////
 // Utility Functions
+
+// Helper function to add a key and value to the specified property store.
+void AddPropertyToStore(IPropertyStore* pps, REFPROPERTYKEY key, LPCWSTR value)
+{
+    PROPVARIANT variant = {};
+    if (SUCCEEDED(InitPropVariantFromString(value, &variant)))
+    {
+        if (SUCCEEDED(pps->SetValue(key, variant)))
+            pps->Commit();
+
+        PropVariantClear(&variant);
+    }
+}
 
 // Helper function to write property/value into a custom file format.
 //
@@ -91,19 +107,19 @@ void WriteDataToCustomFile(PCWSTR pszFileName)
 // dialog interface.
 HRESULT BasicChooseFolder()
 {
-    IFileDialog* pfd;
+    ComPtr<IFileDialog> pfd;
     HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
         DWORD dwOptions;
         hr = pfd->GetOptions(&dwOptions);
         if (SUCCEEDED(hr))
-            VERIFY(SUCCEEDED(pfd->SetOptions(dwOptions | FOS_PICKFOLDERS)));
+           pfd->SetOptions(dwOptions | FOS_PICKFOLDERS);
 
         hr = pfd->Show(NULL);
         if (SUCCEEDED(hr))
         {
-            IShellItem* psi;
+            ComPtr<IShellItem> psi;
             hr = pfd->GetResult(&psi);
             if (SUCCEEDED(hr))
             {
@@ -117,12 +133,10 @@ HRESULT BasicChooseFolder()
                     CoTaskMemFree(pszFilePath);
                 }
                 else
-                    MessageBox(NULL, L"GetIDListName() failed", NULL, 0);
-
-                psi->Release();
+                    TaskDialog(NULL, NULL, L"Choosen Folder:", L"GetDisplayName failed", 0,
+                        TDCBF_OK_BUTTON, TD_ERROR_ICON, NULL);
             }
         }
-        pfd->Release();
     }
 
     return hr;
@@ -133,7 +147,7 @@ HRESULT BasicChooseFolder()
 HRESULT BasicChooseFile()
 {
     // CoCreate the File Open Dialog object.
-    IFileDialog *pfd = NULL;
+    ComPtr<IFileDialog> pfd;   
     HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
@@ -165,7 +179,7 @@ HRESULT BasicChooseFile()
                             {
                                 // Obtain the result, once the user clicks the 'Open' button.
                                 // The result is an IShellItem object.
-                                IShellItem *psiResult;
+                                ComPtr<IShellItem> psiResult;
                                 hr = pfd->GetResult(&psiResult);
                                 if (SUCCEEDED(hr))
                                 {
@@ -179,7 +193,6 @@ HRESULT BasicChooseFile()
 
                                         CoTaskMemFree(pszFilePath);
                                     }
-                                    psiResult->Release();
                                 }
                             }
                         }
@@ -187,8 +200,6 @@ HRESULT BasicChooseFile()
                 }
             }
         }
-
-        pfd->Release();
     }
     return hr;
 }
@@ -200,28 +211,28 @@ HRESULT BasicChooseFile()
 HRESULT AddItemsToCommonPlaces()
 {
     // CoCreate the File Open Dialog object.
-    IFileDialog *pfd = NULL;
+    ComPtr<IFileDialog> pfd;
     HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
         // Always use known folders instead of hard-coding physical file paths.
         // In this case we are using Public Music KnownFolder.
-        IKnownFolderManager *pkfm = NULL;
+        ComPtr<IKnownFolderManager> pkfm;
         hr = CoCreateInstance(CLSID_KnownFolderManager, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pkfm));
         if (SUCCEEDED(hr))
         {
             // Get the known folder.
-            IKnownFolder *pKnownFolder = NULL;
+            ComPtr<IKnownFolder> pKnownFolder;
             hr = pkfm->GetFolder(FOLDERID_PublicMusic, &pKnownFolder);
             if (SUCCEEDED(hr))
             {
                 // File Dialog APIs need an IShellItem that represents the location.
-                IShellItem *psi = NULL;
+                ComPtr<IShellItem> psi;
                 hr = pKnownFolder->GetShellItem(0, IID_PPV_ARGS(&psi));
                 if (SUCCEEDED(hr))
                 {
                     // Add the place to the bottom of default list in Common File Dialog.
-                    hr = pfd->AddPlace(psi, FDAP_BOTTOM);
+                    hr = pfd->AddPlace(psi.Get(), FDAP_BOTTOM);
                     if (SUCCEEDED(hr))
                     {
                         // Show the File Dialog.
@@ -233,13 +244,9 @@ HRESULT AddItemsToCommonPlaces()
                             //
                         }
                     }
-                    psi->Release();
                 }
-                pKnownFolder->Release();
             }
-            pkfm->Release();
         }
-        pfd->Release();
     }
     return hr;
 }
@@ -248,7 +255,7 @@ HRESULT AddItemsToCommonPlaces()
 HRESULT AddCustomControls()
 {
     // CoCreate the File Open Dialog object.
-    IFileDialog *pfd = NULL;
+    ComPtr<IFileDialog> pfd;
     HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
@@ -261,7 +268,7 @@ HRESULT AddCustomControls()
         if (SUCCEEDED(hr))
         {
             // Set up a Customization.
-            IFileDialogCustomize *pfdc = NULL;
+            ComPtr<IFileDialogCustomize> pfdc;
             hr = pfd->QueryInterface(IID_PPV_ARGS(&pfdc));
             if (SUCCEEDED(hr))
             {
@@ -298,7 +305,6 @@ HRESULT AddCustomControls()
                     // End the visual group.
                     pfdc->EndVisualGroup();
                 }
-                pfdc->Release();
             }
 
             if (FAILED(hr))
@@ -321,7 +327,6 @@ HRESULT AddCustomControls()
             // Unhook the event handler.
             pfd->Unadvise(dwCookie);
         }
-        pfd->Release();
     }
     return hr;
 }
@@ -332,7 +337,7 @@ HRESULT AddCustomControls()
 HRESULT SetDefaultValuesForProperties()
 {
     // CoCreate the File Save Dialog object.
-    IFileSaveDialog *pfsd = NULL;
+    ComPtr<IFileSaveDialog> pfsd;
     HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
     if (SUCCEEDED(hr))
     {
@@ -356,7 +361,7 @@ HRESULT SetDefaultValuesForProperties()
                     {
                         // The InMemory Property Store is a Property Store that is
                         // kept in the memory instead of persisted in a file stream.
-                        IPropertyStore* pps = NULL;
+                        ComPtr<IPropertyStore> pps;
                         hr = PSCreateMemoryPropertyStore(IID_PPV_ARGS(&pps));
                         if (SUCCEEDED(hr))
                         {
@@ -376,13 +381,12 @@ HRESULT SetDefaultValuesForProperties()
                                         hr = pfsd->SetCollectedProperties(NULL, TRUE);
                                         if (SUCCEEDED(hr))
                                         {
-                                            hr = pfsd->SetProperties(pps);
+                                            hr = pfsd->SetProperties(pps.Get());
                                         }
                                     }
                                 }
-                                VERIFY(SUCCEEDED(PropVariantClear(&propvarValue)));
+                                PropVariantClear(&propvarValue);
                             }
-                            pps->Release();
                         }
                     }
                 }
@@ -408,7 +412,6 @@ HRESULT SetDefaultValuesForProperties()
             // Unhook the event handler.
             pfsd->Unadvise(dwCookie);
         }
-        pfsd->Release();
     }
     return hr;
 }
@@ -421,7 +424,7 @@ HRESULT SetDefaultValuesForProperties()
 HRESULT WritePropertiesUsingHandlers()
 {
     // CoCreate the File Save Dialog object.
-    IFileSaveDialog *pfsd;
+    ComPtr<IFileSaveDialog> pfsd;
     HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
     if (SUCCEEDED(hr))
     {
@@ -466,7 +469,7 @@ HRESULT WritePropertiesUsingHandlers()
                                 hr = PathCombineW(szFullPathToTestFile, pszPicturesFolderPath, L"Flower.jpg") ? S_OK : E_FAIL;
                                 if (SUCCEEDED(hr))
                                 {
-                                    IPropertyStore *pps;
+                                    ComPtr<IPropertyStore> pps;
                                     hr = SHGetPropertyStoreFromParsingName(szFullPathToTestFile, NULL, GPS_DEFAULT, IID_PPV_ARGS(&pps));
                                     if (FAILED(hr))
                                     {
@@ -477,9 +480,8 @@ HRESULT WritePropertiesUsingHandlers()
                                     else
                                     {
                                         // Call SetProperties on the file dialog object for getting back later.
-                                        VERIFY(SUCCEEDED(pfsd->SetCollectedProperties(NULL, TRUE)));
-                                        VERIFY(SUCCEEDED(pfsd->SetProperties(pps)));
-                                        pps->Release();
+                                        pfsd->SetCollectedProperties(NULL, TRUE);
+                                        pfsd->SetProperties(pps.Get());
                                     }
                                 }
                                 CoTaskMemFree(pszPicturesFolderPath);
@@ -495,7 +497,7 @@ HRESULT WritePropertiesUsingHandlers()
             hr = pfsd->Show(NULL);
             if (SUCCEEDED(hr))
             {
-                IShellItem *psiResult;
+                ComPtr<IShellItem> psiResult;
                 hr = pfsd->GetResult(&psiResult);
                 if (SUCCEEDED(hr))
                 {
@@ -519,7 +521,7 @@ HRESULT WritePropertiesUsingHandlers()
                             //
                             // Property handlers for the specified file type should be registered for this
                             // to work.
-                            IPropertyStore *pps;
+                            ComPtr<IPropertyStore> pps;
 
                             // When we call GetProperties, we get back all the properties that we originally set
                             // (in our call to SetProperties above) plus the ones user modified in the file dialog.
@@ -531,17 +533,14 @@ HRESULT WritePropertiesUsingHandlers()
                                 // hWnd is used as parent for any error dialogs that might popup when writing properties.
                                 // Pass NULL for IFileOperationProgressSink as we don't want to register any callback
                                 // for progress notifications.
-                                hr = pfsd->ApplyProperties(psiResult, pps, NULL, NULL);
-                                pps->Release();
+                                hr = pfsd->ApplyProperties(psiResult.Get(), pps.Get(), NULL, NULL);
                             }
                         }
                         CoTaskMemFree(pszNewFileName);
                     }
-                    psiResult->Release();
                 }
             }
         }
-        pfsd->Release();
     }
     return hr;
 }
@@ -550,7 +549,7 @@ HRESULT WritePropertiesUsingHandlers()
 HRESULT WritePropertiesWithoutUsingHandlers()
 {
     // CoCreate the File Save Dialog object.
-    IFileSaveDialog *pfsd;
+    ComPtr<IFileSaveDialog> pfsd;
     HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
     if (SUCCEEDED(hr))
     {
@@ -577,13 +576,12 @@ HRESULT WritePropertiesWithoutUsingHandlers()
                         if (SUCCEEDED(hr))
                         {
                             // Set the properties you want the FileSave dialog to collect from the user.
-                            IPropertyDescriptionList *pdl;
+                            ComPtr<IPropertyDescriptionList> pdl;
                             hr = PSGetPropertyDescriptionListFromString(L"prop:System.Keywords", IID_PPV_ARGS(&pdl));
                             if (SUCCEEDED(hr))
                             {
                                 // TRUE as second param == show default properties as well, but show Keyword first.
-                                hr = pfsd->SetCollectedProperties(pdl, TRUE);
-                                pdl->Release();
+                                hr = pfsd->SetCollectedProperties(pdl.Get(), TRUE);
                             }
                         }
                     }
@@ -597,7 +595,7 @@ HRESULT WritePropertiesWithoutUsingHandlers()
             hr = pfsd->Show(NULL);
             if (SUCCEEDED(hr))
             {
-                IShellItem *psiResult;
+                ComPtr<IShellItem> psiResult;
                 hr = pfsd->GetResult(&psiResult);
                 if (SUCCEEDED(hr))
                 {
@@ -610,34 +608,17 @@ HRESULT WritePropertiesWithoutUsingHandlers()
                         WriteDataToCustomFile(pszNewFileName);
 
                         // Now get the property store and write each individual property to the file.
-                        IPropertyStore *pps;
+                        ComPtr<IPropertyStore> pps;
                         hr = pfsd->GetProperties(&pps);
                         if (SUCCEEDED(hr))
                         {
-                            PROPVARIANT variant = {};
-
-                            // Add an author property.
-                            if (SUCCEEDED(InitPropVariantFromString(L"Some Author", &variant)))
-                            {
-                                if (SUCCEEDED(pps->SetValue(PKEY_Author, variant)))
-                                    VERIFY(SUCCEEDED(hr = pps->Commit()));
-
-                                VERIFY(SUCCEEDED(PropVariantClear(&variant)));
-                            }
-
-                            // Add a comment property.
-                            if (SUCCEEDED(InitPropVariantFromString(L"This is a comment", &variant)))
-                            {
-                                if (SUCCEEDED(pps->SetValue(PKEY_Comment, variant)))
-                                    VERIFY(SUCCEEDED(pps->Commit()));
-
-                                VERIFY(SUCCEEDED(PropVariantClear(&variant)));
-                            }
-
+                            // Add some properties manually.
+                            AddPropertyToStore(pps.Get(), PKEY_Author, L"Some Author");
+                            AddPropertyToStore(pps.Get(), PKEY_Comment, L"This is a comment");
+                            
+                            // Loop over property set and write each property/value pair to the file.
                             DWORD cProps = 0;
                             hr = pps->GetCount(&cProps);
-
-                            // Loop over property set and write each property/value pair to the file.
                             for (DWORD i = 0; i < cProps && SUCCEEDED(hr); i++)
                             {
                                 PROPERTYKEY key;
@@ -664,21 +645,18 @@ HRESULT WritePropertiesWithoutUsingHandlers()
                                                 AppendPropertyToCustomFile(pszNewFileName, pszPropertyName, wszValue);
                                             }
                                         }
-                                        VERIFY(SUCCEEDED(PropVariantClear(&propvarValue)));
+                                        PropVariantClear(&propvarValue);
                                         CoTaskMemFree(pszPropertyName);
                                     }
                                 }
                             }
-                            pps->Release();
                         }
 
                         CoTaskMemFree(pszNewFileName);
                     }
-                    psiResult->Release();
                 }
             }
         }
-        pfsd->Release();
     }
     return hr;
 }

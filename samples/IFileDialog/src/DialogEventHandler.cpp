@@ -7,17 +7,19 @@
 #include <knownfolders.h> // for KnownFolder APIs/datatypes/function headers
 #include <propvarutil.h>  // for PROPVAR-related functions
 #include <propkey.h>      // for the Property key APIs/datatypes
+#include <wrl.h>          // for Microsoft::WRL::ComPtr
 
 #include "DialogEventHandler.h"
 #include "resource.h"
 
+using namespace Microsoft::WRL;
 
 // IFileDialogEvents methods
 // This method gets called when the file-type is changed (combo-box selection changes).
 // For sample sake, let's react to this event by changing the properties show.
 HRESULT CDialogEventHandler::OnTypeChange(IFileDialog *pfd)
 {
-    IFileSaveDialog *pfsd;
+    ComPtr<IFileSaveDialog> pfsd;
     HRESULT hr = pfd->QueryInterface(IID_PPV_ARGS(&pfsd));
     if (SUCCEEDED(hr))
     {
@@ -25,8 +27,7 @@ HRESULT CDialogEventHandler::OnTypeChange(IFileDialog *pfd)
         hr = pfsd->GetFileTypeIndex(&uIndex);   // index of current file-type
         if (SUCCEEDED(hr))
         {
-            IPropertyDescriptionList *pdl = NULL;
-
+            ComPtr<IPropertyDescriptionList> pdl;
             switch (uIndex)
             {
             case INDEX_WORDDOC:
@@ -35,8 +36,7 @@ HRESULT CDialogEventHandler::OnTypeChange(IFileDialog *pfd)
                 if (SUCCEEDED(hr))
                 {
                     // FALSE as second param == do not show default properties.
-                    hr = pfsd->SetCollectedProperties(pdl, FALSE);
-                    pdl->Release();
+                    hr = pfsd->SetCollectedProperties(pdl.Get(), FALSE);
                 }
                 break;
 
@@ -46,8 +46,7 @@ HRESULT CDialogEventHandler::OnTypeChange(IFileDialog *pfd)
                 if (SUCCEEDED(hr))
                 {
                     // FALSE as second param == do not show default properties.
-                    hr = pfsd->SetCollectedProperties(pdl, FALSE);
-                    pdl->Release();
+                    hr = pfsd->SetCollectedProperties(pdl.Get(), FALSE);
                 }
                 break;
 
@@ -57,13 +56,11 @@ HRESULT CDialogEventHandler::OnTypeChange(IFileDialog *pfd)
                 if (SUCCEEDED(hr))
                 {
                     // TRUE as second param == show default properties as well, but show Author property first in list.
-                    hr = pfsd->SetCollectedProperties(pdl, TRUE);
-                    pdl->Release();
+                    hr = pfsd->SetCollectedProperties(pdl.Get(), TRUE);
                 }
                 break;
             }
         }
-        pfsd->Release();
     }
     return hr;
 }
@@ -73,7 +70,7 @@ HRESULT CDialogEventHandler::OnTypeChange(IFileDialog *pfd)
 // For sample sake, let's react to this event by changing the dialog title.
 HRESULT CDialogEventHandler::OnItemSelected(IFileDialogCustomize *pfdc, DWORD dwIDCtl, DWORD dwIDItem)
 {
-    IFileDialog *pfd = NULL;
+    ComPtr<IFileDialog> pfd;
     HRESULT hr = pfdc->QueryInterface(IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
@@ -90,7 +87,6 @@ HRESULT CDialogEventHandler::OnItemSelected(IFileDialogCustomize *pfdc, DWORD dw
                 break;
             }
         }
-        pfd->Release();
     }
     return hr;
 }
