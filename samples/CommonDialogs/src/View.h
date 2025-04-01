@@ -46,8 +46,8 @@ public:
 
 protected:
     virtual INT_PTR DialogProc(UINT, WPARAM, LPARAM) override;
-    virtual void    OnCancel() override {}  // Suppress esc key closing the dialog
-    virtual void    OnClose() override {}   // Suppress esc key closing the dialog
+    virtual void    OnCancel() override {}  // Suppress keys closing the dialog
+    virtual void    OnClose() override {}   // Suppress keys closing the dialog
     virtual BOOL    OnInitDialog() override;
     virtual LRESULT OnNotify(WPARAM wparam, LPARAM lparam) override;
 

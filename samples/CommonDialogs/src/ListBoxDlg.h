@@ -35,8 +35,8 @@ private:
     CListBoxDlg(const CListBoxDlg&) = delete;
     CListBoxDlg& operator=(const CListBoxDlg&) = delete;
 
-    CListBox    m_listBox;      // the IDC_LIST_BOX control
-    CString     m_boxTitle;     // the list box title
+    CListBox    m_listBox;              // the IDC_LIST_BOX control
+    CString     m_boxTitle;             // the list box title
     std::vector<CString> m_listContent; // the list strings
 };
 

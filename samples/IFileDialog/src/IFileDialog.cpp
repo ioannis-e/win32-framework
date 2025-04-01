@@ -28,7 +28,6 @@ const COMDLG_FILTERSPEC c_rgSaveTypes[] =
 };
 
 
-
 //////////////////////
 // Utility Functions
 
@@ -99,6 +98,7 @@ void WriteDataToCustomFile(PCWSTR pszFileName)
             TDCBF_OK_BUTTON, TD_ERROR_ICON, NULL);
     }
 }
+
 
 //////////////////////////////
 // Common File Dialog Snippets

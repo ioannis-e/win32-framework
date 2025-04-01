@@ -8,7 +8,7 @@
 #include "MyTaskDialog.h"
 
 
-////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////
 // CIFileDialogApp manages the application. It initializes the Win32++
 // framework when it is constructed, and create the main task
 // dialog window when it runs.

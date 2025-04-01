@@ -32,6 +32,10 @@ The first two options demonstrate a comparatively simple use of IFileOpenDialog
 and IFileSaveDialog for choosing folders or files. The methods demonstrated
 there would be sufficient for most purposes.
 
-To use the "Write Properties Using Handlers" option place a jpg image called
+To use the "Write Properties Using Handlers" option, place a jpg image called
 Flower.jpg in the "%PUBLIC%\Pictures\Sample Pictures" folder. This folder is
 usually "C:\Users\Public\Pictures\Sample Pictures".
+
+This code uses the ComPtr smart pointer from the Windows SDK version 8.1 to 
+manage the COM interface pointers. The Windows SDK version 8.1 ships as part
+of VS2019, VS2022 and the later versions of MinGW-64. 

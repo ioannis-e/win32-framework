@@ -64,16 +64,16 @@ private:
     BOOL    SetRichEditColor();
     void    SetViewBgColor();
 
-    CDoc         m_doc;         // the document
-    CView        m_view;        // the view
-    AboutBox     m_aboutBox;    // the AboutBox dialog
-    CString      m_docDir;      // for the file open/save dialogs
-    CString      m_docExt;      // document file extension
-    CString      m_docFilter;   // document file open/save filter
-    CBitmap      m_colorbmp;    // for the color choice menu item
-    BOOL         m_isTextWrap;  // wrap text in rich edit if true
-    CColorChoice m_colorChoice; // the control color choice
-    MyFontDialog m_fontChoice;  // edit control font
+    CDoc         m_doc;                    // the document
+    CView        m_view;                   // the view
+    AboutBox     m_aboutBox;               // the AboutBox dialog
+    CString      m_docDir;                 // for the file open/save dialogs
+    CString      m_docExt;                 // document file extension
+    CString      m_docFilter;              // document file open/save filter
+    CBitmap      m_colorbmp;               // for the color choice menu item
+    BOOL         m_isTextWrap;             // wrap text in rich edit if true
+    CColorChoice m_colorChoice;            // the control color choice
+    MyFontDialog m_fontChoice;             // edit control font
     MyFindReplaceDialog m_findReplaceDlg;  // find-replace dialog
 };
 

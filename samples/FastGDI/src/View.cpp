@@ -207,8 +207,7 @@ void CView::OnDraw(CDC& dc)
     else
     {
         // There is no image, so display a hint to get one
-
-            // Use the message font for Windows 7 and higher.
+        // Use the message font for Windows 7 and higher.
         if (GetWinVersion() >= 2601)
         {
             NONCLIENTMETRICS info = GetNonClientMetrics();

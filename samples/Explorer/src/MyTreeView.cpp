@@ -282,7 +282,7 @@ void CMyTreeView::OnAttach()
 // Called when the window is destroyed.
 void CMyTreeView::OnDestroy()
 {
-    // Cleanup required by Win2000
+    // Cleanup
     DeleteAllItems();
     m_pItems.clear();
 }

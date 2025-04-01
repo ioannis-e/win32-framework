@@ -22,24 +22,15 @@ public:
         return 1;
     }
 
-#if defined (_MSC_VER) && (_MSC_VER <= 1900) // For VS2015 and earlier.
-#pragma warning( push )
-#pragma warning(disable:4838)
-#endif
-
     IFACEMETHODIMP QueryInterface(REFIID riid, void** ppv)
     {
         static const QITAB qit[] = {
             QITABENT(CDialogEventHandler, IFileDialogEvents),
             QITABENT(CDialogEventHandler, IFileDialogControlEvents),
-            { 0 },
+            {}
         };
         return QISearch(this, qit, riid, ppv);
     }
-
-#if defined (_MSC_VER) && (_MSC_VER < 1900)
-#pragma warning( pop )
-#endif
 
     IFACEMETHODIMP_(ULONG) Release()
     {

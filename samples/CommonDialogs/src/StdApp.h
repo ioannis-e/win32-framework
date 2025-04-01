@@ -15,7 +15,6 @@
 #ifndef STD_APP_H
 #define STD_APP_H
 
-/*============================================================================*/
 
 #include "resource.h"
 #include "ColorDefs.h"
@@ -32,5 +31,4 @@
 #include "Mainfrm.h"
 #include "App.h"
 
-/*----------------------------------------------------------------------------*/
 #endif // STD_APP_H

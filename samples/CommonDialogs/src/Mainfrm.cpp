@@ -271,7 +271,7 @@ void CMainFrame::OnInitialUpdate()
     TRACE("Frame created\n");
 }
 
-// Update the enable and chack status of menu items.
+// Update the enable and check status of menu items.
 void CMainFrame::OnMenuUpdate(UINT id)
 {
     UINT enabled;

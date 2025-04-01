@@ -7,11 +7,6 @@
 #include "MyListView.h"
 #include "resource.h"
 
-#ifndef HDF_SORTUP
-#define HDF_SORTUP              0x0400
-#define HDF_SORTDOWN            0x0200
-#endif
-
 
 //////////////////////////////////
 // CMyListView function definitions
@@ -566,7 +561,7 @@ void CMyListView::OnAttach()
 // Called when the window is destroyed.
 void CMyListView::OnDestroy()
 {
-    // Cleanup required by Win2000
+    // Cleanup
     m_pItems.clear();
     m_csfCurFolder.Release();
 }

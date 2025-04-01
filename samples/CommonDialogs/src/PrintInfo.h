@@ -24,11 +24,11 @@ public:
         CPrintInfo();
         ~CPrintInfo() = default;
 
-    UINT    GetFromPage() const { return m_nFromPage;}
-    UINT    GetMaxPage() const  { return m_nMaxPage; }
-    UINT    GetMinPage() const  { return m_nMinPage; }
-    UINT    GetNCopies() const  { return m_nCopies; }
-    UINT    GetToPage() const   { return m_nToPage; }
+    UINT    GetFromPage() const         { return m_nFromPage;}
+    UINT    GetMaxPage() const          { return m_nMaxPage; }
+    UINT    GetMinPage() const          { return m_nMinPage; }
+    UINT    GetNCopies() const          { return m_nCopies; }
+    UINT    GetToPage() const           { return m_nToPage; }
     void    InitInfo(CPrintDialog*, UINT, UINT, UINT, UINT, UINT);
     void    SetFromPage(UINT nFromPage) { m_nFromPage = nFromPage; }
     void    SetMaxPage(UINT nMaxPage)   { m_nMaxPage = nMaxPage; }
@@ -37,26 +37,26 @@ public:
     void    SetToPage(UINT nToPage)     { m_nToPage = nToPage; }
 
     // public data
-    CPrintDialog* m_pPD;    // pointer to print dialog
-    BOOL    m_bDocObject;   // TRUE if a DocObject (not supported)
-    BOOL    m_bDirect;      // TRUE if bypassing Print Dialog
-    BOOL    m_bPreview;     // TRUE if in preview mode
-    BOOL    m_bContinuePrinting;// set FALSE to end printing
-    UINT    m_nCopies;      // number of copies (not supported)
-    UINT    m_nFromPage;    // first printed page, 1 based
-    UINT    m_nMaxPage;     // maximum page limit
-    UINT    m_nMinPage;     // minimum page limit
-    UINT    m_nToPage;      // last printed page
-    UINT    m_nCurPage;     // current page
-    UINT    m_nNumPreviewPages; // (not supported)
-    LPVOID  m_lpUserData;   // pointer to user created struct
-    CRect   m_rectDraw;     // rect of current usable page area
-    CString m_strPageDesc;  // format string for page number display
-    UINT    m_nMargin;      // page margin, in twips
+    CPrintDialog* m_pPD;          // pointer to print dialog
+    BOOL    m_bDocObject;         // TRUE if a DocObject (not supported)
+    BOOL    m_bDirect;            // TRUE if bypassing Print Dialog
+    BOOL    m_bPreview;           // TRUE if in preview mode
+    BOOL    m_bContinuePrinting;  // set FALSE to end printing
+    UINT    m_nCopies;            // number of copies (not supported)
+    UINT    m_nFromPage;          // first printed page, 1 based
+    UINT    m_nMaxPage;           // maximum page limit
+    UINT    m_nMinPage;           // minimum page limit
+    UINT    m_nToPage;            // last printed page
+    UINT    m_nCurPage;           // current page
+    UINT    m_nNumPreviewPages;   // (not supported)
+    LPVOID  m_lpUserData;         // pointer to user created struct
+    CRect   m_rectDraw;           // rect of current usable page area
+    CString m_strPageDesc;        // format string for page number display
+    UINT    m_nMargin;            // page margin, in twips
 
-      // these only valid if m_bDocObject: currently not supported
-    DWORD   m_dwFlags;  // flags for DocObject print operations
-    UINT    m_nOffsetPage;  // first page offset in combined Doc job
+    // these only valid if m_bDocObject: currently not supported
+    DWORD   m_dwFlags;            // flags for DocObject print operations
+    UINT    m_nOffsetPage;        // first page offset in combined Doc job
 };
 
-#endif //CPRINTINFO_H
+#endif // CPRINTINFO_H

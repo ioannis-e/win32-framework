@@ -57,12 +57,12 @@ private:
         LONG cb, LONG *pcb);
 
     long    m_textLength;
-    CString m_docPath;      // document path name
-    CString m_printPath;    // print-to-file path (not supported)
-    CString m_dataType;     // DOCINFO data type used to record print job
-    BOOL    m_isAppBanded;  // TRUE if app banding supported
-    FORMATRANGE m_fr;       // rich edit format range struct
-    std::vector<int> m_firstPageChar;   // first character of each page
+    CString m_docPath;                // document path name
+    CString m_printPath;              // print-to-file path (not supported)
+    CString m_dataType;               // DOCINFO data type for the print job
+    BOOL    m_isAppBanded;            // TRUE if app banding supported
+    FORMATRANGE m_fr;                 // rich edit format range struct
+    std::vector<int> m_firstPageChar; // first character of each page
 };
 
 #endif  // CRICHEDITVIEW_H
