@@ -2,9 +2,9 @@
 #define  _IFILEDIALOG_H_
 
 HRESULT AddCustomControls();
-HRESULT AddItemsToCommonPlaces();
-HRESULT BasicChooseFolder();
-HRESULT BasicChooseFile();
+HRESULT ChooseFile();
+HRESULT ChooseFolder();
+HRESULT ChooseMultipleFiles();
 HRESULT SetDefaultValuesForProperties();
 HRESULT WritePropertiesUsingHandlers();
 HRESULT WritePropertiesWithoutUsingHandlers();

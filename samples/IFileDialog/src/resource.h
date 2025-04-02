@@ -18,13 +18,14 @@
 #define CONTROL_RADIOBUTTON2    3
 
 // IDs for the Task Dialog Buttons
-#define IDC_BASICCHOOSEFOLDER                   120
-#define IDC_BASICCHOOSEFILE                     121
-#define IDC_ADDITEMSTOCUSTOMPLACES              122
-#define IDC_ADDCUSTOMCONTROLS                   123
-#define IDC_SETDEFAULTVALUESFORPROPERTIES       124
-#define IDC_WRITEPROPERTIESWITHHANDLERS         125
-#define IDC_WRITEPROPERTIESWITHOUTHANDLERS      126
+#define IDC_CHOOSEFILE                          120
+#define IDC_CHOOSEFOLDER                        121
+#define IDC_CHOOSEMULTIPLEFILES                 122
+#define IDC_ADDITEMSTOCUSTOMPLACES              123
+#define IDC_ADDCUSTOMCONTROLS                   124
+#define IDC_SETDEFAULTVALUESFORPROPERTIES       125
+#define IDC_WRITEPROPERTIESWITHHANDLERS         126
+#define IDC_WRITEPROPERTIESWITHOUTHANDLERS      127
 
 // Next default values for new objects
 //

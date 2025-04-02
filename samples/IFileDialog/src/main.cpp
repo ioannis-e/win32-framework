@@ -10,6 +10,8 @@
 #pragma warning( disable : 28251 )  // Ignore the annotation requirement for wWinMain.
 #endif
 
+//#include "C:\Program Files (x86)\Visual Leak Detector\include\vld.h"
+
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPWSTR, int)
 {
     try

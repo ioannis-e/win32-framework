@@ -19,11 +19,11 @@ CMyTaskDialog::CMyTaskDialog()
     SetWindowTitle(L"Common File Dialog");
 
     // Add the commands.
-    AddCommandControl(IDC_BASICCHOOSEFOLDER,             L"Basic Choose Folder");
-    AddCommandControl(IDC_BASICCHOOSEFILE,               L"Basic Choose File");
-    AddCommandControl(IDC_ADDITEMSTOCUSTOMPLACES,        L"Add Items to Common Places");
+    AddCommandControl(IDC_CHOOSEFILE,                    L"Choose File");
+    AddCommandControl(IDC_CHOOSEFOLDER,                  L"Choose Folder");
+    AddCommandControl(IDC_CHOOSEMULTIPLEFILES,           L"Choose Multiple Files");
     AddCommandControl(IDC_ADDCUSTOMCONTROLS,             L"Add Custom Controls");
-    AddCommandControl(IDC_SETDEFAULTVALUESFORPROPERTIES, L"Change Property Order");
+    AddCommandControl(IDC_SETDEFAULTVALUESFORPROPERTIES, L"Set Properties for File Type");
     AddCommandControl(IDC_WRITEPROPERTIESWITHHANDLERS,   L"Write Properties Using Handlers");
     AddCommandControl(IDC_WRITEPROPERTIESWITHOUTHANDLERS, L"Write Properties without Using Handlers");
 
@@ -36,14 +36,14 @@ BOOL CMyTaskDialog::OnTDButtonClicked(int buttonID)
 {
     switch (buttonID)
     {
-    case IDC_BASICCHOOSEFOLDER:
-        BasicChooseFolder();
+    case IDC_CHOOSEFILE:
+        ChooseFile();
         return TRUE;
-    case IDC_BASICCHOOSEFILE:
-        BasicChooseFile();
+    case IDC_CHOOSEFOLDER:
+        ChooseFolder();
         return TRUE;
-    case IDC_ADDITEMSTOCUSTOMPLACES:
-        AddItemsToCommonPlaces();
+    case IDC_CHOOSEMULTIPLEFILES:
+        ChooseMultipleFiles();
         return TRUE;
     case IDC_ADDCUSTOMCONTROLS:
         AddCustomControls();

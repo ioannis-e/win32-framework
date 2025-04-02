@@ -2,17 +2,19 @@
 // IFileDialog.cpp
 //
 
-// This sample is based on the CommonFileDialogSDKSample that ships with the
-// Windows 7 SDK. The original sample can be downloaded from:
+// This sample is based on the CommonFileDialog and the CommFileDialogModes
+// samples that ships with the Windows 7 SDK.The original sample can be
+// downloaded from :
+// https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/CommonFileDialogModes
 // https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/commonfiledialog
 
 
-#include "stdafx.h"
-
-#include <knownfolders.h> // for KnownFolder APIs/datatypes/function headers
-#include <propvarutil.h>  // for PROPVAR-related functions
-#include <propkey.h>      // for the Property key APIs/datatypes
-#include <wrl.h>          // for Microsoft::WRL::ComPtr
+#include "stdafx.h"           // Adds precompied headers
+#define STRICT_TYPED_ITEMIDS  // Improves the type safety of IDLists
+#include <knownfolders.h>     // for KnownFolder APIs/datatypes/function headers
+#include <propvarutil.h>      // for PROPVAR-related functions
+#include <propkey.h>          // for the Property key APIs/datatypes
+#include <wrl.h>              // for Microsoft::WRL::ComPtr
 
 #include "DialogEventHandler.h"
 #include "resource.h"
@@ -67,10 +69,11 @@ void AppendPropertyToCustomFile(PCWSTR pszFileName, PCWSTR pszPropertyName, PCWS
 
     catch (...)
     {
-        TaskDialog(NULL, NULL, L"Error Appending to File: ", pszFileName, NULL,
-            TDCBF_OK_BUTTON, TD_ERROR_ICON, NULL);
+        TaskDialog(nullptr, nullptr, L"Error Appending to File: ", pszFileName, nullptr,
+            TDCBF_OK_BUTTON, TD_ERROR_ICON, nullptr);
     }
 }
+
 
 // Helper function to write dummy content to a custom file format.
 //
@@ -94,8 +97,8 @@ void WriteDataToCustomFile(PCWSTR pszFileName)
 
     catch (...)
     {
-        TaskDialog(NULL, NULL, L"Error Writing to File: ", pszFileName, NULL,
-            TDCBF_OK_BUTTON, TD_ERROR_ICON, NULL);
+        TaskDialog(nullptr, nullptr, L"Error Writing to File: ", pszFileName, nullptr,
+            TDCBF_OK_BUTTON, TD_ERROR_ICON, nullptr);
     }
 }
 
@@ -103,52 +106,14 @@ void WriteDataToCustomFile(PCWSTR pszFileName)
 //////////////////////////////
 // Common File Dialog Snippets
 
-// This code snippet demonstrates how to choose a folder with the common file
-// dialog interface.
-HRESULT BasicChooseFolder()
-{
-    ComPtr<IFileDialog> pfd;
-    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
-    if (SUCCEEDED(hr))
-    {
-        DWORD dwOptions;
-        hr = pfd->GetOptions(&dwOptions);
-        if (SUCCEEDED(hr))
-           pfd->SetOptions(dwOptions | FOS_PICKFOLDERS);
 
-        hr = pfd->Show(NULL);
-        if (SUCCEEDED(hr))
-        {
-            ComPtr<IShellItem> psi;
-            hr = pfd->GetResult(&psi);
-            if (SUCCEEDED(hr))
-            {
-                PWSTR pszFilePath = 0;
-                hr = psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszFilePath);
-                if (SUCCEEDED(hr))
-                {
-                    TaskDialog(NULL, NULL, L"Choosen Folder:", pszFilePath, 0,
-                        TDCBF_OK_BUTTON, TD_INFORMATION_ICON, NULL);
-
-                    CoTaskMemFree(pszFilePath);
-                }
-                else
-                    TaskDialog(NULL, NULL, L"Choosen Folder:", L"GetDisplayName failed", 0,
-                        TDCBF_OK_BUTTON, TD_ERROR_ICON, NULL);
-            }
-        }
-    }
-
-    return hr;
-}
-
-// This code snippet demonstrates how to choose a file with the common file
-// dialog interface.
-HRESULT BasicChooseFile()
+// The ChooseFile code snippet demonstrates how to choose a file with the
+// common filedialog interface.
+HRESULT ChooseFile()
 {
     // CoCreate the File Open Dialog object.
     ComPtr<IFileDialog> pfd;   
-    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
         // Set the options on the dialog. Before setting, always get the options first
@@ -174,7 +139,7 @@ HRESULT BasicChooseFile()
                         if (SUCCEEDED(hr))
                         {
                             // Show the dialog.
-                            hr = pfd->Show(NULL);
+                            hr = pfd->Show(nullptr);
                             if (SUCCEEDED(hr))
                             {
                                 // Obtain the result, once the user clicks the 'Open' button.
@@ -184,12 +149,12 @@ HRESULT BasicChooseFile()
                                 if (SUCCEEDED(hr))
                                 {
                                     // We are just going to print out the name of the file for sample sake.
-                                    PWSTR pszFilePath = NULL;
+                                    PWSTR pszFilePath = nullptr;
                                     hr = psiResult->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath);
                                     if (SUCCEEDED(hr))
                                     {
-                                        TaskDialog(NULL, NULL, L"Chosen File: ", pszFilePath, NULL,
-                                                   TDCBF_OK_BUTTON, TD_INFORMATION_ICON, NULL);
+                                        TaskDialog(nullptr, nullptr, L"Chosen File: ", pszFilePath, nullptr,
+                                                   TDCBF_OK_BUTTON, TD_INFORMATION_ICON, nullptr);
 
                                         CoTaskMemFree(pszFilePath);
                                     }
@@ -204,50 +169,77 @@ HRESULT BasicChooseFile()
     return hr;
 }
 
-// The Common Places area in the File Dialog is extensible.
-// This code snippet demonstrates how to extend the Common Places area.
-// Look at CDialogEventHandler::OnItemSelected to see how messages pertaining
-// to the added controls can be processed.
-HRESULT AddItemsToCommonPlaces()
+// This code snippet demonstrates how to choose a folder with the common file
+// dialog interface.
+HRESULT ChooseFolder()
 {
-    // CoCreate the File Open Dialog object.
     ComPtr<IFileDialog> pfd;
-    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
-        // Always use known folders instead of hard-coding physical file paths.
-        // In this case we are using Public Music KnownFolder.
-        ComPtr<IKnownFolderManager> pkfm;
-        hr = CoCreateInstance(CLSID_KnownFolderManager, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pkfm));
+        DWORD dwOptions;
+        hr = pfd->GetOptions(&dwOptions);
+        if (SUCCEEDED(hr))
+            pfd->SetOptions(dwOptions | FOS_PICKFOLDERS);
+
+        hr = pfd->Show(nullptr);
         if (SUCCEEDED(hr))
         {
-            // Get the known folder.
-            ComPtr<IKnownFolder> pKnownFolder;
-            hr = pkfm->GetFolder(FOLDERID_PublicMusic, &pKnownFolder);
+            ComPtr<IShellItem> psi;
+            hr = pfd->GetResult(&psi);
             if (SUCCEEDED(hr))
             {
-                // File Dialog APIs need an IShellItem that represents the location.
-                ComPtr<IShellItem> psi;
-                hr = pKnownFolder->GetShellItem(0, IID_PPV_ARGS(&psi));
+                PWSTR pszFilePath = 0;
+                hr = psi->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pszFilePath);
                 if (SUCCEEDED(hr))
                 {
-                    // Add the place to the bottom of default list in Common File Dialog.
-                    hr = pfd->AddPlace(psi.Get(), FDAP_BOTTOM);
-                    if (SUCCEEDED(hr))
-                    {
-                        // Show the File Dialog.
-                        hr = pfd->Show(NULL);
-                        if (SUCCEEDED(hr))
-                        {
-                            //
-                            // You can add your own code here to handle the results.
-                            //
-                        }
-                    }
+                    TaskDialog(nullptr, nullptr, L"Choosen Folder:", pszFilePath, 0,
+                        TDCBF_OK_BUTTON, TD_INFORMATION_ICON, nullptr);
+
+                    CoTaskMemFree(pszFilePath);
+                }
+                else
+                    TaskDialog(nullptr, nullptr, L"Choosen Folder:", L"GetDisplayName failed", 0,
+                        TDCBF_OK_BUTTON, TD_ERROR_ICON, nullptr);
+            }
+        }
+    }
+
+    return hr;
+}
+
+// This sample demonstrates how to use the file dialog in a modal way such that
+// users can easily pick multiple files. It does this by overriding the normal "Open" button
+// with an "Add" button that passes the selection back to this app.
+//
+// One case this sample does not support is selecting folders this way. This has
+// the issue of the "Open" button being overloaded for "navigate into the folder" and "add the folder."
+// One way to deal with this is to add a new button, "Add Folder", the PickFilesAndFolders sample demonstrates this.
+HRESULT ChooseMultipleFiles()
+{
+    ComPtr<IFileOpenDialog> pfd;
+    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+    if (SUCCEEDED(hr))
+    {
+        CDialogEventHandler foacb;
+        DWORD dwCookie;
+        if (SUCCEEDED(hr = pfd->Advise(&foacb, &dwCookie)))
+        {
+            DWORD dwOptions;
+            if (SUCCEEDED(hr = pfd->GetOptions(&dwOptions)))
+            {
+                if (SUCCEEDED(hr = pfd->SetOptions(dwOptions | FOS_ALLOWMULTISELECT | FOS_ALLNONSTORAGEITEMS)))
+                {
+                    pfd->SetTitle(L"Open Multiple Multiple FilesBasket Picker Sample");
+
+                    // We do not process the results of the dialog since
+                    // the selected items are passed back via OnFileOk()
+                    hr = pfd->Show(nullptr); // hr intentionally ignored
                 }
             }
         }
     }
+
     return hr;
 }
 
@@ -256,7 +248,7 @@ HRESULT AddCustomControls()
 {
     // CoCreate the File Open Dialog object.
     ComPtr<IFileDialog> pfd;
-    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
+    HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
         // Create an event handling object, and hook it up to the dialog.
@@ -317,7 +309,7 @@ HRESULT AddCustomControls()
         if (SUCCEEDED(hr))
         {
             // Now show the dialog.
-            hr = pfd->Show(NULL);
+            hr = pfd->Show(nullptr);
             if (SUCCEEDED(hr))
             {
                 //
@@ -338,7 +330,7 @@ HRESULT SetDefaultValuesForProperties()
 {
     // CoCreate the File Save Dialog object.
     ComPtr<IFileSaveDialog> pfsd;
-    HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
+    HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
     if (SUCCEEDED(hr))
     {
         // Create an event handling object, and hook it up to the dialog.
@@ -378,7 +370,7 @@ HRESULT SetDefaultValuesForProperties()
                                     if (SUCCEEDED(hr))
                                     {
                                         // Hand these properties to the File Dialog.
-                                        hr = pfsd->SetCollectedProperties(NULL, TRUE);
+                                        hr = pfsd->SetCollectedProperties(nullptr, TRUE);
                                         if (SUCCEEDED(hr))
                                         {
                                             hr = pfsd->SetProperties(pps.Get());
@@ -402,7 +394,7 @@ HRESULT SetDefaultValuesForProperties()
         if (SUCCEEDED(hr))
         {
             // Now show the dialog.
-            hr = pfsd->Show(NULL);
+            hr = pfsd->Show(nullptr);
             if (SUCCEEDED(hr))
             {
                 //
@@ -425,7 +417,7 @@ HRESULT WritePropertiesUsingHandlers()
 {
     // CoCreate the File Save Dialog object.
     ComPtr<IFileSaveDialog> pfsd;
-    HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
+    HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
     if (SUCCEEDED(hr))
     {
         WCHAR szFullPathToTestFile[MAX_PATH] = {};
@@ -463,24 +455,24 @@ HRESULT WritePropertiesUsingHandlers()
                             // Attempt to retrieve the path to %PUBLIC%\Pictures\Sample Pictures.
                             // The folder must exist for this to succeed.
                             PWSTR pszPicturesFolderPath;
-                            hr = SHGetKnownFolderPath(FOLDERID_SamplePictures, 0, NULL, &pszPicturesFolderPath);
+                            hr = SHGetKnownFolderPath(FOLDERID_SamplePictures, 0, nullptr, &pszPicturesFolderPath);
                             if (SUCCEEDED(hr))
                             {
                                 hr = PathCombineW(szFullPathToTestFile, pszPicturesFolderPath, L"Flower.jpg") ? S_OK : E_FAIL;
                                 if (SUCCEEDED(hr))
                                 {
                                     ComPtr<IPropertyStore> pps;
-                                    hr = SHGetPropertyStoreFromParsingName(szFullPathToTestFile, NULL, GPS_DEFAULT, IID_PPV_ARGS(&pps));
+                                    hr = SHGetPropertyStoreFromParsingName(szFullPathToTestFile, nullptr, GPS_DEFAULT, IID_PPV_ARGS(&pps));
                                     if (FAILED(hr))
                                     {
                                         // Flower.jpg is probably not in the Pictures folder.
-                                        TaskDialog(NULL, NULL, L"CommonFileDialogApp", L"Create Flower.jpg in the Pictures folder and try again.",
-                                                   NULL, TDCBF_OK_BUTTON, TD_ERROR_ICON , NULL);
+                                        TaskDialog(nullptr, nullptr, L"CommonFileDialogApp", L"Create Flower.jpg in the Pictures folder and try again.",
+                                                   nullptr, TDCBF_OK_BUTTON, TD_ERROR_ICON , nullptr);
                                     }
                                     else
                                     {
                                         // Call SetProperties on the file dialog object for getting back later.
-                                        pfsd->SetCollectedProperties(NULL, TRUE);
+                                        pfsd->SetCollectedProperties(nullptr, TRUE);
                                         pfsd->SetProperties(pps.Get());
                                     }
                                 }
@@ -494,7 +486,7 @@ HRESULT WritePropertiesUsingHandlers()
 
         if (SUCCEEDED(hr))
         {
-            hr = pfsd->Show(NULL);
+            hr = pfsd->Show(nullptr);
             if (SUCCEEDED(hr))
             {
                 ComPtr<IShellItem> psiResult;
@@ -531,9 +523,9 @@ HRESULT WritePropertiesUsingHandlers()
                                 // Now apply the properties making use of the registered property handler for the file type.
                                 //
                                 // hWnd is used as parent for any error dialogs that might popup when writing properties.
-                                // Pass NULL for IFileOperationProgressSink as we don't want to register any callback
+                                // Pass nullptr for IFileOperationProgressSink as we don't want to register any callback
                                 // for progress notifications.
-                                hr = pfsd->ApplyProperties(psiResult.Get(), pps.Get(), NULL, NULL);
+                                hr = pfsd->ApplyProperties(psiResult.Get(), pps.Get(), nullptr, nullptr);
                             }
                         }
                         CoTaskMemFree(pszNewFileName);
@@ -550,7 +542,7 @@ HRESULT WritePropertiesWithoutUsingHandlers()
 {
     // CoCreate the File Save Dialog object.
     ComPtr<IFileSaveDialog> pfsd;
-    HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
+    HRESULT hr = CoCreateInstance(CLSID_FileSaveDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfsd));
     if (SUCCEEDED(hr))
     {
         // For this exercise, let's use a custom file type.
@@ -592,7 +584,7 @@ HRESULT WritePropertiesWithoutUsingHandlers()
         if (SUCCEEDED(hr))
         {
             // Now show the dialog.
-            hr = pfsd->Show(NULL);
+            hr = pfsd->Show(nullptr);
             if (SUCCEEDED(hr))
             {
                 ComPtr<IShellItem> psiResult;

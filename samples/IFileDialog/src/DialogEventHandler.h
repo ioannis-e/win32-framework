@@ -1,12 +1,15 @@
 /////////////////////////////
 // File Dialog Event Handler
 
-// This sample is based on the CommonFileDialogSDKSample that ships with the
-// Windows 7 SDK. The original sample can be downloaded from:
+// This sample is based on the CommonFileDialog and the CommFileDialogModes
+// samples that ships with the Windows 7 SDK.The original sample can be
+// downloaded from :
+// https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/CommonFileDialogModes
 // https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/commonfiledialog
 
 #ifndef _FILE_DIALOG_EVENT_HANDLER_
 #define _FILE_DIALOG_EVENT_HANDLER_
+
 
 class CDialogEventHandler : public IFileDialogEvents,
                             public IFileDialogControlEvents
@@ -39,7 +42,7 @@ public:
     }
 
     // IFileDialogEvents methods
-    IFACEMETHODIMP OnFileOk(IFileDialog *) { return S_OK; };
+    IFACEMETHODIMP OnFileOk(IFileDialog *);
     IFACEMETHODIMP OnFolderChange(IFileDialog *) { return S_OK; };
     IFACEMETHODIMP OnFolderChanging(IFileDialog *, IShellItem *) { return S_OK; };
     IFACEMETHODIMP OnHelp(IFileDialog *) { return S_OK; };
