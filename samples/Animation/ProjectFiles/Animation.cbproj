@@ -312,9 +312,6 @@
         <None Include="..\..\..\include\wxx_setup.h">
             <BuildOrder>49</BuildOrder>
         </None>
-        <None Include="..\..\..\include\wxx_shared_ptr.h">
-            <BuildOrder>50</BuildOrder>
-        </None>
         <None Include="..\..\..\include\wxx_socket.h">
             <BuildOrder>51</BuildOrder>
         </None>
@@ -538,6 +535,12 @@
                 </DeployFile>
                 <DeployFile LocalName=".\Embarcadero\Win64\Release\Animation.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
+                        <RemoteName>Animation.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Embarcadero\Win64x\Release\Animation.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64x">
                         <RemoteName>Animation.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

@@ -1,7 +1,7 @@
 Version 10.2
 ============
 This version updates support for Embarcadero's C++ Builder, and updates
-support for modern Clang compilers.
+support for the modern Clang compilers.
 
 New Features and Enhancements
 -----------------------------
@@ -207,18 +207,15 @@ versions of Win32++. Code that uses deprecated features should be updated.
 Supported Compilers
 -------------------
 The following compilers are supported by this version of Win32++:
-
-The modern GNU C++ compilers from the following projects:
- * MinGW
- * TDM-GCC    (ships with Code::Blocks and Embarcadero Dev-C++)
- * MinGW-w64  (the latest GNU C++ compilers available)
-
-Visual Studio Community 2015
-Visual Studio Community 2017
-Visual Studio Community 2019
-Visual Studio Community 2022
-
-Embarcadero C++ Community Edition (Rad Studio 11)
+ * The modern GNU C++ compilers from the following projects:
+    - MinGW
+    - TDM-GCC    (ships with Code::Blocks and Embarcadero Dev-C++)
+    - MinGW-w64  (the most modern GNU C++ compilers available)
+ * Visual Studio Community 2015
+ * Visual Studio Community 2017
+ * Visual Studio Community 2019
+ * Visual Studio Community 2022
+ * Embarcadero C++ Community Edition (Rad Studio 11)
 
 Code for Windows XP can be compiled with Visual Studio Community 2015 and the GNU compilers.
 
@@ -292,48 +289,6 @@ New Features and Enhancements
     Some CTime constructors have been updated, and others removed.
  * Updated the docker samples to eliminate jitter when the dockers are resized.
 
-Changes in detail
------------------
-Added:  tm* ::GMTime(tm& atm, const time_t& t)              global function
-Added:  tm* ::LocalTime(tm& atm, const time_t& t)           global function
-
-Added CFrameT<T>::RemoveKbdHook()
-
-Added:  CStringA operator+(const CStringA& string1, const CStringA& string2)
-Added:  CStringW operator+(const CStringW& string1, const CStringW& string2)
-
-Added:  CString(const CStringA& str)
-Added:  CString(const CStringW& str)
-Added:  CString& operator=(const CStringA& str)
-Added:  CString& operator=(const CStringW& str)
-Added:  CString operator+(const CString& string1, const CStringA& string2)
-Added:  CString operator+(const CString& string1, const CStringW& string2)
-Added:  CString operator+(const CStringA& string1, const CString& string2)
-Added:  CString operator+(const CStringW& string1, const CString& string2)
-
-Added:  CString& operator+=(const CStringA& str);
-Added:  CString& operator+=(const CStringW& str);
-
-Added:  CString ToCString(const CStringA& string)
-Added:  CString ToCString(const CStringW& string)
-Added:  CString ToCString(const CString& string)
-
-Modified: CTime(int year, int month, int day, int hour, int min, int sec, int isDST = -1);
-Modified: CTime::GetDayOfWeek    Now returns value in the range 1 through 7
-
-Removed: CTime(UINT yr, UINT mo, UINT wkday, UINT nthwk, UINT hr, UINT min, UINT sec, int isDST = -1);
-Removed: CTime(UINT yr, UINT doy, UINT hr, UINT min, UINT sec, int isDST = -1);
-
-Removed: time_tm typedef
-Removed: timespan_t typedef
-
-Removed: CString::Left                    redundant
-Removed: CString::Mid                     redundant
-Removed: CString::right                   redundant
-Removed: CString::SpanExcluding           redundant
-Removed: CString::SpanIncluding           redundant
-Removed: CString::Tokenize                redundant
-
 
 Version 9.5.1
 =============
@@ -351,14 +306,6 @@ New Features and Enhancements
    The DockContainer sample demonstrates how to prevent the frame's last
    container from being undocked or closed.
 * Adds support for MinGW-w64 version 13.2.0.
-
-Changes in detail
------------------
-Added CDockContainer::UndockContainerGroup
-Added CResizer::OnAfterDpiChange
-Added CResizer::OnBeforeDpiChange
-Removed CDocker::OnWindowPosChanging
-Removed CTabbedMDI::OnDpiChangedBeforeParent
 
 
 Version 9.5
@@ -381,40 +328,6 @@ New Features and Enhancements
 * Optimized the redrawing of frames and dockers when moving windows between
   monitors with different display settings.
 * Simplified support for additional toolbars in frames.
-
-Changes in detail
------------------
-Added CDockContainer::SetTabsFontSize
-Added CDockContainer::SetTabsIconSize
-Added CFrameT::SetToolBarImages       Added overload for additional toolbars
-Added CImageList::CreateDragImage
-Added CPrintPreview::CPrintPreview    Additional constructor
-Added CTab::SetTabsFontSize
-Added CTab::SetTabsIconSize
-Added CWinApp::GetHDevMode
-Added CWinApp::GetHDevNames
-Added CWinApp::ResetPrinterMemory
-Added CWinApp::UpdateDefaultPrinter
-Added CWinApp::UpdatePrinterMemory
-
-Modified CDockContainer::SetTBImageList        removed CImageList& argument
-Modified CDockContainer::SetTBImageListDis     removed CImageList& argument
-Modified CDockContainer::SetTBImageListHot     removed CImageList& argument
-Modified CFrameT::SetTBImageList               removed CImageList& argument
-Modified CFrameT::SetTBImageListDis            removed CImageList& argument
-Modified CFrameT::SetTBImageListHot            removed CImageList& argument
-Modified CComboBoxEx::SetImageList             returns CImageList
-Modified CHeader::SetImageList                 returns CImageList
-Modified CListView::SetImageList               returns CImageList
-Modified CTab::SetImageList                    returns CImageList
-Modified CToolBar::SetDisableImageList         returns CImageList
-Modified CToolBar::SetHotImageList             returns CImageList
-Modified CToolBar::SetImageList                returns CImageList
-Modified CTreeView::SetImageList               returns CImageList
-
-Removed CTab::SetTabHeight
-Removed the PrintDialogEx sample
-Removed the MDIDockFrame sample
 
 
 Version 9.4

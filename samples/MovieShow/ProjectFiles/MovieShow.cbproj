@@ -311,9 +311,6 @@
         <None Include="..\..\..\include\wxx_setup.h">
             <BuildOrder>39</BuildOrder>
         </None>
-        <None Include="..\..\..\include\wxx_shared_ptr.h">
-            <BuildOrder>40</BuildOrder>
-        </None>
         <None Include="..\..\..\include\wxx_socket.h">
             <BuildOrder>41</BuildOrder>
         </None>
@@ -597,6 +594,12 @@
                 </DeployFile>
                 <DeployFile LocalName=".\Embarcadero\Win64\Release\MovieShow.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
+                        <RemoteName>MovieShow.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Embarcadero\Win64x\Release\MovieShow.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64x">
                         <RemoteName>MovieShow.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

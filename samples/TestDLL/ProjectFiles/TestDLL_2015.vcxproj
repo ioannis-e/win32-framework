@@ -25,6 +25,7 @@
     <ClCompile Include="..\src\TestWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\default_resource.h" />
     <ClInclude Include="..\..\..\include\wxx_appcore.h" />
     <ClInclude Include="..\..\..\include\wxx_appcore0.h" />
     <ClInclude Include="..\..\..\include\wxx_archive.h" />
@@ -64,7 +65,6 @@
     <ClInclude Include="..\..\..\include\wxx_richedit.h" />
     <ClInclude Include="..\..\..\include\wxx_scrollview.h" />
     <ClInclude Include="..\..\..\include\wxx_setup.h" />
-    <ClInclude Include="..\..\..\include\wxx_shared_ptr.h" />
     <ClInclude Include="..\..\..\include\wxx_socket.h" />
     <ClInclude Include="..\..\..\include\wxx_statusbar.h" />
     <ClInclude Include="..\..\..\include\wxx_stdcontrols.h" />

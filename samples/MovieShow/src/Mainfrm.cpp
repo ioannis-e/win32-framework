@@ -67,8 +67,10 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 
     for (UINT j = 0; j < num; ++j)
     {
+#if defined(_MSC_VER)
 #pragma warning ( push )
 #pragma warning ( disable : 6385 )       // '208' bytes might be read.
+#endif
         // Correct code incorrectly flagged with a C6385 warning by the VS2019 analyser.
         if (wcscmp(pImageCodecInfo[j].MimeType, format) == 0)
         {
@@ -76,7 +78,9 @@ int GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
             free(pImageCodecInfo);
             return j;  // Success
         }
+#if defined(_MSC_VER)
 #pragma warning ( pop )  // ( disable : 6385 )    '208' bytes might be read.
+#endif
     }
 
     free(pImageCodecInfo);
@@ -177,7 +181,7 @@ void CMainFrame::FillImageData(const CString& source, std::vector<BYTE>& dest)
 
                     CLSID gifClsid;
                     GetEncoderClsid(L"image/gif", &gifClsid);
-                    VERIFY(Gdiplus::Ok == img->Save(stream, &gifClsid));
+                    VERIFY(Gdiplus::Ok == img->Save(stream, &gifClsid, nullptr));
 
                     // Get the size of the stream.
                     ULARGE_INTEGER streamSize;

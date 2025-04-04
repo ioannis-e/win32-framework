@@ -230,11 +230,16 @@ HRESULT ChooseMultipleFiles()
             {
                 if (SUCCEEDED(hr = pfd->SetOptions(dwOptions | FOS_ALLOWMULTISELECT | FOS_ALLNONSTORAGEITEMS)))
                 {
-                    pfd->SetTitle(L"Open Multiple Multiple FilesBasket Picker Sample");
+                    // Set the file types to display only. Notice that, this is a 1-based array.
+                    hr = pfd->SetFileTypes(ARRAYSIZE(c_rgSaveTypes), c_rgSaveTypes);
+                    if (SUCCEEDED(hr))
+                    {
+                        pfd->SetTitle(L"Open Multiple Files");
 
-                    // We do not process the results of the dialog since
-                    // the selected items are passed back via OnFileOk()
-                    hr = pfd->Show(nullptr); // hr intentionally ignored
+                        // We do not process the results of the dialog since
+                        // the selected items are passed back via OnFileOk()
+                        hr = pfd->Show(nullptr); // hr intentionally ignored
+                    }
                 }
             }
         }
