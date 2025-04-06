@@ -66,14 +66,7 @@
 		<VirtualTargets>
 			<Add alias="All" targets="Debug MinGW GNU compiler;Release MinGW GNU compiler;" />
 		</VirtualTargets>
-		<Unit filename="../../../include/changes.txt" />
-		<Unit filename="../../../include/copyright.txt" />
 		<Unit filename="../../../include/default_resource.h" />
-		<Unit filename="../../../include/default_resource.rc">
-			<Option compilerVar="WINDRES" />
-		</Unit>
-		<Unit filename="../../../include/info.txt" />
-		<Unit filename="../../../include/release notes.txt" />
 		<Unit filename="../../../include/wxx_appcore.h" />
 		<Unit filename="../../../include/wxx_appcore0.h" />
 		<Unit filename="../../../include/wxx_archive.h" />

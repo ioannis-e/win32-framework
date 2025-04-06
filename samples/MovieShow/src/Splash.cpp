@@ -31,8 +31,7 @@ int CSplash::OnCreate(CREATESTRUCT&)
 void CSplash::AddBar()
 {
     m_progress.Create(*this);
-    m_progress.SetWindowPos(0, 50, 200, 156, 10, 0);
-    m_progress.ShowWindow(SW_HIDE);
+    m_progress.SetWindowPos(0, 1, 1, 1, 1, SWP_HIDEWINDOW);
     m_progress.SetStep(1);
 }
 
@@ -94,6 +93,16 @@ void CSplash::OnDraw(CDC& dc)
         CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_MODERN, L"French Script MT");
 
     dcMem.DrawText(m_text.c_str(), m_text.GetLength(), rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+    // Reposition the progress window.
+    if (m_progress.IsWindowVisible())
+    {
+        int x = rc.Width() / 6;
+        int y = 3 * rc.Height() / 4;
+        int cx = 2 * rc.Width() / 3;
+        int cy = DpiScaleInt(10);
+        m_progress.SetWindowPos(0, x, y, cx, cy, 0);
+    }
 
     dc.BitBlt(0, 0, xImage, yImage, dcMem, 0, 0, SRCCOPY);
 }

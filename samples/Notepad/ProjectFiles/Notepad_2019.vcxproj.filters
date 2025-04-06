@@ -214,22 +214,5 @@
     <ResourceCompile Include="..\src\Resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="..\..\..\include\default_resource.rc">
-      <Filter>Win32++</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\include\changes.txt">
-      <Filter>Win32++</Filter>
-    </Text>
-    <Text Include="..\..\..\include\copyright.txt">
-      <Filter>Win32++</Filter>
-    </Text>
-    <Text Include="..\..\..\include\info.txt">
-      <Filter>Win32++</Filter>
-    </Text>
-    <Text Include="..\..\..\include\release notes.txt">
-      <Filter>Win32++</Filter>
-    </Text>
   </ItemGroup>
 </Project>

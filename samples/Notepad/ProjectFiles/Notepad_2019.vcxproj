@@ -92,14 +92,7 @@
     <ClInclude Include="..\src\TextApp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\include\default_resource.rc" />
     <ResourceCompile Include="..\src\Resource.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\include\changes.txt" />
-    <Text Include="..\..\..\include\copyright.txt" />
-    <Text Include="..\..\..\include\info.txt" />
-    <Text Include="..\..\..\include\release notes.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{19CEEA56-2973-4E6A-818E-17DB81197AB5}</ProjectGuid>

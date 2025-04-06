@@ -112,7 +112,7 @@ void WriteDataToCustomFile(PCWSTR pszFileName)
 HRESULT ChooseFile()
 {
     // CoCreate the File Open Dialog object.
-    ComPtr<IFileDialog> pfd;   
+    ComPtr<IFileDialog> pfd;
     HRESULT hr = CoCreateInstance(CLSID_FileOpenDialog, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd));
     if (SUCCEEDED(hr))
     {
@@ -612,7 +612,7 @@ HRESULT WritePropertiesWithoutUsingHandlers()
                             // Add some properties manually.
                             AddPropertyToStore(pps.Get(), PKEY_Author, L"Some Author");
                             AddPropertyToStore(pps.Get(), PKEY_Comment, L"This is a comment");
-                            
+
                             // Loop over property set and write each property/value pair to the file.
                             DWORD cProps = 0;
                             hr = pps->GetCount(&cProps);

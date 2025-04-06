@@ -48,7 +48,7 @@ inline void ReportSelectedItems(IShellItemArray* psia)
         }
 
         size_t items = itemNames.size();
-        for (int i = 0; i < items; i++)
+        for (size_t i = 0; i < items; i++)
         {
             const TASKDIALOG_COMMON_BUTTON_FLAGS buttonFlags = (i+1 == items) ?
                 TDCBF_OK_BUTTON : TDCBF_OK_BUTTON | TDCBF_CANCEL_BUTTON;
@@ -114,7 +114,7 @@ IFACEMETHODIMP CDialogEventHandler::OnTypeChange(IFileDialog *pfd)
 
 // This method gets called when an dialog control item selection happens (radio-button selection. etc).
 // For sample sake, let's react to this event by changing the dialog title.
-// This method is used by AddCustomControls. 
+// This method is used by AddCustomControls.
 IFACEMETHODIMP CDialogEventHandler::OnItemSelected(IFileDialogCustomize *pfdc, DWORD dwIDCtl, DWORD dwIDItem)
 {
     ComPtr<IFileDialog> pfd;
@@ -144,7 +144,7 @@ IFACEMETHODIMP CDialogEventHandler::OnFileOk(IFileDialog* pfd)
     // Only for FileOpenDialog. Ignored for FileSaveDialog.
     ComPtr<IFileOpenDialog> pfod;
     HRESULT hr = pfd->QueryInterface(IID_PPV_ARGS(&pfod));
-    
+
     if (SUCCEEDED(hr))
     {
         ComPtr<IShellItemArray> psia;

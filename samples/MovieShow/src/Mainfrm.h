@@ -44,6 +44,8 @@ protected:
     virtual LRESULT OnBarEnd(DragPos* pDragPos) override;
     virtual BOOL    OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual int     OnCreate(CREATESTRUCT& cs) override;
+    virtual LRESULT OnDpiChanged(UINT, WPARAM, LPARAM) override;
+    virtual LRESULT OnGetDpiScaledSize(UINT, WPARAM, LPARAM) override;
     virtual BOOL    OnHelp() override;
     virtual void    OnInitialUpdate() override;
     virtual void    OnMenuUpdate(UINT nID) override;
@@ -56,7 +58,7 @@ protected:
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    static UINT WINAPI ThreadProc(void* pVoid);
+    static UINT WINAPI AddFilesProc(void* pVoid);
 
     // Accessors
     std::vector<CString> GetBoxSets();
@@ -91,7 +93,7 @@ private:
 
     // Message handlers.
     LRESULT OnBoxSetChanged();
-     LRESULT OnRClickListItem();
+    LRESULT OnRClickListItem();
     LRESULT OnRClickTreeItem();
     LRESULT OnSelectListItem(const MovieInfo* pmi);
     LRESULT OnSelectTreeItem();
@@ -117,11 +119,12 @@ private:
     CAboutDialog     m_aboutDialog;
     CCriticalSection m_cs;
     CViewList        m_viewList;
-    CWorkThread      m_thread;
+    CWorkThread      m_addFilesThread;
     CSplashThread    m_splashThread;
     std::vector<FoundFileInfo> m_filesToAdd;
     std::vector<const MovieInfo*> m_foundMovies;
     HTREEITEM        m_searchItem;
+    BOOL             m_isAddPuttonPressed;
 
     // Use lists because pointers to members of a list are always valid.
     std::list<CString> m_boxSets;

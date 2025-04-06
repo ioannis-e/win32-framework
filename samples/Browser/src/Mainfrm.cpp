@@ -276,10 +276,6 @@ BOOL CMainFrame::OnEditPaste()
 // Called in response to the menu or accelerator key.
 BOOL CMainFrame::OnEditDelete()
 {
-#if defined(__GNUC__)
-    OLECMDID OLECMDID_DELETE = (OLECMDID)33;
-#endif
-
     if (GetFocus() == GetCBEdit()->GetHwnd())
         GetCBEdit()->Clear();
     else
