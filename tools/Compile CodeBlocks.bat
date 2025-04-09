@@ -213,6 +213,56 @@ copy Tray\ProjectFiles\GNU\\Release\Tray.exe                        "..\output\M
 copy WinPlot\ProjectFiles\GNU\\Release\WinPlot.exe                  "..\output\MinGW\Release"    >>"..\output\CodeBlocks.log"
 
 
+REM: Change the directory to the Tutorials parent
+popd
+pushd ..\Tutorials
+
+REM: Compile Tutorials
+ECHO "Compiling Tutorials" >>"..\output\CodeBlocks.log"
+::Compile code
+codeblocks.exe --rebuild Tutorial1\ProjectFiles\Tutorial1.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial2\ProjectFiles\Tutorial2.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial3\ProjectFiles\Tutorial3.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial4\ProjectFiles\Tutorial4.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial5\ProjectFiles\Tutorial5.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial6\ProjectFiles\Tutorial6.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial7\ProjectFiles\Tutorial7.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial8\ProjectFiles\Tutorial8.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial9\ProjectFiles\Tutorial9.cbp           >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial10\ProjectFiles\Tutorial10.cbp         >>"..\output\CodeBlocks.log"
+codeblocks.exe --rebuild Tutorial11\ProjectFiles\Tutorial11.cbp         >>"..\output\CodeBlocks.log"
+
+mkdir "..\output\MinGW\Tutorials"
+mkdir "..\output\MinGW\Tutorials\Debug"
+
+ECHO "Copying Debug Tutorials" >>"..\output\CodeBlocks.log"
+copy Tutorial1\ProjectFiles\GNU\Debug\Tutorial1.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial2\ProjectFiles\GNU\Debug\Tutorial2.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial3\ProjectFiles\GNU\Debug\Tutorial3.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial4\ProjectFiles\GNU\Debug\Tutorial4.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial5\ProjectFiles\GNU\Debug\Tutorial5.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial6\ProjectFiles\GNU\Debug\Tutorial6.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial7\ProjectFiles\GNU\Debug\Tutorial7.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial8\ProjectFiles\GNU\Debug\Tutorial8.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial9\ProjectFiles\GNU\Debug\Tutorial9.exe         "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial10\ProjectFiles\GNU\Debug\Tutorial10.exe       "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+copy Tutorial11\ProjectFiles\GNU\Debug\Tutorial11.exe       "..\output\MinGW\Tutorials\Debug"    >>"..\output\CodeBlocks.log"
+
+mkdir "..\output\MinGW\Tutorials\Release"
+
+ECHO "Copying Release Tutorials" >>"..\output\CodeBlocks.log"
+copy Tutorial1\ProjectFiles\GNU\Release\Tutorial1.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial2\ProjectFiles\GNU\Release\Tutorial2.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial3\ProjectFiles\GNU\Release\Tutorial3.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial4\ProjectFiles\GNU\Release\Tutorial4.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial5\ProjectFiles\GNU\Release\Tutorial5.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial6\ProjectFiles\GNU\Release\Tutorial6.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial7\ProjectFiles\GNU\Release\Tutorial7.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial8\ProjectFiles\GNU\Release\Tutorial8.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial9\ProjectFiles\GNU\Release\Tutorial9.exe       "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial10\ProjectFiles\GNU\Release\Tutorial10.exe     "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+copy Tutorial11\ProjectFiles\GNU\Release\Tutorial11.exe     "..\output\MinGW\Tutorials\Release"    >>"..\output\CodeBlocks.log"
+
 REM: Pop the directory change off the stack
 popd
 

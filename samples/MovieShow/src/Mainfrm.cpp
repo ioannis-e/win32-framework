@@ -49,18 +49,18 @@ void GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
     UINT  num = 0;          // Number of image encoders.
     UINT  size = 0;         // Size of the image encoder array in bytes.
 
-    GetImageEncodersSize(&num, &size);
+    ::GetImageEncodersSize(&num, &size);
     if (size != 0)
     {
         // Retrieve the image codec information and store it in codecInfo.
         std::vector<byte> codecInfo(size);
         ImageCodecInfo* pCodecInfo = reinterpret_cast<ImageCodecInfo*>(codecInfo.data());
-        if (Gdiplus::Ok == GetImageEncoders(num, size, pCodecInfo))
+        if (Gdiplus::Ok == ::GetImageEncoders(num, size, pCodecInfo))
         {
             // Search for the codec information matching the specified format.
             for (UINT i = 0; i < num; i++)
             {
-                if (wcscmp(pCodecInfo[i].MimeType, format) == 0)
+                if (::wcscmp(pCodecInfo[i].MimeType, format) == 0)
                 {
                     // Retrieve the CLSID and store it in pClsid.
                     *pClsid = pCodecInfo[i].Clsid;
@@ -76,13 +76,13 @@ void GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
 //
 
 // Constructor.
-CMainFrame::CMainFrame() : m_addFilesThread(AddFilesProc, this), m_searchItem(nullptr), m_pDockTree(nullptr),
-                           m_pDockDialog(nullptr), m_isDirty(false), m_boxSetsItem(0), m_dialogHeight(0),
-                           m_treeWidth(0)
+CMainFrame::CMainFrame() : m_addFilesThread(AddFilesProc, this), m_searchItem(nullptr), m_isAddPuttonPressed(FALSE),
+                           m_pDockTree(nullptr), m_pDockDialog(nullptr), m_isDirty(false), m_boxSetsItem(0),
+                           m_dialogHeight(0), m_treeWidth(0)
 {
 }
 
-// This function is the thread procedure for m_thread.  
+// This function is the thread procedure for m_addFilesThread.
 // This function runs in a separate thread because loading the meta data from
 // files can be time consuming. This thread modifies m_moviesData, so all
 // write access to m_moviesData should be protected by a CThreadLock.

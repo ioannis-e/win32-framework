@@ -14,8 +14,7 @@ New Features and Enhancements
   project files. These project files now support the Win32, Win64 and Win64x
   platforms.
 
-* Updated the support for the modern Clang compilers.
-  Win32++ now supports Clang 19.
+* Updated the support for Clang compilers.
 
 * Updated the CommonDialogs, MovieShow and TaskDialog samples.
 

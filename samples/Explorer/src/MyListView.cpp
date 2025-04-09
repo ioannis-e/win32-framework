@@ -396,7 +396,7 @@ void CMyListView::EnumObjects(CShellFolder& folder, Cpidl& cpidlParent)
             pItem->GetParentFolder().GetAttributes(1, pItem->GetRelCpidl(), attr);
             pItem->m_isFolder = (attr & SFGAO_FOLDER) != 0;
 
-            // Retrieve the file find handle for an existing file.
+            // Retrieve the search handle for an existing file.
             if (lstrcmp(fileName, L"") != 0)
             {
                 CFileFind file;
