@@ -1167,6 +1167,7 @@ namespace Win32xx
         VariantClear(&targetVariant);
         VariantClear(&dataVariant);
         VariantClear(&headersVariant);
+        SysFreeString(url);
 
         return hr;
     }

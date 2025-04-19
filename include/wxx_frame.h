@@ -806,7 +806,6 @@ namespace Win32xx
                 }
             }
             return CDRF_DODEFAULT;   // Do default drawing.
-
         }
 
         return 0;

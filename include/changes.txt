@@ -5,9 +5,13 @@ support Clang compilers.
 
 New Features and Enhancements
 -----------------------------
-* Added the IFileDialog sample. This sample demonstrates how to use and
-  customise IFileOpenDialog and IFileSaveDialog. These dialogs can in place of
-  GetOpenFileName, GetSaveFileName and SHBrowseForFolder.
+* Added the IFileDialog sample.
+  This sample demonstrates how to use and customise IFileOpenDialog and
+  IFileSaveDialog. These dialogs can in place of GetOpenFileName, 
+  GetSaveFileName and SHBrowseForFolder.
+
+* Updated CMenubar.
+  The menubar now supports menu items as well as popup menus. 
   
 * Updated the support for Embarcadero's C++ Builder.
   Support for modern Windows 64-bit compiler has been added to the C++ Builder

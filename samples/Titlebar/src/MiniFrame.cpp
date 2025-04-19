@@ -473,7 +473,6 @@ LRESULT CMiniFrame::OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam)
     case TitlebarButton::Minimize:    return HTMINBUTTON;
     case TitlebarButton::Maximize:    return HTMAXBUTTON;
     case TitlebarButton::Close:       return HTCLOSE;
-    case TitlebarButton::None:        return 0;
     }
 
     // Looks like adjustment happening in NCCALCSIZE is messing with the detection

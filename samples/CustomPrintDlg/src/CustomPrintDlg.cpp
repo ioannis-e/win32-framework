@@ -125,6 +125,18 @@ void  CCustomPrintDlg::DoDataExchange(CDataExchange& DX)
     DX.DDX_Text(IDS_TYPE, m_type);
     DX.DDX_Text(IDS_WHERE, m_where);
     DX.DDX_Text(IDS_COMMENT, m_comment);
+
+    if (m_radio == IDB_RADIORANGE)
+    {
+        GetDlgItem(IDS_FROM).ShowWindow(SW_SHOW);
+        GetDlgItem(IDS_TO).ShowWindow(SW_SHOW);
+    }
+    else
+    {
+        GetDlgItem(IDS_FROM).ShowWindow(SW_HIDE);
+        GetDlgItem(IDS_TO).ShowWindow(SW_HIDE);
+    }
+
 }
 
 // Display the print dialog, and allow the user to select various options.
@@ -615,6 +627,18 @@ BOOL CCustomPrintDlg::OnRadioSelection(UINT id)
 {
     CheckRadioButton(IDB_RADIOALL, IDB_RADIOSELECTION, id);
     UpdateData(m_dx, READFROMCONTROL);
+
+    if (id == IDB_RADIORANGE)
+    {
+        GetDlgItem(IDS_FROM).ShowWindow(SW_SHOW);
+        GetDlgItem(IDS_TO).ShowWindow(SW_SHOW);
+    }
+    else
+    {
+        GetDlgItem(IDS_FROM).ShowWindow(SW_HIDE);
+        GetDlgItem(IDS_TO).ShowWindow(SW_HIDE);
+    } 
+
     return TRUE;
 }
 
