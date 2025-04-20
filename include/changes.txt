@@ -11,7 +11,7 @@ New Features and Enhancements
   GetSaveFileName and SHBrowseForFolder.
 
 * Updated CMenubar.
-  The menubar now supports menu items as well as popup menus. 
+  The menubar now supports menu items as well as popup menus.
   
 * Updated the support for Embarcadero's C++ Builder.
   Support for modern Windows 64-bit compiler has been added to the C++ Builder

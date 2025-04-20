@@ -279,8 +279,8 @@ namespace Win32xx
         if (pMDIChild == nullptr)
             return nullptr;
 
-        pMDIChild->Create(GetMDIClient());
         m_mdiChildren.push_back(std::move(MDIChild));
+        pMDIChild->Create(GetMDIClient());
 
         return pMDIChild;
     }
