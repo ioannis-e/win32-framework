@@ -381,7 +381,6 @@ namespace Win32xx
                 if (IsMDIChildMaxed() && (item == 0))
                 {
                     CWnd* pActiveChild = GetActiveMDIChild();
-                    assert(pActiveChild);
                     if (pActiveChild)
                     {
                         HICON icon = reinterpret_cast<HICON>(pActiveChild->
