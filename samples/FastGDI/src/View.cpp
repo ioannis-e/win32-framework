@@ -200,7 +200,6 @@ void CView::OnDraw(CDC& dc)
     {
         CMemDC memDC(dc);
         CSize size = m_image.GetSize();
-        memDC.CreateCompatibleBitmap(dc, size.cx, size.cy);
         memDC.SelectObject(m_image);
         dc.BitBlt(0, 0, size.cx, size.cy, memDC, 0, 0, SRCCOPY);
     }

@@ -82,7 +82,7 @@ BOOL CSearchDialog::OnCommand(WPARAM wparam, LPARAM /*lparam*/)
 // Called before the dialog is displayed.
 BOOL CSearchDialog::OnInitDialog()
 {
-    // Attach CWnd objects to the dialog items
+    // Attach CWnd objects to the dialog items.
     AttachItem(IDC_CHECKTITLE, m_titleButton);
     AttachItem(IDC_CHECKACTORS, m_actorsButton);
     AttachItem(IDC_CHECKINFO, m_infoButton);

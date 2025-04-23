@@ -1086,7 +1086,7 @@ namespace Win32xx
                     SetHotItem(CommandToIndex(id));
                     Press(id, TRUE);
                     m_isSelectedPopup = FALSE;
-                    m_selectedMenu = nullptr;    
+                    m_selectedMenu = nullptr;
                     GrabFocus();
                     Press(GetCommandID(m_hotItem), TRUE);
                 }

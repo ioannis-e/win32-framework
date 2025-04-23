@@ -188,7 +188,7 @@ LRESULT CViewList::OnCustomDraw(LPNMCUSTOMDRAW pCustomDraw)
         // Request notifications for individual header items.
         return CDRF_NOTIFYITEMDRAW;
 
-    case CDDS_ITEMPREPAINT: // Before an item is drawn
+    case CDDS_ITEMPREPAINT: // Before an item is drawn.
     {
         // Get an appropriate color for the header
         COLORREF color = GetSysColor(COLOR_BTNFACE);

@@ -56,7 +56,7 @@ BOOL CViewTree::OnBeginLabelEdit(LPARAM lparam)
         return FALSE;
     }
 
-    // Suppress label editing
+    // Suppress label editing.
     return TRUE;
 }
 
@@ -78,7 +78,7 @@ BOOL CViewTree::OnEndLabelEdit(LPARAM lparam)
 
     CString oldText = m_itemText;
 
-    // Use the new text unless the user cancelled the edit
+    // Use the new text unless the user cancelled the edit.
     LPWSTR text = pTVDispInfo->item.pszText;
     if ((text != nullptr) && (text[0] != L'\0'))
         m_itemText.GetWindowText(GetEditControl());
@@ -162,7 +162,7 @@ LRESULT CViewTree::OnRButtonUp(UINT msg, WPARAM wparam, LPARAM lparam)
     return DefWindowProc(msg, wparam, lparam);
 }
 
-// Called when a treeview item is selected
+// Called when a treeview item is selected.
 BOOL CViewTree::OnSelChanged()
 {
     // Send the message to CMainFrame.

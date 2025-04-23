@@ -38,13 +38,19 @@ void CMainFrame::LoadDefaultWindowPanes()
     CRect viewRect = GetViewRect();
 
     // Add the bottom pane first. It is a child of the main pane.
-    m_pDockTree = static_cast<CDockTree*>(AddDockedChild(new CDockTree, style | DS_DOCKED_BOTTOM, viewRect.Height() / 2, ID_DOCK_TREE));
+    m_pDockTree = static_cast<CDockTree*>(AddDockedChild(
+        make_unique<CDockTree>(), style | DS_DOCKED_BOTTOM,
+        viewRect.Height() / 2, ID_DOCK_TREE));
 
     // Add the bottom right pane. It is a child of the bottom pane.
-    m_pDockList = static_cast<CDockList*>(m_pDockTree->AddDockedChild(new CDockList, style | DS_DOCKED_RIGHT, viewRect.Width() / 2, ID_DOCK_LIST));
+    m_pDockList = static_cast<CDockList*>(m_pDockTree->AddDockedChild(
+        make_unique<CDockList>(), style | DS_DOCKED_RIGHT,
+        viewRect.Width() / 2, ID_DOCK_LIST));
 
     // Add the top right pane. It is a child of the main pane.
-    m_pDockText = static_cast<CDockText*>(AddDockedChild(new CDockText, style | DS_DOCKED_RIGHT, viewRect.Width() / 2, ID_DOCK_TEXT));
+    m_pDockText = static_cast<CDockText*>(AddDockedChild(
+        make_unique<CDockText>(), style | DS_DOCKED_RIGHT,
+        viewRect.Width() / 2, ID_DOCK_TEXT));
 }
 
 // Adds a new docker. The id specifies the dock type.

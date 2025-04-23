@@ -655,7 +655,6 @@ LRESULT CMiniFrame::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
 void CMiniFrame::PreCreate(CREATESTRUCT& cs)
 {
     // Set some optional parameters for the window
-    cs.lpszClass = L"MiniFrame Window";     // Window Class
     cs.x = DpiScaleInt(50);                 // top x
     cs.y = DpiScaleInt(50);                 // top y
     cs.cx = DpiScaleInt(400);               // width

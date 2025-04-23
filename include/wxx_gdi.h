@@ -5367,6 +5367,8 @@ namespace Win32xx
         m_pbmiArray->bmiHeader.biPlanes = data.bmPlanes;
         m_pbmiArray->bmiHeader.biBitCount = data.bmBitsPixel;
         m_pbmiArray->bmiHeader.biCompression = BI_RGB;
+        m_pbmiArray->bmiHeader.biSizeImage = ((data.bmWidth * cClrBits +31) & ~31) /8
+            * data.bmHeight;
         if (cClrBits < 24)
             m_pbmiArray->bmiHeader.biClrUsed = (1U << cClrBits);
     }

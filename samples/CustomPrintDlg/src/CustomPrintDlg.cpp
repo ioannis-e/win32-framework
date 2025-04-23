@@ -637,7 +637,7 @@ BOOL CCustomPrintDlg::OnRadioSelection(UINT id)
     {
         GetDlgItem(IDS_FROM).ShowWindow(SW_HIDE);
         GetDlgItem(IDS_TO).ShowWindow(SW_HIDE);
-    } 
+    }
 
     return TRUE;
 }

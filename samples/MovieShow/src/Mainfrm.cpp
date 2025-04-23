@@ -240,50 +240,42 @@ void CMainFrame::FillImageData(const CString& source, std::vector<BYTE>& dest)
         // Use a vector for an array of BYTE.
         std::vector<BYTE> sourceData(bufferSize, 0);
         BYTE* pSource = sourceData.data();
-        ::CryptStringToBinary(source.c_str(), (DWORD)source.GetLength(), CRYPT_STRING_BASE64, pSource, &bufferSize, nullptr, nullptr);
+        ::CryptStringToBinary(source.c_str(), (DWORD)source.GetLength(), CRYPT_STRING_BASE64, pSource, &bufferSize, nullptr, nullptr);       
 
-        // Convert the binary data to an IStream.
-        CHGlobal globalMemory(bufferSize);
-        if (globalMemory.Get() != nullptr)
+        // Create the IStream from the array of BYTE.
+        IStream* pStream = SHCreateMemStream(pSource, bufferSize);
+        if (pStream)
         {
-            CGlobalLock<CHGlobal> buffer(globalMemory);
-            if (buffer != nullptr)
+            // Acquire GDI+ Image from the IStream.
+            Image image(pStream);
+
+            // Create a smaller thumbnail Image.
+            using  BitmapPtr = std::unique_ptr<Bitmap>;
+            BitmapPtr img((Bitmap*)image.GetThumbnailImage(280, 420, nullptr, nullptr));
+            
+            IStream* stream = SHCreateMemStream(nullptr, 0);
+            if (stream)
             {
-                memcpy(buffer, pSource, bufferSize);
-                IStream* pStream = nullptr;
-                if (S_OK == ::CreateStreamOnHGlobal(globalMemory, FALSE, &pStream))
+                CLSID gifClsid = {};
+                GetEncoderClsid(L"image/gif", &gifClsid);
+                if (Gdiplus::Ok == img->Save(stream, &gifClsid, nullptr))
                 {
-                    // Acquire GDI+ Image from the IStream.
-                    Image image(pStream);
+                    // Get the size of the stream.
+                    ULARGE_INTEGER streamSize;
+                    VERIFY(S_OK == IStream_Size(stream, &streamSize));
+                    ULONG len = streamSize.LowPart;
+                    dest.assign(len, 0);
 
-                    // Create a smaller thumbnail Image.
-                    Bitmap* img = (Bitmap*)image.GetThumbnailImage(280, 420, nullptr, nullptr);
-
-                    IStream* stream = nullptr;
-                    HRESULT hr = ::CreateStreamOnHGlobal(nullptr, TRUE, &stream);
-                    if (!SUCCEEDED(hr))
-                        return;
-
-                    CLSID gifClsid = {};
-                    GetEncoderClsid(L"image/gif", &gifClsid);
-                    if (Gdiplus::Ok == img->Save(stream, &gifClsid, nullptr))
-                    {
-                        // Get the size of the stream.
-                        ULARGE_INTEGER streamSize;
-                        VERIFY(S_OK == IStream_Size(stream, &streamSize));
-                        ULONG len = streamSize.LowPart;
-                        dest.assign(len, 0);
-
-                        // Fill buffer from stream.
-                        VERIFY(S_OK == IStream_Reset(stream));
-                        VERIFY(S_OK == IStream_Read(stream, dest.data(), len));
-                    }
-
-                    // Cleanup.
-                    pStream->Release();
+                    // Fill buffer from stream.
+                    VERIFY(S_OK == IStream_Reset(stream));
+                    VERIFY(S_OK == IStream_Read(stream, dest.data(), len));
                 }
+                // Cleanup.
+                stream->Release();
             }
-        }
+            // Cleanup.
+            pStream->Release();
+        } 
     }
 }
 
@@ -1735,7 +1727,7 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton(0);                        // Separator
     AddToolBarButton(IDM_HELP_ABOUT);
 
-    // Create the normal ImageList for the toolbar
+    // Create the normal ImageList for the toolbar.
     int size = DpiScaleInt(32);
     m_toolbarImages.Create(size, size, ILC_COLOR32, 0, 0);
     m_toolbarImages.AddIcon(IDI_ADDFOLDER);
