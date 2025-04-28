@@ -68,6 +68,11 @@
 		<VirtualTargets>
 			<Add alias="All" targets="Debug MinGW GNU compiler;Release MinGW GNU compiler;" />
 		</VirtualTargets>
+		<Linker>
+			<Add option="-static-libstdc++" />
+			<Add option="-static-libgcc" />
+			<Add option="-static" />
+		</Linker>
 		<Unit filename="../../../include/default_resource.h" />
 		<Unit filename="../../../include/wxx_appcore.h" />
 		<Unit filename="../../../include/wxx_appcore0.h" />

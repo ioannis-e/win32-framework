@@ -145,13 +145,13 @@ BOOL CView::SaveFileImage(LPCWSTR fileName)
     {
         file.Open(fileName, OPEN_ALWAYS);
 
-       // Create our LPBITMAPINFO object
+       // Create our LPBITMAPINFO object.
        CBitmapInfoPtr pbmi(m_image);
 
-       // Create the reference DC for GetDIBits to use
+       // Create the reference DC for GetDIBits to use.
        CMemDC memDC(nullptr);
 
-       // Use GetDIBits to create a DIB from our DDB, and extract the colour data
+       // Use GetDIBits to extract the colour data from the CBitmapInfoPtr.
        VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, nullptr, pbmi, DIB_RGB_COLORS));
        std::vector<byte> byteArray(pbmi->bmiHeader.biSizeImage, 0);
        byte* pByteArray = byteArray.data();
@@ -161,6 +161,12 @@ BOOL CView::SaveFileImage(LPCWSTR fileName)
        LPBITMAPINFOHEADER pbmih = &pbmi->bmiHeader;
        BITMAPFILEHEADER hdr{};
        hdr.bfType = 0x4d42;        // 0x42 = "B" 0x4d = "M"
+
+       // bmiHeader.biClrUsed is cleared by GetDIBits, so we set it again.
+       // This is only required for bit counts less than 24.
+       if (pbmi->bmiHeader.biBitCount < 24)
+            pbmi->bmiHeader.biClrUsed = (1U << pbmi->bmiHeader.biBitCount);
+
        hdr.bfSize = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof(RGBQUAD) + pbmih->biSizeImage);
        hdr.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof (RGBQUAD));
 

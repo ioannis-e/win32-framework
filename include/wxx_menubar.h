@@ -947,7 +947,6 @@ namespace Win32xx
     // This is used to bring up a new popup menu when required.
     inline LRESULT CMenuBar::OnTBNHotItemChange(LPNMTBHOTITEM pNMHI)
     {
-        CPoint pt = GetCursorPos();
         DWORD flag = pNMHI->dwFlags;
         if (m_isMenuActive)
         {

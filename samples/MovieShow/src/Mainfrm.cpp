@@ -235,12 +235,14 @@ HWND CMainFrame::Create(HWND parent)
 void CMainFrame::FillImageData(const CString& source, std::vector<BYTE>& dest)
 {
     DWORD bufferSize = 0;
-    if (::CryptStringToBinary(source.c_str(), source.GetLength(), CRYPT_STRING_BASE64, nullptr, &bufferSize, nullptr, nullptr))
+    if (::CryptStringToBinary(source.c_str(), source.GetLength(),
+        CRYPT_STRING_BASE64, nullptr, &bufferSize, nullptr, nullptr))
     {
         // Use a vector for an array of BYTE.
         std::vector<BYTE> sourceData(bufferSize, 0);
         BYTE* pSource = sourceData.data();
-        ::CryptStringToBinary(source.c_str(), (DWORD)source.GetLength(), CRYPT_STRING_BASE64, pSource, &bufferSize, nullptr, nullptr);       
+        ::CryptStringToBinary(source.c_str(), (DWORD)source.GetLength(),
+            CRYPT_STRING_BASE64, pSource, &bufferSize, nullptr, nullptr);
 
         // Create the IStream from the array of BYTE.
         IStream* pStream = SHCreateMemStream(pSource, bufferSize);
@@ -252,7 +254,7 @@ void CMainFrame::FillImageData(const CString& source, std::vector<BYTE>& dest)
             // Create a smaller thumbnail Image.
             using  BitmapPtr = std::unique_ptr<Bitmap>;
             BitmapPtr img((Bitmap*)image.GetThumbnailImage(280, 420, nullptr, nullptr));
-            
+
             IStream* stream = SHCreateMemStream(nullptr, 0);
             if (stream)
             {
@@ -275,7 +277,7 @@ void CMainFrame::FillImageData(const CString& source, std::vector<BYTE>& dest)
             }
             // Cleanup.
             pStream->Release();
-        } 
+        }
     }
 }
 
