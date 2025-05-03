@@ -129,6 +129,11 @@ void CMainFrame::OnInitialUpdate()
             CloseAllDockers();
             LoadDefaultWindowPanes();
         }
+
+        if (m_pDockText->IsUndocked())
+            m_pDockText->Hide();
+        if (m_pDockList->IsUndocked())
+            m_pDockList->Hide();
     }
     else
     {
@@ -140,6 +145,22 @@ void CMainFrame::OnInitialUpdate()
     ShowWindow(GetInitValues().showCmd);
 }
 
+// Called before a menu item is displayed.
+void CMainFrame::OnMenuUpdate(UINT id)
+{
+    switch (id)
+    {
+    case IDM_VIEW_LIST:
+        GetFrameMenu().CheckMenuItem(id, m_pDockList->IsWindowVisible() ? 
+            MF_CHECKED : MF_UNCHECKED);
+        break;
+    case IDM_VIEW_TEXT:
+        GetFrameMenu().CheckMenuItem(id, m_pDockText->IsWindowVisible() ?
+            MF_CHECKED : MF_UNCHECKED);
+        break;
+    }
+}
+
 // Hides or shows the ListView window pane.
 BOOL CMainFrame::OnViewList()
 {
@@ -147,12 +168,10 @@ BOOL CMainFrame::OnViewList()
     if (m_pDockList->IsDocked())
     {
         m_pDockList->Hide();
-        GetFrameMenu().CheckMenuItem(IDM_VIEW_LIST, MF_UNCHECKED);
     }
     else
     {
         m_pDockTree->Dock(m_pDockList, style | DS_DOCKED_RIGHT);
-        GetFrameMenu().CheckMenuItem(IDM_VIEW_LIST, MF_CHECKED);
     }
 
     return TRUE;
@@ -166,12 +185,10 @@ BOOL CMainFrame::OnViewText()
     if (m_pDockText->IsDocked())
     {
         m_pDockText->Hide();
-        GetFrameMenu().CheckMenuItem(IDM_VIEW_TEXT, MF_UNCHECKED);
     }
     else
     {
         Dock(m_pDockText, style | DS_DOCKED_RIGHT);
-        GetFrameMenu().CheckMenuItem(IDM_VIEW_TEXT, MF_CHECKED);
     }
 
     return TRUE;

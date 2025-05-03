@@ -211,22 +211,22 @@ void CMainFrame::OnMenuUpdate(UINT id)
     switch(id)
     {
     case IDM_3DBORDER:
-        GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (m_use3DBorder ? MF_CHECKED : MF_UNCHECKED));
+        GetFrameMenu().CheckMenuItem(id, m_use3DBorder ? MF_CHECKED : MF_UNCHECKED);
         break;
     case IDM_NO_UNDOCK:
-        GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (m_disableUndocking ? MF_CHECKED : MF_UNCHECKED));
+        GetFrameMenu().CheckMenuItem(id, m_disableUndocking ? MF_CHECKED : MF_UNCHECKED);
         break;
     case IDM_NO_RESIZE:
-        GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (m_disableResize ? MF_CHECKED : MF_UNCHECKED));
+        GetFrameMenu().CheckMenuItem(id, m_disableResize ? MF_CHECKED : MF_UNCHECKED);
         break;
     case IDM_NO_DOCK_LR:
-        GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (m_disableDockLR ? MF_CHECKED : MF_UNCHECKED));
+        GetFrameMenu().CheckMenuItem(id, m_disableDockLR ? MF_CHECKED : MF_UNCHECKED);
         break;
     case IDM_NO_DOCK_CLOSE:
-        GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (m_disableDockClose ? MF_CHECKED : MF_UNCHECKED));
+        GetFrameMenu().CheckMenuItem(id, m_disableDockClose ? MF_CHECKED : MF_UNCHECKED);
         break;
     case IDM_NO_DOCK_CAPTION:
-        GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (m_disableDockCaption ? MF_CHECKED : MF_UNCHECKED));
+        GetFrameMenu().CheckMenuItem(id, m_disableDockCaption ? MF_CHECKED : MF_UNCHECKED);
         break;
     }
 

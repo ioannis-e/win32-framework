@@ -299,21 +299,21 @@ BOOL CMainFrame::OnShiftF1()
 void CMainFrame::OnUpdateCheckA(UINT id)
 {
     BOOL checkA = GetDoc().GetCheckA();
-    GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (checkA ? MF_CHECKED : MF_UNCHECKED));
+    GetFrameMenu().CheckMenuItem(id, checkA ? MF_CHECKED : MF_UNCHECKED);
 }
 
 // Updates the menu when check box B is clicked.
 void CMainFrame::OnUpdateCheckB(UINT id)
 {
     BOOL checkB = GetDoc().GetCheckB();
-    GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (checkB ? MF_CHECKED : MF_UNCHECKED));
+    GetFrameMenu().CheckMenuItem(id, checkB ? MF_CHECKED : MF_UNCHECKED);
 }
 
 // Updates the menu when check box C is clicked.
 void CMainFrame::OnUpdateCheckC(UINT id)
 {
     BOOL checkC = GetDoc().GetCheckC();
-    GetFrameMenu().CheckMenuItem(id, MF_BYCOMMAND | (checkC ? MF_CHECKED : MF_UNCHECKED));
+    GetFrameMenu().CheckMenuItem(id, checkC ? MF_CHECKED : MF_UNCHECKED);
 }
 
 // Updates the menu when a radio button is selected.

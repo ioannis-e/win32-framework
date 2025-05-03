@@ -1639,27 +1639,29 @@ namespace Win32xx
     inline CRect CFrameT<T>::ExcludeChildRect(const CRect& clientRect, HWND child) const
     {
         CRect clientRC = clientRect;
-        VERIFY(T::ClientToScreen(clientRC));
-
-        CRect childRect;
-        VERIFY(::GetWindowRect(child, &childRect));
-
-        if (clientRC.Width() == childRect.Width())
+        if (T::ClientToScreen(clientRC))
         {
-            if (clientRC.top == childRect.top)
-                clientRC.top += childRect.Height();
-            else
-                clientRC.bottom -= childRect.Height();
-        }
-        else
-        {
-            if (clientRC.left == childRect.left)
-                clientRC.left += childRect.Width();
-            else
-                clientRC.right -= childRect.Width();
-        }
 
-        VERIFY(T::ScreenToClient(clientRC));
+            CRect childRect;
+            VERIFY(::GetWindowRect(child, &childRect));
+
+            if (clientRC.Width() == childRect.Width())
+            {
+                if (clientRC.top == childRect.top)
+                    clientRC.top += childRect.Height();
+                else
+                    clientRC.bottom -= childRect.Height();
+            }
+            else
+            {
+                if (clientRC.left == childRect.left)
+                    clientRC.left += childRect.Width();
+                else
+                    clientRC.right -= childRect.Width();
+            }
+
+            VERIFY(T::ScreenToClient(clientRC));
+        }
 
         return clientRC;
     }

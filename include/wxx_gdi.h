@@ -5348,7 +5348,7 @@ namespace Win32xx
         VERIFY(::GetObject(bitmap, sizeof(data), &data));
 
         // Convert the color format to a count of bits.
-        WORD cClrBits = static_cast<WORD>(data.bmPlanes * data.bmBitsPixel);
+        WORD cClrBits = data.bmBitsPixel;
         if (cClrBits <= 1)       cClrBits = 1;
         else if (cClrBits <= 4)  cClrBits = 4;
         else if (cClrBits <= 8)  cClrBits = 8;

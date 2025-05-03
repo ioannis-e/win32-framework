@@ -28,6 +28,7 @@ protected:
     virtual DockPtr NewDockerFromID(int id) override;
     virtual BOOL OnCommand(WPARAM wparam, LPARAM lparam) override;
     virtual void OnInitialUpdate() override;
+    virtual void OnMenuUpdate(UINT id) override;
     virtual void PreCreate(CREATESTRUCT& cs) override;
     virtual BOOL SaveRegistrySettings() override;
     virtual void SetupMenuIcons() override;

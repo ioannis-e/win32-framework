@@ -76,8 +76,10 @@ namespace Win32xx
     //
     /////////////////////////////////////////////////////////////////////
 
+#ifndef WIN32_LEAN_AND_MEAN
     using CDevMode = CGlobalLock<DEVMODE>;
     using CDevNames = CGlobalLock<DEVNAMES>;
+#endif
 
     ////////////////////////////////////////
     // Definitions for the CGlobalLock class
@@ -142,6 +144,8 @@ namespace Win32xx
         }
     }
 
+#ifndef WIN32_LEAN_AND_MEAN
+
     // Returns a const TCHAR* for the DEVNAMES in the global memory.
     template <>
     inline LPCTSTR CDevNames::c_str() const
@@ -190,6 +194,7 @@ namespace Win32xx
         return (m_p != nullptr) ? ((*this)->wDefault & DN_DEFAULTPRN) : false;
     }
 
+    #endif // 
 
     ////////////////////////////////////
     // Definitions for the CWinApp class
@@ -558,6 +563,8 @@ namespace Win32xx
     // and the default printer has changed.
     inline void CWinApp::UpdateDefaultPrinter()
     {
+        #ifndef WIN32_LEAN_AND_MEAN
+
         CThreadLock lock(m_printLock);
 
         if (m_devNames.Get() == nullptr)
@@ -610,6 +617,8 @@ namespace Win32xx
                 }
             }
         }
+
+#endif // WIN32_LEAN_AND_MEAN
     }
 
     // Updates the current printer global memory with the specified memory
