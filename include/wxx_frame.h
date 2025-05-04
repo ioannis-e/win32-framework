@@ -1641,7 +1641,6 @@ namespace Win32xx
         CRect clientRC = clientRect;
         if (T::ClientToScreen(clientRC))
         {
-
             CRect childRect;
             VERIFY(::GetWindowRect(child, &childRect));
 

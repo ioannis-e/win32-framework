@@ -755,7 +755,7 @@ LRESULT CMainFrame::OnNCHitTest(UINT msg, WPARAM wparam, LPARAM lparam)
     int padding = ::GetSystemMetricsForDpi(SM_CXPADDEDBORDER, dpi);
     CPoint cursorPoint(lparam);
     ScreenToClient(cursorPoint);
-    if (cursorPoint.y > 0 && cursorPoint.y < frameY + padding)
+    if (!IsMaximized() && cursorPoint.y > 0 && cursorPoint.y < frameY + padding)
     {
         return HTTOP;
     }
