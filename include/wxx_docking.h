@@ -517,9 +517,9 @@ namespace Win32xx
         virtual CDocker* AddDockedChild(DockPtr docker, DWORD dockStyle,
             int dockSize, int dockID = 0);
         virtual CDocker* AddUndockedChild(CDocker* pDocker, DWORD dockStyle,
-            int dockSize, RECT rc, int dockID = 0);
+            int dockSize, RECT rc, int dockID = 0, bool isHidden = false);
         virtual CDocker* AddUndockedChild(DockPtr docker, DWORD dockStyle,
-            int dockSize, RECT rc, int dockID = 0);
+            int dockSize, RECT rc, int dockID = 0, bool isHidden = false);
         virtual void CloseAllDockers();
         virtual void Dock(CDocker* pDocker, UINT dockSide);
         virtual void DockInContainer(CDocker* pDocker, DWORD dockStyle,
@@ -682,6 +682,7 @@ namespace Win32xx
         int dockID;
         int dockParentID;
         bool isInAncestor;
+        bool isHidden;
         RECT rect;
     };
 
@@ -2135,15 +2136,15 @@ namespace Win32xx
 
     // This function creates the docker, and adds it to the docker hierarchy as undocked.
     inline CDocker* CDocker::AddUndockedChild(CDocker* pDocker, DWORD dockStyle,
-        int dockSize, RECT rc, int dockID /* = 0*/)
+        int dockSize, RECT rc, int dockID /* = 0*/, bool isHidden /* = false */)
     {
         assert(pDocker);
-        return AddUndockedChild(DockPtr(pDocker), dockStyle, dockSize, rc, dockID);
+        return AddUndockedChild(DockPtr(pDocker), dockStyle, dockSize, rc, dockID, isHidden);
     }
 
     // This function creates the docker, and adds it to the docker hierarchy as undocked.
     inline CDocker* CDocker::AddUndockedChild(DockPtr docker, DWORD dockStyle,
-        int dockSize, RECT rc, int dockID /* = 0*/)
+        int dockSize, RECT rc, int dockID /* = 0*/, bool isHidden /* = false */)
     {
         CDocker* pDocker = docker.get();
         assert(pDocker);
@@ -2171,12 +2172,15 @@ namespace Win32xx
         pDocker->SetStyle(style);
         pDocker->SetRedraw(FALSE);
         pDocker->SetParent(0);
-        VERIFY(pDocker->SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW | SWP_FRAMECHANGED));
+        VERIFY(pDocker->SetWindowPos(HWND_TOP, rc, SWP_FRAMECHANGED));
         pDocker->RecalcDockLayout();
         pDocker->SetWindowText(pDocker->GetCaption().c_str());
         pDocker->SetRedraw(TRUE);
 
-        pDocker->RedrawWindow(RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_ALLCHILDREN);
+        if (isHidden)
+            pDocker->Hide();
+        else
+            pDocker->RedrawWindow(RDW_INVALIDATE | RDW_UPDATENOW | RDW_ERASE | RDW_ALLCHILDREN);
         pDocker->m_isUndocking = FALSE;  // IsUndocked now reports TRUE.
 
         return pDocker;
@@ -2947,7 +2951,7 @@ namespace Win32xx
                                 di.dockSize, di.dockID);
                         else
                             AddUndockedChild(std::move(docker), di.dockStyle,
-                                di.dockSize, di.rect, di.dockID);
+                                di.dockSize, di.rect, di.dockID, di.isHidden);
                     }
                 }
 
@@ -3942,6 +3946,7 @@ namespace Win32xx
                         di.dockParentID = pDocker->GetDockParent()->GetDockID();
 
                     di.isInAncestor = (pDocker->GetDockParent() == GetDockAncestor());
+                    di.isHidden = !pDocker->IsWindowVisible();
 
                     allDockInfo.push_back(di);
                 }
@@ -4092,7 +4097,7 @@ namespace Win32xx
     }
 
     // Sets the docker's style from one or more of the following:
-    // DS_DOCKED_LEFT,DS_DOCKED_RIGHT, DS_DOCKED_TOP, DS_DOCKED_BOTTOM,
+    // DS_DOCKED_LEFT, DS_DOCKED_RIGHT, DS_DOCKED_TOP, DS_DOCKED_BOTTOM,
     // DS_NO_DOCKCHILD_LEFT, DS_NO_DOCKCHILD_RIGHT, DS_NO_DOCKCHILD_TOP,
     // DS_NO_DOCKCHILD_BOTTOM, DS_NO_RESIZE, DS_NO_CAPTION, DS_NO_CLOSE,
     // DS_NO_UNDOCK, DS_CLIENTEDGE, DS_DOCKED_CONTAINER,

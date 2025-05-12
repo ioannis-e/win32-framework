@@ -129,11 +129,6 @@ void CMainFrame::OnInitialUpdate()
             CloseAllDockers();
             LoadDefaultWindowPanes();
         }
-
-        if (m_pDockText->IsUndocked())
-            m_pDockText->Hide();
-        if (m_pDockList->IsUndocked())
-            m_pDockList->Hide();
     }
     else
     {

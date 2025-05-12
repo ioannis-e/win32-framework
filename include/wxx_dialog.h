@@ -842,6 +842,10 @@ namespace Win32xx
             break;
 
         case WM_SIZE:
+            // A fix for an issue that's been reported but not verified.
+            if (wparam == SIZE_RESTORED)
+                m_isDpiChanging = false;
+
             RecalcLayout();
             break;
 
