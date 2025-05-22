@@ -142,6 +142,8 @@ BOOL CMyTaskDialog::OnTDTimer(DWORD)
 // Called when the user clicks the Task Dialog verification check box.
 void CMyTaskDialog::OnTDVerificationCheckboxClicked(BOOL isChecked)
 {
+    UNREFERENCED_PARAMETER(isChecked);
+
     CString text("Verification Checkbox is ");
     TRACE(text << (isChecked ? "checked\n" : "unchecked\n"));
 }
