@@ -1190,7 +1190,7 @@ namespace Win32xx
         if ( !::SysReAllocStringLen(pBstr, AtoW(m_str.c_str()), static_cast<UINT>(m_str.length())) )
             throw std::bad_alloc();
 
-        return pBstr? *pBstr : 0;
+        return pBstr? *pBstr : nullptr;
     }
 
     // Sets an existing BSTR object to the string.
@@ -1205,7 +1205,7 @@ namespace Win32xx
                 throw std::bad_alloc();
         }
 
-        return pBstr ? *pBstr : 0;
+        return pBstr ? *pBstr : nullptr;
     }
 
     // Extracts characters from the string, starting with the first character,

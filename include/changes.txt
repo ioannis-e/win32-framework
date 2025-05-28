@@ -20,7 +20,7 @@ New Features and Enhancements
 
 * Updated the support for Clang compilers.
 
-* Updated the CommonDialogs, MovieShow and TaskDialog samples.
+* Updated the CommonDialogs, EdgeBrowserEx, MovieShow and TaskDialog samples.
 
 
 Version 10.1
