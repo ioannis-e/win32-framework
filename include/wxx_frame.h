@@ -401,7 +401,7 @@ namespace Win32xx
             ::UnhookWindowsHookEx(m_kbdHook);
     }
 
-    // Adds the grayscale image of the specified icon the disabled menu image-list.
+    // Adds the grayscale image of the specified icon the disabled menu image list.
     // This function is called by AddMenuIcon.
     template <class T>
     inline void CFrameT<T>::AddDisabledMenuImage(HICON icon, COLORREF mask)
@@ -553,7 +553,7 @@ namespace Win32xx
             // Add the images to the imageList.
             m_menuImages.Add(bitmap, mask);
 
-            // Add the images to the disabled imagelist.
+            // Add the images to the disabled image list.
             if (disabledID != 0)
             {
                 // Create the disabled ImageList from disabledID.
@@ -672,7 +672,7 @@ namespace Win32xx
         VERIFY(T::SetWindowPos(HWND_TOP, 0, 0, width, height, SWP_NOMOVE));
     }
 
-    // Clears the normal and disabled imagelists for menu icons.
+    // Clears the normal and disabled image lists for menu icons.
     template <class T>
     inline void CFrameT<T>::ClearMenuIcons()
     {
@@ -1281,7 +1281,7 @@ namespace Win32xx
         int left = (gutter.Width() - xIcon) / 2;
         int top = itemRect.top + (itemRect.Height() - yIcon) / 2;
 
-        // get the icon's location in the imagelist.
+        // get the icon's location in the image list.
         int image = -1;
         for (size_t i = 0 ; i < m_menuItemIDs.size(); ++i)
         {
@@ -1816,7 +1816,7 @@ namespace Win32xx
         const CString settingsKeyName = _T("Software\\") + m_keyName +
             _T("\\Frame Settings");
         BOOL isOK = FALSE;
-        InitValues values;
+        InitValues values = {};
         CRegKey key;
         if (ERROR_SUCCESS == key.Open(HKEY_CURRENT_USER, settingsKeyName, KEY_READ))
         {
@@ -1885,8 +1885,7 @@ namespace Win32xx
                 if (ERROR_SUCCESS == appKey.Open(HKEY_CURRENT_USER, appKeyName, KEY_READ))
                     appKey.DeleteSubKey(_T("Frame Settings"));
 
-                InitValues defaultValues;
-                values = defaultValues;
+                values = {};
             }
         }
 
@@ -3412,7 +3411,7 @@ namespace Win32xx
         }
     }
 
-    // Sets sets the toolbar's imagelists. The ToolBarIDs are bitmap resources
+    // Sets sets the toolbar's image lists. The ToolBarIDs are bitmap resources
     // containing a set of toolbar button images. Each toolbar button image
     // must have a minimum height of 16. Its height must equal its width.
     // The color mask is ignored for 32bit bitmaps, but is required for 24bit bitmaps
@@ -3423,10 +3422,10 @@ namespace Win32xx
     inline void CFrameT<T>::SetToolBarImages(CToolBar& toolbar, COLORREF mask,
         UINT toolBarID, UINT toolBarHotID, UINT toolBarDisabledID)
     {
-        // Set the normal imagelist.
+        // Set the normal image list.
         SetTBImageList(toolbar, toolBarID, mask);
 
-        // Set the hot imagelist.
+        // Set the hot image list.
         if (toolBarHotID != 0)
         {
             SetTBImageListHot(toolbar, toolBarHotID, mask);
@@ -3444,7 +3443,7 @@ namespace Win32xx
         }
     }
 
-    // Sets the toolbar's imagelists. The ToolBarIDs are bitmap resources
+    // Sets the toolbar's image lists. The ToolBarIDs are bitmap resources
     // containing a set of toolbar button images. Each toolbar button image
     // must have a minimum height of 16. Its height must equal its width.
     // The color mask is ignored for 32bit bitmaps, but is required for 24bit bitmaps

@@ -11,7 +11,10 @@ New Features and Enhancements
   GetSaveFileName and SHBrowseForFolder.
 
 * Updated CMenubar.
-  The menubar now supports menu items as well as popup menus.
+  The menubar now supports single menu items as well as popup menus.
+  
+* Extended CBitmapInfoPtr.
+  A CBitmapInfoPtr object can now be constructed from a BITMAP struct. 
   
 * Updated the support for Embarcadero's C++ Builder.
   Support for modern Windows 64-bit compiler has been added to the C++ Builder
@@ -21,6 +24,10 @@ New Features and Enhancements
 * Updated the support for Clang compilers.
 
 * Updated the CommonDialogs, EdgeBrowserEx, MovieShow and TaskDialog samples.
+
+Changes in detail
+-----------------
+Added CBitmapInfoPtr::CBitmapInfoPtr(BITMAP bitmap)    constructor
 
 
 Version 10.1

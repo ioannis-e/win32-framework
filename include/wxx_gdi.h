@@ -896,6 +896,7 @@ namespace Win32xx
     class CBitmapInfoPtr
     {
     public:
+        CBitmapInfoPtr(BITMAP bitmap);
         CBitmapInfoPtr(HBITMAP bitmap);
         LPBITMAPINFO get() const { return m_pbmiArray; }
         operator LPBITMAPINFO() const { return m_pbmiArray; }
@@ -904,6 +905,7 @@ namespace Win32xx
     private:
         CBitmapInfoPtr(const CBitmapInfoPtr&) = delete;
         CBitmapInfoPtr& operator=(const CBitmapInfoPtr&) = delete;
+        void CreateBitmapInfo(BITMAP data);
         LPBITMAPINFO m_pbmiArray;
         std::vector<byte> m_bmi;
     };
@@ -5342,11 +5344,25 @@ namespace Win32xx
     // Definitions for the CBitmapInfoPtr class
     //
 
+    // Constuct the CBitmapInfoPtr from the handle to a bitmap. 
     inline CBitmapInfoPtr::CBitmapInfoPtr(HBITMAP bitmap)
     {
         BITMAP data{};
         VERIFY(::GetObject(bitmap, sizeof(data), &data));
+        CreateBitmapInfo(data);
+    }
 
+    // Constuct the CBitmapInfoPtr from a BITMAP struct. 
+    inline CBitmapInfoPtr::CBitmapInfoPtr(BITMAP bitmap)
+    {
+        // The specified BITMAP must have the following members assigned:
+        // bmHeight; bmWidth; and bmBitsPixel.
+        CreateBitmapInfo(bitmap);
+    }
+
+    // Creates and assigns a BITMAPINFO struct from the specified BITMAP.
+    inline void CBitmapInfoPtr::CreateBitmapInfo(BITMAP data)
+    {
         // Convert the color format to a count of bits.
         WORD cClrBits = data.bmBitsPixel;
         if (cClrBits <= 1)       cClrBits = 1;
@@ -5364,10 +5380,10 @@ namespace Win32xx
         m_pbmiArray->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
         m_pbmiArray->bmiHeader.biHeight = data.bmHeight;
         m_pbmiArray->bmiHeader.biWidth = data.bmWidth;
-        m_pbmiArray->bmiHeader.biPlanes = data.bmPlanes;
+        m_pbmiArray->bmiHeader.biPlanes = 1; // All bitmaps have 1 plane.
         m_pbmiArray->bmiHeader.biBitCount = data.bmBitsPixel;
         m_pbmiArray->bmiHeader.biCompression = BI_RGB;
-        m_pbmiArray->bmiHeader.biSizeImage = ((data.bmWidth * cClrBits +31) & ~31) /8
+        m_pbmiArray->bmiHeader.biSizeImage = ((data.bmWidth * cClrBits + 31) & ~31) / 8
             * data.bmHeight;
 
         if (m_pbmiArray->bmiHeader.biBitCount < 24)

@@ -1590,12 +1590,12 @@ namespace Win32xx
         RecalcLayout();
     }
 
-    // Assigns or removes tab control's image-list as required.
+    // Assigns or removes tab control's image list as required.
     inline void CTab::UpdateImageList()
     {
         DWORD style = GetStyle();
         if (style & TCS_FIXEDWIDTH && style & TCS_OWNERDRAWFIXED)
-            // Remove the image-list to allow very narrow tabs.
+            // Remove the image list to allow very narrow tabs.
             SetImageList(0);
         else
             SetImageList(m_images);

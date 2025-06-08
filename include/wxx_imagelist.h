@@ -270,7 +270,7 @@ namespace Win32xx
         }
     }
 
-    // Attach and own the specfied imagelist.
+    // Attach and own the specfied image list.
     inline void CImageList::Assign(HIMAGELIST images)
     {
         CThreadLock mapLock(GetApp()->m_wndLock);
@@ -753,7 +753,7 @@ namespace Win32xx
                 // Draw the image on the memory DC.
                 ImageList_Draw(normalImages, i, memDC, 0, 0, ILD_NORMAL);
 
-                // Convert the bitmap to grayscale and add it to the imagelist.
+                // Convert the bitmap to grayscale and add it to the image list.
                 CBitmap bitmap = memDC.DetachBitmap();
                 bitmap.ConvertToDisabled(mask);
                 Add(bitmap, mask);

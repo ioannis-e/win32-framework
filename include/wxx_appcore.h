@@ -758,7 +758,7 @@ namespace Win32xx
 
     // Image list, Menu and Printer messages
     inline CString CWinApp::MsgImageList() const
-    { return _T("Failed to create imagelist."); }
+    { return _T("Failed to create image list."); }
 
     inline CString CWinApp::MsgMenu() const
     { return _T("Failed to create menu."); }
@@ -887,7 +887,7 @@ namespace Win32xx
 
         // The ANSI and UNICODE versions of LoadString behave differently.
         // This technique only works for LoadStringW.
-        LPCWSTR pString;
+        LPCWSTR pString = nullptr;
         int charCount = ::LoadStringW(GetApp()->GetResourceHandle(), id,
             reinterpret_cast<LPWSTR>(&pString), 0);
 
