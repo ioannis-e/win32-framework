@@ -896,7 +896,7 @@ namespace Win32xx
     class CBitmapInfoPtr
     {
     public:
-        CBitmapInfoPtr(BITMAP bitmap);
+        CBitmapInfoPtr(const BITMAP& bitmap);
         CBitmapInfoPtr(HBITMAP bitmap);
         LPBITMAPINFO get() const { return m_pbmiArray; }
         operator LPBITMAPINFO() const { return m_pbmiArray; }
@@ -905,7 +905,7 @@ namespace Win32xx
     private:
         CBitmapInfoPtr(const CBitmapInfoPtr&) = delete;
         CBitmapInfoPtr& operator=(const CBitmapInfoPtr&) = delete;
-        void CreateBitmapInfo(BITMAP data);
+        void CreateBitmapInfo(const BITMAP& data);
         LPBITMAPINFO m_pbmiArray;
         std::vector<byte> m_bmi;
     };
@@ -5344,7 +5344,7 @@ namespace Win32xx
     // Definitions for the CBitmapInfoPtr class
     //
 
-    // Constuct the CBitmapInfoPtr from the handle to a bitmap. 
+    // Constuct the CBitmapInfoPtr from the handle to a bitmap.
     inline CBitmapInfoPtr::CBitmapInfoPtr(HBITMAP bitmap)
     {
         BITMAP data{};
@@ -5352,8 +5352,8 @@ namespace Win32xx
         CreateBitmapInfo(data);
     }
 
-    // Constuct the CBitmapInfoPtr from a BITMAP struct. 
-    inline CBitmapInfoPtr::CBitmapInfoPtr(BITMAP bitmap)
+    // Constuct the CBitmapInfoPtr from a BITMAP struct.
+    inline CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap)
     {
         // The specified BITMAP must have the following members assigned:
         // bmHeight; bmWidth; and bmBitsPixel.
@@ -5361,7 +5361,7 @@ namespace Win32xx
     }
 
     // Creates and assigns a BITMAPINFO struct from the specified BITMAP.
-    inline void CBitmapInfoPtr::CreateBitmapInfo(BITMAP data)
+    inline void CBitmapInfoPtr::CreateBitmapInfo(const BITMAP& data)
     {
         // Convert the color format to a count of bits.
         WORD cClrBits = data.bmBitsPixel;

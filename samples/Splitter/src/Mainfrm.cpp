@@ -146,7 +146,7 @@ void CMainFrame::OnMenuUpdate(UINT id)
     switch (id)
     {
     case IDM_VIEW_LIST:
-        GetFrameMenu().CheckMenuItem(id, m_pDockList->IsWindowVisible() ? 
+        GetFrameMenu().CheckMenuItem(id, m_pDockList->IsWindowVisible() ?
             MF_CHECKED : MF_UNCHECKED);
         break;
     case IDM_VIEW_TEXT:

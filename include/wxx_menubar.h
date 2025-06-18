@@ -1002,7 +1002,8 @@ namespace Win32xx
     // Set the window style, before it is created.
     inline void CMenuBar::PreCreate(CREATESTRUCT& cs)
     {
-        cs.style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TBSTYLE_TOOLTIPS | TBSTYLE_LIST | TBSTYLE_FLAT | CCS_NODIVIDER | CCS_NORESIZE;
+        cs.style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | TBSTYLE_TOOLTIPS |
+            TBSTYLE_LIST | TBSTYLE_FLAT | CCS_NODIVIDER | CCS_NORESIZE;
     }
 
     // Set the window class,
@@ -1136,7 +1137,7 @@ namespace Win32xx
             // Later we will custom draw the window icon over this button.
             TBBUTTON tbb{};
             tbb.fsState = TBSTATE_ENABLED;
-            tbb.fsStyle = TBSTYLE_BUTTON | TBSTYLE_AUTOSIZE ;
+            tbb.fsStyle = BTNS_BUTTON | BTNS_AUTOSIZE ;
             tbb.iString = reinterpret_cast<INT_PTR>(_T(" "));
             AddButtons(1, &tbb);
             SetButtonText(0, _T("    "));
@@ -1148,7 +1149,7 @@ namespace Win32xx
             TBBUTTON tbb{};
             tbb.idCommand = i  + maxedOffset;  // Each button needs a unique ID.
             tbb.fsState = TBSTATE_ENABLED;
-            tbb.fsStyle = TBSTYLE_BUTTON | TBSTYLE_AUTOSIZE | TBSTYLE_DROPDOWN;
+            tbb.fsStyle = BTNS_BUTTON | BTNS_AUTOSIZE | BTNS_DROPDOWN;
             tbb.iString = reinterpret_cast<INT_PTR>(_T(" "));
             AddButtons(1, &tbb);
 

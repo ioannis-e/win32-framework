@@ -74,8 +74,8 @@ int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     CWinApp theApp;
 
     // Create our view window
-    CView MyWin;
-    MyWin.Create();
+    CView myWin;
+    myWin.Create();
 
     // Run the application's message loop
     return theApp.Run();
@@ -209,30 +209,39 @@ namespace Win32xx
 
     // Scales the specified bitmap up by the specified scale factor.
     // Bitmap sizes can usually be multiplied by an integer value without
-    // losing visual quality.
+    // losing visual quality. Returns a Device Independent Bitmap (DIB).
     inline CBitmap ScaleUpBitmap(const CBitmap& bitmap, int scale)
     {
         assert(bitmap.GetHandle() != nullptr);
         assert(scale != 0);
 
-        // Get the size of the bitmap.
-        CSize size = bitmap.GetSize();
-        int newWidth = size.cx * scale;
-        int newHeight = size.cy * scale;
-
-        // Create the device contexts.
-        CClientDC clientDC(HWND_DESKTOP);
-        CMemDC newImageDC(clientDC);
-        CMemDC imageDC(clientDC);
-
-        // Create and select the bitmaps.
-        newImageDC.CreateCompatibleBitmap(clientDC, newWidth, newHeight);
+        // Select the bitmap into a memory DC.
+        CMemDC imageDC(nullptr);
         imageDC.SelectObject(bitmap);
 
-        // Stretch the bitmap to the new size.
-        newImageDC.SetStretchBltMode(COLORONCOLOR);
-        newImageDC.StretchBlt(0, 0, newWidth, newHeight, imageDC, 0, 0,
-            size.cx, size.cy, SRCCOPY);
+        // Create and select a DIB using CreateDIBSection.
+        CMemDC newImageDC(nullptr);
+        BITMAP  bm = bitmap.GetBitmapData();
+        bm.bmWidth = bm.bmWidth * scale;
+        bm.bmHeight = bm.bmHeight * scale;
+        CBitmapInfoPtr pbmi(bm);
+        newImageDC.CreateDIBSection(newImageDC, pbmi, DIB_RGB_COLORS, nullptr,
+            nullptr, 0);
+
+        // Copy the color table from the vertical to the horizontal DIB.
+        if (bm.bmBitsPixel <= 8)
+        {
+            int numColors = 1 << bm.bmBitsPixel;
+            std::vector<RGBQUAD> colors(numColors);
+            RGBQUAD* colorTable = colors.data();
+            ::GetDIBColorTable(imageDC, 0, numColors, colorTable);
+            ::SetDIBColorTable(newImageDC, 0, numColors, colorTable);
+        }
+
+        // Resize the bitmap to the new image size.
+        CSize szImage = bitmap.GetSize();
+        newImageDC.StretchBlt(0, 0, bm.bmWidth, bm.bmHeight, imageDC, 0, 0,
+            szImage.cx, szImage.cy, SRCCOPY);
 
         return newImageDC.DetachBitmap();
     }
@@ -425,8 +434,8 @@ namespace Win32xx
 
         // Create the window.
         wnd = CreateEx(cs.dwExStyle, cs.lpszClass, cs.lpszName, style,
-                cs.x, cs.y, cs.cx, cs.cy, cs.hwndParent,
-                cs.hMenu, cs.lpCreateParams);
+                cs.x, cs.y, cs.cx, cs.cy, cs.hwndParent, cs.hMenu,
+                cs.lpCreateParams);
 
         // Show the window maximized, minimized, or normal.
         if (cs.style & WS_VISIBLE)

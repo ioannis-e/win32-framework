@@ -58,13 +58,13 @@ BOOL CMainFrame::DropFiles(LPARAM lparam)
 void CMainFrame::InitCtlColors()
 {
     m_colorChoice.AddColorChoice(DlgBg,   L"o Dialog background",
-        COLOR_LT_BLUE);
-    m_colorChoice.AddColorChoice(REdTxFg, L"o  RichEdit text foreground",
+        COLOR_DK_BLUE);
+    m_colorChoice.AddColorChoice(REdTxFg, L"o RichEdit text foreground",
+        COLOR_BLACK);
+    m_colorChoice.AddColorChoice(REdTxBg, L"o RichEdit text background",
         COLOR_WHITE);
-    m_colorChoice.AddColorChoice(REdTxBg, L"o  RichEdit text background",
-        COLOR_RED);
-    m_colorChoice.AddColorChoice(REdBg,   L"o  RichEdit background",
-        COLOR_LT_RED);
+    m_colorChoice.AddColorChoice(REdBg,   L"o RichEdit background",
+        COLOR_WHITE);
 }
 
 void CMainFrame::OnCloseDoc()
@@ -517,9 +517,7 @@ void CMainFrame::SetReBarColors(COLORREF clrBkGnd1, COLORREF clrBkGnd2,
 // identifier to the menu icon list.
 void CMainFrame::SetupMenuIcons()
 {
-    // Add IDW_ABOUT to the menu data.
     std::vector<UINT> data = GetToolBarData();
-    data.push_back(IDW_ABOUT);
 
     // Specify the bitmap and mask for the menu icons.
     if (GetMenuIconHeight() >= 24)
@@ -551,6 +549,8 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton(0);  // Separator
     AddToolBarButton(IDM_COLOR_CHOICE,  TRUE, 0, 9);
     AddToolBarButton(IDM_FONT_CHOICE,   TRUE, 0, 10);
+    AddToolBarButton(0);  // Separator
+    AddToolBarButton(IDW_ABOUT,         TRUE, 0, 11);
 
     // Set the toolbar image list: use defaults for hot and disabled
     SetToolBarImages(RGB(255, 0, 255), IDW_MAIN, 0, 0);

@@ -199,14 +199,14 @@ namespace Win32xx
 
         if (id == 0)
         {
-            tbb.fsStyle = TBSTYLE_SEP;
+            tbb.fsStyle = BTNS_SEP;
         }
         else
         {
             tbb.iBitmap = nImages;
             tbb.idCommand = static_cast<int>(id);
             tbb.fsState = isEnabled? TBSTATE_ENABLED : 0U;
-            tbb.fsStyle = TBSTYLE_BUTTON;
+            tbb.fsStyle = BTNS_BUTTON;
         }
 
         // Add the button to the toolbar.
@@ -370,14 +370,14 @@ namespace Win32xx
     }
 
     //  Retrieves the the style of the ToolBar control. The following button styles are supported:
-    //  TBSTYLE_BUTTON      Standard push button (default)
-    //  TBSTYLE_SEP         Separator
-    //  TBSTYLE_CHECK       Auto check-box button
-    //  TBSTYLE_GROUP       Marks the start of a group of buttons
-    //  TBSTYLE_CHECKGROUP  Marks the start of a group of check-box buttons
-    //  TBSTYLE_DROPDOWN    Creates a drop-down list button
-    //  TBSTYLE_AUTOSIZE    The button's width will be calculated based on the text of the button, not on the size of the image
-    //  TBSTYLE_NOPREFIX    The button text will not have an accelerator prefix associated with it
+    //  BTNS_BUTTON      Standard push button (default)
+    //  BTNS_SEP         Separator
+    //  BTNS_CHECK       Auto check-box button
+    //  BTNS_GROUP       Marks the start of a group of buttons
+    //  BTNS_CHECKGROUP  Marks the start of a group of check-box buttons
+    //  BTNS_DROPDOWN    Creates a drop-down list button
+    //  BTNS_AUTOSIZE    The button's width will be calculated based on the text of the button, not on the size of the image
+    //  BTNS_NOPREFIX    The button text will not have an accelerator prefix associated with it
     // Refer to TB_GETBUTTON in the Windows API documentation for more information.
     inline BYTE CToolBar::GetButtonStyle(UINT buttonID) const
     {
@@ -839,15 +839,15 @@ namespace Win32xx
     }
 
     //  The the style of the ToolBar control. The following button styles are supported:
-    //  TBSTYLE_BUTTON      Standard push button (default)
-    //  TBSTYLE_SEP         Separator
-    //  TBSTYLE_CHECK       Auto check-box button
-    //  TBSTYLE_GROUP       Marks the start of a group of buttons
-    //  TBSTYLE_CHECKGROUP  Marks the start of a group of check-box buttons
-    //  TBSTYLE_DROPDOWN    Creates a drop-down list button
-    //  TBSTYLE_AUTOSIZE    The button's width will be calculated based on the
+    //  BTNS_BUTTON      Standard push button (default)
+    //  BTNS_SEP         Separator
+    //  BTNS_CHECK       Auto check-box button
+    //  BTNS_GROUP       Marks the start of a group of buttons
+    //  BTNS_CHECKGROUP  Marks the start of a group of check-box buttons
+    //  BTNS_DROPDOWN    Creates a drop-down list button
+    //  BTNS_AUTOSIZE    The button's width will be calculated based on the
     //                      text of the button, not on the size of the image
-    //  TBSTYLE_NOPREFIX    The button text will not have an accelerator prefix associated with it.
+    //  BTNS_NOPREFIX    The button text will not have an accelerator prefix associated with it.
     // Refer to TB_SETBUTTONINFO in the Windows API documentation for more information.
     inline BOOL CToolBar::SetButtonStyle(UINT buttonID, BYTE style) const
     {

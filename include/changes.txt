@@ -5,6 +5,15 @@ support Clang compilers.
 
 New Features and Enhancements
 -----------------------------
+* Added the CPageScroller class.
+  CPageScroller manages a page scroller control. A page scroller
+  control is a window container that is used with a window that
+  does not have enough display area to show all of its content.
+
+* Added the ToolbarBuilder sample.
+ This sample is a handy tool for creating and editing bitmaps
+ for use in toolbars.
+
 * Added the IFileDialog sample.
   This sample demonstrates how to use and customise IFileOpenDialog and
   IFileSaveDialog. These dialogs can in place of GetOpenFileName, 
@@ -12,10 +21,10 @@ New Features and Enhancements
 
 * Updated CMenubar.
   The menubar now supports single menu items as well as popup menus.
-  
+
 * Extended CBitmapInfoPtr.
-  A CBitmapInfoPtr object can now be constructed from a BITMAP struct. 
-  
+  A CBitmapInfoPtr object can now be constructed from a BITMAP struct.
+
 * Updated the support for Embarcadero's C++ Builder.
   Support for modern Windows 64-bit compiler has been added to the C++ Builder
   project files. These project files now support the Win32, Win64 and Win64x
@@ -27,7 +36,8 @@ New Features and Enhancements
 
 Changes in detail
 -----------------
-Added CBitmapInfoPtr::CBitmapInfoPtr(BITMAP bitmap)    constructor
+Added the CPageScroller    class.
+Added CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap)    constructor
 
 
 Version 10.1

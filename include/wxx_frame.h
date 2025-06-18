@@ -812,7 +812,7 @@ namespace Win32xx
     }
 
     // With CustomDraw we manually control the drawing of each toolbar button.
-    // Supports toolbars with or without the TBSTYLE_LIST style.
+    // Supports toolbars with or without the BTNS_LIST style.
     // Supports buttons with or without the BTNS_WHOLEDROPDOWN and BTNS_DROPDOWN styles.
     // Requires the toolbar buttons to have images.
     template <class T>
@@ -865,7 +865,13 @@ namespace Win32xx
                         // Draw filled gradient background.
                         rc.InflateRect(-1, -1);
                         bool isPressed = (pTB->GetButtonState(item) & TBSTATE_PRESSED) != 0;
+                        bool isChecked = (pTB->GetButtonState(item) & TBSTATE_CHECKED) != 0;
                         if (isPressed)
+                        {
+                            drawDC.GradientFill(GetToolBarTheme().clrPressed1,
+                                GetToolBarTheme().clrPressed2, rc, TRUE);
+                        }
+                        else if (isChecked)
                         {
                             drawDC.GradientFill(GetToolBarTheme().clrPressed1,
                                 GetToolBarTheme().clrPressed2, rc, TRUE);
@@ -934,14 +940,14 @@ namespace Win32xx
 
                         if (isListToolbar)
                         {
-                            // Calculate the image position for the TBSTYLE_LIST toolbar style.
+                            // Calculate the image position for the BTNS_LIST toolbar style.
                             // This style positions the button text to the right of the bitmap.
                             xImage = rc.left + pressedOffset;
                             yImage = (rc.bottom - rc.top - szImage.cy +2) / 2 + pressedOffset;
                         }
                         else
                         {
-                            // Calculate the image position without the TBSTYLE_LIST toolbar style.
+                            // Calculate the image position without the BTNS_LIST toolbar style.
                             int dropAjust = (dropDownWidth * 3) / 4;
                             xImage = (rc.right + rc.left - szImage.cx - dropAjust) / 2 + pressedOffset;
                             yImage = (rc.bottom + rc.top - szImage.cy - textSize.cy) / 2;
@@ -949,7 +955,7 @@ namespace Win32xx
 
                         if (isDropDown || isWholeDropDown)
                         {
-                            // Calculate arrow position for the TBSTYLE_DROPDOWN
+                            // Calculate arrow position for the BTNS_DROPDOWN
                             // and BTNS_WHOLEDROPDOWN button styles.
                             int arrowHeight = (dropDownWidth + 1) / 5;
                             int xArrow = rc.right - dropDownWidth / 2;

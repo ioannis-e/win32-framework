@@ -194,7 +194,7 @@ namespace Win32xx
         return (m_p != nullptr) ? ((*this)->wDefault & DN_DEFAULTPRN) : false;
     }
 
-    #endif // 
+    #endif //
 
     ////////////////////////////////////
     // Definitions for the CWinApp class

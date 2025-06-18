@@ -24,8 +24,7 @@ enum CtlColors
     DlgBg,                   // dialog background
     REdTxFg,                 // rich edit text foreground
     REdTxBg,                 // rich edit text background
-    REdBg,                   // rich edit control background
-    EndColors                // end color IDs
+    REdBg                    // rich edit control background
 };
 
 class CView : public CDialog
