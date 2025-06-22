@@ -1,18 +1,19 @@
 Version 10.2
 ============
-This version updates support for Embarcadero's C++ Builder, and updates
-support Clang compilers.
+This version adds the ToolbarBuilder sample. This sample is a useful utility
+for building a bitmap for use with toolbars. This version also adds the
+CPager class which provides support for the pager control.
 
 New Features and Enhancements
 -----------------------------
-* Added the CPageScroller class.
-  CPageScroller manages a page scroller control. A page scroller
-  control is a window container that is used with a window that
-  does not have enough display area to show all of its content.
+* Added the CPager class.
+  CPager manages a pager control. A pager control is a window container that
+  is used with a window that does not have enough display area to show all
+  of its content.
 
 * Added the ToolbarBuilder sample.
- This sample is a handy tool for creating and editing bitmaps
- for use in toolbars.
+  This sample is a handy tool for creating and editing bitmaps for use in
+  toolbars.
 
 * Added the IFileDialog sample.
   This sample demonstrates how to use and customise IFileOpenDialog and
@@ -36,7 +37,7 @@ New Features and Enhancements
 
 Changes in detail
 -----------------
-Added the CPageScroller    class.
+Added the CPager     class.
 Added CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap)    constructor
 
 

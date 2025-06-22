@@ -363,14 +363,14 @@ namespace Win32xx
 
 
     /////////////////////////////////////////////////////////////////
-    // CPageScroller manages a page scroller control. A page scroller
-    // control is a window container that is used with a window that
-    // does not have enough display area to show all of its content.
-    class CPageScroller : public CWnd
+    // CPager manages a pager control control. A pager control is a
+    // window container that is used with a window that does not have
+    // enough display area to show all of its content.
+    class CPager : public CWnd
     {
     public:
-        CPageScroller() = default;
-        virtual ~CPageScroller() override = default;
+        CPager() = default;
+        virtual ~CPager() override = default;
 
         // Accessors and mutators
         COLORREF GetBkColor() const;
@@ -394,8 +394,8 @@ namespace Win32xx
         virtual void PreRegisterClass(WNDCLASS& wc) override;
 
     private:
-        CPageScroller(const CPageScroller&) = delete;
-        CPageScroller& operator=(const CPageScroller&) = delete;
+        CPager(const CPager&) = delete;
+        CPager& operator=(const CPager&) = delete;
     };
 
 
@@ -1893,7 +1893,7 @@ namespace Win32xx
     }
 
     ////////////////////////////////////////
-    // Definitions for the CPageScroller class
+    // Definitions for the CPager class
     //
 
     // Enables or disables mouse forwarding for the pager control. When mouse
@@ -1901,7 +1901,7 @@ namespace Win32xx
     // to the contained window.
     // Refer to Pager_ForwardMouse in the Windows API documentation for more
     // information.
-    inline void CPageScroller::ForwardMouse(BOOL isForward) const
+    inline void CPager::ForwardMouse(BOOL isForward) const
     {
         assert(IsWindow());
         Pager_ForwardMouse(*this, isForward);
@@ -1910,7 +1910,7 @@ namespace Win32xx
     // Retrieves the current background color for the pager control.
     // Refer to Pager_GetBkColor in the Windows API documentation for more
     // information.
-    inline COLORREF CPageScroller::GetBkColor() const
+    inline COLORREF CPager::GetBkColor() const
     {
         assert(IsWindow());
         return Pager_GetBkColor(*this);
@@ -1919,7 +1919,7 @@ namespace Win32xx
     // Retrieves the current border size for the pager control.
     // Refer to Pager_GetBorder in the Windows API documentation for more
     // information.
-    inline int CPageScroller::GetBorder() const
+    inline int CPager::GetBorder() const
     {
         assert(IsWindow());
         return Pager_GetBorder(*this);
@@ -1928,7 +1928,7 @@ namespace Win32xx
     // Retrieves the current button size for the pager control.
     // Refer to Pager_GetButtonSize in the Windows API documentation for
     // more information.
-    inline int CPageScroller::GetButtonSize() const
+    inline int CPager::GetButtonSize() const
     {
         assert(IsWindow());
         return Pager_GetButtonSize(*this);
@@ -1937,7 +1937,7 @@ namespace Win32xx
     // Retrieves the state of the specified button in a pager control.
     // Refer to Pager_GetButtonState in the Windows API documentation for
     // more information.
-    inline DWORD CPageScroller::GetButtonState(int button) const
+    inline DWORD CPager::GetButtonState(int button) const
     {
         assert(IsWindow());
         return Pager_GetButtonState(*this, button);
@@ -1946,14 +1946,14 @@ namespace Win32xx
     // Retrieves the current scroll position of the pager control.
     // Refer to Pager_GetPos in the Windows API documentation for more
     // information.
-    inline int CPageScroller::GetPos() const
+    inline int CPager::GetPos() const
     {
         assert(IsWindow());
         return Pager_GetPos(*this);
     }
 
     // Called by Create to set some window class parameters.
-    inline void CPageScroller::PreRegisterClass(WNDCLASS& wc)
+    inline void CPager::PreRegisterClass(WNDCLASS& wc)
     {
         wc.lpszClassName = WC_PAGESCROLLER;
     }
@@ -1962,7 +1962,7 @@ namespace Win32xx
     // window. This will result in a PGN_CALCSIZE notification being sent.
     // Refer to Pager_RecalcSize in the Windows API documentation for more
     // information.
-    inline void CPageScroller::RecalcSize() const
+    inline void CPager::RecalcSize() const
     {
         assert(IsWindow());
         Pager_RecalcSize(*this);
@@ -1971,7 +1971,7 @@ namespace Win32xx
     // Sets the current background color for the pager control.
     // Refer to Pager_SetBkColor in the Windows API documentation for more
     // information.
-    inline void CPageScroller::SetBkColor(COLORREF color) const
+    inline void CPager::SetBkColor(COLORREF color) const
     {
         assert(IsWindow());
         Pager_SetBkColor(*this, color);
@@ -1980,7 +1980,7 @@ namespace Win32xx
     // Sets the current border size for the pager control.
     // Refer to Pager_SetBorder in the Windows API documentation for more
     // information.
-    inline int CPageScroller::SetBorder(int border) const
+    inline int CPager::SetBorder(int border) const
     {
         assert(IsWindow());
         return Pager_SetBorder(*this, border);
@@ -1989,7 +1989,7 @@ namespace Win32xx
     // Sets the current button size for the pager control.
     // Refer to Pager_SetButtonSize in the Windows API documentation for
     // more information.
-    inline int CPageScroller::SetButtonSize(int size) const
+    inline int CPager::SetButtonSize(int size) const
     {
         assert(IsWindow());
         return Pager_SetButtonSize(*this, size);
@@ -2000,7 +2000,7 @@ namespace Win32xx
     // to the pager control for scrolling.
     // Refer to Pager_SetChild in the Windows API documentation for more
     // information.
-    inline void CPageScroller::SetChild(HWND hchild) const
+    inline void CPager::SetChild(HWND hchild) const
     {
         assert(IsWindow());
         Pager_SetChild(*this, hchild);
@@ -2009,7 +2009,7 @@ namespace Win32xx
     // Sets the scroll position for the pager control.
     // Refer to Pager_SetPos in the Windows API documentation for more
     // information.
-    inline int CPageScroller::SetPos(int pos) const
+    inline int CPager::SetPos(int pos) const
     {
         assert(IsWindow());
         return Pager_SetPos(*this, pos);

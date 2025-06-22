@@ -46,7 +46,7 @@ bool CMainFrame::OnChooseMask()
 {
     if (IDOK == m_colorDialog.DoModal(*this))
     {
-        m_view.SetMask(m_colorDialog.GetColor());
+        m_view.SetMaskColor(m_colorDialog.GetColor());
         return true;
     }
 
@@ -218,7 +218,7 @@ bool CMainFrame::OnImageSwap()
 
 bool CMainFrame::OnViewUseMask()
 {
-    return m_view.UseMask(!m_view.IsMasked());
+    return m_view.SetMaskState(!m_view.IsMasked());
 }
 
 // Called after the window is created.

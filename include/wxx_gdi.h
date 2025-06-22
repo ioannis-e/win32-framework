@@ -1085,6 +1085,7 @@ namespace Win32xx
         }
     }
 
+    // Remove this GDI object from the map.
     inline BOOL CGDIObject::RemoveFromMap() const
     {
         BOOL success = FALSE;

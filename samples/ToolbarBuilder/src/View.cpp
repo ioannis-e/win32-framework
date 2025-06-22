@@ -27,8 +27,7 @@ using namespace Gdiplus;
 // CView function definitions
 //
 
-CView::CView() : m_background(RGB(235, 237, 250)), m_mask(RGB(192,192,192)),
-   m_colorBits(24), m_isMasked(false)
+CView::CView() : m_mask(RGB(192,192,192)), m_colorBits(24), m_isMasked(false)
 {
     // Initialize GDI+.
     GdiplusStartupInput gdiplusStartupInput;
@@ -51,7 +50,7 @@ void CView::CreateImageList(int imageWidth, int imageHeight, int colorBits)
 // Builds a Device Independent Bitmap(DIB) from the images in the image list.
 CBitmap CView::GetBitmapFromImageList() const
 {
-    // Retrive the IMAGEINFO struct from the image list.
+    // Retrieves the IMAGEINFO struct from the image list.
     // The IMAGEINFO's hbmImage member holds the vertical bitmap.
     IMAGEINFO info = {};
     m_toolbarImages.GetImageInfo(0, &info);
@@ -182,7 +181,7 @@ bool CView::ImageDelete()
         }
     }
 
-    m_pageScroller.RecalcSize();
+    m_pager.RecalcSize();
 
     UpdateToolbar();
     return true;
@@ -210,7 +209,7 @@ bool CView::ImageSwap()
 
     bool result = m_toolbarImages.Copy(image1, image2, ILCF_SWAP) != 0;
     SetToolbarImageList();
-
+    Invalidate();
     return result;
 }
 
@@ -225,7 +224,6 @@ bool CView::LoadToolbar(const CString& fileName)
         BITMAP bm = toolbarImage.GetBitmapData();
         int imageHeight = bm.bmHeight;
         int imageWidth = std::max(imageHeight, 16);  // Also support size 16x15.
-        m_toolbarImages.DeleteImageList();
 
         WORD colorBits = bm.bmBitsPixel;
         if (colorBits <= 1)       colorBits = 0;
@@ -238,6 +236,7 @@ bool CView::LoadToolbar(const CString& fileName)
         CreateImageList(imageWidth, imageHeight, colorBits);
         m_toolbarImages.Add(toolbarImage);
         UpdateToolbar();
+        Invalidate();
         return true;
     }
 
@@ -255,26 +254,26 @@ bool CView::NewToolbar(int imageSize, int colorBits)
 // Called when the view window is created.
 int CView::OnCreate(CREATESTRUCT&)
 {
-    // Create horizontal page scroller control
-    m_pageScroller.Create(*this);
-    DWORD style = m_pageScroller.GetStyle();
+    // Create horizontal pager control.
+    m_pager.Create(*this);
+    DWORD style = m_pager.GetStyle();
     style |= PGS_HORZ;
-    m_pageScroller.SetStyle(style);
+    m_pager.SetStyle(style);
 
-    // Create the transparent toolbar without resizing.
-    m_toolbar.Create(m_pageScroller);
+    // Create the transparent toolbar with a no resizing style.
+    m_toolbar.Create(m_pager);
     style = m_toolbar.GetStyle();
     style |= CCS_NORESIZE;
     m_toolbar.SetStyle(style);
 
-    m_toolbar.Autosize();
-    m_pageScroller.SetChild(m_toolbar.GetHwnd());
-    m_pageScroller.SetBkColor(RGB(122,232,232));
+    // Assign the toolbar to the pager control.
+    m_pager.SetChild(m_toolbar.GetHwnd());
+    m_pager.SetBkColor(RGB(122,232,232));  // Color of left, right pager buttons.
 
     return 0;
 }
 
-// Called after the parent recieves a DPI changed message.
+// Called after the parent receives a DPI changed message.
 LRESULT CView::OnDpiChanged(UINT, WPARAM, LPARAM)
 {
     UpdateToolbar();
@@ -285,46 +284,52 @@ LRESULT CView::OnDpiChanged(UINT, WPARAM, LPARAM)
 // OnDraw is called when part or all of the window needs to be redrawn.
 void CView::OnDraw(CDC& dc)
 {
+    // Use a memory DC for double buffering.
+    CMemDC dcClient(dc);
+    CRect rcClient = GetClientRect();
+    int cx = rcClient.Width();
+    int cy = rcClient.Height();
+    dcClient.CreateCompatibleBitmap(dc, cx, cy);
+
     // Use the message font for Windows 7 and higher.
     if (GetWinVersion() >= 2601)
     {
         NONCLIENTMETRICS info = GetNonClientMetrics();
         LOGFONT lf = DpiScaleLogfont(info.lfMessageFont, 10);
-        dc.CreateFontIndirect(lf);
+        dcClient.CreateFontIndirect(lf);
     }
 
-    COLORREF background = RGB(244, 244, 244);
-    dc.FillRect(GetClientRect(), CBrush(background));
+    COLORREF background = RGB(240, 240, 240);
+    dcClient.FillRect(GetClientRect(), CBrush(background));
 
     // Centre some text in our view window.
-    dc.SetBkColor(background);
+    dcClient.SetBkColor(background);
     CString sizeInfo;
     int rowHeight = DpiScaleInt(20);
     CSize sz = m_toolbarImages.GetIconSize();
     sizeInfo << "Toolbar image size: cx = " << sz.cx << ", cy = " << sz.cy;
-    dc.TextOut(0, 0, sizeInfo, -1);
+    dcClient.TextOut(0, 0, sizeInfo, -1);
 
     CString numberInfo;
     int row = 1;
     numberInfo << "Number of images in toolbar: " << m_toolbarImages.GetImageCount();
-    dc.TextOut(0, rowHeight * row++, numberInfo, -1);
+    dcClient.TextOut(0, rowHeight * row++, numberInfo, -1);
 
     CString colorDepth;
     colorDepth << "Bits per Pixel: " << m_colorBits;
-    dc.TextOut(0, rowHeight * row++, colorDepth, -1);
+    dcClient.TextOut(0, rowHeight * row++, colorDepth, -1);
 
     CString selected;
     selected << "Images selected: " << GetPressedButtons();
-    dc.TextOut(0, rowHeight * row++, selected, -1);
+    dcClient.TextOut(0, rowHeight * row++, selected, -1);
 
     if (m_colorBits <= 24)
     {
         CString mask;
         mask << "Mask RGB color: " << GetRValue(m_mask) << "," << GetGValue(m_mask) << "," << GetBValue(m_mask);
         mask << (IsMasked() ? "   Enabled" : "   Disabled");
-        dc.TextOut(0, rowHeight * row++, mask, -1);
+        dcClient.TextOut(0, rowHeight * row++, mask, -1);
     }
-
 
     int dpi = GetWindowDpi(*this);
     int scale = std::max(1, dpi / USER_DEFAULT_SCREEN_DPI);
@@ -332,17 +337,10 @@ void CView::OnDraw(CDC& dc)
     {
         CString dpiScaled;
         dpiScaled << "DPI scaling for high resolution monitor: " << scale << " x 1";
-        dc.TextOut(0, rowHeight * row++, dpiScaled, -1);
+        dcClient.TextOut(0, rowHeight * row++, dpiScaled, -1);
     }
-}
 
-// Fill the view window with a background color. This changes the background
-// for the toolbar.
-BOOL CView::OnEraseBkgnd(CDC& dc)
-{
-    CRect clientRect = GetClientRect();
-    dc.SolidFill(m_background, clientRect);
-    return TRUE;
+    dc.BitBlt(0, 0, cx, cy, dcClient, 0, 0, SRCCOPY);
 }
 
 // OnInitialUpdate is called immediately after the window is created.
@@ -352,6 +350,9 @@ void CView::OnInitialUpdate()
     CreateImageList(32, 32, 32);
     m_toolbarImages.Add((HBITMAP)GetApp()->LoadImage(
         IDB_TOOLBAR32, IMAGE_BITMAP, 0, 0), m_mask);
+
+    // Set the toolbar background color.
+    SetBackground(RGB(224, 224, 224));
     UpdateToolbar();
 }
 
@@ -361,6 +362,8 @@ LRESULT CView::OnNotify(WPARAM wparam, LPARAM lparam)
     LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
     switch (pHeader->code)
     {
+    // PGN_CALCSIZE is a Notification sent by a pager control to obtain
+    // the scrollable dimensions of the contained window.
     case PGN_CALCSIZE:
     {
         LPNMPGCALCSIZE   pCalcSize = (LPNMPGCALCSIZE)lparam;
@@ -370,9 +373,8 @@ LRESULT CView::OnNotify(WPARAM wparam, LPARAM lparam)
         // contained window.
         case PGF_CALCWIDTH:
         {
-            SIZE  size;
             // Get the optimum width of the toolbar.
-            SendMessage(m_toolbar, TB_GETMAXSIZE, 0, (LPARAM)&size);
+            CSize size = m_toolbar.GetMaxSize();
             pCalcSize->iWidth = size.cx;
         }
         }
@@ -381,7 +383,7 @@ LRESULT CView::OnNotify(WPARAM wparam, LPARAM lparam)
     case PGN_SCROLL:
     {
         LPNMPGSCROLL pScroll = (LPNMPGSCROLL)lparam;
-        pScroll->iScroll = m_toolbar.GetButtonSize().cy;
+        pScroll->iScroll = m_toolbar.GetButtonSize().cx;
         break;
     }
     }
@@ -417,12 +419,9 @@ void CView::RecalcLayout()
         int x = 0;
         int y = rc.bottom - m_toolbar.GetMaxSize().cy;
         int height = m_toolbar.GetMaxSize().cy;
-        ::SetWindowPos(m_pageScroller, HWND_TOP, x, y, rc.Width(), height, SWP_SHOWWINDOW);
-
-        Pager_SetButtonSize(m_pageScroller, imageSize.cx / 2);
-
+        m_pager.SetWindowPos(HWND_TOP, x, y, rc.Width(), height, SWP_SHOWWINDOW);
+        m_pager.SetButtonSize(imageSize.cx/2);
     }
-    Invalidate();
 }
 
 // Increase or reduce the bitmap size by the specified scale amounts.
@@ -468,6 +467,22 @@ bool CView::SaveToolbarImage(const CString& fileName)
 {
     CBitmap horizontal = GetBitmapFromImageList();
     return WriteBitmapToFile(horizontal, fileName);
+}
+
+// Set the background color of the toolbar.
+void CView::SetBackground(COLORREF background)
+{
+    m_background.CreateSolidBrush(background);
+    SetClassLongPtr(GCLP_HBRBACKGROUND,
+        reinterpret_cast<LONG_PTR>(m_background.GetHandle()));
+    UpdateToolbar();
+}
+
+// Set the color of the transparency mask.
+void CView::SetMaskColor(COLORREF mask)
+{
+    m_mask = mask;
+    UpdateToolbar();
 }
 
 // Assigns a toolbar button for each image in the image list.
@@ -520,13 +535,16 @@ void CView::UpdateToolbar()
 {
     SetToolbarImageList();
     SetToolbarButtons();
+    RecalcLayout();
+    Invalidate();
 }
 
 // Enable or disables the use of the color mask.
-bool CView::UseMask(bool enable)
+bool CView::SetMaskState(bool isMasked)
 {
-    m_isMasked = enable;
+    m_isMasked = isMasked;
     SetToolbarImageList();
+    Invalidate();
     return true;
 }
 

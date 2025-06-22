@@ -2,12 +2,14 @@ Toolbar Builder Sample
 ======================
 This sample provides a utility for creating bitmaps for use with toolbars.
 
-This utility can load, modify and save 4bit, 8bit 16bit, 24bit and 32bit 
-bitmaps. Images with a bits per pixel 24 or less can be displayed with a
-transparency mask color.
+This utility can load, modify and save 4bit, 8bit 16bit, 24bit and 32bit
+bitmaps. When an image loaded and then saved, it is saved with the same bits
+per pixel as the loaded image. Images with a bits per pixel 24 or less can be
+displayed with a transparency mask color.
 
-Images can also be added to the toolbar bitmap. The image will be resized
-and have its bits per pixel adjusted to fit the current bitmap.
+Images can also be added to the current toolbar bitmap. When an image is added
+to the toolbar it will be resized and have its bits per pixel adjusted to fit
+the current bitmap.
 
 This program works as follows.
 The image is loaded from a chosen file. The file determines the image's
@@ -16,10 +18,10 @@ The images are loaded into an image list as a Device Independent Bitmap(DIB).
 This image list is assigned to the toolbar in the view window.
 A DIB is constructed from the image list with the original size and bits 
 per pixel when saving to a file. CreateDIBSection is used to create a
-handle to the DIB that is selected into a memory dc.
+handle to the DIB that is selected into a memory device context(dc).
 
 Program menu and toolbar options
-File New                     Create an empty toolbar bitmap.
+File New                     Choose the size of a new toolbar bitmap.
 File Open                    Load a toolbar bitmap from a chosen file.
 File Save                    Save a toolbar bitmap to a chosen file.
 Image Add                    Add an image to the current toolbar bitmap.
@@ -31,7 +33,6 @@ Display with Mask            Display the images using the transparency mask.
 
 The Bitmaps folder contains a collection of toolbar bitmaps.
 
-
 Features demonstrated in this example
 =====================================
 * Loading a device independent bitmap(DIB) from a chosen file.
@@ -41,7 +42,8 @@ Features demonstrated in this example
 * Assigning the image list to a toolbar.
 * Extracting a DIB from the image list.
 * Saving a DIB to a chosen file.
-* Overriding OnEraseBkgnd to specify a window's background color.
+* Using SetClassLongPtr to modify a window's background color.
 * Displaying a toolbar within the view window.
-* Displaying a toolbar within a page scroller control.
+* Displaying a toolbar within a pager control.
+* Use of double buffering to display drawn contents.
 
