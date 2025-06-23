@@ -789,7 +789,7 @@ namespace Win32xx
         rd.isFixedHeight = !(style & RD_STRETCH_HEIGHT);
         CRect childRect;
         VERIFY(::GetWindowRect(wnd, &childRect));
-        ::MapWindowPoints(HWND_DESKTOP, m_parent, (LPPOINT)&childRect, 2);
+        ::MapWindowPoints(HWND_DESKTOP, m_parent, reinterpret_cast<LPPOINT>(&childRect), 2);
         rd.childRect = childRect;
         rd.wnd = wnd;
 

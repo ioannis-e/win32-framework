@@ -289,8 +289,10 @@ namespace Win32xx
         else
         {
             sockaddr_in clientService = {};
+            IN_ADDR ipv4_addr = {};
+            inet_pton(AF_INET, TtoA(addr), &ipv4_addr);
             clientService.sin_family = AF_INET;
-            clientService.sin_addr.s_addr = inet_addr(TtoA(addr));
+            clientService.sin_addr = ipv4_addr;
             clientService.sin_port = htons( static_cast<u_short>(port) );
 
             result = ::bind( m_socket, reinterpret_cast<SOCKADDR*>( &clientService), sizeof(clientService) );
@@ -346,8 +348,10 @@ namespace Win32xx
         else
         {
             sockaddr_in clientService = {};
+            IN_ADDR ipv4_addr = {};
+            inet_pton(AF_INET, TtoA(addr), &ipv4_addr);
             clientService.sin_family = AF_INET;
-            clientService.sin_addr.s_addr = inet_addr( TtoA(addr) );
+            clientService.sin_addr = ipv4_addr;
             clientService.sin_port = htons( static_cast<u_short>(port) );
 
             result = ::connect( m_socket, reinterpret_cast<SOCKADDR*>( &clientService ), sizeof(clientService) );
@@ -666,8 +670,10 @@ namespace Win32xx
         else
         {
             sockaddr_in clientService = {};
+            IN_ADDR ipv4_addr = {};
+            inet_pton(AF_INET, TtoA(addr), &ipv4_addr);
             clientService.sin_family = AF_INET;
-            clientService.sin_addr.s_addr = inet_addr(TtoA(addr));
+            clientService.sin_addr = ipv4_addr;
             clientService.sin_port = htons( static_cast<u_short>(port) );
 
             result = ::sendto( m_socket, send, len, flags, reinterpret_cast<SOCKADDR*>( &clientService ), sizeof(clientService) );

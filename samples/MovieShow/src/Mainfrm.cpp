@@ -49,8 +49,8 @@ void GetEncoderClsid(const WCHAR* format, CLSID* pClsid)
     UINT  num = 0;          // Number of image encoders.
     UINT  size = 0;         // Size of the image encoder array in bytes.
 
-    ::GetImageEncodersSize(&num, &size);
-    if (size != 0)
+    Status status = ::GetImageEncodersSize(&num, &size);
+    if (status == Ok)
     {
         // Retrieve the image codec information and store it in codecInfo.
         std::vector<byte> codecInfo(size);

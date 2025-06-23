@@ -997,7 +997,6 @@ namespace Win32xx
                             }
                         }
 
-
                         // Draw the button image.
                         TBBUTTON tbb{};
                         int button = pTB->CommandToIndex(item);
@@ -2779,7 +2778,7 @@ namespace Win32xx
                     {
                         pathName = m_mruEntries[i];
 
-                        if (ERROR_SUCCESS != recentKey.SetStringValue(subKeyName, pathName.c_str()))
+                        if (ERROR_SUCCESS != recentKey.SetStringValue(subKeyName, pathName))
                             throw CUserException();
                     }
                 }
@@ -3168,7 +3167,7 @@ namespace Win32xx
         if (IsUsingThemes())
         {
             // Predifined themes.
-            enum Themetype{ Win10, Win7, XP_Blue, XP_Silver, XP_Olive, gray };
+            enum Themetype{ Win11, Win7, XP_Blue, XP_Silver, XP_Olive, gray };
 
             // Default theme.
             int theme = gray;
@@ -3193,12 +3192,12 @@ namespace Win32xx
             else
             {
                 // For Windows 8, 8.1, 10 and 11.
-                theme = Win10;
+                theme = Win11;
             }
 
             switch (theme)
             {
-            case Win10:  // A pale blue scheme without gradients, suitable for Windows 8, 8.1, 10 and 11.
+            case Win11:  // A pale blue scheme without gradients, suitable for Windows 8, 8.1, 10 and 11.
                 {
                     MenuTheme mt = {t, RGB(180, 250, 255), RGB(140, 190, 255),
                         RGB(240, 250, 255), RGB(120, 170, 220), RGB(127, 127, 255),
