@@ -71,7 +71,7 @@ LRESULT CViewClasses::OnMouseActivate(UINT msg, WPARAM wparam, LPARAM lparam)
 // Set the CREATESTURCT parameters before the window is created.
 void CViewClasses::PreCreate(CREATESTRUCT& cs)
 {
-    // Call base clase to set defaults.
+    // Call base class to set defaults.
     CTreeView::PreCreate(cs);
 
     if (GetWinVersion() >= 3000)  // Windows 10 or later.
