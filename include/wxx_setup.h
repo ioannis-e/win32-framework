@@ -222,10 +222,9 @@ namespace Win32xx
           // Load the full set of common controls.
           INITCOMMONCONTROLSEX initStruct{};
           initStruct.dwSize = sizeof(initStruct);
-          initStruct.dwICC = ICC_WIN95_CLASSES | ICC_BAR_CLASSES |
-            ICC_COOL_CLASSES | ICC_DATE_CLASSES;
-          initStruct.dwICC |= ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS |
-            ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
+          initStruct.dwICC = ICC_WIN95_CLASSES | ICC_DATE_CLASSES |
+              ICC_INTERNET_CLASSES | ICC_LINK_CLASS | ICC_NATIVEFNTCTL_CLASS |
+              ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
 
           // Call InitCommonControlsEx.
           VERIFY(InitCommonControlsEx(&initStruct));

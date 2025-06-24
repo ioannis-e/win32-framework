@@ -73,7 +73,7 @@ HWND CMainFrame::Create(HWND parent)
 
 // Loads an image from a PNG resource and returns a unique_ptr to
 // the Gdiplus::Bitmap containing the image.
-// The returned unique_ptr contains nullptr if the resouce isn't found.
+// The returned unique_ptr contains nullptr if the resource isn't found.
 BitmapPtr CMainFrame::LoadPngResource(UINT id)
 {
     BitmapPtr bitmap;
@@ -359,7 +359,7 @@ LRESULT CMainFrame::OnPreviewSetup()
 // parameters used before the frame window is created.
 void CMainFrame::PreCreate(CREATESTRUCT& cs)
 {
-    // Call base clase to set defaults.
+    // Call base class to set defaults.
     CFrame::PreCreate(cs);
 
     // cs.dwExStyle = WS_EX_LAYOUTRTL;  // Set Right-To-Left Window Layout

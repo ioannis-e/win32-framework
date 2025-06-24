@@ -34,7 +34,7 @@ public:
     void SaveFile(LPCWSTR fullPath);
     void SetHeaderText(const CString& headerText) { m_header = headerText; }
 
-    // Scintalla control functions.
+    // Scintilla control functions.
     void AddText(Sci_Position length, const char* text);
     void Cancel();
     bool CanPaste();

@@ -358,7 +358,6 @@ namespace Win32xx
     // Set the window class
     inline void CReBar::PreRegisterClass(WNDCLASS& wc)
     {
-
         wc.lpszClassName =  REBARCLASSNAME;
     }
 

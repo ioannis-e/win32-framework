@@ -7,7 +7,8 @@
 
 
 ///////////////////////////////////////////////////////
-// CNewDialog displays a dolog to choose a new toolbar.
+// CNewDialog displays a dialog to choose a new toolbar.
+//
 class CNewDialog : public CDialog
 {
 public:

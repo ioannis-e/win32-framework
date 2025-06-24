@@ -85,7 +85,7 @@ LRESULT CDialogsTree::OnNotifyReflect(WPARAM, LPARAM lparam)
     return 0;
 }
 
-// Called when a treeview item is selected
+// Called when a treeview item is selected.
 BOOL CDialogsTree::OnSelChanged()
 {
     // Send the message to CMainFrame.
@@ -94,7 +94,7 @@ BOOL CDialogsTree::OnSelChanged()
 }
 
 
-// Set the CREATESTURCT parameters befoe the window is created.
+// Set the CREATESTURCT parameters before the window is created.
 void CDialogsTree::PreCreate(CREATESTRUCT& cs)
 {
     cs.style = TVS_NOTOOLTIPS | WS_CHILD;

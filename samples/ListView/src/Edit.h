@@ -6,8 +6,9 @@
 #define _EDIT_H_
 
 
-//////////////////////////////////////////
-// CView manages CMainFrame's view window.
+////////////////////////////////////////////
+// CMyEdit manages and edit control used as
+// CMainFrame's view window.
 class CMyEdit : public CEdit
 {
 public:

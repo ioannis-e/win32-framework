@@ -165,7 +165,6 @@ void CMiniFrame::DrawTitleText(CDC& dc) const
 // Required on Windows 10. Not required on Windows 11.
 void CMiniFrame::DrawTopShadow(CDC& dc) const
 {
-    // Draw the top shadow. Original is missing because of the client rect extension.
     COLORREF titlebarColor = IsActive() ? m_colors.active : m_colors.inactive;
     COLORREF shadowColor = m_colors.topShadow;
     COLORREF topShadowColor = IsActive() ? shadowColor : RGB(
@@ -317,11 +316,6 @@ BOOL CMiniFrame::OnCommand(WPARAM wparam, LPARAM)
     UINT id = LOWORD(wparam);
     switch (id)
     {
- //   case IDM_FILE_OPEN:       return OnFileOpen();
- //   case IDM_FILE_SAVE:       return OnFileSave();
- //   case IDM_FILE_SAVEAS:     return OnFileSave();
- //   case IDM_FILE_PREVIEW:    return OnFilePreview();
- //   case IDM_FILE_PRINT:      return OnFilePrint();
     case IDM_FILE_EXIT:       return OnFileExit();
     case IDM_HELP_ABOUT:      return OnHelp();
     }

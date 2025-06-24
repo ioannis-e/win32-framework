@@ -3,7 +3,7 @@
 // Used by Resource.rc
 //
 
-// include the Resource IDs defined by Win32++
+// Include the Resource IDs defined by Win32++
 #include "default_resource.h"
 
 // Indices of file types

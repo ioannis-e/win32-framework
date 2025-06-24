@@ -3,7 +3,7 @@
 //
 
 // This sample is based on the CommonFileDialog and the CommFileDialogModes
-// samples that ships with the Windows 7 SDK.The original sample can be
+// samples that ships with the Windows 7 SDK. The original sample can be
 // downloaded from :
 // https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/CommonFileDialogModes
 // https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/commonfiledialog

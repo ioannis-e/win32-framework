@@ -8,6 +8,7 @@
 
 //////////////////////////////////////////
 // CView manages CMainFrame's view window.
+//
 class CView : public CWnd
 {
 public:

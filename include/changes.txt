@@ -35,8 +35,6 @@ New Features and Enhancements
   project files. These project files now support the Win32, Win64 and Win64x
   platforms.
 
-* Updated the support for Clang compilers.
-
 * Updated the CommonDialogs, EdgeBrowserEx, MovieShow and TaskDialog samples.
 
 Changes in detail

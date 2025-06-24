@@ -19,7 +19,7 @@ void CView::OnDraw(CDC& dc)
     // Load the text from the string resource in resource.rc
     CString text = LoadString(IDW_MAIN);
 
-    // Create a memory cevice context and bitmap
+    // Create a memory device context and bitmap
     CRect rect = GetClientRect();
     CMemDC memDC(dc);
     memDC.CreateCompatibleBitmap(dc, rect.Width(), rect.Height());

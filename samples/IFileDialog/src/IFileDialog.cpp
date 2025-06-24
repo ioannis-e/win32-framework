@@ -3,7 +3,7 @@
 //
 
 // This sample is based on the CommonFileDialog and the CommFileDialogModes
-// samples that ships with the Windows 7 SDK.The original sample can be
+// samples that ships with the Windows 7 SDK. The original sample can be
 // downloaded from :
 // https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/CommonFileDialogModes
 // https://github.com/microsoft/Windows-classic-samples/tree/main/Samples/Win7Samples/winui/shell/appplatform/commonfiledialog
@@ -211,10 +211,6 @@ HRESULT ChooseFolder()
 // This sample demonstrates how to use the file dialog in a modal way such that
 // users can easily pick multiple files. It does this by overriding the normal "Open" button
 // with an "Add" button that passes the selection back to this app.
-//
-// One case this sample does not support is selecting folders this way. This has
-// the issue of the "Open" button being overloaded for "navigate into the folder" and "add the folder."
-// One way to deal with this is to add a new button, "Add Folder", the PickFilesAndFolders sample demonstrates this.
 HRESULT ChooseMultipleFiles()
 {
     ComPtr<IFileOpenDialog> pfd;

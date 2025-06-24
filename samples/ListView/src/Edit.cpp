@@ -7,7 +7,7 @@
 #include "UserMessages.h"
 
 /////////////////////////////
-// CEdit function definitions
+// CMyEdit function definitions
 //
 
 // Called when the edit control receives a character to process.

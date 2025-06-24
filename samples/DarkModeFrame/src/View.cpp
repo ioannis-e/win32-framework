@@ -66,7 +66,7 @@ void CView::PreRegisterClass(WNDCLASS& wc)
     wc.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
 
     // Set the class style (not to be confused with the window styles set in PreCreate)
-    wc.style = CS_DBLCLKS;  // Generate left button double click messages
+    wc.style = CS_DBLCLKS;  // Generate left button double click messages.
 }
 
 

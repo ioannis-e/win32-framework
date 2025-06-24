@@ -50,7 +50,7 @@ Prerequisites:
 3. Visual Studio 2005, 2008 or 2010 (full or Express Edition)
 
 Note:
-Microsoft Visual Community 2013 and 2015 include the Windows 7 SDK.
+Microsoft Visual Studio Community editions include the Windows 7 SDK.
 
 Compiling Instructions
 ======================
