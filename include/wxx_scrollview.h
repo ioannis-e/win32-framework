@@ -59,7 +59,6 @@
 #include "wxx_appcore0.h"
 
 
-
 namespace Win32xx
 {
 

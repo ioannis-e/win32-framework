@@ -259,7 +259,7 @@ Support has been added for the C++ compiler from Embarcadero.
 This version also adds the ScintillaDemo sample. Scintilla is a free source code
 and text editing component. On Windows, Scintilla is a Windows control that can be
 as a direct replacement for a RichEdit control. Scintilla has a number of features
-missing RichEdit controls and has better support for printing.
+missing from RichEdit controls and has better support for printing.
 
 Scintilla can be downloaded from:
 https://www.scintilla.org/ScintillaDownload.html

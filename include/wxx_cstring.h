@@ -1266,7 +1266,7 @@ namespace Win32xx
         return str;
     }
 
-    // Trims all leading and trailing whitespace characters from the string.
+    // Trims all leading and trailing white-space characters from the string.
     template <class T>
     inline void CStringT<T>::Trim()
     {
@@ -1274,7 +1274,7 @@ namespace Win32xx
         TrimRight();
     }
 
-    // Trims leading whitespace characters from the string.
+    // Trims leading white-space characters from the string.
     template <>
     inline void CStringA::TrimLeft()
     {
@@ -1290,7 +1290,7 @@ namespace Win32xx
         m_str.erase(m_str.begin(), it);
     }
 
-    // Trims leading whitespace characters from the string.
+    // Trims leading white-space characters from the string.
     template <class T>
     inline void CStringT<T>::TrimLeft()
     {
@@ -1321,7 +1321,7 @@ namespace Win32xx
         m_str.erase(0, m_str.find_first_not_of(targets));
     }
 
-    // Trims trailing whitespace characters from the string.
+    // Trims trailing white-space characters from the string.
     template <>
     inline void CStringA::TrimRight()
     {
@@ -1337,7 +1337,7 @@ namespace Win32xx
         m_str.erase(it.base(), m_str.end());
     }
 
-    // Trims trailing whitespace characters from the string.
+    // Trims trailing white-space characters from the string.
     template <class T>
     inline void CStringT<T>::TrimRight()
     {

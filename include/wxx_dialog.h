@@ -861,7 +861,7 @@ namespace Win32xx
         }
     }
 
-    // Sets up the Resizer by specifying the parent window (usually a dialog),
+    // Sets up CResizer by specifying the parent window (usually a dialog),
     // and the minimum and maximum allowed rectangle sizes.
     // Note: parent can either be a CWnd or a window handle (HWND)
     inline void CResizer::Initialize(HWND parent, RECT minRect, RECT maxRect)

@@ -672,7 +672,7 @@ namespace Win32xx
         return CTime(m_time + ts.m_timespan);
     }
 
-    // Increments this CTime object by the specifed time span.
+    // Increments this CTime object by the specified time span.
     inline CTime& CTime::operator+=(const CTimeSpan& ts)
     {
         m_time += ts.m_timespan;

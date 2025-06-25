@@ -270,7 +270,7 @@ namespace Win32xx
         }
     }
 
-    // Attach and own the specfied image list.
+    // Attach and own the specified image list.
     inline void CImageList::Assign(HIMAGELIST images)
     {
         CThreadLock mapLock(GetApp()->m_wndLock);

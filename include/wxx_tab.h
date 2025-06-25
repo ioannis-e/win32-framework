@@ -2102,7 +2102,7 @@ namespace Win32xx
     }
 
     // Handles notifications.
-    inline LRESULT CTabbedMDI::OnNotify(WPARAM /*wparam*/, LPARAM lparam)
+    inline LRESULT CTabbedMDI::OnNotify(WPARAM, LPARAM lparam)
     {
         LPNMHDR pHeader = reinterpret_cast<LPNMHDR>(lparam);
         assert(pHeader);

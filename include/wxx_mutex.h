@@ -72,7 +72,7 @@ namespace Win32xx
 {
     ////////////////////////////////////////////////////////////////
     // CEvent manages an event object. Event objects can be set to
-    // a signalled or nonsignalled state to facilitate synchronization
+    // a signalled or non-signalled state to facilitate synchronization
     // between threads.
     class CEvent
     {

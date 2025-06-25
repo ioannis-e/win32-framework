@@ -187,7 +187,7 @@ namespace Win32xx
         return key;
     }
 
-    // Enumerates subkeys of the specified open registry key.
+    // Enumerates sub-keys of the specified open registry key.
     inline LONG CRegKey::EnumKey(DWORD index, LPTSTR name, LPDWORD nameLength, FILETIME* lastWriteTime) const
     {
         assert(m_key);
@@ -276,7 +276,7 @@ namespace Win32xx
         return result;
     }
 
-    // Retrieves the multistring data for the specified value name.
+    // Retrieves the multi-string data for the specified value name.
     inline LONG CRegKey::QueryMultiStringValue(LPCTSTR valueName, LPTSTR value, ULONG* chars) const
     {
         assert(m_key);
@@ -355,7 +355,7 @@ namespace Win32xx
         return DeleteSubKey(keyName);
     }
 
-    // Removes the specified key and any subkeys from the registry.
+    // Removes the specified key and any sub-keys from the registry.
     inline LONG CRegKey::RecurseDeleteKey(LPCTSTR keyName) const
     {
         assert(m_key);

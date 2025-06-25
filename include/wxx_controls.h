@@ -2637,7 +2637,7 @@ namespace Win32xx
         SendMessage(TTM_DELTOOL, 0, lparam);
     }
 
-    // Retrieves the initial, pop-up, and reshow duration currently set for a ToolTip control.
+    // Retrieves the initial, pop-up, and re-show duration currently set for a ToolTip control.
     // Returns an int value with the specified duration in milliseconds.
     //
     // duration is one of:

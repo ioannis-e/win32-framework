@@ -338,7 +338,7 @@ namespace Win32xx
         return !(rbbi.fStyle & RBBS_HIDDEN);
     }
 
-    // Permit the parent window to handle the drawing of the ReBar's background.
+    // Permit the parent window to handle the drawing of the rebar's background.
     // Return TRUE to suppress default background drawing.
     // Refer to UWM_DRAWRBBKGND in the Windows API documentation for more information.
     inline BOOL CReBar::OnEraseBkgnd(CDC& dc)

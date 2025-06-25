@@ -98,7 +98,7 @@ namespace Win32xx
 
     ////////////////////////////////////////////////////////////////////
     // This class encapsulates the Windows API PrintDlg function.
-    // The PrintDlg function displays a Print Dialog. The Print dialog
+    // The PrintDlg function displays a print dialog. The print dialog
     // enables the user to specify the properties of a particular print job.
     // NOTE: DoModal throws an exception if there is no default printer.
     // NOTE: Setting the PD_ENABLEPRINTHOOK displays the classic print dialog.
@@ -236,7 +236,7 @@ namespace Win32xx
         return dc;
     }
 
-    // Dialog procedure for the Print dialog. Override this function
+    // Dialog procedure for the print dialog. Override this function
     // to customize the message handling.
     inline INT_PTR CPrintDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {

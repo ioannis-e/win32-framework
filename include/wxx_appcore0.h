@@ -58,7 +58,7 @@ namespace Win32xx
 
     ////////////////////////////////////////////////
     // Forward declarations.
-    //  These classes are defined later or elsewhere
+    //
     class CArchive;
     class CBitmap;
     class CBrush;
@@ -92,7 +92,7 @@ namespace Win32xx
     struct MetaFileData;
     struct TLSData;
 
-    // Define the maximum size for TCHAR strings
+    // Define the maximum size for strings.
     constexpr int WXX_MAX_STRING_SIZE = 255;
 
     // Some useful smart pointer aliases

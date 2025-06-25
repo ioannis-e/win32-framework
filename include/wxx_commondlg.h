@@ -390,7 +390,7 @@ namespace Win32xx
         for (int i = 0; i <= 15; ++i)
             m_customColors[i] = RGB(255,255,255);
 
-        // Enable the hook proc for the help button
+        // Enable the hook procedure for the help button
         if (m_cc.Flags & CC_SHOWHELP)
             m_cc.Flags |= CC_ENABLEHOOK;
 
@@ -530,7 +530,7 @@ namespace Win32xx
         m_ofn.lpstrDefExt   = defExt;
         m_ofn.Flags         = flags;
 
-        // Enable the hook proc for the help button.
+        // Enable the hook procedure for the help button.
         if (m_ofn.Flags & OFN_SHOWHELP)
             m_ofn.Flags |= OFN_ENABLEHOOK;
 
@@ -1319,7 +1319,7 @@ namespace Win32xx
             m_cf.Flags |= CF_PRINTERFONTS;
         }
 
-        // Enable the hook proc for the help button.
+        // Enable the hook procedure for the help button.
         if (m_cf.Flags & CF_SHOWHELP)
             m_cf.Flags |= CF_ENABLEHOOK;
 
@@ -1353,7 +1353,7 @@ namespace Win32xx
             m_cf.Flags |= CF_PRINTERFONTS;
         }
 
-        // Enable the hook proc for the help button.
+        // Enable the hook procedure for the help button.
         if (m_cf.Flags & CF_SHOWHELP)
             m_cf.Flags |= CF_ENABLEHOOK;
 
@@ -1377,7 +1377,7 @@ namespace Win32xx
             m_cf.Flags |= CF_PRINTERFONTS;
         }
 
-        // Enable the hook proc for the help button.
+        // Enable the hook procedure for the help button.
         if (m_cf.Flags & CF_SHOWHELP)
             m_cf.Flags |= CF_ENABLEHOOK;
 
