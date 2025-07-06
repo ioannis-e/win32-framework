@@ -42,6 +42,7 @@ private:
     LRESULT OnTrayIcon(UINT msg, WPARAM wparam, LPARAM lparam);
 
     // Member variables
+    CTaskDialog m_dialog;
     CMenu m_menu;
     bool m_isMinimized;
 };

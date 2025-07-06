@@ -30,8 +30,14 @@ BOOL CView::Minimize()
 
 BOOL CView::OnAbout()
 {
-    CString str = "Tray Example: Demonstrates minimizing a window to the tray.";
-    MessageBox(str, L"About Tray Example", MB_OK | MB_ICONINFORMATION);
+    if (!m_dialog.IsWindow())
+    {
+        m_dialog.SetContent(L"This sample demonstrates minimizing a window to the system tray.");
+        m_dialog.SetWindowTitle(L"About the Tray Sample");
+        m_dialog.SetMainIcon(TD_INFORMATION_ICON);
+        m_dialog.DoModal(*this);
+    }
+
     return TRUE;
 }
 

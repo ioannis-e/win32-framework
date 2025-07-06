@@ -1113,7 +1113,7 @@ LRESULT CMainFrame::OnGetDpiScaledSize(UINT msg, WPARAM wparam, LPARAM lparam)
 // Call when the Help button or F1 is pressed.
 BOOL CMainFrame::OnHelp()
 {
-    // Ensure only one dialog displayed even for multiple hits of the F1 button
+    // Ensure only one dialog displayed even for multiple hits of the F1 button.
     if (!m_aboutDialog.IsWindow())
     {
         m_aboutDialog.DoModal(*this);
