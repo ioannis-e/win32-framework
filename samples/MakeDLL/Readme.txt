@@ -9,6 +9,10 @@ Each time the DLL's ShowDialog function is called, the DLL creates a new thread.
 A new modeless dialog is created when the new thread starts. Each new thread 
 runs its own message loop. The thread stops running when the dialog is closed.
 
+Each instance of MyDLL runs Win32++ independently. The test program that loads
+MyDLL.dll also runs Win32++, but only out of convenience. The test program
+could load MyDLL.dll using the Windows API without Win32++.
+
 Features demonstrated in this example
 =====================================
 * Running Win32++ from inside a DLL.

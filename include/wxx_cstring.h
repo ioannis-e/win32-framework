@@ -1625,19 +1625,13 @@ namespace Win32xx
     // Construct CString from CHAR characters.
     inline CString::CString(CHAR ch, int repeat)
     {
-        for (int i = 0; i < repeat; ++i)
-        {
-            operator +=(ch);
-        }
+        m_str.append(repeat, CString(&ch, 1).GetAt(0));
     }
 
     // Construct CString from WChar characters.
     inline CString::CString(WCHAR ch, int repeat)
     {
-        for (int i = 0; i < repeat; ++i)
-        {
-            operator +=(ch);
-        }
+        m_str.append(repeat, CString(&ch, 1).GetAt(0));
     }
 
     // Construct CString from CStringA.
