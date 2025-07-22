@@ -106,7 +106,7 @@ namespace Win32xx
         BOOL IsMDIChildMaxed() const;
         BOOL IsMDIFrame() const;
         LRESULT OnPopupMenu();
-        void Press(int buttonID, BOOL press) const;
+        void Press(UINT buttonID, BOOL press) const;
         void ProcessMenuItem();
         void ReleaseFocus();
         void StoreHotItem(int hotItem);
@@ -175,8 +175,8 @@ namespace Win32xx
             ProcessMenuItem();
 
             // Support top menu item without popup menu.
-            int id = ::GetMenuItemID(m_topMenu, m_hotItem);
-            if (id > 0)
+            UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
+            if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
                 ExitMenu();
@@ -453,8 +453,8 @@ namespace Win32xx
             ProcessMenuItem();
 
             // Support top menu item without popup menu.
-            int id = ::GetMenuItemID(m_topMenu, m_hotItem);
-            if (id > 0)
+            UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
+            if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
                 ExitMenu();
@@ -492,7 +492,7 @@ namespace Win32xx
                 m_isAltMode = FALSE;
                 if (id >= 0)
                 {
-                    m_hotItem = CommandToIndex(id);
+                    m_hotItem = CommandToIndex(static_cast<UINT>(id));
                     ProcessMenuItem();
                 }
                 else
@@ -931,8 +931,8 @@ namespace Win32xx
         else
         {
             // Support top menu item without popup menu.
-            int id = ::GetMenuItemID(m_topMenu, m_hotItem);
-            if (id > 0)
+            UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
+            if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
                 ExitMenu();
@@ -957,7 +957,7 @@ namespace Win32xx
                 if (button != m_oldButton)
                 {
                     m_oldButton = button;
-                    m_hotItem = CommandToIndex(button);
+                    m_hotItem = CommandToIndex(static_cast<UINT>(button));
                     Cancel();
                     WPARAM wparam = static_cast<WPARAM>(button);
                     PostMessage(TB_PRESSBUTTON, wparam, MAKELONG(TRUE, 0));
@@ -1012,9 +1012,9 @@ namespace Win32xx
         wc.lpszClassName =  TOOLBARCLASSNAME;
     }
 
-    inline void CMenuBar::Press(int buttonID, BOOL press) const
+    inline void CMenuBar::Press(UINT buttonID, BOOL press) const
     {
-        PressButton(static_cast<UINT>(buttonID), press);
+        PressButton(buttonID, press);
     }
 
     inline BOOL CMenuBar::PreTranslateMessage(MSG& msg)
@@ -1064,7 +1064,7 @@ namespace Win32xx
         // Unpress any currently pressed buttons.
         for (int i = 0; i < GetButtonCount(); ++i)
         {
-            int id = GetCommandID(i);
+            UINT id = GetCommandID(i);
             PressButton(id, FALSE);
         }
 
@@ -1079,8 +1079,8 @@ namespace Win32xx
             else
             {
                 // Support top menu item without popup menu.
-                int id = ::GetMenuItemID(m_topMenu, m_hotItem);
-                if (id > 0)
+                UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
+                if (id != UINT(-1))
                 {
                     Cancel();
                     SetHotItem(CommandToIndex(id));

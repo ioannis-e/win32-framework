@@ -4202,7 +4202,7 @@ namespace Win32xx
         static HMODULE msimg32 = ::LoadLibrary(system + _T("\\msimg32.dll"));
         if (msimg32)
         {
-            using PGRADIENTFILL = UINT(WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID,
+            using PGRADIENTFILL = BOOL(WINAPI*)(HDC, PTRIVERTEX, ULONG, PVOID,
                 ULONG, ULONG);
 
             PGRADIENTFILL pGradientFill = reinterpret_cast<PGRADIENTFILL>(
@@ -5384,8 +5384,8 @@ namespace Win32xx
         m_pbmiArray->bmiHeader.biPlanes = 1; // All bitmaps have 1 plane.
         m_pbmiArray->bmiHeader.biBitCount = data.bmBitsPixel;
         m_pbmiArray->bmiHeader.biCompression = BI_RGB;
-        m_pbmiArray->bmiHeader.biSizeImage = ((data.bmWidth * cClrBits + 31) & ~31) / 8
-            * data.bmHeight;
+        m_pbmiArray->bmiHeader.biSizeImage = static_cast<DWORD>(
+            ((data.bmWidth * cClrBits + 31) & ~31) / 8 * data.bmHeight);
 
         if (m_pbmiArray->bmiHeader.biBitCount < 24)
             m_pbmiArray->bmiHeader.biClrUsed = (1U << m_pbmiArray->bmiHeader.biBitCount);

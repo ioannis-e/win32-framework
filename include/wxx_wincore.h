@@ -231,7 +231,7 @@ namespace Win32xx
         // Copy the color table from the vertical to the horizontal DIB.
         if (bm.bmBitsPixel <= 8)
         {
-            int numColors = 1 << bm.bmBitsPixel;
+            UINT numColors = 1U << bm.bmBitsPixel;
             std::vector<RGBQUAD> colors(numColors);
             RGBQUAD* colorTable = colors.data();
             ::GetDIBColorTable(imageDC, 0, numColors, colorTable);

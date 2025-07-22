@@ -233,13 +233,13 @@ namespace Win32xx
 
         // Fill the oldWidths vector with the current width of the StatusBar
         // parts.
-        size_t oldCount = static_cast<int>(SendMessage(SB_GETPARTS, 0, 0));
+        size_t oldCount = static_cast<size_t>(SendMessage(SB_GETPARTS, 0, 0));
         std::vector<int> oldWidths(oldCount, 0);
         SendMessage(SB_GETPARTS, static_cast<WPARAM>(oldCount),
             reinterpret_cast<LPARAM>(oldWidths.data()));
 
         // Fill the newWidths vector with the new width of the StatusBar parts.
-        size_t newCount = std::max(part+1, static_cast<int>(oldCount));
+        size_t newCount = std::max(static_cast<size_t>(part +1), oldCount);
         std::vector<int> newWidths(newCount, 0);
         newWidths.insert(newWidths.begin(), oldWidths.begin(), oldWidths.end());
         int* pNewWidthsArray = newWidths.data();

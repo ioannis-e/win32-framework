@@ -2724,7 +2724,7 @@ namespace Win32xx
         assert(IsWindow());
         TOOLINFO info{};
         info.cbSize = sizeof(info);
-        if (id == static_cast<UINT>(-1))
+        if (id == UINT(-1))
         {
             info.hwnd = GetParent();
             info.uId = reinterpret_cast<UINT_PTR>(control);

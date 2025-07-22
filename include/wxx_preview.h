@@ -196,8 +196,8 @@ namespace Win32xx
         CButton m_buttonNext;
         CButton m_buttonPrev;
         CButton m_buttonClose;
-        UINT    m_currentPage;
-        UINT    m_maxPage;
+        int     m_currentPage;
+        int     m_maxPage;
         HWND    m_ownerWindow;
     };
 

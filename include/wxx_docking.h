@@ -5146,7 +5146,8 @@ namespace Win32xx
         if (index >= 0)
         {
             int image = GetContainerParent()->GetImages().Replace(index, tabIcon);
-            GetContainerParent()->m_allInfo[index].tabImage = image;
+            size_t i = static_cast<size_t>(index);
+            GetContainerParent()->m_allInfo[i].tabImage = image;
             GetContainerParent()->SetTabSize();
             GetContainerParent()->UpdateTabs();
         }
@@ -5237,7 +5238,8 @@ namespace Win32xx
         int index = GetContainerIndex(this);
         if (index >= 0)
         {
-            GetContainerParent()->m_allInfo[index].tabText = text;
+            size_t i = static_cast<size_t>(index);
+            GetContainerParent()->m_allInfo[i].tabText = text;
             GetContainerParent()->SetTabSize();
         }
     }

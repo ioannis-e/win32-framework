@@ -70,7 +70,7 @@ INT_PTR CColorChoice::DoModal(HWND owner /* = nullptr */)
         m_LBDlg.AddListItem(m_colorTable[i].usage);
     }
 
-    m_selection = static_cast<UINT>(-1);
+    m_selection = UINT(-1);
     INT_PTR selection = m_LBDlg.DoModal(owner);
     if (selection != INT_MAX)
     {
@@ -88,7 +88,7 @@ INT_PTR CColorChoice::DoModal(HWND owner /* = nullptr */)
 COLORREF CColorChoice::GetTableColor(UINT id) const
 {
     UINT idx = GetTableIndex(id);
-    if (idx == static_cast<UINT>(-1))
+    if (idx == UINT(-1))
         return RGB(0, 0, 0);
 
     return m_colorTable[idx].color;
@@ -99,8 +99,7 @@ COLORREF CColorChoice::GetTableColor(UINT id) const
 CBrush CColorChoice::GetBrush(UINT id) const
 {
     UINT idx = GetTableIndex(id);
-    COLORREF color = (idx == static_cast<UINT>(-1) ?
-        RGB(0, 0, 0) : m_colorTable[idx].color);
+    COLORREF color = (idx == UINT(-1) ? RGB(0, 0, 0) : m_colorTable[idx].color);
     CBrush br;
     br.CreateSolidBrush(color);
         return br;
@@ -117,7 +116,7 @@ UINT CColorChoice::GetTableIndex(UINT id) const
             return idx;
     }
 
-    return static_cast<UINT>(-1); // default value
+    return UINT(-1); // default value
 }
 
 // Return the usage field of the ctl_color triplet corresponding having the
@@ -125,8 +124,7 @@ UINT CColorChoice::GetTableIndex(UINT id) const
 CString CColorChoice::GetTableUsage(UINT id) const
 {
     UINT idx = GetTableIndex(id);
-    CString usage = (idx == static_cast<UINT>(-1) ? L"" :
-        m_colorTable[idx].usage.c_str());
+    CString usage = (idx == UINT(-1) ? L"" : m_colorTable[idx].usage.c_str());
     return  usage;
 }
 
@@ -166,7 +164,7 @@ BOOL CColorChoice::OnInitDialog()
 void CColorChoice::SetTableColor(UINT id, COLORREF rgb)
 {
     UINT idx = GetTableIndex(id);
-    if (idx == static_cast<UINT>(-1))
+    if (idx == UINT(-1))
         return;
 
     m_colorTable[idx].color = rgb;
@@ -177,7 +175,7 @@ void CColorChoice::SetTableColor(UINT id, COLORREF rgb)
 void CColorChoice::SetTableUsage(UINT id, LPCWSTR s)
 {
     UINT idx = GetTableIndex(id);
-    if (idx == static_cast<UINT>(-1))
+    if (idx == UINT(-1))
         return;
 
     m_colorTable[idx].usage = s;

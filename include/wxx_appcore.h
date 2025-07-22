@@ -892,7 +892,7 @@ namespace Win32xx
             reinterpret_cast<LPWSTR>(&pString), 0);
 
         if (charCount > 0)
-            m_str.assign(pString, charCount);
+            m_str.assign(pString, static_cast<size_t>(charCount));
 
         return (charCount != 0);
     }

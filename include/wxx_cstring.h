@@ -337,8 +337,7 @@ namespace Win32xx
     template <class T>
     inline CStringT<T>::CStringT(const T* text, int length)
     {
-        memcpy(GetBuffer(length), text, length * sizeof(T));
-        ReleaseBuffer(length);
+        m_str.assign(text, static_cast<size_t>(length));
     }
 
     // Constructor. Assigns from 1 or more T characters.
@@ -840,7 +839,8 @@ namespace Win32xx
         DWORD length = ::GetEnvironmentVariableA(var, nullptr, 0);
         if (length > 0)
         {
-            ::GetEnvironmentVariableA(var, GetBuffer(length), length);
+            int size = static_cast<int>(length);
+            ::GetEnvironmentVariableA(var, GetBuffer(size), length);
             ReleaseBuffer();
         }
 
@@ -1625,25 +1625,27 @@ namespace Win32xx
     // Construct CString from CHAR characters.
     inline CString::CString(CHAR ch, int repeat)
     {
-        m_str.append(repeat, CString(&ch, 1).GetAt(0));
+        m_str.append(static_cast<size_t>(repeat), CString(&ch, 1).GetAt(0));
     }
 
     // Construct CString from WChar characters.
     inline CString::CString(WCHAR ch, int repeat)
     {
-        m_str.append(repeat, CString(&ch, 1).GetAt(0));
+        m_str.append(static_cast<size_t>(repeat), CString(&ch, 1).GetAt(0));
     }
 
     // Construct CString from CStringA.
     inline CString::CString(const CStringA& str)
     {
-        m_str.assign(AtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+        size_t length = static_cast<size_t>(str.GetLength());
+        m_str.assign(AtoT(str.c_str(), CP_ACP, str.GetLength()), length);
     }
 
     // Construct CString from CStringW.
     inline CString::CString(const CStringW& str)
     {
-        m_str.assign(WtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+        size_t length = static_cast<size_t>(str.GetLength());
+        m_str.assign(WtoT(str.c_str(), CP_ACP, str.GetLength()), length);
     }
 
     // Assignment operator.
@@ -1669,14 +1671,16 @@ namespace Win32xx
     // Assign CString from CStringA.
     inline CString& CString::operator=(const CStringA& str)
     {
-        m_str.assign(AtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+        size_t length = static_cast<size_t>(str.GetLength());
+        m_str.assign(AtoT(str.c_str(), CP_ACP, str.GetLength()), length);
         return *this;
     }
 
     // Assign CString from CStringW.
     inline CString& CString::operator=(const CStringW& str)
     {
-        m_str.assign(WtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+        size_t length = static_cast<size_t>(str.GetLength());
+        m_str.assign(WtoT(str.c_str(), CP_ACP, str.GetLength()), length);
         return *this;
     }
 
@@ -1718,14 +1722,16 @@ namespace Win32xx
     // Append and assign from CStringA.
     inline CString& CString::operator+=(const CStringA& str)
     {
-        m_str.append(AtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+        size_t length = static_cast<size_t>(str.GetLength());
+        m_str.append(AtoT(str.c_str(), CP_ACP, str.GetLength()), length);
         return *this;
     }
 
     // Append and assign from CStringW.
     inline CString& CString::operator+=(const CStringW& str)
     {
-        m_str.append(WtoT(str.c_str(), CP_ACP, str.GetLength()), str.GetLength());
+        size_t length = static_cast<size_t>(str.GetLength());
+        m_str.append(WtoT(str.c_str(), CP_ACP, str.GetLength()), length);
         return *this;
     }
 
@@ -1774,7 +1780,8 @@ namespace Win32xx
     inline CString operator+(const CString& string1, const CStringA& string2)
     {
         CString str(string1);
-        str.m_str.append(AtoT(string2.c_str(), CP_ACP, string2.GetLength()), string2.GetLength());
+        size_t length = static_cast<size_t>(string2.GetLength());
+        str.m_str.append(AtoT(string2.c_str(), CP_ACP, string2.GetLength()), length);
         return str;
     }
 
@@ -1782,7 +1789,8 @@ namespace Win32xx
     inline CString operator+(const CString& string1, const CStringW& string2)
     {
         CString str(string1);
-        str.m_str.append(WtoT(string2.c_str(), CP_ACP, string2.GetLength()), string2.GetLength());
+        size_t length = static_cast<size_t>(string2.GetLength());
+        str.m_str.append(WtoT(string2.c_str(), CP_ACP, string2.GetLength()), length);
         return str;
     }
 
@@ -1870,7 +1878,8 @@ namespace Win32xx
     inline CString operator+(const CStringA& string1, const CStringW& string2)
     {
         CString str(string1);
-        str.m_str.append(WtoT(string2.c_str(), CP_ACP, string2.GetLength()), string2.GetLength());
+        size_t length = static_cast<size_t>(string2.GetLength());
+        str.m_str.append(WtoT(string2.c_str(), CP_ACP, string2.GetLength()), length);
         return str;
     }
 
@@ -1878,7 +1887,8 @@ namespace Win32xx
     inline CString operator+(const CStringW& string1, const CStringA& string2)
     {
         CString str(string1);
-        str.m_str.append(AtoT(string2.c_str(), CP_ACP, string2.GetLength()), string2.GetLength());
+        size_t length = static_cast<size_t>(string2.GetLength());
+        str.m_str.append(AtoT(string2.c_str(), CP_ACP, string2.GetLength()), length);
         return str;
     }
 
