@@ -11,8 +11,7 @@
 //
 
 // Constructor for CMainFrame.
-CMainFrame::CMainFrame() : m_preview(m_view), m_isDPIChanging(false),
-                           m_isToolbarShown(true)
+CMainFrame::CMainFrame() : m_preview(m_view), m_isToolbarShown(true)
 {
 }
 
@@ -140,7 +139,6 @@ LRESULT CMainFrame::OnDpiChanged(UINT, WPARAM, LPARAM)
     m_viewRect = m_view.GetClientRect();
 
     // Update the frame.
-    m_isDPIChanging = true;
     ResetMenuMetrics();
     UpdateSettings();
     DpiScaleToolBar();
@@ -441,21 +439,12 @@ LRESULT CMainFrame::OnPreviewSetup()
 // Called when the frame's position has changed.
 LRESULT CMainFrame::OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    // The DPI can change when the window is moved to a different monitor.
-    if (m_isDPIChanging)
+    if (m_view.GetImage().GetHandle() != nullptr)
     {
-        if (m_view.GetImage().GetHandle() != nullptr)
-        {
-            // Adjust the frame size to fit the view.
-            AdjustFrameRect(m_viewRect);
-
-            // Restore the scrollbars and scroll position.
-            CSize size = CSize(m_view.GetImageRect().Width(), m_view.GetImageRect().Height());
-            m_view.SetScrollSizes(size);
-            m_view.SetScrollPosition(m_scrollPos);
-        }
-
-        m_isDPIChanging = false;
+        // Restore the scrollbars and scroll position.
+        CSize size = CSize(m_view.GetImageRect().Width(), m_view.GetImageRect().Height());
+        m_view.SetScrollSizes(size);
+        m_view.SetScrollPosition(m_scrollPos);
     }
 
     return FinalWindowProc(msg, wparam, lparam);

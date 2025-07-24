@@ -54,7 +54,6 @@ private:
     LRESULT OnPreviewPrint();
     LRESULT OnPreviewSetup();
 
-
     void ModifyBitmap(int cRed, int cGreen, int cBlue, BOOL isGray);
 
     // Member variables
@@ -63,7 +62,6 @@ private:
     CString m_pathName;
     CRect m_viewRect;
     CPoint m_scrollPos;
-    bool m_isDPIChanging;
     bool m_isToolbarShown;
 };
 

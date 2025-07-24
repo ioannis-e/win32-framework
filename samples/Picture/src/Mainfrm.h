@@ -50,7 +50,6 @@ private:
     CView m_view;
     CRect m_viewRect;
     CPoint m_scrollPos;
-    bool m_isDPIChanging;
 };
 
 #endif //MAINFRM_H
