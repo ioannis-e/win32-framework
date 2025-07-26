@@ -252,8 +252,7 @@ void CMainFrame::RecalcDockLayout()
     if (GetWinVersion() >= 3000)  // Windows 10 or later.
     {
         LockWindowUpdate();
-        CRect rc = GetViewRect();
-        RecalcDockChildLayout(rc);
+        CDocker::RecalcDockLayout();
         UnlockWindowUpdate();
         UpdateWindow();
     }
