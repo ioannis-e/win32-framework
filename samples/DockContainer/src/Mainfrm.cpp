@@ -121,7 +121,6 @@ BOOL CMainFrame::OnCommand(WPARAM wparam, LPARAM)
     case IDM_CONTAINER_TOP:     return OnContainerTabsAtTop();
     case IDM_FILE_EXIT:         return OnFileExit();
     case IDM_DOCK_DEFAULT:      return OnDockDefault();
-    case IDM_DOCK_CLOSEALL:     return OnDockCloseAll();
     case IDW_VIEW_STATUSBAR:    return OnViewStatusBar();
     case IDW_VIEW_TOOLBAR:      return OnViewToolBar();
     case IDM_HELP_ABOUT:        return OnHelp();
@@ -172,13 +171,6 @@ BOOL CMainFrame::OnDockDefault()
     // Enable redraw and redraw the frame.
     SetRedraw(TRUE);
     RedrawWindow();
-    return TRUE;
-}
-
-// Close all the frame's dockers.
-BOOL CMainFrame::OnDockCloseAll()
-{
-    CloseAllDockers();
     return TRUE;
 }
 
@@ -259,14 +251,11 @@ void CMainFrame::RecalcDockLayout()
 {
     if (GetWinVersion() >= 3000)  // Windows 10 or later.
     {
-        if (GetDockAncestor()->IsWindow())
-        {
-            GetTopmostDocker()->LockWindowUpdate();
-            CRect rc = GetTopmostDocker()->GetViewRect();
-            GetTopmostDocker()->RecalcDockChildLayout(rc);
-            GetTopmostDocker()->UnlockWindowUpdate();
-            GetTopmostDocker()->UpdateWindow();
-        }
+        LockWindowUpdate();
+        CRect rc = GetViewRect();
+        RecalcDockChildLayout(rc);
+        UnlockWindowUpdate();
+        UpdateWindow();
     }
     else
         CDocker::RecalcDockLayout();

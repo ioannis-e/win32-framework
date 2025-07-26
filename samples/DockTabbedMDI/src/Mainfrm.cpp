@@ -441,14 +441,11 @@ void CMainFrame::RecalcDockLayout()
 {
     if (GetWinVersion() >= 3000)  // Windows 10 or later.
     {
-        if (GetDockAncestor()->IsWindow())
-        {
-            GetTopmostDocker()->LockWindowUpdate();
-            CRect rc = GetTopmostDocker()->GetViewRect();
-            GetTopmostDocker()->RecalcDockChildLayout(rc);
-            GetTopmostDocker()->UnlockWindowUpdate();
-            GetTopmostDocker()->UpdateWindow();
-        }
+        LockWindowUpdate();
+        CRect rc = GetViewRect();
+        RecalcDockChildLayout(rc);
+        UnlockWindowUpdate();
+        UpdateWindow();
     }
     else
         CDocker::RecalcDockLayout();

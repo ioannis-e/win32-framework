@@ -2793,6 +2793,8 @@ namespace Win32xx
         BOOL isLoaded = FALSE;
         if (registryKeyName)
         {
+            isLoaded = TRUE;
+
             // Load Dock container tab order and active container.
             const CString dockSettings = _T("\\Dock Settings");
             const CString dockKeyName = _T("Software\\") + CString(registryKeyName) + dockSettings;
@@ -2902,6 +2904,7 @@ namespace Win32xx
 
         if (registryKeyName)
         {
+            isLoaded = TRUE;
             std::deque<DockInfo> dockList;
             const CString dockSettings = _T("\\Dock Settings");
             const CString dockKeyName = _T("Software\\") + CString(registryKeyName) + dockSettings;
@@ -4409,7 +4412,6 @@ namespace Win32xx
         VERIFY(pDocker->GetDockClient().SetWindowPos(HWND_TOP, rc, SWP_SHOWWINDOW));
         pDocker->Undock(pt, showUndocked);
         pDocker->GetDockBar().SetParent(*GetDockAncestor());
-        pDockUndockedFrom->ShowWindow();
         pDockUndockedFrom->RecalcDockLayout();
         pDocker->BringWindowToTop();
     }

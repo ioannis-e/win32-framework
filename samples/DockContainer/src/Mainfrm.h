@@ -50,7 +50,6 @@ private:
 
     // Command handlers
     BOOL OnContainerTabsAtTop();
-    BOOL OnDockCloseAll();
     BOOL OnDockDefault();
     BOOL OnFileExit();
     BOOL OnHideSingleTab();
