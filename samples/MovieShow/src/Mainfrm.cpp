@@ -36,6 +36,8 @@ using std::max;
 #pragma comment(lib, "shell32.lib")
 #endif
 
+#include <shlwapi.h>
+
 using namespace MediaInfoDLL;
 using namespace Gdiplus;
 
@@ -245,7 +247,7 @@ void CMainFrame::FillImageData(const CString& source, std::vector<BYTE>& dest)
             CRYPT_STRING_BASE64, pSource, &bufferSize, nullptr, nullptr);
 
         // Create the IStream from the array of BYTE.
-        IStream* pStream = SHCreateMemStream(pSource, bufferSize);
+        IStream* pStream = ::SHCreateMemStream(pSource, bufferSize);
         if (pStream)
         {
             // Acquire GDI+ Image from the IStream.

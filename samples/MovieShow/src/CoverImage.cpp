@@ -18,6 +18,8 @@ using std::max;
 #pragma warning (default : 4458) // return warning to default.
 #endif
 
+#include <shlwapi.h>
+
 #include "CoverImage.h"
 
 using namespace Gdiplus;
@@ -64,7 +66,7 @@ void CCoverImage::DrawImage(CDC& dc)
     UINT  bufferSize = static_cast<UINT>(m_imageData.size());
     if (bufferSize > 0)
     {
-        IStream* stream = SHCreateMemStream(m_imageData.data(), bufferSize);
+        IStream* stream = ::SHCreateMemStream(m_imageData.data(), bufferSize);
         if (stream)
         {
             Image cover(stream);

@@ -18,7 +18,8 @@ display either at the top or bottom of the window.
 
 Classes titled CDockXXXX are inherited from CDocker.
 Classes titled CContainerXXXX are inherited from CDockContainer.
-Classes titled CViewXXXX are the various view windows inherited from CWnd.
+Classes titled CViewXXXX are the various view windows inherited from CListView,
+CTreeView, CRichEdit, and CWebBrowser.
 The CMyTabbedMDI class is inherited from CTabbedMDI.
 
 Refer to the documentation for further information on the use of the CDocker,

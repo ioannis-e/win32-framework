@@ -3,6 +3,7 @@
 //
 
 #include "stdafx.h"
+#include <shlwapi.h>
 #include "Mainfrm.h"
 #include "resource.h"
 

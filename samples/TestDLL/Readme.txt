@@ -16,7 +16,7 @@ could load MyDLL.dll using the Windows API without Win32++.
 Features demonstrated in this example
 =====================================
 * Running Win32++ from inside a DLL.
-* Running multiple threads in a DLL.
+* Each dialog created from the DLL runs in a separate thread.
 * Exporting functions from a DLL.
 * Creating pointers to functions exported by a DLL.
 * Using a DLL to display a modeless dialog created by Win32++.

@@ -50,7 +50,7 @@ void CMainWindow::CreateTestWindows(int windows)
 LONGLONG CMainWindow::GetCounter() const
 {
     LARGE_INTEGER current;
-    QueryPerformanceCounter(&current);
+    ::QueryPerformanceCounter(&current);
     return current.QuadPart;
 }
 
