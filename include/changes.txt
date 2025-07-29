@@ -35,7 +35,7 @@ New Features and Enhancements
   project files. These project files now support the Win32, Win64 and Win64x
   platforms.
 
-* Updated the CommonDialogs, EdgeBrowserEx, MovieShow and TaskDialog samples.
+* Updated many of the samples.
 
 Changes in detail
 -----------------

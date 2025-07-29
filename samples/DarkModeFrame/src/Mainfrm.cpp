@@ -8,8 +8,9 @@
 #include "DarkMode.h"
 #include "resource.h"
 
-// Add Dwmapi.lib to the linker.
+// Add the following libraries to the linker.
 #pragma comment( lib, "Dwmapi" )
+#pragma comment( lib, "WindowsApp.lib" )
 
 //////////////////////////////////
 // CMainFrame function definitions
