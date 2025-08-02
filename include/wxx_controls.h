@@ -410,7 +410,7 @@ namespace Win32xx
         virtual ~CProgressBar() override = default;
 
         int  GetPos() const;
-        int  GetRange(BOOL whichLimit, PBRANGE range) const;
+        int  GetRange(BOOL whichLimit, PBRANGE& range) const;
         int  GetRange(BOOL whichLimit) const;
         int  OffsetPos(int increment) const;
         int  SetPos(int pos) const;
@@ -2028,8 +2028,9 @@ namespace Win32xx
     }
 
     // Retrieves information about the current high and low limits of the progress bar control.
+    // The PBRANGE struct is filled with the retrieved ranges.
     // Refer to PBM_GETRANGE in the Windows API documentation for more information.
-    inline int CProgressBar::GetRange(BOOL whichLimit, PBRANGE range) const
+    inline int CProgressBar::GetRange(BOOL whichLimit, PBRANGE& range) const
     {
         assert(IsWindow());
         WPARAM wparam = static_cast<WPARAM>(whichLimit);

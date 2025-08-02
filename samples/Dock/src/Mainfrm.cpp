@@ -304,7 +304,7 @@ void CMainFrame::RecalcDockLayout()
         LockWindowUpdate();
         CDocker::RecalcDockLayout();
         UnlockWindowUpdate();
-        UpdateWindow();   
+        UpdateWindow();
     }
     else
         CDocker::RecalcDockLayout();
