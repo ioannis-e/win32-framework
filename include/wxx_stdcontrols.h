@@ -115,6 +115,7 @@ namespace Win32xx
         BOOL   GetModify() const;
         TCHAR  GetPasswordChar() const;
         void   GetRect(RECT& rc) const;
+        CRect  GetRect() const;
         void   GetSel(int& startChar, int& endChar) const;
         DWORD  GetSel() const;
         long   GetTextLength() const;
@@ -180,6 +181,7 @@ namespace Win32xx
         void* GetItemDataPtr(int index) const;
         int  GetItemHeight(int index) const;
         int  GetItemRect(int index, RECT& rc) const;
+        CRect GetItemRect(int index) const;
         LCID GetLocale() const;
         int  GetSel(int index) const;
         int  GetText(int index, LPTSTR buffer) const;
@@ -562,6 +564,17 @@ namespace Win32xx
         assert(IsWindow());
         LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
         SendMessage(EM_GETRECT, 0, lparam);
+    }
+
+    // Returns the coordinates of the formatting rectangle in an edit control.
+    // Refer to EM_GETRECT in the Windows API documentation for more information.
+    inline CRect CEdit::GetRect() const
+    {
+        assert(IsWindow());
+        CRect rc;
+        LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
+        SendMessage(EM_GETRECT, 0, lparam);
+        return rc;
     }
 
     // Retrieves the starting and ending character positions of the current
@@ -1008,6 +1021,18 @@ namespace Win32xx
         WPARAM wparam = static_cast<WPARAM>(index);
         LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
         return static_cast<int>(SendMessage(LB_GETITEMRECT, wparam, lparam));
+    }
+
+    // Retrieves the client coordinates of the specified list box item.
+    // Refer to LB_GETITEMRECT in the Windows API documentation for more information.
+    inline CRect CListBox::GetItemRect(int index) const
+    {
+        assert(IsWindow());
+        CRect rc;
+        WPARAM wparam = static_cast<WPARAM>(index);
+        LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
+        SendMessage(LB_GETITEMRECT, wparam, lparam);
+        return rc;
     }
 
     // Retrieves the locale of the list box. The high-order word contains the

@@ -81,6 +81,7 @@ namespace Win32xx
         DWORD_PTR GetItemData( int item ) const;
         BOOL    GetItemPosition( int item, CPoint& pt ) const;
         BOOL    GetItemRect( int item, RECT& rc, UINT code ) const;
+        CRect   GetItemRect(int item, UINT code) const;
         UINT    GetItemState( int item, UINT mask ) const;
         CString GetItemText( int item, int subItem, int textMax = 260 ) const;
         int     GetNextItem( int item, int flags ) const;
@@ -419,6 +420,18 @@ namespace Win32xx
     {
         assert(IsWindow());
         return ListView_GetItemRect( *this, item, &rc, static_cast<LONG>(code) );
+    }
+
+    // Retrieves the bounding rectangle for all or part of an item in the
+    // current view.
+    // code: LVIR_BOUNDS; LVIR_ICON; LVIR_LABEL; or LVIR_SELECTBOUNDS.
+    // Refer to ListView_GetItemRect in the Windows API documentation for more information.
+    inline CRect CListView::GetItemRect(int item, UINT code) const
+    {
+        assert(IsWindow());
+        CRect rc;
+        ListView_GetItemRect(*this, item, &rc, static_cast<LONG>(code));
+        return rc;
     }
 
     // Retrieves the state of the list-view item.

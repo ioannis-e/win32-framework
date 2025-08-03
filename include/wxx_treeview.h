@@ -76,6 +76,7 @@ namespace Win32xx
         int     GetItemHeight() const;
         BOOL    GetItemImage(HTREEITEM item, int& image, int& selectedImage ) const;
         BOOL    GetItemRect(HTREEITEM item, RECT& rc, BOOL isTextOnly) const;
+        CRect   GetItemRect(HTREEITEM item, BOOL isTextOnly) const;
         CString GetItemText(HTREEITEM item, int textMax = 260) const;
         HTREEITEM GetLastVisible() const;
         HTREEITEM GetNextItem(HTREEITEM item, UINT code) const;
@@ -344,6 +345,22 @@ namespace Win32xx
         WPARAM wparam = static_cast<WPARAM>(isTextOnly);
         LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
         return static_cast<BOOL>(SendMessage(TVM_GETITEMRECT, wparam, lparam));
+    }
+
+    // Retrieves the bounding rectangle for a tree-view item and indicates
+    // whether the item is visible.
+    // Refer to TreeView_GetItemRect in the Windows API documentation for more information.
+    inline CRect CTreeView::GetItemRect(HTREEITEM item, BOOL isTextOnly) const
+    {
+        assert(IsWindow());
+        CRect rc;
+
+        // As per the Microsoft's recommendation for handling TVM_GETITEMRECT.
+        *reinterpret_cast<HTREEITEM*>(&rc) = item;
+        WPARAM wparam = static_cast<WPARAM>(isTextOnly);
+        LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
+        SendMessage(TVM_GETITEMRECT, wparam, lparam);
+        return rc;
     }
 
     // Retrieves the text for a tree-view item.

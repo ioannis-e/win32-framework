@@ -92,6 +92,7 @@ namespace Win32xx
         DWORD   GetParaFormat(PARAFORMAT2& format) const;
         BOOL    GetPunctuation(UINT type, PUNCTUATION& puncInfo) const;
         void    GetRect(RECT& rc) const;
+        CRect   GetRect() const;
         UNDONAMEID GetRedoName() const;
         void    GetSel(CHARRANGE& range) const;
         void    GetSel(long& startChar, long& endChar) const;
@@ -496,6 +497,18 @@ namespace Win32xx
         assert(IsWindow());
         LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
         SendMessage(EM_GETRECT, 0, lparam);
+    }
+
+    // Retrieves the formatting rectangle. The formatting rectangle is the
+    // limiting rectangle into which text can be drawn.
+    // Refer to EM_GETRECT in the Windows API documentation for more information.
+    inline CRect CRichEdit::GetRect() const
+    {
+        assert(IsWindow());
+        CRect rc;
+        LPARAM lparam = reinterpret_cast<LPARAM>(&rc);
+        SendMessage(EM_GETRECT, 0, lparam);
+        return rc;
     }
 
     // Retrieves the type of the next action, if any, in the control's redo queue.

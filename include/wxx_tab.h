@@ -163,6 +163,7 @@ namespace Win32xx
         BOOL        GetItem(int tab, LPTCITEM pTabInfo) const;
         int         GetItemCount() const;
         BOOL        GetItemRect(int tab, RECT& rc) const;
+        CRect       GetItemRect(int tab) const;
         int         GetRowCount() const;
         HWND        GetToolTips() const;
         BOOL        HighlightItem(int tabID, WORD highlight) const;
@@ -1727,6 +1728,16 @@ namespace Win32xx
     {
         assert(IsWindow());
         return TabCtrl_GetItemRect(*this, tab, &rc);
+    }
+
+    // Retrieves the bounding rectangle for a tab in a tab control.
+    // Refer to TabCtrl_GetItemRect in the Windows API documentation for more information.
+    inline CRect CTab::GetItemRect(int tab) const
+    {
+        assert(IsWindow());
+        CRect rc;
+        TabCtrl_GetItemRect(*this, tab, &rc);
+        return rc;
     }
 
     // Retrieves the current number of rows of tabs in a tab control.
