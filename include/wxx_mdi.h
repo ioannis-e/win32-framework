@@ -127,11 +127,11 @@ namespace Win32xx
         HACCEL m_childAccel;
     };
 
-    /////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     // CMDIClient manages the MDI frame's MDI client window.
     // The MDI client window manages the arrangement of the MDI child windows.
     template <class T>
-    class CMDIClient : public T     // T is either CWnd, or CDocker::CDockClient.
+    class CMDIClient : public T   // T is either CWnd, or CDocker::CDockClient.
     {
     public:
         CMDIClient() = default;
@@ -150,7 +150,7 @@ namespace Win32xx
         CMDIClient& operator=(const CMDIClient&) = delete;
     };
 
-    /////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     // The CMDIFrameT class is the base class for all MDI frames. MDI Frames
     // can hold one or more MDI children. The template parameter T is typically
     // either CFrame or CDockFrame.
@@ -215,7 +215,7 @@ namespace Win32xx
     };
 
 
-    /////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
     // The CMDIFrame class provides a frame window that can host one or
     // more MDI child windows. CMDIFrame also manages the creation and
     // position of child windows, such as the menubar, toolbar, and statusbar.
@@ -232,15 +232,13 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
 
-    /////////////////////////////////////
-    // Definitions for the CMDIFrameT class
+    ////////////////////////////////////////
+    // Definitions for the CMDIFrameT class.
     //
 
     template <class T>
@@ -847,8 +845,8 @@ namespace Win32xx
     }
 
 
-    //////////////////////////////////////
-    //Definitions for the CMDIClient class
+    ////////////////////////////////////////
+    // Definitions for the CMDIClient class.
     //
 
     // Creates the MDIClient window.
@@ -927,8 +925,8 @@ namespace Win32xx
     }
 
 
-    /////////////////////////////////////
-    //Definitions for the CMDIChild class
+    ///////////////////////////////////////
+    // Definitions for the CMDIChild class.
     //
 
     // Sets the MDI Child's menu and accelerator in the constructor, like this ...

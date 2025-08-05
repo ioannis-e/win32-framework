@@ -127,12 +127,11 @@ namespace Win32xx
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 namespace Win32xx
 {
 
-    /////////////////////////////////////////////////////
-    // Definitions for the the CMetaFile class
+    ///////////////////////////////////////////
+    // Definitions for the the CMetaFile class.
     //
     inline CMetaFile::CMetaFile() : m_pData(std::make_shared<MetaFileData>())
     {
@@ -178,8 +177,8 @@ namespace Win32xx
     }
 
 
-    /////////////////////////////////////////////////////
-    // Definitions for the the CEnhMetaFile class
+    //////////////////////////////////////////////
+    // Definitions for the the CEnhMetaFile class.
     //
     inline CEnhMetaFile::CEnhMetaFile() : m_pData(std::make_shared<EnhMetaFileData>())
     {

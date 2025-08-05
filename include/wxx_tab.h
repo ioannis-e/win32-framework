@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////
 // wxx_tab.h
 //  Declaration of the CTab and CMDITab classes.
 
@@ -294,9 +294,7 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
@@ -304,6 +302,7 @@ namespace Win32xx
     //////////////////////////////////////////////////////////////
     // Definitions for the CSelectDialog class nested within CTab.
     //
+
     inline CTab::CSelectDialog::CSelectDialog(LPCDLGTEMPLATE pDlgTemplate) :
         CDialog(pDlgTemplate), IDC_LIST(122)
     {

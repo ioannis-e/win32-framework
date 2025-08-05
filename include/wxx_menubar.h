@@ -140,12 +140,11 @@ namespace Win32xx
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 namespace Win32xx
 {
 
-    /////////////////////////////////////
-    // Definitions for the CMenuBar class
+    //////////////////////////////////////
+    // Definitions for the CMenuBar class.
     //
 
     inline CMenuBar::CMenuBar() : m_msgHook(nullptr), m_popupMenu(nullptr), m_selectedMenu(nullptr),

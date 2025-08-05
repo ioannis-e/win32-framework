@@ -118,13 +118,13 @@ namespace Win32xx
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 namespace Win32xx
 {
 
-    ///////////////////////////////////
-    // Definitions for the CReBar class
+    ////////////////////////////////////
+    // Definitions for the CReBar class.
     //
+
     inline CReBar::CReBar() : m_isDragging(FALSE), m_menuBar(nullptr), m_oldParam(0)
     {
     }

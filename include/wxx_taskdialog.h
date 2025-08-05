@@ -161,12 +161,33 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
+
+    ///////////////////
+    // Global function.
+    //
+
+    // This function creates a TaskDialog that simulates a simple MessageBox.
+    // The iconType can be formed from MAKEINTRESOURCE, or one of:
+    // TD_WARNING_ICON; TD_ERROR_ICON; TD_INFORMATION_ICON; TD_SHIELD_ICON.
+    // TaskDialogs support per monitor DPI aware version 2, but a MessageBox
+    // currently does not. TaskDialogs are not supported on Windows XP.
+    inline void TaskDialogBox(HWND wnd, LPCTSTR text, LPCTSTR caption,
+        LPTSTR iconType = TD_INFORMATION_ICON)
+    {
+        CTaskDialog taskDialog;
+        taskDialog.SetContent(text);
+        taskDialog.SetWindowTitle(caption);
+        taskDialog.SetMainIcon(iconType);
+        taskDialog.DoModal(wnd);
+    }
+
+    /////////////////////////////////////////
+    // Definitions for the CTaskDialog class.
+    //
 
     inline CTaskDialog::CTaskDialog() : m_selectedButtonID(0),
         m_selectedRadioButtonID(0), m_verificationCheckboxState(FALSE)

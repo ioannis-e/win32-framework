@@ -30,6 +30,8 @@ BOOL CView::Minimize()
 
 BOOL CView::OnAbout()
 {
+    // This code uses a TaskDialog to simulate a simple MessageBox.
+    // Note that TaskDialogs are not supported on Windows XP.
     if (!m_dialog.IsWindow())
     {
         m_dialog.SetContent(L"This sample demonstrates minimizing a window to the system tray.");

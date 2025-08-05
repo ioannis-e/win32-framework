@@ -96,7 +96,7 @@
 namespace Win32xx
 {
 
-    ////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
     // This class encapsulates the Windows API PrintDlg function.
     // The PrintDlg function displays a print dialog. The print dialog
     // enables the user to specify the properties of a particular print job.
@@ -148,7 +148,7 @@ namespace Win32xx
     };
 
 
-    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
     // This class encapsulates the Windows API PageSetupDlg function.
     // The PageSetupDlg function creates a Page Setup dialog box that
     // enables the user to specify the attributes of a printed page.
@@ -193,8 +193,8 @@ namespace Win32xx
 
 namespace Win32xx
 {
-    /////////////////////////////////////////
-    // Definitions for the CPrintDialog class
+    //////////////////////////////////////////
+    // Definitions for the CPrintDialog class.
     //
 
     // Constructor for CPrintDialog class. The flags parameter specifies the

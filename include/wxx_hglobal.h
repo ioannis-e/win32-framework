@@ -75,8 +75,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    ///////////////////////////////////////
-    // Definitions for the CHGlobal class
+    //////////////////////////////////////
+    // Definitions for the CHGlobal class.
     //
 
     // Allocates a new global memory buffer for this object.

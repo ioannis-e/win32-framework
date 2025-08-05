@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 // wxx_stdcontrols.h
 //  Declaration of the CButton, CEdit, CListBox and CStatic classes
 
@@ -265,9 +265,7 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
@@ -411,8 +409,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CEdit class
+    ///////////////////////////////////
+    // Definitions for the CEdit class.
     //
 
     // Adds text to the end of the document.
@@ -863,8 +861,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CListbox class
+    //////////////////////////////////////
+    // Definitions for the CListbox class.
     //
 
     // Adds a string to a list box and returns its index.

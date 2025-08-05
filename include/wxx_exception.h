@@ -76,7 +76,7 @@
 
 namespace Win32xx
 {
-    ////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////
     // This is the base class for all exceptions defined by Win32++.
     // This class has a pure virtual function and is an abstract class.
     // We can't throw a CException directly, but we can throw any exception
@@ -194,6 +194,12 @@ namespace Win32xx
         virtual const char* what () const noexcept override;
     };
 
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+namespace Win32xx
+{
 
     ////////////////////////////////////////
     // Definitions for the CException class.
@@ -450,7 +456,7 @@ namespace Win32xx
     }
 
 
-    //////////////////////////////////////////////////
+    ///////////////////////////////////////////////
     // Definitions of the CResourceException class.
     //
 

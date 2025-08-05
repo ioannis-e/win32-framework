@@ -314,9 +314,7 @@ namespace Win32xx
 
 } // namespace Win32xx
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
@@ -1618,8 +1616,8 @@ namespace Win32xx
         return str;
     }
 
-    /////////////////////////////////////////////
-    // Definition of the CString class
+    ///////////////////////////////////
+    // Definition of the CString class.
     //
 
     // Construct CString from CHAR characters.
@@ -1764,8 +1762,8 @@ namespace Win32xx
     }
 
 
-    //////////////////////////////////////////////
-    // CString global operator functions
+    /////////////////////////////////////
+    // CString global operator functions.
     //
 
     // Add a CString to a CString.

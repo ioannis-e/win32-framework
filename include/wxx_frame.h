@@ -98,7 +98,7 @@ namespace Win32xx
 #pragma clang diagnostic ignored "-Winconsistent-missing-override"
 #endif
 
-    //////////////////////////////////
+    ///////////////////////////////////////////////////////
     // CFrameT is the base class for all frames in Win32++.
     // The template parameter T is either CWnd or CDocker.
     template <class T>
@@ -343,7 +343,7 @@ namespace Win32xx
 #pragma clang diagnostic pop
 #endif
 
-    /////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
     // CFrame manages the frame window. CFrame also manages the
     // creation and position of child windows, such as the menubar,
     // toolbar, view window and statusbar.
@@ -360,15 +360,13 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
 
-    ///////////////////////////////////
-    // Definitions for the CFrame class
+    ////////////////////////////////////
+    // Definitions for the CFrame class.
     //
     template <class T>
     inline CFrameT<T>::CFrameT() : m_aboutDialog(IDW_ABOUT), m_accel(nullptr),

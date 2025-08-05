@@ -147,6 +147,10 @@ namespace Win32xx
 namespace Win32xx
 {
 
+    ///////////////////////////////////////
+    // Definitions for the CTreeView class.
+    //
+
     // Creates a dragging bitmap for the specified item in a tree-view control.
     // It also creates an image list for the bitmap and adds the bitmap to the
     // image list.

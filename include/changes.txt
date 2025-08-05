@@ -15,14 +15,24 @@ New Features and Enhancements
   control and users will be able to scroll to the left or right to access all
   of the items. You can also create pager controls that scroll vertically.
 
+* Added the TaskDialogBox global function.
+  This function creates a TaskDialog that simulates a simple MessageBox.
+  TaskDialogs support per monitor DPI aware version 2, but a MessageBox
+  currently does not. TaskDialogs are not supported on Windows XP.
+
 * Added the ToolbarBuilder sample.
   This sample is a handy tool for creating and editing bitmaps for use in
-  toolbars.
+  toolbars. It can load, modify and save 4bit, 8bit 16bit, 24bit and 32bit
+  bitmaps. When an image loaded and then saved, it is saved with the same bits
+  per pixel as the loaded image. Images with a bits per pixel 24 or less can be
+  displayed with a transparency mask color.
 
 * Added the IFileDialog sample.
   This sample demonstrates how to use and customise IFileOpenDialog and
-  IFileSaveDialog. These dialogs can in place of GetOpenFileName, 
-  GetSaveFileName and SHBrowseForFolder.
+  IFileSaveDialog. These dialogs can in place of GetOpenFileName,
+  GetSaveFileName and SHBrowseForFolder. The IFileDialog interface can be used
+  to display and choose folders. This makes the IFileDialog interface a useful
+  and modern alternative to SHBrowseForFolder and CFolderDialog.
 
 * Updated CMenubar.
   The menubar now supports single menu items as well as popup menus.
@@ -39,8 +49,15 @@ New Features and Enhancements
 
 Changes in detail
 -----------------
-Added the CPager     class.
-Added CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap)    constructor
+Added the CPager                  - class
+Added TaskDialogBox               - global function
+Added CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap) additional overload
+Added CEdit::GetRect              - additional overload
+Added CListBox::GetItemRect       - additional overload
+Added CListView::GetItemRect      - additional overload
+Added CRichEdit::GetRect          - additional overload
+Added CTab::GetItemRect           - additional overload
+Added CTreeView::GetItemRect      - additional overload
 
 
 Version 10.1

@@ -205,11 +205,10 @@ namespace Win32xx
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 namespace Win32xx
 {
 
-    //////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////
     // Definitions for the CPreviewPane class.
     // CPreviewPane provides a preview pane for CPrintPreview.
     //

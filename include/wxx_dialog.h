@@ -142,8 +142,8 @@ namespace Win32xx
     };
 
 
-    //////////////////////////////////////
-    // Declaration of the CResizer class
+    /////////////////////////////////////
+    // Declaration of the CResizer class.
     //
     // The CResizer class can be used to rearrange a dialog's child
     // windows when the dialog is resized.
@@ -228,13 +228,12 @@ namespace Win32xx
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 namespace Win32xx
 {
-    ////////////////////////////////////
-    // Definitions for the CDialog class
-    //
 
+    /////////////////////////////////////
+    // Definitions for the CDialog class.
+    //
 
     // Default constructor. Use SetDialogTemplate, SetDialogResource or
     // SetDialogResourceFromID to specify the dialog if this constructor
@@ -756,8 +755,8 @@ namespace Win32xx
     }
 
 
-    /////////////////////////////////////
-    // Definitions for the CResizer class
+    //////////////////////////////////////
+    // Definitions for the CResizer class.
     //
 
     // Adds or updates the information about a child window managed by CResizer.

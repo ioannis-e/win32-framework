@@ -813,7 +813,7 @@ namespace Win32xx
     };
 
 
-    /////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
     // CMemDC manage a memory device context that is compatible with the
     // specified device context. If this device context 0, the memory DC
     // is compatible with the application's current screen.
@@ -886,7 +886,7 @@ namespace Win32xx
     };
 
 
-    ///////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
     // The CBitmapInfoPtr class is a convenient wrapper for the BITMAPINFO
     // structure. The BITMAPINFO structure is used in the GetDIBits and
     // SetDIBits Window API functions.
@@ -914,12 +914,11 @@ namespace Win32xx
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 namespace Win32xx
 {
 
-    ///////////////////////////////////////////////
-    // Definitions for the CGDIObject class
+    ////////////////////////////////////////
+    // Definitions for the CGDIObject class.
     //
 
     // Constructs the CGDIObject.
@@ -1109,8 +1108,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CBitmap class
+    /////////////////////////////////////
+    // Definitions for the CBitmap class.
     //
 
     inline CBitmap::CBitmap()
@@ -1582,8 +1581,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions of the CBrush class
+    ///////////////////////////////////
+    // Definitions of the CBrush class.
     //
     inline CBrush::CBrush()
     {
@@ -1709,8 +1708,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions of the CFont class
+    //////////////////////////////////
+    // Definitions of the CFont class.
     //
     inline CFont::CFont()
     {
@@ -1837,8 +1836,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions of the CPalette class
+    /////////////////////////////////////
+    // Definitions of the CPalette class.
     //
     inline CPalette::CPalette()
     {
@@ -1949,8 +1948,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Declarations for the CPen class
+    ///////////////////////////////////
+    // Declarations for the CPen class.
     //
     inline CPen::CPen()
     {
@@ -2063,8 +2062,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions of the CRgn class
+    /////////////////////////////////
+    // Definitions of the CRgn class.
     //
     inline CRgn::CRgn()
     {
@@ -2306,8 +2305,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions of the CDC class
+    ////////////////////////////////
+    // Definitions of the CDC class.
     //
 
     inline CDC::CDC() : m_pData(std::make_shared<CDC_Data>())
@@ -2952,8 +2951,8 @@ namespace Win32xx
         SelectObject(bitmap);
     }
 
-    //////////////////
-    // Brush functions
+    ///////////////////
+    // Brush functions.
 
     // Creates the brush with the specified pattern, and selects it into the device context.
     // Refer to CreatePatternBrush in the Windows API documentation for more information.
@@ -3067,8 +3066,8 @@ namespace Win32xx
     }
 
 
-    /////////////////
-    // Font functions
+    //////////////////
+    // Font functions.
 
     // Creates a logical font and selects it into the device context.
     // Refer to CreateFontIndirect in the Windows API documentation for more information.
@@ -3158,8 +3157,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////
-    // Palette functions
+    /////////////////////
+    // Palette functions.
 
     // Creates and selects a palette.
     // Refer to CreatePalette in the Windows API documentation for more information.
@@ -3236,8 +3235,8 @@ namespace Win32xx
     }
 
 
-    ////////////////
-    // Pen functions
+    /////////////////
+    // Pen functions.
 
     // Creates the pen and selects it into the device context.
     // Refer to CreatePen in the Windows API documentation for more information.
@@ -3329,8 +3328,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////
-    // Region functions
+    ////////////////////
+    // Region functions.
 
     // Creates a rectangular region from the rectangle co-ordinates.
     // The return value specifies the region's complexity: NULLREGION;
@@ -3463,8 +3462,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////
-    // Wrappers for WinAPI functions
+    /////////////////////////////////
+    // Wrappers for WinAPI functions.
 
 
     // Retrieves device-specific information for the specified device.
@@ -3475,8 +3474,8 @@ namespace Win32xx
         return ::GetDeviceCaps(m_pData->dc, index);
     }
 
-    //////////////////
-    // Brush functions
+    ///////////////////
+    // Brush functions.
 
     // Retrieves the current brush color from the device context.
     // Refer to GetDCBrushColor in the Windows API documentation for more information.
@@ -3495,8 +3494,8 @@ namespace Win32xx
     }
 
 
-    /////////////////
-    // Font Functions
+    //////////////////
+    // Font Functions.
 
 
     // Retrieves font metric data for a TrueType font.
@@ -3562,8 +3561,8 @@ namespace Win32xx
     }
 
 
-    /////////////////////
-    // Clipping functions
+    //////////////////////
+    // Clipping functions.
 
 
     // Creates a new clipping region that consists of the existing clipping
@@ -3758,8 +3757,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////
-    // Point and Line Drawing Functions
+    ////////////////////////////////////
+    // Point and Line Drawing Functions.
 
 
     // Returns the current position in logical coordinates.
@@ -4005,8 +4004,8 @@ namespace Win32xx
     }
 
 
-    //////////////////////////
-    // Shape Drawing Functions
+    ///////////////////////////
+    // Shape Drawing Functions.
 
 
     // Draws a rectangle in the style used to indicate that the rectangle has
@@ -4131,8 +4130,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////
-    // Fill and 3D Drawing functions
+    /////////////////////////////////
+    // Fill and 3D Drawing functions.
 
 
     // Fills a rectangle by using the specified brush.
@@ -4273,8 +4272,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////
-    // Bitmap Functions
+    ////////////////////
+    // Bitmap Functions.
 
     // Copies the color data for a rectangle of pixels in a DIB to the
     // specified destination rectangle.
@@ -4440,8 +4439,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////
-    // co-ordinate functions
+    /////////////////////////
+    // co-ordinate functions.
 
     // Converts device coordinates into logical coordinates.
     // Refer to DPtoLP in the Windows API documentation for more information.
@@ -4497,8 +4496,8 @@ namespace Win32xx
         return ::SetLayout(m_pData->dc, layout);
     }
 
-    ////////////////////
-    // Mapping Functions
+    /////////////////////
+    // Mapping Functions.
 
 
     // Retrieves the current mapping mode.
@@ -4682,8 +4681,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////
-    // Printer Functions
+    /////////////////////
+    // Printer Functions.
 
 
     // Starts a print job.
@@ -4737,8 +4736,8 @@ namespace Win32xx
     }
 
 
-    /////////////////
-    // Text Functions
+    //////////////////
+    // Text Functions.
 
     // Draws text using the currently selected font, background color, and text
     // color.
@@ -5011,8 +5010,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CClientDC class
+    ///////////////////////////////////////
+    // Definitions for the CClientDC class.
     //
 
     inline CClientDC::CClientDC(HWND wnd)
@@ -5052,8 +5051,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CClientDCEx class
+    /////////////////////////////////////////
+    // Definitions for the CClientDCEx class.
     //
 
     inline CClientDCEx::CClientDCEx(HWND wnd, HRGN clip, DWORD flags)
@@ -5099,8 +5098,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CMemDC class
+    ////////////////////////////////////
+    // Definitions for the CMemDC class.
     //
 
     inline CMemDC::CMemDC(HDC dc)
@@ -5132,8 +5131,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CPaintDC class
+    //////////////////////////////////////
+    // Definitions for the CPaintDC class.
     //
 
     inline CPaintDC::CPaintDC(HWND wnd)
@@ -5173,8 +5172,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CWindowDC class
+    ///////////////////////////////////////
+    // Definitions for the CWindowDC class.
     //
 
     inline CWindowDC::CWindowDC(HWND wnd)
@@ -5214,8 +5213,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CMetaFileDC class
+    /////////////////////////////////////////
+    // Definitions for the CMetaFileDC class.
     //
 
     inline CMetaFileDC::CMetaFileDC()
@@ -5277,8 +5276,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CEnhMetaFileDC class
+    ////////////////////////////////////////////
+    // Definitions for the CEnhMetaFileDC class.
     //
 
     inline CEnhMetaFileDC::CEnhMetaFileDC()
@@ -5341,8 +5340,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CBitmapInfoPtr class
+    ////////////////////////////////////////////
+    // Definitions for the CBitmapInfoPtr class.
     //
 
     // Constuct the CBitmapInfoPtr from the handle to a bitmap.

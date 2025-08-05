@@ -174,8 +174,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    //////////////////////////////////////////
-    // Definitions for the CPropertyPage class
+    ///////////////////////////////////////////
+    // Definitions for the CPropertyPage class.
     //
 
     inline CPropertyPage::CPropertyPage(UINT templateID, LPCTSTR title /* = nullptr*/)
@@ -510,8 +510,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////
-    // Definitions for the CPropertySheet class
+    ////////////////////////////////////////////
+    // Definitions for the CPropertySheet class.
     //
 
     inline CPropertySheet::CPropertySheet(UINT captionID, HWND parent /* = nullptr*/)

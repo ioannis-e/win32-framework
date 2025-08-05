@@ -45,7 +45,7 @@
 
 namespace Win32xx
 {
-    ////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     // This class implements a COM container that hosts an ActiveX control,
     // such as internet explorer.
     class CAXHost : public IOleInPlaceFrame, public IOleClientSite,

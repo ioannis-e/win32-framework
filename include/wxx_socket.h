@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 // wxx_socket.h
 //  Declaration of the CSocket class
 //
@@ -110,7 +110,8 @@
 //    We are now ready to send and receive data from the server.
 // * Use Send to send data to the server.
 // * Override OnReceive and use Receive to receive data from the server
-// * OnDisconnect can be used to detect when the client is disconnected from the server.
+// * OnDisconnect can be used to detect when the client is disconnected from the
+//    server.
 
 // Notes regarding IPv6 support
 // * IPv6 is supported on Windows Vista and above. Windows XP with SP2 provides
@@ -201,6 +202,10 @@ namespace Win32xx
 
 namespace Win32xx
 {
+
+    //////////////////////////////////////
+    // Definitions of the CRichEdit class.
+    //
 
     inline CSocket::CSocket() : m_socket(INVALID_SOCKET), m_stopRequest(FALSE, TRUE)
     {

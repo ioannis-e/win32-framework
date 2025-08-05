@@ -693,8 +693,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    /////////////////////////////////////////////////////////////
-    // Definitions for the CDockBar class nested within CDocker
+    ////////////////////////////////////////////////////////////
+    // Definitions for the CDockBar class nested within CDocker.
     //
     inline CDocker::CDockBar::CDockBar() : m_pDocker(nullptr), m_dockBarWidth(4)
     {
@@ -813,8 +813,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////////////////////////////
-    // Definitions for the CDockClient class nested within CDocker
+    ///////////////////////////////////////////////////////////////
+    // Definitions for the CDockClient class nested within CDocker.
     //
     inline CDocker::CDockClient::CDockClient() : m_pDocker(nullptr), m_pView(nullptr),
         m_isClosePressed(FALSE), m_isCaptionPressed(FALSE), m_isTracking(FALSE)
@@ -1378,8 +1378,8 @@ namespace Win32xx
     }
 
 
-    //////////////////////////////////////////////////////////////
-    // Definitions for the CDockHint class nested within CDocker
+    /////////////////////////////////////////////////////////////
+    // Definitions for the CDockHint class nested within CDocker.
     //
     inline CDocker::CDockHint::CDockHint()
     {
@@ -1687,8 +1687,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////////////////////////////
-    // Definitions for the CTargetCentre class nested within CDocker
+    /////////////////////////////////////////////////////////////////
+    // Definitions for the CTargetCentre class nested within CDocker.
     //
 
     // Constructor.
@@ -1864,7 +1864,7 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
     // Definitions for the CTargetLeft class nested within CDocker.
     //
 
@@ -1976,7 +1976,7 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
     // Definitions for the CTargetTop class nested within CDocker.
     //
 
@@ -2032,7 +2032,7 @@ namespace Win32xx
     }
 
 
-    /////////////////////////////////////////
+    /////////////////////////////////////
     // Definitions for the CDocker class.
     //
 
@@ -4528,6 +4528,7 @@ namespace Win32xx
 
     ///////////////////////////////////////////
     // Declaration of the CDockContainer class.
+    //
 
     // Constructor.
     inline CDockContainer::CDockContainer() : m_currentPage(0),

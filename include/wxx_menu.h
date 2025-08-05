@@ -90,8 +90,9 @@
 namespace Win32xx
 {
 
-    // This class provides support for menus. It provides member functions for creating,
-    // tracking, updating, and destroying a menu.
+    //////////////////////////////////////////////////////////////////////////
+    // This class provides support for menus. It provides member functions for
+    // creating, tracking, updating, and destroying a menu.
     class CMenu final
     {
     public:
@@ -176,8 +177,8 @@ namespace Win32xx
 
 namespace Win32xx
 {
-    ////////////////////////////////////////
-    // Definitions of CMenu
+    ////////////////////////
+    // Definitions of CMenu.
     //
 
     inline CMenu::CMenu() : m_pData(std::make_shared<CMenu_Data>())

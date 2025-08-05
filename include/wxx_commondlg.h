@@ -310,15 +310,13 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
 
-    //////////////////////////////////////////
-    // Definitions for the CCommonDialog class
+    ///////////////////////////////////////////
+    // Definitions for the CCommonDialog class.
     //
 
     // Override this function to respond to the help button. The common dialog
@@ -372,8 +370,8 @@ namespace Win32xx
     }
 
 
-    /////////////////////////////////////////
-    // Definitions for the CColorDialog class
+    //////////////////////////////////////////
+    // Definitions for the CColorDialog class.
     //
 
     // Construct a CColorDialog object. The initial color, and flags for the
@@ -504,8 +502,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CFileDialog class
+    /////////////////////////////////////////
+    // Definitions for the CFileDialog class.
     //
 
     // Construct a CFileDialog object. isOpenFileDialog specifies the type of
@@ -1060,8 +1058,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////////
-    // Definitions for the CFindReplaceDialog class
+    ////////////////////////////////////////////////
+    // Definitions for the CFindReplaceDialog class.
     //
 
     // Constructor for CCFindReplaceDialog.
@@ -1292,8 +1290,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CFontDialog class
+    /////////////////////////////////////////
+    // Definitions for the CFontDialog class.
     //
 
     // Construct a CFontDialog object from values given. Note that these are

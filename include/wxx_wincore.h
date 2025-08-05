@@ -100,8 +100,8 @@ int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 namespace Win32xx
 {
 
-    ////////////////////////////////////////
-    // Global Functions
+    ////////////////////
+    // Global Functions.
     //
 
     // Returns the path to the AppData folder. Returns the MyDocuments

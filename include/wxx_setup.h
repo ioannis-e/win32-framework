@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 // This file defines the set of version macros for windows
 // and includes the header files required by Win32++. It
 // also contains many of the global functions used by
@@ -142,8 +142,8 @@ namespace Win32xx
     using tString = std::basic_string<TCHAR>;
     using tStringStream = std::basic_stringstream<TCHAR>;
 
-    ////////////////////////////////////////
-    // Global Functions
+    ////////////////////
+    // Global Functions.
     //
 
     // Retrieves the window version

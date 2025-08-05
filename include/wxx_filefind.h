@@ -120,16 +120,13 @@ namespace Win32xx
 
 }
 
-
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
 
-    //////////////////////////////////////
-    // Definitions for the CFindFile class
+    ///////////////////////////////////////
+    // Definitions for the CFindFile class.
     //
 
     //  Construct a CFileFind object for file searches.

@@ -121,8 +121,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    //////////////////////////////////////////////
-    // Definitions for the CThreadT class template
+    ///////////////////////////////////////////////
+    // Definitions for the CThreadT class template.
     //
 
     // CThreadT constructor.

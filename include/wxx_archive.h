@@ -193,6 +193,10 @@ namespace Win32xx
 namespace Win32xx
 {
 
+    //////////////////////////////////////
+    // Definitions for the CArchive class.
+    //
+
     // Constructs a CArchive object.
     // The specified file must already be open for loading or storing.
     inline CArchive::CArchive(CFile& file, Mode mode) : m_schema(UINT(-1))

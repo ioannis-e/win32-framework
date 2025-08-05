@@ -112,11 +112,15 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 namespace Win32xx
 {
+
+    ///////////////////////////////////
+    // Definitions for the CFile class.
+    //
+
     inline CFile::CFile() : m_file(INVALID_HANDLE_VALUE)
     {
     }

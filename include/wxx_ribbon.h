@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 // wxx_ribbon.h
 //  Declaration of the following classes:
 //  CRibbon, CRibbonFrameT, CRibbonFrame, CRibbonDockFrame
@@ -157,7 +157,7 @@ namespace Win32xx
         std::vector<RecentFilesPtr> m_recentFiles;
     };
 
-    ////////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     // This class provides an SDI frame with a Ribbon
     // Framework.
     class CRibbonFrame : public CRibbonFrameT<CFrame>
@@ -171,7 +171,7 @@ namespace Win32xx
         CRibbonFrame& operator=(const CRibbonFrame&) = delete;
     };
 
-    ////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////
     // CRibbonDockFrame manages a frame that supports the
     // ribbon user interface and docking.
     class CRibbonDockFrame : public CRibbonFrameT<CDockFrame>
@@ -185,7 +185,7 @@ namespace Win32xx
         CRibbonDockFrame& operator=(const CRibbonDockFrame&) = delete;
     };
 
-    //////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
     // CRibbonMDIFrame manages a frame that supports the Multiple
     // Document Interface (MDI) and the Ribbon user interface.
     class CRibbonMDIFrame : public CRibbonFrameT<CMDIFrame>
@@ -216,14 +216,12 @@ namespace Win32xx
 
 }
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 namespace Win32xx
 {
-    //////////////////////////////////////////////
-    // Definitions for the CRibbon class
+    /////////////////////////////////////
+    // Definitions for the CRibbon class.
     //
 
     inline CRibbon::CRibbon() : m_pRibbonFramework(nullptr)
@@ -231,7 +229,7 @@ namespace Win32xx
     }
 
 
-    //////////////////////////////////
+    ///////////////////////////////////
     // IUnknown method implementations.
 
 
@@ -371,8 +369,8 @@ namespace Win32xx
     }
 
 
-    //////////////////////////////////////////////
-    // Definitions for the CRibbonFrameT class template
+    ////////////////////////////////////////////////////
+    // Definitions for the CRibbonFrameT class template.
     //
 
     // Get the frame's client area.
@@ -506,8 +504,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////////////////////
-    // Declaration of the nested CRecentFiles class
+    ////////////////////////////////////////////////
+    // Declaration of the nested CRecentFiles class.
     //
     template <class T>
     inline CRibbonFrameT<T>::CRecentFiles::CRecentFiles(PWSTR fullPath)

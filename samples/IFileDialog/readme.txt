@@ -13,6 +13,10 @@ controls can be added to the dialog. This extra functionality can make the
 dialogs created by IFileDialog interface more complex to implement than the
 classic common dialogs.
 
+The IFileDialog interface can be used to display and choose folders. This makes
+the IFileDialog interface a useful and modern alternative to SHBrowseForFolder
+and CFolderDialog.
+
 This sample is based on the CommonFileDialog and the CommFileDialogModes
 samples that ships with the Windows 7 SDK. The original sample can be
 downloaded from:

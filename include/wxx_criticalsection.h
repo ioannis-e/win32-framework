@@ -92,8 +92,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    /////////////////////////////////////////////
-    // Definitions for the CCriticalSection class
+    //////////////////////////////////////////////
+    // Definitions for the CCriticalSection class.
     //
     inline CCriticalSection::CCriticalSection() : m_count(0)
     {

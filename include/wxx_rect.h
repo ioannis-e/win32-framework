@@ -36,9 +36,9 @@
 ////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 // wxx_rect.h
-//  Definitions of the CSize, CPoint and CRect classes
+//  Definitions of the CSize, CPoint and CRect classes.
 
 
 #ifndef _WIN32XX_RECT_H_
@@ -213,8 +213,8 @@ namespace Win32xx
     inline CRect CPoint::operator-(LPCRECT prc) const { return CRect(*prc) - *this; }
 
 
-    ////////////////////////////////////////
-    // Global Functions
+    ////////////////////
+    // Global Functions.
     //
 
     // Returns a CPoint holding the current cursor position.

@@ -89,13 +89,6 @@ namespace Win32xx
     const BOOL READFROMCONTROL = TRUE;  // get values from controls into variables
 
 
-    ///////////////////////////////////////////////////////////////////////////
-    //
-    //  Declaration of the CDataExchange class.
-    //
-    ///////////////////////////////////////////////////////////////////////////
-
-
     ////////////////////////////////////////////////////////////
     // CDataExchange is used to manage the data exchange between
     // the user and a dialog control. It also validates the data
@@ -175,7 +168,6 @@ namespace Win32xx
 
 
 }   // namespace Win32xx
-
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

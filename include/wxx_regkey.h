@@ -104,6 +104,11 @@ namespace Win32xx
 
 namespace Win32xx
 {
+
+    /////////////////////////////////////
+    // Definitions for the CRegKey class.
+    //
+
     inline CRegKey::CRegKey() : m_key(nullptr)
     {
     }

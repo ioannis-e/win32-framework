@@ -36,7 +36,7 @@
 ////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // wxx_imagelist.h
 //  Declaration of the CImageList class
 
@@ -59,11 +59,11 @@
 
 namespace Win32xx
 {
-    // Forward declaration
+    // Forward declaration.
     class CBitmap;
 
 
-    ///////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     // The CImageList class that provides the functionality of image lists.
     // An image list is a collection of images of the same size, each of
     // which can be referred to by its index.
@@ -140,9 +140,15 @@ namespace Win32xx
         std::shared_ptr<CIml_Data> m_pData;
     };
 
+}
 
-    ///////////////////////////////////////
-    // Definitions for the CImageList class
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+namespace Win32xx
+{
+
+    ////////////////////////////////////////
+    // Definitions for the CImageList class.
     //
 
     inline CImageList::CImageList() : m_pData(std::make_shared<CIml_Data>())

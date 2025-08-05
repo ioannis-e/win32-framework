@@ -168,6 +168,10 @@ namespace Win32xx
 namespace Win32xx
 {
 
+    ///////////////////////////////////////
+    // Definitions for the CListView class.
+    //
+
     // Calculates the approximate width and height required to display a given
     // number of items.
     // Refer to ListView_ApproximateViewRect in the Windows API documentation for more information.

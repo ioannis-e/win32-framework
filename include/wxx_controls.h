@@ -607,7 +607,7 @@ namespace Win32xx
 {
 
     ////////////////////////////////////////
-    // Definitions for the CAnimation class
+    // Definitions for the CAnimation class.
     //
 
     // Closes an AVI clip.
@@ -663,8 +663,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CComboBox class
+    ///////////////////////////////////////
+    // Definitions for the CComboBox class.
     //
 
     // Adds a string to the list box of a combo box. If the combo box does not
@@ -1092,8 +1092,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CComboBoxEx class
+    /////////////////////////////////////////
+    // Definitions for the CComboBoxEx class.
     //
 
     // Removes an item from the ComboBoxEx control.
@@ -1322,8 +1322,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CHeader class
+    /////////////////////////////////////
+    // Definitions for the CHeader class.
     //
 
     // Clears all of the filters for the header control.
@@ -1513,8 +1513,8 @@ namespace Win32xx
     }
 
 
-    ////////////////////////////////////////
-    // Definitions for the CHotKey class
+    /////////////////////////////////////
+    // Definitions for the CHotKey class.
     //
 
     // Gets the virtual key code and modifier flags of a hot key
@@ -1580,7 +1580,7 @@ namespace Win32xx
 
 
     ////////////////////////////////////////
-    // Definitions for the CIPAddress class
+    // Definitions for the CIPAddress class.
     //
 
     // Clears the contents of the IP address control.
@@ -1679,8 +1679,8 @@ namespace Win32xx
     }
 
 
-    ///////////////////////////////////////////
-    // Definitions for the CMonthCalendar class
+    ////////////////////////////////////////////
+    // Definitions for the CMonthCalendar class.
     //
 
     // Retrieves the color for a given portion of the month calendar control.
@@ -2015,8 +2015,8 @@ namespace Win32xx
         return Pager_SetPos(*this, pos);
     }
 
-    ////////////////////////////////////////
-    // Definitions for the CProgressBar class
+    //////////////////////////////////////////
+    // Definitions for the CProgressBar class.
     //
 
     // Retrieves the current position of the progress bar.
@@ -2099,7 +2099,7 @@ namespace Win32xx
 
 
     ////////////////////////////////////////
-    // Definitions for the CScrollBar class
+    // Definitions for the CScrollBar class.
     //
 
     // Enables or disables the scroll bar arrows.
@@ -2175,8 +2175,8 @@ namespace Win32xx
         return ::ShowScrollBar(*this, SB_CTL, show);
     }
 
-    ////////////////////////////////////////
-    // Definitions for the CSlider class
+    /////////////////////////////////////
+    // Definitions for the CSlider class.
     //
 
     // Clears the current selection range in the trackbar.
@@ -2437,8 +2437,8 @@ namespace Win32xx
         SendMessage(TBM_SETTOOLTIPS, wparam, 0);
     }
 
-    ////////////////////////////////////////
-    // Definitions for the CSpinButton class
+    /////////////////////////////////////////
+    // Definitions for the CSpinButton class.
     //
 
     // Retrieves acceleration information for the up-down control.
@@ -2540,8 +2540,8 @@ namespace Win32xx
         SendMessage(UDM_SETRANGE, 0, MAKELONG(upper, lower));
     }
 
-    ////////////////////////////////////////
-    // Definitions for the CToolTip class
+    //////////////////////////////////////
+    // Definitions for the CToolTip class.
     //
 
     // Activates or deactivates a ToolTip control.

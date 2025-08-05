@@ -85,7 +85,7 @@
 namespace Win32xx
 {
 
-    ////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
     // This class encapsulates the Windows API PrintDlgEx function.
     // The PrintDlgEx function displays a property sheet. The property
     // sheet allows the user to specify the printer, and the properties
@@ -154,6 +154,16 @@ namespace Win32xx
         IPrintDialogServices* m_pServices;
         CHGlobal m_currentModeBuffer;
     };
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+namespace Win32xx
+{
+
+    //////////////////////////////////////////////
+    // CPrintDialogEx member function definitions.
+    //
 
     // Constructor for CPrintDialogEx class. The flags parameter specifies the
     // flags for the PRINTDLGEX structure. Refer to the description of the

@@ -81,8 +81,8 @@ namespace Win32xx
     using CDevNames = CGlobalLock<DEVNAMES>;
 #endif
 
-    ////////////////////////////////////////
-    // Definitions for the CGlobalLock class
+    /////////////////////////////////////////
+    // Definitions for the CGlobalLock class.
     //
 
     // Constructor.
