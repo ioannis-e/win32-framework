@@ -4417,7 +4417,7 @@ namespace Win32xx
     }
 
     // Undocks a CDockContainer group.
-    // Called when the user undocks a container group from a CDdockFrame.
+    // Called when the user undocks a container group from a CDockFrame.
     inline void CDocker::UndockContainerGroup()
     {
         CDockContainer* pContainer = GetContainer();
@@ -4434,16 +4434,18 @@ namespace Win32xx
                 CDockContainer* pContainerLast = pContainer->GetContainerFromIndex(lastTab);
                 GetDockAncestor()->UndockContainer(pContainerLast, GetCursorPos(), FALSE);
 
+                // Move each container's docker to the undocked last container's docker,
+                // using Hide then DockInContainer.
                 while (pAllContainers.size() > 0)
                 {
                     lastTab = pAllContainers.size() - 1;
                     CDockContainer* pContainerNext = pContainer->GetContainerFromIndex(lastTab);
-
                     CDocker* pDocker = pContainerNext->GetDocker();
                     pDocker->Hide();
                     pContainerLast->GetDocker()->DockInContainer(pDocker, pDocker->GetDockStyle());
                 }
 
+                // Restore the active container and redraw.
                 pContainerLast->SetActiveContainer(pActive);
                 pContainerLast->GetDocker()->ShowWindow(SW_SHOW);
                 pContainerLast->RedrawWindow();

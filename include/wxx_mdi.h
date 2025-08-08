@@ -887,7 +887,7 @@ namespace Win32xx
         CWnd* pWnd = T::GetCWndPtr(reinterpret_cast<HWND>(wparam));
 
         // Do default processing first.
-        T::FinalWindowProc(msg, wparam, lparam);
+        T::DefWindowProc(msg, wparam, lparam);
 
         // Now remove MDI child.
         T::GetParent().SendMessage(UWM_MDIDESTROYED, reinterpret_cast<WPARAM>(

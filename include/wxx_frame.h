@@ -1937,7 +1937,7 @@ namespace Win32xx
     inline LRESULT CFrameT<T>::OnActivate(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // Perform default processing first
-        T::FinalWindowProc(msg, wparam, lparam);
+        T::DefWindowProc(msg, wparam, lparam);
 
         if (LOWORD(wparam) == WA_INACTIVE)
         {
