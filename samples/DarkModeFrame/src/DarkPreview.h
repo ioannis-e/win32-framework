@@ -64,7 +64,7 @@ inline INT_PTR CDarkPreview<T>::DialogProc(UINT msg, WPARAM wparam, LPARAM lpara
         // Display the exception and continue.
         CString str;
         str << e.GetText() << L'\n' << e.GetErrorString();
-        ::MessageBox(nullptr, str, L"An exception occurred", MB_ICONERROR);
+        TaskDialogBox(nullptr, str, L"An exception occurred", TD_ERROR_ICON);
 
         return 0;
     }

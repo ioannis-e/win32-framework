@@ -798,7 +798,7 @@ BOOL CMainFrame::OnAddFolder()
 {
     if (::WaitForSingleObject(m_addFilesThread, 0) != WAIT_TIMEOUT) // if thread is not running.
     {
-        CFolderDialog fd;
+        CFolderDialogEx fd;
         fd.SetTitle(L"Choose a folder to add to the video library.");
         if (fd.DoModal(*this) == IDOK)
         {
@@ -817,7 +817,7 @@ BOOL CMainFrame::OnAddFolder()
                     ++it;
             }
 
-            CString searchString = fd.GetFolderPath() + L"\\*.m??";
+            CString searchString = fd.GetFolderName() + L"\\*.m??";
             CFileFind fileFound;
 
             m_filesToAdd.clear();

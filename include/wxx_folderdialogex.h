@@ -36,17 +36,29 @@
 ////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////
-// wxx_folderdialogex.h
-//  Declaration of CFolderDialogEx class.
+////////////////////////////////////////////////////////////////////////
+// CFolderDialogEx class.
+//  This class provides a modal dialog that allows users to select a
+//  folder. It is based on the IFileDialog interface.
+//
+//  CFolderDialogEx is a modern replacement for the CFolderDialog class.
+//  It supports dark mode applications, whereas CFolderDialog does not.
+//
+//  Note: CFolderDialogEx requires Windows Vista or later.
 
-// CFolderDialogEx provides a modal dialog that allows users to select a
-// folder. It is based on the IFileDialog interface.
 
-// CFolderDialogEx is a modern replacement for CFolderDialog. It supports
-// dark mode applications, whereas CFolderDialog does not.
-
-// Note: CFolderDialogEx requires Windows Vista or later.
+/////////////////////////////////////////////////////////////
+// Coding example.
+// 
+//  CFolderDialogEx chooseFolder;
+//  chooseFolder.SetInitialFolder(L"C:\\Temp");
+//  chooseFolder.SetTitle(L"This is a title!");
+//  if (chooseFolder.DoModal() == IDOK)
+//  {
+//      TaskDialog(nullptr, nullptr, L"Choosen Folder:", 
+//          chooseFolder.GetFolderName(), 0, TDCBF_OK_BUTTON,
+//          TD_INFORMATION_ICON, nullptr);
+//  }
 
 
 #ifndef _WIN32XX_FOLDERDIALOGEX_H_
@@ -68,9 +80,9 @@ namespace Win32xx
 
         virtual INT_PTR DoModal(HWND hParent = nullptr);
 
-        const CString& GetFolderName();
-        void SetInitialFolder(const CString& initialFolder);
-        void SetTitle(LPCWSTR title);
+        const CString& GetFolderName() const;
+        void SetInitialFolder(const CStringW& initialFolder);
+        void SetTitle(const CStringW& title);
 
     private:
         CFolderDialogEx(const CFolderDialogEx&) = delete;
@@ -91,57 +103,61 @@ namespace Win32xx
     // Definitions for the CFolderDialogEx class.
     //
 
-    // Display a dialog that allows the user to select a folder.
-    // Returns IDOK on success, and returns IDCANCEL otherwise.
+    // Displays a modal dialog that allows the user to select a folder.
+    // Returns IDOK when a folder is selected, and returns IDCANCEL otherwise.
+    // If a folder is selected, it's name can be retrieved by GetFolderName().
     inline INT_PTR CFolderDialogEx::DoModal(HWND hParent)
     {
         INT_PTR result = IDCANCEL;
+        m_folderName.Empty();
         
         // Create the IFileDialog interface.
-        IFileDialog* pFileDlg;
+        IFileDialog* pFileDialog;
         if (SUCCEEDED(::CoCreateInstance(CLSID_FileOpenDialog, nullptr,
-            CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pFileDlg))))
+            CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pFileDialog))))
         {
             // Set the option to display only folders.
             DWORD options;
-            VERIFY(SUCCEEDED(pFileDlg->GetOptions(&options)));
-            pFileDlg->SetOptions(options | FOS_PICKFOLDERS);
-
-            // Set the initial folder if specified.
-            if (!m_initialFolderName.IsEmpty())
+            if (SUCCEEDED(pFileDialog->GetOptions(&options)))
             {
-                IShellItem* pFolder = nullptr;
-                if (SUCCEEDED(::SHCreateItemFromParsingName(m_initialFolderName,
-                    nullptr, IID_PPV_ARGS(&pFolder))))
-                {
-                    pFileDlg->SetFolder(pFolder);
-                    pFolder->Release();
-                }
-            }
+                pFileDialog->SetOptions(options | FOS_PICKFOLDERS);
 
-            // Set the dialog's title if specified.
-            if (!m_title.IsEmpty())
-                pFileDlg->SetTitle(m_title);
-
-            // Display the dialog.
-            if (SUCCEEDED(pFileDlg->Show(hParent)))
-            {
-                IShellItem* pShellItem;
-                if (SUCCEEDED(pFileDlg->GetResult(&pShellItem)))
+                // Set the initial folder if specified.
+                if (!m_initialFolderName.IsEmpty())
                 {
-                    PWSTR pFilePath = 0;
-                    if (SUCCEEDED(pShellItem->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pFilePath)))
+                    IShellItem* pFolder = nullptr;
+                    if (SUCCEEDED(::SHCreateItemFromParsingName(m_initialFolderName,
+                        nullptr, IID_PPV_ARGS(&pFolder))))
                     {
-                        m_folderName = pFilePath;
-                        CoTaskMemFree(pFilePath);
-                        result = IDOK;
+                        pFileDialog->SetFolder(pFolder);
+                        pFolder->Release();
                     }
                 }
 
-                pShellItem->Release();
+                // Set the dialog's title if specified.
+                if (!m_title.IsEmpty())
+                    pFileDialog->SetTitle(m_title);
+
+                // Display the dialog.
+                if (SUCCEEDED(pFileDialog->Show(hParent)))
+                {
+                    IShellItem* pShellItem;
+                    if (SUCCEEDED(pFileDialog->GetResult(&pShellItem)))
+                    {
+                        PWSTR pFilePath = 0;
+                        if (SUCCEEDED(pShellItem->GetDisplayName(SIGDN_DESKTOPABSOLUTEPARSING, &pFilePath)))
+                        {
+                            m_folderName = pFilePath;
+                            CoTaskMemFree(pFilePath);
+                            result = IDOK;
+                        }
+                    }
+
+                    pShellItem->Release();
+                }
             }
 
-            pFileDlg->Release();
+            pFileDialog->Release();
         }
         else
             throw CWinException(GetApp()->MsgWndDialog());
@@ -149,20 +165,25 @@ namespace Win32xx
         return result;
     }
 
-    // Retrieves the name of the folder selected by the user.
-    inline const CString& CFolderDialogEx::GetFolderName()
+    // Retrieves a const reference to a CString containing the name of the
+    // folder selected by the user when the modal dialog is displayed.
+    inline const CString& CFolderDialogEx::GetFolderName() const
     { 
         return m_folderName;
     }
 
-    // Sets the initial folder displayed by the dialog.
-    inline void CFolderDialogEx::SetInitialFolder(const CString& initialFolder)
+    // Sets the initial folder displayed by the modal dialog. This can be
+    // assigned from either a LPCWSTR, or a CStringW, or a CString when
+    // compiled with the Unicode character set.
+    inline void CFolderDialogEx::SetInitialFolder(const CStringW& initialFolder)
     {
         m_initialFolderName = initialFolder;
     }
 
-    // Sets the caption of the dialog.
-    inline void CFolderDialogEx::SetTitle(LPCWSTR title)
+    // Sets the caption of the modal dialog.  This can be assigned from either
+    // a LPCWSTR, or a CStringW, or a CString when compiled with the Unicode
+    // character set.
+    inline void CFolderDialogEx::SetTitle(const CStringW& title)
     {
         m_title = title;
     }

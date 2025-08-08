@@ -195,6 +195,7 @@ namespace Win32xx
     inline INT_PTR CFolderDialog::DoModal(HWND parent)
     {
         CoTaskMemFree(m_fullPidl);
+        m_displayName.Empty();
         m_fullPidl = nullptr;
         m_bi.lpszTitle = m_title.c_str();
         m_bi.pszDisplayName = m_displayName.GetBuffer(MAX_PATH);

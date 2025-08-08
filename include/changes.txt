@@ -1,19 +1,25 @@
 Version 10.2
 ============
-This version adds the ToolbarBuilder sample. This sample is a useful utility
-for building a bitmap for use with toolbars. This version also adds the
-IFileDialog sample and the CPager class which provides support for the pager
-control.
+This version adds the CFolderDialogEx class, the CPager class, the
+ToolbarBuilder sample, and the IFileDialog sample. The ToolbarBuilder is sample
+is a useful utility for building a bitmap for use with toolbars. 
 
 New Features and Enhancements
 -----------------------------
+* Added the CFolderDialogEx class.
+  The CFolderDialogEx provides a modal dialog that allows users to select a
+  folder. It is based on the IFileDialog interface. CFolderDialogEx is a modern
+  replacement for the CFolderDialog class. It supports dark mode applications,
+  whereas CFolderDialog does not. CFolderDialogEx is not supported on
+  Windows XP.
+
 * Added the CPager class.
   CPager manages a pager control. A pager control is a window container that
   is used with a window that does not have enough display area to show all
-  of its content. For example, if your application has a toolbar that is not
-  wide enough to show all of its items, you can assign the toolbar to a pager
+  of its content. For example, if our application has a toolbar that is not
+  wide enough to show all of its items, we can assign the toolbar to a pager
   control and users will be able to scroll to the left or right to access all
-  of the items. You can also create pager controls that scroll vertically.
+  of the items. We can also create pager controls that scroll vertically.
 
 * Added the TaskDialogBox global function.
   This function creates a TaskDialog that simulates a simple MessageBox.
@@ -29,10 +35,8 @@ New Features and Enhancements
 
 * Added the IFileDialog sample.
   This sample demonstrates how to use and customise IFileOpenDialog and
-  IFileSaveDialog. These dialogs can in place of GetOpenFileName,
-  GetSaveFileName and SHBrowseForFolder. The IFileDialog interface can be used
-  to display and choose folders. This makes the IFileDialog interface a useful
-  and modern alternative to SHBrowseForFolder and CFolderDialog.
+  IFileSaveDialog. These dialogs can used in place of GetOpenFileName,
+  GetSaveFileName and SHBrowseForFolder.
 
 * Updated CMenubar.
   The menubar now supports single menu items as well as popup menus.
@@ -49,6 +53,7 @@ New Features and Enhancements
 
 Changes in detail
 -----------------
+Added the CFolderDialogEx         - class
 Added the CPager                  - class
 Added TaskDialogBox               - global function
 Added CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap) additional overload
