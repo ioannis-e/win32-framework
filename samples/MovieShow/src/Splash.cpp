@@ -10,6 +10,8 @@
 // CSplash function definitions.
 //
 
+constexpr COLORREF green = RGB(0, 255, 0);
+
 // Constructor.
 CSplash::CSplash() : m_fontHandle(nullptr)
 {
@@ -84,7 +86,7 @@ void CSplash::OnDraw(CDC& dc)
     dcMem.CreateCompatibleBitmap(dc, xImage, yImage);
     DrawIconEx(dcMem, 0, 0, m_hIcon, xImage, yImage, 0, 0, DI_NORMAL);
 
-    dcMem.SetTextColor(RGB(0, 255, 0));
+    dcMem.SetTextColor(green);
     dcMem.SetBkMode(TRANSPARENT);
     CRect rc = GetClientRect();
     rc.top += 40;

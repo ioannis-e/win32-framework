@@ -27,6 +27,7 @@ protected:
     virtual LRESULT OnDropFiles(UINT msg, WPARAM wparam, LPARAM lparam);
     virtual void    OnInitialUpdate() override;
     virtual void    PreCreate(CREATESTRUCT& cs) override;
+    virtual void    PreRegisterClass(WNDCLASS& wc) override;
     virtual LRESULT WndProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:

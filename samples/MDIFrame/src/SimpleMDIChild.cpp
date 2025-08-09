@@ -10,8 +10,14 @@
 // CSimpleView function definitions
 //
 
+constexpr COLORREF black = RGB(0, 0, 0);
+constexpr COLORREF white = RGB(255, 255, 255);
+constexpr COLORREF red = RGB(255, 0, 0);
+constexpr COLORREF green = RGB(0, 255, 0);
+constexpr COLORREF blue = RGB(0, 0, 255);
+
 // Constructor.
-CSimpleView::CSimpleView() : m_color(RGB(0,0,255))
+CSimpleView::CSimpleView() : m_color(blue)
 {
 }
 
@@ -113,23 +119,23 @@ BOOL CSimpleMDIChild::OnCommand(WPARAM wparam, LPARAM)
     switch (id)
     {
     case IDM_COLOR_BLACK:
-        m_view.SetColor(RGB(0, 0, 0));
+        m_view.SetColor(black);
         Invalidate();
         return TRUE;
     case IDM_COLOR_RED:
-        m_view.SetColor(RGB(255, 0, 0));
+        m_view.SetColor(red);
         Invalidate();
         return TRUE;
     case IDM_COLOR_GREEN:
-        m_view.SetColor(RGB(0, 255, 0));
+        m_view.SetColor(green);
         Invalidate();
         return TRUE;
     case IDM_COLOR_BLUE:
-        m_view.SetColor(RGB(0, 0, 255));
+        m_view.SetColor(blue);
         Invalidate();
         return TRUE;
     case IDM_COLOR_WHITE:
-        m_view.SetColor(RGB(255, 255, 255));
+        m_view.SetColor(white);
         Invalidate();
         return TRUE;
     }

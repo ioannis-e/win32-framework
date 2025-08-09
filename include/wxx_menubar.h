@@ -458,8 +458,8 @@ namespace Win32xx
                 PostMessage(WM_COMMAND, id, 0);
                 ExitMenu();
             }
-        }
             break;
+        }
 
         case VK_LEFT:
             // Move left to the next topmenu item.
@@ -469,7 +469,6 @@ namespace Win32xx
                 StoreHotItem(GetButtonCount() -1);
 
             ProcessMenuItem();
-
             break;
 
         case VK_RIGHT:
@@ -480,7 +479,6 @@ namespace Win32xx
                 StoreHotItem(first);
 
             ProcessMenuItem();
-
             break;
 
         default:
@@ -792,9 +790,9 @@ namespace Win32xx
             pMaxMDIChild = GetActiveMDIChild();
 
         // Load the submenu.
-        int maxedOffset = IsMDIChildMaxed()? 1:0;
+        int maxedOffset = IsMDIChildMaxed() ? 1 : 0;
         m_popupMenu = ::GetSubMenu(m_topMenu, m_hotItem - maxedOffset);
-        if (pMaxMDIChild && IsMDIChildMaxed() && (m_hotItem == 0) )
+        if (pMaxMDIChild && IsMDIChildMaxed() && (m_hotItem == 0))
             m_popupMenu = pMaxMDIChild->GetSystemMenu(FALSE);
 
         // Retrieve the bounding rectangle for the toolbar button.
@@ -804,7 +802,7 @@ namespace Win32xx
         VERIFY(ClientToScreen(rc));
 
         // Position popup above toolbar if it won't fit below.
-        TPMPARAMS tpm{};
+        TPMPARAMS tpm = {};
         tpm.cbSize = sizeof(tpm);
         tpm.rcExclude = rc;
 
@@ -819,28 +817,33 @@ namespace Win32xx
         // We hook mouse input to process mouse and keyboard input during
         //  the popup menu. Messages are sent to StaticMsgHook.
 
-        // Set the message hook.
+        // Remove any remaining hook first.
         TLSData* pTLSData = GetApp()->GetTlsData();
         pTLSData->pMenuBar = this;
-        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, StaticMsgHook, nullptr, ::GetCurrentThreadId());
+        if (m_msgHook != nullptr)
+            ::UnhookWindowsHookEx(m_msgHook);
+
+        // Hook messages about to be processed by the shortcut menu.
+        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, NULL, ::GetCurrentThreadId());
 
         // Display the shortcut menu.
         bool isRightToLeft = false;
         isRightToLeft = (((GetAncestor().GetExStyle()) & WS_EX_LAYOUTRTL)) != 0;
-        int xPos = isRightToLeft? rc.right : rc.left;
+        int xPos = isRightToLeft ? rc.right : rc.left;
         UINT id = static_cast<UINT>(::TrackPopupMenuEx(m_popupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL,
-                                       xPos, rc.bottom, *this, &tpm));
+            xPos, rc.bottom, *this, &tpm));
 
         // We get here once the TrackPopupMenuEx has ended.
+        m_isMenuActive = FALSE;
 
         // Remove the message hook.
         ::UnhookWindowsHookEx(m_msgHook);
-        pTLSData->pMenuBar = nullptr;
+        m_msgHook = nullptr;
 
         // Process MDI Child system menu.
         if (IsMDIChildMaxed())
         {
-            if (pMaxMDIChild && pMaxMDIChild->GetSystemMenu(FALSE) == m_popupMenu )
+            if (pMaxMDIChild && pMaxMDIChild->GetSystemMenu(FALSE) == m_popupMenu)
             {
                 if (id)
                 {
@@ -1171,11 +1174,17 @@ namespace Win32xx
         MSG* pMsg = reinterpret_cast<MSG*>(lparam);
         TLSData* pTLSData = GetApp()->GetTlsData();
         assert(pTLSData);
-        CMenuBar* pMenuBar = pTLSData->pMenuBar;
-        assert(dynamic_cast<CMenuBar*>(pMenuBar));
-
-        if (MSGF_MENU == code)
-            pMenuBar->OnMenuInput(pMsg->message, pMsg->wParam, pMsg->lParam);
+        if (pTLSData != nullptr)
+        {
+            CMenuBar* pMenuBar = pTLSData->pMenuBar;
+            assert(dynamic_cast<CMenuBar*>(pMenuBar));
+            if ((pMenuBar != nullptr) && (MSGF_MENU == code))
+            {
+                // Process menu message.
+                if (pMenuBar->OnMenuInput(pMsg->message, pMsg->wParam, pMsg->lParam))
+                    return TRUE;
+            }
+        }
 
         return ::CallNextHookEx(0, code, wparam, lparam);
     }

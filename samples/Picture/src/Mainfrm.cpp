@@ -7,6 +7,8 @@
 #include "UserMessages.h"
 #include "resource.h"
 
+constexpr COLORREF lightgray = RGB(192, 192, 192);
+
 //////////////////////////////////
 // CMainFrame function definitions
 //
@@ -39,7 +41,7 @@ void CMainFrame::DpiScaleToolBar()
     if (GetToolBar().IsWindow())
     {
         // Reset the toolbar images.
-        SetToolBarImages(RGB(192, 192, 192), IDW_MAIN, IDB_TOOLBAR24_HOT, IDB_TOOLBAR24_DIS);
+        SetToolBarImages(lightgray, IDW_MAIN, IDB_TOOLBAR24_HOT, IDB_TOOLBAR24_DIS);
     }
 }
 
@@ -246,9 +248,9 @@ void CMainFrame::SetupMenuIcons()
 {
     std::vector<UINT> data = GetToolBarData();
     if (GetMenuIconHeight() >= 24)
-        SetMenuIcons(data, RGB(192, 192, 192), IDW_MAIN);
+        SetMenuIcons(data, lightgray, IDW_MAIN);
     else
-        SetMenuIcons(data, RGB(192, 192, 192), IDB_TOOLBAR16);
+        SetMenuIcons(data, lightgray, IDB_TOOLBAR16);
 }
 
 // Sets the resource identifiers and images for the toolbar buttons
@@ -271,7 +273,7 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton( IDM_HELP_ABOUT );
 
     // Set the image lists for normal, hot and disabled buttons
-    SetToolBarImages(RGB(192,192,192), IDW_MAIN, IDB_TOOLBAR24_HOT, IDB_TOOLBAR24_DIS);
+    SetToolBarImages(lightgray, IDW_MAIN, IDB_TOOLBAR24_HOT, IDB_TOOLBAR24_DIS);
 }
 
 // Called by CPictureApp::OnIdle to update toolbar buttons

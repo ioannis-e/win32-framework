@@ -9,11 +9,11 @@
 
 #define HIMETRIC_INCH   2540
 
+constexpr COLORREF black = RGB(0, 0, 0);
+
 /////////////////////////////
 // CView function definitions
 //
-
-
 
 // Constructor.
 CView::CView() : m_pPicture(nullptr)
@@ -113,7 +113,7 @@ BOOL CView::LoadPictureFile(LPCWSTR fileName)
 int CView::OnCreate(CREATESTRUCT& cs)
 {
     // Set the window background to black
-    m_brush.CreateSolidBrush(RGB(0,0,0));
+    m_brush.CreateSolidBrush(black);
     SetClassLongPtr(GCLP_HBRBACKGROUND, (LONG_PTR)m_brush.GetHandle());
 
     // Set a black background brush for scrolling.

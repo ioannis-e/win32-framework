@@ -6,13 +6,7 @@
 #include "Mainfrm.h"
 #include "resource.h"
 
-#ifndef INVALID_FILE_ATTRIBUTES
-  #define INVALID_FILE_ATTRIBUTES ((DWORD)-1)
-#endif
-
-#ifndef SF_USECODEPAGE
-  #define SF_USECODEPAGE    0x0020
-#endif
+constexpr COLORREF lightgray = RGB(192, 192, 192);
 
 // Encoding IDs
 const int ANSI = 0;            // Default for plain text
@@ -967,9 +961,9 @@ void CMainFrame::SetupMenuIcons()
 {
     std::vector<UINT> data = GetToolBarData();
     if (GetMenuIconHeight() >= 24)
-        SetMenuIcons(data, RGB(192, 192, 192), IDW_MAIN);
+        SetMenuIcons(data, lightgray, IDW_MAIN);
     else
-        SetMenuIcons(data, RGB(192, 192, 192), IDW_MENUICONS);
+        SetMenuIcons(data, lightgray, IDW_MENUICONS);
 }
 
 // Assigns images and command IDs to the toolbar buttons,

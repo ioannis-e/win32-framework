@@ -6,6 +6,8 @@
 #include "Mainfrm.h"
 #include "resource.h"
 
+constexpr COLORREF lightgray = RGB(192, 192, 192);
+
 ///////////////////////////////////
 // CMainFrame functions definitions
 //
@@ -333,9 +335,9 @@ void CMainFrame::SetupMenuIcons()
     // Use the MenuIcons bitmap for images in menu items.
     std::vector<UINT> data = GetToolBarData();
     if (GetMenuIconHeight() >= 24)
-        AddMenuIcons(data, RGB(192, 192, 192), IDW_MAIN);
+        AddMenuIcons(data, lightgray, IDW_MAIN);
     else
-        AddMenuIcons(data, RGB(192, 192, 192), IDB_TOOLBAR16);
+        AddMenuIcons(data, lightgray, IDB_TOOLBAR16);
 }
 
 // Sets the resource IDs and images for the toolbar buttons.

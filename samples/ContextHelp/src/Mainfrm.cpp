@@ -7,6 +7,8 @@
 #include "Mainfrm.h"
 #include "resource.h"
 
+constexpr COLORREF lightgray = RGB(192, 192, 192);
+constexpr COLORREF magenta   = RGB(255, 0, 255);
 
 //////////////////////////////////
 // CMainFrame function definitions
@@ -351,9 +353,9 @@ void CMainFrame::SetupMenuIcons()
 {
     std::vector<UINT> data = GetToolBarData();
     if (GetMenuIconHeight() >= 24)
-        SetMenuIcons(data, RGB(255, 0, 255), IDB_TOOLBAR24);
+        SetMenuIcons(data, magenta, IDB_TOOLBAR24);
     else
-        SetMenuIcons(data, RGB(192, 192, 192), IDB_TOOLBAR16);
+        SetMenuIcons(data, lightgray, IDB_TOOLBAR16);
 }
 
 // Set the resource IDs and images for the toolbar buttons.
@@ -376,7 +378,7 @@ void CMainFrame::SetupToolBar()
     AddToolBarButton(0);  // Separator
 
     // Set the toolbar image list.
-    SetToolBarImages(RGB(255, 0, 255), IDB_TOOLBAR24);
+    SetToolBarImages(magenta, IDB_TOOLBAR24);
 }
 
 // Called for a System Command such as SC_CLOSE, SC_CONTEXTHELP etc.

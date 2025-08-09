@@ -10,6 +10,12 @@
 
 using namespace std;
 
+constexpr COLORREF black = RGB(0, 0, 0);
+constexpr COLORREF white = RGB(255, 255, 255);
+constexpr COLORREF red   = RGB(255, 0, 0);
+constexpr COLORREF green = RGB(0, 255, 0);
+constexpr COLORREF blue  = RGB(0, 0, 255);
+
 ///////////////////////////////////
 // CDockSimple function definitions
 //
@@ -56,7 +62,7 @@ LRESULT CDockSimple::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
 //
 
 // Constructor.
-CSimpleView::CSimpleView() : m_color(RGB(0,0,255))
+CSimpleView::CSimpleView() : m_color(blue)
 {
 }
 
@@ -181,11 +187,11 @@ BOOL CSplitterMDIChild::OnCommand(WPARAM wparam, LPARAM)
 
     switch (id)
     {
-    case IDM_COLOR_BLACK:   return OnColor(RGB(0,0,0));
-    case IDM_COLOR_RED:     return OnColor(RGB(255,0,0));
-    case IDM_COLOR_GREEN:   return OnColor(RGB(0,255,0));
-    case IDM_COLOR_BLUE:    return OnColor(RGB(0,0,255));
-    case IDM_COLOR_WHITE:   return OnColor(RGB(255,255,255));
+    case IDM_COLOR_BLACK:   return OnColor(black);
+    case IDM_COLOR_RED:     return OnColor(red);
+    case IDM_COLOR_GREEN:   return OnColor(green);
+    case IDM_COLOR_BLUE:    return OnColor(blue);
+    case IDM_COLOR_WHITE:   return OnColor(white);
     }
 
     return FALSE;

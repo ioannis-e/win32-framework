@@ -6,6 +6,7 @@
 #include "Files.h"
 #include "resource.h"
 
+constexpr COLORREF magenta = RGB(255, 0, 255);
 
 //////////////////////////////////
 // CViewFiles function definitions
@@ -113,7 +114,7 @@ void CViewFiles::SetDPIImages()
     int scale = bmImage.GetSize().cy / 15;
     CImageList smallImages;
     smallImages.Create(scale * 16, scale * 15, ILC_COLOR32 | ILC_MASK, 1, 0);
-    smallImages.Add(bmImage, RGB(255, 0, 255));
+    smallImages.Add(bmImage, magenta);
     SetImageList(smallImages, LVSIL_SMALL);
 }
 

@@ -7,9 +7,25 @@
 #include "FastGDIApp.h"
 #include "resource.h"
 
+
+constexpr COLORREF black = RGB(0, 0, 0);
+constexpr COLORREF white = RGB(255, 255, 255);
+
 /////////////////////////////
 // CView function definitions
 //
+
+// Retrieves the image size as a rectangle.
+CRect CView::GetImageRect()
+{
+    BITMAP bm = m_image.GetBitmapData();
+
+    CRect rc;
+    rc.right = bm.bmWidth;
+    rc.bottom = bm.bmHeight;
+
+    return rc;
+}
 
 // Loads a bitmap image from a file.
 // Only bitmap images (bmp files) can be loaded.
@@ -43,6 +59,92 @@ BOOL CView::LoadFileImage(LPCWSTR filename)
 
     SetScrollSizes(totalSize);
     return (m_image.GetHandle()!= nullptr);
+}
+
+// Called when part of the window needs to be redrawn.
+void CView::OnDraw(CDC& dc)
+{
+    if (m_image.GetHandle())
+    {
+        CMemDC memDC(dc);
+        CSize size = m_image.GetSize();
+        memDC.SelectObject(m_image);
+        dc.BitBlt(0, 0, size.cx, size.cy, memDC, 0, 0, SRCCOPY);
+    }
+    else
+    {
+        // There is no image, so display a hint to get one
+        // Use the message font for Windows 7 and higher.
+        if (GetWinVersion() >= 2601)
+        {
+            NONCLIENTMETRICS info = GetNonClientMetrics();
+            LOGFONT lf = DpiScaleLogfont(info.lfMessageFont, 10);
+            dc.CreateFontIndirect(lf);
+            dc.SetBkColor(RGB(0, 0, 0));
+            dc.SetTextColor(RGB(255, 255, 255));
+        }
+
+        CRect rc = GetClientRect();
+        dc.DrawText(L"Use the Menu or ToolBar to open a Bitmap File",
+            -1, rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    }
+}
+
+// Called when a file is dropped on the window.
+// Loads the dropped file.
+LRESULT CView::OnDropFiles(UINT, WPARAM wparam, LPARAM)
+{
+    HDROP hDrop = (HDROP)wparam;
+    UINT length = DragQueryFile(hDrop, 0, 0, 0);
+
+    if (length > 0)
+    {
+        CString fileName;
+        DragQueryFile(hDrop, 0, fileName.GetBuffer(length), length+1);
+        fileName.ReleaseBuffer();
+        DragFinish(hDrop);
+
+        CMainFrame& Frame = GetFrameApp()->GetMainFrame();
+
+        if ( !Frame.LoadFile(fileName) )
+        {
+            TRACE ("Failed to load "); TRACE(fileName); TRACE("\n");
+            SetScrollSizes(CSize(0,0));
+            Invalidate();
+        }
+    }
+
+    return 0;
+}
+
+// OnInitialUpdate is called after the window is created.
+void CView::OnInitialUpdate()
+{
+    TRACE("View window created\n");
+
+    // Set the background color when drawing outside the scrolling area.
+    SetScrollBkgnd(CBrush(black));
+
+    // Support Drag and Drop on this window
+    DragAcceptFiles(TRUE);
+}
+
+// Sets the CREATESTRUCT parameters before the window is created.
+void CView::PreCreate(CREATESTRUCT& cs)
+{
+    // Set the window styles.
+    cs.style = WS_CHILD | WS_HSCROLL | WS_VSCROLL ;
+
+    // Set the extended style.
+    cs.dwExStyle = WS_EX_CLIENTEDGE;
+}
+
+void CView::PreRegisterClass(WNDCLASS& wc)
+{
+    // Set the Window Class name.
+    wc.lpszClassName = L"Fast GDI View";
+
+    wc.hbrBackground = (HBRUSH)::GetStockObject(BLACK_BRUSH);
 }
 
 // Select the printer, and call QuickPrint.
@@ -145,36 +247,36 @@ BOOL CView::SaveFileImage(LPCWSTR fileName)
     {
         file.Open(fileName, OPEN_ALWAYS);
 
-       // Create our LPBITMAPINFO object.
-       CBitmapInfoPtr pbmi(m_image);
+        // Create our LPBITMAPINFO object.
+        CBitmapInfoPtr pbmi(m_image);
 
-       // Create the reference DC for GetDIBits to use.
-       CMemDC memDC(nullptr);
+        // Create the reference DC for GetDIBits to use.
+        CMemDC memDC(nullptr);
 
-       // Use GetDIBits to extract the colour data from the CBitmapInfoPtr.
-       VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, nullptr, pbmi, DIB_RGB_COLORS));
-       std::vector<byte> byteArray(pbmi->bmiHeader.biSizeImage, 0);
-       byte* pByteArray = byteArray.data();
+        // Use GetDIBits to extract the colour data from the CBitmapInfoPtr.
+        VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, nullptr, pbmi, DIB_RGB_COLORS));
+        std::vector<byte> byteArray(pbmi->bmiHeader.biSizeImage, 0);
+        byte* pByteArray = byteArray.data();
 
-       VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, pByteArray, pbmi, DIB_RGB_COLORS));
+        VERIFY(memDC.GetDIBits(m_image, 0, pbmi->bmiHeader.biHeight, pByteArray, pbmi, DIB_RGB_COLORS));
 
-       LPBITMAPINFOHEADER pbmih = &pbmi->bmiHeader;
-       BITMAPFILEHEADER hdr{};
-       hdr.bfType = 0x4d42;        // 0x42 = "B" 0x4d = "M"
+        LPBITMAPINFOHEADER pbmih = &pbmi->bmiHeader;
+        BITMAPFILEHEADER hdr{};
+        hdr.bfType = 0x4d42;        // 0x42 = "B" 0x4d = "M"
 
-       // bmiHeader.biClrUsed is cleared by GetDIBits, so we set it again.
-       // This is only required for bit counts less than 24.
-       if (pbmi->bmiHeader.biBitCount < 24)
+        // bmiHeader.biClrUsed is cleared by GetDIBits, so we set it again.
+        // This is only required for bit counts less than 24.
+        if (pbmi->bmiHeader.biBitCount < 24)
             pbmi->bmiHeader.biClrUsed = (1U << pbmi->bmiHeader.biBitCount);
 
-       hdr.bfSize = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof(RGBQUAD) + pbmih->biSizeImage);
-       hdr.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof (RGBQUAD));
+        hdr.bfSize = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof(RGBQUAD) + pbmih->biSizeImage);
+        hdr.bfOffBits = static_cast<DWORD>(sizeof(BITMAPFILEHEADER) + pbmih->biSize + pbmih->biClrUsed * sizeof(RGBQUAD));
 
-       file.Write(&hdr, sizeof(BITMAPFILEHEADER));
-       file.Write(pbmih, sizeof(BITMAPINFOHEADER) + pbmih->biClrUsed * sizeof (RGBQUAD));
-       file.Write(pByteArray, pbmih->biSizeImage);
+        file.Write(&hdr, sizeof(BITMAPFILEHEADER));
+        file.Write(pbmih, sizeof(BITMAPINFOHEADER) + pbmih->biClrUsed * sizeof(RGBQUAD));
+        file.Write(pByteArray, pbmih->biSizeImage);
 
-       result = TRUE;
+        result = TRUE;
     }
 
     catch (const CFileException& e)
@@ -185,93 +287,6 @@ BOOL CView::SaveFileImage(LPCWSTR fileName)
     }
 
     return result;
-}
-
-// Retrieves the image size as a rectangle.
-CRect CView::GetImageRect()
-{
-    BITMAP bm = m_image.GetBitmapData();
-
-    CRect rc;
-    rc.right = bm.bmWidth;
-    rc.bottom = bm.bmHeight;
-
-    return rc;
-}
-
-// Called when part of the window needs to be redrawn.
-void CView::OnDraw(CDC& dc)
-{
-    if (m_image.GetHandle())
-    {
-        CMemDC memDC(dc);
-        CSize size = m_image.GetSize();
-        memDC.SelectObject(m_image);
-        dc.BitBlt(0, 0, size.cx, size.cy, memDC, 0, 0, SRCCOPY);
-    }
-    else
-    {
-        // There is no image, so display a hint to get one
-        // Use the message font for Windows 7 and higher.
-        if (GetWinVersion() >= 2601)
-        {
-            NONCLIENTMETRICS info = GetNonClientMetrics();
-            LOGFONT lf = DpiScaleLogfont(info.lfMessageFont, 10);
-            dc.CreateFontIndirect(lf);
-        }
-
-        CRect rc = GetClientRect();
-        dc.DrawText(L"Use the Menu or ToolBar to open a Bitmap File",
-            -1, rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-    }
-}
-
-// Called when a file is dropped on the window.
-// Loads the dropped file.
-LRESULT CView::OnDropFiles(UINT, WPARAM wparam, LPARAM)
-{
-    HDROP hDrop = (HDROP)wparam;
-    UINT length = DragQueryFile(hDrop, 0, 0, 0);
-
-    if (length > 0)
-    {
-        CString fileName;
-        DragQueryFile(hDrop, 0, fileName.GetBuffer(length), length+1);
-        fileName.ReleaseBuffer();
-        DragFinish(hDrop);
-
-        CMainFrame& Frame = GetFrameApp()->GetMainFrame();
-
-        if ( !Frame.LoadFile(fileName) )
-        {
-            TRACE ("Failed to load "); TRACE(fileName); TRACE("\n");
-            SetScrollSizes(CSize(0,0));
-            Invalidate();
-        }
-    }
-
-    return 0;
-}
-
-// OnInitialUpdate is called after the window is created.
-void CView::OnInitialUpdate()
-{
-    TRACE("View window created\n");
-
-    // Support Drag and Drop on this window
-    DragAcceptFiles(TRUE);
-}
-
-// Sets the CREATESTRUCT parameters before the window is created.
-void CView::PreCreate(CREATESTRUCT& cs)
-{
-    // Set the Window Class name
-    cs.lpszClass = L"View";
-
-    cs.style = WS_CHILD | WS_HSCROLL | WS_VSCROLL ;
-
-    // Set the extended style
-    cs.dwExStyle = WS_EX_CLIENTEDGE;
 }
 
 // Process the view's window messages.

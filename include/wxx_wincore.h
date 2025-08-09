@@ -424,8 +424,6 @@ namespace Win32xx
             cs.cy = CW_USEDEFAULT;
         }
 
-        cs.lpszClass = wc.lpszClassName;
-
         // Allow the CREATESTRUCT parameters to be modified.
         PreCreate(cs);
 
@@ -433,7 +431,7 @@ namespace Win32xx
         HWND wnd;
 
         // Create the window.
-        wnd = CreateEx(cs.dwExStyle, cs.lpszClass, cs.lpszName, style,
+        wnd = CreateEx(cs.dwExStyle, wc.lpszClassName, cs.lpszName, style,
                 cs.x, cs.y, cs.cx, cs.cy, cs.hwndParent, cs.hMenu,
                 cs.lpCreateParams);
 
@@ -967,6 +965,8 @@ namespace Win32xx
     }
 
     // Called by CWnd::Create to set some window creation parameters.
+    // Note: The lpszClass parameter is ignored. The class name must be
+    //       assigned in the PreRegisterClass function if required.
     inline void CWnd::PreCreate(CREATESTRUCT&)
     {
         // Override this function to set the CREATESTRUCT values prior to window creation.
@@ -975,12 +975,14 @@ namespace Win32xx
         //  window extended styles
         //  window position
         //  window menu
-        //  window class name
         //  window name (caption)
     }
 
     // Called by CWnd::Create to set some window class parameters.
-    // Used to set the window type (ClassName) and for setting the background brush and cursor.
+    // Used to set the window type (ClassName) and for setting the background
+    // brush and cursor.
+    // Note: The lpszClassName paramater must be assigned for this function
+    // to take effect.
     inline void CWnd::PreRegisterClass(WNDCLASS&)
     {
         // Override this function to set the WNDCLASS values prior to window creation.

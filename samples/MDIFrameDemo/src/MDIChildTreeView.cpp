@@ -6,6 +6,7 @@
 #include "MDIChildTreeView.h"
 #include "resource.h"
 
+constexpr COLORREF red = RGB(255, 0, 0);
 
 /////////////////////////////////
 // CViewTree function definitions
@@ -26,7 +27,7 @@ void CViewTree::OnAttach()
     int scale = bmImage.GetSize().cy / 15;
     CImageList normalImages;
     normalImages.Create(scale * 16, scale * 15, ILC_COLOR32 | ILC_MASK, 1, 0);
-    normalImages.Add(bmImage, RGB(255, 0, 0));
+    normalImages.Add(bmImage, red);
     SetImageList(normalImages, TVSIL_NORMAL);
 
     // Adjust style to show lines and [+] button.

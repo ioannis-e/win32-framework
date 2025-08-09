@@ -15,6 +15,8 @@
 
 using namespace std;
 
+constexpr COLORREF lightgray = RGB(192, 192, 192);
+
 //////////////////////////////////
 // CMainFrame function definitions
 //
@@ -493,9 +495,9 @@ void CMainFrame::SetupMenuIcons()
     // Load the default set of icons from the toolbar
     std::vector<UINT> data = GetToolBarData();
     if (GetMenuIconHeight() >= 24)
-        SetMenuIcons(data, RGB(192, 192, 192), IDW_MAIN);
+        SetMenuIcons(data, lightgray, IDW_MAIN);
     else
-        SetMenuIcons(data, RGB(192, 192, 192), IDB_TOOLBAR16);
+        SetMenuIcons(data, lightgray, IDB_TOOLBAR16);
 
     // Add some extra icons for menu items
     AddMenuIcon(IDM_FILE_NEWBROWSER, IDI_GLOBE);

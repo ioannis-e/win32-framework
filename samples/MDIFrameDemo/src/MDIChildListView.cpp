@@ -6,6 +6,7 @@
 #include "MDIChildListView.h"
 #include "resource.h"
 
+constexpr COLORREF magenta = RGB(255, 0, 255);
 
 /////////////////////////////////
 // CViewList function definitions

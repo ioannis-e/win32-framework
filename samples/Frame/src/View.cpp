@@ -28,8 +28,6 @@ void CView::OnDraw(CDC& dc)
 
     // Centre some text in our view window.
     CRect rc = GetClientRect();
-    HBRUSH white = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
-    dc.FillRect(rc, white);
     dc.DrawText(L"View Window", -1, rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }
 
