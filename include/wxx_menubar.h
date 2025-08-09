@@ -517,10 +517,10 @@ namespace Win32xx
         ExitMenu();
 
         // Updates hot item with current mouse position.
-        DefWindowProc(WM_MOUSEMOVE, wparam, lparam);
+        FinalWindowProc(WM_MOUSEMOVE, wparam, lparam);
 
         // Do default processing first.
-        DefWindowProc(msg, wparam, lparam);
+        FinalWindowProc(msg, wparam, lparam);
 
         if (IsMDIFrame())
         {
