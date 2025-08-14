@@ -4,7 +4,8 @@
 #ifndef MAINFRM_H
 #define MAINFRM_H
 
-#include "View.h"
+#include "MainView.h"
+#include "ImageView.h"
 
 
 ///////////////////////////////////////////////////////////
@@ -19,8 +20,12 @@ public:
     virtual HWND Create(HWND parent = nullptr) override;
 
     void DpiScaleToolBar();
-    BOOL LoadFile(CString& fileName);
+    const CBitmap& GetImage() const { return m_mainView.GetImage(); }
+    CImageView& GetImageView() { return m_mainView.m_imageView; }
+
+    bool IsImageLoaded() const { return GetImage().GetHandle() != nullptr; }
     void SaveFile(CString& fileName);
+    void UpdateToolbar() const;
 
 protected:
     virtual void OnClose() override;
@@ -43,6 +48,7 @@ private:
     BOOL OnFileExit();
     BOOL OnFileSave();
     BOOL OnFileSaveAs();
+    LRESULT OnImageLoaded(LPCWSTR fileName);
     BOOL OnFileNew();
     BOOL OnFileOpen();
     BOOL OnFileOpenMRU(WPARAM wparam, LPARAM lparam);
@@ -57,11 +63,9 @@ private:
     void ModifyBitmap(int cRed, int cGreen, int cBlue, BOOL isGray);
 
     // Member variables
-    CView m_view;
-    CPrintPreview<CView> m_preview;   // CView is the source of the PrintPage function
+    CMainView m_mainView;
+    CPrintPreview<CImageView> m_preview;   // CImageView is the source of the PrintPage function
     CString m_pathName;
-    CRect m_viewRect;
-    CPoint m_scrollPos;
     bool m_isToolbarShown;
 };
 

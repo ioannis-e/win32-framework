@@ -5,7 +5,7 @@
 #ifndef MAINFRM_H
 #define MAINFRM_H
 
-#include "View.h"
+#include "MainView.h"
 
 
 ///////////////////////////////////////////////////////////
@@ -20,6 +20,8 @@ public:
     virtual HWND Create(HWND parent = nullptr) override;
 
     void DpiScaleToolBar();
+    CImageView& GetImageView() { return m_mainView.m_imageView; }
+    LPPICTURE GetPicture() const { return m_mainView.m_imageView.GetPicture(); }
     void UpdateToolbar();
 
 protected:
@@ -37,7 +39,7 @@ private:
     CMainFrame& operator=(const CMainFrame&) = delete;
 
     // Message handlers
-    LRESULT OnFileLoaded(LPCWSTR fileName);
+    LRESULT OnImageLoaded(LPCWSTR fileName);
 
     // Command handlers
     BOOL OnFileExit();
@@ -47,9 +49,7 @@ private:
     BOOL OnFileSave();
 
     // Member variables
-    CView m_view;
-    CRect m_viewRect;
-    CPoint m_scrollPos;
+    CMainView m_mainView;
 };
 
 #endif //MAINFRM_H

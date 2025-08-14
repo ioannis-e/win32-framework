@@ -355,6 +355,12 @@
         <None Include="..\..\..\include\wxx_wincore0.h">
             <BuildOrder>65</BuildOrder>
         </None>
+        <CppCompile Include="..\src\ImageView.cpp">
+            <BuildOrder>64</BuildOrder>
+        </CppCompile>
+        <None Include="..\src\ImageView.h">
+            <BuildOrder>66</BuildOrder>
+        </None>
         <CppCompile Include="..\src\main.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -363,6 +369,12 @@
         </CppCompile>
         <None Include="..\src\Mainfrm.h">
             <BuildOrder>2</BuildOrder>
+        </None>
+        <CppCompile Include="..\src\MainView.cpp">
+            <BuildOrder>65</BuildOrder>
+        </CppCompile>
+        <None Include="..\src\MainView.h">
+            <BuildOrder>67</BuildOrder>
         </None>
         <CppCompile Include="..\src\PictureApp.cpp">
             <BuildOrder>3</BuildOrder>
@@ -386,12 +398,6 @@
         </PCHCompile>
         <None Include="..\src\UserMessages.h">
             <BuildOrder>10</BuildOrder>
-        </None>
-        <CppCompile Include="..\src\View.cpp">
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
-        <None Include="..\src\View.h">
-            <BuildOrder>12</BuildOrder>
         </None>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

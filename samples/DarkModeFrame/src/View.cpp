@@ -5,6 +5,9 @@
 #include "stdafx.h"
 #include "View.h"
 
+constexpr COLORREF black = RGB(0, 0, 0);
+constexpr COLORREF white = RGB(255, 255, 255);
+
 /////////////////////////////
 // CView function definitions
 //
@@ -28,11 +31,11 @@ void CView::OnDraw(CDC& dc)
 
     if (m_isDarkMode)
     {
-        dc.SolidFill(RGB(0, 0, 0), rc);
-        dc.SetTextColor(RGB(255, 255, 255));
+        dc.SolidFill(black, rc);
+        dc.SetTextColor(white);
     }
     else
-        dc.SolidFill(RGB(255, 255, 255), rc);
+        dc.SolidFill(white, rc);
 
     NONCLIENTMETRICS info = GetNonClientMetrics();
     LOGFONT lf = info.lfMessageFont;

@@ -21,8 +21,8 @@ CMainFrame::CMainFrame()
 // Create the frame window.
 HWND CMainFrame::Create(HWND parent)
 {
-    // Set m_view as the view window of the frame.
-    SetView(m_view);
+    // Set m_mainView as the view window of the frame.
+    SetView(m_mainView);
 
     // Set the registry key name, and load the initial window position.
     // Use a registry key name like "CompanyName\\Application".
@@ -99,9 +99,7 @@ int CMainFrame::OnCreate(CREATESTRUCT& cs)
 LRESULT CMainFrame::OnDpiChanged(UINT, WPARAM, LPARAM)
 {
     // Save the view's rectangle and disable scrolling.
-    m_scrollPos = m_view.GetScrollPosition();
-    m_view.SetScrollSizes();
-    m_viewRect = m_view.GetClientRect();
+    GetImageView().SetScrollSizes();
 
     // Update the frame.
     ResetMenuMetrics();
@@ -127,10 +125,10 @@ BOOL CMainFrame::OnFileMRU(WPARAM wparam)
     UINT mruIndex = LOWORD(wparam) - IDW_FILE_MRU_FILE1;
     CString smruText = GetMRUEntry(mruIndex);
 
-    if (!m_view.LoadPictureFile(smruText))
+    if (!GetImageView().LoadPictureFile(smruText))
     {
         RemoveMRUEntry(smruText);
-        m_view.NewPictureFile();
+        GetImageView().NewPictureFile();
     }
 
     return TRUE;
@@ -139,7 +137,7 @@ BOOL CMainFrame::OnFileMRU(WPARAM wparam)
 // Displays a blank (black) image.
 BOOL CMainFrame::OnFileNew()
 {
-    m_view.NewPictureFile();
+    GetImageView().NewPictureFile();
     return TRUE;
 }
 
@@ -154,17 +152,18 @@ BOOL CMainFrame::OnFileOpen()
     if (fileDlg.DoModal(*this) == IDOK)
     {
         CString str = fileDlg.GetPathName();
-        m_view.LoadPictureFile(str);
+        GetImageView().LoadPictureFile(str);
     }
 
     return TRUE;
 }
 
 // Called when an image has been loaded from a file.
-LRESULT CMainFrame::OnFileLoaded(LPCWSTR fileName)
+LRESULT CMainFrame::OnImageLoaded(LPCWSTR fileName)
 {
     SetWindowText(fileName);
-    AdjustFrameRect(m_view.GetImageRect());
+    CRect rcImage(CPoint(), GetImageView().GetImageSize());
+    AdjustFrameRect(rcImage);
     AddMRUEntry(fileName);
     return 0;
 }
@@ -172,10 +171,10 @@ LRESULT CMainFrame::OnFileLoaded(LPCWSTR fileName)
 // Displays the file choose dialog and saves the image to the file.
 BOOL CMainFrame::OnFileSave()
 {
-    if (m_view.GetPicture())
+    if (GetPicture())
     {
         SHORT Type;
-        m_view.GetPicture()->get_Type(&Type);
+        GetPicture()->get_Type(&Type);
         LPCWSTR filter = nullptr;
         LPCWSTR ext    = nullptr;
 
@@ -207,7 +206,7 @@ BOOL CMainFrame::OnFileSave()
         if (fileDlg.DoModal(*this) == IDOK)
         {
             CString str = fileDlg.GetPathName();
-            m_view.SavePicture(str);
+            GetImageView().SavePicture(str);
             AddMRUEntry(str);
         }
     }
@@ -223,7 +222,7 @@ void CMainFrame::OnMenuUpdate(UINT id)
     case IDM_FILE_SAVE:
     {
         // Enable FileSave menu item if a picture is loaded.
-        UINT enabled = m_view.GetPicture() != nullptr ? MF_ENABLED : MF_GRAYED;
+        UINT enabled = GetPicture() != nullptr ? MF_ENABLED : MF_GRAYED;
         GetFrameMenu().EnableMenuItem(id, enabled);
         break;
     }
@@ -236,9 +235,8 @@ void CMainFrame::OnMenuUpdate(UINT id)
 LRESULT CMainFrame::OnWindowPosChanged(UINT msg, WPARAM wparam, LPARAM lparam)
 {
     // Restore the scrollbars and scroll position.
-    CSize size = CSize(m_view.GetImageRect().Width(), m_view.GetImageRect().Height());
-    m_view.SetScrollSizes(size);
-    m_view.SetScrollPosition(m_scrollPos);
+    CSize size = GetImageView().GetImageSize();
+    GetImageView().SetScrollSizes(size);
 
     return FinalWindowProc(msg, wparam, lparam);
 }
@@ -280,7 +278,7 @@ void CMainFrame::SetupToolBar()
 void CMainFrame::UpdateToolbar()
 {
     // Enable the FileSave toolbar button if a picture is loaded.
-    BOOL enabled = (m_view.GetPicture() != nullptr);
+    BOOL enabled = (GetPicture() != nullptr);
     GetToolBar().EnableButton(IDM_FILE_SAVE, enabled);
 }
 
@@ -291,7 +289,7 @@ LRESULT CMainFrame::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         switch (msg)
         {
-        case UWM_FILELOADED:       return OnFileLoaded((LPCWSTR)lparam);
+        case UWM_IMAGELOADED:      return OnImageLoaded((LPCWSTR)lparam);
         case WM_WINDOWPOSCHANGED:  return OnWindowPosChanged(msg, wparam, lparam);
         }
 

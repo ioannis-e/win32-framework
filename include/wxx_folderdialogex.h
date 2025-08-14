@@ -49,13 +49,13 @@
 
 /////////////////////////////////////////////////////////////
 // Coding example.
-// 
+//
 //  CFolderDialogEx chooseFolder;
 //  chooseFolder.SetInitialFolder(L"C:\\Temp");
 //  chooseFolder.SetTitle(L"This is a title!");
 //  if (chooseFolder.DoModal() == IDOK)
 //  {
-//      TaskDialog(nullptr, nullptr, L"Choosen Folder:", 
+//      TaskDialog(nullptr, nullptr, L"Choosen Folder:",
 //          chooseFolder.GetFolderName(), 0, TDCBF_OK_BUTTON,
 //          TD_INFORMATION_ICON, nullptr);
 //  }
@@ -110,7 +110,7 @@ namespace Win32xx
     {
         INT_PTR result = IDCANCEL;
         m_folderName.Empty();
-        
+
         // Create the IFileDialog interface.
         IFileDialog* pFileDialog;
         if (SUCCEEDED(::CoCreateInstance(CLSID_FileOpenDialog, nullptr,
@@ -168,7 +168,7 @@ namespace Win32xx
     // Retrieves a const reference to a CString containing the name of the
     // folder selected by the user when the modal dialog is displayed.
     inline const CString& CFolderDialogEx::GetFolderName() const
-    { 
+    {
         return m_folderName;
     }
 

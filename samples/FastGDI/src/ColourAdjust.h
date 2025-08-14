@@ -1,18 +1,18 @@
-//////////////////////////////////////////////
-// ColourDialog.h
+////////////////////////
+// ColourAdjust.h
 
-#ifndef COLOURDIALOG_H
-#define COLOURDIALOG_H
+#ifndef _COLOURADJUST_H_
+#define _COLOURADJUST_H_
 
 
 /////////////////////////////////////////////////////
-// CColourDialog manages a dialog that allows the
+// CColorAdjust manages a dialog that allows the
 // user to choose the color adjustment for the image.
-class CColourDialog : public CDialog
+class CColorAdjust : public CDialog
 {
 public:
-    CColourDialog(UINT resID, CBitmap& image);
-    virtual ~CColourDialog() override = default;
+    CColorAdjust(UINT resID, const CBitmap& image);
+    virtual ~CColorAdjust() override = default;
     int  GetBlue() const   { return m_cBlue; }
     int  GetGreen() const  { return m_cGreen; }
     int  GetRed() const    { return m_cRed; }
@@ -25,17 +25,21 @@ protected:
     virtual INT_PTR DialogProc(UINT msg, WPARAM wparam, LPARAM lparam) override;
 
 private:
-    CColourDialog(const CColourDialog&) = delete;
-    CColourDialog& operator=(const CColourDialog&) = delete;
+    CColorAdjust(const CColorAdjust&) = delete;
+    CColorAdjust& operator=(const CColorAdjust&) = delete;
 
+    // Message handlers.
+    LRESULT OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam);
+    LRESULT OnHScroll(UINT msg, WPARAM wparam, LPARAM lparam);
+
+    // Member functions.
     void    CreateImagePreviews();
     BOOL    OnGrayScale();
-    LRESULT OnHScroll(UINT msg, WPARAM wparam, LPARAM lparam);
     BOOL    OnTextChange(HWND editCtrl);
     void    Paint();
     void    UpdatePreview();
 
-    // Member variables for dialog  controls
+    // Member variables for dialog  controls.
     CSlider m_redSlider;
     CSlider m_greenSlider;
     CSlider m_blueSlider;
@@ -55,5 +59,5 @@ private:
 };
 
 
-#endif // COLOURDIALOG_H
+#endif // _COLOURADJUST_H_
 

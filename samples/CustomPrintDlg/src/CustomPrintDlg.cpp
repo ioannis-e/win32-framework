@@ -7,7 +7,11 @@
 #include "CustomPrintDlg.h"
 #include "UserMessages.h"
 
+///////////////////////////////////////
+// CCustomPrintDlg function definitions
+//
 
+// Constructor.
 CCustomPrintDlg::CCustomPrintDlg()
     : CDialog(IDD_PRINTDLG), m_copies(1), m_fromPage(1), m_radio(0), m_toPage(9999),
                              m_collate(0), m_printToFile(0), m_maxPage(0),
@@ -258,6 +262,8 @@ int CCustomPrintDlg::GetCopies() const
     return m_copies;
 }
 
+// Retrieves the printer's CDevMode. CDevMode can be used as a pointer
+// to a DEVMODE struct.
 CDevMode CCustomPrintDlg::GetDevMode() const
 {
     if (GetApp()->GetHDevMode().Get() == nullptr)
@@ -267,6 +273,8 @@ CDevMode CCustomPrintDlg::GetDevMode() const
     return CDevMode(GetApp()->GetHDevMode());
 }
 
+// Retrieves the printer's CDevNames. CDevNames can be used as a pointer
+// to a DEVNAMES struct.
 CDevNames CCustomPrintDlg::GetDevNames() const
 {
     if (GetApp()->GetHDevNames().Get() == nullptr)
@@ -276,6 +284,7 @@ CDevNames CCustomPrintDlg::GetDevNames() const
     return CDevNames(GetApp()->GetHDevNames());
 }
 
+// Retrieves the printer's driver name.
 CString CCustomPrintDlg::GetDriverName() const
 {
     if (GetApp()->GetHDevNames().Get() == nullptr)
@@ -286,6 +295,7 @@ CString CCustomPrintDlg::GetDriverName() const
     return str;
 }
 
+// Retrieves the printer's device name.
 CString CCustomPrintDlg::GetDeviceName() const
 {
     if (GetApp()->GetHDevNames().Get() == nullptr)
@@ -296,6 +306,7 @@ CString CCustomPrintDlg::GetDeviceName() const
     return str;
 }
 
+// Retrieves the printer's port name.
 CString CCustomPrintDlg::GetPortName() const
 {
     if (GetApp()->GetHDevNames().Get() == nullptr)
@@ -324,6 +335,7 @@ CDC CCustomPrintDlg::GetPrinterDC() const
     return dc;
 }
 
+// Returns the print to file state.
 int CCustomPrintDlg::GetPrintToFile() const
 {
     return m_printToFile;
@@ -367,6 +379,7 @@ DWORD CCustomPrintDlg::GetPrinterStatus(LPCWSTR printerName) const
     return status;
 }
 
+// Retrieves the print range radio button.
 int CCustomPrintDlg::GetRadio() const
 {
     return m_radio;
@@ -400,42 +413,13 @@ bool CCustomPrintDlg::IsPrintSelection() const
     return (m_radio == IDB_RADIOSELECTION - IDB_RADIOALL);
 }
 
+// Returns true if the Print to file checkbox is ticked.
 bool CCustomPrintDlg::IsPrintToFile() const
 {
     return m_printToFile != 0;
 }
 
-void CCustomPrintDlg::SetCollate(bool isCollate)
-{
-    m_collate = isCollate ? 1 : 0;
-}
-
-void CCustomPrintDlg::SetCopies(int copies)
-{
-    m_copies = copies;
-}
-
-void CCustomPrintDlg::SetFromPage(int fromPage)
-{
-    m_fromPage = fromPage;
-}
-
-void CCustomPrintDlg::SetPrintToFile(bool isPrintToFile)
-{
-    m_printToFile = isPrintToFile ? 1 : 0;
-}
-
-void CCustomPrintDlg::SetRadio(int radio)
-{
-    m_radio = radio;
-}
-
-void CCustomPrintDlg::SetToPage(int toPage)
-{
-    m_toPage = toPage;
-}
-
-
+// Handle the printer name combo-box selection.
 BOOL CCustomPrintDlg::OnComboSelection()
 {
     CString deviceName;
@@ -479,14 +463,15 @@ void CCustomPrintDlg::OnClose()
         CDialog::OnClose();
 }
 
-// Called when a button on the dialog is presseed, or
-// a combox selection is made.
+// Called when a button on the dialog is pressed, or a combo-box selection
+// is made.
 BOOL CCustomPrintDlg::OnCommand(WPARAM wparam, LPARAM)
 {
     UINT id = LOWORD(wparam);
 
     switch (id)
     {
+    case IDB_HELP:               return OnHelp();
     case IDB_PRINTPROPERTIES:    return OnPrintProperties();
 
     case IDB_RADIOALL:           // Intentionally blank
@@ -501,6 +486,13 @@ BOOL CCustomPrintDlg::OnCommand(WPARAM wparam, LPARAM)
     }
 
     return FALSE;
+}
+
+// Called when the dialog's help button is pressed.
+BOOL CCustomPrintDlg::OnHelp()
+{
+    MessageBox(L"Add some useful help here.", L"Help Button Pressed", MB_OK);
+    return TRUE;
 }
 
 // Called before the modal dialog is displayed.
@@ -642,6 +634,43 @@ BOOL CCustomPrintDlg::OnRadioSelection(UINT id)
     return TRUE;
 }
 
+// Set the collate state.
+void CCustomPrintDlg::SetCollate(bool isCollate)
+{
+    m_collate = isCollate ? 1 : 0;
+}
+
+// Set the number of copies to be printed.
+void CCustomPrintDlg::SetCopies(int copies)
+{
+    m_copies = copies;
+}
+
+// Set the start page for printing.
+void CCustomPrintDlg::SetFromPage(int fromPage)
+{
+    m_fromPage = fromPage;
+}
+
+// Set the print to file state.
+void CCustomPrintDlg::SetPrintToFile(bool isPrintToFile)
+{
+    m_printToFile = isPrintToFile ? 1 : 0;
+}
+
+// Set the Print range radio button.
+void CCustomPrintDlg::SetRadio(int radio)
+{
+    m_radio = radio;
+}
+
+// Set the end page for printing.
+void CCustomPrintDlg::SetToPage(int toPage)
+{
+    m_toPage = toPage;
+}
+
+// Set the number of pages the document has based on the current page size.
 void CCustomPrintDlg::SetMaxPage(int maxPage)
 {
     m_maxPage = maxPage;

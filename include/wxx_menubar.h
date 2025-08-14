@@ -1186,7 +1186,7 @@ namespace Win32xx
             }
         }
 
-        return ::CallNextHookEx(0, code, wparam, lparam);
+        return ::CallNextHookEx(nullptr, code, wparam, lparam);
     }
 
     inline LRESULT CMenuBar::SysCommand(UINT msg, WPARAM wparam, LPARAM lparam)

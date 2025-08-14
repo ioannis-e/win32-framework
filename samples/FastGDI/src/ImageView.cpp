@@ -1,68 +1,57 @@
 //////////////////////////////////////////////
-// View.cpp
-//  Definitions for the CView class
+// ImageView.cpp
+//  Definitions for the CImageView class
 
 #include "stdafx.h"
-#include "View.h"
-#include "FastGDIApp.h"
+#include "ImageView.h"
 #include "resource.h"
+#include "UserMessages.h"
 
 
 constexpr COLORREF black = RGB(0, 0, 0);
-constexpr COLORREF white = RGB(255, 255, 255);
 
-/////////////////////////////
-// CView function definitions
+///////////////////////////////////
+// CImageView function definitions.
 //
-
-// Retrieves the image size as a rectangle.
-CRect CView::GetImageRect()
-{
-    BITMAP bm = m_image.GetBitmapData();
-
-    CRect rc;
-    rc.right = bm.bmWidth;
-    rc.bottom = bm.bmHeight;
-
-    return rc;
-}
 
 // Loads a bitmap image from a file.
 // Only bitmap images (bmp files) can be loaded.
-BOOL CView::LoadFileImage(LPCWSTR filename)
+bool CImageView::LoadFileImage(LPCWSTR fileName)
 {
     m_image.DeleteObject();
     CSize totalSize;
 
-    if (filename)
+    if (fileName)
     {
-        if (!m_image.LoadImage(filename, LR_LOADFROMFILE | LR_CREATEDIBSECTION))
+        if (m_image.LoadImage(fileName, LR_LOADFROMFILE | LR_CREATEDIBSECTION))
+        {
+            GetAncestor().SendMessage(UWM_IMAGELOADED, 0, (LPARAM)fileName);
+
+            // Set the image scroll size
+            totalSize.cx = m_image.GetSize().cx;
+            totalSize.cy = m_image.GetSize().cy;
+            SetScrollSizes(totalSize);
+        }
+        else
         {
             CString str("Failed to load file:  ");
-            str += filename;
+            str += fileName;
             MessageBox(str, L"File Load Error", MB_ICONWARNING);
+
+            // Set Frame title back to default
+            GetAncestor().SetWindowText(LoadString(IDW_MAIN).c_str());
+
+            // Disable scrolling
+            SetScrollSizes();
+            Invalidate();
         }
     }
 
-    if (m_image.GetHandle())
-    {
-        // Set the image scroll size
-        totalSize.cx = GetImageRect().Width();
-        totalSize.cy = GetImageRect().Height();
-    }
-    else
-    {
-        // Disable scrolling
-        totalSize = CSize(0, 0);
-        Invalidate();
-    }
-
-    SetScrollSizes(totalSize);
     return (m_image.GetHandle()!= nullptr);
 }
 
 // Called when part of the window needs to be redrawn.
-void CView::OnDraw(CDC& dc)
+void CImageView::OnDraw(CDC& dc)
 {
     if (m_image.GetHandle())
     {
@@ -71,84 +60,19 @@ void CView::OnDraw(CDC& dc)
         memDC.SelectObject(m_image);
         dc.BitBlt(0, 0, size.cx, size.cy, memDC, 0, 0, SRCCOPY);
     }
-    else
-    {
-        // There is no image, so display a hint to get one
-        // Use the message font for Windows 7 and higher.
-        if (GetWinVersion() >= 2601)
-        {
-            NONCLIENTMETRICS info = GetNonClientMetrics();
-            LOGFONT lf = DpiScaleLogfont(info.lfMessageFont, 10);
-            dc.CreateFontIndirect(lf);
-            dc.SetBkColor(RGB(0, 0, 0));
-            dc.SetTextColor(RGB(255, 255, 255));
-        }
-
-        CRect rc = GetClientRect();
-        dc.DrawText(L"Use the Menu or ToolBar to open a Bitmap File",
-            -1, rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-    }
-}
-
-// Called when a file is dropped on the window.
-// Loads the dropped file.
-LRESULT CView::OnDropFiles(UINT, WPARAM wparam, LPARAM)
-{
-    HDROP hDrop = (HDROP)wparam;
-    UINT length = DragQueryFile(hDrop, 0, 0, 0);
-
-    if (length > 0)
-    {
-        CString fileName;
-        DragQueryFile(hDrop, 0, fileName.GetBuffer(length), length+1);
-        fileName.ReleaseBuffer();
-        DragFinish(hDrop);
-
-        CMainFrame& Frame = GetFrameApp()->GetMainFrame();
-
-        if ( !Frame.LoadFile(fileName) )
-        {
-            TRACE ("Failed to load "); TRACE(fileName); TRACE("\n");
-            SetScrollSizes(CSize(0,0));
-            Invalidate();
-        }
-    }
-
-    return 0;
 }
 
 // OnInitialUpdate is called after the window is created.
-void CView::OnInitialUpdate()
+void CImageView::OnInitialUpdate()
 {
     TRACE("View window created\n");
 
     // Set the background color when drawing outside the scrolling area.
     SetScrollBkgnd(CBrush(black));
-
-    // Support Drag and Drop on this window
-    DragAcceptFiles(TRUE);
-}
-
-// Sets the CREATESTRUCT parameters before the window is created.
-void CView::PreCreate(CREATESTRUCT& cs)
-{
-    // Set the window styles.
-    cs.style = WS_CHILD | WS_HSCROLL | WS_VSCROLL ;
-
-    // Set the extended style.
-    cs.dwExStyle = WS_EX_CLIENTEDGE;
-}
-
-void CView::PreRegisterClass(WNDCLASS& wc)
-{
-    // Set the Window Class name.
-    wc.lpszClassName = L"Fast GDI View";
-
-    wc.hbrBackground = (HBRUSH)::GetStockObject(BLACK_BRUSH);
 }
 
 // Select the printer, and call QuickPrint.
-void CView::Print(LPCWSTR docName)
+void CImageView::Print(LPCWSTR docName)
 {
     CPrintDialog printDlg;
 
@@ -157,11 +81,10 @@ void CView::Print(LPCWSTR docName)
     {
         QuickPrint(docName);
     }
-
 }
 
 // Prints the image on either the preview pane or the printer.
-void CView::PrintPage(CDC& dc, int)
+void CImageView::PrintPage(CDC& dc, int)
 {
     try
     {
@@ -209,7 +132,7 @@ void CView::PrintPage(CDC& dc, int)
 }
 
 // Prints the image on the current default printer.
-void CView::QuickPrint(LPCWSTR docName)
+void CImageView::QuickPrint(LPCWSTR docName)
 {
     try
     {
@@ -239,10 +162,10 @@ void CView::QuickPrint(LPCWSTR docName)
 }
 
 // Saves the bitmap to a file.
-BOOL CView::SaveFileImage(LPCWSTR fileName)
+bool CImageView::SaveFileImage(LPCWSTR fileName)
 {
     CFile file;
-    BOOL result = FALSE;
+    bool result = false;
     try
     {
         file.Open(fileName, OPEN_ALWAYS);
@@ -276,52 +199,17 @@ BOOL CView::SaveFileImage(LPCWSTR fileName)
         file.Write(pbmih, sizeof(BITMAPINFOHEADER) + pbmih->biClrUsed * sizeof(RGBQUAD));
         file.Write(pByteArray, pbmih->biSizeImage);
 
-        result = TRUE;
+        result = true;
     }
 
     catch (const CFileException& e)
     {
         CString str = CString("Failed to save file: ") + e.GetFilePath();
         MessageBox(str, AtoW(e.what()), MB_OK);
-        result = FALSE;
+        result = true;
     }
 
     return result;
 }
 
-// Process the view's window messages.
-LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
-{
-    try
-    {
-        switch (msg)
-        {
-        case WM_DROPFILES:          return OnDropFiles(msg, wparam, lparam);
-        }
-
-        // Pass unhandled messages on for default processing.
-        return WndProcDefault(msg, wparam, lparam);
-    }
-
-    // Catch all unhandled CException types.
-    catch (const CException& e)
-    {
-        // Display the exception and continue.
-        CString str1;
-        str1 << e.GetText() << L'\n' << e.GetErrorString();
-        CString str2;
-        str2 << "Error: " << e.what();
-        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
-    }
-
-    // Catch all unhandled std::exception types.
-    catch (const std::exception& e)
-    {
-        // Display the exception and continue.
-        CString str1 = e.what();
-        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
-    }
-
-    return 0;
-}
 

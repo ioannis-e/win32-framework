@@ -632,7 +632,7 @@ WriteFile(LPCWSTR filePath)                                                 /*
     LRESULT CMainFrame::
 WndProc(UINT msg, WPARAM wparam, LPARAM lparam)                             /*
 
-    The mainframe message pocessing procedure.
+    The mainframe message processing procedure.
 *-----------------------------------------------------------------------------*/
 {
     try

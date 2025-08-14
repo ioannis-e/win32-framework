@@ -354,17 +354,23 @@
         <None Include="..\..\..\include\wxx_wincore0.h">
             <BuildOrder>66</BuildOrder>
         </None>
-        <CppCompile Include="..\src\ColourDialog.cpp">
-            <BuildOrder>0</BuildOrder>
+        <CppCompile Include="..\src\ColourAdjust.cpp">
+            <BuildOrder>67</BuildOrder>
         </CppCompile>
-        <None Include="..\src\ColourDialog.h">
-            <BuildOrder>1</BuildOrder>
+        <None Include="..\src\ColourAdjust.h">
+            <BuildOrder>68</BuildOrder>
         </None>
         <CppCompile Include="..\src\FastGDIApp.cpp">
             <BuildOrder>2</BuildOrder>
         </CppCompile>
         <None Include="..\src\FastGDIApp.h">
             <BuildOrder>3</BuildOrder>
+        </None>
+        <CppCompile Include="..\src\ImageView.cpp">
+            <BuildOrder>65</BuildOrder>
+        </CppCompile>
+        <None Include="..\src\ImageView.h">
+            <BuildOrder>67</BuildOrder>
         </None>
         <CppCompile Include="..\src\main.cpp">
             <BuildOrder>4</BuildOrder>
@@ -374,6 +380,12 @@
         </CppCompile>
         <None Include="..\src\Mainfrm.h">
             <BuildOrder>6</BuildOrder>
+        </None>
+        <CppCompile Include="..\src\MainView.cpp">
+            <BuildOrder>66</BuildOrder>
+        </CppCompile>
+        <None Include="..\src\MainView.h">
+            <BuildOrder>68</BuildOrder>
         </None>
         <None Include="..\src\resource.h">
             <BuildOrder>7</BuildOrder>
@@ -389,11 +401,8 @@
             <BuildOrder>10</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <CppCompile Include="..\src\View.cpp">
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <None Include="..\src\View.h">
-            <BuildOrder>13</BuildOrder>
+        <None Include="..\src\UserMessages.h">
+            <BuildOrder>69</BuildOrder>
         </None>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

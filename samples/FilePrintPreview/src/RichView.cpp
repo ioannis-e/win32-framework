@@ -221,7 +221,7 @@ ReadFile(LPCWSTR filePath)                                                  /*
     void CRichView::
 SetFontDefaults()                                                           /*
 
-    If the displayfont has not been set, then set it to a default Courier New
+    If the display font has not been set, then set it to a default Courier New
      size 10 font.
 *-----------------------------------------------------------------------------*/
 {

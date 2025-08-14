@@ -1,9 +1,9 @@
 /////////////////////////////
-// View.cpp
+// ImageView.cpp
 //
 
 #include "stdafx.h"
-#include "View.h"
+#include "ImageView.h"
 #include "UserMessages.h"
 #include "resource.h"
 
@@ -11,12 +11,12 @@
 
 constexpr COLORREF black = RGB(0, 0, 0);
 
-/////////////////////////////
-// CView function definitions
+///////////////////////////////////
+// CImageView function definitions.
 //
 
 // Constructor.
-CView::CView() : m_pPicture(nullptr)
+CImageView::CImageView() : m_pPicture(nullptr)
 {
     // Initializes the COM library on the current thread.
     if FAILED(::CoInitialize(nullptr))
@@ -24,7 +24,7 @@ CView::CView() : m_pPicture(nullptr)
 }
 
 // Destructor.
-CView::~CView()
+CImageView::~CImageView()
 {
     if (m_pPicture)
         m_pPicture->Release();
@@ -33,7 +33,7 @@ CView::~CView()
 }
 
 // Retrieves the width and height of picture.
-CRect CView::GetImageRect()
+CSize CImageView::GetImageSize() const
 {
     long width = 0;
     long height = 0;
@@ -49,14 +49,14 @@ CRect CView::GetImageRect()
     int widthInPixels  = MulDiv(width, dc.GetDeviceCaps(LOGPIXELSX), HIMETRIC_INCH);
     int heightInPixels = MulDiv(height, dc.GetDeviceCaps(LOGPIXELSY), HIMETRIC_INCH);
 
-    CRect imageRect;
-    imageRect.right = std::max(widthInPixels, 200);
-    imageRect.bottom = std::max(heightInPixels, 200);
-    return imageRect;
+    CSize imageSize;
+    imageSize.cx = std::max(widthInPixels, 200);
+    imageSize.cy = std::max(heightInPixels, 200);
+    return imageSize;
 }
 
 // Displays a blank (black) image.
-void CView::NewPictureFile()
+void CImageView::NewPictureFile()
 {
     if (m_pPicture)
     {
@@ -72,7 +72,7 @@ void CView::NewPictureFile()
 }
 
 // Loads an image from the specified file.
-BOOL CView::LoadPictureFile(LPCWSTR fileName)
+bool CImageView::LoadPictureFile(LPCWSTR fileName)
 {
     if (m_pPicture)
     {
@@ -80,16 +80,16 @@ BOOL CView::LoadPictureFile(LPCWSTR fileName)
         m_pPicture = nullptr;
     }
 
-    BOOL IsPictureLoaded;
+    bool isPictureLoaded;
 
     // Create IPicture from image file
     if (S_OK == ::OleLoadPicturePath(WtoOLE(fileName), nullptr, 0, 0, IID_IPicture, (LPVOID*)&m_pPicture))
     {
-        GetAncestor().SendMessage(UWM_FILELOADED, 0, (LPARAM)fileName);
+        GetAncestor().SendMessage(UWM_IMAGELOADED, 0, (LPARAM)fileName);
         Invalidate();
-        CSize size = CSize(GetImageRect().Width(), GetImageRect().Height());
+        CSize size = GetImageSize();
         SetScrollSizes(size);
-        IsPictureLoaded = TRUE;
+        isPictureLoaded = true;
 
         TRACE("Successfully loaded: "); TRACE(fileName); TRACE("\n");
     }
@@ -103,14 +103,14 @@ BOOL CView::LoadPictureFile(LPCWSTR fileName)
         // Set Frame title back to default
         GetAncestor().SetWindowText(LoadString(IDW_MAIN).c_str());
         SetScrollSizes();
-        IsPictureLoaded = FALSE;
+        isPictureLoaded = false;
     }
 
-    return IsPictureLoaded;
+    return isPictureLoaded;
 }
 
 // Called when the window is created.
-int CView::OnCreate(CREATESTRUCT& cs)
+int CImageView::OnCreate(CREATESTRUCT& cs)
 {
     // Set the window background to black
     m_brush.CreateSolidBrush(black);
@@ -119,14 +119,11 @@ int CView::OnCreate(CREATESTRUCT& cs)
     // Set a black background brush for scrolling.
     SetScrollBkgnd(m_brush);
 
-    // Support Drag and Drop on this window
-    DragAcceptFiles(TRUE);
-
     return CWnd::OnCreate(cs);
 }
 
 // Called when part of the window needs to be redrawn.
-void CView::OnDraw(CDC& dc)
+void CImageView::OnDraw(CDC& dc)
 {
     if (m_pPicture)
     {
@@ -146,40 +143,8 @@ void CView::OnDraw(CDC& dc)
     }
 }
 
-// Called when a file is dropped on the window.
-LRESULT CView::OnDropFiles(UINT, WPARAM wparam, LPARAM)
-{
-    HDROP hDrop = (HDROP)wparam;
-    UINT length = DragQueryFile(hDrop, 0, nullptr, 0);
-
-    if (length > 0)
-    {
-        CString FileName;
-        DragQueryFile(hDrop, 0, FileName.GetBuffer(length), length +1);
-        FileName.ReleaseBuffer();
-
-        if ( !LoadPictureFile(FileName) )
-            NewPictureFile();
-    }
-
-    DragFinish(hDrop);
-    return 0;
-}
-
-// Sets the CREATESTRUCT parameters before the window is created.
-void CView::PreCreate(CREATESTRUCT& cs)
-{
-    // Set the Window Class name
-    cs.lpszClass = L"PictureView";
-
-    cs.style = WS_CHILD | WS_HSCROLL | WS_VSCROLL ;
-
-    // Set the extended style
-    cs.dwExStyle = WS_EX_CLIENTEDGE;
-}
-
 // Saves the image to the specified file.
-void CView::SavePicture(LPCWSTR fileName)
+void CImageView::SavePicture(LPCWSTR fileName)
 {
     // get a IPictureDisp interface from your IPicture pointer
     IPictureDisp *pDisp = nullptr;
@@ -190,41 +155,5 @@ void CView::SavePicture(LPCWSTR fileName)
         OleSavePictureFile(pDisp,  WtoBSTR(fileName));
         pDisp->Release();
     }
-}
-
-// Process the view's window messages.
-LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
-{
-    try
-    {
-        switch (msg)
-        {
-        case WM_DROPFILES:          return OnDropFiles(msg, wparam, lparam);
-        }
-
-        // Pass unhandled messages on for default processing.
-        return WndProcDefault(msg, wparam, lparam);
-    }
-
-    // Catch all unhandled CException types.
-    catch (const CException& e)
-    {
-        // Display the exception and continue.
-        CString str1;
-        str1 << e.GetText() << L'\n' << e.GetErrorString();
-        CString str2;
-        str2 << "Error: " << e.what();
-        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
-    }
-
-    // Catch all unhandled std::exception types.
-    catch (const std::exception& e)
-    {
-        // Display the exception and continue.
-        CString str1 = e.what();
-        ::MessageBox(nullptr, str1, L"Error: std::exception", MB_ICONERROR);
-    }
-
-    return 0;
 }
 

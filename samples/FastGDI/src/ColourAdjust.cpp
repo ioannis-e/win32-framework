@@ -2,21 +2,22 @@
 // ColourDialog.cpp
 
 #include "stdafx.h"
-#include "ColourDialog.h"
+#include "ColourAdjust.h"
 #include "resource.h"
 
 /////////////////////////////////////
-// CColourDialog function definitions
+// CColorAdjust function definitions
 //
 
 // Constructor.
-CColourDialog::CColourDialog(UINT resID, CBitmap& image) : CDialog(resID), m_image(image),
-                              m_cBlue(0), m_cGreen(0), m_cRed(0), m_isGray(FALSE)
+CColorAdjust::CColorAdjust(UINT resID, const CBitmap& image) :
+    CDialog(resID), m_image(image), m_cBlue(0), m_cGreen(0),
+    m_cRed(0), m_isGray(FALSE)
 {
 }
 
 // Creates the two Preview bitmaps: m_Preview and m_PreviewOrig.
-void CColourDialog::CreateImagePreviews()
+void CColorAdjust::CreateImagePreviews()
 {
     // Get the size of the bitmap.
     BITMAP bm = m_image.GetBitmapData();
@@ -30,17 +31,17 @@ void CColourDialog::CreateImagePreviews()
     int heightDest;
     double aspectRatio;
 
-    if (bm.bmWidth < bm.bmHeight*rcView.Width() / rcView.Height())
+    if (bm.bmWidth < bm.bmHeight * rcView.Width() / rcView.Height())
     {
         aspectRatio = static_cast<double>(bm.bmWidth) / static_cast<double>(bm.bmHeight);
-        widthDest = static_cast<int>(rcView.Height()*aspectRatio);
+        widthDest = static_cast<int>(rcView.Height() * aspectRatio);
         heightDest = rcView.Height();
     }
     else
     {
         aspectRatio = static_cast<double>(bm.bmHeight) / static_cast<double>(bm.bmWidth);
         widthDest = rcView.Width();
-        heightDest = static_cast<int>(rcView.Width()*aspectRatio);
+        heightDest = static_cast<int>(rcView.Width() * aspectRatio);
     }
 
     // Create the Device Contexts and compatible bitmaps.
@@ -64,12 +65,13 @@ void CColourDialog::CreateImagePreviews()
 }
 
 // Process the dialog's window messages.
-INT_PTR CColourDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
+INT_PTR CColorAdjust::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
 {
     try
     {
         switch (msg)
         {
+        case WM_DPICHANGED: return OnDpiChanged(msg, wparam, lparam);
         case WM_HSCROLL:    return OnHScroll(msg, wparam, lparam);
         case WM_PAINT:      return OnPaint(msg, wparam, lparam);
         }
@@ -100,7 +102,7 @@ INT_PTR CColourDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
 }
 
 // Process the command messages (WM_COMMAND) from the dialog's controls.
-BOOL CColourDialog::OnCommand(WPARAM wparam, LPARAM lparam)
+BOOL CColorAdjust::OnCommand(WPARAM wparam, LPARAM lparam)
 {
     // Notification from the GrayScale check box.
     switch (LOWORD(wparam))
@@ -118,8 +120,18 @@ BOOL CColourDialog::OnCommand(WPARAM wparam, LPARAM lparam)
     return FALSE;
 }
 
+// Called in response to a WM_DPICHANGED message that is sent to a
+// top-level window when the DPI changes.
+LRESULT CColorAdjust::OnDpiChanged(UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    CreateImagePreviews();
+    UpdatePreview();
+
+    return FinalWindowProc(msg, wparam, lparam);
+}
+
 // Called when the GrayScale check button is clicked.
-BOOL CColourDialog::OnGrayScale()
+BOOL CColorAdjust::OnGrayScale()
 {
     // Update the colour of the preview image.
     UpdatePreview();
@@ -127,7 +139,7 @@ BOOL CColourDialog::OnGrayScale()
 }
 
 // Processes messages from the slider controls.
-LRESULT CColourDialog::OnHScroll(UINT, WPARAM, LPARAM lparam)
+LRESULT CColorAdjust::OnHScroll(UINT, WPARAM, LPARAM lparam)
 {
     CSlider* pSlider = (CSlider*)GetCWndPtr((HWND)lparam);
     assert(pSlider && pSlider->IsWindow());
@@ -146,7 +158,7 @@ LRESULT CColourDialog::OnHScroll(UINT, WPARAM, LPARAM lparam)
 }
 
 // Called before the dialog is displayed.
-BOOL CColourDialog::OnInitDialog()
+BOOL CColorAdjust::OnInitDialog()
 {
     // Attach the Trackbar controls to CWnd objects.
     m_redSlider.AttachDlgItem(IDC_SLIDER_RED, *this);
@@ -174,14 +186,14 @@ BOOL CColourDialog::OnInitDialog()
     return TRUE;
 }
 
-LRESULT CColourDialog::OnPaint(UINT, WPARAM, LPARAM)
+LRESULT CColorAdjust::OnPaint(UINT, WPARAM, LPARAM)
 {
     Paint();
     return 0;
 }
 
 // A value in an edit control has been changed.
-BOOL CColourDialog::OnTextChange(HWND editCtrl)
+BOOL CColorAdjust::OnTextChange(HWND editCtrl)
 {
     if (IsLeftButtonDown())
         return FALSE;
@@ -207,7 +219,7 @@ BOOL CColourDialog::OnTextChange(HWND editCtrl)
 }
 
 // Displays the bitmap in the preview area of our dialog.
-void CColourDialog::Paint()
+void CColorAdjust::Paint()
 {
     BITMAP bm = m_previewImage.GetBitmapData();
 
@@ -235,7 +247,7 @@ void CColourDialog::Paint()
 }
 
 // Updates the preview image according to the dialog input.
-void CColourDialog::UpdatePreview()
+void CColorAdjust::UpdatePreview()
 {
     // Copy m_hbmPreviewOrig to m_hbmPreview.
     CMemDC Mem1DC(nullptr);    // Compatible with the desktop
@@ -259,4 +271,3 @@ void CColourDialog::UpdatePreview()
 
     Paint();
 }
-

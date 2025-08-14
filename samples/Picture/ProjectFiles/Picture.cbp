@@ -120,6 +120,10 @@
 		<Unit filename="../../../include/wxx_webbrowser.h" />
 		<Unit filename="../../../include/wxx_wincore.h" />
 		<Unit filename="../../../include/wxx_wincore0.h" />
+		<Unit filename="../src/ImageView.cpp" />
+		<Unit filename="../src/ImageView.h" />
+		<Unit filename="../src/MainView.cpp" />
+		<Unit filename="../src/MainView.h" />
 		<Unit filename="../src/Mainfrm.cpp" />
 		<Unit filename="../src/Mainfrm.h" />
 		<Unit filename="../src/PictureApp.cpp" />
@@ -129,8 +133,6 @@
 		</Unit>
 		<Unit filename="../src/StdAfx.cpp" />
 		<Unit filename="../src/UserMessages.h" />
-		<Unit filename="../src/View.cpp" />
-		<Unit filename="../src/View.h" />
 		<Unit filename="../src/main.cpp" />
 		<Unit filename="../src/resource.h" />
 		<Unit filename="../src/stdafx.h">
