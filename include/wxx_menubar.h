@@ -174,7 +174,8 @@ namespace Win32xx
             ProcessMenuItem();
 
             // Support top menu item without popup menu.
-            UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
+            int menuItem = IsMDIChildMaxed() ? m_hotItem - 1 : m_hotItem;
+            UINT id = ::GetMenuItemID(m_topMenu, menuItem);
             if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
@@ -834,8 +835,6 @@ namespace Win32xx
             xPos, rc.bottom, *this, &tpm));
 
         // We get here once the TrackPopupMenuEx has ended.
-        m_isMenuActive = FALSE;
-
         // Remove the message hook.
         ::UnhookWindowsHookEx(m_msgHook);
         m_msgHook = nullptr;
@@ -924,7 +923,8 @@ namespace Win32xx
 
         m_oldButton = pNMTB->iItem;
 
-        HMENU menu = ::GetSubMenu(m_topMenu, m_hotItem);
+        int menuItem = IsMDIChildMaxed() ? m_hotItem - 1 : m_hotItem;
+        HMENU menu = ::GetSubMenu(m_topMenu, menuItem);
         if (IsMenu(menu))
         {
             ProcessMenuItem();
@@ -933,7 +933,7 @@ namespace Win32xx
         else
         {
             // Support top menu item without popup menu.
-            UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
+            UINT id = ::GetMenuItemID(m_topMenu, menuItem);
             if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
@@ -1072,28 +1072,21 @@ namespace Win32xx
 
         if (!m_isAltMode)
         {
-            HMENU menu = ::GetSubMenu(m_topMenu, m_hotItem);
-            if (IsMenu(menu))
+            int menuItem = IsMDIChildMaxed() ? m_hotItem - 1 : m_hotItem;
+            HMENU menu = ::GetSubMenu(m_topMenu, menuItem);
+            if (IsMenu(menu) || menuItem < 0)
             {
-                // Always use PostMessage for USER_POPUPMENU (not SendMessage).
+                // Display the popup menu.
+                // Use PostMessage for USER_POPUPMENU (not SendMessage).
                 PostMessage(UWM_POPUPMENU, 0, 0);
             }
             else
             {
-                // Support top menu item without popup menu.
-                UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
-                if (id != UINT(-1))
-                {
-                    Cancel();
-                    SetHotItem(CommandToIndex(id));
-                    Press(id, TRUE);
-                    m_isSelectedPopup = FALSE;
-                    m_selectedMenu = nullptr;
-                    GrabFocus();
-                    Press(GetCommandID(m_hotItem), TRUE);
-                }
+                // Support keyboard input for top menu item without popup menu.
+                m_isSelectedPopup = FALSE;
+                m_selectedMenu = nullptr;
+                Press(GetCommandID(m_hotItem), TRUE);
             }
-
             m_isMenuActive = TRUE;
         }
     }
