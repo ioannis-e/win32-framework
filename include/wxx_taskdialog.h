@@ -261,7 +261,7 @@ namespace Win32xx
         std::vector<TASKDIALOG_BUTTON> buttons;
         for (const TaskButton& button : m_buttons)
         {
-            TASKDIALOG_BUTTON tb{};
+            TASKDIALOG_BUTTON tb = {};
             tb.nButtonID = button.buttonID;
             tb.pszButtonText = button.buttonText;
             buttons.push_back(tb);
@@ -271,7 +271,7 @@ namespace Win32xx
         std::vector<TASKDIALOG_BUTTON> radioButtons;
         for (const TaskButton& button : m_radioButtons)
         {
-            TASKDIALOG_BUTTON tb{};
+            TASKDIALOG_BUTTON tb = {};
             tb.nButtonID = button.buttonID;
             tb.pszButtonText = button.buttonText;
             radioButtons.push_back(tb);

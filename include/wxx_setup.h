@@ -161,7 +161,7 @@ namespace Win32xx
         using RTLGETVERSION = void (WINAPI*)(PRTL_OSVERSIONINFOW);
 
         HMODULE module = ::GetModuleHandleW(L"ntdll.dll");
-        RTL_OSVERSIONINFOW osvi{};
+        RTL_OSVERSIONINFOW osvi = {};
         if (module)
         {
             RTLGETVERSION pfn = reinterpret_cast<RTLGETVERSION>(
@@ -187,7 +187,7 @@ namespace Win32xx
     // Refer to NONCLIENTMETRICS in the Windows API documentation for more information.
     inline NONCLIENTMETRICS GetNonClientMetrics()
     {
-        NONCLIENTMETRICS ncm{};
+        NONCLIENTMETRICS ncm = {};
         ncm.cbSize = sizeof(ncm);
 
         // If OS version less than Vista, adjust size to correct value.
@@ -220,7 +220,7 @@ namespace Win32xx
     inline void LoadCommonControls()
     {
           // Load the full set of common controls.
-          INITCOMMONCONTROLSEX initStruct{};
+          INITCOMMONCONTROLSEX initStruct = {};
           initStruct.dwSize = sizeof(initStruct);
           initStruct.dwICC = ICC_WIN95_CLASSES | ICC_DATE_CLASSES |
               ICC_INTERNET_CLASSES | ICC_LINK_CLASS | ICC_NATIVEFNTCTL_CLASS |

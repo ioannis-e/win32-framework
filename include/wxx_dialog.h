@@ -713,7 +713,7 @@ namespace Win32xx
     // Used only by modal dialogs for idle processing and PreTranslateMessage.
     inline LRESULT CALLBACK CDialog::StaticMsgHook(int code, WPARAM wparam, LPARAM lparam)
     {
-        MSG msg{};
+        MSG msg = {};
         LONG count = 0;
 
         // While idle, perform idle processing until OnIdle returns FALSE.
@@ -974,7 +974,7 @@ namespace Win32xx
         VERIFY(::ScrollWindow(m_parent, -xDelta, 0, nullptr, nullptr));
 
         // Update the scroll bar.
-        SCROLLINFO si{};
+        SCROLLINFO si = {};
         si.cbSize = sizeof(si);
         si.fMask  = SIF_POS;
         si.nPos   = m_xScrollPos;
@@ -1031,7 +1031,7 @@ namespace Win32xx
         VERIFY(::ScrollWindow(m_parent, 0, -yDelta, nullptr, nullptr));
 
         // Update the scroll bar.
-        SCROLLINFO si{};
+        SCROLLINFO si = {};
         si.cbSize = sizeof(si);
         si.fMask  = SIF_POS;
         si.nPos   = m_yScrollPos;
@@ -1055,7 +1055,7 @@ namespace Win32xx
         // Adjust the scrolling if required
         m_xScrollPos = std::min(m_xScrollPos, std::max(0, m_minRect.Width()  - currentRect.Width() ) );
         m_yScrollPos = std::min(m_yScrollPos, std::max(0, m_minRect.Height() - currentRect.Height()) );
-        SCROLLINFO si{};
+        SCROLLINFO si = {};
         si.cbSize = sizeof(si);
         si.fMask  = SIF_RANGE | SIF_PAGE | SIF_POS;
         si.nMax   = m_minRect.Width();

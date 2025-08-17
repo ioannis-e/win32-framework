@@ -359,7 +359,7 @@ namespace Win32xx
             parentRect = desktopRect;
 
         HMONITOR hActiveMonitor = MonitorFromWindow(*this, MONITOR_DEFAULTTONEAREST);
-        MONITORINFO mi{};
+        MONITORINFO mi = {};
         mi.cbSize = sizeof(mi);
 
         if (::GetMonitorInfo(hActiveMonitor, &mi))
@@ -400,7 +400,7 @@ namespace Win32xx
     // A failure to create a window throws an exception.
     inline HWND CWnd::Create(HWND parent /* = nullptr */)
     {
-        WNDCLASS wc{};
+        WNDCLASS wc = {};
 
         // Allow the WNDCLASS parameters to be modified.
         PreRegisterClass(wc);
@@ -410,7 +410,7 @@ namespace Win32xx
             VERIFY(RegisterClass(wc));
 
         // Set the CREATESTUCT parameters to reasonable defaults.
-        CREATESTRUCT cs{};
+        CREATESTRUCT cs = {};
         LONG dwOverlappedStyle = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU
             | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
         cs.style = WS_VISIBLE | ((parent)? WS_CHILD : dwOverlappedStyle );
@@ -486,7 +486,7 @@ namespace Win32xx
         else
             classString = className;
 
-        WNDCLASS wc{};
+        WNDCLASS wc = {};
         wc.lpszClassName = classString;
         wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
         wc.hCursor       = ::LoadCursor(nullptr, IDC_ARROW);
@@ -1016,7 +1016,7 @@ namespace Win32xx
         assert((wc.lpszClassName != nullptr) && (lstrlen(wc.lpszClassName) <=  WXX_MAX_STRING_SIZE));
 
         // Check to see if this classname is already registered.
-        WNDCLASS wcTest{};
+        WNDCLASS wcTest = {};
         BOOL done = FALSE;
 
         if (::GetClassInfo(GetApp()->GetInstanceHandle(), wc.lpszClassName, &wcTest))

@@ -581,7 +581,7 @@ namespace Win32xx
     template <class T>
     inline void CFrameT<T>::AddMenuBarBand()
     {
-        REBARBANDINFO rbbi{};
+        REBARBANDINFO rbbi = {};
         rbbi.fMask      = RBBIM_STYLE | RBBIM_CHILD | RBBIM_ID;
         rbbi.fStyle     = RBBS_BREAK | RBBS_VARIABLEHEIGHT;
         rbbi.hwndChild  = GetMenuBar();
@@ -628,7 +628,7 @@ namespace Win32xx
         tb.CreateEx(0, TOOLBARCLASSNAME, 0, style, 0, 0, 0, 0, GetReBar(), 0);
 
         // Fill the REBARBAND structure.
-        REBARBANDINFO rbbi{};
+        REBARBANDINFO rbbi = {};
         rbbi.fMask      = RBBIM_STYLE |  RBBIM_CHILD | RBBIM_ID;
         rbbi.fStyle     = bandStyle;
         rbbi.hwndChild  = tb;
@@ -996,7 +996,7 @@ namespace Win32xx
                         }
 
                         // Draw the button image.
-                        TBBUTTON tbb{};
+                        TBBUTTON tbb = {};
                         int button = pTB->CommandToIndex(item);
                         pTB->GetButton(button, tbb);
                         int image = tbb.iBitmap;
@@ -1402,7 +1402,7 @@ namespace Win32xx
                             }
 
                             // Determine the size of the child window.
-                            REBARBANDINFO rbbi{};
+                            REBARBANDINFO rbbi = {};
                             rbbi.fMask = RBBIM_CHILD;
                             rebar.GetBandInfo(band, rbbi);
                             CWnd* pChild = T::GetCWndPtr(rbbi.hwndChild);
@@ -1854,7 +1854,7 @@ namespace Win32xx
                 if (monitor == nullptr)
                     throw CUserException();
 
-                MONITORINFO mi{};
+                MONITORINFO mi = {};
                 mi.cbSize = sizeof(mi);
                 ::GetMonitorInfo(monitor, &mi);
                 CRect workArea = mi.rcWork;
@@ -2230,7 +2230,7 @@ namespace Win32xx
 
         if (IsUsingThemes())
         {
-            MENUINFO mi{};
+            MENUINFO mi = {};
             mi.cbSize = sizeof(mi);
             mi.fMask = MIM_BACKGROUND | MIM_APPLYTOSUBMENUS;
 
@@ -2254,7 +2254,7 @@ namespace Win32xx
             {
                 // The MenuItemData pointer is deleted in OnUnInitMenuPopup.
                 MenuItemDataPtr itemDataPtr(std::make_unique<MenuItemData>());
-                MENUITEMINFO mii{};
+                MENUITEMINFO mii = {};
                 mii.cbSize = sizeof(mii);
                 mii.fMask = MIIM_TYPE | MIIM_DATA;
                 mii.dwTypeData = itemDataPtr->itemText.GetBuffer(WXX_MAX_STRING_SIZE);
@@ -2603,7 +2603,7 @@ namespace Win32xx
         for (int i = 0; i < menu.GetMenuItemCount(); i++)
         {
             UINT position = static_cast<UINT>(i);
-            MENUITEMINFO mii{};
+            MENUITEMINFO mii = {};
             mii.cbSize = sizeof(mii);
             mii.fMask = MIIM_STATE | MIIM_ID | MIIM_SUBMENU | MIIM_CHECKMARKS | MIIM_TYPE | MIIM_DATA;
             menu.GetMenuItemInfo(position, mii, TRUE);
@@ -2819,7 +2819,7 @@ namespace Win32xx
                     throw CUserException(_T("CRegKey::Open failed"));
 
                 // Store the window position in the registry.
-                WINDOWPLACEMENT wndpl{};
+                WINDOWPLACEMENT wndpl = {};
                 wndpl.length = sizeof(wndpl);
 
                 if (T::GetWindowPlacement(wndpl))
@@ -2980,7 +2980,7 @@ namespace Win32xx
         int band = rb.GetBand(GetMenuBar());
         if (band >= 0)
         {
-            REBARBANDINFO rbbi{};
+            REBARBANDINFO rbbi = {};
             rbbi.fMask = RBBIM_CHILDSIZE | RBBIM_SIZE;
             rb.GetBandInfo(band, rbbi);
             int width;
@@ -3697,7 +3697,7 @@ namespace Win32xx
         }
 
         // Set MRU menu items.
-        MENUITEMINFO mii{};
+        MENUITEMINFO mii = {};
         mii.cbSize = sizeof(mii);
 
         // We place the MRU items under the left most menu item.

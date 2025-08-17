@@ -267,7 +267,7 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFOT hints{};
+            ADDRINFOT hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFOT *AddrInfo;
             CString portName;
@@ -326,7 +326,7 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFOT hints{};
+            ADDRINFOT hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFOT *AddrInfo;
 
@@ -425,7 +425,7 @@ namespace Win32xx
         CEvent& stopRequestEvent = pSocket->m_stopRequest;
         SOCKET& clientSocket = pSocket->m_socket;
 
-        WSAEVENT allEvents[2]{};
+        WSAEVENT allEvents[2] = {};
         allEvents[0] = ::WSACreateEvent();
         allEvents[1] = stopRequestEvent.GetHandle();
         long events = FD_READ | FD_WRITE | FD_OOB | FD_ACCEPT | FD_CONNECT | FD_CLOSE;
@@ -646,7 +646,7 @@ namespace Win32xx
 
         if (IsIPV6Supported())
         {
-            ADDRINFOT hints{};
+            ADDRINFOT hints = {};
             hints.ai_flags = AI_NUMERICHOST | AI_PASSIVE;
             ADDRINFOT *addrInfo;
             CString portName;

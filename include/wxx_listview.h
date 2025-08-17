@@ -401,7 +401,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVITEM lvi{};
+        LVITEM lvi = {};
         lvi.iItem = item;
         lvi.mask = LVIF_PARAM;
         SendMessage(LVM_GETITEM, 0, reinterpret_cast<LPARAM>(&lvi));
@@ -464,7 +464,7 @@ namespace Win32xx
         CString str;
         if (textMax > 0)
         {
-            LVITEM lvi{};
+            LVITEM lvi = {};
             lvi.iItem = item;
             lvi.iSubItem = subItem;
             lvi.mask = LVIF_TEXT;
@@ -604,7 +604,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVHITTESTINFO hti{};
+        LVHITTESTINFO hti = {};
         hti.flags = *pFlags;
         hti.pt = pt;
         return ListView_HitTest(*this, &hti);
@@ -632,7 +632,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVCOLUMN lvc{};
+        LVCOLUMN lvc = {};
         lvc.mask = LVCF_TEXT | LVCF_ORDER | LVCF_FMT;
         if (-1 != width)
         {
@@ -666,7 +666,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVITEM lvi{};
+        LVITEM lvi = {};
         lvi.iItem = item;
         lvi.pszText = const_cast<LPTSTR>(text);
         lvi.mask = LVIF_TEXT;
@@ -679,7 +679,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVITEM lvi{};
+        LVITEM lvi = {};
         lvi.iItem = item;
         lvi.pszText = const_cast<LPTSTR>(text);
         lvi.iImage = image;
@@ -692,7 +692,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVITEM lvi{};
+        LVITEM lvi = {};
         lvi.mask = mask;
         lvi.iItem = item;
         lvi.pszText = const_cast<LPTSTR>(text);
@@ -899,7 +899,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVITEM lvi{};
+        LVITEM lvi = {};
         lvi.iItem = item;
         lvi.iSubItem = subItem;
         lvi.mask = mask;
@@ -935,7 +935,7 @@ namespace Win32xx
     {
         assert(IsWindow());
 
-        LVITEM lvi{};
+        LVITEM lvi = {};
         lvi.iItem = item;
         lvi.lParam = static_cast<LPARAM>(data);
         lvi.mask = LVIF_PARAM;

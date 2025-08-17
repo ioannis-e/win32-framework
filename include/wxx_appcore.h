@@ -468,7 +468,7 @@ namespace Win32xx
     // address of CWnd::StaticWindowProc.
     inline void CWinApp::SetCallback()
     {
-        WNDCLASS defaultWC{};
+        WNDCLASS defaultWC = {};
         LPCTSTR className    = _T("Win32++ Temporary Window Class");
         defaultWC.hInstance     = GetInstanceHandle();
         defaultWC.lpfnWndProc   = CWnd::StaticWindowProc;
@@ -570,7 +570,7 @@ namespace Win32xx
         if (m_devNames.Get() == nullptr)
         {
             // Allocate global printer memory by specifying the default printer.
-            PRINTDLG pd{};
+            PRINTDLG pd = {};
             pd.Flags = PD_RETURNDEFAULT;
             pd.lStructSize = sizeof(pd);
             ::PrintDlg(&pd);

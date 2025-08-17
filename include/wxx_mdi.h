@@ -273,7 +273,7 @@ namespace Win32xx
     inline CMDIChild* CMDIFrameT<T>::AddMDIChild(MDIChildPtr MDIChild)
     {
         CMDIChild* pMDIChild = MDIChild.get();
-        assert(pMDIChild != nullptr); // Cannot add Null MDI Child
+        assert(pMDIChild != nullptr); // Cannot add null MDI Child
         if (pMDIChild == nullptr)
             return nullptr;
 
@@ -319,7 +319,7 @@ namespace Win32xx
                 // Add a menu entry for each MDI child (up to 9)
                 if (window < 9)
                 {
-                    CString strMenuItem (ChildPtr->GetWindowText());
+                    CString strMenuItem(ChildPtr->GetWindowText());
 
                     if (strMenuItem.GetLength() > WXX_MAX_STRING_SIZE -10)
                     {
@@ -855,7 +855,7 @@ namespace Win32xx
     {
         assert(parent != nullptr);
 
-        CLIENTCREATESTRUCT clientcreate{};
+        CLIENTCREATESTRUCT clientcreate = {};
         clientcreate.hWindowMenu  = nullptr;
         clientcreate.idFirstChild = IDW_FIRSTCHILD;
         DWORD style = WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN |
@@ -949,7 +949,7 @@ namespace Win32xx
     // This technique avoids unnecessary flicker when creating maximized MDI children.
     inline HWND CMDIChild::Create(HWND parent /*= nullptr*/)
     {
-        CREATESTRUCT cs{};
+        CREATESTRUCT cs = {};
 
         // Call PreCreate in case its overloaded.
         PreCreate(cs);

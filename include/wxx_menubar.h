@@ -147,9 +147,11 @@ namespace Win32xx
     // Definitions for the CMenuBar class.
     //
 
-    inline CMenuBar::CMenuBar() : m_msgHook(nullptr), m_popupMenu(nullptr), m_selectedMenu(nullptr),
-        m_topMenu(nullptr), m_prevFocus(nullptr), m_hotItem(-1), m_isAltMode(FALSE), m_isExitAfter(FALSE),
-        m_isKeyMode(FALSE), m_isMenuActive(FALSE), m_isSelectedPopup(FALSE), m_oldButton(-1)
+    inline CMenuBar::CMenuBar() : m_msgHook(nullptr), m_popupMenu(nullptr),
+        m_selectedMenu(nullptr), m_topMenu(nullptr), m_prevFocus(nullptr),
+        m_hotItem(-1), m_isAltMode(FALSE), m_isExitAfter(FALSE),
+        m_isKeyMode(FALSE), m_isMenuActive(FALSE), m_isSelectedPopup(FALSE),
+        m_oldButton(-1)
     {
     }
 
@@ -395,7 +397,8 @@ namespace Win32xx
     // Called when the window handle (HWND) is attached to this object.
     inline void CMenuBar::OnAttach()
     {
-        // We must send this message before sending the TB_ADDBITMAP or TB_ADDBUTTONS message
+        // We must send this message before sending the TB_ADDBITMAP or
+        // the TB_ADDBUTTONS message.
         SendMessage(TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
     }
 
@@ -825,14 +828,16 @@ namespace Win32xx
             ::UnhookWindowsHookEx(m_msgHook);
 
         // Hook messages about to be processed by the shortcut menu.
-        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook, NULL, ::GetCurrentThreadId());
+        m_msgHook = ::SetWindowsHookEx(WH_MSGFILTER, (HOOKPROC)StaticMsgHook,
+            NULL, ::GetCurrentThreadId());
 
         // Display the shortcut menu.
         bool isRightToLeft = false;
         isRightToLeft = (((GetAncestor().GetExStyle()) & WS_EX_LAYOUTRTL)) != 0;
         int xPos = isRightToLeft ? rc.right : rc.left;
-        UINT id = static_cast<UINT>(::TrackPopupMenuEx(m_popupMenu, TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL,
-            xPos, rc.bottom, *this, &tpm));
+        UINT id = static_cast<UINT>(::TrackPopupMenuEx(m_popupMenu,
+            TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_VERTICAL, xPos, rc.bottom,
+            *this, &tpm));
 
         // We get here once the TrackPopupMenuEx has ended.
         // Remove the message hook.
@@ -1130,7 +1135,7 @@ namespace Win32xx
         {
             // Create an extra button for the MDI child system menu.
             // Later we will custom draw the window icon over this button.
-            TBBUTTON tbb{};
+            TBBUTTON tbb = {};
             tbb.fsState = TBSTATE_ENABLED;
             tbb.fsStyle = BTNS_BUTTON | BTNS_AUTOSIZE ;
             tbb.iString = reinterpret_cast<INT_PTR>(_T(" "));
@@ -1141,7 +1146,7 @@ namespace Win32xx
         for (int i = 0 ; i < ::GetMenuItemCount(menu); ++i)
         {
             // Assign the ToolBar Button struct.
-            TBBUTTON tbb{};
+            TBBUTTON tbb = {};
             tbb.idCommand = i  + maxedOffset;  // Each button needs a unique ID.
             tbb.fsState = TBSTATE_ENABLED;
             tbb.fsStyle = BTNS_BUTTON | BTNS_AUTOSIZE | BTNS_DROPDOWN;
@@ -1150,7 +1155,8 @@ namespace Win32xx
 
             // Add the menu title to the string table.
             CString menuText;
-            GetMenuString(menu, static_cast<UINT>(i), menuText.GetBuffer(WXX_MAX_STRING_SIZE), WXX_MAX_STRING_SIZE, MF_BYPOSITION);
+            GetMenuString(menu, static_cast<UINT>(i), menuText.GetBuffer(WXX_MAX_STRING_SIZE),
+               WXX_MAX_STRING_SIZE, MF_BYPOSITION);
             menuText.ReleaseBuffer();
 
             // Add extra spaces to menuText for high DPI.

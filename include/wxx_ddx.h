@@ -276,7 +276,7 @@ namespace Win32xx
         }
 
         // Set the given DateTime range.
-        SYSTEMTIME sta[2]{};
+        SYSTEMTIME sta[2] = {};
         sta[0] = min;
         sta[1] = max;
 
@@ -378,7 +378,7 @@ namespace Win32xx
             }
         }
 
-        SYSTEMTIME minMax[2]{};
+        SYSTEMTIME minMax[2] = {};
         DWORD limit = GDTR_MIN | GDTR_MAX;
         minMax[0] = min;
         minMax[1] = max;
