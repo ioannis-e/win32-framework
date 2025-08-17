@@ -283,8 +283,8 @@ namespace Win32xx
         return pMDIChild;
     }
 
-    // Updates the menu items the the "Window" submenu when
-    // MDI child windows are created or destroyed.
+    // Updates the menu items in the "Window" submenu when MDI child windows
+    // are created or destroyed.
     template <class T>
     inline void CMDIFrameT<T>::UpdateMDIMenu(CMenu windowMenu)
     {
@@ -421,8 +421,8 @@ namespace Win32xx
         return result;
     }
 
-    // Returns the menu of the Active MDI Child if any,
-    // otherwise returns the MDI Frame's menu.
+    // Returns the menu of the Active MDI Child if any, otherwise returns
+    // the MDI Frame's menu.
     template <class T>
     inline CMenu CMDIFrameT<T>::GetActiveMenu() const
     {
@@ -443,7 +443,8 @@ namespace Win32xx
         return ::DefFrameProc(*this, GetMDIClient(), msg, wparam, lparam);
     }
 
-    // Returns a pointer to the active MDI child, or nullptr if there is no active MDI child.
+    // Returns a pointer to the active MDI child, or nullptr if there is no 
+    // active MDI child.
     template <class T>
     inline CMDIChild* CMDIFrameT<T>::GetActiveMDIChild() const
     {
@@ -792,7 +793,7 @@ namespace Win32xx
             int menuItems = menu.GetMenuItemCount();
             if (menuItems > 0)
             {
-                // The Window menu is typically second from the right
+                // The Window menu is typically second from the right.
                 int windowItem = std::max(menuItems - 2, 0);
                 CMenu menuWindow = menu.GetSubMenu(windowItem);
 
