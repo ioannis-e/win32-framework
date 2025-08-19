@@ -352,8 +352,10 @@ void CMainFrame::OnInitialUpdate()
     if (!m_myTabbedMDI.LoadRegistrySettings(GetRegistryKeyName()))
         LoadDefaultMDIs();
 
-    // Hide the container's tab if it has just one tab
-    HideSingleContainerTab(m_isHideSingleTab);
+    // Set the various options.
+    HideSingleContainerTab(true);
+    SetContainerTabsAtTop(false);
+    SetMDITabsAtTop(true);
 
     // Get a copy of the Frame's menu
     CMenu frameMenu = GetFrameMenu();

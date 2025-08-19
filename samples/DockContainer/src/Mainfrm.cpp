@@ -207,8 +207,9 @@ void CMainFrame::OnInitialUpdate()
     if (!LoadDockRegistrySettings(GetRegistryKeyName()))
         LoadDefaultDockers();
 
-    // Hide the container's tab if it has just one tab
-    HideSingleContainerTab(m_hideSingleTab);
+    // Set the various options.
+    HideSingleContainerTab(true);
+    SetContainerTabsAtTop(false);
 
     // PreCreate initially set the window as invisible, so show it now.
     ShowWindow( GetInitValues().showCmd );

@@ -22,9 +22,10 @@ CCustomPrintDlg::CCustomPrintDlg()
     m_owner = nullptr;
 }
 
-// Creates and assigns the hDevMode and hDevNames global memory for the specified printer.
-// Refer to Microsoft's Knowledge Base Article Q166129.
-bool CCustomPrintDlg::CreateGlobalHandles(LPCWSTR printerName, HGLOBAL* pHDevMode, HGLOBAL* pHDevNames)
+// Creates and assigns the hDevMode and hDevNames global memory for the
+// specified printer. Refer to Microsoft's Knowledge Base Article Q166129.
+bool CCustomPrintDlg::CreateGlobalHandles(LPCWSTR printerName, HGLOBAL* pHDevMode,
+    HGLOBAL* pHDevNames)
 {
     // HGLOBAL pHdevMode and pHDevNames are required.
     assert(pHDevMode);
@@ -62,7 +63,8 @@ bool CCustomPrintDlg::CreateGlobalHandles(LPCWSTR printerName, HGLOBAL* pHDevMod
                 size_t portLength = lstrlen(p2->pPortName) + 1;    // port name
 
                 // Allocate a global handle big enough to hold DEVNAMES.
-                bufferSize = sizeof(DEVNAMES) + (driverLength + printerLength + portLength) * sizeof(wchar_t);
+                bufferSize = sizeof(DEVNAMES) + (driverLength + printerLength +
+                    portLength) * sizeof(wchar_t);
                 HGLOBAL newDevNames = ::GlobalAlloc(GHND, bufferSize);
                 assert(newDevNames);
                 if (newDevNames != nullptr)
@@ -577,12 +579,16 @@ BOOL CCustomPrintDlg::OnPrintProperties()
                 return false;
 
         // Allocate the pDevMode buffer as an array of BYTE.
-        size_t devModeSize = ::DocumentProperties(*this, printer, deviceName, nullptr, GetDevMode(), 0);
+        // We use DocumentProperties to retrieve the size of the buffer. 
+        size_t devModeSize = ::DocumentProperties(*this, printer, deviceName,
+            nullptr, GetDevMode(), 0);
         std::vector<BYTE> buffer(devModeSize);
         LPDEVMODE pDevMode = reinterpret_cast<DEVMODE*>(buffer.data());
 
-        // Display the printer property sheet, and retrieve the updated devMode data.
-        if (IDOK == ::DocumentProperties(nullptr, printer, deviceName, pDevMode, 0, DM_IN_PROMPT | DM_OUT_BUFFER))
+        // We use the AdvancedDocumentProperties property sheet, to retrieve
+        // the updated devMode data.
+        if (IDOK == ::AdvancedDocumentProperties(*this, printer, deviceName,
+            pDevMode, GetDevMode()))
         {
             SetPrinterFromDevMode(deviceName, pDevMode);
             HGLOBAL newDevMode = nullptr;

@@ -100,6 +100,10 @@ void CMainFrame::OnInitialUpdate()
     m_view.AddTabPage(make_unique<CViewDialog>(IDD_MYDIALOG), L"Dialog", IDI_DIALOGVIEW);
 
     m_view.SelectPage(0);
+    m_view.SetFixedWidth(true);
+    m_view.SetOwnerDraw(true);
+    m_view.SetShowButtons(true);
+    m_view.SetTabsAtTop(true);
 
     // PreCreate initially set the window as invisible, so show it now.
     ShowWindow();
