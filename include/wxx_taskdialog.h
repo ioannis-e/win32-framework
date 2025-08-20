@@ -46,9 +46,9 @@
 // However, a task dialog has many more features than a message box.
 
 // NOTES:
-//  Task Dialogs are only supported on Windows Vista and above.
-//  Task Dialogs require XP themes enabled (use version 6 of Common Controls)
-//  Task Dialogs are always modal.
+//  Task dialogs are only supported on Windows Vista and above.
+//  Task dialogs require XP themes enabled (use version 6 of Common Controls)
+//  Task dialogs are always modal.
 
 
 #ifndef _WIN32XX_TASKDIALOG_H_
@@ -197,7 +197,7 @@ namespace Win32xx
         m_tc.pfCallback = CTaskDialog::StaticTaskDialogProc;
     }
 
-    // Adds a command control or push button to the Task Dialog.
+    // Adds a command control or push button to the task dialog.
     inline void CTaskDialog::AddCommandControl(int buttonID, LPCWSTR caption)
     {
         assert (GetHwnd() == nullptr);
@@ -206,7 +206,7 @@ namespace Win32xx
         m_buttons.push_back(tb);
     }
 
-    // Adds a radio button to the Task Dialog.
+    // Adds a radio button to the task dialog.
     inline void CTaskDialog::AddRadioButton(int radioButtonID, LPCWSTR caption)
     {
         assert (GetHwnd() == nullptr);
@@ -215,7 +215,7 @@ namespace Win32xx
         m_radioButtons.push_back(tb);
     }
 
-    // Adds a range of radio buttons to the Task Dialog.
+    // Adds a range of radio buttons to the task dialog.
     // Assumes the resource ID of the button and it's string match.
     inline void CTaskDialog::AddRadioButtonGroup(int firstRadioButtonID,
         int lastRadioButtonID)
@@ -231,7 +231,7 @@ namespace Win32xx
         }
     }
 
-    // Simulates the action of a button click in the Task Dialog.
+    // Simulates the action of a button click in the task dialog.
     // Refer to TDM_CLICK_BUTTON in the Windows API documentation for more information.
     inline void CTaskDialog::ClickButton(int buttonID) const
     {
@@ -248,7 +248,7 @@ namespace Win32xx
         SendMessage(TDM_CLICK_RADIO_BUTTON, wparam, 0);
     }
 
-    // Creates and displays the Task Dialog.
+    // Creates and displays the task dialog.
     // Refer to TaskDialogIndirect in the Windows API documentation for more information.
     inline HRESULT CTaskDialog::DoModal(HWND parent /* = nullptr */)
     {
@@ -355,13 +355,13 @@ namespace Win32xx
         return str;
     }
 
-    // Returns the TASKDIALOGCONFIG structure for the Task Dialog.
+    // Returns the TASKDIALOGCONFIG structure for the task dialog.
     inline TASKDIALOGCONFIG CTaskDialog::GetConfig() const
     {
         return m_tc;
     }
 
-    // Returns the Task Dialog's options. These are a combination of:
+    // Returns the task dialog's options. These are a combination of:
     //  TDF_ENABLE_HYPERLINKS, TDF_USE_HICON_MAIN, TDF_USE_HICON_FOOTER,
     //  TDF_ALLOW_DIALOG_CANCELLATION, TDF_USE_COMMAND_LINKS,
     //  TDF_USE_COMMAND_LINKS_NO_ICON, TDF_EXPAND_FOOTER_AREA,
@@ -467,7 +467,7 @@ namespace Win32xx
         return FALSE;
     }
 
-    // Called when the user clicks the Task Dialog verification check box.
+    // Called when the user clicks the task dialog verification check box.
     inline void CTaskDialog::OnTDVerificationCheckboxClicked(BOOL)
     {
     }
@@ -521,7 +521,7 @@ namespace Win32xx
         m_tc.cxWidth = width;
     }
 
-    // Sets the text in the expandable area of the Task Dialog.
+    // Sets the text in the expandable area of the task dialog.
     // Refer to TDM_SET_ELEMENT_TEXT in the Windows API documentation for more information.
     inline void CTaskDialog::SetExpansionArea(LPCWSTR expandedInfo,
         LPCWSTR expandedLabel, LPCWSTR collapsedLabel)
@@ -541,7 +541,7 @@ namespace Win32xx
             SendMessage(TDM_SET_ELEMENT_TEXT, wparam, lparam);
     }
 
-    // Sets the icon that will be displayed in the Task Dialog's footer.
+    // Sets the icon that will be displayed in the task dialog's footer.
     // Refer to TDM_UPDATE_ICON in the Windows API documentation for more information.
     inline void CTaskDialog::SetFooterIcon(HICON footerIcon)
     {
@@ -554,7 +554,7 @@ namespace Win32xx
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
     }
 
-    // Sets the icon that will be displayed in the Task Dialog's footer.
+    // Sets the icon that will be displayed in the task dialog's footer.
     // Possible icons:
     // TD_ERROR_ICON        A stop-sign icon appears in the task dialog.
     // TD_WARNING_ICON      An exclamation-point icon appears in the task dialog.
@@ -574,7 +574,7 @@ namespace Win32xx
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
     }
 
-    // Sets the text that will be displayed in the Task Dialog's footer.
+    // Sets the text that will be displayed in the task dialog's footer.
     // Refer to TDM_SET_ELEMENT_TEXT in the Windows API documentation for more information.
     inline void CTaskDialog::SetFooterText(LPCWSTR footer)
     {
@@ -587,7 +587,7 @@ namespace Win32xx
             SendMessage(TDM_SET_ELEMENT_TEXT, wparam, lparam);
     }
 
-    // Sets Task Dialog's main icon.
+    // Sets task dialog's main icon.
     // Refer to TDM_UPDATE_ICON in the Windows API documentation for more information.
     inline void CTaskDialog::SetMainIcon(HICON mainIcon)
     {
@@ -600,7 +600,7 @@ namespace Win32xx
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
     }
 
-    // Sets Task Dialog's main icon.
+    // Sets task dialog's main icon.
     // Possible icons:
     // TD_ERROR_ICON        A stop-sign icon appears in the task dialog.
     // TD_WARNING_ICON      An exclamation-point icon appears in the task dialog.
@@ -619,7 +619,7 @@ namespace Win32xx
             SendMessage(TDM_UPDATE_ICON, wparam, lparam);
     }
 
-    // Sets the Task Dialog's main instruction text.
+    // Sets the task dialog's main instruction text.
     // Refer to TDM_SET_ELEMENT_TEXT in the Windows API documentation for more information.
     inline void CTaskDialog::SetMainInstruction(LPCWSTR mainInstruction)
     {
@@ -632,7 +632,7 @@ namespace Win32xx
             SendMessage(TDM_SET_ELEMENT_TEXT, wparam, lparam);
     }
 
-    // Sets the Task Dialog's options. These are a combination of:
+    // Sets the task dialog's options. These are a combination of:
     //  TDF_ENABLE_HYPERLINKS, TDF_USE_HICON_MAIN, TDF_USE_HICON_FOOTER,
     //  TDF_ALLOW_DIALOG_CANCELLATION, TDF_USE_COMMAND_LINKS,
     //  TDF_USE_COMMAND_LINKS_NO_ICON, TDF_EXPAND_FOOTER_AREA,
@@ -685,7 +685,7 @@ namespace Win32xx
         SendMessage(TDM_SET_PROGRESS_BAR_STATE, wparam, 0);
     }
 
-    // Simulates a click on the verification checkbox of the Task Dialog, if it exists.
+    // Simulates a click on the verification checkbox of the task dialog, if it exists.
     // Refer to TDM_CLICK_VERIFICATION in the Windows API documentation for more information.
     inline void CTaskDialog::SetVerificationCheckbox(BOOL isChecked) const
     {
@@ -703,7 +703,7 @@ namespace Win32xx
         m_tc.pszVerificationText = m_verificationText;
     }
 
-    // Sets the Task Dialog's window title.
+    // Sets the task dialog's window title.
     inline void CTaskDialog::SetWindowTitle(LPCWSTR windowTitle)
     {
         assert (GetHwnd() == nullptr);
@@ -750,7 +750,7 @@ namespace Win32xx
 
     } // LRESULT CALLBACK StaticTaskDialogProc(...)
 
-    // Provides default handling of Task Dialog's messages.
+    // Provides default handling of task dialog's messages.
     inline LRESULT CTaskDialog::TaskDialogProcDefault(UINT msg, WPARAM wparam,
         LPARAM lparam)
     {

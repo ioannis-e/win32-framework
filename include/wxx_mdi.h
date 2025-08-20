@@ -443,7 +443,7 @@ namespace Win32xx
         return ::DefFrameProc(*this, GetMDIClient(), msg, wparam, lparam);
     }
 
-    // Returns a pointer to the active MDI child, or nullptr if there is no 
+    // Returns a pointer to the active MDI child, or nullptr if there is no
     // active MDI child.
     template <class T>
     inline CMDIChild* CMDIFrameT<T>::GetActiveMDIChild() const

@@ -719,14 +719,14 @@ namespace Win32xx
     }
 
     // Returns true if the time represented by this CTime object is less
-    // than or equal tothe one represented by the specified CTime.
+    // than or equal to the one represented by the specified CTime.
     inline bool CTime::operator<=(const CTime& time) const
     {
         return m_time <= time.m_time;
     }
 
     // Returns true if the time represented by this CTime object is greater
-    // than or eqaul to the one represented by the specified CTime.
+    // than or equal to the one represented by the specified CTime.
     inline bool CTime::operator>=(const CTime& time) const
     {
         return m_time >= time.m_time;
@@ -952,7 +952,7 @@ namespace Win32xx
         return m_timespan > ts.m_timespan;
     }
 
-    // Returns true if the specified value is less than or eqaul to this
+    // Returns true if the specified value is less than or equal to this
     // CTimeSpan object.
     inline bool CTimeSpan::operator<=(const CTimeSpan& ts) const
     {

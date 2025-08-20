@@ -49,8 +49,7 @@ namespace Win32xx
     // This class implements a COM container that hosts an ActiveX control,
     // such as internet explorer.
     class CAXHost : public IOleInPlaceFrame, public IOleClientSite,
-                    public IOleInPlaceSite, public IOleControlSite,
-                    public IDispatch
+        public IOleInPlaceSite, public IOleControlSite, public IDispatch
     {
     public:
         CAXHost();
@@ -67,12 +66,12 @@ namespace Win32xx
 
         // IDispatch Methods
         virtual STDMETHODIMP GetIDsOfNames(REFIID riid, OLECHAR** names,
-                                unsigned int namesCount, LCID lcid, DISPID* pID) override;
+            unsigned int namesCount, LCID lcid, DISPID* pID) override;
         virtual STDMETHODIMP GetTypeInfo(unsigned int itinfo, LCID lcid, ITypeInfo** pptinfo) override;
         virtual STDMETHODIMP GetTypeInfoCount(unsigned int* pctinfo) override;
         virtual STDMETHODIMP Invoke(DISPID dispID, REFIID riid, LCID lcid, WORD flags,
-                                    DISPPARAMS* pParams, VARIANT* result, EXCEPINFO* pExecInfo,
-                                    unsigned int* pArgErr) override;
+            DISPPARAMS* pParams, VARIANT* result, EXCEPINFO* pExecInfo,
+            unsigned int* pArgErr) override;
 
         // IOleClientSite Methods
         virtual STDMETHODIMP GetContainer(LPOLECONTAINER* ppContainer) override;
@@ -104,8 +103,8 @@ namespace Win32xx
         virtual STDMETHODIMP DeactivateAndUndo() override;
         virtual STDMETHODIMP DiscardUndoState() override;
         virtual STDMETHODIMP GetWindowContext(IOleInPlaceFrame** ppFrame,
-                                  IOleInPlaceUIWindow** ppDoc, LPRECT pRect,
-                                  LPRECT pClipRect, LPOLEINPLACEFRAMEINFO pFrameInfo) override;
+            IOleInPlaceUIWindow** ppDoc, LPRECT pRect, LPRECT pClipRect,
+            LPOLEINPLACEFRAMEINFO pFrameInfo) override;
         virtual STDMETHODIMP OnInPlaceActivate() override;
         virtual STDMETHODIMP OnInPlaceDeactivate() override;
         virtual STDMETHODIMP OnPosRectChange(LPCRECT pRect) override;
@@ -118,7 +117,7 @@ namespace Win32xx
         virtual STDMETHODIMP RequestBorderSpace(LPCBORDERWIDTHS pBorderWidths) override;
         virtual STDMETHODIMP SetBorderSpace(LPCBORDERWIDTHS pBorderWidths) override;
         virtual STDMETHODIMP SetActiveObject(IOleInPlaceActiveObject* pActiveObject,
-                                             LPCOLESTR pObjName) override;
+            LPCOLESTR pObjName) override;
 
         // IOleWindow Methods
         virtual STDMETHODIMP ContextSensitiveHelp(BOOL enterMode) override;

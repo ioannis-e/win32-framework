@@ -115,8 +115,8 @@ namespace Win32xx
     };
 
 
-    //////////////////////////////////////////////////////////////
-    // CColorDialog manages Color dialog box that enables the user
+    //////////////////////////////////////////////////////////////////
+    // CColorDialog manages the Color dialog box that enables the user
     // to select a color.
     class CColorDialog : public CCommonDialog
     {
@@ -212,8 +212,8 @@ namespace Win32xx
     };
 
 
-
-    // Find/FindReplace modeless dialog class.
+    ////////////////////////////////////////////////////////////////
+    // CFileDialog manages the Find/FindReplace modeless dialog box.
     class CFindReplaceDialog : public CCommonDialog
     {
     public:

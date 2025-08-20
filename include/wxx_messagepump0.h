@@ -47,7 +47,7 @@ namespace Win32xx
     class CArchive;
 
     ////////////////////////////////////////////////////////////////////
-    // The CObject class provides support for Serialization by CArchive.
+    // The CObject class provides support for serialization by CArchive.
     // Any class that uses CArchive to serialize data can inherit from
     // CObject.
 

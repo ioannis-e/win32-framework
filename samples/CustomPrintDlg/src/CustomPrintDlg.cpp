@@ -579,7 +579,7 @@ BOOL CCustomPrintDlg::OnPrintProperties()
                 return false;
 
         // Allocate the pDevMode buffer as an array of BYTE.
-        // We use DocumentProperties to retrieve the size of the buffer. 
+        // We use DocumentProperties to retrieve the size of the buffer.
         size_t devModeSize = ::DocumentProperties(*this, printer, deviceName,
             nullptr, GetDevMode(), 0);
         std::vector<BYTE> buffer(devModeSize);

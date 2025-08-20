@@ -45,7 +45,7 @@
 
 // The CDC class provides a device context, along with the various associated
 //  objects such as Bitmaps, Brushes, Bitmaps, Fonts and Pens. This class
-//  handles the creation, selection, de-selection and deletion of these objects
+//  handles the creation, selection, deselection and deletion of these objects
 //  automatically. It also automatically deletes or releases the device context
 //  itself as appropriate. Any failure to create the new GDI object throws an
 //  exception.
@@ -973,7 +973,7 @@ namespace Win32xx
         m_pData->isManagedObject = true;
     }
 
-    // Attaches a GDI habdle to the CGDIObject.
+    // Attaches a GDI handle to the CGDIObject.
     inline void CGDIObject::Attach(HGDIOBJ object)
     {
         CThreadLock mapLock(GetApp()->m_gdiLock);
@@ -1495,7 +1495,7 @@ namespace Win32xx
         cGreen = std::min(cGreen, 255);
         cGreen = std::max(cGreen, -255);
 
-        // Pre-calculate the RGB modification values.
+        // Precalculate the RGB modification values.
         int b1 = 256 - cBlue;
         int g1 = 256 - cGreen;
         int r1 = 256 - cRed;
@@ -1825,7 +1825,7 @@ namespace Win32xx
         Assign(font);
     }
 
-    // Retrieves the Logfont structure that contains font attributes.
+    // Retrieves the LOGFONT structure that contains font attributes.
     // Refer to GetObject in the Windows API documentation for more information.
     inline LOGFONT CFont::GetLogFont() const
     {
@@ -5344,7 +5344,7 @@ namespace Win32xx
     // Definitions for the CBitmapInfoPtr class.
     //
 
-    // Constuct the CBitmapInfoPtr from the handle to a bitmap.
+    // Construct the CBitmapInfoPtr from the handle to a bitmap.
     inline CBitmapInfoPtr::CBitmapInfoPtr(HBITMAP bitmap)
     {
         BITMAP data = {};
@@ -5352,7 +5352,7 @@ namespace Win32xx
         CreateBitmapInfo(data);
     }
 
-    // Constuct the CBitmapInfoPtr from a BITMAP struct.
+    // Construct the CBitmapInfoPtr from a BITMAP struct.
     inline CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap)
     {
         // The specified BITMAP must have the following members assigned:

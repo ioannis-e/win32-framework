@@ -41,23 +41,9 @@
 //  Declaration of the CSocket class
 //
 // The CSocket class represents a network socket. It can be used to create
-// two types of sockets namely:
-// 1) An asycn socket.
-// 2) An event socket.
+// an event socket.
 //
-// 1. Async Sockets.
-// These sockets use StartAsync to monitor network events. Network events are
-// passed to the specified window as a window message and processed in the
-// window procedure. The network events can be one of:
-// FD_READ; FD_WRITE; FD_OOB; FD_ACCEPT; FD_CONNECT; FD_CLOSE; FD_QOS;
-// FD_GROUP_QOS; FD_ROUTINGINTERFACE_CHANGE; FD_ADDRESS_LIST_CHANGE;
-// FD_ADDRESS_LIST_CHANGE.
-// Refer to GetAsyncSelect in the Windows API documentation for more
-// information on using async sockets.
-// Refer to the NetClientAsync and NetServerAsync samples for an example of
-// how to use this class to create async sockets for a TCP/UDP client & server.
-//
-// 2. Event Sockets
+// Event Sockets
 // These sockets use StartEvents to monitor network events. A separate thread
 // is created for each event socket. After StartEvents is called, CSocket
 // monitors the socket and responds automatically to network events.

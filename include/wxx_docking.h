@@ -2734,7 +2734,7 @@ namespace Win32xx
         RecalcDockLayout();
     }
 
-    // Returns true if the specified window is a decendant of this docker.
+    // Returns true if the specified window is a descendant of this docker.
     inline BOOL CDocker::IsChildOfDocker(HWND wnd) const
     {
         while ((wnd != nullptr) && (wnd != *GetDockAncestor()))
@@ -3577,7 +3577,7 @@ namespace Win32xx
     // Set the CREATESTURCT parameters before the window is created
     inline void CDocker::PreCreate(CREATESTRUCT& cs)
     {
-        // Call base clase to set defaults.
+        // Call base class function to set defaults.
         CWnd::PreCreate(cs);
 
         // Specify the WS_POPUP style to have this window owned.

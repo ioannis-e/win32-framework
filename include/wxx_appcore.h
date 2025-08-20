@@ -194,7 +194,7 @@ namespace Win32xx
         return (m_p != nullptr) ? ((*this)->wDefault & DN_DEFAULTPRN) : false;
     }
 
-    #endif //
+    #endif // WIN32_LEAN_AND_MEAN
 
     ////////////////////////////////////
     // Definitions for the CWinApp class
@@ -807,7 +807,7 @@ namespace Win32xx
 
     // CWinApp messages
     inline CString CWinApp::MsgTlsIndexes() const
-    { return _T("No availabe Thread Local Storage Indexes."); }
+    { return _T("No available Thread Local Storage Indexes."); }
 
 
     /////////////////////////////////////////////////////////

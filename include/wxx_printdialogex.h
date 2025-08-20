@@ -357,7 +357,7 @@ namespace Win32xx
     // unlocks the memory when it goes out of scope.
     // Usage:
     //  CDevMode pDevMode = GetDevMode();
-    //  Then use pDevMode as if it were a LPDEVMODE
+    //  Then use pDevMode as if it were a LPDEVMODE.
     inline CDevMode CPrintDialogEx::GetDevMode() const
     {
         if (GetApp()->GetHDevMode().Get() == nullptr)
@@ -374,7 +374,7 @@ namespace Win32xx
     // unlocks the memory when it goes out of scope.
     // Usage:
     //  CDevNames pDevNames = GetDevNames();
-    //  Then use pDevNames as if it were a LPDEVNAMES
+    //  Then use pDevNames as if it were a LPDEVNAMES.
     inline CDevNames CPrintDialogEx::GetDevNames() const
     {
         if (GetApp()->GetHDevNames().Get() == nullptr)

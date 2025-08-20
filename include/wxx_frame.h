@@ -1239,7 +1239,7 @@ namespace Win32xx
 
         if ((pDrawItem->itemState & ODS_SELECTED) && IsUsingThemes())
         {
-            // Draw a white checkmark
+            // Draw a white checkmark.
             maskDC.BitBlt(0, 0, cxCheck, cyCheck, maskDC, 0, 0, DSTINVERT);
             memDC.BitBlt(0, 0, cxCheck, cyCheck, maskDC, 0, 0, SRCAND);
             drawDC.BitBlt(bkRect.left + xoffset, bkRect.top + yoffset, cxCheck,
@@ -1292,7 +1292,7 @@ namespace Win32xx
                image = static_cast<int>(i);
         }
 
-        // Daw the image.
+        // Draw the image.
         if (image >= 0 )
         {
             bool isDisabled = (pDrawItem->itemState & (ODS_GRAYED | ODS_DISABLED)) != 0;
@@ -2173,7 +2173,7 @@ namespace Win32xx
         return TRUE;
     }
 
-    // Called when the Rebar's background is redrawn.
+    // Called when the rebar's background is redrawn.
     template<class T>
     inline LRESULT CFrameT<T>::OnDrawRBBkgnd(UINT, WPARAM wparam, LPARAM lparam)
     {
@@ -2189,7 +2189,7 @@ namespace Win32xx
         return DrawReBarBkgnd(*pDC, *pRebar);
     }
 
-    // Called when the StatusBar's background is redrawn.
+    // Called when the statusbar's background is redrawn.
     template<class T>
     inline LRESULT CFrameT<T>::OnDrawSBBkgnd(UINT, WPARAM wparam, LPARAM lparam)
     {
@@ -3164,7 +3164,7 @@ namespace Win32xx
 
         if (IsUsingThemes())
         {
-            // Predifined themes.
+            // Predefined themes.
             enum Themetype{ Win11, Win7, XP_Blue, XP_Silver, XP_Olive, gray };
 
             // Default theme.
@@ -3344,7 +3344,7 @@ namespace Win32xx
         imageList.Add(dpiImage, mask);
         toolBar.SetImageList(imageList);
 
-        // Inform the Rebar of the change to the Toolbar.
+        // Inform the rebar of the change to the Toolbar.
         if (GetReBar().IsWindow())
         {
             SIZE maxSize = toolBar.GetMaxSize();
@@ -3374,7 +3374,7 @@ namespace Win32xx
         imageList.Add(dpiImage, mask);
         toolBar.SetDisableImageList(imageList);
 
-        // Inform the Rebar of the change to the Toolbar.
+        // Inform the rebar of the change to the Toolbar.
         if (GetReBar().IsWindow())
         {
             SIZE maxSize = toolBar.GetMaxSize();
@@ -3404,7 +3404,7 @@ namespace Win32xx
         imageList.Add(dpiImage, mask);
         toolBar.SetHotImageList(imageList);
 
-        // Inform the Rebar of the change to the Toolbar.
+        // Inform the rebar of the change to the Toolbar.
         if (GetReBar().IsWindow())
         {
             SIZE MaxSize = toolBar.GetMaxSize();

@@ -380,7 +380,7 @@ namespace Win32xx
     // unlocks the memory when it goes out of scope.
     // Usage:
     //  CDevMode pDevMode = GetDevMode();
-    //  Then use pDevMode as if it were a LPDEVMODE
+    //  Then use pDevMode as if it were a LPDEVMODE.
     inline CDevMode CPrintDialog::GetDevMode() const
     {
 
@@ -486,7 +486,7 @@ namespace Win32xx
         GetApp()->UpdatePrinterMemory(hDevMode, hDevNames);
     }
 
-    // Set the parameters of the PRINTDLG structure to sensible values
+    // Set the parameters of the PRINTDLG structure to sensible values.
     inline void CPrintDialog::SetParameters(const PRINTDLG& pd)
     {
         m_pd.lStructSize    = sizeof(m_pd);

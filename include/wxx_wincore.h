@@ -981,7 +981,7 @@ namespace Win32xx
     // Called by CWnd::Create to set some window class parameters.
     // Used to set the window type (ClassName) and for setting the background
     // brush and cursor.
-    // Note: The lpszClassName paramater must be assigned for this function
+    // Note: The lpszClassName parameter must be assigned for this function
     // to take effect.
     inline void CWnd::PreRegisterClass(WNDCLASS&)
     {
