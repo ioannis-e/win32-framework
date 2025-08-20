@@ -352,7 +352,7 @@ namespace Win32xx
         return pMDIClient;
     }
 
-    // Stores the old focus and captures mouse input.
+    // Grab the keyboard focus and capture the mouse input.
     inline void CMenuBar::GrabFocus()
     {
         if (::GetFocus() != *this)
@@ -866,7 +866,7 @@ namespace Win32xx
             PressButton(id, FALSE);
         }
 
-        // Re-establish Focus.
+        // Re-establish focus.
         if (m_isKeyMode)
             GrabFocus();
 
@@ -1091,6 +1091,7 @@ namespace Win32xx
                 m_isSelectedPopup = FALSE;
                 m_selectedMenu = nullptr;
                 Press(GetCommandID(m_hotItem), TRUE);
+                GrabFocus();
             }
             m_isMenuActive = TRUE;
         }
