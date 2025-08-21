@@ -244,9 +244,6 @@ namespace Win32xx
     {
         assert(m_pData);
 
-        if (CWinApp::SetnGetThis())
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-
         if (m_pData.use_count() == 1)
         {
             if (m_pData->menu != nullptr)

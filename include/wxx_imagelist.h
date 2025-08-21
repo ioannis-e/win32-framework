@@ -702,8 +702,6 @@ namespace Win32xx
     // Destroys m_pData if this is the only copy of the CImageList.
     inline void CImageList::Release()
     {
-        if (CWinApp::SetnGetThis())
-            CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
         if (m_pData.use_count() == 1)

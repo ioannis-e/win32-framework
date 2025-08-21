@@ -1063,9 +1063,6 @@ namespace Win32xx
     // Destroys m_pData if this is the only copy of the CGDIObject.
     inline void CGDIObject::Release()
     {
-        if (CWinApp::SetnGetThis())
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-
         assert(m_pData);
 
         if (m_pData.use_count() == 1)
@@ -2554,9 +2551,6 @@ namespace Win32xx
     // Destroys m_pData if this is the only copy of the CDC object.
     inline void CDC::Release()
     {
-        if (CWinApp::SetnGetThis())
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-
         assert(m_pData);
 
         if (m_pData.use_count() == 1)
@@ -2883,14 +2877,14 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         CBitmap bitmap;
-        BOOL IsLoaded = bitmap.LoadImage(resourceName, flags);
+        BOOL isLoaded = bitmap.LoadImage(resourceName, flags);
 
-        if (IsLoaded)
+        if (isLoaded)
         {
             SelectObject(bitmap);
         }
 
-        return IsLoaded;
+        return isLoaded;
     }
 
     // Loads a bitmap from a resource using the resource ID.

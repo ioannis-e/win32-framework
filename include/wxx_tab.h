@@ -97,7 +97,7 @@ namespace Win32xx
             CSelectDialog& operator=(const CSelectDialog&) = delete;
 
             std::vector<CString> m_items;
-            UINT IDC_LIST;
+            static constexpr UINT IDC_LIST = 122;
         };
 
     public:
@@ -304,7 +304,7 @@ namespace Win32xx
     //
 
     inline CTab::CSelectDialog::CSelectDialog(LPCDLGTEMPLATE pDlgTemplate) :
-        CDialog(pDlgTemplate), IDC_LIST(122)
+        CDialog(pDlgTemplate)
     {
     }
 

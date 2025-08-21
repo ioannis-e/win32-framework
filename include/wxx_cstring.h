@@ -117,14 +117,34 @@ namespace Win32xx
     template <class T>
     class CStringT
     {
-        // Friend functions allow the left hand side to be something other than
-        // CStringT.
+        // Allow CString to access private members of CStringT.
+        friend class CString;
+
+        // Friend functions for CString global functions.
+        friend CString operator+(const CString& string1, const CString& string2);
+        friend CString operator+(const CString& string1, const CStringA& string2);
+        friend CString operator+(const CString& string1, const CStringW& string2);
+        friend CString operator+(const CString& string1, const CHAR* text);
+        friend CString operator+(const CString& string1, const WCHAR* text);
+        friend CString operator+(const CString& string1, CHAR ch);
+        friend CString operator+(const CString& string1, WCHAR ch);
+        friend CString operator+(const CStringA& string1, const CString& string2);
+        friend CString operator+(const CStringW& string1, const CString& string2);
+        friend CString operator+(const CHAR* text, const CString& string1);
+        friend CString operator+(const WCHAR* text, const CString& string1);
+        friend CString operator+(CHAR ch, const CString& string1);
+        friend CString operator+(WCHAR ch, const CString& string1);
+        friend CString operator+(const CStringA& string1, const CStringW& string2);
+        friend CString operator+(const CStringW& string1, const CStringA& string2);
+
+        // Friend functions for CStringA global functions.
         friend CStringA operator+(const CStringA& string1, const CStringA& string2);
         friend CStringA operator+(const CStringA& string1, const CHAR* text);
         friend CStringA operator+(const CStringA& string1, CHAR ch);
         friend CStringA operator+(const CHAR* text, const CStringA& string1);
         friend CStringA operator+(CHAR ch, const CStringA& string1);
 
+        // Friend functions for CStringW global functions.
         friend CStringW operator+(const CStringW& string1, const CStringW& string2);
         friend CStringW operator+(const CStringW& string1, const WCHAR* text);
         friend CStringW operator+(const CStringW& string1, WCHAR ch);
@@ -235,10 +255,6 @@ namespace Win32xx
         void     TrimRight(const T* targets);
         void     Truncate(int newLength);
 
-    protected:
-        std::basic_string<T> m_str;
-        std::vector<T> m_buf;
-
     private:
         size_t strlenT(const CHAR* text) const  { return strlen(text); }
         size_t strlenT(const WCHAR* text) const { return wcslen(text); }
@@ -248,6 +264,9 @@ namespace Win32xx
             static_cast<unsigned char>(c)) & 0xFF); }
         static CHAR ToUpper(CHAR c) { return static_cast<CHAR>(::toupper(
             static_cast<unsigned char>(c)) & 0xFF); }
+
+        std::basic_string<T> m_str;
+        std::vector<T> m_buf;
     };
 
 

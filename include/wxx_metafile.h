@@ -166,9 +166,6 @@ namespace Win32xx
 
     inline void CMetaFile::Release()
     {
-        if (CWinApp::SetnGetThis())
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-
         // Delete the metafile when the last copy goes out of scope.
         if (m_pData.use_count() == 1 && m_pData->metaFile != nullptr)
         {
@@ -213,9 +210,6 @@ namespace Win32xx
 
     inline void CEnhMetaFile::Release()
     {
-        if (CWinApp::SetnGetThis())
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-
         // Delete the enhanced metafile when the last copy goes out of scope.
         if (m_pData.use_count() == 1 && m_pData->enhMetaFile != nullptr)
         {

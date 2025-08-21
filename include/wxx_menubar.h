@@ -866,10 +866,6 @@ namespace Win32xx
             PressButton(id, FALSE);
         }
 
-        // Re-establish focus.
-        if (m_isKeyMode)
-            GrabFocus();
-
         return 0;
     }
 
@@ -1091,9 +1087,10 @@ namespace Win32xx
                 m_isSelectedPopup = FALSE;
                 m_selectedMenu = nullptr;
                 Press(GetCommandID(m_hotItem), TRUE);
-                GrabFocus();
             }
+
             m_isMenuActive = TRUE;
+            GrabFocus();
         }
     }
 
