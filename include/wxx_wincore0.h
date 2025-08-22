@@ -356,11 +356,11 @@ namespace Win32xx
         void    Cleanup();
         LRESULT MessageReflect(UINT msg, WPARAM wparam, LPARAM lparam) const;
         BOOL    RegisterClass(WNDCLASS& wc);
-        BOOL    RemoveFromMap();
         void    Subclass(HWND wnd);
 
         HWND m_wnd;                    // Handle to this object's window.
-        WNDPROC m_prevWindowProc;
+        WNDPROC m_prevWindowProc;      // The old window procedure.
+        CCriticalSection m_cs;         // A critical section for thread locking.
     }; // class CWnd
 
 } // namespace Win32xx

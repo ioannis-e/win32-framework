@@ -96,14 +96,17 @@ namespace Win32xx
     class CMenu final
     {
     public:
-        // Construction
+        // Construction and destruction
         CMenu();
         CMenu(UINT id);
         CMenu(HMENU menu);
         CMenu(const CMenu& rhs);
+        ~CMenu();
+
+        // Operators
         CMenu& operator=(const CMenu& rhs);
         CMenu& operator=(HMENU menu);
-        ~CMenu();
+        operator HMENU () const;
 
         // Initialization
         void Attach(HMENU menu);
@@ -159,16 +162,12 @@ namespace Win32xx
         BOOL SetMenuItemInfo(UINT idOrPos, MENUITEMINFO& menuItemInfo,
             BOOL byPosition = FALSE) const;
 
-        // Operators
-        operator HMENU () const;
+
 
     private:
-        void AddToMap() const;
         void Assign(HMENU menu);
         void Release();
-        BOOL RemoveFromMap() const;
         std::shared_ptr<CMenu_Data> m_pData;
-
     };
 
 } // namespace Win32xx
@@ -181,10 +180,12 @@ namespace Win32xx
     // Definitions of CMenu.
     //
 
+    // Construct an empty CMenu.
     inline CMenu::CMenu() : m_pData(std::make_shared<CMenu_Data>())
     {
     }
 
+    // Construct a CMenu from a menu ID.
     inline CMenu::CMenu(UINT id) : m_pData(std::make_shared<CMenu_Data>())
     {
         HMENU menu = ::LoadMenu(GetApp()->GetResourceHandle(), MAKEINTRESOURCE(id));
@@ -194,6 +195,7 @@ namespace Win32xx
         }
     }
 
+    // Construct a CMenu from a menu handle.
     inline CMenu::CMenu(HMENU menu) : m_pData(std::make_shared<CMenu_Data>())
     {
         if (menu != nullptr)
@@ -205,6 +207,12 @@ namespace Win32xx
     inline CMenu::CMenu(const CMenu& rhs)
     {
         m_pData = rhs.m_pData;
+    }
+
+    // Destructor.
+    inline CMenu::~CMenu()
+    {
+        Release();
     }
 
     // Note: A copy of a CMenu is a clone of the original.
@@ -225,64 +233,10 @@ namespace Win32xx
         return *this;
     }
 
-    inline CMenu::~CMenu()
+    // Retrieves the menu's handle.
+    inline CMenu::operator HMENU () const
     {
-        Release();
-    }
-
-    // Store the HMENU and CMenu pointer in the HMENU map.
-    inline void CMenu::AddToMap() const
-    {
-        assert(m_pData);
-        assert(IsMenu(m_pData->menu));
-
-        GetApp()->AddCMenuData(m_pData->menu, m_pData);
-    }
-
-    // Destroys m_pData if this is the only copy of the CMenu.
-    inline void CMenu::Release()
-    {
-        assert(m_pData);
-
-        if (m_pData.use_count() == 1)
-        {
-            if (m_pData->menu != nullptr)
-            {
-                if (m_pData->isManagedMenu)
-                {
-                    // The menu will already be destroyed if assigned to a destroyed window.
-                    if (IsMenu(m_pData->menu))
-                        ::DestroyMenu(m_pData->menu);
-                }
-
-                RemoveFromMap();
-            }
-
-            m_pData = nullptr;
-        }
-    }
-
-    inline BOOL CMenu::RemoveFromMap() const
-    {
-        assert(m_pData);
-        BOOL success = FALSE;
-
-        if (CWinApp::SetnGetThis() != nullptr)    // Is the CWinApp object still valid?
-        {
-            CThreadLock mapLock(GetApp()->m_wndLock);
-
-            // Erase the CMenu data pointer in the map.
-            auto& map = GetApp()->m_mapCMenuData;
-            auto m = map.find(m_pData->menu);
-            if (m != map.end())
-            {
-                // Erase the CMenu data pointer from the map.
-                map.erase(m);
-                success = TRUE;
-            }
-        }
-
-        return success;
+        return GetHandle();
     }
 
     // Appends a new item to the end of the specified menu bar, drop-down menu,
@@ -339,8 +293,9 @@ namespace Win32xx
                 }
                 else
                 {
+                    // Add the menu data to the map.
                     m_pData->menu = menu;
-                    AddToMap();
+                    GetApp()->AddCMenuDataToMap(menu, m_pData);
                 }
             }
         }
@@ -415,7 +370,7 @@ namespace Win32xx
 
         if (m_pData && m_pData->menu != nullptr)
         {
-            RemoveFromMap();
+            GetApp()->RemoveMenuFromMap(m_pData->menu);;
 
             ::DestroyMenu(m_pData->menu);
             m_pData->menu = nullptr;
@@ -433,7 +388,7 @@ namespace Win32xx
         assert(m_pData);
 
         HMENU menu = m_pData->menu;
-        RemoveFromMap();
+        GetApp()->RemoveMenuFromMap(m_pData->menu);
 
         // Nullify all copies of m_pData.
         *m_pData.get() = {};
@@ -735,6 +690,30 @@ namespace Win32xx
         return ::ModifyMenu(m_pData->menu, pos, flags, idOrHandle, reinterpret_cast<LPCTSTR>(bitmap));
     }
 
+    // Destroys m_pData if this is the only copy of the CMenu.
+    inline void CMenu::Release()
+    {
+        assert(m_pData);
+
+        if (m_pData.use_count() == 1)
+        {
+            if (m_pData->menu != nullptr)
+            {
+                if (m_pData->isManagedMenu)
+                {
+                    // The menu will already be destroyed if assigned to a destroyed window.
+                    if (IsMenu(m_pData->menu))
+                        ::DestroyMenu(m_pData->menu);
+                }
+
+                if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
+                    GetApp()->RemoveMenuFromMap(m_pData->menu);
+            }
+
+            m_pData = nullptr;
+        }
+    }
+
     // Deletes a menu item or detaches a submenu from the menu.
     // Refer to RemoveMenu in the Windows API documentation for more information.
     inline BOOL CMenu::RemoveMenu(UINT pos, UINT flags) const
@@ -816,12 +795,6 @@ namespace Win32xx
         assert(IsMenu(m_pData->menu));
 
         return ::TrackPopupMenuEx(m_pData->menu, flags, x, y, wnd, pTPMP);
-    }
-
-    // Retrieves the menu's handle.
-    inline CMenu::operator HMENU () const
-    {
-        return GetHandle();
     }
 
 }   // namespace Win32xx

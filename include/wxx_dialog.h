@@ -278,7 +278,7 @@ namespace Win32xx
                             ::DestroyWindow(*this);
                     }
 
-                    RemoveFromMap();
+                    GetApp()->RemoveCWndFromMap(this);
                 }
             }
         }

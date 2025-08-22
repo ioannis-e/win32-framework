@@ -210,9 +210,6 @@ namespace Win32xx
         void    Release();
 
     private:
-        void    AddToMap();
-        BOOL    RemoveFromMap() const;
-
         std::shared_ptr<CGDI_Data> m_pData;
     };
 
@@ -777,9 +774,6 @@ namespace Win32xx
         void SetWindow(HWND wnd) const { m_pData->wnd = wnd; }
 
     private:
-        void AddToMap();
-        BOOL RemoveFromMap() const;
-
         std::shared_ptr<CDC_Data> m_pData;      // pointer to the class's data members
     };
 
@@ -958,13 +952,6 @@ namespace Win32xx
         return *this;
     }
 
-    // Store the HDC and CDC pointer in the HDC map.
-    inline void CGDIObject::AddToMap()
-    {
-        assert(m_pData->hGDIObject);
-        GetApp()->AddCGDIData(m_pData->hGDIObject, m_pData);
-    }
-
     // Attach and own the GDI handle.
     inline void CGDIObject::Assign(HGDIOBJ object)
     {
@@ -996,8 +983,9 @@ namespace Win32xx
                 }
                 else
                 {
+                    // Add the GDI object data to the map.
                     m_pData->hGDIObject = object;
-                    AddToMap();
+                    GetApp()->AddCGDIDataToMap(object, m_pData);
                 }
             }
         }
@@ -1009,7 +997,7 @@ namespace Win32xx
 
         if (m_pData && m_pData->hGDIObject != nullptr)
         {
-            RemoveFromMap();
+            GetApp()->RemoveGDIObjectFromMap(m_pData->hGDIObject);
 
             ::DeleteObject(m_pData->hGDIObject);
             m_pData->hGDIObject = nullptr;
@@ -1030,7 +1018,7 @@ namespace Win32xx
         assert(m_pData->hGDIObject);
 
         HGDIOBJ object = m_pData->hGDIObject;
-        RemoveFromMap();
+        GetApp()->RemoveGDIObjectFromMap(object);
 
         // Nullify all copies of m_pData.
         *m_pData.get() = {};
@@ -1070,34 +1058,12 @@ namespace Win32xx
                     ::DeleteObject(m_pData->hGDIObject);
                 }
 
-                RemoveFromMap();
+                if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
+                    GetApp()->RemoveGDIObjectFromMap(m_pData->hGDIObject);;
             }
 
             m_pData = nullptr;
         }
-    }
-
-    // Remove this GDI object from the map.
-    inline BOOL CGDIObject::RemoveFromMap() const
-    {
-        BOOL success = FALSE;
-
-        if (CWinApp::SetnGetThis() != nullptr)  // Is the CWinApp object still valid?
-        {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-
-            // Find the CGdiObject in the map.
-            auto& map = GetApp()->m_mapCGDIData;
-            auto it = map.find(m_pData->hGDIObject);
-            if (it != map.end())
-            {
-                // Erase the CGDIObject pointer entry from the map.
-                map.erase(it);
-                success = TRUE;
-            }
-        }
-
-        return success;
     }
 
 
@@ -2356,14 +2322,6 @@ namespace Win32xx
         return m_pData->dc;
     }
 
-    // Store the HDC and CDC pointer in the HDC map.
-    inline void CDC::AddToMap()
-    {
-        assert(m_pData->dc != nullptr);
-
-        GetApp()->AddCDCData(m_pData->dc, m_pData);
-    }
-
     // Attach and own the HDC.
     inline void CDC::Assign(HDC object)
     {
@@ -2397,7 +2355,8 @@ namespace Win32xx
                 {
                     m_pData->dc = dc;
 
-                    AddToMap();
+                    // Add the CDC data to the map.
+                    GetApp()->AddCDCDataToMap(dc, m_pData);
                     m_pData->savedDCState = SaveDC();
                 }
             }
@@ -2419,7 +2378,7 @@ namespace Win32xx
         assert(m_pData->dc != nullptr);
 
         HDC dc = m_pData->dc;
-        RemoveFromMap();
+        GetApp()->RemoveDCFromMap(dc);
 
         // Nullify all copies of m_pData.
         *m_pData.get() = {};
@@ -2551,28 +2510,6 @@ namespace Win32xx
             Destroy();
             m_pData = nullptr;
         }
-    }
-
-    inline BOOL CDC::RemoveFromMap() const
-    {
-        BOOL success = FALSE;
-
-        if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
-        {
-            CThreadLock mapLock(GetApp()->m_gdiLock);
-
-            // Find the CDC data entry in the map.
-            auto& map = GetApp()->m_mapCDCData;
-            auto it = map.find(m_pData->dc);
-            if (it != map.end())
-            {
-                // Erase the CDC data entry from the map
-                map.erase(it);
-                success = TRUE;
-            }
-        }
-
-        return success;
     }
 
     // Restores a device context (DC) to the specified state.
@@ -2780,10 +2717,12 @@ namespace Win32xx
 
         if (m_pData->dc != nullptr)
         {
-            RemoveFromMap();
+            HDC dc = m_pData->dc;
+            if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
+                GetApp()->RemoveDCFromMap(dc);
 
             // Return the DC back to its initial state.
-            ::RestoreDC(m_pData->dc, m_pData->savedDCState);
+            ::RestoreDC(dc, m_pData->savedDCState);
 
             if (m_pData->isManagedHDC)
             {
@@ -2794,10 +2733,10 @@ namespace Win32xx
                     if (m_pData->isPaintDC)
                         ::EndPaint(m_pData->wnd, &m_pData->ps);
                     else
-                        ::ReleaseDC(m_pData->wnd, m_pData->dc);
+                        ::ReleaseDC(m_pData->wnd, dc);
                 }
                 else
-                    ::DeleteDC(m_pData->dc);
+                    ::DeleteDC(dc);
             }
 
             *m_pData = {};

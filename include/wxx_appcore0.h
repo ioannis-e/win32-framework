@@ -252,14 +252,20 @@ namespace Win32xx
         CWinApp(const CWinApp&) = delete;
         CWinApp& operator=(const CWinApp&) = delete;
 
-        void AddCDCData(HDC dc, std::weak_ptr<CDC_Data> pData);
-        void AddCGDIData(HGDIOBJ gdi, std::weak_ptr<CGDI_Data> pData);
-        void AddCImlData(HIMAGELIST images, std::weak_ptr<CIml_Data> pData);
-        void AddCMenuData(HMENU menu, std::weak_ptr<CMenu_Data> pData);
+        void AddCDCDataToMap(HDC dc, std::weak_ptr<CDC_Data> pData);
+        void AddCGDIDataToMap(HGDIOBJ gdi, std::weak_ptr<CGDI_Data> pData);
+        void AddCImlDataToMap(HIMAGELIST images, std::weak_ptr<CIml_Data> pData);
+        void AddCMenuDataToMap(HMENU menu, std::weak_ptr<CMenu_Data> pData);
+        void AddCWndToMap(HWND wnd, CWnd* pWnd);
         std::weak_ptr<CDC_Data>  GetCDCData(HDC dc);
         std::weak_ptr<CGDI_Data> GetCGDIData(HGDIOBJ object);
         std::weak_ptr<CIml_Data> GetCImlData(HIMAGELIST images);
         std::weak_ptr<CMenu_Data> GetCMenuData(HMENU menu);
+        void RemoveCWndFromMap(CWnd* pWnd);
+        void RemoveDCFromMap(HDC dc);
+        void RemoveGDIObjectFromMap(HGDIOBJ gdiObject);
+        void RemoveImageListFromMap(HIMAGELIST images);
+        void RemoveMenuFromMap(HMENU menu);
         void SetCallback();
         void SetTlsData();
 
@@ -270,11 +276,11 @@ namespace Win32xx
         std::map<HIMAGELIST, std::weak_ptr<CIml_Data>> m_mapCImlData;
         std::map<HMENU, std::weak_ptr<CMenu_Data>> m_mapCMenuData;
         std::map<HWND, CWnd*> m_mapHWND;       // maps window handles to CWnd objects
-        std::vector<TLSDataPtr> m_allTLSData;     // vector of TLSData smart pointers, one for each thread
-        CCriticalSection m_appLock;   // thread synchronization for CWinApp and TLS.
-        CCriticalSection m_gdiLock;   // thread synchronization for m_mapCDCData and m_mapCGDIData.
+        std::vector<TLSDataPtr> m_allTLSData;  // vector of TLSData smart pointers, one for each thread
+        CCriticalSection m_appLock;   // thread synchronization for CWinApp and TLS
+        CCriticalSection m_gdiLock;   // thread synchronization for m_mapCDCData and m_mapCGDIData
         CCriticalSection m_wndLock;   // thread synchronization for m_mapHWND etc.
-        CCriticalSection m_printLock; // thread synchronization for printing.
+        CCriticalSection m_printLock; // thread synchronization for printing
         HINSTANCE m_instance;         // handle to the application's instance
         HINSTANCE m_resource;         // handle to the application's resources
         DWORD m_tlsData;              // Thread Local Storage data

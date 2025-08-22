@@ -296,23 +296,14 @@ namespace Win32xx
                     ::DestroyWindow(*this);
             }
 
-            RemoveFromMap();
+            GetApp()->RemoveCWndFromMap(this);
         }
     }
 
     // Store the window handle and CWnd pointer in the HWND map.
     inline void CWnd::AddToMap()
     {
-        CThreadLock mapLock(GetApp()->m_wndLock);
-
-        // This HWND is should not be in the map yet.
-        assert (GetApp()->GetCWndFromMap(*this) == nullptr);
-
-        // Remove any old map entry for this CWnd (required when the CWnd is reused).
-        RemoveFromMap();
-
-        // Add the (HWND, CWnd*) pair to the map
-        GetApp()->m_mapHWND.emplace(std::make_pair(GetHwnd(), this));
+        GetApp()->AddCWndToMap(*this, this);
     }
 
     // Attaches a CWnd object to an existing window and calls the OnAttach virtual function.
@@ -386,7 +377,7 @@ namespace Win32xx
     // Returns the CWnd to its default state.
     inline void CWnd::Cleanup()
     {
-        RemoveFromMap();
+        GetApp()->RemoveCWndFromMap(this);
         m_wnd = nullptr;
         m_prevWindowProc = nullptr;
     }
@@ -557,7 +548,7 @@ namespace Win32xx
             SetWindowLongPtr(GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(m_prevWindowProc));
 
         HWND wnd = GetHwnd();
-        RemoveFromMap();
+        GetApp()->RemoveCWndFromMap(this);
         m_wnd = nullptr;
         m_prevWindowProc = nullptr;
 
@@ -1037,31 +1028,6 @@ namespace Win32xx
         return done;
     }
 
-    // Removes this CWnd's pointer from the application's map.
-    inline BOOL CWnd::RemoveFromMap()
-    {
-        BOOL success = FALSE;
-
-        if (CWinApp::SetnGetThis() != nullptr)          // Is the CWinApp object still valid?
-        {
-            CThreadLock mapLock(GetApp()->m_wndLock);
-
-            // Erase the CWnd pointer entry from the map.
-            auto& map = GetApp()->m_mapHWND;
-            for (auto it = map.begin(); it != map.end(); ++it)
-            {
-                if (this == it->second)
-                {
-                    map.erase(it);
-                    success = TRUE;
-                    break;
-                }
-            }
-        }
-
-        return success;
-    }
-
     // Sets the large icon associated with the window.
     inline HICON CWnd::SetIconLarge(UINT iconID)
     {
@@ -1142,8 +1108,11 @@ namespace Win32xx
     {
         assert(::IsWindow(wnd));
 
+        // Store the CWnd pointer in the HWND map.
         m_wnd = wnd;
-        AddToMap();         // Store the CWnd pointer in the HWND map
+        AddToMap();
+
+        // Store the old window procedure.
         LONG_PTR pWndProc = reinterpret_cast<LONG_PTR>(CWnd::StaticWindowProc);
         LONG_PTR pRes = ::SetWindowLongPtr(wnd, GWLP_WNDPROC, pWndProc);
         m_prevWindowProc = reinterpret_cast<WNDPROC>(pRes);
@@ -1160,7 +1129,7 @@ namespace Win32xx
     inline BOOL CWnd::UpdateData(CDataExchange& dx, BOOL retrieveAndValidate)
     {
         // A critical section ensures threads update the data separately.
-        CThreadLock lock(GetApp()->m_appLock);
+        CThreadLock lock(m_cs);
 
         // Must not update data before the window is created.
         assert(IsWindow());

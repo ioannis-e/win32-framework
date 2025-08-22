@@ -269,31 +269,46 @@ namespace Win32xx
     }
 
     // Adds a HDC and CDC_Data* pair to the map.
-    inline void CWinApp::AddCDCData(HDC dc, std::weak_ptr<CDC_Data> pData)
+    inline void CWinApp::AddCDCDataToMap(HDC dc, std::weak_ptr<CDC_Data> pData)
     {
         CThreadLock mapLock(m_gdiLock);
         m_mapCDCData.emplace(std::make_pair(dc, pData));
     }
 
     // Adds a HGDIOBJ and CGDI_Data* pair to the map.
-    inline void CWinApp::AddCGDIData(HGDIOBJ gdi, std::weak_ptr<CGDI_Data> pData)
+    inline void CWinApp::AddCGDIDataToMap(HGDIOBJ gdi, std::weak_ptr<CGDI_Data> pData)
     {
         CThreadLock mapLock(m_gdiLock);
         m_mapCGDIData.emplace(std::make_pair(gdi, pData));
     }
 
     // Adds a HIMAGELIST and CIml_Data* pair to the map.
-    inline void CWinApp::AddCImlData(HIMAGELIST images, std::weak_ptr<CIml_Data> pData)
+    inline void CWinApp::AddCImlDataToMap(HIMAGELIST images, std::weak_ptr<CIml_Data> pData)
     {
-        CThreadLock mapLock(m_wndLock);
+        CThreadLock mapLock(m_gdiLock);
         m_mapCImlData.emplace(std::make_pair(images, pData));
     }
 
     // Adds a HMENU and CMenu_Data* to the map.
-    inline void CWinApp::AddCMenuData(HMENU menu, std::weak_ptr<CMenu_Data> pData)
+    inline void CWinApp::AddCMenuDataToMap(HMENU menu, std::weak_ptr<CMenu_Data> pData)
     {
         CThreadLock mapLock(m_wndLock);
         m_mapCMenuData.emplace(std::make_pair(menu, pData));
+    }
+
+    // Adds the window handle and CWnd pointer in the HWND map.
+    inline void CWinApp::AddCWndToMap(HWND wnd, CWnd* pWnd)
+    {
+        CThreadLock mapLock(m_wndLock);
+
+        // This HWND is should not be in the map yet.
+        assert(GetCWndFromMap(wnd) == nullptr);
+
+        // Remove any old map entry for this CWnd (required when the CWnd is reused).
+        RemoveCWndFromMap(pWnd);
+
+        // Add the (HWND, CWnd*) pair to the map
+        m_mapHWND.emplace(std::make_pair(wnd, pWnd));
     }
 
     // Retrieves a pointer to CDC_Data from the map.
@@ -327,7 +342,7 @@ namespace Win32xx
     // Retrieves a pointer to CIml_Data from the map.
     inline std::weak_ptr<CIml_Data> CWinApp::GetCImlData(HIMAGELIST images)
     {
-        CThreadLock mapLock(m_wndLock);
+        CThreadLock mapLock(m_gdiLock);
 
         // Find the CImageList data mapped to this HIMAGELIST.
         std::weak_ptr<CIml_Data> pCImlData;
@@ -454,6 +469,79 @@ namespace Win32xx
     inline HANDLE CWinApp::LoadImage(UINT imageID, UINT type, int cx, int cy, UINT flags) const
     {
         return ::LoadImage(GetResourceHandle(), MAKEINTRESOURCE (imageID), type, cx, cy, flags);
+    }
+
+    // Removes this CWnd's pointer from m_mapHWND.
+    inline void CWinApp::RemoveCWndFromMap(CWnd* pWnd)
+    {
+        CThreadLock mapLock(m_wndLock);
+
+        // Erase the CWnd pointer entry from the map.
+        auto& map = GetApp()->m_mapHWND;
+        for (auto it = map.begin(); it != map.end(); ++it)
+        {
+            if (pWnd == it->second)
+            {
+                map.erase(it);
+                break;
+            }
+        }
+    }
+
+    // Remove the device context from m_mapCDCData.
+    inline void CWinApp::RemoveDCFromMap(HDC dc)
+    {
+        CThreadLock mapLock(m_gdiLock);
+
+        // Find the CDC data entry in the map.
+        auto it = m_mapCDCData.find(dc);
+        if (it != m_mapCDCData.end())
+        {
+            // Erase the CDC data entry from the map
+            m_mapCDCData.erase(it);
+        }
+    }
+
+    // Remove the GDI object from m_mapCGDIData.
+    inline void CWinApp::RemoveGDIObjectFromMap(HGDIOBJ gdiObject)
+    {
+        CThreadLock mapLock(m_gdiLock);
+
+        // Find the CGdiObject data pointer in the map.
+        auto it = m_mapCGDIData.find(gdiObject);
+        if (it != m_mapCGDIData.end())
+        {
+            // Erase the CGDIObject pointer entry from the map.
+            m_mapCGDIData.erase(it);
+        }
+    }
+
+    // Remove the image list from m_mapCImlData.
+    inline void CWinApp::RemoveImageListFromMap(HIMAGELIST images)
+    {
+        CThreadLock mapLock(m_gdiLock);
+
+        // Find the CImageList data pointer in the map.
+        auto it = m_mapCImlData.find(images);
+        if (it != m_mapCImlData.end())
+        {
+            // Erase the CMenu data pointer in the map.
+            m_mapCImlData.erase(it);
+        }
+    }
+
+    // Remove the menu from m_mapCMenuData.
+    inline void CWinApp::RemoveMenuFromMap(HMENU menu)
+    {
+        CThreadLock mapLock(m_wndLock);
+
+        // Find the CMenu data pointer in the map.
+        auto m = m_mapCMenuData.find(menu);
+        if (m != m_mapCMenuData.end())
+        {
+            // Erase the CMenu data pointer in the map.
+            m_mapCMenuData.erase(m);
+        }
     }
 
     // Frees the global memory handles for the application's printer.
