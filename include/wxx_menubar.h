@@ -87,7 +87,7 @@ namespace Win32xx
         virtual LRESULT OnWindowPosChanging(UINT msg, WPARAM wparam, LPARAM lparam) override;
         virtual void    PreCreate(CREATESTRUCT& cs) override;
         virtual void    PreRegisterClass(WNDCLASS& wc) override;
-        virtual BOOL    PreTranslateMessage(MSG& msg) override;
+    //    virtual BOOL    PreTranslateMessage(MSG& msg) override;
 
         // Not intended to be overridden.
         LRESULT WndProcDefault(UINT msg, WPARAM wparam, LPARAM lparam) override;
@@ -102,6 +102,7 @@ namespace Win32xx
         void ExitMenu();
         CWnd* GetActiveMDIChild() const;
         CWnd* GetMDIClient() const;
+        UINT GetMenuItemID() const;
         void GrabFocus();
         BOOL IsMDIChildMaxed() const;
         BOOL IsMDIFrame() const;
@@ -176,8 +177,7 @@ namespace Win32xx
             ProcessMenuItem();
 
             // Support top menu item without popup menu.
-            int menuItem = IsMDIChildMaxed() ? m_hotItem - 1 : m_hotItem;
-            UINT id = ::GetMenuItemID(m_topMenu, menuItem);
+            UINT id = GetMenuItemID();
             if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
@@ -352,6 +352,13 @@ namespace Win32xx
         return pMDIClient;
     }
 
+    // Retrieve the menu ID from the hot item adjusted for MDI maxed.
+    inline UINT CMenuBar::GetMenuItemID() const
+    {
+        int menuItem = IsMDIChildMaxed() ? m_hotItem - 1 : m_hotItem;
+        return ::GetMenuItemID(m_topMenu, menuItem);
+    }
+
     // Grab the keyboard focus and capture the mouse input.
     inline void CMenuBar::GrabFocus()
     {
@@ -431,6 +438,7 @@ namespace Win32xx
     {
         int first = IsMDIChildMaxed() ? 1 : 0;
         TCHAR keycode = static_cast<TCHAR>(wparam);
+        m_isKeyMode = TRUE;
 
         switch (keycode)
         {
@@ -456,7 +464,7 @@ namespace Win32xx
             ProcessMenuItem();
 
             // Support top menu item without popup menu.
-            UINT id = ::GetMenuItemID(m_topMenu, m_hotItem);
+            UINT id = GetMenuItemID();
             if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
@@ -618,8 +626,6 @@ namespace Win32xx
                     if ((m_selectedMenu) &&(m_selectedMenu != m_popupMenu))
                         return FALSE;
 
-                    m_isMenuActive = FALSE;
-                    m_isKeyMode = TRUE;
                     Cancel();
                     Press(GetCommandID(m_hotItem), FALSE);
                     SetHotItem(m_hotItem);
@@ -934,7 +940,7 @@ namespace Win32xx
         else
         {
             // Support top menu item without popup menu.
-            UINT id = ::GetMenuItemID(m_topMenu, menuItem);
+            UINT id = GetMenuItemID();
             if (id != UINT(-1))
             {
                 PostMessage(WM_COMMAND, id, 0);
@@ -1020,7 +1026,7 @@ namespace Win32xx
         PressButton(buttonID, press);
     }
 
-    inline BOOL CMenuBar::PreTranslateMessage(MSG& msg)
+/*    inline BOOL CMenuBar::PreTranslateMessage(MSG& msg)
     {
         // Discard mouse move messages unless over a button.
         if (m_isKeyMode && msg.message == WM_MOUSEMOVE)
@@ -1059,7 +1065,7 @@ namespace Win32xx
         }
 
         return FALSE;
-    }
+    } */
 
     inline void CMenuBar::ProcessMenuItem()
     {

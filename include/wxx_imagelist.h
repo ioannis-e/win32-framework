@@ -247,7 +247,6 @@ namespace Win32xx
     // Attaches an existing ImageList to this CImageList.
     inline void CImageList::Attach(HIMAGELIST images)
     {
-        CThreadLock mapLock(GetApp()->m_wndLock);
         assert(m_pData);
 
         if (images != m_pData->images)
@@ -279,7 +278,6 @@ namespace Win32xx
     // Attach and own the specified image list.
     inline void CImageList::Assign(HIMAGELIST images)
     {
-        CThreadLock mapLock(GetApp()->m_wndLock);
         Attach(images);
         m_pData->isManagedHiml = true;
     }
@@ -424,7 +422,6 @@ namespace Win32xx
     // Destroys an image list.
     inline void CImageList::DeleteImageList()
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
         if (m_pData && m_pData->images != nullptr)
@@ -442,7 +439,6 @@ namespace Win32xx
     // The framework will delete the HIMAGELIST automatically if required.
     inline HIMAGELIST CImageList::Detach()
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
         HIMAGELIST images = m_pData->images;

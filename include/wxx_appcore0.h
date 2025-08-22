@@ -355,6 +355,7 @@ namespace Win32xx
         virtual CString MsgTimeValid() const;
 
         // Message used for CWinApp.
+        virtual CString MsgCWinApp() const;
         virtual CString MsgTlsIndexes() const;
     };
 

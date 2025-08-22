@@ -968,7 +968,6 @@ namespace Win32xx
     // Attach and own the GDI handle.
     inline void CGDIObject::Assign(HGDIOBJ object)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         Attach(object);
         m_pData->isManagedObject = true;
     }
@@ -976,7 +975,6 @@ namespace Win32xx
     // Attaches a GDI handle to the CGDIObject.
     inline void CGDIObject::Attach(HGDIOBJ object)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
         if (m_pData && object != m_pData->hGDIObject)
@@ -1007,7 +1005,6 @@ namespace Win32xx
 
     inline void CGDIObject::DeleteObject()
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
         if (m_pData && m_pData->hGDIObject != nullptr)
@@ -1029,7 +1026,6 @@ namespace Win32xx
     //       CBitmap, CBrush, CFont, CPalette, CPen and CRgn.
     inline HGDIOBJ CGDIObject::Detach()
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
         assert(m_pData->hGDIObject);
 
@@ -2371,7 +2367,6 @@ namespace Win32xx
     // Attach and own the HDC.
     inline void CDC::Assign(HDC object)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         Attach(object);
         m_pData->isManagedHDC = true;
     }
@@ -2379,7 +2374,6 @@ namespace Win32xx
     // Attaches a HDC to the CDC object.
     inline void CDC::Attach(HDC dc)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
         if (m_pData && dc != m_pData->dc)
@@ -2421,7 +2415,6 @@ namespace Win32xx
     //       WM_CTLCOLORLISTBOX, WM_CTLCOLORSCROLLBAR or WM_CTLCOLORSTATIC.
     inline HDC CDC::Detach()
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
         assert(m_pData->dc != nullptr);
 

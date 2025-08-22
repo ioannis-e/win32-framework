@@ -311,7 +311,6 @@ namespace Win32xx
     // Attaches and owns the menu handle.
     inline void CMenu::Assign(HMENU menu)
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         Attach(menu);
         m_pData->isManagedMenu = true;
     }
@@ -319,7 +318,6 @@ namespace Win32xx
     // Attaches an existing menu to this CMenu.
     inline void CMenu::Attach(HMENU menu)
     {
-        CThreadLock mapLock(GetApp()->m_wndLock);
         assert(m_pData);
 
         if (menu != m_pData->menu)
@@ -412,7 +410,6 @@ namespace Win32xx
     // Refer to DestroyMenu in the Windows API documentation for more information.
     inline void CMenu::DestroyMenu()
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
         assert(IsMenu(m_pData->menu));
 
@@ -433,7 +430,6 @@ namespace Win32xx
     //       the CMenu goes out of scope.
     inline HMENU CMenu::Detach()
     {
-        CThreadLock mapLock(GetApp()->m_gdiLock);
         assert(m_pData);
 
         HMENU menu = m_pData->menu;

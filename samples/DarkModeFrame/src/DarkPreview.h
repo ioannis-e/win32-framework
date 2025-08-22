@@ -62,12 +62,16 @@ inline INT_PTR CDarkPreview<T>::DialogProc(UINT msg, WPARAM wparam, LPARAM lpara
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str;
-        str << e.GetText() << L'\n' << e.GetErrorString();
-        TaskDialogBox(nullptr, str, L"An exception occurred", TD_ERROR_ICON);
+        CString str1 = e.GetText();
+        if (e.GetError() != 0)
+            str1 << L'\n' << e.GetErrorString();
 
-        return 0;
+        CString str2;
+        str2 << "Error: " << e.what();
+        TaskDialogBox(nullptr, str1, str2, TD_ERROR_ICON);
     }
+
+    return 0;
 }
 
 // Set the colors for the dialog and static controls.

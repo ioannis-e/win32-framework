@@ -41,12 +41,16 @@ INT_PTR CMyDialog::DialogProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str;
-        str << e.GetText() << L'\n' << e.GetErrorString();
-        ::MessageBox(nullptr, str, L"An exception occurred", MB_ICONERROR);
+        CString str1 = e.GetText();
+        if (e.GetError() != 0)
+            str1 << L'\n' << e.GetErrorString();
 
-        return 0;
+        CString str2;
+        str2 << "Error: " << e.what();
+        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
     }
+
+    return 0;
 }
 
 // Process the dialog's command messages (WM_COMMAND).

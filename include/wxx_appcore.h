@@ -205,10 +205,6 @@ namespace Win32xx
     {
         CThreadLock appLock(m_appLock);
 
-        // This assert fails if Win32++ has already been started.
-        // There should only be one instance of CWinApp running at a time.
-        assert(SetnGetThis() == nullptr);
-
         if (SetnGetThis() == nullptr)
         {
             m_tlsData = ::TlsAlloc();
@@ -238,6 +234,9 @@ namespace Win32xx
             else
                 throw CNotSupportedException(MsgTlsIndexes());
         }
+        else
+            // Throw an exception if we run more than one instance of CWinApp.
+            throw CNotSupportedException(MsgCWinApp());
     }
 
     // Destructor
@@ -806,6 +805,9 @@ namespace Win32xx
     { return _T("Invalid time."); }
 
     // CWinApp messages
+    inline CString CWinApp::MsgCWinApp() const
+    { return _T("Only one instance of CWinApp can run at a time"); }
+
     inline CString CWinApp::MsgTlsIndexes() const
     { return _T("No available Thread Local Storage Indexes."); }
 

@@ -129,11 +129,13 @@ LRESULT CViewFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str1;
-        str1 << e.GetText() << L'\n' << e.GetErrorString();
+        CString str1 = e.GetText();
+        if (e.GetError() != 0)
+            str1 << L'\n' << e.GetErrorString();
+
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
+        TaskDialogBox(nullptr, str1, str2, TD_ERROR_ICON);
     }
 
     // Catch all unhandled std::exception types.
@@ -172,11 +174,13 @@ LRESULT CContainFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str1;
-        str1 << e.GetText() << L'\n' << e.GetErrorString();
+        CString str1 = e.GetText();
+        if (e.GetError() != 0)
+            str1 << L'\n' << e.GetErrorString();
+
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
+        TaskDialogBox(nullptr, str1, str2, TD_ERROR_ICON);
     }
 
     // Catch all unhandled std::exception types.
@@ -212,11 +216,13 @@ LRESULT CDockFiles::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str1;
-        str1 << e.GetText() << L'\n' << e.GetErrorString();
+        CString str1 = e.GetText();
+        if (e.GetError() != 0)
+            str1 << L'\n' << e.GetErrorString();
+
         CString str2;
         str2 << "Error: " << e.what();
-        ::MessageBox(nullptr, str1, str2, MB_ICONERROR);
+        TaskDialogBox(nullptr, str1, str2, TD_ERROR_ICON);
     }
 
     // Catch all unhandled std::exception types.

@@ -31,8 +31,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE,
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str1;
-        str1 << e.GetText() << L'\n' << e.GetErrorString();
+        CString str1 = e.GetText();
+        if (e.GetError() != 0)
+            str1 << L'\n' << e.GetErrorString();
+
         CString str2;
         str2 << "Error: " << e.what();
         TaskDialogBox(nullptr, str1, str2, TD_ERROR_ICON);
