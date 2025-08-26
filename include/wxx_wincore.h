@@ -1129,7 +1129,7 @@ namespace Win32xx
     inline BOOL CWnd::UpdateData(CDataExchange& dx, BOOL retrieveAndValidate)
     {
         // A critical section ensures threads update the data separately.
-        CThreadLock lock(m_cs);
+        CThreadLock lock(GetApp()->m_appLock);
 
         // Must not update data before the window is created.
         assert(IsWindow());

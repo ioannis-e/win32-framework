@@ -360,7 +360,6 @@ namespace Win32xx
 
         HWND m_wnd;                    // Handle to this object's window.
         WNDPROC m_prevWindowProc;      // The old window procedure.
-        CCriticalSection m_cs;         // A critical section for thread locking.
     }; // class CWnd
 
 } // namespace Win32xx
