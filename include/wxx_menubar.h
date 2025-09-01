@@ -387,15 +387,8 @@ namespace Win32xx
         return static_cast<BOOL>(GetAncestor().SendMessage(UWM_GETCMDIFRAMET));
     }
 
-    inline LRESULT CMenuBar::OnMenuChar(UINT msg, WPARAM wparam, LPARAM lparam)
-    {
-        TCHAR keyCode = static_cast<TCHAR>(LOWORD(wparam));
-        if (!m_isMenuActive)
-            DoAltKey(keyCode);
-
-        return FinalWindowProc(msg, wparam, lparam);
-    }
-
+    // Used by CFrameT when a menu is active, and a key is pressed other than
+    // an accelerator.
     inline LRESULT CMenuBar::MenuChar(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         return OnMenuChar(msg, wparam, lparam);
@@ -473,11 +466,8 @@ namespace Win32xx
             else
                 StoreHotItem(GetButtonCount() -1);
 
-            if (!m_isAltMode)
+            if (!m_isAltMode || m_isMenuActive)
                 ProcessMenuItem();
-            else if (m_isMenuActive)
-                ProcessMenuItem();
-
 
             break;
 
@@ -488,9 +478,7 @@ namespace Win32xx
             else
                 StoreHotItem(first);
 
-            if (!m_isAltMode)
-                ProcessMenuItem();
-            else if (m_isMenuActive)
+            if (!m_isAltMode || m_isMenuActive)
                 ProcessMenuItem();
 
             break;
@@ -610,6 +598,17 @@ namespace Win32xx
     {
         GetAncestor().SendMessage(msg, wparam, lparam);
         return TRUE; // handled
+    }
+
+    // Called when a menu is active and the user presses a key that does not
+    // correspond to any mnemonic or accelerator key
+    inline LRESULT CMenuBar::OnMenuChar(UINT msg, WPARAM wparam, LPARAM lparam)
+    {
+        TCHAR keyCode = static_cast<TCHAR>(LOWORD(wparam));
+        if (!m_isMenuActive)
+            DoAltKey(keyCode);
+
+        return FinalWindowProc(msg, wparam, lparam);
     }
 
     // StaticMsgHook directs all menu messages here when a popup menu is active.
@@ -773,6 +772,11 @@ namespace Win32xx
     // Called when the cursor moves.
     inline LRESULT CMenuBar::OnMouseMove(UINT msg, WPARAM wparam, LPARAM lparam)
     {
+        // Skip if in keyboard mode and mouse hasn't moved.
+        CPoint pt = GetCursorPos();
+        if ((pt.x == m_oldMousePos.x) && (pt.y == m_oldMousePos.y) && m_isKeyMode)
+            return FALSE;
+
         UpdateMDIButtons(wparam, lparam);
         return FinalWindowProc(msg, wparam, lparam);
     }
@@ -871,18 +875,18 @@ namespace Win32xx
         }
 
         SetHotItem(-1);
-
-        // Unpress any currently pressed buttons.
         UnpressAll();
 
         return 0;
     }
 
+    // Called when the user chooses a command from the Window menu or when the
+    // user chooses the maximize button, minimize button, restore button, or
+    // close button.
     inline LRESULT CMenuBar::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // The "wparam & 0xFFF0" below is a requirement mentioned in the
         // description of WM_SYSCOMMAND in the Windows API documentation.
-
         if (SC_KEYMENU == (wparam & 0xFFF0))
         {
             if (lparam == 0)
@@ -1025,7 +1029,7 @@ namespace Win32xx
         PressButton(buttonID, press);
     }
 
-    // Process messages before passing them on to the menubar. 
+    // Process messages before passing them on to the menubar.
     inline BOOL CMenuBar::PreTranslateMessage(MSG& msg)
     {
         // Discard mouse move messages unless over a button.
@@ -1070,8 +1074,6 @@ namespace Win32xx
     // Presses the menubar button and displays the popup menu if the is one.
     inline void CMenuBar::ProcessMenuItem()
     {
-
-        // Unpress any currently pressed buttons.
         UnpressAll();
 
         int menuItem = IsMDIChildMaxed() ? m_hotItem - 1 : m_hotItem;
@@ -1115,7 +1117,6 @@ namespace Win32xx
     inline void CMenuBar::SetupMenuBar(HMENU menu)
     {
         assert(IsWindow());
-
         m_topMenu = menu;
         int maxedOffset = (IsMDIChildMaxed()? 1:0);
 
@@ -1188,6 +1189,9 @@ namespace Win32xx
         return ::CallNextHookEx(nullptr, code, wparam, lparam);
     }
 
+    // Called by CFrameT when the user chooses a command from the Window menu
+    // or when the user chooses the maximize button, minimize button, restore
+    // button, or close button.
     inline LRESULT CMenuBar::SysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         return OnSysCommand(msg, wparam, lparam);
