@@ -110,6 +110,9 @@ namespace Win32xx
     // CStringW is a WCHAR only version of CString.
     using CStringW = CStringT<WCHAR>;
 
+    // Declaration of the CString class.
+    class CString;
+
     /////////////////////////////////////////////////
     // CStringT is a class template used to implement
     // CStringA and CStringW. CString inherits from
