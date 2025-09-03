@@ -287,7 +287,7 @@ namespace Win32xx
     // Destructor
     inline CWnd::~CWnd()
     {
-        if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
+        if (IsAppRunning()) // Is the CWinApp object still valid?
         {
             // Only destroy windows managed by C++.
             if (GetCWndPtr(*this) == this)

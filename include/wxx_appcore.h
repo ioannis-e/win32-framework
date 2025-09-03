@@ -51,8 +51,8 @@
 #include "wxx_appcore0.h"
 #include "wxx_textconv.h"
 #include "wxx_wincore0.h"
-#include "wxx_exception.h"
 #include "wxx_cstring.h"
+#include "wxx_exception.h"
 #include "wxx_messagepump.h"
 
 extern "C" IMAGE_DOS_HEADER __ImageBase;
@@ -718,9 +718,12 @@ namespace Win32xx
     }
 
     // Messages used for exceptions.
-    inline CString CWinApp::MsgAppThread() const
-    { return _T("Failed to create thread."); }
 
+    // No error message.
+    inline CString CWinApp::MsgNoError() const
+    { return _T("There is no additional error information."); }
+
+    // Archive Messages.
     inline CString CWinApp::MsgArReadFail() const
     { return _T("Failed to read from archive."); }
 
@@ -729,6 +732,10 @@ namespace Win32xx
 
     inline CString CWinApp::MsgArNotCStringW() const
     { return _T("Unicode characters stored. Not a CStringA."); }
+
+    // Thread and Semaphore Messages.
+    inline CString CWinApp::MsgAppThread() const
+    { return _T("Failed to create thread."); }
 
     inline CString CWinApp::MsgCriticalSection() const
     { return _T("Failed to create critical section."); }
@@ -742,26 +749,25 @@ namespace Win32xx
     inline CString CWinApp::MsgMtxSemaphore() const
     { return _T("Unable to create semaphore."); }
 
-    inline CString CWinApp::MsgWndCreate() const
-    { return _T("Failed to create window."); }
-
-    inline CString CWinApp::MsgWndDialog() const
-    { return _T("Failed to create dialog."); }
-
-    inline CString CWinApp::MsgWndGlobalLock() const
-    { return _T("CGlobalLock failed to lock handle."); }
-
-    inline CString CWinApp::MsgWndPropertSheet() const
-    { return _T("Failed to create PropertySheet."); }
-
+    // Winsock Messages.
     inline CString CWinApp::MsgSocWSAStartup() const
     { return _T("WSAStartup failed."); }
 
     inline CString CWinApp::MsgSocWS2Dll() const
     { return _T("Failed to load WS2_2.dll."); }
 
+    // Window creation Messages.
+    inline CString CWinApp::MsgWndCreate() const
+    { return _T("Failed to create window."); }
+
+    inline CString CWinApp::MsgWndDialog() const
+    { return _T("Failed to create dialog."); }
+
     inline CString CWinApp::MsgIPControl() const
     { return _T("IP Address Control not supported!."); }
+
+    inline CString CWinApp::MsgWndPropertSheet() const
+    { return _T("Failed to create PropertySheet."); }
 
     inline CString CWinApp::MsgRichEditDll() const
     { return _T("Failed to load the RichEdit dll."); }
@@ -852,6 +858,9 @@ namespace Win32xx
 
     inline CString CWinApp::MsgPrintFound() const
     { return _T("No printer available."); }
+
+    inline CString CWinApp::MsgWndGlobalLock() const
+    { return _T("CGlobalLock failed to lock handle."); }
 
     // DDX anomaly prompting messages.
     inline CString CWinApp::MsgDDX_Byte() const

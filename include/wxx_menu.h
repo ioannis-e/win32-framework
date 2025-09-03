@@ -112,7 +112,7 @@ namespace Win32xx
         void Attach(HMENU menu);
         void CreateMenu();
         void CreatePopupMenu();
-        void DestroyMenu();
+        void Destroy();
         HMENU Detach();
 
         HMENU GetHandle() const;
@@ -361,21 +361,27 @@ namespace Win32xx
         return ::DeleteMenu(m_pData->menu, pos, flags);
     }
 
-    // Destroys the menu and frees any memory that the menu occupies.
-    // Refer to DestroyMenu in the Windows API documentation for more information.
-    inline void CMenu::DestroyMenu()
+    // Destroys the menu if it is managed and returns this object to its
+    // default state.
+    inline void CMenu::Destroy()
     {
         assert(m_pData);
-        assert(IsMenu(m_pData->menu));
 
-        if (m_pData && m_pData->menu != nullptr)
+        if (m_pData->menu != nullptr)
         {
-            GetApp()->RemoveMenuFromMap(m_pData->menu);;
+            if (m_pData->isManagedMenu)
+            {
+                // The menu will already be destroyed if assigned to a destroyed window.
+                if (IsMenu(m_pData->menu))
+                    ::DestroyMenu(m_pData->menu);
+            }
 
-            ::DestroyMenu(m_pData->menu);
-            m_pData->menu = nullptr;
-            m_pData->isManagedMenu = false;
+            if (IsAppRunning()) // Is the CWinApp object still valid?
+                GetApp()->RemoveMenuFromMap(m_pData->menu);
         }
+
+        // Nullify all copies of m_pData.
+        *m_pData.get() = {};
     }
 
     // Detaches the HMENU from this CMenu object and all its copies.
@@ -697,20 +703,7 @@ namespace Win32xx
 
         if (m_pData.use_count() == 1)
         {
-            if (m_pData->menu != nullptr)
-            {
-                if (m_pData->isManagedMenu)
-                {
-                    // The menu will already be destroyed if assigned to a destroyed window.
-                    if (IsMenu(m_pData->menu))
-                        ::DestroyMenu(m_pData->menu);
-                }
-
-                if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
-                    GetApp()->RemoveMenuFromMap(m_pData->menu);
-            }
-
-            m_pData = nullptr;
+            Destroy();
         }
     }
 

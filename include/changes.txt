@@ -55,6 +55,7 @@ Changes in detail
 -----------------
 Added the CFolderDialogEx         - class
 Added the CPager                  - class
+Added IsAppRunning                - global function
 Added TaskDialogBox               - global function
 Added CBitmapInfoPtr::CBitmapInfoPtr(const BITMAP& bitmap) additional overload
 Added CEdit::GetRect              - additional overload
@@ -63,7 +64,13 @@ Added CListView::GetItemRect      - additional overload
 Added CRichEdit::GetRect          - additional overload
 Added CTab::GetItemRect           - additional overload
 Added CTreeView::GetItemRect      - additional overload
-
+Added CGDIObject::Destroy         - member function
+Added CImageList::Destroy         - member function
+Added CMenu::Destroy              - member function
+Removed CGDIObject::DeleteObject
+Removed CImageList::DeleteImageList
+Removed CMenu::DestroyMenu
+    
 
 Version 10.1
 ============
@@ -305,16 +312,6 @@ New Features and Enhancements
 * The samples now use larger icons.
     Larger icons are suitable for applications that are placed on the desktop
     on higher resolution monitors.
-
-Changes in detail
------------------
-Added:   CString::Append
-Added:   CTab::SetTabIcon         Additional overload.
-
-Added:   ScintillaDemo sample.
-
-Added    Support for std::min and std::max.
-Removed: Support for Visual Studio 6.
 
 
 Version 9.5.2

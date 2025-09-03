@@ -269,8 +269,7 @@ namespace Win32xx
                 ::EndDialog(GetHwnd(), 0);
             else
             {
-                CWinApp* pApp = CWinApp::SetnGetThis();
-                if (pApp != nullptr)          // Is the CWinApp object still valid?
+                if (IsAppRunning())      // Is the CWinApp object still valid?
                 {
                     if (GetCWndPtr(*this) == this)  // Is window managed by Win32++?
                     {

@@ -18,7 +18,7 @@ constexpr COLORREF black = RGB(0, 0, 0);
 // Only bitmap images (bmp files) can be loaded.
 bool CImageView::LoadFileImage(LPCWSTR fileName)
 {
-    m_image.DeleteObject();
+    m_image.Destroy();
     CSize totalSize;
 
     if (fileName)

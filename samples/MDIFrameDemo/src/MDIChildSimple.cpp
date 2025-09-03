@@ -59,9 +59,8 @@ LRESULT CViewSimple::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str1 = e.GetText();
-        if (e.GetError() != 0)
-            str1 << L'\n' << e.GetErrorString();
+        CString str1;
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
 
         CString str2;
         str2 << "Error: " << e.what();
@@ -161,9 +160,8 @@ LRESULT CMDIChildSimple::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str1 = e.GetText();
-        if (e.GetError() != 0)
-            str1 << L'\n' << e.GetErrorString();
+        CString str1;
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
 
         CString str2;
         str2 << "Error: " << e.what();

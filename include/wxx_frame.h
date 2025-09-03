@@ -675,8 +675,8 @@ namespace Win32xx
     inline void CFrameT<T>::ClearMenuIcons()
     {
         m_menuItemIDs.clear();
-        m_menuImages.DeleteImageList();
-        m_menuDisabledImages.DeleteImageList();
+        m_menuImages.Destroy();
+        m_menuDisabledImages.Destroy();
     }
 
     // Creates the frame's toolbar. Additional toolbars can be added with

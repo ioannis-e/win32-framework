@@ -14,7 +14,7 @@ void CView::DpiScaleToolBar()
 {
     // Create the ToolBar's image list from 4 icons
     int scale = 48 * (GetWindowDpi(*this) / USER_DEFAULT_SCREEN_DPI);
-    m_toolBarImages.DeleteImageList();
+    m_toolBarImages.Destroy();
     m_toolBarImages.Create(scale, scale, ILC_COLOR32 | ILC_MASK, 0, 0);
     m_toolBarImages.AddIcon(IDI_TOP);
     m_toolBarImages.AddIcon(IDI_LEFT);
@@ -288,9 +288,8 @@ LRESULT CView::WndProc(UINT msg, WPARAM wparam, LPARAM lparam)
     catch (const CException& e)
     {
         // Display the exception and continue.
-        CString str1 = e.GetText();
-        if (e.GetError() != 0)
-            str1 << L'\n' << e.GetErrorString();
+        CString str1;
+        str1 << e.GetText() << L'\n' << e.GetErrorString();
 
         CString str2;
         str2 << "Error: " << e.what();

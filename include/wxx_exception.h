@@ -215,6 +215,9 @@ namespace Win32xx
         // Store error information in m_errorString.
         DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
         ::FormatMessage(flags, nullptr, m_error, 0, m_errorString, WXX_MAX_STRING_SIZE-1, nullptr);
+
+        if (m_error == 0 && IsAppRunning())
+            StrCopy(m_errorString, GetApp()->MsgNoError(), WXX_MAX_STRING_SIZE);
     }
 
 
@@ -231,6 +234,9 @@ namespace Win32xx
         // Store error information in m_errorString.
         DWORD flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
         ::FormatMessage(flags, nullptr, m_error, 0, m_errorString, WXX_MAX_STRING_SIZE-1, nullptr);
+
+        if (m_error == 0 && IsAppRunning())
+            StrCopy(m_errorString, GetApp()->MsgNoError(), WXX_MAX_STRING_SIZE);
     }
 
     // CException copy constructor.

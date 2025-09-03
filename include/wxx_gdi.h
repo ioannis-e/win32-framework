@@ -177,7 +177,6 @@
 
 #include "wxx_appcore0.h"
 #include "wxx_wincore0.h"
-#include "wxx_exception.h"
 #include "wxx_metafile.h"
 
 // Disable a macro from Windowsx.h
@@ -200,7 +199,7 @@ namespace Win32xx
         CGDIObject& operator=(HGDIOBJ object);
 
         void    Attach(HGDIOBJ object);
-        void    DeleteObject();
+        void    Destroy();
         HGDIOBJ Detach();
         HGDIOBJ GetHandle() const;
         int     GetObject(int count, LPVOID pObject) const;
@@ -991,17 +990,22 @@ namespace Win32xx
         }
     }
 
-    inline void CGDIObject::DeleteObject()
+    // Deletes the GDI object if it is managed and returns this object to its
+    // default state.
+    inline void CGDIObject::Destroy()
     {
         assert(m_pData);
 
         if (m_pData && m_pData->hGDIObject != nullptr)
         {
-            GetApp()->RemoveGDIObjectFromMap(m_pData->hGDIObject);
+            if (m_pData->isManagedObject)
+                ::DeleteObject(m_pData->hGDIObject);
 
-            ::DeleteObject(m_pData->hGDIObject);
-            m_pData->hGDIObject = nullptr;
-            m_pData->isManagedObject = false;
+            if (IsAppRunning())
+                GetApp()->RemoveGDIObjectFromMap(m_pData->hGDIObject);
+
+            // Nullify all copies of m_pData.
+            *m_pData.get() = {};
         }
     }
 
@@ -1051,18 +1055,7 @@ namespace Win32xx
 
         if (m_pData.use_count() == 1)
         {
-            if (m_pData->hGDIObject != nullptr)
-            {
-                if (m_pData->isManagedObject)
-                {
-                    ::DeleteObject(m_pData->hGDIObject);
-                }
-
-                if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
-                    GetApp()->RemoveGDIObjectFromMap(m_pData->hGDIObject);;
-            }
-
-            m_pData = nullptr;
+            Destroy();
         }
     }
 
@@ -2508,7 +2501,6 @@ namespace Win32xx
         if (m_pData.use_count() == 1)
         {
             Destroy();
-            m_pData = nullptr;
         }
     }
 
@@ -2710,18 +2702,16 @@ namespace Win32xx
         return SelectObject(bitmap);
     }
 
-    // Deletes or releases the device context.
+    // Deletes or releases the device context if managed and returns this
+    // object to its default state.
     inline void CDC::Destroy()
     {
         assert(m_pData);
 
         if (m_pData->dc != nullptr)
         {
-            HDC dc = m_pData->dc;
-            if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
-                GetApp()->RemoveDCFromMap(dc);
-
             // Return the DC back to its initial state.
+            HDC dc = m_pData->dc;
             ::RestoreDC(dc, m_pData->savedDCState);
 
             if (m_pData->isManagedHDC)
@@ -2739,7 +2729,11 @@ namespace Win32xx
                     ::DeleteDC(dc);
             }
 
-            *m_pData = {};
+            if (IsAppRunning()) // Is the CWinApp object still valid?
+                GetApp()->RemoveDCFromMap(dc);
+
+            // Nullify all copies of m_pData.
+            *m_pData.get() = {};
         }
     }
 

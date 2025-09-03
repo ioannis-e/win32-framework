@@ -218,6 +218,7 @@ namespace Win32xx
         friend class CWinThread;
         friend class CWnd;
         friend CWinApp* GetApp();
+        friend BOOL IsAppRunning();
 
     public:
         CWinApp();
@@ -290,23 +291,32 @@ namespace Win32xx
 
     public:
         // Message strings used for exceptions.
-        virtual CString MsgAppThread() const;
+        
+        // No error message.
+        virtual CString MsgNoError() const;     
+
+        // Archive Messages.
         virtual CString MsgArReadFail() const;
         virtual CString MsgArNotCStringA() const;
         virtual CString MsgArNotCStringW() const;
+
+        // Thread and Semaphore Messages.
+        virtual CString MsgAppThread() const;
         virtual CString MsgCriticalSection() const;
         virtual CString MsgMtxEvent() const;
         virtual CString MsgMtxMutex() const;
         virtual CString MsgMtxSemaphore() const;
-
-        // Message strings used for windows.
-        virtual CString MsgWndCreate() const;
-        virtual CString MsgWndDialog() const;
         virtual CString MsgWndGlobalLock() const;
-        virtual CString MsgWndPropertSheet() const;
+
+        // Winsock Messages.
         virtual CString MsgSocWSAStartup() const;
         virtual CString MsgSocWS2Dll() const;
+
+        // Window Creation Messages.
+        virtual CString MsgWndCreate() const;
+        virtual CString MsgWndDialog() const;
         virtual CString MsgIPControl() const;
+        virtual CString MsgWndPropertSheet() const;
         virtual CString MsgRichEditDll() const;
         virtual CString MsgTaskDialog() const;
 
@@ -365,12 +375,21 @@ namespace Win32xx
         virtual CString MsgTlsIndexes() const;
     };
 
-    // Returns a pointer to the CWinApp derived class.
+    // Returns a pointer to the CWinApp object.
+    // Asserts if Win32++ hasn't been started. Declare a CWinApp object,
+    // or an object inherited from CWinApp to start Win32++.
     inline CWinApp* GetApp()
     {
         CWinApp* pApp = CWinApp::SetnGetThis();
         assert(pApp);  // This assert fails if Win32++ isn't started.
         return pApp;
+    }
+
+    // Returns true if TRUE if Win32++ has been started. Declare a CWinApp
+    // object, or an object inherited from CWinApp to start Win32++.
+    inline BOOL IsAppRunning()
+    {
+        return  (CWinApp::SetnGetThis() != nullptr);
     }
 
 } // namespace Win32xx

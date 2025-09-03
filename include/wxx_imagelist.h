@@ -102,7 +102,7 @@ namespace Win32xx
         void Attach(HIMAGELIST images);
         BOOL BeginDrag(int image, CPoint hotSpot) const;
         BOOL Copy(int dst, int src, UINT flags /*= ILCF_MOVE*/) const;
-        void DeleteImageList();
+        void Destroy();
         HIMAGELIST Detach();
         BOOL DragEnter(HWND lock, CPoint point) const;
         BOOL DragLeave(HWND lock) const;
@@ -465,18 +465,22 @@ namespace Win32xx
         Assign(images);
     }
 
-    // Destroys an image list.
-    inline void CImageList::DeleteImageList()
+    // Destroys the image list if it is managed and returns this object to its
+    // default state.
+    inline void CImageList::Destroy()
     {
         assert(m_pData);
 
         if (m_pData && m_pData->images != nullptr)
         {
-            GetApp()->RemoveImageListFromMap(m_pData->images);
+            if (m_pData->isManagedHiml)
+                ::ImageList_Destroy(m_pData->images);
 
-            ::ImageList_Destroy(m_pData->images);
-            m_pData->images = nullptr;
-            m_pData->isManagedHiml = false;
+            if (IsAppRunning())
+                GetApp()->RemoveImageListFromMap(m_pData->images);
+
+            // Nullify all copies of m_pData.
+            *m_pData.get() = {};
         }
     }
 
@@ -667,18 +671,7 @@ namespace Win32xx
 
         if (m_pData.use_count() == 1)
         {
-            if (m_pData->images != 0)
-            {
-                if (m_pData->isManagedHiml)
-                {
-                    ::ImageList_Destroy(m_pData->images);
-                }
-
-                if (CWinApp::SetnGetThis() != nullptr) // Is the CWinApp object still valid?
-                    GetApp()->RemoveImageListFromMap(m_pData->images);
-            }
-
-            m_pData = nullptr;
+            Destroy();
         }
     }
 

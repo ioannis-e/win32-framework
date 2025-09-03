@@ -601,7 +601,7 @@ namespace Win32xx
     }
 
     // Called when a menu is active and the user presses a key that does not
-    // correspond to any mnemonic or accelerator key
+    // correspond to any mnemonic or accelerator key.
     inline LRESULT CMenuBar::OnMenuChar(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         TCHAR keyCode = static_cast<TCHAR>(LOWORD(wparam));
@@ -618,6 +618,11 @@ namespace Win32xx
 
         switch(msg)
         {
+        case WM_SYSKEYDOWN:
+        {
+            m_isMenuActive = FALSE;
+            return FALSE;
+        }
         case WM_KEYDOWN:
             m_isExitAfter = FALSE;
             {
@@ -657,7 +662,7 @@ namespace Win32xx
                 {
                     // Use default processing to open Sub Menu.
                     if (m_isSelectedPopup)
-                        return FALSE;
+                        break;
 
                     Press(GetCommandID(m_hotItem), FALSE);
 
@@ -736,7 +741,7 @@ namespace Win32xx
 
                 // Skip if mouse hasn't moved.
                 if ((pt.x == m_oldMousePos.x) && (pt.y == m_oldMousePos.y))
-                    return FALSE;
+                    break;
 
                 m_oldMousePos.x = pt.x;
                 m_oldMousePos.y = pt.y;
