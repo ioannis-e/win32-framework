@@ -92,7 +92,7 @@
 
 namespace Win32xx
 {
-// Disable false override warnings for Clang compilers
+// Disable false override warnings for Clang compilers.
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Winconsistent-missing-override"
@@ -736,12 +736,12 @@ namespace Win32xx
 
         switch (lpNMCustomDraw->nmcd.dwDrawStage)
         {
-        // Begin paint cycle
+        // Begin paint cycle.
         case CDDS_PREPAINT:
             // Send NM_CUSTOMDRAW item draw, and post-paint notification messages.
             return CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT ;
 
-        // An item is about to be drawn
+        // An item is about to be drawn.
         case CDDS_ITEMPREPAINT:
             {
                 UINT state = lpNMCustomDraw->nmcd.uItemState;
@@ -1005,7 +1005,7 @@ namespace Win32xx
                         // Draw the text.
                         if (!str.IsEmpty())
                         {
-                            // Calculate the text position
+                            // Calculate the text position.
                             int width = rc.right - rc.left - (isDropDown ? dropDownWidth : 0);
                             int textSizeX = textSize.cx;
                             int textSizeY = textSize.cy;
@@ -1936,7 +1936,7 @@ namespace Win32xx
     template <class T>
     inline LRESULT CFrameT<T>::OnActivate(UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        // Perform default processing first
+        // Perform default processing first.
         T::FinalWindowProc(msg, wparam, lparam);
 
         if (LOWORD(wparam) == WA_INACTIVE)
@@ -1999,7 +1999,7 @@ namespace Win32xx
         // Set the theme for the frame elements.
         SetTheme();
 
-        // Create the rebar and menubar
+        // Create the rebar and menubar.
         if (IsUsingReBar())
         {
             // Create the rebar.
@@ -2028,7 +2028,7 @@ namespace Win32xx
         ResetMenuMetrics();
         UpdateSettings();
 
-        // Create the ToolBar
+        // Create the ToolBar.
         if (IsUsingToolBar())
         {
             CreateToolBar();
@@ -2209,7 +2209,7 @@ namespace Win32xx
     template <class T>
     inline BOOL CFrameT<T>::OnHelp()
     {
-        // Ensure only one dialog displayed even for multiple hits of the F1 button
+        // Ensure only one dialog displayed even for multiple hits of the F1 button.
         if (!m_aboutDialog.IsWindow())
         {
             m_aboutDialog.DoModal(*this);
@@ -2356,7 +2356,7 @@ namespace Win32xx
     {
         if ((GetMenuBar().IsWindow()) && (LOWORD(wparam)!= VK_SPACE))
         {
-            // Activate MenuBar for key pressed with Alt key held down
+            // Activate MenuBar for key pressed with Alt key held down.
             GetMenuBar().MenuChar(msg, wparam, lparam);
             return -1;
         }
@@ -2468,7 +2468,7 @@ namespace Win32xx
     inline LRESULT CFrameT<T>::OnRBNMinMax(LPNMHDR)
     {
         if (GetReBarTheme().UseThemes && GetReBarTheme().ShortBands)
-            return 1;  // Suppress maximise or minimise rebar band
+            return 1;  // Suppress maximise or minimise rebar band.
 
         return 0;
     }
@@ -2585,7 +2585,7 @@ namespace Win32xx
         return 0;
     }
 
-    // Notification of undocked from CDocker received via OnNotify
+    // Notification of undocked from CDocker received via OnNotify.
     template <class T>
     inline LRESULT CFrameT<T>::OnUndocked()
     {
@@ -2746,7 +2746,7 @@ namespace Win32xx
         // Store the MRU entries in the registry.
         try
         {
-            // Delete Old MRUs
+            // Delete Old MRUs.
             const CString appKeyName = _T("Software\\") + m_keyName;
             CRegKey appKey;
             if (ERROR_SUCCESS != appKey.Open(HKEY_CURRENT_USER, appKeyName))
@@ -2814,9 +2814,9 @@ namespace Win32xx
                 CRegKey settingsKey;
 
                 if (ERROR_SUCCESS != settingsKey.Create(HKEY_CURRENT_USER, settingsKeyName))
-                    throw CUserException(_T("CRegKey::Create failed"));
+                    throw CUserException();
                 if (ERROR_SUCCESS != settingsKey.Open(HKEY_CURRENT_USER, settingsKeyName))
-                    throw CUserException(_T("CRegKey::Open failed"));
+                    throw CUserException();
 
                 // Store the window position in the registry.
                 WINDOWPLACEMENT wndpl = {};
@@ -3101,7 +3101,7 @@ namespace Win32xx
     {
         if (IsUsingIndicatorStatus() && GetStatusBar().IsWindow())
         {
-            // Calculate the width of the text indicators
+            // Calculate the width of the text indicators.
             CClientDC statusDC(GetStatusBar());
             statusDC.SelectObject(GetStatusBar().GetFont());
             CString cap = LoadString(IDW_INDICATOR_CAPS);
@@ -3398,7 +3398,7 @@ namespace Win32xx
         CBitmap dpiImage = T::DpiScaleUpBitmap(bm);
         CSize sz = GetTBImageSize(&dpiImage);
 
-        // Set the toolbar's hot image list
+        // Set the toolbar's hot image list.
         CImageList imageList;
         imageList.Create(sz.cx, sz.cy, ILC_COLOR32 | ILC_MASK, 0, 0);
         imageList.Add(dpiImage, mask);
@@ -3518,11 +3518,11 @@ namespace Win32xx
     {
         if (m_pView != &wndView)
         {
-            // Hide the old view if any
+            // Hide the old view if any.
             if (m_pView && m_pView->IsWindow())
                 m_pView->ShowWindow(SW_HIDE);
 
-            // Assign the new view
+            // Assign the new view.
             m_pView = &wndView;
 
             if (T::IsWindow())
@@ -3669,7 +3669,7 @@ namespace Win32xx
                 // Trim the string if its too long.
                 if (str.GetLength() > WXX_MAX_STRING_SIZE - 10)
                 {
-                    // Extract the first part of the string up until the first '\\'
+                    // Extract the first part of the string up until the first '\\'.
                     CString prefix;
                     int index = str.Find(_T('\\'));
                     if (index >= 0)
@@ -3774,7 +3774,7 @@ namespace Win32xx
         case WM_SYSCOMMAND:     return OnSysCommand(msg, wparam, lparam);
         case WM_UNINITMENUPOPUP:  return OnUnInitMenuPopup(msg, wparam, lparam);
 
-        // Messages defined by Win32++
+        // Messages defined by Win32++.
         case UWM_GETFRAMEVIEW:      return reinterpret_cast<LRESULT>(GetView().GetHwnd());
         case UWM_GETMBTHEME:        return reinterpret_cast<LRESULT>(&GetMenuBarTheme());
         case UWM_GETRBTHEME:        return reinterpret_cast<LRESULT>(&GetReBarTheme());

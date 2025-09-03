@@ -620,7 +620,8 @@ namespace Win32xx
         {
         case WM_SYSKEYDOWN:
         {
-            m_isMenuActive = FALSE;
+            if ((wparam == VK_MENU) || (wparam == VK_F10))
+                m_isMenuActive = FALSE;
             return FALSE;
         }
         case WM_KEYDOWN:

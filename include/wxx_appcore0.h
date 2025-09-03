@@ -291,9 +291,9 @@ namespace Win32xx
 
     public:
         // Message strings used for exceptions.
-        
+
         // No error message.
-        virtual CString MsgNoError() const;     
+        virtual CString MsgNoError() const;
 
         // Archive Messages.
         virtual CString MsgArReadFail() const;

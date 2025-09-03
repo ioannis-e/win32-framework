@@ -1212,7 +1212,7 @@ namespace Win32xx
         {
             LPCREATESTRUCT pcs = reinterpret_cast<LPCREATESTRUCT>(lparam);
             if (pcs == nullptr)
-                throw CWinException(_T("WM_CREATE failed"));
+                throw CWinException(GetApp()->MsgWndCreate());
 
             return OnCreate(*pcs);
         }
