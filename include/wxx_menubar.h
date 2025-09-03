@@ -130,6 +130,7 @@ namespace Win32xx
         HMENU m_topMenu;         // Handle to the top level menu
         HWND  m_prevFocus;       // Handle to window that had focus
         int   m_hotItem;         // Hot item
+        int   m_nMDIButton;      // the MDI button (MDIButtonType) pressed
         BOOL  m_isAltMode;       // Alt key toggled? Underlines accelerator when true.
         BOOL  m_isExitAfter;     // Is exit after Popup menu ends?
         BOOL  m_isKeyMode;       // Is Keyboard navigation mode active?
@@ -150,7 +151,7 @@ namespace Win32xx
 
     inline CMenuBar::CMenuBar() : m_msgHook(nullptr), m_popupMenu(nullptr),
         m_selectedMenu(nullptr), m_topMenu(nullptr), m_prevFocus(nullptr),
-        m_hotItem(-1), m_isAltMode(FALSE), m_isExitAfter(FALSE),
+        m_hotItem(-1), m_nMDIButton(0), m_isAltMode(FALSE), m_isExitAfter(FALSE),
         m_isKeyMode(FALSE), m_isMenuActive(FALSE), m_isSelectedPopup(FALSE)
     {
     }
@@ -523,24 +524,25 @@ namespace Win32xx
         // Do default processing first.
         FinalWindowProc(msg, wparam, lparam);
 
+        m_nMDIButton = 0;
         if (IsMDIFrame())
         {
             if (IsMDIChildMaxed())
             {
-                int mdiButton = -1;
                 CPoint pt(lparam);
+                m_nMDIButton = -1;
 
-                if (m_mdiRect[0].PtInRect(pt)) mdiButton = 0;
-                if (m_mdiRect[1].PtInRect(pt)) mdiButton = 1;
-                if (m_mdiRect[2].PtInRect(pt)) mdiButton = 2;
+                if (m_mdiRect[0].PtInRect(pt)) m_nMDIButton = 0;
+                if (m_mdiRect[1].PtInRect(pt)) m_nMDIButton = 1;
+                if (m_mdiRect[2].PtInRect(pt)) m_nMDIButton = 2;
 
                 // Draw the three MDI buttons.
-                if (mdiButton >= 0)
+                if (m_nMDIButton >= 0)
                 {
                     CClientDC MenuBarDC(*this);
-                    DrawMDIButton(MenuBarDC, MDI_MIN,     (mdiButton == 0) ? 2U : 0U);
-                    DrawMDIButton(MenuBarDC, MDI_RESTORE, (mdiButton == 1) ? 2U : 0U);
-                    DrawMDIButton(MenuBarDC, MDI_CLOSE,   (mdiButton == 2) ? 2U : 0U);
+                    DrawMDIButton(MenuBarDC, MDI_MIN,     (m_nMDIButton == 0) ? 2U : 0U);
+                    DrawMDIButton(MenuBarDC, MDI_RESTORE, (m_nMDIButton == 1) ? 2U : 0U);
+                    DrawMDIButton(MenuBarDC, MDI_CLOSE,   (m_nMDIButton == 2) ? 2U : 0U);
                 }
 
                 // Bring up the MDI Child window's system menu when the icon is pressed.
@@ -573,23 +575,27 @@ namespace Win32xx
                 // Process the MDI button action when the left mouse button is up.
                 if (m_mdiRect[0].PtInRect(pt))
                 {
-                     pMDIChild->ShowWindow(SW_MINIMIZE);
+                    if (MDI_MIN == m_nMDIButton)
+                        pMDIChild->ShowWindow(SW_MINIMIZE);
                 }
 
                 if (m_mdiRect[1].PtInRect(pt))
                 {
                     WPARAM wparam = reinterpret_cast<WPARAM>(pMDIChild->GetHwnd());
-                    pMDIClient->PostMessage(WM_MDIRESTORE, wparam, 0);
+                    if (MDI_RESTORE == m_nMDIButton)
+                        pMDIClient->PostMessage(WM_MDIRESTORE, wparam, 0);
                 }
 
                 if (m_mdiRect[2].PtInRect(pt))
                 {
-                    pMDIChild->PostMessage(WM_SYSCOMMAND, SC_CLOSE, 0);
+                    if (MDI_CLOSE == m_nMDIButton)
+                        pMDIChild->PostMessage(WM_SYSCOMMAND, SC_CLOSE, 0);
                 }
             }
         }
 
         ExitMenu();
+        m_nMDIButton = 0;
         return 0;
     }
 
@@ -1235,9 +1241,9 @@ namespace Win32xx
                     // Toggle the MDI button image pressed/unpressed as required.
                     if (MDIButton >= 0)
                     {
-                        DrawMDIButton(MenuBarDC, MDI_MIN,     (MDIButton == 0) ? 2U : 0U);
-                        DrawMDIButton(MenuBarDC, MDI_RESTORE, (MDIButton == 1) ? 2U : 0U);
-                        DrawMDIButton(MenuBarDC, MDI_CLOSE,   (MDIButton == 2) ? 2U : 0U);
+                        DrawMDIButton(MenuBarDC, MDI_MIN,     ((MDIButton == 0) && (m_nMDIButton == 0)) ? 2U : 0U);
+                        DrawMDIButton(MenuBarDC, MDI_RESTORE, ((MDIButton == 1) && (m_nMDIButton == 1)) ? 2U : 0U);
+                        DrawMDIButton(MenuBarDC, MDI_CLOSE,   ((MDIButton == 2) && (m_nMDIButton == 2)) ? 2U : 0U);
                     }
                     else
                     {
