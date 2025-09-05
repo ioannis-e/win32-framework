@@ -125,12 +125,23 @@ namespace Win32xx
                 // Set the initial folder if specified.
                 if (!m_initialFolderName.IsEmpty())
                 {
-                    IShellItem* pFolder = nullptr;
-                    if (SUCCEEDED(::SHCreateItemFromParsingName(m_initialFolderName,
-                        nullptr, IID_PPV_ARGS(&pFolder))))
+                    using PSHCREATEITEMFROMPARSINGNAME = HRESULT(WINAPI*)(PCWSTR, IBindCtx*, REFIID, void**);
+                    HMODULE shell32 = GetModuleHandle(_T("Shell32.dll"));
+                    if (shell32 != nullptr)
                     {
-                        pFileDialog->SetFolder(pFolder);
-                        pFolder->Release();
+                        PSHCREATEITEMFROMPARSINGNAME pSHCreateItemFromParsingName = reinterpret_cast<PSHCREATEITEMFROMPARSINGNAME>(
+                            reinterpret_cast<void*>(::GetProcAddress(shell32, "SHCreateItemFromParsingName")));
+
+                        if (pSHCreateItemFromParsingName != nullptr)
+                        {
+                            IShellItem* pFolder = nullptr;
+                            if (SUCCEEDED(pSHCreateItemFromParsingName(m_initialFolderName,
+                                nullptr, IID_PPV_ARGS(&pFolder))))
+                            {
+                                pFileDialog->SetFolder(pFolder);
+                                pFolder->Release();
+                            }
+                        }
                     }
                 }
 

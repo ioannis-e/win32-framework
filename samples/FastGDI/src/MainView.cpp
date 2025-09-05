@@ -29,9 +29,10 @@ void CMainView::OnDraw(CDC& dc)
             NONCLIENTMETRICS info = GetNonClientMetrics();
             LOGFONT lf = DpiScaleLogfont(info.lfMessageFont, 10);
             dc.CreateFontIndirect(lf);
-            dc.SetBkColor(RGB(0, 0, 0));
-            dc.SetTextColor(RGB(255, 255, 255));
         }
+
+        dc.SetBkColor(RGB(0, 0, 0));
+        dc.SetTextColor(RGB(255, 255, 255));
 
         CRect rc = GetClientRect();
 

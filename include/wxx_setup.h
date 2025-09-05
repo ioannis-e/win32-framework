@@ -223,11 +223,16 @@ namespace Win32xx
           INITCOMMONCONTROLSEX initStruct = {};
           initStruct.dwSize = sizeof(initStruct);
           initStruct.dwICC = ICC_WIN95_CLASSES | ICC_DATE_CLASSES |
-              ICC_INTERNET_CLASSES | ICC_LINK_CLASS | ICC_NATIVEFNTCTL_CLASS |
+              ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS |
               ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
 
           // Call InitCommonControlsEx.
           VERIFY(InitCommonControlsEx(&initStruct));
+
+          // Add the SysLink control.
+          // Requires ComCtl32.dll version 6 and requires a manifest.
+          initStruct.dwICC = ICC_LINK_CLASS;
+          InitCommonControlsEx(&initStruct);
     }
 
     // The following functions perform string copies. A string of characters is
