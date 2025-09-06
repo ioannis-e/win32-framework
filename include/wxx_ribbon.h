@@ -475,7 +475,7 @@ namespace Win32xx
 
             for (const CString& fileName : fileNames)
             {
-                WCHAR curFileName[MAX_PATH] = {0};
+                WCHAR curFileName[MAX_PATH] = {};
                 StrCopyW(curFileName, TtoW(fileName), MAX_PATH);
 
                 m_recentFiles.push_back(std::make_unique<CRecentFiles>(curFileName));

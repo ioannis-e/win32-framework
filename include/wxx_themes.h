@@ -127,30 +127,6 @@ namespace Win32xx
         return isAeroThemed;
     }
 
-    // Returns TRUE if XP themes are being used.
-    inline BOOL IsXPThemed()
-    {
-        BOOL isXPThemed = FALSE;
-
-        HMODULE theme = ::GetModuleHandle(_T("uxtheme.dll"));
-        if (theme != nullptr)
-        {
-            // Declare pointers to functions.
-            FARPROC pIsAppThemed   = ::GetProcAddress(theme, "IsAppThemed");
-            FARPROC pIsThemeActive = ::GetProcAddress(theme, "IsThemeActive");
-
-            if (pIsAppThemed && pIsThemeActive)
-            {
-                if (pIsAppThemed() && pIsThemeActive())
-                {
-                    isXPThemed = TRUE;
-                }
-            }
-        }
-
-        return isXPThemed;
-    }
-
 } // namespace Win32xx
 
 #endif // _WIN32XX_THEMES_H_

@@ -251,11 +251,7 @@ namespace Win32xx
     inline UINT CReBar::GetSizeofRBBI() const
     {
         assert(IsWindow());
-
-        UINT size = sizeof(REBARBANDINFO);
-        if ((GetWinVersion() < 2600))
-            size = REBARBANDINFO_V6_SIZE;
-
+        UINT  size = REBARBANDINFO_V6_SIZE;
         return size;
     }
 
