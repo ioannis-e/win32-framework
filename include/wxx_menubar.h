@@ -977,6 +977,7 @@ namespace Win32xx
             // idNew is invalid for HICF_LEAVING.
             if ((flag & HICF_MOUSE) && !(flag & HICF_LEAVING))
             {
+                m_isKeyMode = FALSE;
                 int button = pNMHI->idNew;
                 if (button != m_hotItem)
                 {
