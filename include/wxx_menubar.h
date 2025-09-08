@@ -624,6 +624,16 @@ namespace Win32xx
 
         switch(msg)
         {
+        case WM_SYSKEYDOWN:
+        {
+            if ((m_isMenuActive || m_isKeyMode) &&
+                ((wparam == VK_MENU) || (wparam == VK_F10)))
+            {
+                Cancel();
+                ExitMenu();
+            }
+            return FALSE;
+        }
         case WM_KEYDOWN:
             m_isExitAfter = FALSE;
             {
@@ -918,8 +928,7 @@ namespace Win32xx
         if ((m_isMenuActive || m_isKeyMode) &&
             ((wparam == VK_MENU) || (wparam == VK_F10)))
         {
-            m_isMenuActive = FALSE;
-            StoreHotItem(-1);
+            ExitMenu();
             return 0;
         }
 
