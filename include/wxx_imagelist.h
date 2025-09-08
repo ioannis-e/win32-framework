@@ -476,7 +476,7 @@ namespace Win32xx
             if (m_pData->isManagedHiml)
                 ::ImageList_Destroy(m_pData->images);
 
-            if (IsAppRunning())
+            if (IsAppRunning()) // Is the CWinApp object still valid?
                 GetApp()->RemoveImageListFromMap(m_pData->images);
 
             // Nullify all copies of m_pData.

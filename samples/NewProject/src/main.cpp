@@ -25,7 +25,6 @@ public:
 };
 
 
-
 #if defined (_MSC_VER) && (_MSC_VER >= 1920)      // VS2019 or higher
 #pragma warning( suppress : 28251 )  // Ignore the annotation requirement for wWinMain.
 #endif

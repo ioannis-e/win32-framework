@@ -220,7 +220,7 @@ namespace Win32xx
     inline BOOL IsXPThemed()
     {
         BOOL isXPThemed = FALSE;
-        HMODULE comctl32 = GetModuleHandle(_T("comctl32.dll"));
+        HMODULE comctl32 = ::GetModuleHandle(_T("comctl32.dll"));
         if (comctl32)
         {
             // Retrieve a pointer to the DllGetVersion function.
@@ -249,23 +249,23 @@ namespace Win32xx
     // Refer to InitCommonControlsEx in the Windows API documentation for more information.
     inline void LoadCommonControls()
     {
-          // Load the full set of common controls.
-          INITCOMMONCONTROLSEX initStruct = {};
-          initStruct.dwSize = sizeof(initStruct);
-          initStruct.dwICC = ICC_WIN95_CLASSES | ICC_DATE_CLASSES |
-              ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS |
-              ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
+        // Load the full set of common controls.
+        INITCOMMONCONTROLSEX initStruct = {};
+        initStruct.dwSize = sizeof(initStruct);
+        initStruct.dwICC = ICC_WIN95_CLASSES | ICC_DATE_CLASSES |
+            ICC_INTERNET_CLASSES | ICC_NATIVEFNTCTL_CLASS |
+            ICC_PAGESCROLLER_CLASS | ICC_USEREX_CLASSES;
 
-          // Call InitCommonControlsEx.
-          VERIFY(InitCommonControlsEx(&initStruct));
+        // Call InitCommonControlsEx.
+        VERIFY(::InitCommonControlsEx(&initStruct));
 
-          // Add the SysLink control.
-          // Requires ComCtl32.dll version 6 and requires a manifest.
-          if (IsXPThemed())
-          {
-              initStruct.dwICC = ICC_LINK_CLASS;
-              VERIFY(InitCommonControlsEx(&initStruct));
-          }
+        // Add the SysLink control.
+        // Requires ComCtl32.dll version 6 and requires a manifest.
+        if (IsXPThemed())
+        {
+            initStruct.dwICC = ICC_LINK_CLASS;
+            VERIFY(::InitCommonControlsEx(&initStruct));
+        }
     }
 
     // The following functions perform string copies. A string of characters is

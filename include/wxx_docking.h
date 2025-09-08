@@ -400,7 +400,6 @@ namespace Win32xx
             CDockHint& operator=(const CDockHint&) = delete;
 
             CBrush m_brush;
-            CBitmap m_bmBlueTint;
         };
 
         // This nested class is the base class for drawing dock targets.
@@ -2646,7 +2645,7 @@ namespace Win32xx
         // Retrieve the monitor's dpi if we can.
         using PGETDPIFORMONITOR = HRESULT (WINAPI*)(HMONITOR hmonitor,
             int dpiType, UINT* dpiX, UINT* dpiY);
-        HMODULE shcore = GetModuleHandle(_T("shcore"));
+        HMODULE shcore = ::GetModuleHandle(_T("shcore"));
         if (shcore)
         {
             PGETDPIFORMONITOR pGetDpiForMonitor = reinterpret_cast<PGETDPIFORMONITOR>(
@@ -2654,7 +2653,7 @@ namespace Win32xx
 
             if (pGetDpiForMonitor)
             {
-                HMONITOR hMonitor = MonitorFromWindow(wnd, MONITOR_DEFAULTTOPRIMARY);
+                HMONITOR hMonitor = ::MonitorFromWindow(wnd, MONITOR_DEFAULTTOPRIMARY);
                 UINT dpiX;
                 UINT dpiY;
                 HRESULT hr = pGetDpiForMonitor(hMonitor, 0, &dpiX, &dpiY);

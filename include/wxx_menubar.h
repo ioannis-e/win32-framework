@@ -624,12 +624,6 @@ namespace Win32xx
 
         switch(msg)
         {
-        case WM_SYSKEYDOWN:
-        {
-            if ((wparam == VK_MENU) || (wparam == VK_F10))
-                m_isMenuActive = FALSE;
-            return FALSE;
-        }
         case WM_KEYDOWN:
             m_isExitAfter = FALSE;
             {
@@ -922,8 +916,9 @@ namespace Win32xx
     inline LRESULT CMenuBar::OnSysKeyDown(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         if ((m_isMenuActive || m_isKeyMode) &&
-            ((VK_MENU == wparam) || (VK_F10 == wparam)))
+            ((wparam == VK_MENU) || (wparam == VK_F10)))
         {
+            m_isMenuActive = FALSE;
             StoreHotItem(-1);
             return 0;
         }

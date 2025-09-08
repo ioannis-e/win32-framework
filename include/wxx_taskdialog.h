@@ -294,7 +294,7 @@ namespace Win32xx
         pTLSData->pWnd = this;
 
         // Create the task dialog.
-        HRESULT result = TaskDialogIndirect(&m_tc, &m_selectedButtonID,
+        HRESULT result = ::TaskDialogIndirect(&m_tc, &m_selectedButtonID,
             &m_selectedRadioButtonID, &m_verificationCheckboxState);
 
         pTLSData->pWnd = nullptr;

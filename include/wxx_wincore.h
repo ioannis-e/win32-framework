@@ -192,7 +192,7 @@ namespace Win32xx
 
         // Retrieve the window's dpi if we can.
         using PGETDPIFORWINDOW = UINT (WINAPI*)(HWND);
-        HMODULE user = GetModuleHandle(_T("user32.dll"));
+        HMODULE user = ::GetModuleHandle(_T("user32.dll"));
         if (user && ::IsWindow(wnd))
         {
             PGETDPIFORWINDOW pGetDpiForWindow = reinterpret_cast<PGETDPIFORWINDOW>(

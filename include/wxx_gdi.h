@@ -1001,7 +1001,7 @@ namespace Win32xx
             if (m_pData->isManagedObject)
                 ::DeleteObject(m_pData->hGDIObject);
 
-            if (IsAppRunning())
+            if (IsAppRunning()) // Is the CWinApp object still valid?
                 GetApp()->RemoveGDIObjectFromMap(m_pData->hGDIObject);
 
             // Nullify all copies of m_pData.

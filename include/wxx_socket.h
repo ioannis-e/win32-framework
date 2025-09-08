@@ -189,8 +189,8 @@ namespace Win32xx
 namespace Win32xx
 {
 
-    //////////////////////////////////////
-    // Definitions of the CRichEdit class.
+    ////////////////////////////////////
+    // Definitions of the CSocket class.
     //
 
     inline CSocket::CSocket() : m_socket(INVALID_SOCKET), m_stopRequest(FALSE, TRUE)

@@ -126,7 +126,7 @@ namespace Win32xx
                 if (!m_initialFolderName.IsEmpty())
                 {
                     using PSHCREATEITEMFROMPARSINGNAME = HRESULT(WINAPI*)(PCWSTR, IBindCtx*, REFIID, void**);
-                    HMODULE shell32 = GetModuleHandle(_T("Shell32.dll"));
+                    HMODULE shell32 = ::GetModuleHandle(_T("Shell32.dll"));
                     if (shell32 != nullptr)
                     {
                         PSHCREATEITEMFROMPARSINGNAME pSHCreateItemFromParsingName = reinterpret_cast<PSHCREATEITEMFROMPARSINGNAME>(
