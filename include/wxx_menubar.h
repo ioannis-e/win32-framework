@@ -174,8 +174,7 @@ namespace Win32xx
             m_isKeyMode = TRUE;
             m_isAltMode = FALSE;
             StoreHotItem(item);
-            if (!m_isAltMode)
-                ProcessMenuItem();
+            ProcessMenuItem();
 
             // Support top menu item without popup menu.
             UINT id = GetMenuItemID();
@@ -632,7 +631,7 @@ namespace Win32xx
                 Cancel();
                 ExitMenu();
             }
-            return FALSE;
+            return TRUE;
         }
         case WM_KEYDOWN:
             m_isExitAfter = FALSE;
