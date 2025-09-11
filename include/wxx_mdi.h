@@ -1072,7 +1072,6 @@ namespace Win32xx
         // Create the view window
         assert( &GetView() );           // Use SetView in CMDIChild's constructor to set the view window.
         GetView().Create(*this);
-        GetView().SetFocus();
         RecalcLayout();
 
         return 0;
