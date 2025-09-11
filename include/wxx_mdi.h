@@ -460,8 +460,9 @@ namespace Win32xx
     {
         BOOL isMaxed = FALSE;
         LPARAM lparam = reinterpret_cast<LPARAM>(&isMaxed);
-        GetMDIClient().SendMessage(WM_MDIGETACTIVE, 0, lparam);
-        return isMaxed;
+        if (GetMDIClient().SendMessage(WM_MDIGETACTIVE, 0, lparam))
+            return isMaxed;
+        return FALSE;
     }
 
     // Arranges the MDI children in a cascade formation.
@@ -563,7 +564,6 @@ namespace Win32xx
         if (IsMDIChildMaxed())
         {
             CWnd* pMaxMDIChild = GetActiveMDIChild();
-            assert(pMaxMDIChild);
             if (!pMaxMDIChild)  return 0;
 
             // Suppress owner drawing of the MDI child's system menu

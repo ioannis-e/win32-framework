@@ -515,7 +515,11 @@ namespace Win32xx
     // Called when the left mouse button is pressed.
     inline LRESULT CMenuBar::OnLButtonDown(UINT msg, WPARAM wparam, LPARAM lparam)
     {
-        ExitMenu();
+        m_isKeyMode = FALSE;
+        m_isMenuActive = FALSE;
+        m_isAltMode = FALSE;
+        UnpressAll();
+        StoreHotItem(-1);
 
         // Updates hot item with current mouse position.
         FinalWindowProc(WM_MOUSEMOVE, wparam, lparam);
@@ -895,9 +899,7 @@ namespace Win32xx
         return 0;
     }
 
-    // Called when the user chooses a command from the Window menu or when the
-    // user chooses the maximize button, minimize button, restore button, or
-    // close button.
+    // Called when the user presses the Alt or F10 button.
     inline LRESULT CMenuBar::OnSysCommand(UINT msg, WPARAM wparam, LPARAM lparam)
     {
         // The "wparam & 0xFFF0" below is a requirement mentioned in the
