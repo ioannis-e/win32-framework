@@ -32,6 +32,7 @@ View Set Mask Color          Set the color of the transparency mask.
 Display with Mask            Display the images using the transparency mask.
 
 The Bitmaps folder contains a collection of toolbar bitmaps.
+The Images folder contains a collection of png images.
 
 Features demonstrated in this example
 =====================================

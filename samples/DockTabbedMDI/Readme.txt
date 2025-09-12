@@ -40,3 +40,12 @@ Features demonstrated in this example
 * The use of several docking styles.
 * Saving the dock layout and TabbedMDI layout in the registry.
 * Adding a "Window" menu item to the frame menu, updated in runtime.
+
+Note:
+This sample uses the IWebBrowser2 interface to display web pages. The IWebBrowser2
+provides access to the same features as used by the Microsoft's Internet Explorer.
+Support for Internet Explorer ended on June 15, 2022, so this sample might not render
+web pages properly.
+
+Consider using using the EdgeBrowser and EdgeBrowserEx samples to display modern
+web pages instead.

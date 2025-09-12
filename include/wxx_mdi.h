@@ -763,11 +763,7 @@ namespace Win32xx
         }
         else
         {
-            if (T::GetMenuBar().IsWindow())
-                T::GetMenuBar().SetupMenuBar( T::GetFrameMenu() );
-            else
-                T::SetMenu( T::GetFrameMenu() );
-
+            T::SetFrameMenu(T::GetFrameMenu());
             GetApp()->SetAccelerators(T::GetFrameAccel(), *this);
         }
     }
