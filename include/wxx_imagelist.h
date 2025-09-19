@@ -1,5 +1,5 @@
 // Win32++   Version 10.2.0
-// Release Date: TBA
+// Release Date: 20th September 2025
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -473,11 +473,11 @@ namespace Win32xx
 
         if (m_pData && m_pData->images != nullptr)
         {
-            if (m_pData->isManagedHiml)
-                ::ImageList_Destroy(m_pData->images);
-
             if (IsAppRunning()) // Is the CWinApp object still valid?
                 GetApp()->RemoveImageListFromMap(m_pData->images);
+
+            if (m_pData->isManagedHiml)
+                ::ImageList_Destroy(m_pData->images);
 
             // Nullify all copies of m_pData.
             *m_pData.get() = {};

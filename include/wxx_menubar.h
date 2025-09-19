@@ -1,5 +1,5 @@
 // Win32++   Version 10.2.0
-// Release Date: TBA
+// Release Date: 20th September 2025
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -491,8 +491,7 @@ namespace Win32xx
             if (id >= 0)
             {
                 m_hotItem = CommandToIndex(static_cast<UINT>(id));
-                if (!m_isAltMode)
-                    ProcessMenuItem();
+                ProcessMenuItem();
             }
             else
                 ::MessageBeep(MB_OK);
@@ -518,8 +517,6 @@ namespace Win32xx
         m_isKeyMode = FALSE;
         m_isMenuActive = FALSE;
         m_isAltMode = FALSE;
-        UnpressAll();
-        StoreHotItem(-1);
 
         // Updates hot item with current mouse position.
         FinalWindowProc(WM_MOUSEMOVE, wparam, lparam);

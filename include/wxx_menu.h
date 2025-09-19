@@ -1,5 +1,5 @@
 // Win32++   Version 10.2.0
-// Release Date: TBA
+// Release Date: 20th September 2025
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -369,15 +369,15 @@ namespace Win32xx
 
         if (m_pData->menu != nullptr)
         {
+            if (IsAppRunning()) // Is the CWinApp object still valid?
+                GetApp()->RemoveMenuFromMap(m_pData->menu);
+
             if (m_pData->isManagedMenu)
             {
                 // The menu will already be destroyed if assigned to a destroyed window.
                 if (IsMenu(m_pData->menu))
                     ::DestroyMenu(m_pData->menu);
             }
-
-            if (IsAppRunning()) // Is the CWinApp object still valid?
-                GetApp()->RemoveMenuFromMap(m_pData->menu);
         }
 
         // Nullify all copies of m_pData.

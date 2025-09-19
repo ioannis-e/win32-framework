@@ -1,5 +1,5 @@
 // Win32++   Version 10.2.0
-// Release Date: TBA
+// Release Date: 20th September 2025
 //
 //      David Nash
 //      email: dnash@bigpond.net.au
@@ -998,11 +998,11 @@ namespace Win32xx
 
         if (m_pData && m_pData->hGDIObject != nullptr)
         {
-            if (m_pData->isManagedObject)
-                ::DeleteObject(m_pData->hGDIObject);
-
             if (IsAppRunning()) // Is the CWinApp object still valid?
                 GetApp()->RemoveGDIObjectFromMap(m_pData->hGDIObject);
+
+            if (m_pData->isManagedObject)
+                ::DeleteObject(m_pData->hGDIObject);
 
             // Nullify all copies of m_pData.
             *m_pData.get() = {};
@@ -2714,6 +2714,9 @@ namespace Win32xx
             HDC dc = m_pData->dc;
             ::RestoreDC(dc, m_pData->savedDCState);
 
+            if (IsAppRunning()) // Is the CWinApp object still valid?
+                GetApp()->RemoveDCFromMap(dc);
+
             if (m_pData->isManagedHDC)
             {
                 // We need to release a window DC, end a paint DC,
@@ -2728,9 +2731,6 @@ namespace Win32xx
                 else
                     ::DeleteDC(dc);
             }
-
-            if (IsAppRunning()) // Is the CWinApp object still valid?
-                GetApp()->RemoveDCFromMap(dc);
 
             // Nullify all copies of m_pData.
             *m_pData.get() = {};
